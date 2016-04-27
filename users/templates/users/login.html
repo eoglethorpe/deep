@@ -22,9 +22,13 @@ DEEP | Sign in
         <div class="col-md-5">
             <div class="form-wrapper">
                 <div class="title">Sign in</div>
-                <form>
-                    <input type="text" placeholder="Username" name="username">
-                    <input type="password" placeholder="Password" name="password">
+                <form method="post">
+                    {% csrf_token %}
+                    {% if error %}
+                        <div>{{ error }}</div>
+                    {% endif %}
+                    <input type="text" placeholder="Email" name="email" required>
+                    <input type="password" placeholder="Password" name="password" required>
                     <div class="action">
                         <input type="submit" class="btn btn-default" value="Sign in">
                     </div>

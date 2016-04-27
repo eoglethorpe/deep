@@ -22,13 +22,19 @@ DEEP | Register
         <div class="col-md-5">
             <div class="form-wrapper">
                 <div class="title">Register</div>
-                <form>
-                    <input type="text" placeholder="Full Name" name="name">
-                    <input type="text" placeholder="Username" name="username">
-                    <input type="password" placeholder="Password" name="password">
-                    <input type="password" placeholder="Retye Password" name="re-password">
+                <form method="post">
+                    {% csrf_token %}
+                    {% if error %}
+                        <div>{{ error }}</div>
+                    {% endif %}
+                    <input type="text" placeholder="First Name" name="first-name" required>
+                    <input type="text" placeholder="Last Name" name="last-name" required>
+                    <input type="text" placeholder="Email" name="email" required>
+                    <input type="text" placeholder="Organization" name="organization">
+                    <input type="password" placeholder="Password" name="password" required>
+                    <input type="password" placeholder="Retype Password" name="re-password" required>
                     <div class="action">
-                        <input type="submit" class="btn btn-default">
+                        <input type="submit" class="btn btn-default" value="Register">
                     </div>
                 </form>
             </div>

@@ -15,15 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from django.views.generic import RedirectView
 
-from users.views import RegisterView, LoginView
+from users.views import *
+from deep.views import *
 
 
 urlpatterns = [
-    url(r'^$', RedirectView.as_view(url='/login')),
-    url(r'^register/$', RegisterView.as_view()),
-    url(r'^login/$', LoginView.as_view()),
+    url(r'^$', IndexView.as_view()),
+    url(r'^register/$', RegisterView.as_view(), name="register"),
+    url(r'^login/$', LoginView.as_view(), name="login"),
+    url(r'^logout/$', LogoutView.as_view(), name="logout"),
+    url(r'^dashboard/$', DashboardView.as_view(), name="dashboard"),
 
     url(r'^admin/', admin.site.urls),
 ]
