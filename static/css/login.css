@@ -1,0 +1,24 @@
+body{
+    margin-top: 100px!important;
+}
+
+.app-info{
+    padding: 24px 20px;
+    text-align: right;
+}
+
+.app-info .logo{
+    width: 100px;
+    margin-bottom: 20px;
+}
+
+.welcome-msg{
+    margin-bottom: 20px;
+}
+
+.welcome-msg .name{
+    display: block;
+    font-weight: bold;
+    color: #2980b9;
+    font-size: 1.2em;
+}
