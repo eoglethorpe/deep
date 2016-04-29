@@ -1,0 +1,17 @@
+#body-section{
+    padding-top: 30px;
+}
+
+#action-block{
+    margin-bottom:30px;
+}
+#action-block .title, #leads-block .title{
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    padding-left: 6px;
+    color: #2980b9;
+}
+
+#action-block a{
+    margin-right: 20px;
+}

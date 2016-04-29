@@ -22,3 +22,59 @@ body{
     color: #2980b9;
     font-size: 1.2em;
 }
+
+.title{
+    font-size: 1.5em;
+    color: #2980b9;
+    display: block;
+    padding-bottom: 20px;
+}
+
+.form-wrapper{
+    padding: 24px;
+    background-color: #fafafa;
+    border-radius: 6px;
+    box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.form-wrapper input[type="text"],
+.form-wrapper input[type="password"]{
+    width: 100%;
+    padding: 6px 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin: 10px 0px;
+}
+
+.form-wrapper .action{
+    text-align: right;
+    margin-top: 20px;
+}
+
+.title{
+    font-size: 1.5em;
+    color: #2980b9;
+    display: block;
+    padding-bottom: 20px;
+}
+
+.form-wrapper{
+    padding: 24px;
+    background-color: #fafafa;
+    border-radius: 6px;
+    box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.form-wrapper input[type="text"],
+.form-wrapper input[type="password"]{
+    width: 100%;
+    padding: 6px 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin: 10px 0px;
+}
+
+.form-wrapper .action{
+    text-align: right;
+    margin-top: 20px;
+}

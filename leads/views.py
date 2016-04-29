@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.views.generic import View, TemplateView
 
-# Create your views here.
+
+class LeadsView(View):
+    def get(self, request):
+        context = {}
+        context["current_page"] = "leads"
+        return render(request, "leads/leads.html", context)

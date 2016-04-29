@@ -17,6 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from users.views import *
+from leads.views import *
 from deep.views import *
 
 
@@ -26,6 +27,7 @@ urlpatterns = [
     url(r'^login/$', LoginView.as_view(), name="login"),
     url(r'^logout/$', LogoutView.as_view(), name="logout"),
     url(r'^dashboard/$', DashboardView.as_view(), name="dashboard"),
+    url(r'^leads/$', LeadsView.as_view(), name="leads"),
 
     url(r'^admin/', admin.site.urls),
 ]

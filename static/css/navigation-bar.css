@@ -1,0 +1,57 @@
+#header-section{
+    background-color: #2980b9;
+    color: #fff;
+}
+
+#header-section .app-name{
+    font-size: 2em;
+    font-weight: 100;
+    padding: 4px;
+    color: #fff;
+    display: block;
+}
+
+.menu{
+    display: flex;
+}
+
+.menu-item{
+    vertical-align: middle;
+    padding: 16px 26px;
+    color: #fff;
+}
+.menu-item:hover{
+    color: #eee;
+}
+.menu .active {
+    background-color: #3498db;
+    color: #fff;
+}
+
+
+.logo{
+    width: 100px;
+}
+
+#user-menu{
+    float: right;
+}
+#user-menu button{
+    border: none;
+    outline: none;
+    background-color: transparent;
+    padding: 16px 26px;
+    font-weight: bold;
+}
+#user-menu button:hover, #user-menu button:active{
+    background-color: #3498db;
+    color: #fff;
+}
+
+#user-menu button .caret{
+    margin-left: 10px;
+}
+
+.fa{
+    margin-right: 10px!important;
+}

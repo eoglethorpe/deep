@@ -1,0 +1,29 @@
+{% load staticfiles %}
+
+<div class="section" id="header-section">
+    <div class="container">
+        <!-- <img class="logo" src="{% static 'img/deep-logo.png' %}"> -->
+        <div class="row">
+            <div class="col-md-2">
+                <a class="app-name" href="{% url 'dashboard' %}">DEEP</a>
+            </div>
+            <div class="col-md-6">
+                <div class="menu">
+                    <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads' %}">Leads</a>
+                    <a class="menu-item" href="#">Entries</a>
+                    <a class="menu-item" href="#">Report</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="dropdown" id="user-menu">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                        <i class="fa fa-user"></i>{{ user.first_name }}<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a></li>
+                    </ul>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
