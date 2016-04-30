@@ -9,7 +9,7 @@
             </div>
             <div class="col-md-6">
                 <div class="menu">
-                    <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="/leads">Leads</a>
+                    <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' %}">Leads</a>
                     <a class="menu-item" href="#">Entries</a>
                     <a class="menu-item" href="#">Report</a>
                 </div>

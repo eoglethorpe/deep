@@ -35,11 +35,9 @@ DEEP | Add Lead
                     </div>
                     <div class="col-md-5">
                         <select name="source" class="selectpicker form-control" title="Select source type">
-                            <option value="academic">Academic</option>
-                            <option value="government">Government</option>
-                            <option value="donors">Donors</option>
-                            <option value="local-media">Local Media</option>
-                            <option value="international-media">International Media</option>
+                            {% for s in sources %}
+                            <option value="{{s.pk}}">{{s}}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>
@@ -48,7 +46,11 @@ DEEP | Add Lead
                         <label>Content Format:</label>
                     </div>
                     <div class="col-md-5">
-                        <input type="text" name="content-format" placeholder="Select content format">
+                        <select name="content-format" class="selectpicker form-control" title="Select content format">
+                            {% for c in content_formats %}
+                            <option value="{{c.pk}}">{{c}}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </div>
                 <div class="row">
@@ -57,10 +59,9 @@ DEEP | Add Lead
                     </div>
                     <div class="col-md-5">
                         <select name="confidentiality" class="selectpicker">
-                            <option value="unprotected" default>Unprotected</option>
-                            <option value="protected">Protected</option>
-                            <option value="restricted">Restricted</option>
-                            <option value="confidential">Confidential</option>
+                            {% for c in confidentialities %}
+                            <option value="{{c.0}}">{{c.1}}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>
@@ -70,8 +71,11 @@ DEEP | Add Lead
                     </div>
                     <div class="col-md-5">
                         <select name="assign-to" class="selectpicker" title="Select user">
-                            <option value="fhx" default>Frozen Helium</option>
-                            <option value="bd">Bibek Dahal</option>
+                            {% for u in users %}
+                            <option value="{{u.pk}}">
+                            {{u.first_name}} {{u.last_name}}
+                            </option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>
