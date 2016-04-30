@@ -9,7 +9,20 @@ DEEP | Add Lead
 <link href="{% static 'css/add-manual.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/bootstrap-select.min.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/dropzone.css' %}" type="text/css" rel="stylesheet">
 <script type="text/javascript" src="{% static 'js/bootstrap-select.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/dropzone.js' %}"></script>
+
+<style type="text/css">
+    .dropzone-container {
+        width: 100%;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 90px;
+        cursor: pointer;
+        border: 2px solid;
+    }
+</style>
 {% endblock %}
 
 {% block body %}
@@ -20,7 +33,8 @@ DEEP | Add Lead
     <div class="container">
         <div class="title">Create Lead: Manual Entry</div>
         <div class="form-wrapper">
-            <form>
+            <form id="attachment-dropzone" class="dropzone" method="post">
+                {% csrf_token %}
                 <div class="row">
                     <div class="col-md-2 label-container">
                         <label>Name:</label>
@@ -70,7 +84,7 @@ DEEP | Add Lead
                         <label>Assign to:</label>
                     </div>
                     <div class="col-md-5">
-                        <select name="assign-to" class="selectpicker" title="Select user">
+                        <select name="assigned-to" class="selectpicker" title="Select user">
                             {% for u in users %}
                             <option value="{{u.pk}}">
                             {{u.first_name}} {{u.last_name}}
@@ -81,6 +95,7 @@ DEEP | Add Lead
                 </div>
                 <div class="row">
                     <div class="col-md-2 label-container">
+                        <!-- TODO: Datepicker -->
                         <label>Published at:</label>
                     </div>
                     <div class="col-md-5">
@@ -92,13 +107,22 @@ DEEP | Add Lead
                         <label>Description:</label>
                     </div>
                     <div class="col-md-5">
-                        <textarea  class="form-control" name="description" placeholder="Enter description"></textarea>
+                        <textarea class="form-control" name="description" placeholder="Enter description" rows="10"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 label-container">
+                        <label>Attachments:</label>
+                    </div>
+                    <div class="col-md-5 dropzone-container">
+                        <div class="dz-message"> Click or Drop files here </div>
+                        <div class="dropzone-previews"></div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-7 actions">
-                        <button class="btn btn-default">Save and add another</button>
-                        <button class="btn btn-default">Save</button>
+                        <!--button class="btn btn-default" name="post" value="save-and-another">Save and add another</button-->
+                        <button class="btn btn-default" type="submit">Save</button>
                     </div>
                 </div>
             </form>
@@ -106,5 +130,33 @@ DEEP | Add Lead
 
     </div>
 </div>
+
+<script>
+
+    Dropzone.options.attachmentDropzone = {
+        url: "{% url 'leads:add-manual' %}",
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        addRemoveLinks: true,
+        parallelUploads: 100,
+        maxFiles: 100,
+        previewsContainer: ".dropzone-previews",
+
+        init: function() {
+            var dz = this;
+            this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
+                if (dz.getQueuedFiles().length > 0) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dz.processQueue();
+                }
+            });
+
+            this.on("successmultiple", function(files, response) {
+                window.location.href = "{% url 'leads:leads' %}";
+            });
+        },
+    };
+</script>
 
 {% endblock %}

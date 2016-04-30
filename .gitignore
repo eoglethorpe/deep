@@ -1,6 +1,9 @@
 # Database
 db.sqlite3
 
+# Media files, uploaded by users
+media/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
