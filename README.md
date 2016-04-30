@@ -15,13 +15,19 @@ TODO
 
 ### Installation
 
-First setup a virtual environment with django.
+First setup a virtual environment with Django.
 
 ```bash
 $ sudo apt-get install python3.4-venv
 $ virtualenv ~/deepenv
 $ source ~/deepenv/bin/activate
 $ pip install django
+```
+
+Also install Django REST Framework.
+
+```bash
+$ pip install djangorestframework
 ```
 
 Next copy or clone the project to some directory.

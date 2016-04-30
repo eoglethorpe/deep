@@ -11,12 +11,17 @@ from django.utils.decorators import method_decorator
 from users.models import *
 
 
+""" Register view
+"""
 class RegisterView(View):
+
     def get(self, request):
+        # Return the register template.
         return render(request, "users/register.html")
 
     def post(self, request):
 
+        # Get the POST data.
         first_name = request.POST["first-name"]
         last_name = request.POST["last-name"]
         email = request.POST["email"]
@@ -26,6 +31,7 @@ class RegisterView(View):
 
         error = ""
 
+        # Validate email and password.
         try:
             validate_email(email)
         except forms.ValidationError:
@@ -34,6 +40,7 @@ class RegisterView(View):
         if repassword != password:
             error = "Passwords do not match"
 
+        # If there is no error, create new user.
         if error == "":
             user = User.objects.create_user(
                 first_name=first_name,
@@ -44,9 +51,11 @@ class RegisterView(View):
             user.save()
 
             profile = UserProfile()
+            profile.user = user
             profile.organization = organization
             profile.save()
 
+        # Otherwise, display the register form with error.
         else:
             context = {"error": error}
             return render(request, "users/register.html", context)
@@ -55,31 +64,54 @@ class RegisterView(View):
         return redirect("login")
 
 
+""" Login view
+"""
 class LoginView(View):
+
     def get(self, request):
+        # Return the login template.
         return render(request, "users/login.html")
 
     def post(self, request):
+
+        # Get POST data and authenticate the user.
         email = request.POST["email"]
         password = request.POST["password"]
         user = authenticate(username=email, password=password)
 
+        error = "Invalid Credentials"
+
+        # If user exists and is not disabled,
+        # try getting profile of the user as well.
+        # On success, login with the user and redirect to dashboard.
         if user is not None:
             if user.is_active:
-                login(request, user)
-                return redirect("dashboard")
+                try:
+                    profile = UserProfile.objects.get(user=user)
+                    login(request, user)
+                    return redirect("dashboard")
+                except:
+                    error = "Your profile is not registered properly"
 
-        context = {"error": "Invalid credentials"}
+        context = {"error": error}
         return render(request, "users/login.html", context)
 
 
+""" Dashboard view
 
+Display the home page, once logged, in with various information
+summary along with links to Leads, Entries and Reports pages.
+"""
 class DashboardView(View):
     @method_decorator(login_required)
     def get(self, request):
         return render(request, "users/dashboard.html")
 
 
+""" Logout view
+
+Automatically redirect to the login page once logged-out.
+"""
 class LogoutView(View):
     def get(self, request):
         logout(request)
