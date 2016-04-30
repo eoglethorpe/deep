@@ -9,7 +9,10 @@ DEEP | Add Lead
 <link href="{% static 'css/add-manual.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/bootstrap-select.min.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/dropzone.css' %}" type="text/css" rel="stylesheet">
 <script type="text/javascript" src="{% static 'js/bootstrap-select.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/dropzone.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/add-manual.js' %}"></script>
 {% endblock %}
 
 {% block body %}
@@ -20,84 +23,100 @@ DEEP | Add Lead
     <div class="container">
         <div class="title">Create Lead: Manual Entry</div>
         <div class="form-wrapper">
-            <form>
-                <div class="row">
-                    <div class="col-md-2 label-container">
-                        <label>Name:</label>
-                    </div>
-                    <div class="col-md-5">
-                        <input type="text" name="name" placeholder="Enter a descriptive name">
-                    </div>
+            <div class="row">
+                <div class="col-md-8 col-md-offset-1">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-3 label-container">
+                                <label>Name:</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" name="name" placeholder="Enter a descriptive name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 label-container">
+                                <label>Source:</label>
+                            </div>
+                            <div class="col-md-9">
+                                <select name="source" class="selectpicker form-control" title="Select source type">
+                                    <option value="academic">Academic</option>
+                                    <option value="government">Government</option>
+                                    <option value="donors">Donors</option>
+                                    <option value="local-media">Local Media</option>
+                                    <option value="international-media">International Media</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 label-container">
+                                <label>Content Format:</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" name="content-format" placeholder="Select content format">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 label-container">
+                                <label>Confidentiality:</label>
+                            </div>
+                            <div class="col-md-9">
+                                <select name="confidentiality" class="selectpicker">
+                                    <option value="unprotected" default>Unprotected</option>
+                                    <option value="protected">Protected</option>
+                                    <option value="restricted">Restricted</option>
+                                    <option value="confidential">Confidential</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 label-container">
+                                <label>Assign to:</label>
+                            </div>
+                            <div class="col-md-9">
+                                <select name="assign-to" class="selectpicker" title="Select user">
+                                    <option value="fhx" default>Frozen Helium</option>
+                                    <option value="bd">Bibek Dahal</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 label-container">
+                                <label>Published at:</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" name="publish-date" placeholder="dd-mm-yyyy">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 label-container">
+                                <label>Description:</label>
+                            </div>
+                            <div class="col-md-9">
+                                <textarea  class="form-control" name="description" placeholder="Enter description"></textarea>
+                            </div>
+                        </div>
+
+                    </form>
                 </div>
-                <div class="row">
-                    <div class="col-md-2 label-container">
-                        <label>Source:</label>
-                    </div>
-                    <div class="col-md-5">
-                        <select name="source" class="selectpicker form-control" title="Select source type">
-                            <option value="academic">Academic</option>
-                            <option value="government">Government</option>
-                            <option value="donors">Donors</option>
-                            <option value="local-media">Local Media</option>
-                            <option value="international-media">International Media</option>
-                        </select>
-                    </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-7 col-md-offset-2">
+                    <label class="dz-label">Files:</label>
+                    <form class="dropzone needsclick dz-clickable" action="#" id="dropzone-file-upload">
+                        <div class="dz-message needsclick">
+                            Drop files here or click to upload
+                        </div>
+                    </form>
                 </div>
-                <div class="row">
-                    <div class="col-md-2 label-container">
-                        <label>Content Format:</label>
-                    </div>
-                    <div class="col-md-5">
-                        <input type="text" name="content-format" placeholder="Select content format">
-                    </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 actions col-md-offset-1">
+                    <button class="btn btn-default">Save and add another</button>
+                    <button class="btn btn-default"><i class="fa fa-save"></i>Save</button>
                 </div>
-                <div class="row">
-                    <div class="col-md-2 label-container">
-                        <label>Confidentiality:</label>
-                    </div>
-                    <div class="col-md-5">
-                        <select name="confidentiality" class="selectpicker">
-                            <option value="unprotected" default>Unprotected</option>
-                            <option value="protected">Protected</option>
-                            <option value="restricted">Restricted</option>
-                            <option value="confidential">Confidential</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 label-container">
-                        <label>Assign to:</label>
-                    </div>
-                    <div class="col-md-5">
-                        <select name="assign-to" class="selectpicker" title="Select user">
-                            <option value="fhx" default>Frozen Helium</option>
-                            <option value="bd">Bibek Dahal</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 label-container">
-                        <label>Published at:</label>
-                    </div>
-                    <div class="col-md-5">
-                        <input type="text" name="publish-date" placeholder="dd-mm-yyyy">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 label-container">
-                        <label>Description:</label>
-                    </div>
-                    <div class="col-md-5">
-                        <textarea  class="form-control" name="description" placeholder="Enter description"></textarea>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-7 actions">
-                        <button class="btn btn-default">Save and add another</button>
-                        <button class="btn btn-default">Save</button>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
 
     </div>
