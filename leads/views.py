@@ -7,3 +7,9 @@ class LeadsView(View):
         context = {}
         context["current_page"] = "leads"
         return render(request, "leads/leads.html", context)
+
+class AddManual(View):
+    def get(self, request):
+        context = {}
+        context["current_page"] = "leads"
+        return render(request, "leads/add-manual.html", context)
