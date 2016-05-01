@@ -141,6 +141,7 @@ DEEP | Add Lead
         parallelUploads: 100,
         maxFiles: 100,
         previewsContainer: ".dropzone-previews",
+        clickable: ".dropzone-previews",
 
         init: function() {
             var dz = this;
@@ -152,8 +153,16 @@ DEEP | Add Lead
                 }
             });
 
+            this.on("sendingmultiple", function() {
+                // TODO: Hide the form.
+            });
+
             this.on("successmultiple", function(files, response) {
                 window.location.href = "{% url 'leads:leads' %}";
+            });
+
+            this.on("errormultiple", function(files, response) {
+                // TODO: Show error.
             });
         },
     };

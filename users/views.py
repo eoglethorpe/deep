@@ -11,9 +11,9 @@ from django.utils.decorators import method_decorator
 from users.models import *
 
 
-""" Register view
-"""
 class RegisterView(View):
+    """ Register view
+    """
 
     def get(self, request):
         # Return the register template.
@@ -60,13 +60,12 @@ class RegisterView(View):
             context = {"error": error}
             return render(request, "users/register.html", context)
 
-
         return redirect("login")
 
 
-""" Login view
-"""
 class LoginView(View):
+    """ Login view
+    """
 
     def get(self, request):
         # Return the login template.
@@ -97,22 +96,24 @@ class LoginView(View):
         return render(request, "users/login.html", context)
 
 
-""" Dashboard view
-
-Display the home page, once logged, in with various information
-summary along with links to Leads, Entries and Reports pages.
-"""
 class DashboardView(View):
+    """ Dashboard view
+
+    Display the home page, once logged, in with various information
+    summary along with links to Leads, Entries and Reports pages.
+    """
+
     @method_decorator(login_required)
     def get(self, request):
         return render(request, "users/dashboard.html")
 
 
-""" Logout view
-
-Automatically redirect to the login page once logged-out.
-"""
 class LogoutView(View):
+    """ Logout view
+
+    Automatically redirect to the login page once logged-out.
+    """
+
     def get(self, request):
         logout(request)
         return redirect('login')

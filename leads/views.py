@@ -9,9 +9,10 @@ from datetime import datetime
 from leads.models import *
 
 
-""" Get data required to construct "Add Lead" form.
-"""
 def get_lead_form_data():
+    """ Get data required to construct "Add Lead" form.
+    """
+
     data = {}
     data["sources"] = Source.objects.all()
     data["content_formats"] = ContentFormat.objects.all()
@@ -58,7 +59,8 @@ class AddManual(View):
             lead.assigned_to = User.objects.get(pk=request.POST["assigned-to"])
 
         if request.POST["publish-date"] != "":
-            lead.published_at = datetime.strptime(request.POST["publish-date"], "%d-%m-%Y").date()
+            lead.published_at = datetime.strptime(request.POST["publish-date"],
+                                                  "%d-%m-%Y").date()
 
         lead.created_by = request.user
         lead.description = request.POST["description"]

@@ -13,4 +13,3 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     perimission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-

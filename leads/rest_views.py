@@ -13,4 +13,3 @@ class LeadViewSet(viewsets.ModelViewSet):
     queryset = Lead.objects.all()
     serializer_class = LeadSerializer
     perimission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-

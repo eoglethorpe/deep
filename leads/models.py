@@ -2,31 +2,33 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-""" Source Model
-
-Sources are available lead sources.
-"""
 class Source(models.Model):
+    """ Source Model
+
+    Sources are available lead sources.
+    """
+
     source = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.source
 
 
-""" Content Format Model
-
-Content formats are available lead formats.
-"""
 class ContentFormat(models.Model):
+    """ Content Format Model
+
+    Content formats are available lead formats.
+    """
+
     content_format = models.CharField(max_length=150, unique=True)
 
     def __str__(self):
         return self.content_format
 
 
-""" Lead Model
-"""
 class Lead(models.Model):
+    """ Lead Model
+    """
 
     # Confidentiality choices, currently including public and confidential.
     PUBLIC = 'PUB'
@@ -74,11 +76,12 @@ class Lead(models.Model):
         return self.name
 
 
-""" Attachment model
-
-It represents an uploaded file and belongs to a lead.
-"""
 class Attachment(models.Model):
+    """ Attachment model
+
+    It represents an uploaded file and belongs to a lead.
+    """
+
     lead = models.ForeignKey(Lead)
     upload = models.FileField(upload_to='attachments/%Y/%m/')
 

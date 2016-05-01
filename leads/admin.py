@@ -7,7 +7,7 @@ class AttachmentInline(admin.StackedInline):
 
 
 class LeadAdmin(admin.ModelAdmin):
-    inlines = [ AttachmentInline, ]
+    inlines = [AttachmentInline, ]
 
 
 admin.site.register(Source)
