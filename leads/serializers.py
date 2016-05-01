@@ -1,5 +1,8 @@
 from django.contrib.auth.models import User
+from django.conf import settings
 from rest_framework import serializers
+
+import os
 
 from leads.models import *
 
@@ -23,7 +26,10 @@ class LeadSerializer(serializers.ModelSerializer):
 
     def get_attachments(self, lead):
         attachments = Attachment.objects.filter(lead=lead)
-        return [a.upload.url for a in attachments]
+        return [[
+                    os.path.basename(a.upload.name),
+                    a.upload.url
+                ] for a in attachments]
 
     def get_assigned_to_name(self, lead):
         if lead.assigned_to:

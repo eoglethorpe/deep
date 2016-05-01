@@ -8,7 +8,7 @@ class Source(models.Model):
     Sources are available lead sources.
     """
 
-    source = models.CharField(max_length=100, unique=True)
+    source = models.CharField(max_length=100, primary_key=True)
 
     def __str__(self):
         return self.source
@@ -50,6 +50,15 @@ class Lead(models.Model):
         (DELETED, 'Deleted'),
     )
 
+    # Lead types.
+    URL_LEAD = 'URL'
+    MANUAL_LEAD = 'MAN'
+
+    LEAD_TYPES = (
+        (URL_LEAD, 'Url'),
+        (MANUAL_LEAD, 'Manual')
+    )
+
     # Lead attributes.
     name = models.CharField(max_length=250)
     source = models.ForeignKey(Source, null=True, blank=True)
@@ -64,10 +73,13 @@ class Lead(models.Model):
     status = models.CharField(max_length=3,
                               choices=STATUSES,
                               default=PENDING)
+    lead_type = models.CharField(max_length=3,
+                                 choices=LEAD_TYPES,
+                                 default=MANUAL_LEAD)
 
-    description = models.TextField()
-    url = models.TextField()
-    website = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    url = models.TextField(blank=True, null=True)
+    website = models.CharField(max_length=255, blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User)

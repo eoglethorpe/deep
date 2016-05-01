@@ -64,6 +64,7 @@ class AddManual(View):
 
         lead.created_by = request.user
         lead.description = request.POST["description"]
+        lead.lead_type = Lead.MANUAL_LEAD
         lead.save()
 
         for file in request.FILES:
