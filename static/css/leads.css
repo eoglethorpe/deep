@@ -15,3 +15,35 @@
 #action-block a{
     margin-right: 20px;
 }
+
+#leads-table tbody tr[role="row"]{
+    cursor: pointer;
+}
+#leads-table tbody tr[role="row"]:hover{
+    background-color: #2980b9;
+    color: #fff;
+}
+
+.row-detail{
+    padding: 24px;
+}
+.row-detail .row-title{
+    font-size: 2em;
+    font-weight: lighter;
+    margin-bottom: 10px;
+}
+.row-detail .extra > span{
+    margin-right: 40px;
+}
+.row-detail .details{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.row-detail .details label{
+    min-width: 150px;
+}
+
+.row-detail .actions button{
+    margin-right: 10px;
+}
