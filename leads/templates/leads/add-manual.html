@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-DEEP | Add Lead
+DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 {% endblock %}
 
 {% block head %}
@@ -21,7 +21,7 @@ DEEP | Add Lead
 
 <div class="section" id="body-section">
     <div class="container">
-        <div class="title">Create Lead: Manual Entry</div>
+        <div class="title">{% if lead %}Edit{% else %}Create{% endif %} Lead: Manual Entry</div>
         <div class="form-wrapper">
             <div class="row">
                 <div class="col-md-8 col-md-offset-1">
@@ -32,7 +32,7 @@ DEEP | Add Lead
                                 <label>Name:</label>
                             </div>
                             <div class="col-md-9">
-                                <input type="text" name="name" placeholder="Enter a descriptive name">
+                                <input type="text" name="name" placeholder="Enter a descriptive name" {%if lead%}value="{{lead.name}}" {%endif%}>
                             </div>
                         </div>
                         <div class="row">
@@ -42,7 +42,7 @@ DEEP | Add Lead
                             <div class="col-md-9">
                                 <select name="source" class="selectpicker form-control" title="Select source type">
                                     {% for s in sources %}
-                                    <option value="{{s.pk}}">{{s}}</option>
+                                    <option value="{{s.pk}}" {% if lead and lead.source == s %} selected {% endif %}>{{s}}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -54,7 +54,7 @@ DEEP | Add Lead
                             <div class="col-md-9">
                                 <select name="content-format" class="selectpicker form-control" title="Select content format">
                                     {% for c in content_formats %}
-                                    <option value="{{c.pk}}">{{c}}</option>
+                                    <option value="{{c.pk}}" {% if lead and lead.content_format == c %} selected {% endif %}>{{c}}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -66,7 +66,7 @@ DEEP | Add Lead
                             <div class="col-md-9">
                                 <select name="confidentiality" class="selectpicker">
                                     {% for c in confidentialities %}
-                                    <option value="{{c.0}}">{{c.1}}</option>
+                                    <option value="{{c.0}}" {% if lead and lead.confidentiality == c.0 %} selected {% endif %}>{{c.1}}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -78,7 +78,7 @@ DEEP | Add Lead
                             <div class="col-md-9">
                                 <select name="assigned-to" class="selectpicker" title="Select user">
                                     {% for u in users %}
-                                    <option value="{{u.pk}}">
+                                    <option value="{{u.pk}}" {% if lead and lead.assigned_to == u %} selected {% endif %}}>
                                     {{u.first_name}} {{u.last_name}}
                                     </option>
                                     {% endfor %}
@@ -91,7 +91,7 @@ DEEP | Add Lead
                                 <label>Published at:</label>
                             </div>
                             <div class="col-md-9">
-                                <input type="text" name="publish-date" placeholder="dd-mm-yyyy">
+                                <input type="text" name="publish-date" placeholder="yyyy-mm-dd" {% if lead %}value="{{lead.published_at|date:"Y-m-d"}}"{% endif %}>
                             </div>
                         </div>
                         <div class="row">
@@ -99,13 +99,18 @@ DEEP | Add Lead
                                 <label>Description:</label>
                             </div>
                             <div class="col-md-9">
-                                <textarea class="form-control" name="description" placeholder="Enter description" rows="4"></textarea>
+                                <textarea class="form-control" name="description" placeholder="Enter description" rows="4">{% if lead %}{{lead.description}}{% endif %}</textarea>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-11 col-md-offset-1">
                                 <div class="label-container" id="attachment-label-container">
-                                    <label>Attachments:</label>
+                                    <label>
+                                        Attachments:
+                                        {% if lead %} {% for l in lead.attachment_set.all %}<br>
+                                        <a href="{{l.upload.url}}">{{l.upload.name}}</a>
+                                        {% endfor %} {% endif %}
+                                    </label>
                                 </div>
 
                                 <div class="dropzone-container">
@@ -138,7 +143,7 @@ DEEP | Add Lead
         parallelUploads: 100,
         maxFiles: 100,
         previewsContainer: ".dropzone-previews",
-        clickable: ".dropzone-previews",
+        clickable: ".dropzone-container",
 
         init: function() {
             var dz = this;
