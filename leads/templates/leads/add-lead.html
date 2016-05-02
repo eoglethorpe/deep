@@ -6,7 +6,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 {% endblock %}
 
 {% block head %}
-<link href="{% static 'css/add-manual.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/add-lead.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/bootstrap-select.min.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/dropzone.css' %}" type="text/css" rel="stylesheet">
@@ -21,7 +21,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 
 <div class="section" id="body-section">
     <div class="container">
-        <div class="title">{% if lead %}Edit{% else %}Create{% endif %} Lead: Manual Entry</div>
+        <div class="title">{% if lead %}Edit{% else %}Create{% endif %} Lead</div>
         <div class="form-wrapper">
             <div class="row">
                 <div class="col-md-8 col-md-offset-1">
@@ -103,6 +103,22 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-md-3 label-container">
+                                <label>URL</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" name="url" placeholder="Enter url" {% if lead %}value="{{lead.url}}"{% endif %}>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 label-container">
+                                <label>Website</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" name="website" placeholder="Enter website" {% if lead %}value="{{lead.website}}"{% endif %}>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-11 col-md-offset-1">
                                 <div class="label-container" id="attachment-label-container">
                                     <label>
@@ -136,7 +152,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 
 <script>
     Dropzone.options.attachmentDropzone = {
-        url: "{% url 'leads:add-manual' %}",
+        url: "{% url 'leads:add' %}",
         autoProcessQueue: false,
         uploadMultiple: true,
         addRemoveLinks: true,

@@ -21,10 +21,7 @@ DEEP | Leads
 <div class="section" id="body-section">
     <div class="container">
         <div class="block" id="action-block">
-            <div class="title">Add Lead</div>
-            <a class="btn btn-default" href="{% url 'leads:add-manual' %}"><i class="fa fa-plus"></i>Add Manual Entry</a>
-            <a class="btn btn-default"><i class="fa fa-plus"></i>Add Attachment</a>
-            <a class="btn btn-default"><i class="fa fa-plus"></i>Add URL</a>
+            <a class="btn btn-default" href="{% url 'leads:add' %}"><i class="fa fa-plus"></i>Add Lead</a>
         </div>
         <hr>
         <div class="block" id="leads-block">
@@ -49,4 +46,14 @@ DEEP | Leads
         </div>
     </div>
 </div>
+
+<form id="process-form" style="visibility:collapse;" method="post" action="{% url 'leads:mark_processed' %}">
+    {% csrf_token %}
+    <input id="process-id" name="id" type="text">
+</form>
+<form id="delete-form" style="visibility:collapse;" method="post" action="{% url 'leads:delete' %}">
+    {% csrf_token %}
+    <input id="delete-id" name="id" type="text">
+</form>
+
 {% endblock %}

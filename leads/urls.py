@@ -4,6 +4,8 @@ from leads import views
 
 urlpatterns = [
     url(r'^$', views.LeadsView.as_view(), name="leads"),
-    url(r'^add-manual/$', views.AddManual.as_view(), name='add-manual'),
-    url(r'^add-manual/(?P<id>\d+)/$', views.AddManual.as_view(), name='add-manual'),
+    url(r'^add/$', views.AddLead.as_view(), name='add'),
+    url(r'^edit/(?P<id>\d+)/$', views.AddLead.as_view(), name='edit'),
+    url(r'^mark_processed/$', views.MarkProcessed.as_view(), name='mark_processed'),
+    url(r'^delete/$', views.DeleteLead.as_view(), name='delete'),
 ]

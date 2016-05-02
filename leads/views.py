@@ -30,7 +30,7 @@ class LeadsView(View):
         return render(request, "leads/leads.html", context)
 
 
-class AddManual(View):
+class AddLead(View):
     @method_decorator(login_required)
     def get(self, request, id=None):
         context = {}
@@ -38,7 +38,7 @@ class AddManual(View):
         if id:
             context["lead"] = Lead.objects.get(pk=id)
         context.update(get_lead_form_data())
-        return render(request, "leads/add-manual.html", context)
+        return render(request, "leads/add-lead.html", context)
 
     @method_decorator(login_required)
     def post(self, request, id=None):
@@ -77,6 +77,10 @@ class AddManual(View):
         lead.created_by = request.user
         lead.description = request.POST["description"]
         lead.lead_type = Lead.MANUAL_LEAD
+
+        lead.url = request.POST["url"]
+        lead.website = request.POST["website"]
+
         lead.save()
 
         for file in request.FILES:
@@ -86,10 +90,25 @@ class AddManual(View):
             attachment.save()
 
         if error != "":
-            return render(request, "leads/add-manual.html",
+            return render(request, "leads/add-lead.html",
                           {"error": error})
 
-        # if request.POST["post"] == "save-and-another":
-        #     return redirect("leads:add-manual")
-        # else:
         return redirect("leads:leads")
+
+
+class MarkProcessed(View):
+    @method_decorator(login_required)
+    def post(self, request):
+        lead = Lead.objects.get(pk=request.POST["id"])
+        lead.status = Lead.PROCESSED
+        lead.save()
+        return redirect('leads:leads')
+
+
+class DeleteLead(View):
+    @method_decorator(login_required)
+    def post(self, request):
+        lead = Lead.objects.get(pk=request.POST["id"])
+        lead.status = Lead.DELETED
+        lead.save()
+        return redirect('leads:leads')
