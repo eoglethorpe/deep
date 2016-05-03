@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+DEEP | Entries
+{% endblock %}
+
+{% block head %}
+<link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+{% include 'navigation-bar.html' %}
+
+<div class="container">
+<br>
+<a class="btn btn-default" href="{% url 'entries:add' %}">Add Entry</a>
+<br>
+
+Entries table: <br>
+
+<table>
+<tr><td>1.</td> <td>Entry 1 Shutup</td></tr>
+<tr><td>2.</td> <td>Okay    Dood</td></tr>
+</table>
+
+</div>
+{% endblock %}

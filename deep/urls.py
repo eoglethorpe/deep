@@ -24,6 +24,9 @@ urlpatterns = [
     url(r'^logout/$', LogoutView.as_view(), name="logout"),
     url(r'^dashboard/$', DashboardView.as_view(), name="dashboard"),
     url(r'^leads/', include('leads.urls', namespace='leads')),
+    url(r'^entries/', include('entries.urls', namespace='entries')),
+
+    url(r'user/status/', UserStatusView.as_view(), name="status"),
 
     url(r'^admin/', admin.site.urls),
     url(r'^api/v1/', include(router.urls)),

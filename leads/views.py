@@ -52,34 +52,43 @@ class AddLead(View):
             lead = Lead()
         lead.name = request.POST["name"]
 
-        if request.POST["source"] != "":
+        if "source" in request.POST and request.POST["source"] != "":
             lead.source = Source.objects.get(pk=request.POST["source"])
         else:
             lead.source = None
 
-        if request.POST["content-format"] != "":
+        if "content-format" in request.POST and \
+                request.POST["content-format"] != "":
             lead.content_format = request.POST["content-format"]
         else:
             lead.content_format = None
 
         lead.confidentiality = request.POST["confidentiality"]
 
-        if request.POST["assigned-to"] != "":
+        if "assigned-to" in request.POST and \
+                request.POST["assigned-to"] != "":
             lead.assigned_to = User.objects.get(pk=request.POST["assigned-to"])
         else:
             lead.assigned_to = None
 
-        if request.POST["publish-date"] != "":
+        if "publish-date" in request.POST and \
+                request.POST["publish-date"] != "":
             lead.published_at = request.POST["publish-date"]
         else:
             lead.published_at = None
 
         lead.created_by = request.user
-        lead.description = request.POST["description"]
-        lead.lead_type = Lead.MANUAL_LEAD
 
-        lead.url = request.POST["url"]
-        lead.website = request.POST["website"]
+        if "lead-type" in request.POST and \
+                request.POST["lead-type"] == "manual":
+            lead.description = request.POST["description"]
+            lead.lead_type = Lead.MANUAL_LEAD
+
+        if "lead-type" not in request.POST or \
+                request.POST["lead-type"] == "website":
+            lead.url = request.POST["url"]
+            lead.website = request.POST["website"]
+            lead.lead_type = Lead.URL_LEAD
 
         lead.save()
 

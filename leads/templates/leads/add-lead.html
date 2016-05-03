@@ -99,8 +99,8 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                                 <label>Type:</label>
                             </div>
                             <div class="col-md-9">
-                                <label class="radio-inline"><input type="radio" name="lead-type" value="website" checked>Website</label>
-                                <label class="radio-inline"><input type="radio" name="lead-type" value="manual">Manual Entry</label>
+                                <label class="radio-inline"><input type="radio" name="lead-type" value="website" {% if not lead or lead.lead_type == 'URL' %} checked {% endif %}>Website</label>
+                                <label class="radio-inline"><input type="radio" name="lead-type" value="manual" {% if lead and lead.lead_type == 'MAN' %} checked {% endif %}>Manual Entry</label>
                             </div>
                         </div>
                         <div class="row" id="description-row">

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
+from django.http import JsonResponse
 from django.core.validators import validate_email
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -68,6 +69,14 @@ class LoginView(View):
     """
 
     def get(self, request):
+        # If user is already logged in, redirect to dashboard.
+        if request.user and request.user.is_active:
+            try:
+                profile = UserProfile.objects.get(user=request.user)
+                return redirect("dashboard")
+            except:
+                pass
+
         # Return the login template.
         return render(request, "users/login.html")
 
@@ -117,3 +126,15 @@ class LogoutView(View):
     def get(self, request):
         logout(request)
         return redirect('login')
+
+
+class UserStatusView(View):
+    def get(self, request):
+        # Return user log in status.
+        if request.user and request.user.is_active:
+            try:
+                profile = UserProfile.objects.get(user=request.user)
+                return JsonResponse({"status": "logged-in"})
+            except:
+                pass
+        return JsonResponse({"status": "not logged-in"})
