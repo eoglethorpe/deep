@@ -32,7 +32,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                                 <label>Name:</label>
                             </div>
                             <div class="col-md-9">
-                                <input type="text" name="name" placeholder="Enter a descriptive name" {%if lead%}value="{{lead.name}}" {%endif%}>
+                                <input type="text" name="name" placeholder="Enter a descriptive name" {%if lead%}value="{{lead.name}}" {%endif%} required>
                             </div>
                         </div>
                         <div class="row">
@@ -91,10 +91,19 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                                 <label>Published at:</label>
                             </div>
                             <div class="col-md-9">
-                                <input type="text" name="publish-date" placeholder="yyyy-mm-dd" {% if lead %}value="{{lead.published_at|date:"Y-m-d"}}"{% endif %}>
+                                <input type="date" name="publish-date" placeholder="yyyy-mm-dd" {% if lead %}value="{{lead.published_at|date:"Y-m-d"}}"{% endif %}>
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-md-3 label-container">
+                                <label>Type:</label>
+                            </div>
+                            <div class="col-md-9">
+                                <label class="radio-inline"><input type="radio" name="lead-type" value="website" checked>Website</label>
+                                <label class="radio-inline"><input type="radio" name="lead-type" value="manual">Manual Entry</label>
+                            </div>
+                        </div>
+                        <div class="row" id="description-row">
                             <div class="col-md-3 label-container">
                                 <label>Description:</label>
                             </div>
@@ -102,7 +111,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                                 <textarea class="form-control" name="description" placeholder="Enter description" rows="4">{% if lead %}{{lead.description}}{% endif %}</textarea>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" id="url-row">
                             <div class="col-md-3 label-container">
                                 <label>URL</label>
                             </div>
@@ -110,7 +119,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                                 <input type="text" name="url" placeholder="Enter url" {% if lead %}value="{{lead.url}}"{% endif %}>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" id="website-row">
                             <div class="col-md-3 label-container">
                                 <label>Website</label>
                             </div>
@@ -151,39 +160,58 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 </div>
 
 <script>
-    Dropzone.options.attachmentDropzone = {
-        url: "{% url 'leads:add' %}",
-        autoProcessQueue: false,
-        uploadMultiple: true,
-        addRemoveLinks: true,
-        parallelUploads: 100,
-        maxFiles: 100,
-        previewsContainer: ".dropzone-previews",
-        clickable: ".dropzone-container",
+$(document).ready(function() {
+    function adjustLeadType(type){
+        if(type == "website"){
+            $('#description-row').hide();
+            $('#url-row').show();
+            $('#website-row').show();
+        }else{
+            $('#description-row').show();
+            $('#url-row').hide();
+            $('#website-row').hide();
+        }
+    }
+    $("input[name='lead-type']:radio").change(function () {
+        adjustLeadType($("input[name='lead-type']:checked").val());
+    });
 
-        init: function() {
-            var dz = this;
-            this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
-                if (dz.getQueuedFiles().length > 0) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    dz.processQueue();
-                }
-            });
+    adjustLeadType($("input[name='lead-type']:checked").val());
+});
 
-            this.on("sendingmultiple", function() {
-                // TODO: Hide the form.
-            });
+Dropzone.options.attachmentDropzone = {
+    url: "{% url 'leads:add' %}",
+    autoProcessQueue: false,
+    uploadMultiple: true,
+    addRemoveLinks: true,
+    parallelUploads: 100,
+    maxFiles: 100,
+    previewsContainer: ".dropzone-previews",
+    clickable: ".dropzone-container",
 
-            this.on("successmultiple", function(files, response) {
-                window.location.href = "{% url 'leads:leads' %}";
-            });
+    init: function() {
+        var dz = this;
+        this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
+            if (dz.getQueuedFiles().length > 0) {
+                e.preventDefault();
+                e.stopPropagation();
+                dz.processQueue();
+            }
+        });
 
-            this.on("errormultiple", function(files, response) {
-                // TODO: Show error.
-            });
-        },
-    };
+        this.on("sendingmultiple", function() {
+            // TODO: Hide the form.
+        });
+
+        this.on("successmultiple", function(files, response) {
+            window.location.href = "{% url 'leads:leads' %}";
+        });
+
+        this.on("errormultiple", function(files, response) {
+            // TODO: Show error.
+        });
+    },
+};
 </script>
 
 {% endblock %}
