@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
 
-  "name": "X-Tension",
-  "description": "Just a test",
+  "name": "DEEP: Create Lead",
+  "description": "Submit a lead from current tab to DEEP",
   "version": "1.0",
 
   "browser_action": {

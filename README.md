@@ -55,3 +55,14 @@ By default, the server should run at `localhost:8000`. Test the website locally 
 ### Deploying with uwsgi and nginx
 
 TODO
+
+## Chrome Extension
+
+### Load
+1. Go to Settings > Extensions.
+2. Check "Developer mode".
+3. Hit "Load unpacked extension..." button.
+4. Navigate to the Repo directory and select "chrome-extension"
+
+### Usage
+Open the extension while browsing the page, fill out the required inputs and submit.

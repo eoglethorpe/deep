@@ -43,7 +43,6 @@ $(document).ready(function(){
             if(response){
                 if(response.status == "logged-in"){
                     $("#loading-animation").hide();
-                    $(".app-info").removeClass('hidden');
                     $("#extras-wrapper").hide();
                     $(".form-wrapper").removeClass('hidden');
                 } else {
@@ -55,6 +54,7 @@ $(document).ready(function(){
         },
         error: function(response){
             $("#loading-animation").hide();
+            $(".app-info").removeClass('hidden');
             $("#error-msg").removeClass('hidden');
         },
     });
