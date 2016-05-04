@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+
+  "name": "X-Tension",
+  "description": "Just a test",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "deep-logo.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "activeTab",
+    "http://localhost:8000/*",
+    "https://ajax.googleapis.com/"
+  ]
+}

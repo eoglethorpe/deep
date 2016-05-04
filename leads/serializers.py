@@ -7,6 +7,12 @@ import os
 from leads.models import *
 
 
+class SourceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Source
+        fields = ('source',)
+
+
 class LeadSerializer(serializers.ModelSerializer):
     """ Lead serializer used by the REST api
     """

@@ -1,0 +1,112 @@
+body, html{
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: "Lato", sans-serif;
+    font-size: 13px;
+    min-width: 600px;
+    min-height: 400px;
+    background-color: #fafafa;
+    color: #717171;
+    line-height: 1.5;
+}
+
+.form-wrapper{
+    padding: 24px;
+}
+
+.title{
+    font-size: 2em;
+    color: #2980b9;
+    padding-bottom: 30px;
+}
+.label-container{
+    text-align: right;
+    padding: 10px 0px;
+    padding-right: 10px;
+}
+
+#extras-wrapper{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+#lead-form-wrapper{
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.msg{
+    text-align: center;
+    color: #aaa;
+}
+
+.msg-error{
+    color: #e74c3c;
+}
+
+.msg-success{
+    color: #27ae60;
+}
+
+.logo{
+    width: 100px;
+}
+.app-info{
+    font-size: 1.5em;
+    color: #2980b9;
+    text-align: center;
+}
+
+.action{
+    text-align: right;
+    margin-top: 20px;
+}
+
+.hidden{
+    display: none;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    position: relative;
+    margin: 100px auto;
+}
+
+.double-bounce1, .double-bounce2 {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #2980b9;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: sk-bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce2 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+}
+
+@-webkit-keyframes sk-bounce {
+    0%, 100% { -webkit-transform: scale(0.0) }
+    50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bounce {
+    0%, 100% {
+        transform: scale(0.0);
+        -webkit-transform: scale(0.0);
+    } 50% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+    }
+}

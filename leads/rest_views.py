@@ -9,6 +9,12 @@ from leads.models import *
 from leads.serializers import *
 
 
+class SourceViewSet(viewsets.ModelViewSet):
+    queryset = Source.objects.all()
+    serializer_class = SourceSerializer
+    perimission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+
 class LeadViewSet(viewsets.ModelViewSet):
     queryset = Lead.objects.all()
     serializer_class = LeadSerializer
