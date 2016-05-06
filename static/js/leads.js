@@ -1,5 +1,5 @@
 var statuses = {"PEN": "Pending", "PRO": "Processed", "DEL": "Deleted"};
-var confidentialities = {"PUB": "Public", "CON": "Confidential"};
+var confidentialities = {"UNP": "Unprotected", "PRO": "Protected", "RES": "Restricted", "CON": "Confidential", "PUB": "Unprotected"};
 
 $(document).ready(function() {
     var leads_table = $('#leads-table').DataTable( {

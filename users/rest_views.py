@@ -10,6 +10,9 @@ from users.serializers import *
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
     serializer_class = UserSerializer
     perimission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        return User.objects.filter(pk__in=UserProfile.objects.all().
+                                   values_list('user_id'))

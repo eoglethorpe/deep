@@ -15,7 +15,6 @@ def get_lead_form_data():
 
     data = {}
     data["sources"] = Source.objects.all()
-    data["content_formats"] = ContentFormat.objects.all()
     data["confidentialities"] = Lead.CONFIDENTIALITIES
     data["statuses"] = Lead.STATUSES
     data["users"] = User.objects.exclude(first_name="", last_name="")
@@ -57,12 +56,6 @@ class AddLead(View):
         else:
             lead.source = None
 
-        if "content-format" in request.POST and \
-                request.POST["content-format"] != "":
-            lead.content_format = request.POST["content-format"]
-        else:
-            lead.content_format = None
-
         lead.confidentiality = request.POST["confidentiality"]
 
         if "assigned-to" in request.POST and \
@@ -84,19 +77,36 @@ class AddLead(View):
             lead.description = request.POST["description"]
             lead.lead_type = Lead.MANUAL_LEAD
 
+        # TODO: Remove not condition.
+        # Currently for the chrome plugin to work, the default type
+        # when not provided is website.
         if "lead-type" not in request.POST or \
                 request.POST["lead-type"] == "website":
             lead.url = request.POST["url"]
             lead.website = request.POST["website"]
             lead.lead_type = Lead.URL_LEAD
 
+        if "lead-type" in request.POST and \
+                request.POST["lead-type"] == "manual":
+            lead.description = request.POST["description"]
+            lead.lead_type = Lead.MANUAL_LEAD
+
+        if "lead-type" in request.POST and \
+                request.POST["lead-type"] == "attachments":
+            lead.lead_type = Lead.ATTACHMENT_LEAD
+
+        if "lead-type" in request.POST and \
+                request.POST["lead-type"] == "survey-of-surveys":
+            pass
+
         lead.save()
 
-        for file in request.FILES:
-            attachment = Attachment()
-            attachment.lead = lead
-            attachment.upload = request.FILES[file]
-            attachment.save()
+        if lead.lead_type == Lead.ATTACHMENT_LEAD:
+            for file in request.FILES:
+                attachment = Attachment()
+                attachment.lead = lead
+                attachment.upload = request.FILES[file]
+                attachment.save()
 
         if error != "":
             return render(request, "leads/add-lead.html",

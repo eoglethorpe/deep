@@ -14,28 +14,20 @@ class Source(models.Model):
         return self.source
 
 
-class ContentFormat(models.Model):
-    """ Content Format Model
-
-    Content formats are available lead formats.
-    """
-
-    content_format = models.CharField(max_length=150, unique=True)
-
-    def __str__(self):
-        return self.content_format
-
-
 class Lead(models.Model):
     """ Lead Model
     """
 
     # Confidentiality choices, currently including public and confidential.
-    PUBLIC = 'PUB'
+    UNPROTECTED = 'UNP'
+    PROTECTED = 'PRO'
+    RESTRICTED = 'RES'
     CONFIDENTIAL = 'CON'
 
     CONFIDENTIALITIES = (
-        (PUBLIC, 'Public'),
+        (UNPROTECTED, 'Unprotected'),
+        (PROTECTED, 'Protected'),
+        (RESTRICTED, 'Restricted'),
         (CONFIDENTIAL, 'Confidential'),
     )
 
@@ -53,23 +45,26 @@ class Lead(models.Model):
     # Lead types.
     URL_LEAD = 'URL'
     MANUAL_LEAD = 'MAN'
+    ATTACHMENT_LEAD = 'ATT'
+    SOS_LEAD = 'SOS'
 
     LEAD_TYPES = (
         (URL_LEAD, 'Url'),
-        (MANUAL_LEAD, 'Manual')
+        (MANUAL_LEAD, 'Manual'),
+        (ATTACHMENT_LEAD, 'Attachments'),
+        (SOS_LEAD, "Survey of surveys"),
     )
 
     # Lead attributes.
     name = models.CharField(max_length=250)
     source = models.ForeignKey(Source, null=True, blank=True)
-    content_format = models.ForeignKey(ContentFormat, null=True, blank=True)
     assigned_to = models.ForeignKey(User, null=True, blank=True,
                                     related_name='assigned_leads')
     published_at = models.DateField(null=True, blank=True)
 
     confidentiality = models.CharField(max_length=3,
                                        choices=CONFIDENTIALITIES,
-                                       default=PUBLIC)
+                                       default=UNPROTECTED)
     status = models.CharField(max_length=3,
                               choices=STATUSES,
                               default=PENDING)

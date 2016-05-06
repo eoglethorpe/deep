@@ -49,18 +49,6 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                         </div>
                         <div class="row">
                             <div class="col-md-3 label-container">
-                                <label>Content Format:</label>
-                            </div>
-                            <div class="col-md-9">
-                                <select name="content-format" class="selectpicker form-control" title="Select content format">
-                                    {% for c in content_formats %}
-                                    <option value="{{c.pk}}" {% if lead and lead.content_format == c %} selected {% endif %}>{{c}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 label-container">
                                 <label>Confidentiality:</label>
                             </div>
                             <div class="col-md-9">
@@ -160,13 +148,14 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 </div>
 
 <script>
+// TODO: Show attahment only for Attachment lead type.
 $(document).ready(function() {
     function adjustLeadType(type){
         if(type == "website"){
             $('#description-row').hide();
             $('#url-row').show();
             $('#website-row').show();
-        }else{
+        } else{
             $('#description-row').show();
             $('#url-row').hide();
             $('#website-row').hide();
