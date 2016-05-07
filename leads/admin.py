@@ -11,5 +11,4 @@ class LeadAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Source)
-admin.site.register(ContentFormat)
 admin.site.register(Lead, LeadAdmin)

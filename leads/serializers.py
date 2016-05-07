@@ -23,7 +23,7 @@ class LeadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lead
-        fields = ('id', 'name', 'source', 'content_format', 'assigned_to',
+        fields = ('id', 'name', 'source', 'assigned_to',
                   'published_at', 'confidentiality', 'status', 'description',
                   'url', 'website', 'created_at', 'created_by', 'attachments',
                   'assigned_to_name', 'created_by_name')
