@@ -8,10 +8,12 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 {% block head %}
 <link href="{% static 'css/add-lead.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
-<link href="{% static 'css/bootstrap-select.min.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/selectize.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/dropzone.css' %}" type="text/css" rel="stylesheet">
-<script type="text/javascript" src="{% static 'js/bootstrap-select.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/dropzone.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/add-lead.js' %}"></script>
 
 {% endblock %}
 
@@ -32,7 +34,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                                 <label>Name:</label>
                             </div>
                             <div class="col-md-9">
-                                <input type="text" name="name" placeholder="Enter a descriptive name" {%if lead%}value="{{lead.name}}" {%endif%} required>
+                                <input type="text" class="form-control" name="name" placeholder="Enter a descriptive name" {%if lead%}value="{{lead.name}}" {%endif%} required>
                             </div>
                         </div>
                         <div class="row">
@@ -40,7 +42,8 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                                 <label>Source:</label>
                             </div>
                             <div class="col-md-9">
-                                <select name="source" class="selectpicker form-control" title="Select source type">
+                                <select id="source" name="source" placeholder="Select source type">
+                                    <option value="">Select source type</option>
                                     {% for s in sources %}
                                     <option value="{{s.pk}}" {% if lead and lead.source == s %} selected {% endif %}>{{s}}</option>
                                     {% endfor %}
@@ -52,7 +55,8 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                                 <label>Content Format:</label>
                             </div>
                             <div class="col-md-9">
-                                <select name="content-format" class="selectpicker form-control" title="Select content format">
+                                <select id="content-format" name="content-format" placeholder="Select content format">
+                                    <option value="">Select content format</option>
                                     {% for c in content_formats %}
                                     <option value="{{c.pk}}" {% if lead and lead.content_format == c %} selected {% endif %}>{{c}}</option>
                                     {% endfor %}
@@ -64,7 +68,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                                 <label>Confidentiality:</label>
                             </div>
                             <div class="col-md-9">
-                                <select name="confidentiality" class="selectpicker">
+                                <select id="confidentiality" name="confidentiality">
                                     {% for c in confidentialities %}
                                     <option value="{{c.0}}" {% if lead and lead.confidentiality == c.0 %} selected {% endif %}>{{c.1}}</option>
                                     {% endfor %}
@@ -76,7 +80,8 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                                 <label>Assign to:</label>
                             </div>
                             <div class="col-md-9">
-                                <select name="assigned-to" class="selectpicker" title="Select user">
+                                <select id="assigned-to" name="assigned-to" placeholder="Select user">
+                                    <option value="">Select user</option>
                                     {% for u in users %}
                                     <option value="{{u.pk}}" {% if lead and lead.assigned_to == u %} selected {% endif %}}>
                                     {{u.first_name}} {{u.last_name}}
@@ -87,11 +92,10 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                         </div>
                         <div class="row">
                             <div class="col-md-3 label-container">
-                                <!-- TODO: Datepicker -->
                                 <label>Published at:</label>
                             </div>
                             <div class="col-md-9">
-                                <input type="date" name="publish-date" placeholder="yyyy-mm-dd" {% if lead %}value="{{lead.published_at|date:"Y-m-d"}}"{% endif %}>
+                                <input type="date" class="form-control" name="publish-date" placeholder="yyyy-mm-dd" {% if lead %}value="{{lead.published_at|date:"Y-m-d"}}"{% endif %}>
                             </div>
                         </div>
                         <div class="row">
@@ -101,6 +105,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                             <div class="col-md-9">
                                 <label class="radio-inline"><input type="radio" name="lead-type" value="website" {% if not lead or lead.lead_type == 'URL' %} checked {% endif %}>Website</label>
                                 <label class="radio-inline"><input type="radio" name="lead-type" value="manual" {% if lead and lead.lead_type == 'MAN' %} checked {% endif %}>Manual Entry</label>
+                                <label class="radio-inline"><input type="radio" name="lead-type" value="attachment" {% if lead and lead.lead_type == 'ATT' %} checked {% endif %}>Attachment</label>
                             </div>
                         </div>
                         <div class="row" id="description-row">
@@ -116,7 +121,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                                 <label>URL</label>
                             </div>
                             <div class="col-md-9">
-                                <input type="text" name="url" placeholder="Enter url" {% if lead %}value="{{lead.url}}"{% endif %}>
+                                <input type="text" class="form-control" name="url" placeholder="Enter url" {% if lead %}value="{{lead.url}}"{% endif %}>
                             </div>
                         </div>
                         <div class="row" id="website-row">
@@ -124,10 +129,10 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                                 <label>Website</label>
                             </div>
                             <div class="col-md-9">
-                                <input type="text" name="website" placeholder="Enter website" {% if lead %}value="{{lead.website}}"{% endif %}>
+                                <input type="text" class="form-control" name="website" placeholder="Enter website" {% if lead %}value="{{lead.website}}"{% endif %}>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" id="attachment-row">
                             <div class="col-md-11 col-md-offset-1">
                                 <div class="label-container" id="attachment-label-container">
                                     <label>
@@ -160,24 +165,6 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 </div>
 
 <script>
-$(document).ready(function() {
-    function adjustLeadType(type){
-        if(type == "website"){
-            $('#description-row').hide();
-            $('#url-row').show();
-            $('#website-row').show();
-        }else{
-            $('#description-row').show();
-            $('#url-row').hide();
-            $('#website-row').hide();
-        }
-    }
-    $("input[name='lead-type']:radio").change(function () {
-        adjustLeadType($("input[name='lead-type']:checked").val());
-    });
-
-    adjustLeadType($("input[name='lead-type']:checked").val());
-});
 
 Dropzone.options.attachmentDropzone = {
     url: "{% url 'leads:add' %}",

@@ -1,3 +1,0 @@
-//
-// Dropzone.options.dropzoneFileUpload = {
-// }
