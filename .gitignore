@@ -1,5 +1,6 @@
 # Database
 db.sqlite3
+mysql.cnf
 
 # Media files, uploaded by users
 media/

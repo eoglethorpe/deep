@@ -92,7 +92,7 @@ class AddLead(View):
             lead.lead_type = Lead.MANUAL_LEAD
 
         if "lead-type" in request.POST and \
-                request.POST["lead-type"] == "attachments":
+                request.POST["lead-type"] == "attachment":
             lead.lead_type = Lead.ATTACHMENT_LEAD
 
         if "lead-type" in request.POST and \
