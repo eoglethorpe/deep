@@ -12,6 +12,6 @@
   "permissions": [
     "activeTab",
     "http://localhost:8000/*",
-    "https://ajax.googleapis.com/"
+    "<all_urls>"
   ]
 }

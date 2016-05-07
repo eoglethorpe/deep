@@ -11,6 +11,20 @@ function getCurrentTabUrl(callback) {
     });
 }
 
+function getCurrentTabTitle(callback) {
+    var queryInfo = {
+        active: true,
+        currentWindow: true
+    };
+    chrome.tabs.query(queryInfo, function(tabs) {
+        var tab = tabs[0];
+        var title = tab.title;
+        console.assert(typeof title == 'string', 'tab.title should be a string');
+        callback(title);
+    });
+}
+
+
 function extractDomain(url) {
     var domain;
     //find & remove protocol (http, ftp, etc.) and get domain
@@ -31,6 +45,9 @@ document.addEventListener('DOMContentLoaded', function(){
     getCurrentTabUrl(function(url){
         document.getElementById('url').value = url;
         document.getElementById('website').value = extractDomain(url);
+    });
+    getCurrentTabTitle(function(title){
+        document.getElementById('name').value = title;
     });
 });
 
@@ -73,7 +90,7 @@ $(document).ready(function(){
                             $('#user-select').append('<option value="'+response[i].id+ '">' + response[i].email + '</option>');
                         }
                     }
-                    //$('#user-select').selectpicker('refresh');
+                    $('#user-select').selectize({create: false});
                 }
             },
             error: function(response){
@@ -89,7 +106,7 @@ $(document).ready(function(){
                     for(i = 0; i < response.length; i++){
                         $('#source').append('<option value="'+response[i].source+'">'+response[i].source+'</option>');
                     }
-                    //$('#user-select').selectpicker('refresh');
+                    $('#source').selectize({create: false});
                 }
             },
             error: function(response){
@@ -97,6 +114,8 @@ $(document).ready(function(){
             },
         });
 
+        // @TODO load content format TODO
+        $('#content-format').selectize({create: false});
     }
 
     function getCSRFToken(){
@@ -128,15 +147,21 @@ $(document).ready(function(){
         },
         success: function(response) {
             $("#loading-animation").hide();
+            $(".app-info").removeClass('hidden');
             $(".app-info").show();
             $("#submit-success-msg").removeClass('hidden');
         },
         error: function(response){
             $("#loading-animation").hide();
+            $(".app-info").removeClass('hidden');
             $(".app-info").show();
             $("#submit-fail-msg").removeClass('hidden');
         }
     };
 
     $('#leads-form').ajaxForm(submitOptions);
+
+    $.getJSON('http://whateverorigin.org/get?url=' + encodeURIComponent('http://www.youtube.com/'), function(data){
+    	console.log(data.contents);
+    });
 });

@@ -1,6 +1,63 @@
 var statuses = {"PEN": "Pending", "PRO": "Processed", "DEL": "Deleted"};
 var confidentialities = {"PUB": "Public", "CON": "Confidential"};
 
+
+// Checks if the date is in give range
+function dateInRange(date, min, max){
+    date.setHours(0, 0, 0, 0);
+    min.setHours(0, 0, 0, 0);
+    max.setHours(0, 0, 0, 0);
+    return (date >= min && date <= max);
+}
+
+function filterDate(filter, date){
+    dateStr = date.toDateString();
+    switch( filter ){
+        case "today":
+            return (new Date()).toDateString() == dateStr;
+        case "yesterday":
+            yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            return yesterday.toDateString() == dateStr;
+        case "last-seven-days":
+            min = new Date();
+            min.setDate(min.getDate() - 7);
+            return dateInRange(date, min, (new Date));
+        case "this-week":
+            min = new Date();
+            min.setDate(min.getDate() - min.getDay());
+            return dateInRange(date, min, (new Date));
+        case "last-thirty-days":
+            min = new Date();
+            min.setDate(min.getDate() - 30);
+            return dateInRange(date, min, (new Date));
+        case "this-month":
+            min = new Date();
+            min.setDate(1);
+            return dateInRange(date, min, (new Date));
+        default:
+            return true;
+    }
+}
+
+// Inject the custom search into Data Tables
+$.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+        var filter = $("#date-created-filter").val();
+        date = new Date(data[0].substr(0, 10));
+        return filterDate(filter, date);
+    }
+);
+
+$.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+        var filter = $("#date-published-filter").val();
+        date = new Date(data[3]);
+        return filterDate(filter, date);
+    }
+);
+
+
 $(document).ready(function() {
     var leads_table = $('#leads-table').DataTable( {
         ajax: {
@@ -18,15 +75,62 @@ $(document).ready(function() {
                 }
             },
             { data: "assigned_to_name" },
-            { data: "name", style: "font-weight: bold"},
+            { data: "name"},
             { data: "published_at" },
             { data: null, render: function(data, type, row) { return confidentialities[data.confidentiality]; } },
             { data: "source"},
             // { data: "content_format" },
             // { data: "website" },
             { data: null, render: function(data, type, row) { return statuses[data.status]; } },
-        ]
+        ],
+        initComplete: function(){
+            assigned_to_col = this.api().column(1);
+            confidentiality_col = this.api().column(4);
+            status_col = this.api().column(6);
+
+            assigned_to_col.data().unique().sort().each(
+                function ( value, index ) {
+                    $('#assigned-to-filter').append( '<option value="'+value+'">'+value+'</option>' );
+                }
+            );
+
+            var that = this;
+
+            $('#assigned-to-filter').selectize();
+            $('#date-created-filter').selectize();
+            $('#date-published-filter').selectize();
+            $('#confidentiality-filter').selectize();
+            $('#status-filter').selectize();
+
+            $('#assigned-to-filter').on('change', function(){
+                assigned_to_col
+                    .search( $(this).val() ? '^'+$(this).val()+'$' : '', true, false )
+                    .draw();
+            });
+
+            $('#confidentiality-filter').on('change', function(){
+                confidentiality_col
+                    .search( $(this).val() ? '^'+$(this).val()+'$' : '', true, false )
+                    .draw();
+            });
+
+            $('#status-filter').on('change', function(){
+                status_col
+                    .search( $(this).val() ? '^'+$(this).val()+'$' : '', true, false )
+                    .draw();
+            });
+
+            $('#date-created-filter').on('change', function(){
+                that.api().draw();
+            });
+            $('#date-published-filter').on('change', function(){
+                that.api().draw();
+            });
+
+        }
+
     });
+
 
     // Add event listener for opening and closing details
     $('#leads-table tbody').on('click', 'tr', function () {

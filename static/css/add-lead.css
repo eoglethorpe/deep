@@ -95,3 +95,11 @@ input[type="date"]{
     color: #aaa;
     vertical-align: middle;
 }
+
+.dropzone.dz-drag-hover {
+    border: none!important;
+}
+
+.dz-drag-hover dropzone-container{
+    border-color: #000;
+}

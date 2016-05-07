@@ -4,12 +4,12 @@
 <head>
     <title>Submit a lead from current tab to DEEP</title>
     <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="bootstrap-select.min.css">
+    <link rel="stylesheet" type="text/css" href="selectize.bootstrap3.css">
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="jquery.min.js"></script>
     <script src="popup.js"></script>
     <script src="jquery.form.js"></script>
-    <script src="bootstrap-select.min.js"></script>
+    <script src="selectize.js"></script>
 </head>
 
 <body>
@@ -47,7 +47,7 @@
                         <label>Name:</label>
                     </div>
                     <div class="col-xs-9">
-                        <input class="form-control" type="text" name="name" placeholder="Enter a descriptive name"  required>
+                        <input id="name" class="form-control" type="text" name="name" placeholder="Enter a descriptive name"  required>
                     </div>
                 </div>
                 <div class="row">
@@ -55,7 +55,8 @@
                         <label>Source:</label>
                     </div>
                     <div class="col-xs-9">
-                        <select id="source" name="source" class="form-control" title="Select source type">
+                        <select id="source" name="source" class="form-control" placeholder="Select source type">
+                            <option value="">Select source type</option>
                         </select>
                     </div>
                 </div>
@@ -64,7 +65,8 @@
                         <label>Content Format:</label>
                     </div>
                     <div class="col-xs-9">
-                        <select name="content-format" class=" form-control" title="Select content format">
+                        <select name="content-format" id="content-format" class=" form-control" placeholder="Select content format">
+                            <option value="">Select content format</option>
                         </select>
                     </div>
                 </div>
@@ -84,7 +86,8 @@
                         <label>Assigned to:</label>
                     </div>
                     <div class="col-xs-9">
-                        <select id="user-select" name="assigned-to" class="form-control" title="Select user">
+                        <select id="user-select" name="assigned-to" class="form-control" placeholder="Select user">
+                            <option value="">Select user</option>
                         </select>
                     </div>
                 </div>

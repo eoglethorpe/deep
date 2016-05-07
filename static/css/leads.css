@@ -4,6 +4,7 @@
 
 #action-block{
     margin-bottom:30px;
+    text-align: right;
 }
 #action-block .title, #leads-block .title{
     margin-bottom: 20px;
@@ -46,4 +47,8 @@
 
 .row-detail .actions button{
     margin-right: 10px;
+}
+
+#filters{
+    margin-bottom: 20px;
 }

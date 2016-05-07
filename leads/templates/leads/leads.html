@@ -10,7 +10,10 @@ DEEP | Leads
 <link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% static 'css/datatables.min.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.bootstrap.min.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/selectize.bootstrap3.css' %}"/>
 <script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/leads.js' %}"></script>
 {% endblock %}
 
@@ -23,9 +26,55 @@ DEEP | Leads
         <div class="block" id="action-block">
             <a class="btn btn-default" href="{% url 'leads:add' %}"><i class="fa fa-plus"></i>Add Lead</a>
         </div>
-        <hr>
+
         <div class="block" id="leads-block">
             <div class="title">Current Leads</div>
+            <div class="row" id="filters">
+                <div class="col-sm-12">
+                    <label>Apply filter:</label>
+                </div>
+                <div class="col-sm-3 col-md-2 col-xs-6">
+                    <select id="assigned-to-filter" placeholder="Assigned to">
+                        <option value="">Assigned to</option>
+                    </select>
+                </div>
+                <div class="col-sm-3 col-md-2 col-xs-6">
+                    <select id="date-created-filter" placeholder="Date Created">
+                        <option value="">Date Created</option>
+                        <option value="today">Today</option>
+                        <option value="yesterday">Yesterday</option>
+                        <option value="last-seven-days">Last 7 days</option>
+                        <option value="this-week">This week</option>
+                        <option value="last-thirty-days">Last 30 days</option>
+                        <option value="this-month">This month</option>
+                    </select>
+                </div>
+                <div class="col-sm-3 col-md-2 col-xs-6">
+                    <select id="date-published-filter" placeholder="Date Published">
+                        <option value="">Date Published</option>
+                        <option value="today">Today</option>
+                        <option value="yesterday">Yesterday</option>
+                        <option value="last-seven-days">Last 7 days</option>
+                        <option value="this-week">This week</option>
+                        <option value="last-thirty-days">Last 30 days</option>
+                        <option value="this-month">This month</option>
+                    </select>
+                </div>
+                <div class="col-sm-3 col-md-2 col-xs-6">
+                    <select id="confidentiality-filter" placeholder="Confidentiality">
+                        <option value="">Confidentiality</option>
+                        <option value="Public">Public</option>
+                        <option value="Confidential">Confidential</option>
+                    </select>
+                </div>
+                <div class="col-sm-3 col-md-2 col-xs-6">
+                    <select id="status-filter" placeholder="Status">
+                        <option value="">Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Processed">Processed</option>
+                    </select>
+                </div>
+            </div>
             <table id="leads-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
                 <thead>
                     <tr>
