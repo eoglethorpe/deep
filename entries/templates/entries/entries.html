@@ -6,24 +6,52 @@ DEEP | Entries
 {% endblock %}
 
 {% block head %}
+<link href="{% static 'css/entries.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% static 'css/datatables.min.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.bootstrap.min.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/selectize.bootstrap3.css' %}"/>
+<script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/entries.js' %}"></script>
+
 {% endblock %}
 
 {% block body %}
 
 {% include 'navigation-bar.html' %}
 
-<div class="container">
-<br>
-<a class="btn btn-default" href="{% url 'entries:add' %}">Add Entry</a>
-<br>
-
-Entries table: <br>
-
-<table>
-<tr><td>1.</td> <td>Entry 1 Shutup</td></tr>
-<tr><td>2.</td> <td>Okay    Dood</td></tr>
-</table>
-
+<div class="section" id="body-section">
+    <div class="container">
+        <div class="title">Current Entries</div>
+        <div class="row" id="filters">
+        </div>
+        <table id="entries-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Created</th>
+                    <th>Lead</th>
+                    <th>Excerpt</th>
+                    <th>Tags</th>
+                    <th>Locations</th>
+                    <th>Severity</th>
+                    <th>Reliability</th>
+                    <th>Timeline</th>
+                    <th>Group status</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2016-01-12<br>Frozen Helium</td>
+                    <td>Test lead</td>
+                    <td>The Open Mic project ... affected districts</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+
+
 {% endblock %}
