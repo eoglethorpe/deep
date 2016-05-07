@@ -52,19 +52,6 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                         </div>
                         <div class="row">
                             <div class="col-md-3 label-container">
-                                <label>Content Format:</label>
-                            </div>
-                            <div class="col-md-9">
-                                <select id="content-format" name="content-format" placeholder="Select content format">
-                                    <option value="">Select content format</option>
-                                    {% for c in content_formats %}
-                                    <option value="{{c.pk}}" {% if lead and lead.content_format == c %} selected {% endif %}>{{c}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 label-container">
                                 <label>Confidentiality:</label>
                             </div>
                             <div class="col-md-9">
