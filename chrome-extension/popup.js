@@ -1,3 +1,8 @@
+// example of serverAddress http://52.87.160.69
+// don't add the trailing /
+var serverAddress = 'http://localhost:8000';
+//var serverAddress = 'http://52.87.160.69';
+
 function getCurrentTabUrl(callback) {
     var queryInfo = {
         active: true,
@@ -55,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function(){
 $(document).ready(function(){
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8000/user/status',
+        url: serverAddress + '/user/status',
         success: function(response){
             if(response){
                 if(response.status == "logged-in"){
@@ -79,7 +84,7 @@ $(document).ready(function(){
     function loadLists(){
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:8000/api/v1/users/',
+            url: serverAddress + '/api/v1/users/',
             success: function(response){
                 if(response){
                     for(i = 0; i < response.length; i++){
@@ -100,7 +105,7 @@ $(document).ready(function(){
 
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:8000/api/v1/sources/',
+            url: serverAddress + '/api/v1/sources/',
             success: function(response){
                 if(response) {
                     for(i = 0; i < response.length; i++){
@@ -115,13 +120,14 @@ $(document).ready(function(){
         });
 
         // @TODO load content format TODO
-        $('#content-format').selectize({create: false});
+        $('#content-format').selectize();
+        $('#confidentiality').selectize();
     }
 
     function getCSRFToken(){
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:8000/leads/add/',
+            url: serverAddress + '/leads/add/',
             success: function(response){
                 if(response){
                     csrfToken = ($(response).find("input[name='csrfmiddlewaretoken']")).val();
@@ -138,7 +144,7 @@ $(document).ready(function(){
     loadLists();
 
     var submitOptions = {
-        url: 'http://localhost:8000/leads/add/',
+        url: serverAddress + '/leads/add/',
         beforeSubmit: function(){
             $(".form-wrapper").addClass('hidden');
             $("#extras-wrapper").show();
@@ -160,8 +166,4 @@ $(document).ready(function(){
     };
 
     $('#leads-form').ajaxForm(submitOptions);
-
-    $.getJSON('http://whateverorigin.org/get?url=' + encodeURIComponent('http://www.youtube.com/'), function(data){
-    	console.log(data.contents);
-    });
 });
