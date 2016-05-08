@@ -3,6 +3,8 @@
 var serverAddress = 'http://localhost:8000';
 //var serverAddress = 'http://52.87.160.69';
 
+var currentEvent = 0;
+
 function getCurrentTabUrl(callback) {
     var queryInfo = {
         active: true,
@@ -67,12 +69,59 @@ $(document).ready(function(){
                     $("#loading-animation").hide();
                     $("#extras-wrapper").hide();
                     $(".form-wrapper").removeClass('hidden');
+                    currentEvent = response.last_event;
+                    $.ajax({
+                        type: 'GET',
+                        url: serverAddress + '/api/v1/events/',
+                        success: function(response){
+                            if(response) {
+                                for(i = 0; i < response.length; i++){
+                                    if(response[i].id==currentEvent){
+                                        $('#events').append('<option value="'+response[i].id+'" selected>'+response[i].name+'</option>');
+                                    } else{
+                                        $('#events').append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
+                                    }
+                                }
+                                $('#events').selectize({create: false});
+                            }
+                        },
+                        error: function(response){
+                            console.log(response);
+                        },
+                    });
+                    getCSRFToken();
+                    loadLists();
+                    var submitOptions = {
+                        url: serverAddress + '/' + currentEvent + '/leads/add/',
+                        beforeSubmit: function(data, form, options){
+                            $(".form-wrapper").addClass('hidden');
+                            $("#extras-wrapper").show();
+                            $(".app-info").hide();
+                            $("#loading-animation").show();
+                            options["url"] = serverAddress + '/' + currentEvent + '/leads/add/';
+                        },
+                        success: function(response) {
+                            $("#loading-animation").hide();
+                            $(".app-info").removeClass('hidden');
+                            $(".app-info").show();
+                            $("#submit-success-msg").removeClass('hidden');
+                        },
+                        error: function(response){
+                            $("#loading-animation").hide();
+                            $(".app-info").removeClass('hidden');
+                            $(".app-info").show();
+                            $("#submit-fail-msg").removeClass('hidden');
+                        }
+                    };
+
+                    $('#leads-form').ajaxForm(submitOptions);
                 } else {
                     $("#loading-animation").hide();
                     $(".app-info").removeClass('hidden');
                     $("#no-login-msg").removeClass('hidden');
                 }
             }
+
         },
         error: function(response){
             $("#loading-animation").hide();
@@ -111,26 +160,27 @@ $(document).ready(function(){
                     for(i = 0; i < response.length; i++){
                         $('#source').append('<option value="'+response[i].source+'">'+response[i].source+'</option>');
                     }
-                    $('#source').selectize({create: false});
+                    $('#source').selectize();
                 }
             },
             error: function(response){
                 console.log(response);
             },
         });
-
-        // @TODO load content format TODO
-        $('#content-format').selectize();
         $('#confidentiality').selectize();
     }
 
     function getCSRFToken(){
         $.ajax({
             type: 'GET',
-            url: serverAddress + '/leads/add/',
+            url: serverAddress + '/' + currentEvent + '/leads/add/',
             success: function(response){
                 if(response){
                     csrfToken = ($(response).find("input[name='csrfmiddlewaretoken']")).val();
+                    oldInput = $("input[name='csrfmiddlewaretoken']");
+                    if(oldInput){
+                        oldInput.remove();
+                    }
                     $('#leads-form').append('<input type="hidden" name="csrfmiddlewaretoken" value = ' + csrfToken + '>');
                 }
             },
@@ -140,30 +190,8 @@ $(document).ready(function(){
         });
     }
 
-    getCSRFToken();
-    loadLists();
-
-    var submitOptions = {
-        url: serverAddress + '/leads/add/',
-        beforeSubmit: function(){
-            $(".form-wrapper").addClass('hidden');
-            $("#extras-wrapper").show();
-            $(".app-info").hide();
-            $("#loading-animation").show();
-        },
-        success: function(response) {
-            $("#loading-animation").hide();
-            $(".app-info").removeClass('hidden');
-            $(".app-info").show();
-            $("#submit-success-msg").removeClass('hidden');
-        },
-        error: function(response){
-            $("#loading-animation").hide();
-            $(".app-info").removeClass('hidden');
-            $(".app-info").show();
-            $("#submit-fail-msg").removeClass('hidden');
-        }
-    };
-
-    $('#leads-form').ajaxForm(submitOptions);
+    $('#events').on('change', function(){
+        currentEvent = $( "#events option:selected" ).val();
+        getCSRFToken();
+    });
 });

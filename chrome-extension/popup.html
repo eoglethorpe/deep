@@ -40,80 +40,89 @@
     </div>
     <div class="form-wrapper hidden" id="lead-form-wrapper">
         <div class="title">DEEP: Create Lead</div>
+        <div class="row">
+            <div class="col-xs-3 label-container">
+                <label>Event:</label>
+            </div>
+            <div class="col-xs-9">
+                <select id="events">
+                </select>
+            </div>
+        </div>
+
         <form id="leads-form" method="post">
             <div class="row">
-                <div class="row">
-                    <div class="col-xs-3 label-container">
-                        <label>Name:</label>
-                    </div>
-                    <div class="col-xs-9">
-                        <input id="name" class="form-control" type="text" name="name" placeholder="Enter a descriptive name"  required>
-                    </div>
+                <div class="col-xs-3 label-container">
+                    <label>Name:</label>
                 </div>
-                <div class="row">
-                    <div class="col-xs-3 label-container">
-                        <label>Source:</label>
-                    </div>
-                    <div class="col-xs-9">
-                        <select id="source" name="source" class="form-control" placeholder="Select source type">
-                            <option value="">Select source type</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-3 label-container">
-                        <label>Confidentiality:</label>
-                    </div>
-                    <div class="col-xs-9">
-                        <select id="confidentiality" name="confidentiality" class="form-control">
-                            <option value="UNP">Unprotected</option>
-                            <option value="PRO">Protected</option>
-                            <option value="RES">Restricted</option>
-                            <option value="CON">Confidential</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-3 label-container">
-                        <label>Assigned to:</label>
-                    </div>
-                    <div class="col-xs-9">
-                        <select id="user-select" name="assigned-to" class="form-control" placeholder="Select user">
-                            <option value="">Select user</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-3 label-container">
-                        <!-- TODO: Datepicker -->
-                        <label>Published at:</label>
-                    </div>
-                    <div class="col-xs-9">
-                        <input type="date" class="form-control" name="publish-date" placeholder="YYYY-MM-DD" >
-                    </div>
-                </div>
-                <div class="row" id="url-row">
-                    <div class="col-xs-3 label-container">
-                        <label>URL</label>
-                    </div>
-                    <div class="col-xs-9">
-                        <input id="url" type="text" class="form-control" name="url" placeholder="Enter url">
-                    </div>
-                </div>
-                <div class="row" id="website-row">
-                    <div class="col-xs-3 label-container">
-                        <label>Website</label>
-                    </div>
-                    <div class="col-xs-9">
-                        <input id="website" type="text" name="website" class="form-control"  placeholder="Enter website">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 action">
-                        <input type="submit" class="btn btn-default">
-                    </div>
+                <div class="col-xs-9">
+                    <input id="name" class="form-control" type="text" name="name" placeholder="Enter a descriptive name"  required>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-xs-3 label-container">
+                    <label>Source:</label>
+                </div>
+                <div class="col-xs-9">
+                    <select id="source" name="source" class="form-control" placeholder="Select source type">
+                        <option value="">Select source type</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 label-container">
+                    <label>Confidentiality:</label>
+                </div>
+                <div class="col-xs-9">
+                    <select id="confidentiality" name="confidentiality" class="form-control">
+                        <option value="UNP">Unprotected</option>
+                        <option value="PRO">Protected</option>
+                        <option value="RES">Restricted</option>
+                        <option value="CON">Confidential</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 label-container">
+                    <label>Assigned to:</label>
+                </div>
+                <div class="col-xs-9">
+                    <select id="user-select" name="assigned-to" class="form-control" placeholder="Select user">
+                        <option value="">Select user</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 label-container">
+                    <!-- TODO: Datepicker -->
+                    <label>Published at:</label>
+                </div>
+                <div class="col-xs-9">
+                    <input type="date" class="form-control" name="publish-date" placeholder="YYYY-MM-DD" >
+                </div>
+            </div>
+            <div class="row" id="url-row">
+                <div class="col-xs-3 label-container">
+                    <label>URL</label>
+                </div>
+                <div class="col-xs-9">
+                    <input id="url" type="text" class="form-control" name="url" placeholder="Enter url">
+                </div>
+            </div>
+            <div class="row" id="website-row">
+                <div class="col-xs-3 label-container">
+                    <label>Website</label>
+                </div>
+                <div class="col-xs-9">
+                    <input id="website" type="text" name="website" class="form-control"  placeholder="Enter website">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 action">
+                    <input type="submit" class="btn btn-default">
+                </div>
+            </div>
+
         </form>
     </div>
 </body>

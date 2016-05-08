@@ -31,7 +31,7 @@
                 </div>
                 <div class="dropdown" id="user-menu">
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                        {% if event %} {{event}} {% else %} Select Event {% endif %}
+                        <i class="fa fa-location-arrow"></i>{% if event %} {{event}} {% else %} Select an event {% endif %}<span class="caret"></span>
                     </button>
                     {% if all_events %}
                     <ul class="dropdown-menu">
