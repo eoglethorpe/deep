@@ -26,7 +26,7 @@ class LeadSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'source', 'assigned_to',
                   'published_at', 'confidentiality', 'status', 'description',
                   'url', 'website', 'created_at', 'created_by', 'attachments',
-                  'assigned_to_name', 'created_by_name')
+                  'assigned_to_name', 'created_by_name', 'event')
 
         # TODO: Automatically set created_by.
 
@@ -48,3 +48,9 @@ class LeadSerializer(serializers.ModelSerializer):
             return lead.created_by.get_full_name()
         else:
             return ""
+
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ('id', 'name',)

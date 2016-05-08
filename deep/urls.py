@@ -15,6 +15,7 @@ from leads.rest_views import *
 router = DefaultRouter()
 router.register(r'leads', LeadViewSet, base_name='lead')
 router.register(r'sources', SourceViewSet, base_name='source')
+router.register(r'events', EventViewSet, base_name='event')
 router.register(r'users', UserViewSet, base_name='user')
 
 
@@ -24,8 +25,9 @@ urlpatterns = [
     url(r'^login/$', LoginView.as_view(), name="login"),
     url(r'^logout/$', LogoutView.as_view(), name="logout"),
     url(r'^dashboard/$', DashboardView.as_view(), name="dashboard"),
-    url(r'^leads/', include('leads.urls', namespace='leads')),
-    url(r'^entries/', include('entries.urls', namespace='entries')),
+    url(r'^(?P<event>\d+)/dashboard/$', DashboardView.as_view(), name="dashboard"),
+    url(r'^(?P<event>\d+)/leads/', include('leads.urls', namespace='leads')),
+    url(r'^(?P<event>\d+)/entries/', include('entries.urls', namespace='entries')),
 
     url(r'user/status/', UserStatusView.as_view(), name="status"),
 

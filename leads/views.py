@@ -6,6 +6,7 @@ from django.utils.decorators import method_decorator
 
 from datetime import datetime
 
+from users.models import *
 from leads.models import *
 
 
@@ -23,24 +24,31 @@ def get_lead_form_data():
 
 class LeadsView(View):
     @method_decorator(login_required)
-    def get(self, request):
+    def get(self, request, event):
         context = {}
         context["current_page"] = "leads"
+        context["event"] = Event.objects.get(pk=event)
+        UserProfile.set_last_event(request, context["event"])
+        context["all_events"] = Event.objects.all()
         return render(request, "leads/leads.html", context)
 
 
 class AddLead(View):
     @method_decorator(login_required)
-    def get(self, request, id=None):
+    def get(self, request, event, id=None):
         context = {}
         context["current_page"] = "leads"
+        context["event"] = Event.objects.get(pk=event)
+        UserProfile.set_last_event(request, context["event"])
+        if not id:
+            context["all_events"] = Event.objects.all()
         if id:
             context["lead"] = Lead.objects.get(pk=id)
         context.update(get_lead_form_data())
         return render(request, "leads/add-lead.html", context)
 
     @method_decorator(login_required)
-    def post(self, request, id=None):
+    def post(self, request, event, id=None):
 
         error = ""
 
@@ -49,7 +57,9 @@ class AddLead(View):
             lead = Lead.objects.get(pk=id)
         else:
             lead = Lead()
+
         lead.name = request.POST["name"]
+        lead.event = Event.objects.get(pk=event)
 
         if "source" in request.POST and request.POST["source"] != "":
             lead.source = Source.objects.get(pk=request.POST["source"])
@@ -109,25 +119,31 @@ class AddLead(View):
                 attachment.save()
 
         if error != "":
+            context = {}
+            context["current_page"] = "leads"
+            context["event"] = Event.objects.get(pk=event)
+            UserProfile.set_last_event(request, context["event"])
+            context["all_events"] = Event.objects.all()
+            context["error"] = error
             return render(request, "leads/add-lead.html",
-                          {"error": error})
+                          context)
 
-        return redirect("leads:leads")
+        return redirect("leads:leads", event=event)
 
 
 class MarkProcessed(View):
     @method_decorator(login_required)
-    def post(self, request):
+    def post(self, request, event):
         lead = Lead.objects.get(pk=request.POST["id"])
         lead.status = Lead.PROCESSED
         lead.save()
-        return redirect('leads:leads')
+        return redirect('leads:leads', event=event)
 
 
 class DeleteLead(View):
     @method_decorator(login_required)
-    def post(self, request):
+    def post(self, request, event):
         lead = Lead.objects.get(pk=request.POST["id"])
         lead.status = Lead.DELETED
         lead.save()
-        return redirect('leads:leads')
+        return redirect('leads:leads', event=event)

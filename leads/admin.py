@@ -11,4 +11,5 @@ class LeadAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Source)
+admin.site.register(Event)
 admin.site.register(Lead, LeadAdmin)

@@ -5,13 +5,19 @@
         <!-- <img class="logo" src="{% static 'img/deep-logo.png' %}"> -->
         <div class="row">
             <div class="col-md-2">
+                {% if event %}
+                <a class="app-name" href="{% url 'dashboard' event=event.pk%}">DEEP</a>
+                {% else %}
                 <a class="app-name" href="{% url 'dashboard' %}">DEEP</a>
+                {% endif %}
             </div>
             <div class="col-md-6">
                 <div class="menu">
-                    <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' %}">Leads</a>
-                    <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' %}">Entries</a>
+                    {% if event %}
+                    <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' event=event.pk %}">Leads</a>
+                    <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' event=event.pk %}">Entries</a>
                     <a class="{% if current_page == 'report' %}active{% endif %} menu-item" href="#">Report</a>
+                    {% endif %}
                 </div>
             </div>
             <div class="col-md-4">
@@ -22,7 +28,20 @@
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a></li>
                     </ul>
-                    </div>
+                </div>
+                <div class="dropdown" id="user-menu">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                        {% if event %} {{event}} {% else %} Select Event {% endif %}
+                    </button>
+                    {% if all_events %}
+                    <ul class="dropdown-menu">
+                        {% for ev in all_events %}
+                        <li><a href="{% url request.resolver_match.view_name event=ev.pk %}">{{ev}}</a></li>
+                        {% endfor %}
+                        <li><a href="{% url 'dashboard' %}">None</a></li>
+                    </ul>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
