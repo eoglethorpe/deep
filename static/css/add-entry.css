@@ -1,0 +1,120 @@
+body, html{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.split-pane{
+    height: calc(100% - 60px)!important;
+}
+.split-pane-divider {
+    background: #aaa;
+}
+
+#left-component {
+    width: 40em;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+}
+#my-divider {
+    left: 40em; /* Same as left component width */
+    width: 3px;
+    background-color: transparent;
+}
+#right-component {
+    left: 40em;  /* Same as left component width */
+    margin-left: 3px;  /* Same as divider width */
+}
+
+#lead-select-container{
+    height: 80px;
+    padding: 24px;
+    background-color: #f5f5f5;
+}
+#lead-preview-container{
+    height: calc(100% - 85px);
+}
+
+#lead-preview{
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+#lead-select{
+}
+
+.form-wrapper{
+    padding: 24px;
+}
+
+#map {
+    height: 400px;
+}
+
+form .row{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.controls {
+    margin-top: 10px;
+    border: 1px solid transparent;
+    border-radius: 2px 0 0 2px;
+    box-sizing: border-box;
+    height: 32px;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#pac-input {
+    background-color: #fff;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 12px;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 300px;
+}
+
+#pac-input:focus {
+    border-color: #4d90fe;
+}
+
+.pac-container {
+
+}
+
+#type-selector {
+    color: #fff;
+    background-color: #4d90fe;
+    padding: 5px 11px 0px 11px;
+}
+
+#type-selector label {
+    font-size: 13px;
+    font-weight: 300;
+}
+#target {
+    width: 345px;
+}
+
+#panel {
+    text-align: center;
+}
+
+#color-palette {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.color-button {
+    width: 14px;
+    height: 14px;
+    font-size: 0;
+    margin: 2px;
+    float: left;
+    cursor: pointer;
+}
+
+#delete-button {
+    
+}

@@ -1,12 +1,72 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
+{% endblock %}
+
+{% block head %}
+<link href="{% static 'css/add-entry.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/selectize.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/split-pane.css' %}" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/split-pane.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/add-entry.js' %}"></script>
 
 
-Add Entry: <br><br>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-nr38mjHS3Y_PapPYSmTaFFQ9ucQGwig&libraries=places,drawing&callback=initMap" async defer></script>
 
-{% if lead %}
-Lead: {{ lead }} <br>
-{% endif %}
+{% endblock %}
 
-Enter [     ] <br>
-Enter [     ] <br>
-<br><br>
-(Submit)
+{% block body %}
+
+{% include 'navigation-bar.html' %}
+
+<div class="split-pane fixed-left">
+    <div class="split-pane-component" id="left-component">
+        <div id="lead-select-container">
+            <select id="lead-select" placeholder="Select a document">
+                <option>Select a document</option>
+                <option value="w3schools">W3 Schools</option>
+            </select>
+        </div>
+
+        <div id="lead-preview-container">
+            <iframe id="lead-preview" src="http://localhost"></iframe>
+        </div>
+    </div>
+    <div class="split-pane-divider" id="my-divider"></div>
+    <div class="split-pane-component" id="right-component">
+        <div class="form-wrapper">
+            <form>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label>Excerpt</label>
+                        <textarea name="excerpt" id="excerpt" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label>Location</label>
+                        <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+                        <div id="map"></div>
+                        <div id="panel">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <button class="btn btn-default" id="delete-button">Delete selected shape</button>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Selection color:</label>
+                                    <div id="color-palette"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
