@@ -6,6 +6,7 @@ from django.utils.decorators import method_decorator
 
 from datetime import datetime
 
+from users.models import *
 from leads.models import *
 
 
@@ -27,6 +28,7 @@ class LeadsView(View):
         context = {}
         context["current_page"] = "leads"
         context["event"] = Event.objects.get(pk=event)
+        UserProfile.set_last_event(request, context["event"])
         context["all_events"] = Event.objects.all()
         return render(request, "leads/leads.html", context)
 
@@ -37,6 +39,7 @@ class AddLead(View):
         context = {}
         context["current_page"] = "leads"
         context["event"] = Event.objects.get(pk=event)
+        UserProfile.set_last_event(request, context["event"])
         if not id:
             context["all_events"] = Event.objects.all()
         if id:
@@ -119,6 +122,7 @@ class AddLead(View):
             context = {}
             context["current_page"] = "leads"
             context["event"] = Event.objects.get(pk=event)
+            UserProfile.set_last_event(request, context["event"])
             context["all_events"] = Event.objects.all()
             context["error"] = error
             return render(request, "leads/add-lead.html",

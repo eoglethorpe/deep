@@ -48,3 +48,9 @@ class LeadSerializer(serializers.ModelSerializer):
             return lead.created_by.get_full_name()
         else:
             return ""
+
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ('id', 'name',)

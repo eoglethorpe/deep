@@ -24,3 +24,9 @@ class LeadViewSet(viewsets.ModelViewSet):
         if event:
             return Lead.objects.filter(event__pk=event)
         return Lead.objects.all()
+
+
+class EventViewSet(viewsets.ModelViewSet):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+    perimission_classes = (permissions.IsAuthenticatedOrReadOnly,)
