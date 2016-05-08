@@ -6,6 +6,9 @@ DEEP | Leads
 {% endblock %}
 
 {% block head %}
+<script>
+    var current_event = {{event.pk}};
+</script>
 <link href="{% static 'css/leads.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% static 'css/datatables.min.css' %}"/>
@@ -24,7 +27,7 @@ DEEP | Leads
 <div class="section" id="body-section">
     <div class="container">
         <div class="block" id="action-block">
-            <a class="btn btn-default" href="{% url 'leads:add' %}"><i class="fa fa-plus"></i>Add Lead</a>
+            <a class="btn btn-default" href="{% url 'leads:add' event=event.pk %}"><i class="fa fa-plus"></i>Add Lead</a>
         </div>
 
         <div class="block" id="leads-block">
@@ -98,11 +101,11 @@ DEEP | Leads
     </div>
 </div>
 
-<form id="process-form" style="visibility:collapse;" method="post" action="{% url 'leads:mark_processed' %}">
+<form id="process-form" style="visibility:collapse;" method="post" action="{% url 'leads:mark_processed' event=event.pk %}">
     {% csrf_token %}
     <input id="process-id" name="id" type="text">
 </form>
-<form id="delete-form" style="visibility:collapse;" method="post" action="{% url 'leads:delete' %}">
+<form id="delete-form" style="visibility:collapse;" method="post" action="{% url 'leads:delete' event=event.pk %}">
     {% csrf_token %}
     <input id="delete-id" name="id" type="text">
 </form>

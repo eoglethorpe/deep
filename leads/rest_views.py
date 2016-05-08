@@ -16,6 +16,11 @@ class SourceViewSet(viewsets.ModelViewSet):
 
 
 class LeadViewSet(viewsets.ModelViewSet):
-    queryset = Lead.objects.all()
     serializer_class = LeadSerializer
     perimission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        event = self.request.GET.get("event")
+        if event:
+            return Lead.objects.filter(event__pk=event)
+        return Lead.objects.all()

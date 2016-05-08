@@ -2,6 +2,18 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class Event(models.Model):
+    """ Event Model
+
+    Contains leads and their entries.
+    """
+
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
 class Source(models.Model):
     """ Source Model
 
@@ -57,6 +69,7 @@ class Lead(models.Model):
 
     # Lead attributes.
     name = models.CharField(max_length=250)
+    event = models.ForeignKey(Event, default=None, null=True)
     source = models.ForeignKey(Source, null=True, blank=True)
     assigned_to = models.ForeignKey(User, null=True, blank=True,
                                     related_name='assigned_leads')

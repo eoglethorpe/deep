@@ -64,7 +64,7 @@ $(document).ready(function() {
             type: "GET",
             dataType: "json",
             dataSrc: '',
-            url: "/api/v1/leads/",
+            url: "/api/v1/leads/?event=" + current_event,
         },
         columns: [
             // @TODO: display url (and maybe website)
@@ -176,8 +176,8 @@ $(document).ready(function() {
                     '</div>' +
                     '<div class="col-md-6">' +
                         '<div class="actions">' +
-                            '<button class="btn btn-default" onclick="window.location.href=\'/entries/add/?lead='+data.id+'\'"><i class="fa fa-share"></i>Add Entry</button>' +
-                            '<button class="btn btn-default" onclick="window.location.href=\'/leads/edit/' + data.id + '/\'"><i class="fa fa-edit"></i>Edit</button>' +
+                            '<button class="btn btn-default" onclick="window.location.href=\'/' + current_event + '/entries/add/?lead='+data.id+'\'"><i class="fa fa-share"></i>Add Entry</button>' +
+                            '<button class="btn btn-default" onclick="window.location.href=\'/' + current_event + '/leads/edit/' + data.id + '/\'"><i class="fa fa-edit"></i>Edit</button>' +
                             '<button class="btn btn-default" onclick="mark_processed('+data.id+');"><i class="fa fa-check"></i>Mark Processed</button>' +
                             '<button class="btn btn-default" onclick="delete_lead('+data.id+');"><i class="fa fa-trash"></i>Delete</button>' +
                         '</div>' +
@@ -195,8 +195,10 @@ function mark_processed(id) {
 }
 
 function delete_lead(id) {
-    $("#delete-id").val(id);
-    $("#delete-form").submit();
+    if (confirm("Are you sure you want to delete this lead?")) {
+        $("#delete-id").val(id);
+        $("#delete-form").submit();
+    }
 }
 
 function format_date(date) {

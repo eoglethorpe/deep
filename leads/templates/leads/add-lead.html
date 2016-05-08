@@ -153,7 +153,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 <script>
 
 Dropzone.options.attachmentDropzone = {
-    url: "{% url 'leads:add' %}",
+    url: "{% url 'leads:add' event=event.pk %}",
     autoProcessQueue: false,
     uploadMultiple: true,
     addRemoveLinks: true,
@@ -177,7 +177,7 @@ Dropzone.options.attachmentDropzone = {
         });
 
         this.on("successmultiple", function(files, response) {
-            window.location.href = "{% url 'leads:leads' %}";
+            window.location.href = "{% url 'leads:leads' event=event.pk %}";
         });
 
         this.on("errormultiple", function(files, response) {

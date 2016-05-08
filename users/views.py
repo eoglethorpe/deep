@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 from users.models import *
+from leads.models import *
 
 
 class RegisterView(View):
@@ -113,8 +114,13 @@ class DashboardView(View):
     """
 
     @method_decorator(login_required)
-    def get(self, request):
-        return render(request, "users/dashboard.html")
+    def get(self, request, event=None):
+        context = {}
+        context["current_page"] = "dashboard"
+        if event:
+            context["event"] = Event.objects.get(pk=event)
+        context["all_events"] = Event.objects.all()
+        return render(request, "users/dashboard.html", context)
 
 
 class LogoutView(View):

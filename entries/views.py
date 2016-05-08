@@ -10,17 +10,21 @@ from entries.models import *
 
 class EntriesView(View):
     @method_decorator(login_required)
-    def get(self, request):
+    def get(self, request, event):
         context = {}
         context["current_page"] = "entries"
+        context["event"] = Event.objects.get(pk=event)
+        context["all_events"] = Event.objects.all()
         return render(request, "entries/entries.html", context)
 
 
 class AddEntry(View):
     @method_decorator(login_required)
-    def get(self, request, id=None):
+    def get(self, request, event, id=None):
         context = {}
         context["current_page"] = "entries"
+        context["event"] = Event.objects.get(pk=event)
+        context["all_events"] = Event.objects.all()
 
         if "lead" in request.GET:
             context["lead"] = Lead.objects.get(pk=int(request.GET["lead"]))
