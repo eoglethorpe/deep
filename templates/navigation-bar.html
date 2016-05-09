@@ -2,13 +2,17 @@
 
 <div class="section" id="header-section">
     <div class="container">
-        <!-- <img class="logo" src="{% static 'img/deep-logo.png' %}"> -->
+
         <div class="row">
             <div class="col-md-2">
                 {% if event %}
-                <a class="app-name" href="{% url 'dashboard' event=event.pk%}">DEEP</a>
+                <a class="app-name" href="{% url 'dashboard' event=event.pk%}">
+                    <img class="logo" src="{% static 'img/deep-logo-white.png' %}">
+                </a>
                 {% else %}
-                <a class="app-name" href="{% url 'dashboard' %}">DEEP</a>
+                <a class="app-name" href="{% url 'dashboard' %}">
+                    <img class="logo" src="{% static 'img/deep-logo-white.png' %}">
+                </a>
                 {% endif %}
             </div>
             <div class="col-md-6">

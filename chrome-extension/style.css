@@ -19,9 +19,9 @@ body {
 }
 
 .title{
-    font-size: 2em;
     color: #2980b9;
     padding-bottom: 30px;
+    font-size: 2em;
 }
 .label-container{
     text-align: right;
@@ -58,9 +58,10 @@ body {
     width: 100px;
 }
 .app-info{
-    font-size: 1.5em;
     color: #2980b9;
     text-align: center;
+    font-size: 2em;
+    font-weight: 300;
 }
 
 .action{
