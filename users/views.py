@@ -57,11 +57,13 @@ class RegisterView(View):
             profile.organization = organization
             profile.save()
 
+            user = authenticate(username=email, password=password)
+            login(request, user)
+
         # Otherwise, display the register form with error.
         else:
             context = {"error": error}
             return render(request, "users/register.html", context)
-
         return redirect("login")
 
 
