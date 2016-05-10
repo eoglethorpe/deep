@@ -149,6 +149,25 @@ $(document).ready(function() {
         }
     } );
 
+    function getFormattedLeadContent(data){
+        content = '';
+        if(data.url){
+            content += '<div class="lead-content">';
+            content += '<label>url:</label><a href="' + data.url + '">' + data.url + '</a></div>';
+        } else if(data.description){
+            content += '<div class="lead-content">';
+            content += '<label>description:</label><div class="pre">' + data.description + '</div></div>';
+        } else if(data.attachments.length > 0){
+            content += '<div class="lead-content">';
+            content += '<label>attachments:</label>';
+            for(i = 0; i < data.attachments.length; i++){
+                content += '<div><a href="' + data.attachments[i][1] + '">' + '<i class="fa fa-file"></i>'+ data.attachments[i][0] + '</a></div>';
+            }
+            content += '</div>';
+        }
+        return content;
+    }
+
 
     function format ( data ) {
         if (data.published_at == null)
@@ -172,6 +191,7 @@ $(document).ready(function() {
                             '<div><label>published at:</label> ' + data.published_at + '</div>' +
                             '<div><label>source:</label> ' + data.source + '</div>' +
                             '<div><label>confidentiality:</label> ' + confidentialities[data.confidentiality] + '</div>' +
+                            (data.website? '<div><label>website:</label>'+data.website+'</div>' : '') +
                         '</div>' +
                     '</div>' +
                     '<div class="col-md-6">' +
@@ -181,6 +201,9 @@ $(document).ready(function() {
                             '<button class="btn btn-default" onclick="mark_processed('+data.id+');"><i class="fa fa-check"></i>Mark Processed</button>' +
                             '<button class="btn btn-default" onclick="delete_lead('+data.id+');"><i class="fa fa-trash"></i>Delete</button>' +
                         '</div>' +
+                    '</div>' +
+                    '<div class="col-md-12 lead-content">' +
+                        getFormattedLeadContent(data) +
                     '</div>' +
                 '</div>' +
             '</div>'

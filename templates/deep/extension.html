@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+DEEP | Chrome extension
+{% endblock %}
+
+{% block head %}
+<link href="{% static 'css/extension.css' %}" type="text/css" rel="stylesheet">
+<style>
+body{
+    background-color: #eee!important;
+}
+#header-section{
+    height: 400px;
+    background-image: url("{% static 'img/extension-screenshot.png' %}");
+    background-color: #717171;
+    background-size: cover;
+    background-blend-mode: multiply;
+}
+#header-section .title{
+    font-size: 5em;
+    font-weight: 300;
+    margin-bottom: 30px;
+    margin-top: 50px;
+    color: #fff;
+    display: block;
+}
+#header-section a{
+    padding: 12px 50px;
+
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<div id="header-section">
+    <div class="container">
+        <div class="menu">
+            <a href="{% url 'dashboard' %}">Home</a>
+        </div>
+    </div>
+    <div class="wrapper">
+        <div class="title">
+            Chrome Extension
+        </div>
+        <a class="btn btn-primary"><span class="fa-container"><i class="fa fa-download"></span></i>Download now</a>
+    </div>
+</div>
+<div id="body-section">
+    <div class="container">
+
+        <div class="title">Installation</div>
+        <div id="instructions">
+            <div class="instruction"><span class="num">1</span>Download the extension</div>
+            <div class="instruction"><span class="num">2</span>Go to Settings > Extensions</div>
+            <div class="instruction"><span class="num">3</span>Drag and drop the downloaded extension to Chrome's Extensions page</div>
+        </div>
+
+
+        <div class="title">Usage</div>
+        <div id="usage">
+            Open the extension while browsing the page, fill out the required inputs and submit.
+        </div>
+    </div>
+</div>
+{% endblock %}

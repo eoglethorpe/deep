@@ -3,8 +3,14 @@
     padding-top: 30px;
 }
 
-.under-construction{
+#under-construction{
     font-size: 3em;
-    color: #bbb;
+    font-weight: 300;
+    color: #ccc;
+    text-align: center;
+}
+
+#download-extension-link{
+    margin-top: 100px;
     text-align: center;
 }

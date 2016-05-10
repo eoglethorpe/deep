@@ -44,6 +44,9 @@
 .row-detail .details label{
     min-width: 150px;
 }
+.lead-content label{
+    margin-right: 10px;
+}
 
 .row-detail .actions button{
     margin-right: 10px;

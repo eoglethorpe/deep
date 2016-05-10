@@ -1,0 +1,37 @@
+.fa {
+    margin-right: 16px;
+}
+#body-section{
+    padding: 50px 0px;
+}
+#body-section .title{
+    font-size: 3em;
+    font-weight: 300;
+    color: #3498db;
+}
+
+#instructions, #usage{
+    padding: 24px;
+    margin-bottom: 20px;
+}
+.instruction{
+    padding: 10px 0px;
+}
+
+.instruction .num{
+    margin-right: 15px;
+}
+
+#header-section .menu{
+    text-align: right;
+    margin-top: 30px;
+}
+.menu a{
+    color: #eee;
+}
+.menu a:hover{
+    color: #fff;
+}
+#header-section .wrapper{
+    text-align: center;
+}
