@@ -123,15 +123,16 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                             <div class="col-md-11 col-md-offset-1">
                                 <div class="label-container" id="attachment-label-container">
                                     <label>
-                                        Attachments:
-                                        {% if lead %} {% for l in lead.attachment_set.all %}<br>
-                                        <a href="{{l.upload.url}}">{{l.upload.name}}</a>
-                                        {% endfor %} {% endif %}
+                                        Attachment:
+                                        {% if lead and lead.attachment %}<br>
+                                        <a href="{{lead.attachment.upload.url}}">{{lead.attachment.upload.name}}</a>
+                                        <br>Upload new file to replace.
+                                        {% endif %}
                                     </label>
                                 </div>
 
                                 <div class="dropzone-container">
-                                    <div class="dz-message"> Click or Drop files here </div>
+                                    <div class="dz-message"> Click or Drop file here </div>
                                     <div class="dropzone-previews"></div>
                                 </div>
 
@@ -153,16 +154,26 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 <script>
 
 Dropzone.options.attachmentDropzone = {
+    {% if lead %}
+    url: "{% url 'leads:edit' event=event.pk id=lead.pk %}",
+    {% else %}
     url: "{% url 'leads:add' event=event.pk %}",
+    {% endif %}
     autoProcessQueue: false,
-    uploadMultiple: true,
+    uploadMultiple: false,
     addRemoveLinks: true,
     parallelUploads: 100,
-    maxFiles: 100,
+    maxFiles: 1,
     previewsContainer: ".dropzone-previews",
     clickable: ".dropzone-container",
 
     init: function() {
+        // On maximum file succedded, delete files to replace by new one.
+        this.on("maxfilesexceeded", function(file) {
+            this.removeAllFiles();
+            this.addFile(file);
+        });
+
         var dz = this;
         this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
             var leadtype = $("input[name='lead-type']:checked").val();
@@ -173,15 +184,18 @@ Dropzone.options.attachmentDropzone = {
             }
         });
 
-        this.on("sendingmultiple", function() {
+        // for multiple: sendingmultiple
+        this.on("sending", function() {
             $("submit-btn").prop("disabled", true);
         });
 
-        this.on("successmultiple", function(files, response) {
+        // for multiple, successmultiple
+        this.on("success", function(files, response) {
             window.location.href = "{% url 'leads:leads' event=event.pk %}";
         });
 
-        this.on("errormultiple", function(files, response) {
+        // for multiple, errormultiple
+        this.on("error", function(files, response) {
             // TODO: Show error.
             $("submit-btn").prop("disabled", false);
         });

@@ -157,12 +157,10 @@ $(document).ready(function() {
         } else if(data.description){
             content += '<div class="lead-content">';
             content += '<label>description:</label><div class="pre">' + data.description + '</div></div>';
-        } else if(data.attachments.length > 0){
+        } else if(data.attachment){
             content += '<div class="lead-content">';
-            content += '<label>attachments:</label>';
-            for(i = 0; i < data.attachments.length; i++){
-                content += '<div><a href="' + data.attachments[i][1] + '">' + '<i class="fa fa-file"></i>'+ data.attachments[i][0] + '</a></div>';
-            }
+            content += '<label>attachment:</label>';
+            content += '<div><a href="' + data.attachment[1] + '">' + '<i class="fa fa-file"></i>'+ data.attachment[0] + '</a></div>';
             content += '</div>';
         }
         return content;

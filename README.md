@@ -32,33 +32,15 @@ $ pip install djangorestframework
 
 Next copy or clone the project to some directory.
 
-For using mysql, you need to install mysqlclient.
-
-```bash
-$ sudo apt-get install libmysqlclient-dev
-$ pip install mysqlclient
-```
-
 ### Migration
-
-You need a mysql database. Create one if it doesn't exist.
-
-Create a file 'mysql.cnf' and enter the database details as follows:
-
-```
-[client]
-database = DATABASE_NAME
-host = localhost
-user = USERNAME
-password = PASSWORD
-default-character-set = utf8
-```
 
 Migrate all database schema changes:
 
 ```bash
 $ python manage.py migrate
 ```
+
+This creates the database if it doesn't exist and introduce all changes since last migration if does.
 
 ### Test
 

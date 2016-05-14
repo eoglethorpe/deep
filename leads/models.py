@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import pre_delete
+from django.dispatch.dispatcher import receiver
 
 
 class Event(models.Model):
@@ -102,8 +104,13 @@ class Attachment(models.Model):
     It represents an uploaded file and belongs to a lead.
     """
 
-    lead = models.ForeignKey(Lead)
+    lead = models.OneToOneField(Lead)
     upload = models.FileField(upload_to='attachments/%Y/%m/')
 
     def __str__(self):
         return self.lead.name + ' - ' + self.upload.name
+
+
+@receiver(pre_delete, sender=Attachment)
+def _attachment_delete(sender, instance, **kwargs):
+    instance.upload.delete(False)
