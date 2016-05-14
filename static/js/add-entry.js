@@ -6,6 +6,11 @@ var colors = ['#1E90FF', '#FF1493', '#32CD32', '#FF8C00', '#4B0082'];
 var selectedColor;
 var colorButtons = {};
 
+function test(){
+    shapes = map.getShapes();
+    console.log(shapes);
+}
+
 function clearSelection() {
     if (selectedShape) {
         selectedShape.setEditable(false);
@@ -35,9 +40,6 @@ function selectColor(color) {
 
     // Retrieves the current options from the drawing manager and replaces the
     // stroke or fill color as appropriate.
-    var polylineOptions = drawingManager.get('polylineOptions');
-    polylineOptions.strokeColor = color;
-    drawingManager.set('polylineOptions', polylineOptions);
 
     var rectangleOptions = drawingManager.get('rectangleOptions');
     rectangleOptions.fillColor = color;
@@ -89,13 +91,13 @@ function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: -34.397, lng: 150.644},
         scrollwheel: false,
-        zoom: 1,
+        zoom: 2,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
     });
 
     var polyOptions = {
         strokeWeight: 0,
-        fillOpacity: 0.77,
+        fillOpacity: 0.5,
         editable: true
     };
 
@@ -104,14 +106,19 @@ function initMap() {
     drawingManager = new google.maps.drawing.DrawingManager({
         drawingMode: google.maps.drawing.OverlayType.POLYGON,
         drawingControlOptions: {
-            position: google.maps.ControlPosition.BOTTOM_LEFT
+            position: google.maps.ControlPosition.BOTTOM_LEFT,
+            drawingModes: [
+                google.maps.drawing.OverlayType.MARKER,
+                google.maps.drawing.OverlayType.CIRCLE,
+                google.maps.drawing.OverlayType.POLYGON,
+                //google.maps.drawing.OverlayType.POLYLINE,
+                //google.maps.drawing.OverlayType.RECTANGLE
+            ]
         },
         markerOptions: {
             draggable: true
         },
-        polylineOptions: {
-            editable: true
-        },
+
         rectangleOptions: polyOptions,
         circleOptions: polyOptions,
         polygonOptions: polyOptions,
@@ -215,4 +222,6 @@ $(document).ready(function() {
     $('#problem-timeline').selectize();
     $('#severity').selectize();
     $('#reliability').selectize();
+
+
 });

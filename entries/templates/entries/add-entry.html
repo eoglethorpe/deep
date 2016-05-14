@@ -39,33 +39,38 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     <div class="split-pane-divider" id="my-divider"></div>
     <div class="split-pane-component" id="right-component">
         <div class="form-wrapper">
-            <form>
+            <button id="test" onclick="test()">test</button>
 
-                <div class="row row-form">
-                    <div class="col-xs-12">
-                        <label>Excerpt</label>
-                        <textarea name="excerpt" id="excerpt" class="form-control" rows="8"></textarea>
-                    </div>
+
+            <div class="row row-form">
+                <div class="col-xs-12">
+                    <label>Excerpt</label>
+                    <textarea name="excerpt" id="excerpt" class="form-control" rows="8"></textarea>
                 </div>
+            </div>
 
-                <div class="row row-form">
-                    <div class="col-xs-12">
-                        <label>Location</label>
-                        <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-                        <div id="map"></div>
-                        <div id="panel">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <button class="btn btn-default" id="delete-button">Delete selected shape</button>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Selection color:</label>
-                                    <div id="color-palette"></div>
-                                </div>
+            <div class="row row-form">
+                <div class="col-xs-12">
+                    <label>Location</label>
+                    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+                    <div id="map"></div>
+                    <div id="panel">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <button class="btn btn-default" id="delete-button">Delete selected shape</button>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Selection color:</label>
+                                <div id="color-palette"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <form>
+
+
 
                 <div class="row row-form">
                     <div class="col-sm-3 label-container"><label>Country:</label></div>
