@@ -30,6 +30,15 @@ Also install Django REST Framework.
 $ pip install djangorestframework
 ```
 
+Also install the Readability and PDFMiner modules for stripping text from web and pdf documents.
+
+```bash
+$ sudo apt-get install libxml2-dev libxslt-dev
+$ pip install readability-lxml
+$ pip install requests
+$ pip install pdfminer3k
+```
+
 Next copy or clone the project to some directory.
 
 ### Migration

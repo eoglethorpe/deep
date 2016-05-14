@@ -31,6 +31,13 @@ class AffectedGroup(models.Model):
         return self.group_name
 
 
+class UnderlyingFactor(models.Model):
+    name = models.CharField(max_length=70)
+
+    def __str__(self):
+        return self.name
+
+
 class CrisisDriver(models.Model):
     name = models.CharField(max_length=70)
 
@@ -108,6 +115,7 @@ class Entry(models.Model):
     information_at = models.DateField(null=True, blank=True)
     country = models.ForeignKey(Country)
     sectors = models.ManyToManyField(Sector, blank=True)
+    underlying_factors = models.ManyToManyField(UnderlyingFactor, blank=True)
     crisis_driver = models.ManyToManyField(CrisisDriver, blank=True)
     status = models.CharField(max_length=3, choices=STATUSES,
                               default=None, null=True, blank=True)

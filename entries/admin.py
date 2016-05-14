@@ -1,3 +1,10 @@
 from django.contrib import admin
+from entries.models import *
 
-# Register your models here.
+
+admin.site.register(Country)
+admin.site.register(Sector)
+admin.site.register(VulnerableGroup)
+admin.site.register(AffectedGroup)
+admin.site.register(CrisisDriver)
+admin.site.register(UnderlyingFactor)
