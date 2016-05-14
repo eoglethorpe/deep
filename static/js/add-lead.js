@@ -6,21 +6,18 @@ $(document).ready(function() {
                 $('#attachment-row').hide()
                 $('#url-row').show();
                 $('#website-row').show();
-                $('#attachment-dropzone').removeClass('dropzone');
                 break;
             case "manual":
                 $('#description-row').show();
                 $('#url-row').hide();
                 $('#website-row').hide();
                 $('#attachment-row').hide()
-                $('#attachment-dropzone').removeClass('dropzone');
                 break;
             case "attachment":
                 $('#attachment-row').show()
                 $('#description-row').hide();
                 $('#url-row').hide();
                 $('#website-row').hide();
-                $('#attachment-dropzone').addClass('dropzone');
                 break;
         }
 

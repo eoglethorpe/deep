@@ -140,7 +140,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                         <div class="row">
                             <div class="col-md-12 actions">
                                 <!--button class="btn btn-default" name="post" value="save-and-another">Save and add another</button-->
-                                <button class="btn btn-default" type="submit">Submit</button>
+                                <button id="submit-btn" class="btn btn-default" type="submit">Submit</button>
                             </div>
                         </div>
                     </form>
@@ -165,7 +165,8 @@ Dropzone.options.attachmentDropzone = {
     init: function() {
         var dz = this;
         this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
-            if (dz.getQueuedFiles().length > 0) {
+            var leadtype = $("input[name='lead-type']:checked").val();
+            if (leadtype == "attachment" && dz.getQueuedFiles().length > 0) {
                 e.preventDefault();
                 e.stopPropagation();
                 dz.processQueue();
@@ -173,7 +174,7 @@ Dropzone.options.attachmentDropzone = {
         });
 
         this.on("sendingmultiple", function() {
-            // TODO: Hide the form.
+            $("submit-btn").prop("disabled", true);
         });
 
         this.on("successmultiple", function(files, response) {
@@ -182,6 +183,7 @@ Dropzone.options.attachmentDropzone = {
 
         this.on("errormultiple", function(files, response) {
             // TODO: Show error.
+            $("submit-btn").prop("disabled", false);
         });
     },
 };
