@@ -206,4 +206,5 @@ function initMap() {
 $(document).ready(function() {
     $('#lead-select').selectize();
     $('div.split-pane').splitPane();
+    $('#sector').selectize();
 });

@@ -35,20 +35,20 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
         <div id="lead-preview-container">
             <!-- <iframe id="lead-preview" src="http://reliefweb.int/sites/reliefweb.int/files/resources/Open%20Mic%20Nepal%20_%20Issue%2018_%20English.pdf"></iframe> -->
-            <iframe id="lead-preview" src="http://localhost"></iframe>
+            <iframe id="lead-preview" src="http://localhost/"></iframe>
         </div>
     </div>
     <div class="split-pane-divider" id="my-divider"></div>
     <div class="split-pane-component" id="right-component">
         <div class="form-wrapper">
             <form>
-                <div class="row">
+                <div class="row row-form">
                     <div class="col-xs-12">
                         <label>Excerpt</label>
-                        <textarea name="excerpt" id="excerpt" class="form-control"></textarea>
+                        <textarea name="excerpt" id="excerpt" class="form-control" rows="8"></textarea>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row row-form">
                     <div class="col-xs-12">
                         <label>Location</label>
                         <input id="pac-input" class="controls" type="text" placeholder="Search Box">
@@ -66,7 +66,15 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>sector</label></diV>
+                    <div class="col-sm-9">
+                        <select id="sector" name="sector" placeholder="Select a sector">
+                            <option value="">Select a sector</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
