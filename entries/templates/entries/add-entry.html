@@ -24,23 +24,35 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
 {% include 'navigation-bar.html' %}
 
+<script>
+{% if lead %}
+    var lead_type = '{{lead.lead_type}}';
+    {% if lead.url %}var lead_url = '{{lead.url}}';{% endif %}
+    {% if lead.description %}var lead_description = "{{lead.description|escapejs}}";{% endif %}
+    {% if lead.attachment %}var attachment = {{lead.attachment.upload.url}};{% endif %}
+{% else %}
+    var lead_type = '';
+{% endif %}
+    var lead_simplified = "{% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %}";
+</script>
+
 <div class="split-pane fixed-left">
     <div class="split-pane-component" id="left-component">
         <div id="lead-options-container">
-            <label class="radio-inline"><input type="radio" name="lead-view-option" checked>Simplified</label>
-            <label class="radio-inline"><input type="radio" name="lead-view-option">Original</label>
+            <label class="radio-inline"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
+            <label class="radio-inline"><input type="radio" name="lead-view-option" value="original">Original</label>
         </div>
 
         <div id="lead-preview-container">
+            <iframe id="lead-preview" src=""></iframe>
             <!-- <iframe id="lead-preview" src="http://reliefweb.int/sites/reliefweb.int/files/resources/Open%20Mic%20Nepal%20_%20Issue%2018_%20English.pdf"></iframe> -->
-            <iframe id="lead-preview" src="http://localhost/"></iframe>
         </div>
     </div>
     <div class="split-pane-divider" id="my-divider"></div>
     <div class="split-pane-component" id="right-component">
         <div class="form-wrapper">
+            
             <button id="test" onclick="test()">test</button>
-
 
             <div class="row row-form">
                 <div class="col-xs-12">
@@ -68,10 +80,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 </div>
             </div>
 
-            <form>
-
-
-
+            <form method="post">
+                {% csrf_token %}
                 <div class="row row-form">
                     <div class="col-sm-3 label-container"><label>Country:</label></div>
                     <div class="col-sm-9">
@@ -98,6 +108,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     <div class="col-sm-9">
                         <select id="sector" name="sector" placeholder="Select sectors">
                             <option value="">Select sectors</option>
+                            {% for sector in sectors %}
+                            <option value="{{sector.pk}}">{{sector}}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>
@@ -107,6 +120,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     <div class="col-sm-9">
                         <select id="vunerable-group" name="vunerable-group" placeholder="Select a group">
                             <option value="">Select a group</option>
+                            {% for vg in vulnerable_groups %}
+                            <option value="{{vg.pk}}">{{vg}}</option>
+                            {% endfor %}
                         </select>
                         <input type="text" name="vunerable-group-known-cases", placeholder="Enter number of known cases" class="form-control">
 
@@ -118,6 +134,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     <div class="col-sm-9">
                         <select id="affected-group" name="affected-group" placeholder="Select a group">
                             <option value="">Select a group</option>
+                            {% for ag in affected_groups %}
+                            <option value="{{ag.pk}}">{{ag}}</option>
+                            {% endfor %}
                         </select>
                         <input type="text" name="affected-group-known-cases", placeholder="Enter number of known cases" class="form-control">
                     </div>
@@ -128,6 +147,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     <div class="col-sm-9">
                         <select id="underlying-factor" name="underlying-factor" placeholder="Select factors">
                             <option value="">Select factors</option>
+                            {% for uf in underlying_factors %}
+                            <option value="{{uf.pk}}">{{uf}}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>
@@ -135,7 +157,12 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 <div class="row row-form">
                     <div class="col-sm-3 label-container"><label>Crisis Driver:</label></div>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" name="crisis-driver" id="crisis-driver">
+                        <select id="crisis-driver" name="crisis-driver" placeholder="Select crisis drivers">
+                            <option value="">Select crisis drivers</option>
+                            {% for cd in crisis_drivers %}
+                            <option value="{{cd.pk}}">{{cd}}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </div>
 
@@ -144,6 +171,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     <div class="col-sm-9">
                         <select id="status" name="status" placeholder="Select status">
                             <option value="">Select status</option>
+                            {% for status in statuses %}
+                            <option value="{{status.0}}">{{status.1}}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>
@@ -153,6 +183,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     <div class="col-sm-9">
                         <select id="problem-timeline" name="problem-timeline" placeholder="Select problem timeline">
                             <option value="">Select problem timeline</option>
+                            {% for pt in problem_timelines %}
+                            <option value="{{pt.0}}">{{pt.1}}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>
@@ -161,11 +194,10 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     <div class="col-sm-3 label-container"><label>Severity:</label></div>
                     <div class="col-sm-9">
                         <select id="severity" name="severity">
-                            <option value="none">No problem</option>
-                            <option value="minor">Minor problem</option>
-                            <option value="concern">Situation of Concern</option>
-                            <option value="major-concern">Situation of Major Concern</option>
-                            <option value="critical">Critical Situation</option>
+                            <option value="">Select severity</option>
+                            {% for pt in severities %}
+                            <option value="{{pt.0}}">{{pt.1}}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>
@@ -174,11 +206,10 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     <div class="col-sm-3 label-container"><label>Reliability:</label></div>
                     <div class="col-sm-9">
                         <select id="reliability" name="reliability">
-                            <option value="complete">Completely</option>
-                            <option value="usual">Usually</option>
-                            <option value="fair">Fairly</option>
-                            <option value="unreliable">Unreliable</option>
-                            <option value="cannot-be-judged">Cannot be judged</option>
+                            <option value="">Select reliability</option>
+                            {% for pt in reliabilities %}
+                            <option value="{{pt.0}}">{{pt.1}}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>

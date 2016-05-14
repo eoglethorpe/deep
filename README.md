@@ -30,35 +30,26 @@ Also install Django REST Framework.
 $ pip install djangorestframework
 ```
 
-Next copy or clone the project to some directory.
-
-For using mysql, you need to install mysqlclient.
+Also install the Readability and PDFMiner modules for stripping text from web and pdf documents.
 
 ```bash
-$ sudo apt-get install libmysqlclient-dev
-$ pip install mysqlclient
+$ sudo apt-get install libxml2-dev libxslt-dev
+$ pip install readability-lxml
+$ pip install requests
+$ pip install pdfminer3k
 ```
+
+Next copy or clone the project to some directory.
 
 ### Migration
-
-You need a mysql database. Create one if it doesn't exist.
-
-Create a file 'mysql.cnf' and enter the database details as follows:
-
-```
-[client]
-database = DATABASE_NAME
-host = localhost
-user = USERNAME
-password = PASSWORD
-default-character-set = utf8
-```
 
 Migrate all database schema changes:
 
 ```bash
 $ python manage.py migrate
 ```
+
+This creates the database if it doesn't exist and introduce all changes since last migration if does.
 
 ### Test
 

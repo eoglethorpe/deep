@@ -210,6 +210,19 @@ function initMap() {
     });
 }
 
+function change_lead_preview(simplified) {
+    frame = $("#lead-preview");
+    if (simplified) {
+        frame.attr('src', "data:text/html;charset=utf-8," + lead_simplified);
+    }
+    else {
+        if (lead_type == 'URL')
+            frame.attr('src', lead_url);
+        else if (lead_type == 'MAN')
+            frame.attr('src', "data:text/html;charset=utf-8," + lead_description);
+    }
+}
+
 $(document).ready(function() {
     $('#lead-select').selectize();
     $('div.split-pane').splitPane();
@@ -218,10 +231,15 @@ $(document).ready(function() {
     $('#vunerable-group').selectize();
     $('#affected-group').selectize();
     $('#underlying-factor').selectize();
+    $('#crisis-driver').selectize();
     $('#status').selectize();
     $('#problem-timeline').selectize();
     $('#severity').selectize();
     $('#reliability').selectize();
 
+    $('input[type=radio][name=lead-view-option]').change(function() {
+        change_lead_preview(this.value=='simplified');
+    });
+    change_lead_preview(true);
 
 });

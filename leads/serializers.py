@@ -17,7 +17,7 @@ class LeadSerializer(serializers.ModelSerializer):
     """ Lead serializer used by the REST api
     """
 
-    attachments = serializers.SerializerMethodField()
+    attachment = serializers.SerializerMethodField()
     assigned_to_name = serializers.SerializerMethodField()
     created_by_name = serializers.SerializerMethodField()
 
@@ -25,17 +25,20 @@ class LeadSerializer(serializers.ModelSerializer):
         model = Lead
         fields = ('id', 'name', 'source', 'assigned_to',
                   'published_at', 'confidentiality', 'status', 'description',
-                  'url', 'website', 'created_at', 'created_by', 'attachments',
-                  'assigned_to_name', 'created_by_name', 'event')
+                  'url', 'website', 'created_at', 'created_by', 'attachment',
+                  'assigned_to_name', 'created_by_name', 'event', 'lead_type')
 
         # TODO: Automatically set created_by.
 
-    def get_attachments(self, lead):
-        attachments = Attachment.objects.filter(lead=lead)
-        return [[
+    def get_attachment(self, lead):
+        try:
+            a = lead.attachment
+            return [
                     os.path.basename(a.upload.name),
                     a.upload.url
-                ] for a in attachments]
+                    ]
+        except:
+            return None
 
     def get_assigned_to_name(self, lead):
         if lead.assigned_to:

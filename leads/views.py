@@ -113,10 +113,12 @@ class AddLead(View):
 
         if lead.lead_type == Lead.ATTACHMENT_LEAD:
             for file in request.FILES:
+                Attachment.objects.filter(lead__pk=lead.pk).delete()
                 attachment = Attachment()
                 attachment.lead = lead
                 attachment.upload = request.FILES[file]
                 attachment.save()
+                break
 
         if error != "":
             context = {}
