@@ -26,11 +26,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
 <div class="split-pane fixed-left">
     <div class="split-pane-component" id="left-component">
-        <div id="lead-select-container">
-            <select id="lead-select" placeholder="Select a document">
-                <option>Select a document</option>
-                <option value="w3schools">W3 Schools</option>
-            </select>
+        <div id="lead-options-container">
+            <label class="radio-inline"><input type="radio" name="lead-view-option" checked>Simplified</label>
+            <label class="radio-inline"><input type="radio" name="lead-view-option">Original</label>
         </div>
 
         <div id="lead-preview-container">
@@ -42,12 +40,14 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     <div class="split-pane-component" id="right-component">
         <div class="form-wrapper">
             <form>
+
                 <div class="row row-form">
                     <div class="col-xs-12">
                         <label>Excerpt</label>
                         <textarea name="excerpt" id="excerpt" class="form-control" rows="8"></textarea>
                     </div>
                 </div>
+
                 <div class="row row-form">
                     <div class="col-xs-12">
                         <label>Location</label>
@@ -66,14 +66,124 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         </div>
                     </div>
                 </div>
+
                 <div class="row row-form">
-                    <div class="col-sm-3 label-container"><label>sector</label></diV>
+                    <div class="col-sm-3 label-container"><label>Country:</label></div>
                     <div class="col-sm-9">
-                        <select id="sector" name="sector" placeholder="Select a sector">
-                            <option value="">Select a sector</option>
+                        {% include 'entries/select-country.html' %}
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Locations (Geonames):</label></div>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="location-geonames" id="location-geonames">
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Locations (Administrative):</label></div>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="location-administrative" id="location-administrative">
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Sector:</label></div>
+                    <div class="col-sm-9">
+                        <select id="sector" name="sector" placeholder="Select sectors">
+                            <option value="">Select sectors</option>
                         </select>
                     </div>
                 </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Vunerable Group:</label></div>
+                    <div class="col-sm-9">
+                        <select id="vunerable-group" name="vunerable-group" placeholder="Select a group">
+                            <option value="">Select a group</option>
+                        </select>
+                        <input type="text" name="vunerable-group-known-cases", placeholder="Enter number of known cases" class="form-control">
+
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Affected Group:</label></div>
+                    <div class="col-sm-9">
+                        <select id="affected-group" name="affected-group" placeholder="Select a group">
+                            <option value="">Select a group</option>
+                        </select>
+                        <input type="text" name="affected-group-known-cases", placeholder="Enter number of known cases" class="form-control">
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Underlying Factor:</label></div>
+                    <div class="col-sm-9">
+                        <select id="underlying-factor" name="underlying-factor" placeholder="Select factors">
+                            <option value="">Select factors</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Crisis Driver:</label></div>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="crisis-driver" id="crisis-driver">
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Status:</label></div>
+                    <div class="col-sm-9">
+                        <select id="status" name="status" placeholder="Select status">
+                            <option value="">Select status</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Problem Timeline:</label></div>
+                    <div class="col-sm-9">
+                        <select id="problem-timeline" name="problem-timeline" placeholder="Select problem timeline">
+                            <option value="">Select problem timeline</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Severity:</label></div>
+                    <div class="col-sm-9">
+                        <select id="severity" name="severity">
+                            <option value="none">No problem</option>
+                            <option value="minor">Minor problem</option>
+                            <option value="concern">Situation of Concern</option>
+                            <option value="major-concern">Situation of Major Concern</option>
+                            <option value="critical">Critical Situation</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Reliability:</label></div>
+                    <div class="col-sm-9">
+                        <select id="reliability" name="reliability">
+                            <option value="complete">Completely</option>
+                            <option value="usual">Usually</option>
+                            <option value="fair">Fairly</option>
+                            <option value="unreliable">Unreliable</option>
+                            <option value="cannot-be-judged">Cannot be judged</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row row-form row-action">
+                    <div class="col-md-12">
+                        <input type="submit" class="btn btn-default">
+                    </div>
+                </div>
+
             </form>
         </div>
     </div>

@@ -25,7 +25,7 @@ body, html{
     margin-left: 3px;  /* Same as divider width */
 }
 
-#lead-select-container{
+#lead-options-container{
     height: 80px;
     padding: 24px;
     background-color: #f5f5f5;
@@ -51,13 +51,19 @@ body, html{
 }
 
 form .row{
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.row-action{
+    text-align: right;
+    margin-top: 20px;
 }
 
 .label-container{
     text-align: right;
     padding-right: 10px;
+    padding-top: 10px;
 }
 
 .controls {

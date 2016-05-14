@@ -206,5 +206,13 @@ function initMap() {
 $(document).ready(function() {
     $('#lead-select').selectize();
     $('div.split-pane').splitPane();
+    $('#country').selectize();
     $('#sector').selectize();
+    $('#vunerable-group').selectize();
+    $('#affected-group').selectize();
+    $('#underlying-factor').selectize();
+    $('#status').selectize();
+    $('#problem-timeline').selectize();
+    $('#severity').selectize();
+    $('#reliability').selectize();
 });
