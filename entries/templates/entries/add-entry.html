@@ -110,7 +110,7 @@ var shapeIdToken = 0;
                 <div class="row row-form">
                     <div class="col-sm-3 label-container"><label>Sector:</label></div>
                     <div class="col-sm-9">
-                        <select id="sector" name="sector" placeholder="Select sectors">
+                        <select id="sector" name="sector" placeholder="Select sectors" multiple>
                             <option value="">Select sectors</option>
                             {% for sector in sectors %}
                             <option value="{{sector.pk}}">{{sector}}</option>
