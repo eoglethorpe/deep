@@ -282,11 +282,14 @@ $(document).ready(function() {
 
     // @TODO: add other map data as well
     $('#entry-form').submit(function(eventObj){
-        $('#excerpt').appendTo('#entry-form');
         $('<input>').attr('type', 'hidden')
-          .attr('name', "map-data")
-          .attr('value', JSON.stringify(getShapes()))
-          .appendTo('#form');
+            .attr('name', 'excerpt')
+            .attr('value', $('#excerpt').val())
+            .appendTo('#entry-form');
+        $('<input>').attr('type', 'hidden')
+            .attr('name', "map-data")
+            .attr('value', JSON.stringify(getShapes()))
+            .appendTo('#entry-form');
         return true;
     });
 

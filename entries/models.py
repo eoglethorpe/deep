@@ -4,6 +4,7 @@ from leads.models import Lead
 
 
 class Country(models.Model):
+    code = models.CharField(max_length=5, primary_key=True)
     name = models.CharField(max_length=70)
 
     def __str__(self):
@@ -11,35 +12,35 @@ class Country(models.Model):
 
 
 class Sector(models.Model):
-    name = models.CharField(max_length=70)
+    name = models.CharField(max_length=70, primary_key=True)
 
     def __str__(self):
         return self.name
 
 
 class VulnerableGroup(models.Model):
-    group_name = models.CharField(max_length=70)
+    group_name = models.CharField(max_length=70, primary_key=True)
 
     def __str__(self):
         return self.group_name
 
 
 class AffectedGroup(models.Model):
-    group_name = models.CharField(max_length=70)
+    group_name = models.CharField(max_length=70, primary_key=True)
 
     def __str__(self):
         return self.group_name
 
 
 class UnderlyingFactor(models.Model):
-    name = models.CharField(max_length=70)
+    name = models.CharField(max_length=70, primary_key=True)
 
     def __str__(self):
         return self.name
 
 
 class CrisisDriver(models.Model):
-    name = models.CharField(max_length=70)
+    name = models.CharField(max_length=70, primary_key=True)
 
     def __str__(self):
         return self.name
@@ -113,10 +114,10 @@ class Entry(models.Model):
     lead = models.ForeignKey(Lead)
     excerpt = models.TextField()
     information_at = models.DateField(null=True, blank=True)
-    country = models.ForeignKey(Country)
+    country = models.ForeignKey(Country, null=True, blank=True)
     sectors = models.ManyToManyField(Sector, blank=True)
     underlying_factors = models.ManyToManyField(UnderlyingFactor, blank=True)
-    crisis_driver = models.ManyToManyField(CrisisDriver, blank=True)
+    crisis_drivers = models.ManyToManyField(CrisisDriver, blank=True)
     status = models.CharField(max_length=3, choices=STATUSES,
                               default=None, null=True, blank=True)
     problem_timeline = models.CharField(max_length=3, choices=PROBLEM_TIMELIES,
@@ -125,9 +126,13 @@ class Entry(models.Model):
                                 default=None, null=True, blank=True)
     reliability = models.CharField(max_length=3, choices=RELIABILITIES,
                                    default=None, null=True, blank=True)
+    map_data = models.TextField()
 
     def __str__(self):
         return str(self.lead)
+
+    class Meta:
+        verbose_name_plural = 'entries'
 
 
 class VulnerableGroupData(models.Model):

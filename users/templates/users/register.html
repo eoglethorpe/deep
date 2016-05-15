@@ -32,10 +32,10 @@ DEEP | Register
 
                     <!-- The registration form -->
                     <!-- TODO: Client side form validation: password matching, valid email etc. -->
-                    <input type="text" placeholder="First Name" name="first-name" required>
-                    <input type="text" placeholder="Last Name" name="last-name" required>
-                    <input type="text" placeholder="Email" name="email" required>
-                    <input type="text" placeholder="Organization" name="organization">
+                    <input type="text" placeholder="First Name" name="first-name" {% if first_name %}value="{{first_name}}"{% endif %} required>
+                    <input type="text" placeholder="Last Name" name="last-name" {% if last_name %}value="{{last_name}}"{% endif %} required>
+                    <input type="text" placeholder="Email" name="email" {% if email %}value="{{email}}"{% endif %} required>
+                    <input type="text" placeholder="Organization" name="organization" {% if organization %}value="{{organization}}"{% endif %}>
                     <input type="password" placeholder="Password" name="password" required>
                     <input type="password" placeholder="Retype Password" name="re-password" required>
                     <div class="action">
