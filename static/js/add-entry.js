@@ -6,10 +6,6 @@ var colors = ['#1E90FF', '#FF1493', '#32CD32', '#FF8C00', '#4B0082'];
 var selectedColor;
 var colorButtons = {};
 
-function test(){
-    shapes = map.getShapes();
-    console.log(shapes);
-}
 
 function clearSelection() {
     if (selectedShape) {
@@ -28,6 +24,9 @@ function setSelection(shape) {
 function deleteSelectedShape() {
     if (selectedShape) {
         selectedShape.setMap(null);
+        shapes = $.grep(shapes, function(shape){
+            return shape.id != selectedShape.id;
+});
     }
 }
 
@@ -86,8 +85,46 @@ function buildColorPalette() {
     selectColor(colors[0]);
 }
 
+function addShape(shape){
+    shapes.push(shape);
+}
+
+function getShapes(){
+    shapeData = [];
+    for(i=0; i<shapes.length; i++){
+        switch(shapes[i].type){
+            case 'polygon':
+                path = [];
+                shapes[i].getPath().forEach(function(latLng, i){
+                    path.push({lat: latLng.lat(), lng: latLng.lng()});
+                });
+                shapeData.push({
+                    type: shapes[i].type,
+                    path: path
+                });
+                break;
+            case 'marker':
+                shapeData.push({
+                    type: shapes[i].type,
+                    position: {lat: shapes[i].position.lat(), lng: shapes[i].position.lng()}
+                });
+                break;
+            case 'circle':
+                shapeData.push({
+                    type: shapes[i].type,
+                    center: {lat: shapes[i].center.lat(), lng: shapes[i].center.lng()},
+                    radius: shapes[i].radius
+                });
+                break;
+            default:
+            console.log('oops');
+        }
+    }
+    return shapeData;
+}
 
 function initMap() {
+    // @TODO: adjust map according to previous data
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: -34.397, lng: 150.644},
         scrollwheel: false,
@@ -111,8 +148,6 @@ function initMap() {
                 google.maps.drawing.OverlayType.MARKER,
                 google.maps.drawing.OverlayType.CIRCLE,
                 google.maps.drawing.OverlayType.POLYGON,
-                //google.maps.drawing.OverlayType.POLYLINE,
-                //google.maps.drawing.OverlayType.RECTANGLE
             ]
         },
         markerOptions: {
@@ -126,19 +161,22 @@ function initMap() {
     });
 
     google.maps.event.addListener(drawingManager, 'overlaycomplete', function(e) {
+        var newShape = e.overlay;
+        newShape.type = e.type;
+        newShape.id = shapeIdToken++;
         if (e.type != google.maps.drawing.OverlayType.MARKER) {
             // Switch back to non-drawing mode after drawing a shape.
             drawingManager.setDrawingMode(null);
 
             // Add an event listener that selects the newly-drawn shape when the user
             // mouses down on it.
-            var newShape = e.overlay;
-            newShape.type = e.type;
+
             google.maps.event.addListener(newShape, 'click', function() {
                 setSelection(newShape);
             });
             setSelection(newShape);
         }
+        addShape(newShape);
     });
 
     // Clear the current selection when the drawing mode is changed, or when the
@@ -241,5 +279,15 @@ $(document).ready(function() {
         change_lead_preview(this.value=='simplified');
     });
     change_lead_preview(true);
+
+    // @TODO: add other map data as well
+    $('#entry-form').submit(function(eventObj){
+        $('#excerpt').appendTo('#entry-form');
+        $('<input>').attr('type', 'hidden')
+          .attr('name', "map-data")
+          .attr('value', JSON.stringify(getShapes()))
+          .appendTo('#form');
+        return true;
+    });
 
 });

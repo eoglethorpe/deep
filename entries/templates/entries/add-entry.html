@@ -11,11 +11,17 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <link href="{% static 'css/selectize.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/split-pane.css' %}" type="text/css" rel="stylesheet">
+
+<script>
+//@TODO: fill with map data
+var shapes = [];
+var shapeIdToken = 0;
+</script>
+
+
 <script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/split-pane.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/add-entry.js' %}"></script>
-
-
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-nr38mjHS3Y_PapPYSmTaFFQ9ucQGwig&libraries=places,drawing&callback=initMap" async defer></script>
 
 {% endblock %}
@@ -51,8 +57,6 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     <div class="split-pane-divider" id="my-divider"></div>
     <div class="split-pane-component" id="right-component">
         <div class="form-wrapper">
-            
-            <button id="test" onclick="test()">test</button>
 
             <div class="row row-form">
                 <div class="col-xs-12">
@@ -80,7 +84,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 </div>
             </div>
 
-            <form method="post">
+            <form id="entry-form" method="post">
                 {% csrf_token %}
                 <div class="row row-form">
                     <div class="col-sm-3 label-container"><label>Country:</label></div>

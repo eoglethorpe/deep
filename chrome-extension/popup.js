@@ -1,3 +1,6 @@
+// @TODO: Check if there are no events
+
+
 // example of serverAddress http://52.87.160.69
 // don't add the trailing /
 // var serverAddress = 'http://localhost:8000';
