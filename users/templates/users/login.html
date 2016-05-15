@@ -27,7 +27,7 @@ DEEP | Sign in
                     {% if error %}
                         <div>{{ error }}</div>
                     {% endif %}
-                    <input type="text" placeholder="Email" name="email" required>
+                    <input type="text" placeholder="Email" name="email" {% if email %}value="{{email}}"{% endif %} required>
                     <input type="password" placeholder="Password" name="password" required>
                     <div class="action">
                         <input type="submit" class="btn btn-default" value="Sign in">

@@ -61,7 +61,7 @@ var shapeIdToken = 0;
             <div class="row row-form">
                 <div class="col-xs-12">
                     <label>Excerpt</label>
-                    <textarea name="excerpt" id="excerpt" class="form-control" rows="8"></textarea>
+                    <textarea id="excerpt" class="form-control" rows="8"></textarea>
                 </div>
             </div>
 
@@ -110,7 +110,7 @@ var shapeIdToken = 0;
                 <div class="row row-form">
                     <div class="col-sm-3 label-container"><label>Sector:</label></div>
                     <div class="col-sm-9">
-                        <select id="sector" name="sector" placeholder="Select sectors">
+                        <select id="sector" name="sector" placeholder="Select sectors" multiple>
                             <option value="">Select sectors</option>
                             {% for sector in sectors %}
                             <option value="{{sector.pk}}">{{sector}}</option>
@@ -149,7 +149,7 @@ var shapeIdToken = 0;
                 <div class="row row-form">
                     <div class="col-sm-3 label-container"><label>Underlying Factor:</label></div>
                     <div class="col-sm-9">
-                        <select id="underlying-factor" name="underlying-factor" placeholder="Select factors">
+                        <select id="underlying-factor" name="underlying-factor" placeholder="Select factors" multiple>
                             <option value="">Select factors</option>
                             {% for uf in underlying_factors %}
                             <option value="{{uf.pk}}">{{uf}}</option>
@@ -161,7 +161,7 @@ var shapeIdToken = 0;
                 <div class="row row-form">
                     <div class="col-sm-3 label-container"><label>Crisis Driver:</label></div>
                     <div class="col-sm-9">
-                        <select id="crisis-driver" name="crisis-driver" placeholder="Select crisis drivers">
+                        <select id="crisis-driver" name="crisis-driver" placeholder="Select crisis drivers" multiple>
                             <option value="">Select crisis drivers</option>
                             {% for cd in crisis_drivers %}
                             <option value="{{cd.pk}}">{{cd}}</option>

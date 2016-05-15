@@ -63,6 +63,10 @@ class RegisterView(View):
         # Otherwise, display the register form with error.
         else:
             context = {"error": error}
+            context["first_name"] = first_name
+            context["last_name"] = last_name
+            context["email"] = email
+            context["organization"] = organization
             return render(request, "users/register.html", context)
         return redirect("login")
 
@@ -105,6 +109,7 @@ class LoginView(View):
                     error = "Your profile is not registered properly"
 
         context = {"error": error}
+        context["email"] = email
         return render(request, "users/login.html", context)
 
 

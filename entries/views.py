@@ -70,4 +70,28 @@ class AddEntry(View):
 
     @method_decorator(login_required)
     def post(self, request, event, lead_id):
-        return redirect("entries:add", event, lead_id)
+        entry = Entry()
+
+        entry.lead = Lead.objects.get(pk=int(lead_id))
+        entry.excerpt = request.POST['excerpt']
+        # TODO: entry.information_at
+        # entry.country = request.POST['country']
+        entry.map_data = request.POST['map-data']
+        entry.status = request.POST['status']
+        entry.problem_timeline = request.POST['problem-timeline']
+        entry.severity = request.POST['severity']
+        entry.reliability = request.POST['reliability']
+        entry.save()
+
+        for s in request.POST.getlist('sector'):
+            entry.sectors.add(Sector.objects.get(name=s))
+
+        for uf in request.POST.getlist('underlying-factor'):
+            entry.underlying_factors.add(UnderlyingFactor.objects.get(name=uf))
+
+        for cd in request.POST.getlist('crisis-driver'):
+            entry.crisis_drivers.add(CrisisDriver.objects.get(name=cd))
+
+        # TODO: Vulenrable Group and Affected Group data.
+
+        return redirect("entries:entries", event)
