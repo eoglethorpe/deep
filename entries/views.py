@@ -33,6 +33,7 @@ class EntriesView(View):
         context["current_page"] = "entries"
         context["event"] = Event.objects.get(pk=event)
         context["all_events"] = Event.objects.all()
+        context.update(get_entry_form_data())
         UserProfile.set_last_event(request, context["event"])
         return render(request, "entries/entries.html", context)
 

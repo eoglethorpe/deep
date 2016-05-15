@@ -70,7 +70,7 @@ $(document).ready(function() {
             {
                 data: null,
                 render: function (data, type, row ) {
-                    return format_date(data.created_at) + "<br>" + data.created_by_name;
+                    return formatDate(data.created_at) + "<br>" + data.created_by_name;
                 }
             },
             { data: "assigned_to_name" },
@@ -195,8 +195,8 @@ $(document).ready(function() {
                         '<div class="actions">' +
                             '<button class="btn btn-default" onclick="window.location.href=\'/' + currentEvent + '/entries/add/' + data.id + '/\'"><i class="fa fa-share"></i>Add Entry</button>' +
                             '<button class="btn btn-default" onclick="window.location.href=\'/' + currentEvent + '/leads/edit/' + data.id + '/\'"><i class="fa fa-edit"></i>Edit</button>' +
-                            '<button class="btn btn-default" onclick="mark_processed('+data.id+');"><i class="fa fa-check"></i>Mark Processed</button>' +
-                            '<button class="btn btn-default" onclick="delete_lead('+data.id+');"><i class="fa fa-trash"></i>Delete</button>' +
+                            '<button class="btn btn-default" onclick="markProcessed('+data.id+');"><i class="fa fa-check"></i>Mark Processed</button>' +
+                            '<button class="btn btn-default" onclick="deleteLead('+data.id+');"><i class="fa fa-trash"></i>Delete</button>' +
                         '</div>' +
                     '</div>' +
                     '<div class="col-md-12 lead-content">' +
@@ -209,19 +209,19 @@ $(document).ready(function() {
 });
 
 
-function mark_processed(id) {
+function markProcessed(id) {
     $("#process-id").val(id);
     $("#process-form").submit();
 }
 
-function delete_lead(id) {
+function deleteLead(id) {
     if (confirm("Are you sure you want to delete this lead?")) {
         $("#delete-id").val(id);
         $("#delete-form").submit();
     }
 }
 
-function format_date(date) {
+function formatDate(date) {
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),

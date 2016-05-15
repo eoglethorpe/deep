@@ -8,6 +8,26 @@ DEEP | Entries
 {% block head %}
 <script>
     var currentEvent = {{event.pk}};
+    var severities = {
+        {% for pt in severities %}
+        "{{pt.0}}":"{{pt.1}}",
+        {% endfor %}
+    };
+    var reliabilities = {
+        {% for pt in reliabilities %}
+        "{{pt.0}}":"{{pt.1}}",
+        {% endfor %}
+    };
+    var problemTimelines = {
+        {% for pt in problem_timelines %}
+        "{{pt.0}}":"{{pt.1}}",
+        {% endfor %}
+    };
+    var statuses = {
+        {% for status in statuses %}
+        "{{status.0}}":"{{status.1}}",
+        {% endfor %}
+    };
 </script>
 <link href="{% static 'css/entries.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
@@ -37,12 +57,12 @@ DEEP | Entries
                     <th>Created</th>
                     <th>Lead</th>
                     <th>Excerpt</th>
-                    <th>Tags</th>
-                    <th>Locations</th>
+                    <!-- <th>Tags</th> -->
+                    <!-- <th>Locations</th> -->
                     <th>Severity</th>
                     <th>Reliability</th>
                     <th>Timeline</th>
-                    <th>Group status</th>
+                    <!-- <th>Group status</th> -->
                     <th>Status</th>
                 </tr>
             </thead>
