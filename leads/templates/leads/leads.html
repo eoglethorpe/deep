@@ -7,7 +7,7 @@ DEEP | Leads
 
 {% block head %}
 <script>
-    var current_event = {{event.pk}};
+    var currentEvent = {{event.pk}};
 </script>
 <link href="{% static 'css/leads.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
@@ -80,7 +80,7 @@ DEEP | Leads
                     </select>
                 </div>
             </div>
-            <table id="leads-table" class="table table-bordered" cellspacing="0" width="100%">
+            <table id="leads-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
                 <thead>
                     <tr>
                         <th>Created</th>

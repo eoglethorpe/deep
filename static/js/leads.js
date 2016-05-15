@@ -59,15 +59,14 @@ $.fn.dataTable.ext.search.push(
 
 
 $(document).ready(function() {
-    var leads_table = $('#leads-table').DataTable( {
+    var leadsTable = $('#leads-table').DataTable( {
         ajax: {
             type: "GET",
             dataType: "json",
             dataSrc: '',
-            url: "/api/v1/leads/?event=" + current_event,
+            url: "/api/v1/leads/?event=" + currentEvent,
         },
         columns: [
-            // @TODO: display url (and maybe website)
             {
                 data: null,
                 render: function (data, type, row ) {
@@ -135,7 +134,7 @@ $(document).ready(function() {
     // Add event listener for opening and closing details
     $('#leads-table tbody').on('click', 'tr', function () {
         var tr = $(this);
-        var row = leads_table.row( tr );
+        var row = leadsTable.row( tr );
 
         if ( row.child.isShown() ) {
             // This row is already open - close it
@@ -194,8 +193,8 @@ $(document).ready(function() {
                     '</div>' +
                     '<div class="col-md-6">' +
                         '<div class="actions">' +
-                            '<button class="btn btn-default" onclick="window.location.href=\'/' + current_event + '/entries/add/' + data.id + '/\'"><i class="fa fa-share"></i>Add Entry</button>' +
-                            '<button class="btn btn-default" onclick="window.location.href=\'/' + current_event + '/leads/edit/' + data.id + '/\'"><i class="fa fa-edit"></i>Edit</button>' +
+                            '<button class="btn btn-default" onclick="window.location.href=\'/' + currentEvent + '/entries/add/' + data.id + '/\'"><i class="fa fa-share"></i>Add Entry</button>' +
+                            '<button class="btn btn-default" onclick="window.location.href=\'/' + currentEvent + '/leads/edit/' + data.id + '/\'"><i class="fa fa-edit"></i>Edit</button>' +
                             '<button class="btn btn-default" onclick="mark_processed('+data.id+');"><i class="fa fa-check"></i>Mark Processed</button>' +
                             '<button class="btn btn-default" onclick="delete_lead('+data.id+');"><i class="fa fa-trash"></i>Delete</button>' +
                         '</div>' +

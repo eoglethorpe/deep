@@ -6,6 +6,9 @@ DEEP | Entries
 {% endblock %}
 
 {% block head %}
+<script>
+    var currentEvent = {{event.pk}};
+</script>
 <link href="{% static 'css/entries.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% static 'css/datatables.min.css' %}"/>
@@ -43,13 +46,6 @@ DEEP | Entries
                     <th>Status</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>2016-01-12<br>Frozen Helium</td>
-                    <td>Test lead</td>
-                    <td>The Open Mic project ... affected districts</td>
-                </tr>
-            </tbody>
         </table>
     </div>
 </div>
