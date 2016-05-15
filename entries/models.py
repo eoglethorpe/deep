@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 from leads.models import Lead
 
@@ -127,6 +128,9 @@ class Entry(models.Model):
     reliability = models.CharField(max_length=3, choices=RELIABILITIES,
                                    default=None, null=True, blank=True)
     map_data = models.TextField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, null=True)  # TODO: remove null
 
     def __str__(self):
         return str(self.lead)

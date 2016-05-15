@@ -6,10 +6,28 @@ from entries.models import *
 
 
 class EntrySerializer(serializers.ModelSerializer):
+    lead_name = serializers.SerializerMethodField()
+    lead_type = serializers.SerializerMethodField()
+    created_by_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Entry
-        fields = ('id', 'lead', 'excerpt', 'information_at', 'country',
+        fields = ('id', 'lead', 'lead_name', 'lead_type',
+                  'excerpt', 'information_at', 'country',
                   'sectors', 'underlying_factors', 'crisis_drivers',
                   'status', 'problem_timeline', 'severity', 'reliability',
-                  'map_data', )
+                  'map_data', 'created_at', 'created_by', 'created_by_name')
+
+        # TODO: Automatically set created_by.
+
+    def get_lead_name(self, entry):
+        return entry.lead.name
+
+    def get_lead_type(self, entry):
+        return entry.lead.lead_type
+
+    def get_created_by_name(self, entry):
+        if entry.created_by:
+            return entry.created_by.get_full_name()
+        else:
+            return ""
