@@ -81,6 +81,7 @@ class AddEntry(View):
         entry.problem_timeline = request.POST['problem-timeline']
         entry.severity = request.POST['severity']
         entry.reliability = request.POST['reliability']
+        entry.created_by = request.user
         entry.save()
 
         for s in request.POST.getlist('sector'):
