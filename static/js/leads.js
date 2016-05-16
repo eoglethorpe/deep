@@ -193,10 +193,10 @@ $(document).ready(function() {
                     '</div>' +
                     '<div class="col-md-6">' +
                         '<div class="actions">' +
-                            '<button class="btn btn-default" onclick="window.location.href=\'/' + currentEvent + '/entries/add/' + data.id + '/\'"><i class="fa fa-share"></i>Add Entry</button>' +
-                            '<button class="btn btn-default" onclick="window.location.href=\'/' + currentEvent + '/leads/edit/' + data.id + '/\'"><i class="fa fa-edit"></i>Edit</button>' +
-                            '<button class="btn btn-default" onclick="markProcessed('+data.id+');"><i class="fa fa-check"></i>Mark Processed</button>' +
-                            '<button class="btn btn-default" onclick="deleteLead('+data.id+');"><i class="fa fa-trash"></i>Delete</button>' +
+                            '<button class="btn btn-default btn-add-entry" onclick="window.location.href=\'/' + currentEvent + '/entries/add/' + data.id + '/\'"><i class="fa fa-share"></i>Add Entry</button>' +
+                            '<button class="btn btn-default btn-edit" onclick="window.location.href=\'/' + currentEvent + '/leads/edit/' + data.id + '/\'"><i class="fa fa-edit"></i>Edit</button>' +
+                            '<button class="btn btn-default btn-mark-processed" onclick="markProcessed('+data.id+');"><i class="fa fa-check"></i>Mark Processed</button>' +
+                            '<button class="btn btn-default btn-delete" onclick="deleteLead('+data.id+');"><i class="fa fa-trash"></i>Delete</button>' +
                         '</div>' +
                     '</div>' +
                     '<div class="col-md-12 lead-content">' +

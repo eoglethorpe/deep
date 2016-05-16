@@ -55,3 +55,16 @@
 #filters{
     margin-bottom: 20px;
 }
+
+.btn-add-entry .fa{
+    color: #3498db;
+}
+.btn-edit .fa{
+    color: #f39c12;
+}
+.btn-mark-processed .fa{
+    color: #2ecc71;
+}
+.btn-delete .fa{
+    color: #e74c3c;
+}

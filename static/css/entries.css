@@ -8,3 +8,48 @@
     padding-left: 6px;
     color: #2980b9;
 }
+
+.entry-detail{
+    padding: 24px;
+}
+
+.row-header{
+    text-align: right;
+}
+.row-header button{
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.label-container{
+    text-align: right;
+}
+
+.btn-edit .fa{
+    color: #f39c12;
+}
+.btn-mark-processed .fa{
+    color: #2ecc71;
+}
+.btn-delete .fa{
+    color: #e74c3c;
+}
+
+#entries-table tbody tr[role="row"]{
+    cursor: pointer;
+}
+#entries-table tbody tr[role="row"]:hover{
+    background-color: #2980b9;
+    color: #fff;
+}
+
+
+.row-location, .row-excerpt{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.row-excerpt .content{
+    line-height: 1.5;
+    text-align: justify;
+}
