@@ -35,7 +35,7 @@ var shapeIdToken = 0;
     var lead_type = '{{lead.lead_type}}';
     {% if lead.url %}var lead_url = '{{lead.url}}';{% endif %}
     {% if lead.description %}var lead_description = "{{lead.description|escapejs}}";{% endif %}
-    {% if lead.attachment %}var attachment = {{lead.attachment.upload.url}};{% endif %}
+    {% if lead.attachment %}var lead_attachment = "{{lead.attachment.upload.url}}";{% endif %}
 {% else %}
     var lead_type = '';
 {% endif %}
@@ -44,13 +44,14 @@ var shapeIdToken = 0;
 
 <div class="split-pane fixed-left">
     <div class="split-pane-component" id="left-component">
+        {% if lead_simplified %}
         <div id="lead-options-container">
             <label class="radio-inline"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
             <label class="radio-inline"><input type="radio" name="lead-view-option" value="original">Original</label>
         </div>
-
+        {% endif %}
         <div id="lead-preview-container">
-            <iframe id="lead-preview" src=""></iframe>
+            <iframe id="lead-preview" src="data:text/html;charset=utf-8,No preview available"></iframe>
             <!-- <iframe id="lead-preview" src="http://reliefweb.int/sites/reliefweb.int/files/resources/Open%20Mic%20Nepal%20_%20Issue%2018_%20English.pdf"></iframe> -->
         </div>
     </div>

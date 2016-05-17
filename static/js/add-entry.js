@@ -258,6 +258,10 @@ function change_lead_preview(simplified) {
             frame.attr('src', lead_url);
         else if (lead_type == 'MAN')
             frame.attr('src', "data:text/html;charset=utf-8," + lead_description);
+        else if (lead_type == 'ATT')
+            if (lead_attachment.endsWith(".pdf"))
+                frame.attr('src', lead_attachment);
+            // TODO Set other allowable extensions including images, text etc.
     }
 }
 
@@ -278,7 +282,7 @@ $(document).ready(function() {
     $('input[type=radio][name=lead-view-option]').change(function() {
         change_lead_preview(this.value=='simplified');
     });
-    change_lead_preview(true);
+    change_lead_preview(lead_simplified!="");
 
     // @TODO: add other map data as well
     $('#entry-form').submit(function(eventObj){
