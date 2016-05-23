@@ -10,6 +10,8 @@ from entries.models import *
 
 from entries.strippers import *
 
+import os
+
 
 def get_entry_form_data():
     data = {}
@@ -50,19 +52,30 @@ class AddEntry(View):
         lead = context["lead"]
 
         # Find simplified version of the lead content.
+        # Make sure to catch any exception.
 
-        if lead.lead_type == "URL":
-            doc = WebDocument(lead.url)
+        try:
+            if lead.lead_type == "URL":
+                doc = WebDocument(lead.url)
 
-            if doc.html:
-                context["lead_simplified"] = \
-                    HtmlStripper(doc.html).simplify()
-            elif doc.pdf:
-                context["lead_simplified"] = \
-                    PdfStripper(doc.pdf).simplify()
+                if doc.html:
+                    context["lead_simplified"] = \
+                        HtmlStripper(doc.html).simplify()
+                elif doc.pdf:
+                    context["lead_simplified"] = \
+                        PdfStripper(doc.pdf).simplify()
 
-        elif lead.lead_type == "MAN":
-            context["lead_simplified"] = lead.description
+            elif lead.lead_type == "MAN":
+                context["lead_simplified"] = lead.description
+
+            elif lead.lead_type == "ATT":
+                attachment = lead.attachment
+                name, extension = os.path.splitext(attachment.upload.name)
+                if extension == ".pdf":
+                    context["lead_simplified"] = \
+                        PdfStripper(attachment.upload).simplify()
+        except:
+            pass
 
         # TODO: ATTACHMENT LEAD: check if is pdf and simplify if so.
 
