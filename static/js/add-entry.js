@@ -266,7 +266,7 @@ $(document).ready(function() {
     $('div.split-pane').splitPane();
     $('#country').selectize();
     $('#sector').selectize();
-    $('#vunerable-group').selectize();
+    $('#vulnerable-group-1').selectize();
     $('#affected-group').selectize();
     $('#underlying-factor').selectize();
     $('#crisis-driver').selectize();
@@ -292,5 +292,74 @@ $(document).ready(function() {
             .appendTo('#entry-form');
         return true;
     });
+
+    var vgIdToken = 1;
+
+    function addVulnerableGroup(){
+        var newVulnerableGroup = $('.vg-wrapper-template').clone();
+        newVulnerableGroup.prop('id', 'vulnerable-group'+vgIdToken);
+        newVulnerableGroup.prop('name', 'vulnerable-group'+vgIdToken);
+        newVulnerableGroup.find('.vg-known-cases').prop('id', 'add-vulnerable-group'+vgIdToken);
+        vgIdToken++;
+        newVulnerableGroup.find('.vg-select').selectize();
+
+        newVulnerableGroup.removeClass('vg-wrapper-template');
+        newVulnerableGroup.addClass('vg-wrapper');
+        newVulnerableGroup.removeClass('hidden');
+
+        newVulnerableGroup.find('.vg-btn-add').on('click', function(e){
+            e.preventDefault();
+            addVulnerableGroup();
+            $(this).removeClass('vg-btn-add');
+            $(this).addClass('vg-btn-remove');
+            $(this).removeClass('btn-primary');
+            $(this).addClass('btn-danger');
+            $(this).text('-');
+            $(this).off('click');
+
+            $(this).on('click', function(e){
+                e.preventDefault();
+                $(this).closest('.vg-wrapper').remove();
+            });
+        });
+
+        newVulnerableGroup.appendTo($('#vulnerable-group-container'));
+    }
+
+    var agIdToken = 1;
+
+    function addAffectedGroup(){
+        var newAffectedGroup = $('.ag-wrapper-template').clone();
+        newAffectedGroup.prop('id', 'affected-group'+agIdToken);
+        newAffectedGroup.prop('name', 'affected-group'+agIdToken);
+        newAffectedGroup.find('.ag-known-cases').prop('id', 'add-affected-group'+agIdToken);
+        agIdToken++;
+        newAffectedGroup.find('.ag-select').selectize();
+
+        newAffectedGroup.removeClass('ag-wrapper-template');
+        newAffectedGroup.addClass('ag-wrapper');
+        newAffectedGroup.removeClass('hidden');
+
+        newAffectedGroup.find('.ag-btn-add').on('click', function(e){
+            e.preventDefault();
+            addAffectedGroup();
+            $(this).removeClass('ag-btn-add');
+            $(this).addClass('ag-btn-remove');
+            $(this).removeClass('btn-primary');
+            $(this).addClass('btn-danger');
+            $(this).text('-');
+            $(this).off('click');
+
+            $(this).on('click', function(e){
+                e.preventDefault();
+                $(this).closest('.ag-wrapper').remove();
+            });
+        });
+
+        newAffectedGroup.appendTo($('#affected-group-container'));
+    }
+
+    addVulnerableGroup();
+    addAffectedGroup();
 
 });

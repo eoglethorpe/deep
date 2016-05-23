@@ -33,6 +33,18 @@ class LeadsView(View):
         return render(request, "leads/leads.html", context)
 
 
+class AddSoS(View):
+    @method_decorator(login_required)
+    def get(self, request, event, id=None):
+        context = {}
+        context["current_page"] = "leads"
+        if not id:
+            context["all_events"] = Event.objects.all()
+        else:
+            context["lead"] = Lead.objects.get(pk=id)
+        return render(request, "leads/add-sos.html", context);
+
+
 class AddLead(View):
     @method_decorator(login_required)
     def get(self, request, event, id=None):
@@ -42,7 +54,7 @@ class AddLead(View):
         UserProfile.set_last_event(request, context["event"])
         if not id:
             context["all_events"] = Event.objects.all()
-        if id:
+        else:
             context["lead"] = Lead.objects.get(pk=id)
         context.update(get_lead_form_data())
         return render(request, "leads/add-lead.html", context)

@@ -126,6 +126,9 @@ body, html{
     cursor: pointer;
 }
 
-#delete-button {
+.vg-btn-add, .vg-btn-remove{
+}
 
+.vg-wrapper, .ag-wrapper{
+    margin-bottom: 10px;
 }

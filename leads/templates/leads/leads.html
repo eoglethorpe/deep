@@ -27,6 +27,7 @@ DEEP | Leads
 <div class="section" id="body-section">
     <div class="container">
         <div class="block" id="action-block">
+            <a class="btn btn-default" href="{% url 'leads:add-sos' event=event.pk %}"><i class="fa fa-plus"></i>Add Survey of Survey</a>
             <a class="btn btn-default" href="{% url 'leads:add' event=event.pk %}"><i class="fa fa-plus"></i>Add Lead</a>
         </div>
 

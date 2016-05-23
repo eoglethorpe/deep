@@ -39,7 +39,7 @@ var shapeIdToken = 0;
 {% else %}
     var lead_type = '';
 {% endif %}
-    var lead_simplified = "{% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %}";
+    var lead_simplified = "<style>html{font-family:lato;}</style>{% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %}";
 </script>
 
 <div class="split-pane fixed-left">
@@ -118,31 +118,48 @@ var shapeIdToken = 0;
                         </select>
                     </div>
                 </div>
-
-                <div class="row row-form">
-                    <div class="col-sm-3 label-container"><label>Vunerable Group:</label></div>
+                <div class="vg-wrapper-template hidden row">
                     <div class="col-sm-9">
-                        <select id="vunerable-group" name="vunerable-group" placeholder="Select a group">
+                        <select class="vg-select" placeholder="Select a group">
                             <option value="">Select a group</option>
                             {% for vg in vulnerable_groups %}
                             <option value="{{vg.pk}}">{{vg}}</option>
                             {% endfor %}
                         </select>
-                        <input type="text" name="vunerable-group-known-cases", placeholder="Enter number of known cases" class="form-control">
+                        <input class="form-control vg-known-cases" type="text" placeholder="Enter number of known cases">
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn btn-primary vg-btn-add">+</button>
+                    </div>
+                </div>
+                <div class="ag-wrapper-template hidden row">
+                    <div class="col-sm-9">
+                        <select class="ag-select" placeholder="Select a group">
+                            <option value="">Select a group</option>
+                            {% for ag in affected_groups %}
+                            <option value="{{ag.pk}}">{{ag}}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="text" class="form-control ag-known-cases" placeholder="Enter number of known cases">
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn btn-primary ag-btn-add">+</button>
+                    </div>
+                </div>
 
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Vulnerable Group:</label></div>
+                    <div class="col-sm-9">
+                        <div id="vulnerable-group-container">
+                        </div>
                     </div>
                 </div>
 
                 <div class="row row-form">
                     <div class="col-sm-3 label-container"><label>Affected Group:</label></div>
                     <div class="col-sm-9">
-                        <select id="affected-group" name="affected-group" placeholder="Select a group">
-                            <option value="">Select a group</option>
-                            {% for ag in affected_groups %}
-                            <option value="{{ag.pk}}">{{ag}}</option>
-                            {% endfor %}
-                        </select>
-                        <input type="text" name="affected-group-known-cases", placeholder="Enter number of known cases" class="form-control">
+                        <div id="affected-group-container">
+                        </div>
                     </div>
                 </div>
 
