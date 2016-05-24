@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 
 from users.models import *
@@ -42,14 +43,21 @@ class EntriesView(View):
 
 class AddEntry(View):
     @method_decorator(login_required)
-    def get(self, request, event, lead_id):
+    def get(self, request, event, lead_id=None, id=None):
         context = {}
         context["current_page"] = "entries"
         context["event"] = Event.objects.get(pk=event)
         UserProfile.set_last_event(request, context["event"])
 
-        context["lead"] = Lead.objects.get(pk=int(lead_id))
-        lead = context["lead"]
+        if id:
+            entry = Entry.objects.get(pk=int(id))
+            lead = entry.lead
+        elif lead_id:
+            lead = Lead.objects.get(pk=int(lead_id))
+        else:
+            raise Exception("Wrong view")
+
+        context["lead"] = lead
 
         # Find simplified version of the lead content.
         # Make sure to catch any exception.
@@ -75,18 +83,48 @@ class AddEntry(View):
                     context["lead_simplified"] = \
                         PdfStripper(attachment.upload).simplify()
         except:
-            pass
+            print("Error while simplifying")
 
-        # TODO: ATTACHMENT LEAD: check if is pdf and simplify if so.
+        if entry:
+            context["entry"] = entry
+            context["entry_sectors"] = [s.pk for s in entry.sectors.all()]
+            context["entry_underlying_factors"] = \
+                [f.pk for f in entry.underlying_factors.all()]
+            context["entry_crisis_drivers"] = \
+                [c.pk for c in entry.crisis_drivers.all()]
 
         context.update(get_entry_form_data())
         return render(request, "entries/add-entry.html", context)
 
     @method_decorator(login_required)
-    def post(self, request, event, lead_id):
-        entry = Entry()
+    def post(self, request, event, lead_id=None, id=None):
 
-        entry.lead = Lead.objects.get(pk=int(lead_id))
+        if id:
+            entry = Entry.objects.get(id=id)
+        else:
+            entry = Entry()
+
+        vulnerable_groups = []
+        affected_groups = []
+
+        for key in request.POST:
+            if request.POST[key] != "":
+                if key.startswith('add-vulnerable-group-'):
+                    if not key.startswith('add-vulnerable-group-known-cases-'):
+                        j = key[21:]
+                        kc_key = 'add-vulnerable-group-known-cases-'+j
+                        kc = request.POST[kc_key]
+                        vulnerable_groups.append((request.POST[key], kc))
+
+                elif key.startswith('add-affected-group-'):
+                    if not key.startswith('add-affected-group-known-cases-'):
+                        j = key[19:]
+                        kc_key = 'add-affected-group-known-cases-'+j
+                        kc = request.POST[kc_key]
+                        affected_groups.append((request.POST[key], kc))
+
+        if lead_id:
+            entry.lead = Lead.objects.get(pk=int(lead_id))
         entry.excerpt = request.POST['excerpt']
         # TODO: entry.information_at
         # entry.country = request.POST['country']
@@ -107,6 +145,24 @@ class AddEntry(View):
         for cd in request.POST.getlist('crisis-driver'):
             entry.crisis_drivers.add(CrisisDriver.objects.get(name=cd))
 
-        # TODO: Vulenrable Group and Affected Group data.
+        for vg in vulnerable_groups:
+            vgd = VulnerableGroupData()
+            vgd.entry = entry
+            vgd.vulnerable_group = VulnerableGroup.objects.get(pk=vg[0])
+            if vg[1] == "":
+                vgd.known_cases = None
+            else:
+                vgd.known_cases = int(vg[1])
+            vgd.save()
+
+        for ag in affected_groups:
+            agd = AffectedGroupData()
+            agd.entry = entry
+            agd.affected_group = AffectedGroup.objects.get(pk=ag[0])
+            if ag[1] == "":
+                agd.known_cases = None
+            else:
+                agd.known_cases = int(ag[1])
+            agd.save()
 
         return redirect("entries:entries", event)

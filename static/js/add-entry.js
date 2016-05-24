@@ -304,8 +304,13 @@ $(document).ready(function() {
         newVulnerableGroup.prop('id', 'vulnerable-group'+vgIdToken);
         newVulnerableGroup.prop('name', 'vulnerable-group'+vgIdToken);
         newVulnerableGroup.find('.vg-known-cases').prop('id', 'add-vulnerable-group'+vgIdToken);
-        vgIdToken++;
+
+        newVulnerableGroup.find('.vg-known-cases').prop('name', 'add-vulnerable-group-known-cases-'+vgIdToken);
+        newVulnerableGroup.find('.vg-select').prop('name', 'add-vulnerable-group-'+vgIdToken);
+
         newVulnerableGroup.find('.vg-select').selectize();
+
+        vgIdToken++;
 
         newVulnerableGroup.removeClass('vg-wrapper-template');
         newVulnerableGroup.addClass('vg-wrapper');
@@ -337,8 +342,13 @@ $(document).ready(function() {
         newAffectedGroup.prop('id', 'affected-group'+agIdToken);
         newAffectedGroup.prop('name', 'affected-group'+agIdToken);
         newAffectedGroup.find('.ag-known-cases').prop('id', 'add-affected-group'+agIdToken);
-        agIdToken++;
+
+        newAffectedGroup.find('.ag-known-cases').prop('name', 'add-affected-group-known-cases-'+agIdToken);
+        newAffectedGroup.find('.ag-select').prop('name', 'add-affected-group-'+agIdToken);
+
         newAffectedGroup.find('.ag-select').selectize();
+
+        agIdToken++;
 
         newAffectedGroup.removeClass('ag-wrapper-template');
         newAffectedGroup.addClass('ag-wrapper');

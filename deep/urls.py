@@ -28,6 +28,8 @@ urlpatterns = [
     url(r'^logout/$', LogoutView.as_view(), name="logout"),
     url(r'^extension/$', ExtensionView.as_view(), name="extension"),
 
+    url(r'^load/countries/$', LoadCountries.as_view()),
+
     url(r'^dashboard/$', DashboardView.as_view(), name="dashboard"),
     url(r'^(?P<event>\d+)/dashboard/$', DashboardView.as_view(), name="dashboard"),
     url(r'^(?P<event>\d+)/leads/', include('leads.urls', namespace='leads')),

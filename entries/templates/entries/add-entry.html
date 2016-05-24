@@ -13,8 +13,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <link href="{% static 'css/split-pane.css' %}" type="text/css" rel="stylesheet">
 
 <script>
-//@TODO: fill with map data
-var shapes = [];
+var shapes = {% if entry %}{{ entry.map_data|safe }}{% else %}[]{% endif %};
 var shapeIdToken = 0;
 </script>
 
@@ -62,7 +61,7 @@ var shapeIdToken = 0;
             <div class="row row-form">
                 <div class="col-xs-12">
                     <label>Excerpt</label>
-                    <textarea id="excerpt" class="form-control" rows="8"></textarea>
+                    <textarea id="excerpt" class="form-control" rows="8">{% if entry %}{{entry.excerpt}}{% endif %}</textarea>
                 </div>
             </div>
 
@@ -114,7 +113,7 @@ var shapeIdToken = 0;
                         <select id="sector" name="sector" placeholder="Select sectors" multiple>
                             <option value="">Select sectors</option>
                             {% for sector in sectors %}
-                            <option value="{{sector.pk}}">{{sector}}</option>
+                            <option value="{{sector.pk}}" {% if entry_sectors and sector.pk in entry_sectors %}selected{% endif %}>{{sector}}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -170,7 +169,7 @@ var shapeIdToken = 0;
                         <select id="underlying-factor" name="underlying-factor" placeholder="Select factors" multiple>
                             <option value="">Select factors</option>
                             {% for uf in underlying_factors %}
-                            <option value="{{uf.pk}}">{{uf}}</option>
+                            <option value="{{uf.pk}}" {% if entry_underlying_factors and uf.pk in entry_underlying_factors %}selected{% endif %}>{{uf}}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -182,7 +181,7 @@ var shapeIdToken = 0;
                         <select id="crisis-driver" name="crisis-driver" placeholder="Select crisis drivers" multiple>
                             <option value="">Select crisis drivers</option>
                             {% for cd in crisis_drivers %}
-                            <option value="{{cd.pk}}">{{cd}}</option>
+                            <option value="{{cd.pk}}" {% if entry_crisis_drivers and cd.pk in entry_crisis_drivers %}selected{% endif %}>{{cd}}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -194,7 +193,7 @@ var shapeIdToken = 0;
                         <select id="status" name="status" placeholder="Select status">
                             <option value="">Select status</option>
                             {% for status in statuses %}
-                            <option value="{{status.0}}">{{status.1}}</option>
+                            <option value="{{status.0}}" {% if entry and entry.status == status.0 %}selected{% endif %}>{{status.1}}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -206,7 +205,7 @@ var shapeIdToken = 0;
                         <select id="problem-timeline" name="problem-timeline" placeholder="Select problem timeline">
                             <option value="">Select problem timeline</option>
                             {% for pt in problem_timelines %}
-                            <option value="{{pt.0}}">{{pt.1}}</option>
+                            <option value="{{pt.0}}" {% if entry and entry.problem_timeline == pt.0 %}selected{% endif %}>{{pt.1}}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -218,7 +217,7 @@ var shapeIdToken = 0;
                         <select id="severity" name="severity">
                             <option value="">Select severity</option>
                             {% for pt in severities %}
-                            <option value="{{pt.0}}">{{pt.1}}</option>
+                            <option value="{{pt.0}}" {% if entry and entry.severity == pt.0 %}selected{% endif %}>{{pt.1}}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -230,7 +229,7 @@ var shapeIdToken = 0;
                         <select id="reliability" name="reliability">
                             <option value="">Select reliability</option>
                             {% for pt in reliabilities %}
-                            <option value="{{pt.0}}">{{pt.1}}</option>
+                            <option value="{{pt.0}}" {% if entry and entry.reliability == pt.0 %}selected{% endif %}>{{pt.1}}</option>
                             {% endfor %}
                         </select>
                     </div>

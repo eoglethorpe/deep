@@ -11,6 +11,9 @@ class Country(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = 'countries'
+
 
 class Sector(models.Model):
     name = models.CharField(max_length=70, primary_key=True)
@@ -145,7 +148,8 @@ class VulnerableGroupData(models.Model):
     known_cases = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return self.vulnerable_group.group_name + " (" + self.known_cases + ")"
+        return self.vulnerable_group.group_name + \
+            " (" + str(self.known_cases) + ")"
 
 
 class AffectedGroupData(models.Model):
@@ -154,4 +158,5 @@ class AffectedGroupData(models.Model):
     known_cases = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return self.affected_group.group_name + " (" + self.known_cases + ")"
+        return self.affected_group.group_name + \
+            " (" + str(self.known_cases) + ")"
