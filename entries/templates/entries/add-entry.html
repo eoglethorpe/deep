@@ -15,6 +15,22 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <script>
 var shapes = {% if entry %}{{ entry.map_data|safe }}{% else %}[]{% endif %};
 var shapeIdToken = 0;
+
+var vulnerableGroups = {
+{% if entry %}
+    {% for vgd, cases in vulnerable_group_data_set.items %}
+        "{{vgd|safe}}": "{{cases}}",
+    {% endfor %}
+{% endif %}
+};
+
+var affectedGroups = {
+{% if entry %}
+    {% for agd, cases in affected_group_data_set.items %}
+        "{{agd|safe}}": "{{cases}}",
+    {% endfor %}
+{% endif %}
+};
 </script>
 
 
@@ -89,7 +105,12 @@ var shapeIdToken = 0;
                 <div class="row row-form">
                     <div class="col-sm-3 label-container"><label>Country:</label></div>
                     <div class="col-sm-9">
-                        {% include 'entries/select-country.html' %}
+                        <select name="country" id="country" placeholder="Select a country">
+                            <option value="">Select a country</option>
+                            {% for country in countries %}
+                            <option value="{{country.pk}}" {% if entry and entry.country == country %}selected{% endif %}>{{country.name}}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </div>
 

@@ -53,12 +53,12 @@ $(document).ready(function() {
         }
     });
 
-    var leadType = {"MAN": "Manual Entry", "WEB": "Website"};
+    var leadType = {"MAN": "Manual Entry", "URL": "Website", "ATT": "Attachment", "SOS": "Survey of Survey"};
 
     function format ( data ) {
         return  '<div class="entry-detail">' +
                     '<div class="row-header">'+
-                        '<button class="btn btn-default btn-edit"><i class="fa fa-edit"></i>Edit</button>'+
+                        '<button class="btn btn-default btn-edit" onclick="window.location.href=\'/' + currentEvent + '/entries/edit/' + data.id + '/\'"><i class="fa fa-edit"></i>Edit</button>' +
                         '<button class="btn btn-default btn-mark-processed"><i class="fa fa-check"></i>Mark Processed</button>'+
                         '<button class="btn btn-default btn-delete"><i class="fa fa-trash"></i>Delete</button>'+
                     '</div>'+

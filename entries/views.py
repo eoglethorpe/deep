@@ -53,6 +53,7 @@ class AddEntry(View):
             entry = Entry.objects.get(pk=int(id))
             lead = entry.lead
         elif lead_id:
+            entry = None
             lead = Lead.objects.get(pk=int(lead_id))
         else:
             raise Exception("Wrong view")
@@ -93,6 +94,16 @@ class AddEntry(View):
             context["entry_crisis_drivers"] = \
                 [c.pk for c in entry.crisis_drivers.all()]
 
+            vgds = {}
+            agds = {}
+            for vgd in entry.vulnerablegroupdata_set.all():
+                vgds[vgd.vulnerable_group.pk] = vgd.known_cases
+            for agd in entry.affectedgroupdata_set.all():
+                agds[agd.affected_group.pk] = agd.known_cases
+
+            context["vulnerable_group_data_set"] = vgds
+            context["affected_group_data_set"] = agds
+
         context.update(get_entry_form_data())
         return render(request, "entries/add-entry.html", context)
 
@@ -127,7 +138,7 @@ class AddEntry(View):
             entry.lead = Lead.objects.get(pk=int(lead_id))
         entry.excerpt = request.POST['excerpt']
         # TODO: entry.information_at
-        # entry.country = request.POST['country']
+        entry.country = Country.objects.get(pk=request.POST['country'])
         entry.map_data = request.POST['map-data']
         entry.status = request.POST['status']
         entry.problem_timeline = request.POST['problem-timeline']
@@ -136,15 +147,19 @@ class AddEntry(View):
         entry.created_by = request.user
         entry.save()
 
+        entry.sectors.clear()
         for s in request.POST.getlist('sector'):
             entry.sectors.add(Sector.objects.get(name=s))
 
+        entry.underlying_factors.clear()
         for uf in request.POST.getlist('underlying-factor'):
             entry.underlying_factors.add(UnderlyingFactor.objects.get(name=uf))
 
+        entry.crisis_drivers.clear()
         for cd in request.POST.getlist('crisis-driver'):
             entry.crisis_drivers.add(CrisisDriver.objects.get(name=cd))
 
+        VulnerableGroupData.objects.filter(entry__pk=entry.pk).delete()
         for vg in vulnerable_groups:
             vgd = VulnerableGroupData()
             vgd.entry = entry
@@ -155,6 +170,7 @@ class AddEntry(View):
                 vgd.known_cases = int(vg[1])
             vgd.save()
 
+        AffectedGroupData.objects.filter(entry__pk=entry.pk).delete()
         for ag in affected_groups:
             agd = AffectedGroupData()
             agd.entry = entry

@@ -136,7 +136,7 @@ class Entry(models.Model):
     created_by = models.ForeignKey(User, null=True)  # TODO: remove null
 
     def __str__(self):
-        return str(self.lead)
+        return str(self.lead) + " - " + self.excerpt[:10]
 
     class Meta:
         verbose_name_plural = 'entries'
