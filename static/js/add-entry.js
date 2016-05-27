@@ -259,7 +259,9 @@ function change_lead_preview(simplified) {
         else if (lead_type == 'MAN')
             frame.attr('src', "data:text/html;charset=utf-8," + lead_description);
         else if (lead_type == 'ATT')
-            if (lead_attachment.endsWith(".pdf"))
+            if (lead_attachment.endsWith(".pdf") ||
+                    lead_attachment.endsWith(".htm") ||
+                    lead_attachment.endsWith(".html"))
                 frame.attr('src', lead_attachment);
             // TODO Set other allowable extensions including images, text etc.
     }
