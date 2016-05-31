@@ -83,6 +83,9 @@ class AddEntry(View):
                 if extension == ".pdf":
                     context["lead_simplified"] = \
                         PdfStripper(attachment.upload).simplify()
+                elif extension in [".html", ".htm"]:
+                    context["lead_simplified"] = \
+                        HtmlStripper(attachment.upload.read()).simplify()
         except:
             print("Error while simplifying")
 
