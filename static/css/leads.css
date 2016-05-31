@@ -1,3 +1,7 @@
+html, body{
+    height: 100%;
+}
+
 #body-section{
     padding-top: 30px;
 }
@@ -67,4 +71,51 @@
 }
 .btn-delete .fa{
     color: #e74c3c;
+}
+
+
+#drag-overlay{
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    padding: 100px;
+}
+
+#drag-overlay #border{
+    border: 2px dashed #fff;
+    height: 100%;
+    font-size: 3em;
+    color: #f0f0f0;
+    text-align: center;
+    padding-top: 15%;
+}
+
+.modal-content{
+    padding: 50px;
+}
+.modal-content .title{
+    font-size: 2em;
+    color: #3498db;
+    margin-bottom: 32px;
+}
+form .input-label{
+    text-align: right;
+    padding-right: 10px;
+    padding-top: 10px;
+}
+form .row{
+    margin-bottom: 20px;
+}
+#action-row{
+    margin-bottom: 0;
+    margin-top: 40px;
+    text-align: right;
+}
+
+#action-row button{
+    margin-right: 16px;
 }

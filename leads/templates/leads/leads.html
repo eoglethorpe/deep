@@ -23,7 +23,6 @@ DEEP | Leads
 {% block body %}
 
 {% include 'navigation-bar.html' %}
-
 <div class="section" id="body-section">
     <div class="container">
         <div class="block" id="action-block">
@@ -98,6 +97,49 @@ DEEP | Leads
                     </tr>
                 </thead>
             </table>
+        </div>
+    </div>
+</div>
+
+<div id="drag-overlay" hidden>
+    <div id="border">
+        Drop the file here to add a lead from attachment
+    </div>
+</div>
+
+<div id="add-lead-from-attachment" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="title">Add Lead</div>
+            <form>
+                <div class="row">
+                    <div class="col-sm-3 input-label"><label>Name</label></div>
+                    <div class="col-sm-9"><input type="text" name="name" class="form-control" placeholder="Enter a descriptive name"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 input-label"><label>Source</label></div>
+                    <div class="col-sm-9"><input type="text" name="source-type" class="form-control" placeholder="Select source type"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 input-label"><label>Confidentiality</label></div>
+                    <div class="col-sm-9"><input type="text" name="confidentility" class="form-control" ></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 input-label"><label>Assign to</label></div>
+                    <div class="col-sm-9"><input type="text" name="assign-to" class="form-control" placeholder="Select a user"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 input-label"><label>Published at</label></div>
+                    <div class="col-sm-9"><input type="date" name="published-at" class="form-control" ></div>
+                </div>
+                <div class="row" id="action-row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <input type="submit"  class="btn btn-primary">
+                    </div>
+                </div>
+            </form>
+
         </div>
     </div>
 </div>

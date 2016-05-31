@@ -206,6 +206,37 @@ $(document).ready(function() {
             '</div>'
         ;
     }
+
+    var dragging = false;
+    $('body').bind("dragover", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        if( !dragging ){
+            $('#drag-overlay').show();
+            dragging = true;
+        }
+    });
+    $('body').bind("dragleave", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+
+        if(dragging){
+            if (!e.originalEvent.clientX && !e.originalEvent.clientY){
+                $('#drag-overlay').hide();
+                dragging = false;
+            }
+        }
+    });
+    $('body').bind("drop", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+
+        $('#drag-overlay').hide();
+        dragging = false;
+
+        $('#add-lead-from-attachment').modal('show');
+    });
+    $('#add-lead-from-attachment').modal('show');
 });
 
 
