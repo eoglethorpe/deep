@@ -236,7 +236,7 @@ $(document).ready(function() {
 
         $('#add-lead-from-attachment').modal('show');
     });
-    $('#add-lead-from-attachment').modal('show');
+    //$('#add-lead-from-attachment').modal('show');
 });
 
 

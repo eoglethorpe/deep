@@ -5,15 +5,17 @@ html, body{
 #body-section{
     padding-top: 30px;
 }
+#body-section .container{
+}
 
 #action-block{
     margin-bottom:30px;
     text-align: right;
 }
 #action-block .title, #leads-block .title{
+    font-size: 1.5em;
     margin-bottom: 20px;
     text-transform: uppercase;
-    padding-left: 6px;
     color: #2980b9;
 }
 
@@ -118,4 +120,11 @@ form .row{
 
 #action-row button{
     margin-right: 16px;
+}
+
+.odd, .odd+tr:not(.even){
+    background-color: #f0f0f0;
+}
+.even, .even+tr:not(.odd){
+    background-color: #fafafa;
 }

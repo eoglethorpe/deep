@@ -5,7 +5,7 @@
 .title{
     margin-bottom: 20px;
     text-transform: uppercase;
-    padding-left: 6px;
+    font-size: 1.5em;
     color: #2980b9;
 }
 
@@ -52,4 +52,11 @@
 .row-excerpt .content{
     line-height: 1.5;
     text-align: justify;
+}
+
+.odd, .odd+tr:not(.even){
+    background-color: #f0f0f0;
+}
+.even, .even+tr:not(.odd){
+    background-color: #fafafa;
 }
