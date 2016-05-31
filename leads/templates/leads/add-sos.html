@@ -10,6 +10,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 <link href="{% static 'css/add-sos.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
 
+<script src="{% static 'js/add-sos.js' %}"></script>
 
 {% endblock %}
 
@@ -49,138 +50,33 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                             Sectors covered by the assesment
                         </div>
                     </div>
-                    <div class="col-md-2 col-sm-4">
-                        <div class=" form-group">
-                            <label class=" control-label">Water Supply</label>
-                            <input type="text" class="form-control" name=""  placeholder="Quantification"/>
-                            <input type="text" class="form-control " name=""  placeholder="Analytical Value"/>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-sm-4">
-                        <div class=" form-group">
-                            <label class=" control-label">Hygine</label>
-                            <input type="text" class="form-control" name=""  placeholder="Quantification"/>
-                            <input type="text" class="form-control " name=""  placeholder="Analytical Value"/>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-sm-4">
-                        <div class=" form-group">
-                            <label class=" control-label">Sanitation</label>
-                            <input type="text" class="form-control" name=""  placeholder="Quantification"/>
-                            <input type="text" class="form-control " name=""  placeholder="Analytical Value"/>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-sm-4">
-                        <div class=" form-group">
-                            <label class=" control-label">Food</label>
-                            <input type="text" class="form-control" name=""  placeholder="Quantification"/>
-                            <input type="text" class="form-control " name=""  placeholder="Analytical Value"/>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-sm-4">
-                        <div class=" form-group">
-                            <label class=" control-label">Livelihood</label>
-                            <input type="text" class="form-control" name=""  placeholder="Quantification"/>
-                            <input type="text" class="form-control " name=""  placeholder="Analytical Value"/>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-sm-4">
-                        <div class=" form-group">
-                            <label class=" control-label">Health</label>
-                            <input type="text" class="form-control" name=""  placeholder="Quantification"/>
-                            <input type="text" class="form-control " name=""  placeholder="Analytical Value"/>
-                        </div>
-                    </div>
-
-                    <div class="col-md-2 col-sm-4">
-                        <div class=" form-group">
-                            <label class=" control-label">Nutrition</label>
-                            <input type="text" class="form-control" name=""  placeholder="Quantification"/>
-                            <input type="text" class="form-control " name=""  placeholder="Analytical Value"/>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-sm-4">
-                        <div class=" form-group">
-                            <label class=" control-label">Shelter</label>
-                            <input type="text" class="form-control" name=""  placeholder="Quantification"/>
-                            <input type="text" class="form-control " name=""  placeholder="Analytical Value"/>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-sm-4">
-                        <div class=" form-group">
-                            <label class=" control-label">Non Food Items</label>
-                            <input type="text" class="form-control" name=""  placeholder="Quantification"/>
-                            <input type="text" class="form-control " name=""  placeholder="Analytical Value"/>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-sm-4">
-                        <div class=" form-group">
-                            <label class=" control-label">Protection</label>
-                            <input type="text" class="form-control" name=""  placeholder="Quantification"/>
-                            <input type="text" class="form-control " name=""  placeholder="Analytical Value"/>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-sm-4">
-                        <div class=" form-group">
-                            <label class=" control-label">Child Protection</label>
-                            <input type="text" class="form-control" name=""  placeholder="Quantification"/>
-                            <input type="text" class="form-control " name=""  placeholder="Analytical Value"/>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-sm-4">
-                        <div class=" form-group">
-                            <label class=" control-label">Humanitarian Access</label>
-                            <input type="text" class="form-control" name=""  placeholder="Quantification"/>
-                            <input type="text" class="form-control " name=""  placeholder="Analytical Value"/>
-                        </div>
-                    </div>
-
-                    <div class="col-md-2 col-sm-4">
-                        <div class=" form-group">
-                            <label class=" control-label">...</label>
-                            <input type="text" class="form-control" name=""  placeholder="Quantification"/>
-                            <input type="text" class="form-control " name=""  placeholder="Analytical Value"/>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-sm-4">
-                        <div class=" form-group">
-                            <label class=" control-label">...</label>
-                            <input type="text" class="form-control" name=""  placeholder="Quantification"/>
-                            <input type="text" class="form-control " name=""  placeholder="Analytical Value"/>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-sm-4">
-                        <div class=" form-group">
-                            <label class=" control-label">...</label>
-                            <input type="text" class="form-control" name=""  placeholder="Quantification"/>
-                            <input type="text" class="form-control " name=""  placeholder="Analytical Value"/>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-sm-4">
-                        <div class=" form-group">
-                            <label class=" control-label">Market</label>
-                            <input type="text" class="form-control" name=""  placeholder="Quantification"/>
-                            <input type="text" class="form-control " name=""  placeholder="Analytical Value"/>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-sm-4">
-                        <div class=" form-group">
-                            <label class=" control-label">Logistic</label>
-                            <input type="text" class="form-control" name=""  placeholder="Quantification"/>
-                            <input type="text" class="form-control " name=""  placeholder="Analytical Value"/>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-sm-4">
-                        <div class=" form-group">
-                            <label class=" control-label">Commercial</label>
-                            <input type="text" class="form-control" name=""  placeholder="Quantification"/>
-                            <input type="text" class="form-control " name=""  placeholder="Analytical Value"/>
-                        </div>
-                    </div>
-
                 </div>
-
-
+                <div class="row">
+                    <div class="col-md-3">
+                        <div id="sectors">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-md-offset-1">
+                        <div id="sector-input">
+                            <div class="title"></div>
+                            <div class="group">
+                                <label>Quantification</label>
+                                <input type=text class="form-control" placeholder="Quantification" id="quantification">
+                            </div>
+                            <div class="group">
+                                <label>Analytical value</label>
+                                <input type=text class="form-control" placeholder="Analytical Value" id="analytical-value">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="action-block">
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="submit" class="btn btn-default">
+                    </div>
+                </div>
             </div>
         </form>
     </div>

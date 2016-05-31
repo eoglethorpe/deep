@@ -13,13 +13,48 @@ form{
     text-transform: uppercase;
     color: #3498db;
     font-size: 1.2em;
-    margin-bottom: 20px;
+    margin-bottom: 48px;
 }
 
 #sector-block{
-    margin-top: 50px;
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 24px 50px;
 }
 
 .control-label{
     padding-left: 6px;
+}
+
+
+#sectors .sector{
+    display: block;
+    padding: 6px 24px;
+    text-align: right;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+#sectors .active{
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+#sector-input .title{
+    margin-bottom: 32px;
+}
+#sector-input .group{
+    margin-bottom: 24px;
+}
+#sector-input label{
+    margin-bottom: 12px;
+}
+
+#action-block{
+    text-align: right;
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+
+#action-block input[type="submit"]{
+    min-width: 100px;
 }
