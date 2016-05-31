@@ -110,6 +110,7 @@ body, html{
 
 #panel {
     text-align: center;
+    margin-top: 10px;
 }
 
 #color-palette {

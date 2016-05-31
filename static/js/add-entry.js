@@ -2,14 +2,16 @@
 var map;
 var drawingManager;
 var selectedShape;
-var colors = ['#1E90FF', '#FF1493', '#32CD32', '#FF8C00', '#4B0082'];
+var colors = ['#3498db', '#e74c3c', '#2ecc71', '#f1c40f', '#34495e'];
 var selectedColor;
 var colorButtons = {};
 
 
 function clearSelection() {
     if (selectedShape) {
-        selectedShape.setEditable(false);
+        if(selectedShape.type != google.maps.drawing.OverlayType.MARKER){
+            selectedShape.setEditable(false);
+        }
         selectedShape = null;
     }
 }
@@ -17,8 +19,10 @@ function clearSelection() {
 function setSelection(shape) {
     clearSelection();
     selectedShape = shape;
-    shape.setEditable(true);
-    selectColor(shape.get('fillColor') || shape.get('strokeColor'));
+    if(shape.type != google.maps.drawing.OverlayType.MARKER){
+        shape.setEditable(true);
+        selectColor(shape.get('fillColor') || shape.get('strokeColor'));
+    }
 }
 
 function deleteSelectedShape() {
@@ -26,7 +30,7 @@ function deleteSelectedShape() {
         selectedShape.setMap(null);
         shapes = $.grep(shapes, function(shape){
             return shape.id != selectedShape.id;
-});
+        });
     }
 }
 
@@ -60,6 +64,7 @@ function setSelectedShapeColor(color) {
         } else {
             selectedShape.set('fillColor', color);
         }
+        selectedShape.color = color;
     }
 }
 
@@ -100,37 +105,104 @@ function getShapes(){
                 });
                 shapeData.push({
                     type: shapes[i].type,
-                    path: path
+                    path: path,
+                    color: shapes[i].color
                 });
                 break;
             case 'marker':
                 shapeData.push({
                     type: shapes[i].type,
-                    position: {lat: shapes[i].position.lat(), lng: shapes[i].position.lng()}
+                    position: {lat: shapes[i].position.lat(), lng: shapes[i].position.lng()},
+                    //color: shapes[i].color
                 });
                 break;
             case 'circle':
                 shapeData.push({
                     type: shapes[i].type,
                     center: {lat: shapes[i].center.lat(), lng: shapes[i].center.lng()},
-                    radius: shapes[i].radius
+                    radius: shapes[i].radius,
+                    color: shapes[i].color
                 });
                 break;
             default:
-            console.log('oops');
         }
     }
     return shapeData;
 }
 
 function initMap() {
-    // @TODO: adjust map according to previous data
     map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -34.397, lng: 150.644},
+        center: new google.maps.LatLng(0,0),
         scrollwheel: false,
-        zoom: 2,
+        zoom: 1,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
     });
+
+    if(testShapes.length > 0){
+        var boundbox = new google.maps.LatLngBounds();
+        for(i = 0; i < testShapes.length; i++){
+            switch(testShapes[i].type){
+                case "polygon":
+                    var polygon = new google.maps.Polygon({
+                        path: testShapes[i].path,
+                        strokeWeight: 0,
+                        fillColor: testShapes[i].color || colors[0],
+                        fillOpacity: 0.5,
+                        map: map
+                    });
+                    polygon.id = shapeIdToken++;
+                    polygon.type = testShapes[i].type;
+                    polygon.color = testShapes[i].color;
+                    shapes.push(polygon);
+                    for(j = 0; j < testShapes[i].path.length; j++){
+                        boundbox.extend(new google.maps.LatLng(testShapes[i].path[j].lat, testShapes[i].path[j].lng));
+                    }
+                    google.maps.event.addListener(polygon, 'click', function() {
+                        setSelection(polygon);
+                    });
+                    break;
+
+                case "circle":
+                    var circle = new google.maps.Circle({
+                        center: testShapes[i].center,
+                        radius: testShapes[i].radius,
+                        strokeWeight: 0,
+                        fillColor: testShapes[i].color || colors[0],
+                        fillOpacity: 0.5,
+                        map: map
+                    });
+                    circle.id = shapeIdToken++;
+                    circle.type = testShapes[i].type;
+                    circle.color = testShapes[i].color;
+                    shapes.push(circle);
+                    google.maps.event.addListener(circle, 'click', function() {
+                        setSelection(circle);
+                    });
+                    boundbox.extend(new google.maps.LatLng(testShapes[i].center.lat, testShapes[i].center.lng));
+                    //boundbox.extend(circle.getBounds());
+                    break;
+
+                case "marker":
+                {
+                    var marker = new google.maps.Marker({
+                        position: testShapes[i].position,
+                        draggable: true,
+                        editable: true,
+                        map: map
+                    });
+                    marker.id = shapeIdToken++;
+                    marker.type = testShapes[i].type;
+                    shapes.push(marker);
+                    google.maps.event.addListener(marker, 'click', function() {
+                        setSelection(this);
+                    });
+                    boundbox.extend(new google.maps.LatLng(testShapes[i].position.lat, testShapes[i].position.lng));
+                    break;
+                }
+            }
+        }
+        map.fitBounds(boundbox);
+    }
 
     var polyOptions = {
         strokeWeight: 0,
@@ -159,23 +231,23 @@ function initMap() {
         polygonOptions: polyOptions,
         map: map
     });
+    drawingManager.setDrawingMode(null);
 
     google.maps.event.addListener(drawingManager, 'overlaycomplete', function(e) {
         var newShape = e.overlay;
         newShape.type = e.type;
         newShape.id = shapeIdToken++;
-        if (e.type != google.maps.drawing.OverlayType.MARKER) {
+        //if (e.type != google.maps.drawing.OverlayType.MARKER) {
             // Switch back to non-drawing mode after drawing a shape.
             drawingManager.setDrawingMode(null);
 
             // Add an event listener that selects the newly-drawn shape when the user
             // mouses down on it.
-
             google.maps.event.addListener(newShape, 'click', function() {
                 setSelection(newShape);
             });
             setSelection(newShape);
-        }
+        //}
         addShape(newShape);
     });
 

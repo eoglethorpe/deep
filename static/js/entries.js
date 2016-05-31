@@ -70,10 +70,6 @@ $(document).ready(function() {
                         '<div class="col-sm-2 label-container"><label>lead type:</label></div>'+
                         '<div class="col-sm-10">'+leadType[data.lead_type]+'</div>'+
                     '</div>'+
-                    '<div class="row row-location">'+
-                        '<div class="col-sm-2 label-container"><label>location:</label></div>'+
-                        '<div class="col-sm-10"><button class="btn btn-default"><i class="fa fa-map-o"></i>Show on map</button></div>'+
-                    '</div>'+
                     '<div class="row row-excerpt" >'+
                         '<div class="col-sm-2 label-container"><label>excerpt:</label></div>'+
                         '<div class="col-sm-10 content">'+data.excerpt+'</div>'+

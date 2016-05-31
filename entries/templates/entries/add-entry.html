@@ -13,7 +13,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <link href="{% static 'css/split-pane.css' %}" type="text/css" rel="stylesheet">
 
 <script>
-var shapes = {% if entry %}{{ entry.map_data|safe }}{% else %}[]{% endif %};
+var shapes = [];
+var testShapes = {% if entry %}{{ entry.map_data|safe }}{% else %}[]{% endif %};
 var shapeIdToken = 0;
 
 var vulnerableGroups = {
@@ -37,7 +38,6 @@ var affectedGroups = {
 <script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/split-pane.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/add-entry.js' %}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-nr38mjHS3Y_PapPYSmTaFFQ9ucQGwig&libraries=places,drawing&callback=initMap" async defer></script>
 
 {% endblock %}
 
@@ -54,7 +54,7 @@ var affectedGroups = {
 {% else %}
     var lead_type = '';
 {% endif %}
-    var lead_simplified = "<style>html{font-family:lato;}</style>{% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %}";
+    var lead_simplified = "<style>html{font-family: 'Lato', sans-serif; font-size: 13px; background-color: #fafafa; color: #717171; padding: 24px; white-space: pre-wrap; line-height: 1.5;}</style>{% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %}";
 </script>
 
 <div class="split-pane fixed-left">
@@ -67,7 +67,6 @@ var affectedGroups = {
         {% endif %}
         <div id="lead-preview-container">
             <iframe id="lead-preview" src="data:text/html;charset=utf-8,No preview available"></iframe>
-            <!-- <iframe id="lead-preview" src="http://reliefweb.int/sites/reliefweb.int/files/resources/Open%20Mic%20Nepal%20_%20Issue%2018_%20English.pdf"></iframe> -->
         </div>
     </div>
     <div class="split-pane-divider" id="my-divider"></div>
@@ -266,4 +265,5 @@ var affectedGroups = {
         </div>
     </div>
 </div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-nr38mjHS3Y_PapPYSmTaFFQ9ucQGwig&libraries=places,drawing&callback=initMap" async defer></script>
 {% endblock %}
