@@ -31,15 +31,25 @@ $(document).ready(function(){
                 $('#sector-input').find('.title').text(sectorData[i].title);
                 $('#sector-input').find('#quantification').val(sectorData[i].quantification);
                 $('#sector-input').find('#analytical-value').val(sectorData[i].analytical_value);
+
+            }
+            if(sectorData[i].quantification.length > 0 || sectorData[i].analytical_value.length > 0){
+                sector.addClass('filled');
             }
             sector.text(sectorData[i].title);
             sector.on('click', function(e){
                 e.preventDefault();
                 var current = $('#sectors .active');
                 current.removeClass('active');
+
                 sectorData[current.prop('id')].quantification = $('#sector-input').find('#quantification').val();
                 sectorData[current.prop('id')].analytical_value = $('#sector-input').find('#analytical-value').val();
 
+                if(sectorData[current.prop('id')].quantification.length > 0 || sectorData[current.prop('id')].analytical_value.length > 0){
+                    current.addClass('filled');
+                } else{
+                    current.removeClass('filled')
+                }
                 $(this).addClass('active');
 
                 $('#sector-input').find('.title').text(sectorData[$(this).prop('id')].title);

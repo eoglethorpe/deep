@@ -20,8 +20,25 @@ $(document).ready(function() {
                 $('#website-row').hide();
                 break;
         }
-
     }
+
+    // automatically fill website when url gets pasted on
+    $('input[name="url"]').on('paste', function(e){
+        var url = e.originalEvent.clipboardData.getData('text');
+        console.log(url);
+        var domain;
+        //find & remove protocol (http, ftp, etc.) and get domain
+        if (url.indexOf("://") > -1) {
+            domain = url.split('/')[2];
+        }
+        else {
+            domain = url.split('/')[0];
+        }
+        //find & remove port number
+        domain = domain.split(':')[0];
+        $('input[name="website"]').val(domain);
+    });
+
     $("input[name='lead-type']:radio").change(function () {
         adjustLeadType($("input[name='lead-type']:checked").val());
     });

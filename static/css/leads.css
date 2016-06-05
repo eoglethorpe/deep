@@ -53,6 +53,9 @@ html, body{
 .lead-content label{
     margin-right: 10px;
 }
+.lead-content{
+    white-space: pre-wrap;
+}
 
 .row-detail .actions button{
     margin-right: 10px;

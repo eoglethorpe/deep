@@ -3,7 +3,7 @@
 <div class="section" id="header-section">
     <div class="container">
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-2 col-sm-6">
                 {% if event %}
                 <a class="app-name" href="{% url 'dashboard' event=event.pk%}">
                     <img class="logo" src="{% static 'img/deep-logo-white.png' %}">
@@ -14,7 +14,7 @@
                 </a>
                 {% endif %}
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2 col-sm-6">
                 <div class="dropdown" id="event-menu">
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
                         <i class="fa fa-location-arrow"></i>{% if event %} {{event}} {% else %} Select an event {% endif %}<span class="caret"></span>
@@ -29,7 +29,7 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 col-sm-8">
                 <div class="menu">
                     {% if event %}
                     <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' event=event.pk %}">Leads</a>
@@ -38,14 +38,14 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2 col-sm-4">
                 <div class="dropdown" id="user-menu">
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
                         <i class="fa fa-user"></i>{{ user.first_name }}<span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
                         {% if request.user.is_superuser %}
-                        <li><a href="/admin"><i class="fa fa-server"></i>Admin</a></li>
+                        <li><a href="/admin"><i class="fa fa-user-secret"></i>Admin panel</a></li>
                         {% endif %}
                         <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a></li>
                     </ul>

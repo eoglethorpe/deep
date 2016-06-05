@@ -38,6 +38,11 @@ form{
 #sectors .active{
     background-color: rgba(0, 0, 0, 0.1);
 }
+#sectors .filled::after{
+    content: "\2713";
+    margin-right: -20px;
+    padding-left: 10px;
+}
 
 #sector-input .title{
     margin-bottom: 32px;

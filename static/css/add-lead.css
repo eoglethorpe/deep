@@ -54,6 +54,10 @@ input[type="date"]{
     border-radius: 4px;
 }
 
+#description-row textarea{
+    white-space: pre-wrap;
+}
+
 #attachment-label-container{
     display: block;
     text-align: left;
