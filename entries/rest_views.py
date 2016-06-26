@@ -19,3 +19,11 @@ class EntryViewSet(viewsets.ModelViewSet):
         if event:
             return Entry.objects.filter(lead__event__pk=event)
         return Entry.objects.all()
+
+
+class CountryViewSet(viewsets.ModelViewSet):
+    serializer_class = CountrySerializer
+    perimission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        return Country.objects.all()

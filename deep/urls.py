@@ -19,6 +19,7 @@ router.register(r'entries', EntryViewSet, base_name='entry')
 router.register(r'sources', SourceViewSet, base_name='source')
 router.register(r'events', EventViewSet, base_name='event')
 router.register(r'users', UserViewSet, base_name='user')
+router.register(r'countries', CountryViewSet, base_name='country')
 
 
 urlpatterns = [

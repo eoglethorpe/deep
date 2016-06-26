@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
+{% endblock %}
+
+{% block head %}
+<link href="{% static 'css/add-entry.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/selectize.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/split-pane.css' %}" type="text/css" rel="stylesheet">
+
+<script>
+
+</script>
+
+
+<script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/split-pane.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/add-entry.js' %}"></script>
+
+{% endblock %}
+
+{% block body %}
+
+{% include 'navigation-bar.html' %}
+
+<script>
+{% if lead %}
+    var lead_type = '{{lead.lead_type}}';
+    {% if lead.url %}var lead_url = '{{lead.url}}';{% endif %}
+    {% if lead.description %}var lead_description = "{{lead.description|escapejs}}";{% endif %}
+    {% if lead.attachment %}var lead_attachment = "{{lead.attachment.upload.url}}";{% endif %}
+{% else %}
+    var lead_type = '';
+{% endif %}
+    var lead_simplified = "<style>body{font-family: 'Lato', sans-serif; font-size: 13px; background-color: #fafafa; color: #717171;}body div{padding: 24px; white-space: pre-wrap; line-height: 1.5;}</style><div>{% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %}</div>";
+
+    lead_description = lead_description.replace(/(?:\r\n|\r|\n)/g, '<br />');
+    lead_simplified = lead_simplified.replace(/(?:\r\n|\r|\n)/g, '<br />');
+</script>
+
+<div class="split-pane fixed-left">
+    <div class="split-pane-component" id="left-component">
+        {% if lead_simplified %}
+        <div id="lead-options-container">
+            <label class="radio-inline"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
+            <label class="radio-inline"><input type="radio" name="lead-view-option" value="original">Original</label>
+        </div>
+        {% endif %}
+        <div id="lead-preview-container">
+            <iframe id="lead-preview" src="data:text/html;charset=utf-8,No preview available"></iframe>
+        </div>
+    </div>
+    <div class="split-pane-divider" id="my-divider"></div>
+    <div class="split-pane-component" id="right-component">
+        <div class="form-wrapper">
+
+            <div class="row row-form">
+                <div class="col-xs-12">
+                    <label>Excerpt</label>
+                    <textarea id="excerpt" class="form-control" rows="8">{% if entry %}{{entry.excerpt}}{% endif %}</textarea>
+                </div>
+            </div>
+
+            <div class="row row-form">
+                <div class="col-xs-12">
+                    <label>Location</label>
+                    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+                    <div id="map"></div>
+                    <div id="panel">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <button class="btn btn-default" id="delete-button">Delete selected shape</button>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Selection color:</label>
+                                <div id="color-palette"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form id="entry-form" method="post">
+                {% csrf_token %}
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Country:</label></div>
+                    <div class="col-sm-9">
+                        <select name="country" id="country" placeholder="Select a country">
+                            <option value="">Select a country</option>
+                            {% for country in countries %}
+                            <option value="{{country.pk}}" {% if entry and entry.country == country %}selected{% endif %}>{{country.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Locations (Geonames):</label></div>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="location-geonames" id="location-geonames">
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Locations (Administrative):</label></div>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="location-administrative" id="location-administrative">
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Sector:</label></div>
+                    <div class="col-sm-9">
+                        <select id="sector" name="sector" placeholder="Select sectors" multiple>
+                            <option value="">Select sectors</option>
+                            {% for sector in sectors %}
+                            <option value="{{sector.pk}}" {% if entry_sectors and sector.pk in entry_sectors %}selected{% endif %}>{{sector}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="vg-wrapper-template hidden row">
+                    <div class="col-sm-9">
+                        <select class="vg-select" placeholder="Select a group">
+                            <option value="">Select a group</option>
+                            {% for vg in vulnerable_groups %}
+                            <option value="{{vg.pk}}">{{vg}}</option>
+                            {% endfor %}
+                        </select>
+                        <input class="form-control vg-known-cases" type="text" placeholder="Enter number of known cases">
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn btn-primary vg-btn-add">+</button>
+                    </div>
+                </div>
+                <div class="ag-wrapper-template hidden row">
+                    <div class="col-sm-9">
+                        <select class="ag-select" placeholder="Select a group">
+                            <option value="">Select a group</option>
+                            {% for ag in affected_groups %}
+                            <option value="{{ag.pk}}">{{ag}}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="text" class="form-control ag-known-cases" placeholder="Enter number of known cases">
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn btn-primary ag-btn-add">+</button>
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Vulnerable Group:</label></div>
+                    <div class="col-sm-9">
+                        <div id="vulnerable-group-container">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Affected Group:</label></div>
+                    <div class="col-sm-9">
+                        <div id="affected-group-container">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Underlying Factor:</label></div>
+                    <div class="col-sm-9">
+                        <select id="underlying-factor" name="underlying-factor" placeholder="Select factors" multiple>
+                            <option value="">Select factors</option>
+                            {% for uf in underlying_factors %}
+                            <option value="{{uf.pk}}" {% if entry_underlying_factors and uf.pk in entry_underlying_factors %}selected{% endif %}>{{uf}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Crisis Driver:</label></div>
+                    <div class="col-sm-9">
+                        <select id="crisis-driver" name="crisis-driver" placeholder="Select crisis drivers" multiple>
+                            <option value="">Select crisis drivers</option>
+                            {% for cd in crisis_drivers %}
+                            <option value="{{cd.pk}}" {% if entry_crisis_drivers and cd.pk in entry_crisis_drivers %}selected{% endif %}>{{cd}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Status:</label></div>
+                    <div class="col-sm-9">
+                        <select id="status" name="status" placeholder="Select status">
+                            <option value="">Select status</option>
+                            {% for status in statuses %}
+                            <option value="{{status.0}}" {% if entry and entry.status == status.0 %}selected{% endif %}>{{status.1}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Problem Timeline:</label></div>
+                    <div class="col-sm-9">
+                        <select id="problem-timeline" name="problem-timeline" placeholder="Select problem timeline">
+                            <option value="">Select problem timeline</option>
+                            {% for pt in problem_timelines %}
+                            <option value="{{pt.0}}" {% if entry and entry.problem_timeline == pt.0 %}selected{% endif %}>{{pt.1}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Severity:</label></div>
+                    <div class="col-sm-9">
+                        <select id="severity" name="severity">
+                            <option value="">Select severity</option>
+                            {% for pt in severities %}
+                            <option value="{{pt.0}}" {% if entry and entry.severity == pt.0 %}selected{% endif %}>{{pt.1}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row row-form">
+                    <div class="col-sm-3 label-container"><label>Reliability:</label></div>
+                    <div class="col-sm-9">
+                        <select id="reliability" name="reliability">
+                            <option value="">Select reliability</option>
+                            {% for pt in reliabilities %}
+                            <option value="{{pt.0}}" {% if entry and entry.reliability == pt.0 %}selected{% endif %}>{{pt.1}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row row-form row-action">
+                    <div class="col-md-12">
+                        <input type="submit" class="btn btn-default">
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-nr38mjHS3Y_PapPYSmTaFFQ9ucQGwig&libraries=places,drawing&callback=initMap" async defer></script>
+{% endblock %}

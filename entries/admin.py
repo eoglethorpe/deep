@@ -16,7 +16,16 @@ class EntryAdmin(admin.ModelAdmin):
     inlines = [VulnerableGroupDataInline, AffectedGroupDataInline]
 
 
-admin.site.register(Country)
+class AdminLevelInline(admin.StackedInline):
+    model = AdminLevel
+    extra = 1
+
+
+class CountryAdmin(admin.ModelAdmin):
+    inlines = [AdminLevelInline]
+
+
+admin.site.register(Country, CountryAdmin)
 admin.site.register(Sector)
 admin.site.register(VulnerableGroup)
 admin.site.register(AffectedGroup)

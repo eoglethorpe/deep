@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import pre_delete
+from django.dispatch.dispatcher import receiver
 
 from leads.models import Lead
 
@@ -13,6 +15,26 @@ class Country(models.Model):
 
     class Meta:
         verbose_name_plural = 'countries'
+
+
+class AdminLevel(models.Model):
+    level = models.IntegerField()
+    country = models.ForeignKey(Country)
+    name = models.CharField(max_length=70)
+    property_name = models.CharField(max_length=70)
+    geojson = models.FileField(upload_to='adminlevels/')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['country', 'level']
+        unique_together = ('country', 'level')
+
+
+@receiver(pre_delete, sender=AdminLevel)
+def _admin_level_delete(sender, instance, **kwargs):
+    instance.geojson.delete(False)
 
 
 class Sector(models.Model):

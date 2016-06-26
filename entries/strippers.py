@@ -21,8 +21,11 @@ class WebDocument:
 
     def __init__(self, url):
         r = requests.head(url)
+        self.html = None
+        self.pdf = None
 
-        if "text/html" in r.headers["content-type"]:
+        html_types = ["text/html", "text/plain"]
+        if any(x in r.headers["content-type"] for x in html_types):
             r = requests.get(url)
             self.html = r.content
             self.pdf = None
