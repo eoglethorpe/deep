@@ -16,7 +16,7 @@ html, body{
     font-size: 1.5em;
     margin-bottom: 20px;
     text-transform: uppercase;
-    color: #2980b9;
+    color: #008080;
 }
 
 #action-block a{
@@ -27,7 +27,7 @@ html, body{
     cursor: pointer;
 }
 #leads-table tbody tr[role="row"]:hover{
-    background-color: #2980b9;
+    background-color: #008080;
     color: #fff;
 }
 
