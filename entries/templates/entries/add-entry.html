@@ -55,8 +55,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
         <div id="lead-options-container">
             <label class="radio-inline"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
             <label class="radio-inline"><input type="radio" name="lead-view-option" value="original">Original</label>
+            <div id="tag-buttons"></div>
         </div>
-        <div id="tag-buttons"></div>
         {% endif %}
         <div id="lead-preview-container">
             <iframe id="lead-preview" src="data:text/html;charset=utf-8,No preview available"></iframe>
@@ -76,6 +76,46 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
         </select>
 
         <div id="admin-level-buttons"></div>
+
+
+        <div class="tree">
+        	<ul>
+        		<li>
+        			<a href="#">All Population</a>
+        			<ul>
+        				<li>
+        					<a href="#">Affected</a>
+                            <ul>
+        						<li>
+                                    <a href="#">Displaced</a>
+                                    <ul>
+        								<li><a href="#">IDP</a></li>
+                                        <li><a href="#">Refugees</a></li>
+                                        <li><a href="#">Asylum Seekers</a></li>
+                                        <li><a href="#">Returnees</a></li>
+                                        <li><a href="#">Others of Concern</a></li>
+
+        							</ul>
+                                </li>
+        						<li>
+        							<a href="#">Non-Displaced</a>
+                                    <ul>
+                                        <li><a href="#">Host</a></li>
+                                        <li><a href="#">Non-Host</a></li>
+                                    </ul>
+        						</li>
+
+        					</ul>
+        				</li>
+        				<li>
+        					<a href="#">Non-Affected</a>
+
+        				</li>
+        			</ul>
+        		</li>
+        	</ul>
+        </div>
+
     </div>
 </div>
 

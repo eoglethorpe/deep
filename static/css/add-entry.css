@@ -5,10 +5,10 @@ body, html{
 }
 
 .split-pane{
-    height: calc(100% - 60px)!important;
+    height: calc(100vh - 60px)!important;
 }
 .split-pane-divider {
-    background: #aaa;
+    background: rgba(0, 0, 0, 0.2);
 }
 
 #left-component {
@@ -27,9 +27,19 @@ body, html{
 
 #lead-options-container{
     height: 80px;
-    padding: 24px;
+    padding: 8px;
     background-color: #f5f5f5;
 }
+#lead-options-container button{
+    padding: 5px 10px;
+    border-radius: 0;
+    line-height: 1;
+    margin-right: 8px;
+}
+#lead-options-container #tag-buttons{
+    margin-top: 10px;
+}
+
 #lead-preview-container{
     height: calc(100% - 85px);
 }
@@ -42,94 +52,80 @@ body, html{
 #lead-select{
 }
 
-.form-wrapper{
-    padding: 24px;
+
+
+.tree ul {
+	padding-top: 20px; position: relative;
 }
 
-#map {
-    height: 400px;
+.tree li {
+	float: left; text-align: center;
+	list-style-type: none;
+	position: relative;
+	padding: 20px 5px 0 5px;
 }
 
-.row-form{
-    padding-top: 10px;
-    padding-bottom: 10px;
+/*We will use ::before and ::after to draw the connectors*/
+
+.tree li::before, .tree li::after{
+	content: '';
+	position: absolute; top: 0; right: 50%;
+	border-top: 1px solid #ccc;
+	width: 50%; height: 20px;
+}
+.tree li::after{
+	right: auto; left: 50%;
+	border-left: 1px solid #ccc;
 }
 
-.row-action{
-    text-align: right;
-    margin-top: 20px;
+/*We need to remove left-right connectors from elements without
+any siblings*/
+.tree li:only-child::after, .tree li:only-child::before {
+	display: none;
 }
 
-.label-container{
-    text-align: right;
-    padding-right: 10px;
-    padding-top: 10px;
+/*Remove space from the top of single children*/
+.tree li:only-child{ padding-top: 0;}
+
+/*Remove left connector from first child and
+right connector from last child*/
+.tree li:first-child::before, .tree li:last-child::after{
+	border: 0 none;
+}
+/*Adding back the vertical connector to the last nodes*/
+.tree li:last-child::before{
+	border-right: 1px solid #ccc;
+	border-radius: 0 5px 0 0;
+	-webkit-border-radius: 0 5px 0 0;
+	-moz-border-radius: 0 5px 0 0;
+}
+.tree li:first-child::after{
+	border-radius: 5px 0 0 0;
+	-webkit-border-radius: 5px 0 0 0;
+	-moz-border-radius: 5px 0 0 0;
 }
 
-.controls {
-    margin-top: 10px;
-    border: 1px solid transparent;
-    border-radius: 2px 0 0 2px;
-    box-sizing: border-box;
-    height: 32px;
-    outline: none;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+/*Time to add downward connectors from parents*/
+.tree ul ul::before{
+	content: '';
+	position: absolute; top: 0; left: 50%;
+	border-left: 1px solid #ccc;
+	width: 0; height: 20px;
 }
 
-#pac-input {
-    background-color: #fff;
-    font-size: 15px;
-    font-weight: 300;
-    margin-left: 12px;
-    padding: 0 11px 0 13px;
-    text-overflow: ellipsis;
-    width: 300px;
-}
-
-#pac-input:focus {
-    border-color: #4d90fe;
-}
-
-.pac-container {
+.tree li a{
 
 }
 
-#type-selector {
-    color: #fff;
-    background-color: #4d90fe;
-    padding: 5px 11px 0px 11px;
-}
+/*Time for some hover effects*/
+/*We will apply the hover effect the the lineage of the element also*/
+.tree li a:hover, .tree li a:hover+ul li a {
 
-#type-selector label {
-    font-size: 13px;
-    font-weight: 300;
 }
-#target {
-    width: 345px;
-}
-
-#panel {
-    text-align: center;
-    margin-top: 10px;
-}
-
-#color-palette {
-    display: inline-block;
-    margin-left: 10px;
-}
-
-.color-button {
-    width: 14px;
-    height: 14px;
-    font-size: 0;
-    margin: 2px;
-    float: left;
-    cursor: pointer;
-}
-
-.vg-btn-add, .vg-btn-remove{
-}
-
-.vg-wrapper, .ag-wrapper{
-    margin-bottom: 10px;
+/*Connector styles on hover*/
+.tree li a:hover+ul li::after,
+.tree li a:hover+ul li::before,
+.tree li a:hover+ul::before,
+.tree li a:hover+ul ul::before{
+	border-color:  #18bc9c;
 }
