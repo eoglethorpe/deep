@@ -6,6 +6,7 @@ var selectedCountry = "";
 var layer;
 
 var map = L.map('the-map').setView([27.7, 85.3], 6);
+// L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
 
 // On country selected, fetch the admin levels data.
 $("#country").on('change', function(e) {
@@ -44,18 +45,29 @@ function getAdminLevels(countryCode) {
 function onEachMapFeature(feature, layer) {
     var isSelected = false;
 
+    var propName = adminLevelPropNames[selectedCountry][currentLevel];
+    var name = "";
+    if (feature.properties && feature.properties[propName]) {
+        name = feature.properties[propName];
+    }
+
+    var color1 = getColor(50, 50);
+    var color2 = getColor(50, 30);
+
     layer.setStyle({
-        color: 'blue'
+        fillColor: color1,
+        color: 'white',
     });
+
     layer.on('mouseover', function() {
-        layer.setStyle({
-            color: (isSelected)?'orange':'red'
-        })
+        this.setStyle({
+            fillColor: color2
+        });
     });
     layer.on('mouseout', function() {
-        layer.setStyle({
-            color: (isSelected)?'green':'blue'
-        })
+        this.setStyle({
+            fillColor: color1
+        });
     });
 }
 

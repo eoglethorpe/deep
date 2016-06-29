@@ -16,8 +16,31 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/split-pane.js' %}"></script>
 
+<script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
+
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+
+<script>
+    var text_style = "<style>body{font-family: 'Lato', sans-serif; font-size: 13px; background-color: #fafafa; color: #717171;}body div{padding: 24px; white-space: pre-wrap; line-height: 1.5;}</style>";
+{% if lead %}
+    var lead_type = '{{lead.lead_type}}';
+    {% if lead.url %}var lead_url = '{{lead.url}}';{% endif %}
+    {% if lead.description %}var lead_description = "{{lead.description|escapejs}}";{% endif %}
+    {% if lead.attachment %}var lead_attachment = "{{lead.attachment.upload.url}}";{% endif %}
+{% else %}
+    var lead_type = '';
+{% endif %}
+    var lead_simplified = "{% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %}";
+
+    lead_description = lead_description.replace(/(?:\r\n|\r|\n)/g, '<br />');
+    lead_simplified = lead_simplified.replace(/(?:\r\n|\r|\n)/g, '<br />');
+
+
+    var tags = {"one": ["we", "all"], "two": ["foolish", "apes"], "three": ["jackerwobly"]};
+    var selectedTags = {};
+    var isSimplified;
+</script>
 
 {% endblock %}
 
@@ -28,6 +51,13 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <div class="split-pane fixed-left">
 
     <div class="split-pane-component" id="left-component">
+        {% if lead_simplified %}
+        <div id="lead-options-container">
+            <label class="radio-inline"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
+            <label class="radio-inline"><input type="radio" name="lead-view-option" value="original">Original</label>
+        </div>
+        <div id="tag-buttons"></div>
+        {% endif %}
         <div id="lead-preview-container">
             <iframe id="lead-preview" src="data:text/html;charset=utf-8,No preview available"></iframe>
         </div>
@@ -51,4 +81,5 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
 <script src="{% static 'js/add-entry.js' %}"></script>
 <script src="{% static 'js/add-entry-map.js' %}"></script>
+
 {% endblock %}
