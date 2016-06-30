@@ -79,6 +79,9 @@ class LoginView(View):
         # If user is already logged in, redirect to dashboard.
         if request.user and request.user.is_active:
             try:
+                last_event = UserProfile.get_last_event(request)
+                if last_event:
+                    return redirect("dashboard", last_event.pk)
                 profile = UserProfile.objects.get(user=request.user)
                 return redirect("dashboard")
             except:
@@ -104,6 +107,9 @@ class LoginView(View):
                 try:
                     profile = UserProfile.objects.get(user=user)
                     login(request, user)
+                    last_event = UserProfile.get_last_event(request)
+                    if last_event:
+                        return redirect("dashboard", last_event.pk)
                     return redirect("dashboard")
                 except:
                     error = "Your profile is not registered properly"
@@ -127,6 +133,8 @@ class DashboardView(View):
         if event:
             context["event"] = Event.objects.get(pk=event)
             UserProfile.set_last_event(request, context["event"])
+        else:
+            UserProfile.set_last_event(request, None)
         context["all_events"] = Event.objects.all()
         return render(request, "users/dashboard.html", context)
 

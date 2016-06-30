@@ -146,7 +146,8 @@ DEEP | Leads
 
 <form id="process-form" style="visibility:collapse;" method="post" action="{% url 'leads:mark_processed' event=event.pk %}">
     {% csrf_token %}
-    <input id="process-id" name="id" type="text">
+    <input id="process-id" name="id" type="text">    
+    <input id="process-status" name="status" type="text">
 </form>
 <form id="delete-form" style="visibility:collapse;" method="post" action="{% url 'leads:delete' event=event.pk %}">
     {% csrf_token %}

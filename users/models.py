@@ -27,3 +27,7 @@ class UserProfile(models.Model):
             profile.save()
         except:
             pass
+
+    @staticmethod
+    def get_last_event(request):
+        return UserProfile.objects.get(user__pk=request.user.pk).last_event

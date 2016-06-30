@@ -16,22 +16,26 @@
             </div>
             <div class="col-md-2 col-sm-6">
                 <div class="dropdown" id="event-menu">
+                    {% if all_events %}
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
                         <i class="fa fa-location-arrow"></i>{% if event %} {{event}} {% else %} Select an event {% endif %}<span class="caret"></span>
                     </button>
-                    {% if all_events %}
                     <ul class="dropdown-menu">
                         {% for ev in all_events %}
                         <li><a href="{% url request.resolver_match.view_name event=ev.pk %}">{{ev}}</a></li>
                         {% endfor %}
                         <li><a href="{% url 'dashboard' %}">None</a></li>
                     </ul>
+                    {% else %}
+                    <button class="btn btn-primary dropdown-toggle" type="button" enabled="disabled" data-toggle="dropdown">
+                        {% if event %} <i class="fa fa-location-arrow"></i>{{event}}{% endif %}
+                    </button>
                     {% endif %}
                 </div>
             </div>
             <div class="col-md-6 col-sm-8">
                 <div class="menu">
-                    {% if event %}
+                    {% if event and all_events %}
                     <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' event=event.pk %}">Leads</a>
                     <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' event=event.pk %}">Entries</a>
                     <a class="{% if current_page == 'report' %}active{% endif %} menu-item" href="#">Report</a>

@@ -38,11 +38,10 @@ class AddSoS(View):
     def get(self, request, event, id=None):
         context = {}
         context["current_page"] = "leads"
-        if not id:
-            context["all_events"] = Event.objects.all()
-        else:
+        context["event"] = Event.objects.get(pk=event)
+        if id:
             context["lead"] = Lead.objects.get(pk=id)
-        return render(request, "leads/add-sos.html", context);
+        return render(request, "leads/add-sos.html", context)
 
 
 class AddLead(View):
@@ -52,9 +51,7 @@ class AddLead(View):
         context["current_page"] = "leads"
         context["event"] = Event.objects.get(pk=event)
         UserProfile.set_last_event(request, context["event"])
-        if not id:
-            context["all_events"] = Event.objects.all()
-        else:
+        if id:
             context["lead"] = Lead.objects.get(pk=id)
         context.update(get_lead_form_data())
         return render(request, "leads/add-lead.html", context)
@@ -149,7 +146,7 @@ class MarkProcessed(View):
     @method_decorator(login_required)
     def post(self, request, event):
         lead = Lead.objects.get(pk=request.POST["id"])
-        lead.status = Lead.PROCESSED
+        lead.status = request.POST["status"]
         lead.save()
         return redirect('leads:leads', event=event)
 

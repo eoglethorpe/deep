@@ -195,7 +195,11 @@ $(document).ready(function() {
                         '<div class="actions">' +
                             '<button class="btn btn-default btn-add-entry" onclick="window.location.href=\'/' + currentEvent + '/entries/add/' + data.id + '/\'"><i class="fa fa-share"></i>Add Entry</button>' +
                             '<button class="btn btn-default btn-edit" onclick="window.location.href=\'/' + currentEvent + '/leads/edit/' + data.id + '/\'"><i class="fa fa-edit"></i>Edit</button>' +
-                            '<button class="btn btn-default btn-mark-processed" onclick="markProcessed('+data.id+');"><i class="fa fa-check"></i>Mark Processed</button>' +
+                            (
+                                (data.status == "PEN") ?
+                                '<button class="btn btn-default btn-mark-processed" onclick="markProcessed('+data.id+', \'PRO\');"><i class="fa fa-check"></i>Mark Processed</button>' :
+                                '<button class="btn btn-default btn-mark-processed" onclick="markProcessed('+data.id+', \'PEN\');"><i class="fa fa-check"></i>Mark Pending</button>'
+                            ) +
                             '<button class="btn btn-default btn-delete" onclick="deleteLead('+data.id+');"><i class="fa fa-trash"></i>Delete</button>' +
                         '</div>' +
                     '</div>' +
@@ -240,8 +244,9 @@ $(document).ready(function() {
 });
 
 
-function markProcessed(id) {
+function markProcessed(id, status) {
     $("#process-id").val(id);
+    $("#process-status").val(status);
     $("#process-form").submit();
 }
 
