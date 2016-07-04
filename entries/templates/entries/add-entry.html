@@ -21,6 +21,12 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 
+<!-- <link rel="stylesheet" href="{% static 'css/leaflet.css' %}" />
+<script src="{% static 'js/leaflet.js' %}"></script> -->
+
+<link rel="stylesheet" href="{% static 'css/leaflet.label.css' %}" />
+<script src="{% static 'js/leaflet.label.js' %}"></script>
+
 <script>
     var text_style = "<style>body{font-family: 'Lato', sans-serif; font-size: 13px; background-color: #fafafa; color: #717171;}body div{padding: 24px; white-space: pre-wrap; line-height: 1.5;}</style>";
 {% if lead %}
@@ -40,6 +46,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     var tags = {"one": ["we", "all"], "two": ["foolish", "apes"], "three": ["jackerwobly"]};
     var selectedTags = {};
     var isSimplified;
+
+    var mapSelections = [];
 </script>
 
 {% endblock %}

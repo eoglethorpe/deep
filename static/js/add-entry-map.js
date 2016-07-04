@@ -51,11 +51,14 @@ function onEachMapFeature(feature, layer) {
         name = feature.properties[propName];
     }
 
-    var color1 = getColor(50, 50);
-    var color2 = getColor(50, 30);
+    var color1 = getColor(50, 50);  // default color
+    var color2 = getColor(30, 70);  // mouse-hover color
+    var color3 = getColor(5, 5);    // selection-color;
+
+    var selectionName = selectedCountry+":"+currentLevel+":"+name;
 
     layer.setStyle({
-        fillColor: color1,
+        fillColor: (mapSelections.indexOf(selectionName) == -1)?color1:color3,
         color: 'white',
     });
 
@@ -66,9 +69,39 @@ function onEachMapFeature(feature, layer) {
     });
     layer.on('mouseout', function() {
         this.setStyle({
-            fillColor: color1
+            fillColor: (mapSelections.indexOf(selectionName) == -1)?color1:color3
         });
     });
+
+    layer.on('click', function() {
+
+        var index = mapSelections.indexOf(selectionName);
+        if (index == -1) {
+            mapSelections.push(selectionName);
+        }
+        else {
+            mapSelections.splice(index, 1);
+        }
+
+        this.setStyle({
+            fillColor: (index == -1) ? color3 : color1
+        });
+    });
+
+    layer.bindLabel(name);
+
+    // var polygonCenter = layer.getBounds().getCenter();
+    // L.marker(polygonCenter)
+    //     .bindLabel(name, { noHide: true })
+    //     .addTo(map);
+
+    // var label = L.marker(layer.getBounds().getCenter(), {
+    //   icon: L.divIcon({
+    //     className: 'label',
+    //     html: name,
+    //     iconSize: [100, 40]
+    //   })
+    // }).addTo(map);
 }
 
 
@@ -89,6 +122,8 @@ function refreshMap() {
     $("#admin-level-buttons button").addClass("btn-default");
     $("#btn-lvl-"+currentLevel).removeClass("btn-default");
     $("#btn-lvl-"+currentLevel).addClass("btn-primary");
+
+    map.fitBounds(layer.getBounds());
 }
 
 

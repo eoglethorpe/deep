@@ -18,7 +18,7 @@ def get_entry_form_data():
     data = {}
     data["countries"] = Country.objects.all()
     data["sectors"] = Sector.objects.all()
-    data["vulnerable_groups"] = VulnerableGroup.objects.all()
+    # data["vulnerable_groups"] = VulnerableGroup.objects.all()
     data["affected_groups"] = AffectedGroup.objects.all()
     data["crisis_drivers"] = CrisisDriver.objects.all()
     data["underlying_factors"] = UnderlyingFactor.objects.all()
@@ -99,13 +99,13 @@ class AddEntry(View):
 
             vgds = {}
             agds = {}
-            for vgd in entry.vulnerablegroupdata_set.all():
-                vgds[vgd.vulnerable_group.pk] = vgd.known_cases
-            for agd in entry.affectedgroupdata_set.all():
-                agds[agd.affected_group.pk] = agd.known_cases
+            # for vgd in entry.vulnerablegroupdata_set.all():
+            #     vgds[vgd.vulnerable_group.pk] = vgd.known_cases
+            # for agd in entry.affectedgroupdata_set.all():
+            #     agds[agd.affected_group.pk] = agd.known_cases
 
-            context["vulnerable_group_data_set"] = vgds
-            context["affected_group_data_set"] = agds
+            # context["vulnerable_group_data_set"] = vgds
+            # context["affected_group_data_set"] = agds
 
         context.update(get_entry_form_data())
         return render(request, "entries/add-entry.html", context)
@@ -162,26 +162,26 @@ class AddEntry(View):
         for cd in request.POST.getlist('crisis-driver'):
             entry.crisis_drivers.add(CrisisDriver.objects.get(name=cd))
 
-        VulnerableGroupData.objects.filter(entry__pk=entry.pk).delete()
-        for vg in vulnerable_groups:
-            vgd = VulnerableGroupData()
-            vgd.entry = entry
-            vgd.vulnerable_group = VulnerableGroup.objects.get(pk=vg[0])
-            if vg[1] == "":
-                vgd.known_cases = None
-            else:
-                vgd.known_cases = int(vg[1])
-            vgd.save()
+        # VulnerableGroupData.objects.filter(entry__pk=entry.pk).delete()
+        # for vg in vulnerable_groups:
+        #     vgd = VulnerableGroupData()
+        #     vgd.entry = entry
+        #     vgd.vulnerable_group = VulnerableGroup.objects.get(pk=vg[0])
+        #     if vg[1] == "":
+        #         vgd.known_cases = None
+        #     else:
+        #         vgd.known_cases = int(vg[1])
+        #     vgd.save()
 
-        AffectedGroupData.objects.filter(entry__pk=entry.pk).delete()
-        for ag in affected_groups:
-            agd = AffectedGroupData()
-            agd.entry = entry
-            agd.affected_group = AffectedGroup.objects.get(pk=ag[0])
-            if ag[1] == "":
-                agd.known_cases = None
-            else:
-                agd.known_cases = int(ag[1])
-            agd.save()
+        # AffectedGroupData.objects.filter(entry__pk=entry.pk).delete()
+        # for ag in affected_groups:
+        #     agd = AffectedGroupData()
+        #     agd.entry = entry
+        #     agd.affected_group = AffectedGroup.objects.get(pk=ag[0])
+        #     if ag[1] == "":
+        #         agd.known_cases = None
+        #     else:
+        #         agd.known_cases = int(ag[1])
+        #     agd.save()
 
         return redirect("entries:entries", event)

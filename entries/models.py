@@ -25,11 +25,19 @@ class AdminLevel(models.Model):
     geojson = models.FileField(upload_to='adminlevels/')
 
     def __str__(self):
-        return self.name
+        return self.name + ", " + str(self.country)
 
     class Meta:
         ordering = ['country', 'level']
         unique_together = ('country', 'level')
+
+
+class AdminLevelSelection(models.Model):
+    admin_level = models.ForeignKey(AdminLevel)
+    selection_name = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.selection_name + ", " + str(self.admin_level)
 
 
 @receiver(pre_delete, sender=AdminLevel)
@@ -44,18 +52,19 @@ class Sector(models.Model):
         return self.name
 
 
-class VulnerableGroup(models.Model):
-    group_name = models.CharField(max_length=70, primary_key=True)
-
-    def __str__(self):
-        return self.group_name
-
+# class VulnerableGroup(models.Model):
+#     group_name = models.CharField(max_length=70, primary_key=True)
+#
+#     def __str__(self):
+#         return self.group_name
+#
 
 class AffectedGroup(models.Model):
-    group_name = models.CharField(max_length=70, primary_key=True)
+    name = models.CharField(max_length=70, primary_key=True)
+    parent = models.ForeignKey('AffectedGroup', null=True, blank=True)
 
     def __str__(self):
-        return self.group_name
+        return self.name
 
 
 class UnderlyingFactor(models.Model):
@@ -138,6 +147,8 @@ class Entry(models.Model):
     )
 
     lead = models.ForeignKey(Lead)
+
+    # Following fields may need to be removed.
     excerpt = models.TextField()
     information_at = models.DateField(null=True, blank=True)
     country = models.ForeignKey(Country, null=True, blank=True)
@@ -153,6 +164,10 @@ class Entry(models.Model):
     reliability = models.CharField(max_length=3, choices=RELIABILITIES,
                                    default=None, null=True, blank=True)
     map_data = models.TextField()
+    ######################################################################
+
+    affected_groups = models.ManyToManyField(AffectedGroup, blank=True)
+    map_selections = models.ManyToManyField(AdminLevelSelection, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, null=True)  # TODO: remove null
@@ -164,21 +179,21 @@ class Entry(models.Model):
         verbose_name_plural = 'entries'
 
 
-class VulnerableGroupData(models.Model):
-    entry = models.ForeignKey(Entry)
-    vulnerable_group = models.ForeignKey(VulnerableGroup)
-    known_cases = models.IntegerField(null=True, blank=True)
+# class VulnerableGroupData(models.Model):
+#     entry = models.ForeignKey(Entry)
+#     vulnerable_group = models.ForeignKey(VulnerableGroup)
+#     known_cases = models.IntegerField(null=True, blank=True)
 
-    def __str__(self):
-        return self.vulnerable_group.group_name + \
-            " (" + str(self.known_cases) + ")"
+#     def __str__(self):
+#         return self.vulnerable_group.group_name + \
+#             " (" + str(self.known_cases) + ")"
 
 
-class AffectedGroupData(models.Model):
-    entry = models.ForeignKey(Entry)
-    affected_group = models.ForeignKey(AffectedGroup)
-    known_cases = models.IntegerField(null=True, blank=True)
+# class AffectedGroupData(models.Model):
+#     entry = models.ForeignKey(Entry)
+#     affected_group = models.ForeignKey(AffectedGroup)
+#     known_cases = models.IntegerField(null=True, blank=True)
 
-    def __str__(self):
-        return self.affected_group.group_name + \
-            " (" + str(self.known_cases) + ")"
+#     def __str__(self):
+#         return self.affected_group.group_name + \
+#             " (" + str(self.known_cases) + ")"
