@@ -97,8 +97,8 @@ class AddEntry(View):
             context["entry_crisis_drivers"] = \
                 [c.pk for c in entry.crisis_drivers.all()]
 
-            vgds = {}
-            agds = {}
+            # vgds = {}
+            # agds = {}
             # for vgd in entry.vulnerablegroupdata_set.all():
             #     vgds[vgd.vulnerable_group.pk] = vgd.known_cases
             # for agd in entry.affectedgroupdata_set.all():

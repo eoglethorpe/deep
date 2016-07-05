@@ -32,18 +32,25 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 {% if lead %}
     var lead_type = '{{lead.lead_type}}';
     {% if lead.url %}var lead_url = '{{lead.url}}';{% endif %}
-    {% if lead.description %}var lead_description = "{{lead.description|escapejs}}";{% endif %}
+
+    {% if lead.description %}
+    var lead_description = "{{lead.description|escapejs}}";
+    lead_description = lead_description.replace(/(?:\r\n|\r|\n)/g, '<br />');
+    {% endif %}
+
     {% if lead.attachment %}var lead_attachment = "{{lead.attachment.upload.url}}";{% endif %}
 {% else %}
     var lead_type = '';
 {% endif %}
-    var lead_simplified = "{% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %}";
 
-    lead_description = lead_description.replace(/(?:\r\n|\r|\n)/g, '<br />');
+    var lead_simplified = "{% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %}";
     lead_simplified = lead_simplified.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
 
-    var tags = {"one": ["we", "all"], "two": ["foolish", "apes"], "three": ["jackerwobly"]};
+    // var tags = {"one": ["we", "all"], "two": ["foolish", "apes"], "three": ["jackerwobly"]};
+    var tags = {
+        {% for sector in sectors %} "{{sector.name}}": {{sector.tags_json|safe}}, {% endfor %}
+    };
     var selectedTags = {};
     var isSimplified;
 

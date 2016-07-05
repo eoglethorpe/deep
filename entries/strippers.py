@@ -20,7 +20,15 @@ class WebDocument:
     """
 
     def __init__(self, url):
-        r = requests.head(url)
+        try:
+            r = requests.head(url)
+        except:
+            # If we can't get header, assume html and try to continue.
+            r = requests.get(url)
+            self.html = r.content
+            self.pdf = None
+            return
+
         self.html = None
         self.pdf = None
 

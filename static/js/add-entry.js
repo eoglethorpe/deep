@@ -6,7 +6,7 @@ function styleText(text) {
         for (var j in tags[tag]) {
             var keyword = tags[tag][j];
 
-            var search = '('+keyword+')';
+            var search = '\\b('+keyword+')\\b';
             var regex = new RegExp(search, "ig");
             var replace = "<span style='background-color:" + color + ";'> $1 </span>";
             text = text.replace(regex, replace);

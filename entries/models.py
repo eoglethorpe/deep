@@ -5,6 +5,8 @@ from django.dispatch.dispatcher import receiver
 
 from leads.models import Lead
 
+import json
+
 
 class Country(models.Model):
     code = models.CharField(max_length=5, primary_key=True)
@@ -47,9 +49,14 @@ def _admin_level_delete(sender, instance, **kwargs):
 
 class Sector(models.Model):
     name = models.CharField(max_length=70, primary_key=True)
+    tags_json = models.TextField(blank=True, default="[]")
 
     def __str__(self):
         return self.name
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.tags = json.loads(self.tags_json)
 
 
 # class VulnerableGroup(models.Model):
