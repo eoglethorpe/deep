@@ -18,13 +18,13 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
 <script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
 
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 
 <!-- <link rel="stylesheet" href="{% static 'css/leaflet.css' %}" />
 <script src="{% static 'js/leaflet.js' %}"></script> -->
 
-<link rel="stylesheet" href="{% static 'css/leaflet.label.css' %}" />
+<link rel="stylesheet" href="{% static 'css/leaflet.label.css' %}" >
 <script src="{% static 'js/leaflet.label.js' %}"></script>
 
 <script>
@@ -74,56 +74,86 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     <div class="split-pane-divider" id="my-divider"></div>
 
     <div class="split-pane-component" id="right-component">
-        <div id="the-map" style="height:350px;"></div>
+        <div class="container-fluid">
+            <div id="the-map" style="height:300px;"></div>
 
-        <select name="country" id="country" placeholder="Select a country">
-            <option value="">Select a country</option>
-            {% for country in countries %}
-            <option value="{{country.pk}}" {% if entry and entry.country == country %}selected{% endif %}>{{country.name}}</option>
-            {% endfor %}
-        </select>
+            <select name="country" id="country" placeholder="Select a country">
+                <option value="">Select a country</option>
+                {% for country in countries %}
+                <option value="{{country.pk}}" {% if entry and entry.country == country %}selected{% endif %}>{{country.name}}</option>
+                {% endfor %}
+            </select>
 
-        <div id="admin-level-buttons"></div>
+            <div id="admin-level-buttons"></div>
 
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="tree">
+                        <ul>
+                            <li>
+                                <div class="checkbox"><label><input type="checkbox" name="all-population" id="all-population">All population</label></div>
+                                <ul>
+                                    <li>
+                                        <div class="checkbox"><label><input type="checkbox" name="affected" id="affected">Affected</label></div>
+                                        <ul>
+                                            <li>
+                                                <div class="checkbox"><label><input type="checkbox" name="displaced" id="displaced">Displaced</label></div>
+                                                <ul>
+                                                    <li><div class="checkbox" ><label><input type="checkbox" name="idp" id="idp">IDP</label></div></li>
+                                                    <li><div class="checkbox" ><label><input type="checkbox" name="refugees" id="refugees">Refugees</label></div></li>
+                                                    <li><div class="checkbox"><label><input type="checkbox" name="asylum-seekers" id="asylum-seekers">Asylum Seekers</label></div></li>
+                                                    <li><div class="checkbox"><label><input type="checkbox" name="returnees" id="returnees">Returnees</label></div></li>
+                                                    <li><div class="checkbox"><label><input type="checkbox" name="others" id="others">Others of Concern</label></div></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <div class="checkbox"><label><input type="checkbox" name="non-displaced" id="non-displaced">Non-Displaced</label></div>
+                                                <ul>
+                                                    <li><div class="checkbox"><label><input type="checkbox" name="host" id="host">Host</label></div></li>
+                                                    <li><div class="checkbox"><label><input type="checkbox" name="non-host" id="non-host">Non-Host</label></div></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <div class="checkbox"><label><input type="checkbox" name="non-affected" id="non-affected">Non-Affected</label></div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <div class="tree">
+                        <ul>
+                            <li>
+                                <div class="checkbox"><label><input type="checkbox" name="camp" id="camp">Camp/Camplike</label></div>
+                                <ul>
+                                    <li><div class="checkbox"><label><input type="checkbox" name="planned" id="planned">Planned</label></div></li>
+                                    <li><div class="checkbox"><label><input type="checkbox" name="self-setteled" id="self-setteled">Self-setteled</label></div></li>
+                                    <li><div class="checkbox"><label><input type="checkbox" name="collective-center" id="collective-center">Collective center</label></div></li>
+                                    <li><div class="checkbox"><label><input type="checkbox" name="site" id="site">Reception/Transit site</label></div></li>
+                                </ul>
+                            </li>
 
-        <div class="tree">
-        	<ul>
-        		<li>
-        			<a href="#">All Population</a>
-        			<ul>
-        				<li>
-        					<a href="#">Affected</a>
-                            <ul>
-        						<li>
-                                    <a href="#">Displaced</a>
-                                    <ul>
-        								<li><a href="#">IDP</a></li>
-                                        <li><a href="#">Refugees</a></li>
-                                        <li><a href="#">Asylum Seekers</a></li>
-                                        <li><a href="#">Returnees</a></li>
-                                        <li><a href="#">Others of Concern</a></li>
-
-        							</ul>
-                                </li>
-        						<li>
-        							<a href="#">Non-Displaced</a>
-                                    <ul>
-                                        <li><a href="#">Host</a></li>
-                                        <li><a href="#">Non-Host</a></li>
-                                    </ul>
-        						</li>
-
-        					</ul>
-        				</li>
-        				<li>
-        					<a href="#">Non-Affected</a>
-
-        				</li>
-        			</ul>
-        		</li>
-        	</ul>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="tree">
+                        <ul>
+                            <li>
+                                <div class="checkbox"><label><input type="checkbox" name="accomodation" id="accomodation">Private/Individual Accomodation</label></div>
+                                <ul>
+                                    <li><div class="checkbox"><label><input type="checkbox" name="privately-hosted" id="privately-hosted">Privately Hosted</label></div></li>
+                                    <li><div class="checkbox"><label><input type="checkbox" name="non-hosted" id="non-hosted">Non-Hosted</label></div></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-
     </div>
 </div>
 
