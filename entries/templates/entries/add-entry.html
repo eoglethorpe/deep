@@ -28,24 +28,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <script src="{% static 'js/leaflet.label.js' %}"></script>
 
 <script>
-    var text_style = "<style>body{font-family: 'Lato', sans-serif; font-size: 13px; background-color: #fafafa; color: #717171;}body div{padding: 24px; white-space: pre-wrap; line-height: 1.5;}</style>";
-{% if lead %}
-    var lead_type = '{{lead.lead_type}}';
-    {% if lead.url %}var lead_url = '{{lead.url}}';{% endif %}
-
-    {% if lead.description %}
-    var lead_description = "{{lead.description|escapejs}}";
-    lead_description = lead_description.replace(/(?:\r\n|\r|\n)/g, '<br />');
-    {% endif %}
-
-    {% if lead.attachment %}var lead_attachment = "{{lead.attachment.upload.url}}";{% endif %}
-{% else %}
-    var lead_type = '';
-{% endif %}
-
-    var lead_simplified = "{% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %}";
-    lead_simplified = lead_simplified.replace(/(?:\r\n|\r|\n)/g, '<br />');
-
+    var leadSimplified = "{% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %}";
+    leadSimplified = leadSimplified.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
     // var tags = {"one": ["we", "all"], "two": ["foolish", "apes"], "three": ["jackerwobly"]};
     var tags = {
@@ -68,13 +52,21 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     <div class="split-pane-component" id="left-component">
         {% if lead_simplified %}
         <div id="lead-options-container">
-            <label class="radio-inline"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
-            <label class="radio-inline"><input type="radio" name="lead-view-option" value="original">Original</label>
+            <div class="btn-group" data-toggle="buttons" {% if lead.lead_type == 'MAN' %} style="display:none;" {% endif %}>
+                <label class="btn btn-default radio-inline active"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
+                <label class="btn btn-default radio-inline"><input type="radio" name="lead-view-option" value="original">Original</label>
+            </div>
             <div id="tag-buttons"></div>
         </div>
         {% endif %}
+
         <div id="lead-preview-container">
-            <iframe id="lead-preview" src="data:text/html;charset=utf-8,No preview available"></iframe>
+            {% if lead.lead_type == 'URL' %}
+            <iframe id="lead-preview" src="{{ lead.url }}"></iframe>
+            {% elif lead.lead_type == 'ATT' %}
+            <iframe id="lead-preview" src="{{ lead.attachment.upload.url}}"></iframe>
+            {% endif %}
+            <div id="lead-simplified-preview">{{lead_simplified|safe|escape}}</div>
         </div>
     </div>
 
@@ -131,6 +123,32 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
         	</ul>
         </div>
 
+        <div style="clear:both; padding:20px;" id="information-attributes">
+            <h3> Information Attributes </h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="attr-title">Context</div>
+                    <div class="flexrow">
+                        <div class="attr" data-attr-pk="hazard">Hazard Developments</div>
+                        <div class="attr" data-attr-pk="lessons">Lessons Learned</div>
+                        <div class="attr" data-attr-pk="stake">Stakeholders</div>
+                        <div class="attr" data-attr-pk="hazard">Hazard Developments</div>
+                        <div class="attr" data-attr-pk="lessons">Lessons Learned</div>
+                        <div class="attr" data-attr-pk="stake">Stakeholders</div>
+                    </div>
+
+                    <div class="attr-title">Context</div>
+                    <div class="flexrow">
+                        <div class="attr" data-attr-pk="hazard">Hazard Developments</div>
+                        <div class="attr" data-attr-pk="lessons">Lessons Learned</div>
+                        <div class="attr" data-attr-pk="stake">Stakeholders</div>
+                    </div>
+                </div>
+
+                <div class="col-md-6" id="attr-inputs">
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

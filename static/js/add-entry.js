@@ -12,17 +12,9 @@ function styleText(text) {
             text = text.replace(regex, replace);
         }
     }
-    return text_style + "<div>" + text + "</div>";
+    return "<div>" + text + "</div>";
 }
 
-function reloadPreview() {
-    var iframe = document.getElementById("lead-preview");
-    var old = iframe.src;
-    iframe.src = '';
-    setTimeout( function () {
-        iframe.src = old;
-    }, 0);
-}
 
 function fillTagButtons() {
     for (var tag in tags) {
@@ -41,11 +33,7 @@ function fillTagButtons() {
                 btn.css("background-color", "");
             }
 
-            var frame = $("#lead-preview");
-            if (isSimplified) {
-                frame.attr('src', "data:text/html;charset=utf-8," + styleText(lead_simplified));
-                reloadPreview();
-            }
+            $("#lead-simplified-preview").html(styleText(leadSimplified));
         }}(btn, tag));
     }
 }
@@ -53,26 +41,28 @@ function fillTagButtons() {
 function changeLeadPreview(simplified) {
     isSimplified = simplified;
     var frame = $("#lead-preview");
+    var simplifiedFrame = $("#lead-simplified-preview");
+
     if (simplified) {
-        frame.attr('src', "data:text/html;charset=utf-8," + styleText(lead_simplified));
+        simplifiedFrame.html(styleText(leadSimplified));
+
+        simplifiedFrame.css("display", "inherit");
+        frame.css("display", "none");
+
         fillTagButtons();
     }
     else {
+        simplifiedFrame.css("display", "none");
+        frame.css("display", "inherit");
+
         $("#tag-buttons").empty();
         selectedTags = {};
-
-        if (lead_type == 'URL')
-            frame.attr('src', lead_url);
-        else if (lead_type == 'MAN')
-            frame.attr('src', "data:text/html;charset=utf-8," + styleText(lead_description));
-        else if (lead_type == 'ATT')
-            if (lead_attachment.endsWith(".pdf") ||
-                    lead_attachment.endsWith(".htm") ||
-                    lead_attachment.endsWith(".html"))
-                frame.attr('src', lead_attachment);
-            // TODO Set other allowable extensions including images, text etc.
     }
-    reloadPreview();
+}
+
+function addExcerpt(excerpt, attribute) {
+    var excerptInput = $("<div class='row'><textarea class='col-md-12 attr-excerpt'>" + excerpt+"</textarea></div>");
+    $("#information-attributes #attr-inputs").append(excerptInput);
 }
 
 $(document).ready(function() {
@@ -82,5 +72,20 @@ $(document).ready(function() {
     $('input[type=radio][name=lead-view-option]').change(function() {
         changeLeadPreview(this.value=='simplified');
     });
-    changeLeadPreview(lead_simplified!="");
+    changeLeadPreview(leadSimplified!="");
+
+    $("#information-attributes .attr").bind('dragover', function(e) {
+        e.originalEvent.preventDefault();
+        return false;
+    });
+    $("#information-attributes .attr").bind('drop', function(e) {
+        e.originalEvent.preventDefault();
+        var excerpt = e.originalEvent.dataTransfer.getData('Text');
+        addExcerpt(excerpt, $(this).data("attrPk"));
+        return false;
+    });
+
+    $("#information-attributes .attr").bind('click', function(e) {
+        addExcerpt("", $(this).data("attrPk"));
+    });
 });
