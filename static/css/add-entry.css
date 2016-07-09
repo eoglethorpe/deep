@@ -86,14 +86,14 @@ body, html{
 
 /*Information Attributes*/
 #information-attributes .attr-title {
-    font-size: 1.1em;
     font-weight: bold;
-    background-color: #888;
-    text-align: center;
-    color: #fff;
-    vertical-align: middle;
-    line-height: 35px;
-    margin: 2px;
+    text-transform: uppercase;
+    margin: 10px 0px 8px 0px;
+}
+#selected-attr-title{
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 10px 0px 16px 0px;
 }
 
 #information-attributes .flexrow {
@@ -105,9 +105,18 @@ body, html{
     flex: 1;
     font-size: 1em;
     text-align: center;
-    margin: 2px;
-    padding: 3px 8px;
-    background-color: #ccc;
-    color: #222;
+    margin: 3px;
+    padding: 8px;
+    background-color: #f0f0f0;
     cursor: pointer;
+    box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+}
+#information-attributes .active{
+    background-color: #008080;
+    color: #fff;
+}
+
+.attr-input{
+    margin-bottom: 10px;
 }

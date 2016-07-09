@@ -44,6 +44,7 @@ function filterDate(filter, date){
 $.fn.dataTable.ext.search.push(
     function( settings, data, dataIndex ) {
         var filter = $("#date-created-filter").val();
+
         date = new Date(data[0].substr(0, 10));
         return filterDate(filter, date);
     }
@@ -128,6 +129,12 @@ $(document).ready(function() {
 
         }
 
+    });
+
+    $('#date-created-filter').on('change', function(){
+        if($(this).val() == 'range'){
+            $("#date-range-input").modal('show');
+        }
     });
 
 

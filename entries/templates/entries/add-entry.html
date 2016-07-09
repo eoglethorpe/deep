@@ -158,27 +158,27 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
             <h3> Information Attributes </h3>
             <div class="row">
                 <div class="col-md-6">
-                    <div class="attr-title">Context</div>
-                    <div class="flexrow">
-                        <div class="attr" data-attr-pk="hazard">Hazard Developments</div>
-                        <div class="attr" data-attr-pk="lessons">Lessons Learned</div>
-                        <div class="attr" data-attr-pk="stake">Stakeholders</div>
-                        <div class="attr" data-attr-pk="hazard">Hazard Developments</div>
-                        <div class="attr" data-attr-pk="lessons">Lessons Learned</div>
-                        <div class="attr" data-attr-pk="stake">Stakeholders</div>
-                    </div>
+                    <div id="attr-contents">
 
-                    <div class="attr-title">Context</div>
-                    <div class="flexrow">
-                        <div class="attr" data-attr-pk="hazard">Hazard Developments</div>
-                        <div class="attr" data-attr-pk="lessons">Lessons Learned</div>
-                        <div class="attr" data-attr-pk="stake">Stakeholders</div>
                     </div>
                 </div>
 
                 <div class="col-md-6" id="attr-inputs">
+                    <div id="selected-attr-title"></div>
+                    <div id="contents"></div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="template-attr-input" hidden>
+    <div class="row">
+        <div class="col-xs-10">
+            <textarea class="form-control"></textarea>
+        </div>
+        <div class="col-xs-2">
+            <button class="btn btn-primary btn-add" >+</button>
         </div>
     </div>
 </div>

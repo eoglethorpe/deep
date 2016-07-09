@@ -22,6 +22,23 @@ DEEP | Leads
 
 {% block body %}
 
+
+<div id="date-range-input" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4 class="modal-title">Modal Header</h4>
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {% include 'navigation-bar.html' %}
 <div class="section" id="body-section">
     <div class="container">
@@ -50,6 +67,7 @@ DEEP | Leads
                         <option value="this-week">This week</option>
                         <option value="last-thirty-days">Last 30 days</option>
                         <option value="this-month">This month</option>
+                        <option value="range">Range</option>
                     </select>
                 </div>
                 <div class="col-sm-3 col-md-2 col-xs-6">
@@ -146,7 +164,7 @@ DEEP | Leads
 
 <form id="process-form" style="visibility:collapse;" method="post" action="{% url 'leads:mark_processed' event=event.pk %}">
     {% csrf_token %}
-    <input id="process-id" name="id" type="text">    
+    <input id="process-id" name="id" type="text">
     <input id="process-status" name="status" type="text">
 </form>
 <form id="delete-form" style="visibility:collapse;" method="post" action="{% url 'leads:delete' event=event.pk %}">
