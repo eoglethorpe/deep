@@ -1,3 +1,36 @@
+google.charts.load('current', {packages:["orgchart"]});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Name');
+    data.addColumn('string', 'Manager');
+    data.addColumn('string', 'ToolTip');
+
+
+    // For each orgchart box, provide the name, manager, and tooltip to show.
+    data.addRows([
+        ['All Population', '', ''],
+        ['Affected', 'All Population', ''],
+        ['Non Affected', 'All Population', ''],
+        ['Displaced', 'Affected', ''],
+        ['Non displaced', 'Affected', ''],
+        ['IDP', 'Displaced', ''],
+        ['Refugees', 'Displaced', ''],
+        ['Asylum Seekers', 'Displaced', ''],
+        ['Returnees', 'Displaced', ''],
+        ['Others of Concern', 'Displaced', ''],
+        ['Host', 'Non displaced', ''],
+        ['Non host', 'Non displaced', ''],
+    ]);
+
+    // Create the chart.
+    var chart = new google.visualization.OrgChart(document.getElementById('chart-div'));
+    // Draw the chart, setting the allowHtml option to true for the tooltips.
+    chart.draw(data, {allowHtml:true});
+}
+
+
 
 function styleText(text) {
     for (var tag in selectedTags) {
@@ -236,4 +269,8 @@ $(document).on('click', '#information-attributes .attr', function(e) {
     $(this).addClass('active');
     $('#selected-attr-title').text($(this).text());
     selectAttr($(this).data('attr-pk'));
+});
+
+$(document).on('click', '.google-visualization-orgchart-node', function(){
+    console.log($(this).text());
 });

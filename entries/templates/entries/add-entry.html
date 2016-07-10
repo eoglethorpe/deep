@@ -26,6 +26,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
 <link rel="stylesheet" href="{% static 'css/leaflet.label.css' %}" >
 <script src="{% static 'js/leaflet.label.js' %}"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script>
     var leadSimplified = "{% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %}";
@@ -85,7 +86,59 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
             <div id="admin-level-buttons"></div>
 
-            <div class="row">
+            <div id="chart-div"></div>
+
+            <!-- <div id="affected-groups">
+                <div class="row">
+                    <div class="col-sm-12"><button class="btn btn-primary">All Population</button></div>
+
+                    <div class="col-sm-10">
+                        <button class="btn btn-xs btn-primary">Affected</button>
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <button class="btn btn-xs btn-default">Displaced</button>
+                                <div class="row">
+                                    <div class="col-md-2"><button class="btn btn-xs btn-warning">IDP</button></div>
+                                    <div class="col-md-2"><button class="btn btn-xs btn-warning">Refugee</button></div>
+                                    <div class="col-md-2"><button class="btn btn-xs btn-warning">Asylum<br>Seekers</button></div>
+                                    <div class="col-md-3"><button class="btn btn-xs btn-warning">Returnees</button></div>
+                                    <div class="col-md-2"><button class="btn btn-xs btn-warning">Others</button></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <button class="btn btn-xs btn-success">Camp or<br>Camp-like</button>
+                                        <div class="row">
+                                            <div class="col-md-3"><button class="btn btn-xs btn-danger">Planned</button></div>
+                                            <div class="col-md-3"><button class="btn btn-xs btn-danger">Self<br>setteled</button></div>
+                                            <div class="col-md-3"><button class="btn btn-xs btn-danger">Collective<br>center</button></div>
+                                            <div class="col-md-3"><button class="btn btn-xs btn-danger">Reception or<br>Transit site</button></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <button class="btn btn-xs btn-success">Private or<br>Individual<br>Accomodation</button>
+                                        <div class="row">
+                                            <div class="col-md-6"><button class="btn btn-xs btn-danger">Privately<br>hosted</button></div>
+                                            <div class="col-md-6"><button class="btn btn-xs btn-danger">Individual</button></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <button class="btn btn-xs btn-default">Non displaced</button>
+                                <div class="row">
+                                    <div class="col-md-6"><button class="btn btn-xs btn-warning">Host</button></div>
+                                    <div class="col-md-6"><button class="btn btn-xs btn-warning">Non host</button></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2"><button class="btn btn-xs btn-primary">Non affected</button></div>
+
+
+                </div>
+            </div> -->
+
+            <!-- <div class="row">
                 <div class="col-sm-12">
                     <div class="tree">
                         <ul>
@@ -152,7 +205,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div style="clear:both; padding:20px;" id="information-attributes">
             <h3> Information Attributes </h3>
