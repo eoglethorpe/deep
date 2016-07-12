@@ -1,6 +1,9 @@
 google.charts.load('current', {packages:["orgchart"]});
 google.charts.setOnLoadCallback(drawChart);
 
+var selected_groups = [];
+var mouseover_group = -1;
+
 function drawChart() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Name');
@@ -27,7 +30,30 @@ function drawChart() {
     // Create the chart.
     var chart = new google.visualization.OrgChart(document.getElementById('chart-div'));
     // Draw the chart, setting the allowHtml option to true for the tooltips.
-    chart.draw(data, {allowHtml:true});
+    chart.draw(data, {
+        nodeClass: 'affected-group',
+        selectedNodeClass: 'active-affected-group',
+    });
+    google.visualization.events.addListener(chart, 'select', function(){
+        var selection = chart.getSelection();
+        if (selection.length == 0){
+            if(mouseover_group != -1){
+                selected_groups = $.grep(selected_groups, function(item){
+                    return item.row != mouseover_group;
+                })
+            }
+            chart.setSelection(selected_groups);
+        } else{
+            selected_groups.push(selection[0]);
+            chart.setSelection(selected_groups);
+        }
+    });
+    google.visualization.events.addListener(chart, 'onmouseover', function(row){
+        mouseover_group = row.row;
+    });
+    google.visualization.events.addListener(chart, 'onmouseout', function(row){
+        mouseover_group = -1;
+    });
 }
 
 
@@ -269,8 +295,4 @@ $(document).on('click', '#information-attributes .attr', function(e) {
     $(this).addClass('active');
     $('#selected-attr-title').text($(this).text());
     selectAttr($(this).data('attr-pk'));
-});
-
-$(document).on('click', '.google-visualization-orgchart-node', function(){
-    console.log($(this).text());
 });
