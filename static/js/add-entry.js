@@ -10,7 +10,6 @@ function drawChart() {
     data.addColumn('string', 'Manager');
     data.addColumn('string', 'ToolTip');
 
-
     // For each orgchart box, provide the name, manager, and tooltip to show.
     // data.addRows([
     //     ['All Population', '', ''],
@@ -224,6 +223,8 @@ function grabAttrInput(id){
     } else if(result.length == 1){
         attr_input = result[0];
         attr_input['data'] = [];
+        attr_input['number'] = [];
+        attr_input['reliability'] = [];
         var excerpts = $('#attr-inputs #contents').find('.attr-input');
         for(var i=0; i<excerpts.length; i++){
             attr_input['data'].push((excerpts.eq(i)).find('textarea').val());
@@ -256,6 +257,24 @@ $(document).ready(function() {
     // });
 
     initAttrInputs();
+
+    $("#save-btn").on('click', function(){
+
+        var current = $("#information-attributes .active");
+        if(current != null) {
+            grabAttrInput(current.data('attr-pk'));
+        }
+
+        var data = {};
+        var affecteds = [];
+        for (s in selected_groups) {
+            affecteds.push(affected_groups[selected_groups[s].row][0]);
+        }
+        data["affected_groups"] = JSON.stringify(affecteds);
+        data["map_data"] = JSON.stringify(mapSelections);
+        data["information_attributes"] = JSON.stringify(attr_inputs);
+        redirectPost(window.location.pathname, data, csrf_token);
+    });
 });
 
 $(document).on('click', '.btn-add', function(e){
@@ -278,6 +297,8 @@ $(document).on('click', '.btn-add', function(e){
     excerpt.find('select').val(attr_input['reliability']);
     excerpt.appendTo(excerpts);
     excerpt.show();
+
+    excerpt.get(0).scrollIntoView();
 });
 
 $(document).on('click', '.btn-remove', function(e){

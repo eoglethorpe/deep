@@ -9,14 +9,15 @@ class EntrySerializer(serializers.ModelSerializer):
     lead_name = serializers.SerializerMethodField()
     lead_type = serializers.SerializerMethodField()
     created_by_name = serializers.SerializerMethodField()
+    information_attributes = serializers.SerializerMethodField()
+    countries = serializers.SerializerMethodField()
 
     class Meta:
         model = Entry
         fields = ('id', 'lead', 'lead_name', 'lead_type',
-                  'excerpt', 'information_at', 'country',
-                  'sectors', 'underlying_factors', 'crisis_drivers',
-                  'status', 'problem_timeline', 'severity', 'reliability',
-                  'map_data', 'created_at', 'created_by', 'created_by_name')
+                  'affected_groups', 'information_attributes',
+                  'countries',
+                  'created_at', 'created_by', 'created_by_name')
 
         # TODO: Automatically set created_by.
 
@@ -31,6 +32,20 @@ class EntrySerializer(serializers.ModelSerializer):
             return entry.created_by.get_full_name()
         else:
             return ""
+
+    def get_information_attributes(self, entry):
+        attributes = []
+        attr_data = AttributeData.objects.filter(entry=entry)
+        for attr in attr_data:
+            attributes.append(
+                {'excerpt': attr.excerpt, 'number': attr.number,
+                 'reliability': attr.reliability}
+            )
+        return attributes
+
+    def get_countries(self, entry):
+        cs = [s.admin_level.country.name for s in entry.map_selections.all()]
+        return list(set(cs))
 
 
 class CountrySerializer(serializers.ModelSerializer):
