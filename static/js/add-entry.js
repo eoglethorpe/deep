@@ -9,20 +9,21 @@ function drawChart() {
 
 
     // For each orgchart box, provide the name, manager, and tooltip to show.
-    data.addRows([
-        ['All Population', '', ''],
-        ['Affected', 'All Population', ''],
-        ['Non Affected', 'All Population', ''],
-        ['Displaced', 'Affected', ''],
-        ['Non displaced', 'Affected', ''],
-        ['IDP', 'Displaced', ''],
-        ['Refugees', 'Displaced', ''],
-        ['Asylum Seekers', 'Displaced', ''],
-        ['Returnees', 'Displaced', ''],
-        ['Others of Concern', 'Displaced', ''],
-        ['Host', 'Non displaced', ''],
-        ['Non host', 'Non displaced', ''],
-    ]);
+    // data.addRows([
+    //     ['All Population', '', ''],
+    //     ['Affected', 'All Population', ''],
+    //     ['Non Affected', 'All Population', ''],
+    //     ['Displaced', 'Affected', ''],
+    //     ['Non displaced', 'Affected', ''],
+    //     ['IDP', 'Displaced', ''],
+    //     ['Refugees', 'Displaced', ''],
+    //     ['Asylum Seekers', 'Displaced', ''],
+    //     ['Returnees', 'Displaced', ''],
+    //     ['Others of Concern', 'Displaced', ''],
+    //     ['Host', 'Non displaced', ''],
+    //     ['Non host', 'Non displaced', ''],
+    // ]);
+    data.addRows(affected_groups);
 
     // Create the chart.
     var chart = new google.visualization.OrgChart(document.getElementById('chart-div'));
@@ -93,33 +94,28 @@ function changeLeadPreview(simplified) {
     }
 }
 
-function addExcerpt(excerpt, attribute) {
-    var excerptInput = $("<div class='row'><textarea class='col-md-12 attr-excerpt'>" + excerpt+"</textarea></div>");
-    $("#information-attributes #attr-inputs").append(excerptInput);
-}
 
-
-var attrs = [
-    {
-        'id': { 'pk': 'context', 'text': 'Context'},
-        'data': [
-            {'pk': 'hazard',    'text': 'Hazard Developments'},
-            {'pk': 'lessons',   'text': 'Lessons Learned'},
-            {'pk': 'stake',     'text': 'Stakeholders'},
-            {'pk': 'politics',  'text': 'Politics & security overview'},
-            {'pk': 'society',   'text': 'Society & community'},
-            {'pk': 'economy',   'text': 'Economy'}
-        ]
-    },
-    {
-        'id': {'pk': 'population-data', 'text': 'Population data & characterstics'},
-        'data': [
-            {'pk': 'specific',      'text': 'Population with specific needs'},
-            {'pk': 'displacement',  'text': 'Population displacement'},
-            {'pk': 'demography',    'text': 'Demography'}
-        ]
-    }
-];
+// var attrs = [
+//     {
+//         'id': { 'pk': 'context', 'text': 'Context'},
+//         'data': [
+//             {'pk': 'hazard',    'text': 'Hazard Developments'},
+//             {'pk': 'lessons',   'text': 'Lessons Learned'},
+//             {'pk': 'stake',     'text': 'Stakeholders'},
+//             {'pk': 'politics',  'text': 'Politics & security overview'},
+//             {'pk': 'society',   'text': 'Society & community'},
+//             {'pk': 'economy',   'text': 'Economy'}
+//         ]
+//     },
+//     {
+//         'id': {'pk': 'population-data', 'text': 'Population data & characterstics'},
+//         'data': [
+//             {'pk': 'specific',      'text': 'Population with specific needs'},
+//             {'pk': 'displacement',  'text': 'Population displacement'},
+//             {'pk': 'demography',    'text': 'Demography'}
+//         ]
+//     }
+// ];
 
 var attr_inputs = [];
 
@@ -220,12 +216,12 @@ $(document).ready(function() {
         e.originalEvent.preventDefault();
         return false;
     });
-    $("#information-attributes .attr").bind('drop', function(e) {
-        e.originalEvent.preventDefault();
-        var excerpt = e.originalEvent.dataTransfer.getData('Text');
-        addExcerpt(excerpt, $(this).data("attrPk"));
-        return false;
-    });
+    // $("#information-attributes .attr").bind('drop', function(e) {
+    //     e.originalEvent.preventDefault();
+    //     var excerpt = e.originalEvent.dataTransfer.getData('Text');
+    //     // addExcerpt(excerpt, $(this).data("attrPk"));
+    //     return false;
+    // });
 
     initAttrInputs();
 });

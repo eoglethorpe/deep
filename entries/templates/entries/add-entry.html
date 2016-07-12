@@ -29,23 +29,48 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script>
+    // Is simplified option selected?
+    var isSimplified;
+    // Simplified version of the lead.
     var leadSimplified = "{% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %}";
     leadSimplified = leadSimplified.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
-    // var tags = {"one": ["we", "all"], "two": ["foolish", "apes"], "three": ["jackerwobly"]};
+    // Sectors and tags.
     var tags = {
         {% for sector in sectors %} "{{sector.name}}": {{sector.tags_json|safe}}, {% endfor %}
     };
+    // Currently selected tags and their colors.
     var selectedTags = {};
-    var isSimplified;
 
+    // Current map selections.
     var mapSelections = [];
+
+    // Information attributes.
+    var attrs = [
+    {% for group, attributes in attributes.items %}
+        {
+            'id': {'pk': '{{group.pk}}', 'text': '{{group.name|safe}}'},
+            'data': [
+        {% for attribute in attributes %}
+            {'pk': '{{ attribute.pk }}', 'text': '{{attribute.name|safe}}'},
+        {% endfor %}
+            ]
+        },
+    {% endfor %}
+    ];
+
+    // Affected groups.
+    // name, parent, tooltip.
+    var affected_groups = [
+        {% for group in affected_groups %}
+        ['{{group.name}}', '{% if group.parent %}{{group.parent}}{% endif %}', ''],
+        {% endfor %}
+    ];
 </script>
 
 {% endblock %}
 
 {% block body %}
-
 {% include 'navigation-bar.html' %}
 
 <div class="split-pane fixed-left">

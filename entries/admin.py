@@ -25,6 +25,15 @@ class CountryAdmin(admin.ModelAdmin):
     inlines = [AdminLevelInline]
 
 
+class InformationAttributeInline(admin.StackedInline):
+    model = InformationAttribute
+    extra = 3
+
+
+class InformationAttributeGroupAdmin(admin.ModelAdmin):
+    inlines = [InformationAttributeInline]
+
+
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Sector)
 # admin.site.register(VulnerableGroup)
@@ -33,3 +42,4 @@ admin.site.register(CrisisDriver)
 admin.site.register(UnderlyingFactor)
 # admin.site.register(Entry, EntryAdmin)
 admin.site.register(Entry)
+admin.site.register(InformationAttributeGroup, InformationAttributeGroupAdmin)

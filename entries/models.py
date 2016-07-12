@@ -88,6 +88,21 @@ class CrisisDriver(models.Model):
         return self.name
 
 
+class InformationAttributeGroup(models.Model):
+    name = models.CharField(max_length=70, primary_key=True)
+
+    def __str__(self):
+        return self.name
+
+
+class InformationAttribute(models.Model):
+    group = models.ForeignKey(InformationAttributeGroup)
+    name = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.name + " (" + str(self.group) + ")"
+
+
 class Entry(models.Model):
 
     # Status Types:
@@ -184,6 +199,33 @@ class Entry(models.Model):
 
     class Meta:
         verbose_name_plural = 'entries'
+
+
+class AttributeData(models.Model):
+
+    # Reliability Types:
+    COMPLETELY = "COM"
+    USUALLY = "USU"
+    FAIRLY = "FAI"
+    NOT_USUALLY = "NUS"
+    UNRELIABLE = "UNR"
+    CANNOT_BE_JUDGED = "CBJ"
+
+    RELIABILITIES = (
+        (COMPLETELY, "Completely"),
+        (USUALLY, "Usually"),
+        (FAIRLY, "Fairly"),
+        (NOT_USUALLY, "Not Usually"),
+        (UNRELIABLE, "Unreliable"),
+        (CANNOT_BE_JUDGED, "Cannot be judged"),
+    )
+
+    entry = models.ForeignKey(Entry)
+    attribute = models.ForeignKey(InformationAttribute)
+    excerpt = models.TextField(blank=True)
+    number = models.IntegerField(null=True, blank=True)
+    reliability = models.CharField(max_length=3, choices=RELIABILITIES,
+                                   default=None, null=True, blank=True)
 
 
 # class VulnerableGroupData(models.Model):

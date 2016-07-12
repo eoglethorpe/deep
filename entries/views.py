@@ -16,16 +16,22 @@ import os
 
 def get_entry_form_data():
     data = {}
+
+    # Countries.
     data["countries"] = Country.objects.all()
+    # Sectors.
     data["sectors"] = Sector.objects.all()
-    # data["vulnerable_groups"] = VulnerableGroup.objects.all()
+
+    # Information Attributes
+    data["attributes"] = {}
+    attr_groups = InformationAttributeGroup.objects.all()
+    for group in attr_groups:
+        data["attributes"][group] = \
+            InformationAttribute.objects.filter(group=group)
+    data["reliabilities"] = AttributeData.RELIABILITIES
+
+    # Affected Groups.
     data["affected_groups"] = AffectedGroup.objects.all()
-    data["crisis_drivers"] = CrisisDriver.objects.all()
-    data["underlying_factors"] = UnderlyingFactor.objects.all()
-    data["statuses"] = Entry.STATUSES
-    data["problem_timelines"] = Entry.PROBLEM_TIMELIES
-    data["severities"] = Entry.SEVERITIES
-    data["reliabilities"] = Entry.RELIABILITIES
     return data
 
 
