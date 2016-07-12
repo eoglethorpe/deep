@@ -153,7 +153,9 @@ function initAttrInputs(){
             var attr = attr_group['data'][j];
             var attr_input = {
                 'id': attr['pk'],
-                'data': [""]
+                'data': [""],
+                'number': [""],
+                'reliability': ['NOA']
             };
             attr_inputs.push(attr_input);
         }
@@ -205,6 +207,8 @@ function selectAttr(id){
                 btn.text('-')
             }
             excerpt.find('textarea').val(attr_input['data'][i]);
+            excerpt.find('input').val(attr_input['number'][i]);
+            excerpt.find('select').val(attr_input['reliability'][i]);
             excerpt.appendTo(excerpts);
             excerpt.show();
         }
@@ -223,6 +227,8 @@ function grabAttrInput(id){
         var excerpts = $('#attr-inputs #contents').find('.attr-input');
         for(var i=0; i<excerpts.length; i++){
             attr_input['data'].push((excerpts.eq(i)).find('textarea').val());
+            attr_input['number'].push((excerpts.eq(i)).find('input').val());
+            attr_input['reliability'].push((excerpts.eq(i)).find('select').val());
         }
     } else{
         // no result found (shouldn't happen)
@@ -238,10 +244,10 @@ $(document).ready(function() {
     });
     changeLeadPreview(leadSimplified!="");
 
-    $("#information-attributes .attr").bind('dragover', function(e) {
-        e.originalEvent.preventDefault();
-        return false;
-    });
+    // $("#information-attributes .attr").bind('dragover', function(e) {
+    //     e.originalEvent.preventDefault();
+    //     return false;
+    // });
     // $("#information-attributes .attr").bind('drop', function(e) {
     //     e.originalEvent.preventDefault();
     //     var excerpt = e.originalEvent.dataTransfer.getData('Text');
@@ -268,6 +274,8 @@ $(document).on('click', '.btn-add', function(e){
     excerpt.addClass('attr-input');
 
     excerpt.find('textarea').val(attr_input['data']);
+    excerpt.find('input').val(attr_input['number']);
+    excerpt.find('select').val(attr_input['reliability']);
     excerpt.appendTo(excerpts);
     excerpt.show();
 });

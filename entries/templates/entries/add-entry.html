@@ -256,10 +256,26 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <div class="template-attr-input" hidden>
     <div class="row">
         <div class="col-xs-10">
-            <textarea class="form-control"></textarea>
+            Excerpt:
+            <textarea class="form-control" placeholder="Excerpt"></textarea>
         </div>
         <div class="col-xs-2">
             <button class="btn btn-primary btn-add" >+</button>
+        </div>
+    </div>
+    <div class="row" style="padding-top:8px;">
+        <div class="col-xs-5">
+            Number:
+            <input type="number" class="form-control" placeholder="Number">
+        </div>
+        <div class="col-xs-5">
+            Reliability:
+            <select class="form-control">
+                <option value="NOA">N/A</option>
+                {% for reliability in reliabilities %}
+                <option value="{{reliability.0}}">{{reliability.1}}</option>
+                {% endfor %}
+            </select>
         </div>
     </div>
 </div>
