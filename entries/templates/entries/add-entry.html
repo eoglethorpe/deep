@@ -15,7 +15,6 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
 <script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/split-pane.js' %}"></script>
-
 <script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
@@ -66,6 +65,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
         ['{{group.name}}', '{% if group.parent %}{{group.parent}}{% endif %}', ''],
         {% endfor %}
     ];
+
+    // CSRF Token Tag for Form.
+    var csrf_token = "{% csrf_token %}";
 </script>
 
 {% endblock %}
@@ -100,7 +102,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
     <div class="split-pane-component" id="right-component">
         <div class="container-fluid">
-            <div id="the-map" style="height:300px;"></div>
+            <div id="the-map" style="height:300px; margin-top:10px;"></div>
 
             <select name="country" id="country" placeholder="Select a country">
                 <option value="">Select a country</option>
@@ -249,6 +251,10 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     <div id="contents"></div>
                 </div>
             </div>
+        </div>
+
+        <div class="row" style="margin:20px;">
+            <button id="save-btn" class="col-md-offset-10 col-md-2 btn btn-primary">Save</button>
         </div>
     </div>
 </div>

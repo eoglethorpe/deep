@@ -12,6 +12,7 @@ from entries.models import *
 from entries.strippers import *
 
 import os
+import json
 
 
 def get_entry_form_data():
@@ -97,21 +98,7 @@ class AddEntry(View):
 
         if entry:
             context["entry"] = entry
-            context["entry_sectors"] = [s.pk for s in entry.sectors.all()]
-            context["entry_underlying_factors"] = \
-                [f.pk for f in entry.underlying_factors.all()]
-            context["entry_crisis_drivers"] = \
-                [c.pk for c in entry.crisis_drivers.all()]
-
-            # vgds = {}
-            # agds = {}
-            # for vgd in entry.vulnerablegroupdata_set.all():
-            #     vgds[vgd.vulnerable_group.pk] = vgd.known_cases
-            # for agd in entry.affectedgroupdata_set.all():
-            #     agds[agd.affected_group.pk] = agd.known_cases
-
-            # context["vulnerable_group_data_set"] = vgds
-            # context["affected_group_data_set"] = agds
+            # TODO For editing entry
 
         context.update(get_entry_form_data())
         return render(request, "entries/add-entry.html", context)
@@ -124,70 +111,69 @@ class AddEntry(View):
         else:
             entry = Entry()
 
-        vulnerable_groups = []
-        affected_groups = []
+        affected_groups = json.loads(request.POST["affected_groups"])
+        map_data = json.loads(request.POST["map_data"])
+        information_attributes = json.loads(
+            request.POST["information_attributes"])
 
-        for key in request.POST:
-            if request.POST[key] != "":
-                if key.startswith('add-vulnerable-group-'):
-                    if not key.startswith('add-vulnerable-group-known-cases-'):
-                        j = key[21:]
-                        kc_key = 'add-vulnerable-group-known-cases-'+j
-                        kc = request.POST[kc_key]
-                        vulnerable_groups.append((request.POST[key], kc))
-
-                elif key.startswith('add-affected-group-'):
-                    if not key.startswith('add-affected-group-known-cases-'):
-                        j = key[19:]
-                        kc_key = 'add-affected-group-known-cases-'+j
-                        kc = request.POST[kc_key]
-                        affected_groups.append((request.POST[key], kc))
-
-        if lead_id:
-            entry.lead = Lead.objects.get(pk=int(lead_id))
-        entry.excerpt = request.POST['excerpt']
-        # TODO: entry.information_at
-        entry.country = Country.objects.get(pk=request.POST['country'])
-        entry.map_data = request.POST['map-data']
-        entry.status = request.POST['status']
-        entry.problem_timeline = request.POST['problem-timeline']
-        entry.severity = request.POST['severity']
-        entry.reliability = request.POST['reliability']
+        entry.lead = Lead.objects.get(pk=lead_id)
         entry.created_by = request.user
         entry.save()
 
-        entry.sectors.clear()
-        for s in request.POST.getlist('sector'):
-            entry.sectors.add(Sector.objects.get(name=s))
+        # Save the affected groups.
+        # ['All Population', 'Affected', 'Non Displaced', 'Refugees']
+        for group in affected_groups:
+            entry.affected_groups.add(AffectedGroup.objects.get(name=group))
 
-        entry.underlying_factors.clear()
-        for uf in request.POST.getlist('underlying-factor'):
-            entry.underlying_factors.add(UnderlyingFactor.objects.get(name=uf))
+        # Save the map data.
+        # ['NP:0:Mid-Western Development Region', 'NP:1:Bheri', 'NP:2:Dang',
+        #  'NP:2:Rukum']
+        for area in map_data:
+            m = area.split(':')
+            print(m[0], int(m[1])-1)
+            admin_level = AdminLevel.objects.get(
+                country=Country.objects.get(code=m[0]),
+                level=int(m[1])+1
+            )
+            try:
+                selection = AdminLevelSelection.objects.get(
+                    admin_level=admin_level, name=m[2]
+                )
+            except:
+                selection = AdminLevelSelection(admin_level=admin_level,
+                                                name=m[2])
+                selection.save()
 
-        entry.crisis_drivers.clear()
-        for cd in request.POST.getlist('crisis-driver'):
-            entry.crisis_drivers.add(CrisisDriver.objects.get(name=cd))
+            entry.map_selections.add(selection)
 
-        # VulnerableGroupData.objects.filter(entry__pk=entry.pk).delete()
-        # for vg in vulnerable_groups:
-        #     vgd = VulnerableGroupData()
-        #     vgd.entry = entry
-        #     vgd.vulnerable_group = VulnerableGroup.objects.get(pk=vg[0])
-        #     if vg[1] == "":
-        #         vgd.known_cases = None
-        #     else:
-        #         vgd.known_cases = int(vg[1])
-        #     vgd.save()
+        #  [{'id': '7', 'data': [''], 'number': [''], 'reliability': ['NOA']},
+        #   {'id': '8', 'data': ['Popula'], 'number': ['20'],
+        #    'reliability': ['NOA']},
+        #   {'id': '9', 'data': ['Demo'], 'number': [''],
+        #    'reliability': ['NOA']},
+        #   {'id': '1', 'data': [''], 'number': [''], 'reliability': ['NOA']},
+        #   {'id': '2', 'data': [''], 'number': [''], 'reliability': ['NOA']},
+        #   {'id': '3', 'data': [''], 'number': [''], 'reliability': ['NOA']},
+        #   {'id': '4', 'data': ['Politics'], 'number': [''],
+        #    'reliability': ['USU']},
+        #    {'id': '5', 'data': [''], 'number': [''], 'reliability': ['NOA']},
+        #    {'id': '6', 'data': [''], 'number': [''], 'reliability': ['NOA']}]
 
-        # AffectedGroupData.objects.filter(entry__pk=entry.pk).delete()
-        # for ag in affected_groups:
-        #     agd = AffectedGroupData()
-        #     agd.entry = entry
-        #     agd.affected_group = AffectedGroup.objects.get(pk=ag[0])
-        #     if ag[1] == "":
-        #         agd.known_cases = None
-        #     else:
-        #         agd.known_cases = int(ag[1])
-        #     agd.save()
+        for attr in information_attributes:
+            for i in range(len(attr['data'])):
+                print(i, "'"+attr['data'][i]+"'")
+                if attr['data'][i] == "":
+                    continue
+                attr_data = AttributeData()
+                attr_data.entry = entry
+                attr_data.attribute = InformationAttribute.objects.get(
+                    pk=int(attr["id"]))
+                attr_data.excerpt = attr["data"][i]
+                if attr["number"][i] != '':
+                    attr_data.number = int(attr["number"][i])
+                if attr['reliability'][i] != '' and \
+                        attr['reliability'][i] != 'NOA':
+                    attr_data.reliability = attr['reliability'][i]
+                attr_data.save()
 
         return redirect("entries:entries", event)

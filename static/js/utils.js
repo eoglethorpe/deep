@@ -17,3 +17,13 @@ String.prototype.hashCode = function() {
   }
   return hash;
 };
+
+
+function redirectPost(location, args, csrf_token)
+{
+    var form = csrf_token;
+    $.each(args, function(key, value) {
+        form += '<textarea type="hidden" name="'+key+'">' + value + '</textarea>';
+    });
+    $('<form action="'+location+'" method="POST">'+form+'</form>').appendTo('body').submit();
+}

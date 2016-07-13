@@ -34,17 +34,20 @@ class AdminLevel(models.Model):
         unique_together = ('country', 'level')
 
 
-class AdminLevelSelection(models.Model):
-    admin_level = models.ForeignKey(AdminLevel)
-    selection_name = models.CharField(max_length=150)
-
-    def __str__(self):
-        return self.selection_name + ", " + str(self.admin_level)
-
-
 @receiver(pre_delete, sender=AdminLevel)
 def _admin_level_delete(sender, instance, **kwargs):
     instance.geojson.delete(False)
+
+
+class AdminLevelSelection(models.Model):
+    admin_level = models.ForeignKey(AdminLevel)
+    name = models.CharField(max_length=70)
+
+    def __str__(self):
+        return self.name + ", " + str(self.admin_level)
+
+    class Meta:
+        unique_together = ('admin_level', 'name')
 
 
 class Sector(models.Model):
@@ -59,30 +62,9 @@ class Sector(models.Model):
         self.tags = json.loads(self.tags_json)
 
 
-# class VulnerableGroup(models.Model):
-#     group_name = models.CharField(max_length=70, primary_key=True)
-#
-#     def __str__(self):
-#         return self.group_name
-#
-
 class AffectedGroup(models.Model):
     name = models.CharField(max_length=70, primary_key=True)
     parent = models.ForeignKey('AffectedGroup', null=True, blank=True)
-
-    def __str__(self):
-        return self.name
-
-
-class UnderlyingFactor(models.Model):
-    name = models.CharField(max_length=70, primary_key=True)
-
-    def __str__(self):
-        return self.name
-
-
-class CrisisDriver(models.Model):
-    name = models.CharField(max_length=70, primary_key=True)
 
     def __str__(self):
         return self.name
@@ -93,6 +75,9 @@ class InformationAttributeGroup(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ["name"]
 
 
 class InformationAttribute(models.Model):
@@ -170,32 +155,14 @@ class Entry(models.Model):
 
     lead = models.ForeignKey(Lead)
 
-    # Following fields may need to be removed.
-    excerpt = models.TextField()
-    information_at = models.DateField(null=True, blank=True)
-    country = models.ForeignKey(Country, null=True, blank=True)
-    sectors = models.ManyToManyField(Sector, blank=True)
-    underlying_factors = models.ManyToManyField(UnderlyingFactor, blank=True)
-    crisis_drivers = models.ManyToManyField(CrisisDriver, blank=True)
-    status = models.CharField(max_length=3, choices=STATUSES,
-                              default=None, null=True, blank=True)
-    problem_timeline = models.CharField(max_length=3, choices=PROBLEM_TIMELIES,
-                                        default=None, null=True, blank=True)
-    severity = models.CharField(max_length=3, choices=SEVERITIES,
-                                default=None, null=True, blank=True)
-    reliability = models.CharField(max_length=3, choices=RELIABILITIES,
-                                   default=None, null=True, blank=True)
-    map_data = models.TextField()
-    ######################################################################
-
     affected_groups = models.ManyToManyField(AffectedGroup, blank=True)
     map_selections = models.ManyToManyField(AdminLevelSelection, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(User, null=True)  # TODO: remove null
+    created_by = models.ForeignKey(User, null=True)  # Remove null=True.
 
     def __str__(self):
-        return str(self.lead) + " - " + self.excerpt[:10]
+        return str(self.lead)
 
     class Meta:
         verbose_name_plural = 'entries'
@@ -226,23 +193,3 @@ class AttributeData(models.Model):
     number = models.IntegerField(null=True, blank=True)
     reliability = models.CharField(max_length=3, choices=RELIABILITIES,
                                    default=None, null=True, blank=True)
-
-
-# class VulnerableGroupData(models.Model):
-#     entry = models.ForeignKey(Entry)
-#     vulnerable_group = models.ForeignKey(VulnerableGroup)
-#     known_cases = models.IntegerField(null=True, blank=True)
-
-#     def __str__(self):
-#         return self.vulnerable_group.group_name + \
-#             " (" + str(self.known_cases) + ")"
-
-
-# class AffectedGroupData(models.Model):
-#     entry = models.ForeignKey(Entry)
-#     affected_group = models.ForeignKey(AffectedGroup)
-#     known_cases = models.IntegerField(null=True, blank=True)
-
-#     def __str__(self):
-#         return self.affected_group.group_name + \
-#             " (" + str(self.known_cases) + ")"
