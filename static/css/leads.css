@@ -99,7 +99,11 @@ html, body{
     padding-top: 15%;
 }
 
-.modal-content{
+#date-range-input .modal-content{
+    padding: 24px;
+}
+
+#add-lead-from-attachment .modal-content{
     padding: 50px;
 }
 .modal-content .title{

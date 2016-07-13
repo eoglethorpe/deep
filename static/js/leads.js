@@ -1,6 +1,13 @@
 var statuses = {"PEN": "Pending", "PRO": "Processed", "DEL": "Deleted"};
 var confidentialities = {"UNP": "Unprotected", "PRO": "Protected", "RES": "Restricted", "CON": "Confidential", "PUB": "Unprotected"};
 
+var date_created_filter = null;
+var date_published_filter = null;
+var start_date = null;
+var end_date = null;
+
+var previous_date_created = "";
+var last_date_filter = "#date-created-filter";
 
 // Checks if the date is in give range
 function dateInRange(date, min, max){
@@ -9,6 +16,8 @@ function dateInRange(date, min, max){
     max.setHours(0, 0, 0, 0);
     return (date >= min && date <= max);
 }
+
+
 
 function filterDate(filter, date){
     dateStr = date.toDateString();
@@ -44,8 +53,10 @@ function filterDate(filter, date){
 $.fn.dataTable.ext.search.push(
     function( settings, data, dataIndex ) {
         var filter = $("#date-created-filter").val();
-
         date = new Date(data[0].substr(0, 10));
+        if(filter == 'range'){
+            return dateInRange(date, start_date, end_date);
+        }
         return filterDate(filter, date);
     }
 );
@@ -97,7 +108,7 @@ $(document).ready(function() {
             var that = this;
 
             $('#assigned-to-filter').selectize();
-            $('#date-created-filter').selectize();
+            date_created_filter = $('#date-created-filter').selectize();
             $('#date-published-filter').selectize();
             $('#confidentiality-filter').selectize();
             $('#status-filter').selectize();
@@ -121,21 +132,46 @@ $(document).ready(function() {
             });
 
             $('#date-created-filter').on('change', function(){
-                that.api().draw();
+                if($(this).val() != 'range'){
+                    that.api().draw();
+                }
             });
             $('#date-published-filter').on('change', function(){
                 that.api().draw();
             });
 
-        }
+            $("#date-range-input #cancel-btn").on('click', function(){
+                date_created_filter[0].selectize.setValue(previous_date_created);
+            });
+            $("#date-range-input #ok-btn").on('click', function(){
+                start_date = new Date($('#date-range-input #start-date').val());
+                end_date = new Date($('#date-range-input #end-date').val());
+                $("#date-range-input").modal('hide');
+                that.api().draw();
+            });
 
+            $('#date-created-filter').on('focus', function () {
+                console.log('ya');
+                previous_date_created = $(this).val();
+            }).change(function() {
+                if($(this).val() == 'range'){
+                    $("#date-range-input").modal('show');
+                } else {
+                    previous_date_created = $(this).val();
+                }
+            });
+
+        }
     });
 
-    $('#date-created-filter').on('change', function(){
-        if($(this).val() == 'range'){
-            $("#date-range-input").modal('show');
-        }
-    });
+
+
+
+    // $('#date-created-filter').on('change', function(){
+    //     if($(this).val() == 'range'){
+    //         $("#date-range-input").modal('show');
+    //     }
+    // });
 
 
     // Add event listener for opening and closing details
