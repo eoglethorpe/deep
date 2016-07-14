@@ -37,10 +37,12 @@ class EntrySerializer(serializers.ModelSerializer):
         attributes = []
         attr_data = AttributeData.objects.filter(entry=entry)
         for attr in attr_data:
-            attributes.append(
-                {'excerpt': attr.excerpt, 'number': attr.number,
-                 'reliability': attr.reliability}
-            )
+            attributes.append({
+                'attribute': attr.attribute.name,
+                'excerpt': attr.excerpt,
+                'number': attr.number,
+                'reliability': attr.reliability
+            })
         return attributes
 
     def get_countries(self, entry):

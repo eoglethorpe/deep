@@ -16,22 +16,41 @@ $(document).ready(function() {
             {data: "lead_name"},
             {
                 data: null,
-                render: function (data, type, row){
-                    excerpt = data.excerpt;
-
-                    // shorten if too long
-                    if( excerpt.length > 100 ){
-                        excerpt = excerpt.substr(0, 50) + "...";
+                render: function(data, type, row){
+                    var affected_groups = "none";
+                    if(data.affected_groups.length != 0){
+                        affected_groups = "";
+                        for(var i=0; i<data.affected_groups.length; i++){
+                            affected_groups += data.affected_groups[i];
+                            if( i < (data.affected_groups.length-1)){
+                                affected_groups += ", ";
+                            }
+                        }
                     }
-
-                    return excerpt;
+                    return affected_groups;
                 }
             },
+            {
+                data: null,
+                render: function(data, type, row){
+                    var information_attributes = "none";
+                    if(data.information_attributes.length != 0){
+                        var information_attributes = "";
+                        for(var i = 0; i < data.information_attributes.length; i++){
+                            information_attributes += "<strong>"+data.information_attributes[i].attribute+"</strong><br>";
+                            information_attributes += data.information_attributes[i].excerpt + "<br>";
+                            if(data.information_attributes[i].number!=null){
+                                information_attributes += "number: " + data.information_attributes[i].number + " ";
+                            }
+                            if(data.information_attributes[i].reliability!=null){
+                                information_attributes += "reliability: " + data.information_attributes[i].reliability + " ";
+                            }
+                        }
+                    }
+                    return information_attributes;
+                }
+            }
 
-            {data: null, render: function(data, type, row){ return data.severity?severities[data.severity]:'';}},
-            {data: null, render: function(data, type, row){ return data.reliability?reliabilities[data.reliability]:'';}},
-            {data: null, render: function(data, type, row){ return data.problem_timeline?problemTimelines[data.problem_timeline]:'';}},
-            {data: null, render: function(data, type, row){ return data.status?statuses[data.status]:'';}}
 
         ]
     });
@@ -70,10 +89,7 @@ $(document).ready(function() {
                         '<div class="col-sm-2 label-container"><label>lead type:</label></div>'+
                         '<div class="col-sm-10">'+leadType[data.lead_type]+'</div>'+
                     '</div>'+
-                    '<div class="row row-excerpt" >'+
-                        '<div class="col-sm-2 label-container"><label>excerpt:</label></div>'+
-                        '<div class="col-sm-10 content">'+data.excerpt+'</div>'+
-                    '</div>'+
+                    
                 '</div>'
             ;
     }
