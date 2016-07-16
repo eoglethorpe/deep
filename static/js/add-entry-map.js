@@ -40,15 +40,13 @@ function getAdminLevels(countryCode) {
 
             var jsonadder = function(countryCode, index) {
                 return function(kdata){
+                    console.log("got geojson");
                     adminLevels[countryCode][index] = kdata;
                     refreshAdminLevels();
                 }
             }(countryCode, adminLevels[countryCode].length-1);
 
-            $.getJSON(level[2] + ".gz", jsonadder)
-            .error(function() {
-                $.getJSON(level[2], jsonadder);
-            });
+            $.getJSON(level[2], jsonadder);
         }
 
         refreshAdminLevels();
