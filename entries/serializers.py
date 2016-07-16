@@ -62,6 +62,7 @@ class CountrySerializer(serializers.ModelSerializer):
         for level in country.adminlevel_set.all():
             levels["level"+str(level.level)] = [
                     level.name, level.property_name,
-                    str(level.geojson.read(), 'utf-8')
+                    # str(level.geojson.read(), 'utf-8')
+                    level.geojson.url
                 ]
         return levels

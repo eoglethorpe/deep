@@ -34,7 +34,21 @@ function getAdminLevels(countryCode) {
             var level = data["admin_levels"][levels[i]];
             adminLevelNames[countryCode].push(level[0]);
             adminLevelPropNames[countryCode].push(level[1]);
-            adminLevels[countryCode].push(JSON.parse(level[2]));
+            // adminLevels[countryCode].push(JSON.parse(level[2]));
+
+            adminLevels[countryCode].push(null);
+
+            var jsonadder = function(countryCode, index) {
+                return function(kdata){
+                    adminLevels[countryCode][index] = kdata;
+                    refreshAdminLevels();
+                }
+            }(countryCode, adminLevels[countryCode].length-1);
+
+            $.getJSON(level[2] + ".gz", jsonadder)
+            .error(function() {
+                $.getJSON(level[2], jsonadder);
+            });
         }
 
         refreshAdminLevels();
@@ -114,6 +128,10 @@ function refreshMap() {
         return;
     }
 
+    if (adminLevels[selectedCountry][currentLevel] == null) {
+        return;
+    }
+
     layer = L.geoJson(adminLevels[selectedCountry][currentLevel], {
         onEachFeature: onEachMapFeature
     }).addTo(map);
@@ -131,7 +149,7 @@ function refreshAdminLevels() {
     $("#admin-level-buttons").empty();
 
     if (selectedCountry in adminLevels) {
-        for (var i=0; i<adminLevels[selectedCountry].length; ++i) {
+        for (var i=0; i<adminLevelNames[selectedCountry].length; ++i) {
             var btn = $("<button id='btn-lvl-" + i + "' class='btn btn-default'>" + adminLevelNames[selectedCountry][i] + "</button>");
             btn.on('click', function(level) { return function() {   // closure shit
                 currentLevel = level;
