@@ -39,6 +39,7 @@
                     <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' event=event.pk %}">Leads</a>
                     <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' event=event.pk %}">Entries</a>
                     <a class="{% if current_page == 'report' %}active{% endif %} menu-item" href="#">Report</a>
+                    <a class="{% if current_page == 'export' %}active{% endif %} menu-item" href="{% url 'entries:export' event=event.pk %}">Export</a>
                     {% endif %}
                 </div>
             </div>

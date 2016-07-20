@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+DEEP | Entries
+{% endblock %}
+
+{% block head %}
+<script>
+    var currentEvent = {{event.pk}};
+    var severities = {
+        {% for pt in severities %}
+        "{{pt.0}}":"{{pt.1}}",
+        {% endfor %}
+    };
+    var reliabilities = {
+        {% for pt in reliabilities %}
+        "{{pt.0}}":"{{pt.1}}",
+        {% endfor %}
+    };
+    var problemTimelines = {
+        {% for pt in problem_timelines %}
+        "{{pt.0}}":"{{pt.1}}",
+        {% endfor %}
+    };
+    var statuses = {
+        {% for status in statuses %}
+        "{{status.0}}":"{{status.1}}",
+        {% endfor %}
+    };
+</script>
+<link href="{% static 'css/entries.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="{% static 'js/split.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/entries.js' %}"></script>
+
+{% endblock %}
+
+{% block body %}
+
+{% include 'navigation-bar.html' %}
+
+<form action="{% url 'entries:execexport' event=event.pk %}">
+    <input type="submit" value="Export to Excel">
+</form>
+
+{% endblock %}

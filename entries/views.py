@@ -8,8 +8,8 @@ from django.utils.decorators import method_decorator
 from users.models import *
 from leads.models import *
 from entries.models import *
-
 from entries.strippers import *
+from . import export
 
 import os
 import json
@@ -34,6 +34,25 @@ def get_entry_form_data():
     # Affected Groups.
     data["affected_groups"] = AffectedGroup.objects.all()
     return data
+
+class ExportView(View):
+    @method_decorator(login_required)
+    def get(self, request, event):
+        context = {}
+        context["current_page"] = "export"
+        context["event"] = Event.objects.get(pk=event)
+        context["all_events"] = Event.objects.all()
+        UserProfile.set_last_event(request, context["event"])
+        return render(request, "entries/export.html", context)
+
+class ExportExec(View):
+    @method_decorator(login_required)
+    def get(self, request, event):
+        response = HttpResponse(content = export.main('xls'), content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="out.xlsx"'
+
+        return response
+
 
 
 class EntriesView(View):
