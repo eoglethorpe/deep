@@ -17,8 +17,6 @@ function dateInRange(date, min, max){
     return (date >= min && date <= max);
 }
 
-
-
 function filterDate(filter, date){
     dateStr = date.toDateString();
     switch( filter ){
@@ -65,6 +63,9 @@ $.fn.dataTable.ext.search.push(
     function( settings, data, dataIndex ) {
         var filter = $("#date-published-filter").val();
         date = new Date(data[3]);
+        if(filter == 'range'){
+            return dateInRange(date, start_date, end_date);
+        }
         return filterDate(filter, date);
     }
 );
@@ -72,6 +73,7 @@ $.fn.dataTable.ext.search.push(
 
 $(document).ready(function() {
     var leadsTable = $('#leads-table').DataTable( {
+        lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
         ajax: {
             type: "GET",
             dataType: "json",
@@ -109,7 +111,7 @@ $(document).ready(function() {
 
             $('#assigned-to-filter').selectize();
             date_created_filter = $('#date-created-filter').selectize();
-            $('#date-published-filter').selectize();
+            date_published_filter = $('#date-published-filter').selectize();
             $('#confidentiality-filter').selectize();
             $('#status-filter').selectize();
 
@@ -137,12 +139,19 @@ $(document).ready(function() {
                 }
             });
             $('#date-published-filter').on('change', function(){
-                that.api().draw();
+                if($(this).val() != 'range'){
+                    that.api().draw();
+                }
             });
 
             $("#date-range-input #cancel-btn").on('click', function(){
-                date_created_filter[0].selectize.setValue(previous_date_created);
+                if(last_date_filter == "#date-created-filter"){
+                    date_created_filter[0].selectize.setValue(previous_date_created);
+                } else {
+                    date_published_filter[0].selectize.setValue(previous_date_created);
+                }
             });
+
             $("#date-range-input #ok-btn").on('click', function(){
                 start_date = new Date($('#date-range-input #start-date').val());
                 end_date = new Date($('#date-range-input #end-date').val());
@@ -151,7 +160,16 @@ $(document).ready(function() {
             });
 
             $('#date-created-filter').on('focus', function () {
-                console.log('ya');
+                previous_date_created = $(this).val();
+            }).change(function() {
+                if($(this).val() == 'range'){
+                    $("#date-range-input").modal('show');
+                } else {
+                    previous_date_created = $(this).val();
+                }
+            });
+
+            $('#date-published-filter').on('focus', function () {
                 previous_date_created = $(this).val();
             }).change(function() {
                 if($(this).val() == 'range'){

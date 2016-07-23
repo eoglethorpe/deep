@@ -1,5 +1,6 @@
 $(document).ready(function() {
     var entriesTable = $('#entries-table').DataTable({
+        lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
         ajax: {
             type: "GET",
             dataType: "json",
@@ -89,7 +90,7 @@ $(document).ready(function() {
                         '<div class="col-sm-2 label-container"><label>lead type:</label></div>'+
                         '<div class="col-sm-10">'+leadType[data.lead_type]+'</div>'+
                     '</div>'+
-                    
+
                 '</div>'
             ;
     }
