@@ -3,8 +3,8 @@
 
 // example of serverAddress http://52.87.160.69
 // don't add the trailing /
- var serverAddress = 'http://localhost:8000';
-//var serverAddress = 'http://52.87.160.69';
+var serverAddress = 'http://localhost:8000';
+// var serverAddress = 'http://52.87.160.69';
 
 var currentEvent = 0;
 var currentUser = -1;
@@ -12,6 +12,7 @@ var currentUser = -1;
 var currentPage = null;
 
 var article = null;
+var articleDate = null;
 
 chrome.tabs.executeScript(null, {file: "contentscript.js"});
 chrome.runtime.onMessage.addListener( function(request, sender) {
@@ -27,30 +28,25 @@ function getCurrentTabUrl(callback) {
         var tab = tabs[0];
         var url = tab.url;
         console.assert(typeof url == 'string', 'tab.url should be a string');
-        callback(url);
-    });
-}
 
-function getCurrentTabTitle(callback) {
-    var queryInfo = {
-        active: true,
-        currentWindow: true
-    };
-    chrome.tabs.query(queryInfo, function(tabs) {
-        var tab = tabs[0];
-        var title = tab.title;
-        console.assert(typeof title == 'string', 'tab.title should be a string');
+        $.ajax({
+            type: 'GET',
+            url: serverAddress + '/date/?link='+tab.url,
+            success: function(response){
+                $('#publish-date').val(response.date);
+            }
+        });
 
         var loc = document.createElement('a');
         loc.href = tab.url;
         var doc = (new DOMParser).parseFromString(currentPage, 'text/html');
         article = new Readability(loc, doc).parse();
+        console.log(article);
         $('#name').val(article.title);
 
-        callback(title);
+        callback(url);
     });
 }
-
 
 function extractDomain(url) {
     var domain;
