@@ -3,10 +3,20 @@
 
 // example of serverAddress http://52.87.160.69
 // don't add the trailing /
-// var serverAddress = 'http://localhost:8000';
-var serverAddress = 'http://52.87.160.69';
+ var serverAddress = 'http://localhost:8000';
+//var serverAddress = 'http://52.87.160.69';
 
 var currentEvent = 0;
+var currentUser = -1;
+
+var currentPage = null;
+
+var article = null;
+
+chrome.tabs.executeScript(null, {file: "contentscript.js"});
+chrome.runtime.onMessage.addListener( function(request, sender) {
+    currentPage = '<html>'+request.data+'</html>';
+});
 
 function getCurrentTabUrl(callback) {
     var queryInfo = {
@@ -30,6 +40,13 @@ function getCurrentTabTitle(callback) {
         var tab = tabs[0];
         var title = tab.title;
         console.assert(typeof title == 'string', 'tab.title should be a string');
+
+        var loc = document.createElement('a');
+        loc.href = tab.url;
+        var doc = (new DOMParser).parseFromString(currentPage, 'text/html');
+        article = new Readability(loc, doc).parse();
+        $('#name').val(article.title);
+
         callback(title);
     });
 }
@@ -56,9 +73,9 @@ document.addEventListener('DOMContentLoaded', function(){
         document.getElementById('url').value = url;
         document.getElementById('website').value = extractDomain(url);
     });
-    getCurrentTabTitle(function(title){
-        document.getElementById('name').value = title;
-    });
+    // getCurrentTabTitle(function(title){
+    //     document.getElementById('name').value = title;
+    // });
 });
 
 
@@ -73,6 +90,7 @@ $(document).ready(function(){
                     $("#extras-wrapper").hide();
                     $(".form-wrapper").removeClass('hidden');
                     currentEvent = response.last_event;
+                    currentUser = response.user_id;
                     $.ajax({
                         type: 'GET',
                         url: serverAddress + '/api/v1/events/',
@@ -141,10 +159,18 @@ $(document).ready(function(){
                 if(response){
                     for(i = 0; i < response.length; i++){
                         if(response[i].first_name){
-                            $('#user-select').append('<option value="'+response[i].id+'">' + response[i].first_name + ' ' + response[i].last_name + ' (' + response[i].email +')'+ '</option>');
+                            if(response[i].id == currentUser){
+                                $('#user-select').append('<option value="'+response[i].id+'" selected>' + response[i].first_name + ' ' + response[i].last_name + ' (' + response[i].email +')'+ '</option>');
+                            } else {
+                                $('#user-select').append('<option value="'+response[i].id+'">' + response[i].first_name + ' ' + response[i].last_name + ' (' + response[i].email +')'+ '</option>');
+                            }
                         }
                         else {
-                            $('#user-select').append('<option value="'+response[i].id+ '">' + response[i].email + '</option>');
+                            if(response[i].id == currentUser){
+                                $('#user-select').append('<option value="'+response[i].id+ '" selected>' + response[i].email + '</option>');
+                            } else {
+                                $('#user-select').append('<option value="'+response[i].id+ '">' + response[i].email + '</option>');
+                            }
                         }
                     }
                     $('#user-select').selectize({create: false});
@@ -155,21 +181,22 @@ $(document).ready(function(){
             },
         });
 
-        $.ajax({
-            type: 'GET',
-            url: serverAddress + '/api/v1/sources/',
-            success: function(response){
-                if(response) {
-                    for(i = 0; i < response.length; i++){
-                        $('#source').append('<option value="'+response[i].source+'">'+response[i].source+'</option>');
-                    }
-                    $('#source').selectize();
-                }
-            },
-            error: function(response){
-                console.log(response);
-            },
-        });
+        // $.ajax({
+        //     type: 'GET',
+        //     url: serverAddress + '/api/v1/sources/',
+        //     success: function(response){
+        //         if(response) {
+        //             for(i = 0; i < response.length; i++){
+        //                 $('#source').append('<option value="'+response[i].source+'">'+response[i].source+'</option>');
+        //             }
+        //             $('#source').selectize();
+        //         }
+        //     },
+        //     error: function(response){
+        //         console.log(response);
+        //     },
+        // });
+
         $('#confidentiality').selectize();
     }
 

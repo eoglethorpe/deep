@@ -157,6 +157,7 @@ class UserStatusView(View):
             try:
                 profile = UserProfile.objects.get(user=request.user)
                 return JsonResponse({"status": "logged-in",
+                                    "user_id": request.user.id,
                                     "last_event": profile.last_event.pk
                                      if profile.last_event else "null"})
             except:
