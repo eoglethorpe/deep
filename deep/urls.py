@@ -37,6 +37,7 @@ urlpatterns = [
     url(r'^(?P<event>\d+)/entries/', include('entries.urls', namespace='entries')),
 
     url(r'user/status/', UserStatusView.as_view(), name="status"),
+    url(r'date/', DateExtractorView.as_view(), name="date"),
 
     url(r'^admin/', admin.site.urls),
     url(r'^api/v1/', include(router.urls)),
