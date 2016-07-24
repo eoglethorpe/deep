@@ -92,9 +92,10 @@ $(document).ready(function() {
             { data: "published_at" },
             { data: null, render: function(data, type, row) { return confidentialities[data.confidentiality]; } },
             { data: "source"},
-            // { data: "content_format" },
-            // { data: "website" },
             { data: null, render: function(data, type, row) { return statuses[data.status]; } },
+            { data: null, render: function(data, type, row){
+                return '<a class="btn btn-default btn-action btn-add-entry" href="/'+currentEvent+'/entries/add/'+data.id+'"><i class="fa fa-share"></i></a> <a class="btn btn-default btn-action btn-edit" href="/'+currentEvent+'/leads/edit/'+data.id+'"><i class="fa fa-edit"></i></a>';
+            }}
         ],
         initComplete: function(){
             assigned_to_col = this.api().column(1);
@@ -183,15 +184,15 @@ $(document).ready(function() {
     });
 
 
-
-
     // $('#date-created-filter').on('change', function(){
     //     if($(this).val() == 'range'){
     //         $("#date-range-input").modal('show');
     //     }
     // });
 
-
+    $('#leads-table tbody').on('click', '.btn-action', function(e){
+        e.stopPropagation();
+    });
     // Add event listener for opening and closing details
     $('#leads-table tbody').on('click', 'tr', function () {
         var tr = $(this);

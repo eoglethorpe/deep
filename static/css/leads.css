@@ -135,3 +135,8 @@ form .row{
 .even, .even+tr:not(.odd){
     background-color: #fafafa;
 }
+
+
+.btn-action > .fa{
+    margin-right: 0!important;
+}
