@@ -23,6 +23,7 @@ body, html{
 #right-component {
     left: 40em;  /* Same as left component width */
     margin-left: 3px;  /* Same as divider width */
+    background-color: #f0f0f0;
 }
 
 #lead-options-container{
@@ -168,4 +169,17 @@ table{border-collapse: separate!important;}
 }
 .google-visualization-orgchart-linebottom {
     border-bottom: 1px solid #008080!important;
+}
+
+#the-map{
+    margin-top: 10px;
+    height: 320px;
+    margin-bottom: 10px;
+}
+#submit-wrapper{
+    background-color: #f0f0f0;
+    padding: 24px;
+}
+#admin-level-buttons button{
+    margin: 4px;
 }
