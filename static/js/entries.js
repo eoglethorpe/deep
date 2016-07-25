@@ -41,11 +41,12 @@ $(document).ready(function() {
                             information_attributes += "<strong>"+data.information_attributes[i].attribute+"</strong><br>";
                             information_attributes += data.information_attributes[i].excerpt + "<br>";
                             if(data.information_attributes[i].number!=null){
-                                information_attributes += "number: " + data.information_attributes[i].number + " ";
+                                information_attributes += "number: " + data.information_attributes[i].number + ", ";
                             }
                             if(data.information_attributes[i].reliability!=null){
                                 information_attributes += "reliability: " + data.information_attributes[i].reliability + " ";
                             }
+                            information_attributes += "<br>";
                         }
                     }
                     return information_attributes;

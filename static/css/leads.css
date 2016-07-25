@@ -130,10 +130,10 @@ form .row{
 }
 
 .odd, .odd+tr:not(.even){
-    background-color: #f0f0f0;
+    background-color: #e0e0e0;
 }
 .even, .even+tr:not(.odd){
-    background-color: #fafafa;
+    background-color: #f5f5f5;
 }
 
 

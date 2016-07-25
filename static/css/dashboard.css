@@ -7,15 +7,14 @@
     font-size: 3em;
     font-weight: 300;
     color: #ccc;
-    text-align: center;
+
 }
 
 #download-extension-link{
     margin-top: 100px;
-    text-align: center;
 }
 
 #download-extension-link a{
     padding: 10px 50px;
-    text-transform: capitalize;
+    text-transform: uppercase;
 }

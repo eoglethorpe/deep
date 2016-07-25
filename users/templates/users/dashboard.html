@@ -15,13 +15,22 @@ DEEP | Dashboard
 {% include 'navigation-bar.html' %}
 
 <div class="section" id="body-section">
-    <div class="container">
-        <div id="under-construction">
+    <div class="container-fluid">
+        <div class="jumbotron">
+            <h2>Welcome to <strong>Data Entry &amp; Extraction Platform</strong></h2>
+            {% if event and all_events %}
+            <p></p>
+            {% else %}
+            <p>Please select an event to get started</p>
+            {% endif %}
+            <div id="download-extension-link">
+                <a class="btn btn-primary" href="{% url 'extension' %}">Download chrome extension</a>
+            </div>
+        </div>
+        <!-- <div id="under-construction">
             Under construction!
         </div>
-        <div id="download-extension-link">
-            <a class="btn btn-primary" href="{% url 'extension' %}">Download chrome extension</a>
-        </div>
+         -->
     </div>
 </div>
 <div class="section" id="footer-section">
