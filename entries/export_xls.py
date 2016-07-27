@@ -1,4 +1,4 @@
-"""exporting entries to xlsx or docx with a given heirarchy"""
+"""exporting entries to xlsx"""
 import time
 import os
 
@@ -58,15 +58,10 @@ def gen_exports(sht):
             e.lead.name,
             str(e.map_selections)])
 
-def export_xls():
+def export():
     wb = init_xls()
     gen_exports(wb.get_sheet_by_name(EXPORT_TAB))
     gen_meta(wb.get_sheet_by_name(META_TAB))
 
     _expand_cols(wb)
     return save_virtual_workbook(wb)
-
-
-def main(type):
-    if type == 'xls':
-        return export_xls()

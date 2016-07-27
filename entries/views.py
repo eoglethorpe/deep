@@ -9,7 +9,7 @@ from users.models import *
 from leads.models import *
 from entries.models import *
 from entries.strippers import *
-from . import export
+from . import export_xls, export_docx
 
 import os
 import json
@@ -45,15 +45,27 @@ class ExportView(View):
         UserProfile.set_last_event(request, context["event"])
         return render(request, "entries/export.html", context)
 
-class ExportExec(View):
+class ExportXls(View):
     @method_decorator(login_required)
     def get(self, request, event):
-        response = HttpResponse(content = export.main('xls'), content_type='application/vnd.ms-excel')
+        response = HttpResponse(content = export_xls.export(), content_type='application/vnd.ms-excel')
         response['Content-Disposition'] = 'attachment; filename="out.xlsx"'
 
         return response
 
+class ExportDocx(View):
+    @method_decorator(login_required)
+    def get(self, request, event):
+#        response = HttpResponse(content = \
+#                                , content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+#        response['Content-Disposition'] = 'attachment; filename="out.docx"'
+#       return response
+        ord = ['geoarea', 'reliability', 'severity', 'affected', 'sector']
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        response['Content-Disposition'] = 'attachment; filename=download.docx'
+        export_docx.export(ord).save(response)
 
+        return response
 
 class EntriesView(View):
     @method_decorator(login_required)
