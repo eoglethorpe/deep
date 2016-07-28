@@ -238,6 +238,7 @@ function grabAttrInput(id){
 
 
 $(document).ready(function() {
+    $('.split-pane').splitPane();
     $("#country").selectize();
 
     $('input[type=radio][name=lead-view-option]').change(function() {
