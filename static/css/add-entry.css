@@ -150,6 +150,9 @@ table{border-collapse: separate!important;}
     box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.1);
     transition: all 0.2s;
 }
+#information-attributes .filled{
+    color: #008080;
+}
 #information-attributes .active{
     background-color: #008080;
     color: #fff;
