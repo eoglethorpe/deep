@@ -9,6 +9,8 @@ var end_date = null;
 var previous_date_created = "";
 var last_date_filter = "#date-created-filter";
 
+var droppedFiles;
+
 // Checks if the date is in give range
 function dateInRange(date, min, max){
     date.setHours(0, 0, 0, 0);
@@ -300,7 +302,40 @@ $(document).ready(function() {
         $('#drag-overlay').hide();
         dragging = false;
 
-        $('#add-lead-from-attachment').modal('show');
+        droppedFiles = e.originalEvent.dataTransfer.files;
+        if (droppedFiles.length > 0) {
+            $.each(droppedFiles, function(i, file) {
+                $('#attachments-list').append(file.name + " ");
+            });
+            $('#add-lead-from-attachment').modal('show');
+        }
+    });
+
+    $("#source").selectize();
+    $("#confidentiality").selectize();
+    $("#assigned-to").selectize();
+
+    $("#add-lead-form").on('submit', function() {
+        var fd = new FormData();
+        for (var i=0; i<droppedFiles.length; ++i)
+            fd.append('attachments[]', droppedFiles[i]);
+
+        $("#add-lead-form :input").each(function() {
+            fd.append(this.name, $(this).val());
+        });
+        fd.append("lead-type", "attachment");
+
+        $.ajax({
+            url: postUrl,
+            data: fd,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function(data){
+                location.reload();
+            }
+        });
+        return false;
     });
     //$('#add-lead-from-attachment').modal('show');
 });

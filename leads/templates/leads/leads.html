@@ -8,6 +8,7 @@ DEEP | Leads
 {% block head %}
 <script>
     var currentEvent = {{event.pk}};
+    var postUrl = "{% url 'leads:add' event.pk %}";
 </script>
 <link href="{% static 'css/leads.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
@@ -138,31 +139,55 @@ DEEP | Leads
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="title">Add Lead</div>
-            <form>
+            <form id="add-lead-form">
+                {% csrf_token %}
                 <div class="row">
                     <div class="col-sm-3 input-label"><label>Name</label></div>
                     <div class="col-sm-9"><input type="text" name="name" class="form-control" placeholder="Enter a descriptive name"></div>
                 </div>
                 <div class="row">
                     <div class="col-sm-3 input-label"><label>Source</label></div>
-                    <div class="col-sm-9"><input type="text" name="source-type" class="form-control" placeholder="Select source type"></div>
+                    <div class="col-sm-9">
+                        <select id="source" name="source" placeholder="Select source type">
+                            {% for s in sources %}
+                            <option value="{{s.pk}}">{{s}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-3 input-label"><label>Confidentiality</label></div>
-                    <div class="col-sm-9"><input type="text" name="confidentility" class="form-control" ></div>
+                    <div class="col-sm-9">
+                        <select id="confidentiality" name="confidentiality">
+                            {% for c in confidentialities %}
+                            <option value="{{c.0}}">{{c.1}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-3 input-label"><label>Assign to</label></div>
-                    <div class="col-sm-9"><input type="text" name="assign-to" class="form-control" placeholder="Select a user"></div>
+                    <div class="col-md-9">
+                        <select id="assigned-to" name="assigned-to" placeholder="Select user">
+                            <option value="">Select user</option>
+                            {% for u in users %}
+                            <option value="{{u.pk}}">{{u.first_name}} {{u.last_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-3 input-label"><label>Published at</label></div>
-                    <div class="col-sm-9"><input type="date" name="published-at" class="form-control" ></div>
+                    <div class="col-sm-9"><input type="date" name="publish-date" class="form-control" placeholder="yyyy-mm-dd"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">Attachments</div>
+                    <div class="col-sm-9" id="attachments-list"></div>
                 </div>
                 <div class="row" id="action-row">
                     <div class="col-md-12">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <input type="submit"  class="btn btn-primary">
+                        <input type="submit" class="btn btn-primary">
                     </div>
                 </div>
             </form>
