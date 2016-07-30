@@ -40,8 +40,13 @@ DEEP | Entries
 
 {% include 'navigation-bar.html' %}
 
-<form action="{% url 'entries:execexport' event=event.pk %}">
+<form action="{% url 'entries:exportxls' event=event.pk %}">
     <input type="submit" value="Export to Excel">
 </form>
+
+<form action="{% url 'entries:exportdocx' event=event.pk %}">
+    <input type="submit" value="Export to Word">
+</form>
+
 
 {% endblock %}

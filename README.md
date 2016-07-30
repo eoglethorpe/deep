@@ -15,31 +15,29 @@ TODO
 
 ### Installation
 
-First setup a virtual environment with Django.
+First setup a virtual environment.
 
 ```bash
 $ sudo apt-get install python3.4-venv
 $ virtualenv ~/deepenv
-$ source ~/deepenv/bin/activate
-$ pip install django
+$ . ~/deepenv/bin/activate
 ```
 
-Also install Django REST Framework.
+Install a missing package.
 
 ```bash
-$ pip install djangorestframework
+$ apt-get install libjpeg-dev
 ```
 
-Also install the Readability and PDFMiner modules for stripping text from web and pdf documents.
+Copy or clone the project to a directory and cd into it.
+
+Next run ```setup.py``` to install remaining dependancies:
 
 ```bash
-$ sudo apt-get install libxml2-dev libxslt-dev
-$ pip install readability-lxml
-$ pip install requests
-$ pip install pdfminer3k
+$ python setup.py install
 ```
 
-Next copy or clone the project to some directory.
+
 
 ### Migration
 

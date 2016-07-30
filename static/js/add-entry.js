@@ -173,8 +173,13 @@ function initAttrInputs(){
         for(var j = 0; j<attr_group['data'].length; j++){
             var attr = attr_template.clone();
             attr.data('attr-pk', attr_group['data'][j]['pk']);
+            attr.prop('id', 'attr-'+attr_group['data'][j]['pk']);
             attr.text(attr_group['data'][j]['text']);
             attr.appendTo(attr_group_flexrow);
+
+            // if(attr_inputs[j]['data'].length > 0 || attr_inputs[j]['data'].length > 0 || attr_inputs[j]['reliability'] != 'NOA'){
+            //     attr.addClass('filled');
+            // }
         }
         attr_group_title.text(attr_group['id']['text']);
 
@@ -212,7 +217,7 @@ function selectAttr(id){
             excerpt.show();
         }
     } else{
-        // no result found (shouldn't happen)
+        // multiple results found (shouldn't happen)
     }
 }
 
@@ -230,6 +235,12 @@ function grabAttrInput(id){
             attr_input['data'].push((excerpts.eq(i)).find('textarea').val());
             attr_input['number'].push((excerpts.eq(i)).find('input').val());
             attr_input['reliability'].push((excerpts.eq(i)).find('select').val());
+
+            if(attr_input['data'][0].length > 0 || attr_input['number'][0] != 0 || attr_input['reliability'][0] != 'NOA'){
+                $('#attr-'+attr_input['id']).addClass('filled');
+            } else {
+                $('#attr-'+attr_input['id']).removeClass('filled');
+            }
         }
     } else{
         // no result found (shouldn't happen)
@@ -238,6 +249,7 @@ function grabAttrInput(id){
 
 
 $(document).ready(function() {
+    $('.split-pane').splitPane();
     $("#country").selectize();
 
     $('input[type=radio][name=lead-view-option]').change(function() {
