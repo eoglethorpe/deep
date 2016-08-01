@@ -88,39 +88,50 @@ class InformationAttribute(models.Model):
         return self.name + " (" + str(self.group) + ")"
 
 
+class VulnerableGroup(models.Model):
+    name = models.CharField(max_length=70)
+    min_age = models.IntegerField(default=None, blank=True, null=True)
+    max_age = models.IntegerField(default=None, blank=True, null=True)
+
+    def __str__(self):
+        if not self.max_age:
+            return self.value + " (< " + str(self.min_age) + " years old)"
+        elif not self.min_age:
+            return self.value + " (" + str(self.max_age) + "+ years old)"
+        else:
+            return self.value + " (" + str(self.min_age) + " to " + \
+                str(self.max_age) + " years old)"
+
+
+class SpecificNeedsGroup(models.Model):
+    value = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.value
+
+
 class Entry(models.Model):
+    lead = models.ForeignKey(Lead)
 
-    # Status Types:
-    LIVING_IN_THE_AREA = "LIA"
-    AFFECTED = "AFF"
-    IN_NEED = "INN"
-    TARGETED = "TAR"
-    REACHED = "REA"
-    COVERED = "COV"
+    affected_groups = models.ManyToManyField(AffectedGroup, blank=True)
+    map_selections = models.ManyToManyField(AdminLevelSelection, blank=True)
+    vulnerable_groups = models.ManyToManyField(VulnerableGroup, blank=True)
+    sepecific_needs_groups = models.ManyToManyField(SpecificNeedsGroup, blank=True)
 
-    STATUSES = (
-        (LIVING_IN_THE_AREA, "Living in the area"),
-        (AFFECTED, "Affected"),
-        (IN_NEED, "In need"),
-        (TARGETED, "Targeted"),
-        (REACHED, "Reached"),
-        (COVERED, "Covered"),
-    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, null=True)  # Remove null=True.
 
-    # Problem Timelines:
-    CURRENT_PROBLEM = "CUR"
-    FUTURE_PROBLEM = "FUT"
-    POTENTIAL_PROBLEM = "POT"
-    NO_PROBLEM = "NOP"
+    def __str__(self):
+        return str(self.lead)
 
-    PROBLEM_TIMELIES = (
-        (CURRENT_PROBLEM, "Current and Confirmed Problem"),
-        (FUTURE_PROBLEM, "Future Problem"),
-        (POTENTIAL_PROBLEM, "Potential Problem"),
-        (NO_PROBLEM, "No Problem"),
-    )
+    class Meta:
+        verbose_name_plural = 'entries'
+
+
+class AttributeData(models.Model):
 
     # Severity Types:
+    NO_PROBLEM = "NOP"
     MINOR_PROBLEM = "MIN"
     SITUATION_OF_CONCERN = "SOC"
     SITUATION_OF_MAJOR_CONCERN = "SOM"
@@ -153,43 +164,11 @@ class Entry(models.Model):
         (CANNOT_BE_JUDGED, "Cannot be judged"),
     )
 
-    lead = models.ForeignKey(Lead)
-
-    affected_groups = models.ManyToManyField(AffectedGroup, blank=True)
-    map_selections = models.ManyToManyField(AdminLevelSelection, blank=True)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(User, null=True)  # Remove null=True.
-
-    def __str__(self):
-        return str(self.lead)
-
-    class Meta:
-        verbose_name_plural = 'entries'
-
-
-class AttributeData(models.Model):
-
-    # Reliability Types:
-    COMPLETELY = "COM"
-    USUALLY = "USU"
-    FAIRLY = "FAI"
-    NOT_USUALLY = "NUS"
-    UNRELIABLE = "UNR"
-    CANNOT_BE_JUDGED = "CBJ"
-
-    RELIABILITIES = (
-        (COMPLETELY, "Completely"),
-        (USUALLY, "Usually"),
-        (FAIRLY, "Fairly"),
-        (NOT_USUALLY, "Not Usually"),
-        (UNRELIABLE, "Unreliable"),
-        (CANNOT_BE_JUDGED, "Cannot be judged"),
-    )
-
     entry = models.ForeignKey(Entry)
     attribute = models.ForeignKey(InformationAttribute)
     excerpt = models.TextField(blank=True)
     number = models.IntegerField(null=True, blank=True)
     reliability = models.CharField(max_length=3, choices=RELIABILITIES,
                                    default=None, null=True, blank=True)
+    severity = models.CharField(max_length=3, choices=SEVERITIES,
+                                default=None, null=True, blank=True)
