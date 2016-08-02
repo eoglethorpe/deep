@@ -23,6 +23,11 @@ def get_entry_form_data():
     # Sectors.
     data["sectors"] = Sector.objects.all()
 
+    # Vulnerable groups.
+    data["vulnerable_groups"] = VulnerableGroup.objects.all()
+    # Specific needs groups.
+    data["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
+
     # Information Attributes
     data["attributes"] = {}
     attr_groups = InformationAttributeGroup.objects.all()
@@ -146,6 +151,10 @@ class AddEntry(View):
         map_data = json.loads(request.POST["map_data"])
         information_attributes = json.loads(
             request.POST["information_attributes"])
+        vulnerable_groups = json.loads(
+            request.POST["vulnerable_groups"])
+        specific_needs_groups = json.loads(
+            request.POST["specific_needs_groups"])
 
         entry.lead = Lead.objects.get(pk=lead_id)
         entry.created_by = request.user
@@ -176,6 +185,16 @@ class AddEntry(View):
                 selection.save()
 
             entry.map_selections.add(selection)
+
+        # The vulnerable groups.
+        for vg in vulnerable_groups:
+            vulnerable_group = VulnerableGroup.objects.get(pk=int(vg))
+            entry.vulnerable_groups.add(vulnerable_group)
+
+        # The specific needs groups.
+        for sg in specific_needs_groups:
+            specific_group = SpecificNeedsGroup.objects.get(pk=int(sg))
+            entry.specific_needs_groups.add(specific_group)
 
         #  [{'id': '7', 'data': [''], 'number': [''], 'reliability': ['NOA']},
         #   {'id': '8', 'data': ['Popula'], 'number': ['20'],

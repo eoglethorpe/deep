@@ -23,10 +23,10 @@ $ virtualenv ~/deepenv
 $ . ~/deepenv/bin/activate
 ```
 
-Install a missing package.
+Install missing packages.
 
 ```bash
-$ apt-get install libjpeg-dev
+$ apt-get install libjpeg-dev libmysqlclient-dev
 ```
 
 Copy or clone the project to a directory and cd into it.

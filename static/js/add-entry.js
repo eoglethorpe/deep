@@ -251,6 +251,8 @@ function grabAttrInput(id){
 $(document).ready(function() {
     $('.split-pane').splitPane();
     $("#country").selectize();
+    $("#vulnerable-groups").selectize();
+    $("#groups-with-specific-needs").selectize();
 
     $('input[type=radio][name=lead-view-option]').change(function() {
         changeLeadPreview(this.value=='simplified');
@@ -271,20 +273,34 @@ $(document).ready(function() {
     initAttrInputs();
 
     $("#save-btn").on('click', function(){
-
         var current = $("#information-attributes .active");
         if(current != null) {
             grabAttrInput(current.data('attr-pk'));
         }
 
         var data = {};
+
         var affecteds = [];
         for (s in selected_groups) {
             affecteds.push(affected_groups[selected_groups[s].row][0]);
         }
         data["affected_groups"] = JSON.stringify(affecteds);
+
         data["map_data"] = JSON.stringify(mapSelections);
         data["information_attributes"] = JSON.stringify(attr_inputs);
+
+        var vgroups = [];
+        $('#vulnerable-groups :selected').each(function(i, selected) {
+            vgroups[i] = $(selected).val();
+        });
+        data["vulnerable_groups"] = JSON.stringify(vgroups);
+
+        var spgroups = [];
+        $('#groups-with-specific-needs :selected').each(function(i, selected) {
+            spgroups[i] = $(selected).val();
+        });
+        data["specific_needs_groups"] = JSON.stringify(spgroups);
+
         redirectPost(window.location.pathname, data, csrf_token);
     });
 });

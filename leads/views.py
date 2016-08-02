@@ -163,6 +163,7 @@ class DeleteLead(View):
     @method_decorator(login_required)
     def post(self, request, event):
         lead = Lead.objects.get(pk=request.POST["id"])
-        lead.status = Lead.DELETED
-        lead.save()
+        lead.delete()
+        # lead.status = Lead.DELETED
+        # lead.save()
         return redirect('leads:leads', event=event)

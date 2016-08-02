@@ -32,5 +32,7 @@ class EntryAdmin(admin.ModelAdmin):
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Sector)
 admin.site.register(AffectedGroup)
+admin.site.register(VulnerableGroup)
+admin.site.register(SpecificNeedsGroup)
 admin.site.register(Entry, EntryAdmin)
 admin.site.register(InformationAttributeGroup, InformationAttributeGroupAdmin)
