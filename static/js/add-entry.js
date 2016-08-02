@@ -1,3 +1,24 @@
+
+function updateLocationSelections() {
+    for (var i in mapSelections) {
+        var selectionKey = mapSelections[i];
+        // Select the option with value selectionKey.
+    }
+}
+
+function refreshLocations() {
+
+    // TODO: Clear all from select-location.
+    for (var key in locations) {
+        var name = locations[key];
+        // TODO: Add name to select-location:
+        // "<option value=" + key + ">" + name + "</option>".
+        // Add key to mapSelections array on selection and call updateLayer(key).
+    }
+    updateLocationSelections();
+}
+
+
 google.charts.load('current', {packages:["orgchart"]});
 google.charts.setOnLoadCallback(drawChart);
 

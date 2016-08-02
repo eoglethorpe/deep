@@ -1,6 +1,9 @@
+var locations = {};
+
 var adminLevels = {};
 var adminLevelNames = {};
 var adminLevelPropNames = {};
+var nameLayerMapping = {};
 var currentLevel = 0;
 var selectedCountry = "";
 var layer;
@@ -40,7 +43,6 @@ function getAdminLevels(countryCode) {
 
             var jsonadder = function(countryCode, index) {
                 return function(kdata){
-                    console.log("got geojson");
                     adminLevels[countryCode][index] = kdata;
                     refreshAdminLevels();
                 }
@@ -50,6 +52,14 @@ function getAdminLevels(countryCode) {
         }
 
         refreshAdminLevels();
+    });
+}
+
+
+function updateLayer(selectionName) {
+    var layer = nameLayerMapping[selectionName];
+    layer.setStyle({
+        fillColor: (mapSelections.indexOf(selectionName) == -1)?color1:color3
     });
 }
 
@@ -68,6 +78,7 @@ function onEachMapFeature(feature, layer) {
     var color3 = getColor(5, 5);    // selection-color;
 
     var selectionName = selectedCountry+":"+currentLevel+":"+name;
+    nameLayerMapping[selectionName] = layer;
 
     layer.setStyle({
         fillColor: (mapSelections.indexOf(selectionName) == -1)?color1:color3,
@@ -98,9 +109,12 @@ function onEachMapFeature(feature, layer) {
         this.setStyle({
             fillColor: (index == -1) ? color3 : color1
         });
+        updateLocationSelections();
     });
 
     layer.bindLabel(name);
+
+    locations[selectionName] = name;
 
     // var polygonCenter = layer.getBounds().getCenter();
     // L.marker(polygonCenter)
@@ -140,6 +154,7 @@ function refreshMap() {
     $("#btn-lvl-"+currentLevel).addClass("btn-primary");
 
     map.fitBounds(layer.getBounds());
+    refreshLocations();
 }
 
 
