@@ -151,15 +151,45 @@ table{border-collapse: separate!important;}
 }
 
 
-#submit-wrapper{
-    background-color: #f0f0f0;
-    padding: 24px;
-    text-align: right;
-    margin-top: 24px;
-}
 #save-btn{
-    min-width: 150px;
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    bottom: 24px;
+    right: 32px;
+    text-align: center;
+    border-radius: 50%;
+    box-shadow: 0 3px 10px 2px rgba(0, 0, 0, 0.6);
+    outline: none;
+}
+#save-btn .fa{
+    margin-right: 0;
 }
 #admin-level-buttons button{
     margin: 4px;
+}
+
+.attr-input .form-control{
+    padding: 4px 6px;
+    font-size: 10px;
+}
+.attr-title{
+    cursor: pointer;
+}
+.attr-title::after{
+    content: '𝅌';
+    margin-left: 10px;
+}
+
+#selected-location-list{
+    margin-top: 10px;
+    max-height: 200px;
+    overflow-y: scroll;
+}
+#selected-location-list li a{
+    color: #e74c3c;
+    margin-left: 10px;
+}
+#selected-location-list li a .fa{
+    margin-right: 0;
 }

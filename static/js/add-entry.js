@@ -169,6 +169,7 @@ function initAttrInputs(){
         var attr_group = attrs[i];
         var attr_group_title = attr_title_template.clone();
         var attr_group_flexrow = flexrow_template.clone();
+        attr_group_flexrow.hide();
 
         for(var j = 0; j<attr_group['data'].length; j++){
             var attr = attr_template.clone();
@@ -348,4 +349,8 @@ $(document).on('click', '#information-attributes .attr', function(e) {
     $(this).addClass('active');
     $('#selected-attr-title').text($(this).text());
     selectAttr($(this).data('attr-pk'));
+});
+
+$(document).on('click', '.attr-title', function(){
+    $(this).next().toggle();
 });

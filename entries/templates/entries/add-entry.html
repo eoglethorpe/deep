@@ -105,6 +105,23 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
             <div class="row">
                 <div class="col-lg-7">
                     <div id="the-map" ></div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <select id="vulnerable-groups" name="vulnerable-groups" class="form-control" placeholder="Select vulnerable group" multiple="true">
+                                {% for vulnerable_group in vulnerable_groups %}
+                                <option value="{{vulnerable_group.pk}}">{{vulnerable_group}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <select id="groups-with-specific-needs" name="groups-with-specific-needs" class="form-control" placeholder="Select groups with specific needs" multiple="true">
+                                {% for specific_group in specific_needs_groups %}
+                                <option value="{{specific_group.k}}">{{specific_group}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                    </div>
                 </div>
                 <div class="col-lg-5">
                     <div class="form-group">
@@ -119,27 +136,28 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         <label>Enter location manually:</label>
                         <!-- TODO: multiple="true" & Selectize -->
                         <select name="manual-location-input" class="form-control" >
-                            <option>-- Select a country --</option>
+                            <option>-- Add a location --</option>
                             <option>Nepal</option>
                         </select>
-                    </div>
-                    <hr>
-                    <div class="form-group">
-                        <select id="vulnerable-groups" name="vulnerable-groups" class="form-control" placeholder="Select vulnerable group" multiple="true">
-                            {% for vulnerable_group in vulnerable_groups %}
-                            <option value="{{vulnerable_group.pk}}">{{vulnerable_group}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <select id="groups-with-specific-needs" name="groups-with-specific-needs" class="form-control" placeholder="Select groups with specific needs" multiple="true">
-                            {% for specific_group in specific_needs_groups %}
-                            <option value="{{specific_group.k}}">{{specific_group}}</option>
-                            {% endfor %}
-                        </select>
+                        <div id="selected-location-list">
+                            <ul>
+                                <li>Kathmandu<a href="#"><i class="fa fa-times"></i></a></li>
+                                <li>Pokhara<a href="#"><i class="fa fa-times"></i></a></li>
+                                <li>bla blah<a href="#"><i class="fa fa-times"></i></a></li>
+                                <li>blu bleh<a href="#"><i class="fa fa-times"></i></a></li>
+                                <li>bleh bla<a href="#"><i class="fa fa-times"></i></a></li>
+                                <li>bleh blo blu<a href="#"><i class="fa fa-times"></i></a></li>
+                                <li>bla blah<a href="#"><i class="fa fa-times"></i></a></li>
+                                <li>blu bleh<a href="#"><i class="fa fa-times"></i></a></li>
+                                <li>bleh bla<a href="#"><i class="fa fa-times"></i></a></li>
+                                <li>bleh blo blu<a href="#"><i class="fa fa-times"></i></a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
+
+
 
 
             <div>
@@ -163,18 +181,17 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
             </div>
         </div>
 
-        <div id="submit-wrapper">
-            <button id="save-btn" class="btn btn-primary">Save</button>
-        </div>
+        <button id="save-btn" class="btn btn-primary"><i class="fa fa-save"></i></button>
+
     </div>
 </div>
 
 <div class="template-attr-input" hidden>
     <div class="row">
-        <div class="col-xs-11">
+        <div class="col-xs-10">
             <textarea class="form-control" placeholder="Excerpt"></textarea>
         </div>
-        <div class="col-xs-1">
+        <div class="col-xs-2">
             <button class="btn btn-primary btn-add" >+</button>
         </div>
     </div>
