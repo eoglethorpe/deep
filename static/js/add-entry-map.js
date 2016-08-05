@@ -56,7 +56,13 @@ function getAdminLevels(countryCode) {
 }
 
 
+
+var color1 = getColor(50, 50);  // default color
+var color2 = getColor(30, 70);  // mouse-hover color
+var color3 = getColor(5, 5);    // selection-color;
+
 function updateLayer(selectionName) {
+
     var layer = nameLayerMapping[selectionName];
     layer.setStyle({
         fillColor: (mapSelections.indexOf(selectionName) == -1)?color1:color3
@@ -72,12 +78,8 @@ function onEachMapFeature(feature, layer) {
     if (feature.properties && feature.properties[propName]) {
         name = feature.properties[propName];
     }
-
-    var color1 = getColor(50, 50);  // default color
-    var color2 = getColor(30, 70);  // mouse-hover color
-    var color3 = getColor(5, 5);    // selection-color;
-
     var selectionName = selectedCountry+":"+currentLevel+":"+name;
+
     nameLayerMapping[selectionName] = layer;
 
     layer.setStyle({
@@ -113,7 +115,6 @@ function onEachMapFeature(feature, layer) {
     });
 
     layer.bindLabel(name);
-
     locations[selectionName] = name;
 
     // var polygonCenter = layer.getBounds().getCenter();

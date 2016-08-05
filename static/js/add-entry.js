@@ -1,3 +1,5 @@
+var manual_location_input;
+
 
 function updateLocationSelections() {
     for (var i in mapSelections) {
@@ -9,14 +11,16 @@ function updateLocationSelections() {
 function refreshLocations() {
 
     // TODO: Clear all from select-location.
+    //mapSelections = [];
     for (var key in locations) {
         var name = locations[key];
-        // TODO: Add name to select-location:
-        // "<option value=" + key + ">" + name + "</option>".
+        manual_location_input[0].selectize.addOption({value: key, text: name});
         // Add key to mapSelections array on selection and call updateLayer(key).
     }
+
     updateLocationSelections();
 }
+
 
 
 google.charts.load('current', {packages:["orgchart"]});
@@ -270,7 +274,23 @@ function grabAttrInput(id){
 }
 
 
+
 $(document).ready(function() {
+    manual_location_input = $("#manual-location-input").selectize();
+    $("#manual-location-input").change(function(){
+        var key = $("#manual-location-input").val();
+        //mapSelections.push(key);
+        mapSelections.pushIfNotExist(key);
+        updateLayer(key);
+        if( !mapSelections.inArray(key) ){
+            container = $('#selected-location-list').find('ul');
+            element = $('<li>'+$("#manual-location-input option:selected").text()+'<a href="#"><i class="fa fa-times"></i></a></li>');
+            element.appendTo(container);
+        }
+
+        manual_location_input[0].selectize.clear(true);
+    });
+
     $('.split-pane').splitPane();
     $("#country").selectize();
     $("#vulnerable-groups").selectize();

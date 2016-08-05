@@ -135,22 +135,11 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     <div class="form-group" id="manual-input">
                         <label>Enter location manually:</label>
                         <!-- TODO: multiple="true" & Selectize -->
-                        <select name="manual-location-input" class="form-control" >
-                            <option>-- Add a location --</option>
-                            <option>Nepal</option>
+                        <select name="manual-location-input" id="manual-location-input" class="form-control"  placeholder="Add a location">
+                            <option value="">Add a location</option>
                         </select>
                         <div id="selected-location-list">
                             <ul>
-                                <li>Kathmandu<a href="#"><i class="fa fa-times"></i></a></li>
-                                <li>Pokhara<a href="#"><i class="fa fa-times"></i></a></li>
-                                <li>bla blah<a href="#"><i class="fa fa-times"></i></a></li>
-                                <li>blu bleh<a href="#"><i class="fa fa-times"></i></a></li>
-                                <li>bleh bla<a href="#"><i class="fa fa-times"></i></a></li>
-                                <li>bleh blo blu<a href="#"><i class="fa fa-times"></i></a></li>
-                                <li>bla blah<a href="#"><i class="fa fa-times"></i></a></li>
-                                <li>blu bleh<a href="#"><i class="fa fa-times"></i></a></li>
-                                <li>bleh bla<a href="#"><i class="fa fa-times"></i></a></li>
-                                <li>bleh blo blu<a href="#"><i class="fa fa-times"></i></a></li>
                             </ul>
                         </div>
                     </div>
