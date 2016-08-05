@@ -119,7 +119,7 @@ class Entry(models.Model):
     affected_groups = models.ManyToManyField(AffectedGroup, blank=True)
     map_selections = models.ManyToManyField(AdminLevelSelection, blank=True)
     vulnerable_groups = models.ManyToManyField(VulnerableGroup, blank=True)
-    sepecific_needs_groups = models.ManyToManyField(SpecificNeedsGroup, blank=True)
+    specific_needs_groups = models.ManyToManyField(SpecificNeedsGroup, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, null=True)  # Remove null=True.
@@ -175,3 +175,6 @@ class AttributeData(models.Model):
                                    default=None, null=True, blank=True)
     severity = models.CharField(max_length=3, choices=SEVERITIES,
                                 default=None, null=True, blank=True)
+
+    def __str__(self):
+        return str(self.attribute) + " : " + self.excerpt[:10]

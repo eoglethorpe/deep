@@ -42,7 +42,11 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     var selectedTags = {};
 
     // Current map selections.
-    var mapSelections = [];
+    var mapSelections = [
+    {% for selection in entry.map_selections.all %}
+    "{{selection.admin_level.country.code}}:{{selection.admin_level.level|add:"-1"}}:{{selection.name}}",
+    {% endfor %}
+    ];
 
     // Information attributes.
     var attrs = [
@@ -68,6 +72,24 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
     // CSRF Token Tag for Form.
     var csrf_token = "{% csrf_token %}";
+
+    // Fill the attributes.
+    var attr_data = {
+    {% if attr_data %}{% for pk, ad in attr_data.items %}
+        "{{pk}}": {
+            "id": "{{pk}}",
+            "data": [{% for data in ad.data %}"{{data}}",{% endfor %}],
+            "number": [{% for number in ad.number %}"{{number}}",{% endfor %}],
+            "reliability": [{% for reliability in ad.reliability %}"{{reliability}}",{% endfor %}],
+            "severity": [{% for severity in ad.severity %}"{{severity}}",{% endfor %}],
+        },
+    {% endfor %}{% endif %}
+    };
+
+    // Select affected groups.
+    var selected_groups = [{% if entry %}{% for group in affected_groups %}
+    {% if group in entry.affected_groups.all %}{row:{{forloop.counter0}}, column:null},{% endif %}
+    {% endfor %}{% endif %}];
 </script>
 
 {% endblock %}
@@ -109,14 +131,14 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         <div class="col-sm-6">
                             <select id="vulnerable-groups" name="vulnerable-groups" class="form-control" placeholder="Select vulnerable group" multiple="true">
                                 {% for vulnerable_group in vulnerable_groups %}
-                                <option value="{{vulnerable_group.pk}}">{{vulnerable_group}}</option>
+                                <option value="{{vulnerable_group.pk}}" {% if vulnerable_group in entry.vulnerable_groups.all %}selected{% endif %}>{{vulnerable_group}}</option>
                                 {% endfor %}
                             </select>
                         </div>
                         <div class="col-sm-6">
                             <select id="groups-with-specific-needs" name="groups-with-specific-needs" class="form-control" placeholder="Select groups with specific needs" multiple="true">
                                 {% for specific_group in specific_needs_groups %}
-                                <option value="{{specific_group.k}}">{{specific_group}}</option>
+                                <option value="{{specific_group.k}}" {% if specific_group in entry.specific_needs_groups.all %}selected{% endif %}>{{specific_group}}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -189,7 +211,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
             <input type="number" class="form-control" placeholder="Number">
         </div>
         <div class="col-xs-4">
-            <select class="form-control">
+            <select class="severity form-control">
                 <option value="NOA">-- Select Severity --</option>
                 {% for serverity in severities %}
                 <option value="{{serverity.0}}">{{serverity.1}}</option>
@@ -197,7 +219,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
             </select>
         </div>
         <div class="col-xs-4">
-            <select class="form-control">
+            <select class="reliability form-control">
                 <option value="NOA">-- Select Reliability --</option>
                 {% for reliability in reliabilities %}
                 <option value="{{reliability.0}}">{{reliability.1}}</option>

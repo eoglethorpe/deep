@@ -39,8 +39,12 @@ class RegisterView(View):
         except forms.ValidationError:
             error = "Invalid email"
 
-        if repassword != password:
-            error = "Passwords do not match"
+        if error == "":
+            if User.objects.filter(username=email).count() > 0:
+                error = "Email already registered."
+
+            elif repassword != password:
+                error = "Passwords do not match"
 
         # If there is no error, create new user.
         if error == "":

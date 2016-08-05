@@ -26,7 +26,6 @@ function refreshLocations() {
 google.charts.load('current', {packages:["orgchart"]});
 google.charts.setOnLoadCallback(drawChart);
 
-var selected_groups = [];
 var mouseover_group = -1;
 
 function drawChart() {
@@ -79,6 +78,9 @@ function drawChart() {
     google.visualization.events.addListener(chart, 'onmouseout', function(row){
         mouseover_group = -1;
     });
+
+    // Set default selections.
+    chart.setSelection(selected_groups);
 }
 
 
@@ -175,12 +177,19 @@ function initAttrInputs(){
         var attr_group = attrs[i];
         for(var j=0; j<attr_group['data'].length; j++){
             var attr = attr_group['data'][j];
-            var attr_input = {
-                'id': attr['pk'],
-                'data': [""],
-                'number': [""],
-                'reliability': ['NOA']
-            };
+            var attr_input;
+            if (attr['pk'] in attr_data) {
+                attr_input = attr_data[attr['pk']];
+            }
+            else {
+                attr_input = {
+                    'id': attr['pk'],
+                    'data': [""],
+                    'number': [""],
+                    'reliability': ['NOA'],
+                    'severity': ['NOA']
+                };
+            }
             attr_inputs.push(attr_input);
         }
     }
@@ -190,6 +199,8 @@ function initAttrInputs(){
     var flexrow_template = $('<div class="flexrow"></div>');
     var attr_title_template = $('<div class="attr-title"></div>');
     var attr_template = $('<div class="attr"></div>');
+
+    var index = 0;
     for(var i=0; i<attrs.length; i++){
         var attr_group = attrs[i];
         var attr_group_title = attr_title_template.clone();
@@ -203,9 +214,10 @@ function initAttrInputs(){
             attr.text(attr_group['data'][j]['text']);
             attr.appendTo(attr_group_flexrow);
 
-            // if(attr_inputs[j]['data'].length > 0 || attr_inputs[j]['data'].length > 0 || attr_inputs[j]['reliability'] != 'NOA'){
-            //     attr.addClass('filled');
-            // }
+            if(attr_inputs[index]['data'][0].length > 0 || attr_inputs[index]['number'][0].length > 0 || attr_inputs[index]['reliability'][0] != 'NOA' || attr_inputs[index]['severity'][0] != 'NOA'){
+                attr.addClass('filled');
+            }
+            index++;
         }
         attr_group_title.text(attr_group['id']['text']);
 
@@ -238,7 +250,8 @@ function selectAttr(id){
             }
             excerpt.find('textarea').val(attr_input['data'][i]);
             excerpt.find('input').val(attr_input['number'][i]);
-            excerpt.find('select').val(attr_input['reliability'][i]);
+            excerpt.find('.reliability').val(attr_input['reliability'][i]);
+            excerpt.find('.severity').val(attr_input['severity'][i]);
             excerpt.appendTo(excerpts);
             excerpt.show();
         }
@@ -256,11 +269,13 @@ function grabAttrInput(id){
         attr_input['data'] = [];
         attr_input['number'] = [];
         attr_input['reliability'] = [];
+        attr_input['severity'] = [];
         var excerpts = $('#attr-inputs #contents').find('.attr-input');
         for(var i=0; i<excerpts.length; i++){
             attr_input['data'].push((excerpts.eq(i)).find('textarea').val());
             attr_input['number'].push((excerpts.eq(i)).find('input').val());
-            attr_input['reliability'].push((excerpts.eq(i)).find('select').val());
+            attr_input['reliability'].push((excerpts.eq(i)).find('.reliability').val());
+            attr_input['severity'].push((excerpts.eq(i)).find('.severity').val());
 
             if(attr_input['data'][0].length > 0 || attr_input['number'][0] != 0 || attr_input['reliability'][0] != 'NOA'){
                 $('#attr-'+attr_input['id']).addClass('filled');
@@ -364,7 +379,8 @@ $(document).on('click', '.btn-add', function(e){
 
     excerpt.find('textarea').val(attr_input['data']);
     excerpt.find('input').val(attr_input['number']);
-    excerpt.find('select').val(attr_input['reliability']);
+    excerpt.find('.reliability').val(attr_input['reliability']);
+    excerpt.find('.severity').val(attr_input['severity']);
     excerpt.appendTo(excerpts);
     excerpt.show();
 
