@@ -331,8 +331,11 @@ $(document).ready(function() {
             processData: false,
             contentType: false,
             type: 'POST',
-            success: function(data){
+            done: function(data){
                 location.reload();
+            },
+            error: function(){
+                alert("Error adding lead.");
             }
         });
         return false;

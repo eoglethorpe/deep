@@ -8,7 +8,7 @@ var currentLevel = 0;
 var selectedCountry = "";
 var layer;
 
-var map = L.map('the-map').setView([27.7, 85.3], 6);
+var map = L.map('the-map'); //.setView([27.7, 85.3], 6);
 // L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
 
 // On country selected, fetch the admin levels data.
@@ -105,6 +105,8 @@ function onEachMapFeature(feature, layer) {
         else {
             mapSelections.splice(index, 1);
         }
+
+        console.log(mapSelections);
 
         this.setStyle({
             fillColor: (index == -1) ? color3 : color1

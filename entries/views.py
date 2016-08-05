@@ -15,11 +15,11 @@ import os
 import json
 
 
-def get_entry_form_data():
+def get_entry_form_data(event):
     data = {}
 
     # Countries.
-    data["countries"] = Country.objects.all()
+    data["countries"] = event.countries.all()
     # Sectors.
     data["sectors"] = Sector.objects.all()
 
@@ -40,6 +40,7 @@ def get_entry_form_data():
     data["affected_groups"] = AffectedGroup.objects.all()
     return data
 
+
 class ExportView(View):
     @method_decorator(login_required)
     def get(self, request, event):
@@ -50,6 +51,7 @@ class ExportView(View):
         UserProfile.set_last_event(request, context["event"])
         return render(request, "entries/export.html", context)
 
+
 class ExportXls(View):
     @method_decorator(login_required)
     def get(self, request, event):
@@ -57,6 +59,7 @@ class ExportXls(View):
         response['Content-Disposition'] = 'attachment; filename="out.xlsx"'
 
         return response
+
 
 class ExportDocx(View):
     @method_decorator(login_required)
@@ -72,6 +75,7 @@ class ExportDocx(View):
 
         return response
 
+
 class EntriesView(View):
     @method_decorator(login_required)
     def get(self, request, event):
@@ -79,7 +83,7 @@ class EntriesView(View):
         context["current_page"] = "entries"
         context["event"] = Event.objects.get(pk=event)
         context["all_events"] = Event.objects.all()
-        context.update(get_entry_form_data())
+        context.update(get_entry_form_data(context["event"]))
         UserProfile.set_last_event(request, context["event"])
         return render(request, "entries/entries.html", context)
 
@@ -134,9 +138,30 @@ class AddEntry(View):
 
         if entry:
             context["entry"] = entry
-            # TODO For editing entry
+            attr_data = AttributeData.objects.filter(entry=entry)
+            temp = {}
+            for ad in attr_data:
+                if not ad.number:
+                    ad.number = ""
+                if not ad.reliability:
+                    ad.reliability = "NOA"
+                if not ad.severity:
+                    ad.severity = "NOA"
+                if ad.attribute.pk in temp:
+                    temp[ad.attribute.pk]["data"].append(ad.excerpt)
+                    temp[ad.attribute.pk]["number"].append(ad.number)
+                    temp[ad.attribute.pk]["reliability"].append(ad.reliability)
+                    temp[ad.attribute.pk]["severity"].append(ad.severity)
+                else:
+                    temp[ad.attribute.pk] = {}
+                    temp[ad.attribute.pk]["data"] = [ad.excerpt]
+                    temp[ad.attribute.pk]["number"] = [ad.number]
+                    temp[ad.attribute.pk]["reliability"] = [ad.reliability]
+                    temp[ad.attribute.pk]["severity"] = [ad.severity]
 
-        context.update(get_entry_form_data())
+            context["attr_data"] = temp
+
+        context.update(get_entry_form_data(context["event"]))
         return render(request, "entries/add-entry.html", context)
 
     @method_decorator(login_required)
@@ -156,7 +181,8 @@ class AddEntry(View):
         specific_needs_groups = json.loads(
             request.POST["specific_needs_groups"])
 
-        entry.lead = Lead.objects.get(pk=lead_id)
+        if lead_id:
+            entry.lead = Lead.objects.get(pk=lead_id)
         entry.created_by = request.user
         entry.save()
 
@@ -168,9 +194,11 @@ class AddEntry(View):
         # Save the map data.
         # ['NP:0:Mid-Western Development Region', 'NP:1:Bheri', 'NP:2:Dang',
         #  'NP:2:Rukum']
+        temp = entry.map_selections.all()
+        entry.map_selections.clear()
+        temp.delete()
         for area in map_data:
             m = area.split(':')
-            print(m[0], int(m[1])-1)
             admin_level = AdminLevel.objects.get(
                 country=Country.objects.get(code=m[0]),
                 level=int(m[1])+1
@@ -187,11 +215,17 @@ class AddEntry(View):
             entry.map_selections.add(selection)
 
         # The vulnerable groups.
+        temp = entry.vulnerable_groups.all()
+        entry.vulnerable_groups.clear()
+        temp.delete()
         for vg in vulnerable_groups:
             vulnerable_group = VulnerableGroup.objects.get(pk=int(vg))
             entry.vulnerable_groups.add(vulnerable_group)
 
         # The specific needs groups.
+        temp = entry.specific_needs_groups.all()
+        entry.specific_needs_groups.clear()
+        temp.delete()
         for sg in specific_needs_groups:
             specific_group = SpecificNeedsGroup.objects.get(pk=int(sg))
             entry.specific_needs_groups.add(specific_group)
@@ -209,9 +243,9 @@ class AddEntry(View):
         #    {'id': '5', 'data': [''], 'number': [''], 'reliability': ['NOA']},
         #    {'id': '6', 'data': [''], 'number': [''], 'reliability': ['NOA']}]
 
+        AttributeData.objects.filter(entry=entry).delete()
         for attr in information_attributes:
             for i in range(len(attr['data'])):
-                print(i, "'"+attr['data'][i]+"'")
                 if attr['data'][i] == "":
                     continue
                 attr_data = AttributeData()
