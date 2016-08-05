@@ -2,9 +2,17 @@ var manual_location_input;
 
 
 function updateLocationSelections() {
-    console.log(mapSelections);
-    for (var i in mapSelections) {
+    var container = $('#selected-location-list ul');
+    var items = container.find('li');
+    if(items){
+        items.remove();
+    }
+    for (var i=0; i < mapSelections.length; i++) {
         var selectionKey = mapSelections[i];
+
+        element = $('<li>'+manual_location_input[0].selectize.options[selectionKey].text+'<a onclick="unSelect(\''+selectionKey+'\', this)"><i class="fa fa-times"></i></a></li>');
+        element.appendTo(container);
+
         // Select the option with value selectionKey.
     }
 }

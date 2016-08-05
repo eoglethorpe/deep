@@ -108,7 +108,7 @@ function onEachMapFeature(feature, layer) {
             mapSelections.splice(index, 1);
         }
 
-        console.log(mapSelections);
+        //console.log(mapSelections);
 
         this.setStyle({
             fillColor: (index == -1) ? color3 : color1
