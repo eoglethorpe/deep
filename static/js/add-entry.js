@@ -2,6 +2,7 @@ var manual_location_input;
 
 
 function updateLocationSelections() {
+    console.log(mapSelections);
     for (var i in mapSelections) {
         var selectionKey = mapSelections[i];
         // Select the option with value selectionKey.
@@ -288,6 +289,12 @@ function grabAttrInput(id){
     }
 }
 
+function unSelect(key, that){
+    mapSelections.splice(mapSelections.indexOf(key), 1);
+    updateLayer(key);
+    $(that).closest('li').remove();
+}
+
 
 
 $(document).ready(function() {
@@ -295,13 +302,14 @@ $(document).ready(function() {
     $("#manual-location-input").change(function(){
         var key = $("#manual-location-input").val();
         //mapSelections.push(key);
-        mapSelections.pushIfNotExist(key);
-        updateLayer(key);
         if( !mapSelections.inArray(key) ){
             container = $('#selected-location-list').find('ul');
-            element = $('<li>'+$("#manual-location-input option:selected").text()+'<a href="#"><i class="fa fa-times"></i></a></li>');
+            element = $('<li>'+$("#manual-location-input option:selected").text()+'<a onclick="unSelect(\''+key+'\', this)"><i class="fa fa-times"></i></a></li>');
             element.appendTo(container);
         }
+        mapSelections.pushIfNotExist(key);
+        updateLayer(key);
+
 
         manual_location_input[0].selectize.clear(true);
     });

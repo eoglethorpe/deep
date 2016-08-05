@@ -187,8 +187,9 @@ table{border-collapse: separate!important;}
     overflow-y: scroll;
 }
 #selected-location-list li a{
-    color: #e74c3c;
+    color: #e78c6c;
     margin-left: 10px;
+    cursor: pointer;
 }
 #selected-location-list li a .fa{
     margin-right: 0;
