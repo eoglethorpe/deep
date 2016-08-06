@@ -62,9 +62,11 @@ function updateLayer(selectionName) {
     var color3 = getColor(5, 5);    // selection-color;
 
     var layer = nameLayerMapping[selectionName];
-    layer.setStyle({
-        fillColor: (mapSelections.indexOf(selectionName) == -1)?color1:color3
-    });
+    if(layer){
+        layer.setStyle({
+            fillColor: (mapSelections.indexOf(selectionName) == -1)?color1:color3
+        });
+    }
 
     var level = (selectionName.split(':')[1]) << 0;
     if (level != currentLevel) {
@@ -174,7 +176,7 @@ function refreshAdminLevels() {
 
     if (selectedCountry in adminLevels) {
         for (var i=0; i<adminLevelNames[selectedCountry].length; ++i) {
-            var btn = $("<button id='btn-lvl-" + i + "' class='btn btn-default'>" + adminLevelNames[selectedCountry][i] + "</button>");
+            var btn = $("<button id='btn-lvl-" + i + "' class='btn btn-default btn-xs'>" + adminLevelNames[selectedCountry][i] + "</button>");
             btn.on('click', function(level) { return function() {   // closure shit
                 currentLevel = level;
                 refreshMap();

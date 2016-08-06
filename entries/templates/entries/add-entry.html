@@ -144,7 +144,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         <div class="col-sm-6">
                             <select id="groups-with-specific-needs" name="groups-with-specific-needs" class="form-control" placeholder="Select groups with specific needs" multiple="true">
                                 {% for specific_group in specific_needs_groups %}
-                                <option value="{{specific_group.k}}" {% if specific_group in entry.specific_needs_groups.all %}selected{% endif %}>{{specific_group}}</option>
+                                <option value="{{specific_group.pk}}" {% if specific_group in entry.specific_needs_groups.all %}selected{% endif %}>{{specific_group}}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -198,7 +198,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
         </div>
 
         <button id="save-btn" class="btn btn-primary"><i class="fa fa-save"></i></button>
-        <button id="save-add-btn" class="btn btn-primary"><i class="fa fa-save"></i><i class="fa fa-plus"></i></button>
+        <button id="save-add-btn" class="btn btn-default"><i id="save-icon" class="fa fa-save"></i><i id="plus-icon" class="fa fa-plus"></i></button>
 
     </div>
 </div>
