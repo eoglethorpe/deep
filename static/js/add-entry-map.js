@@ -55,18 +55,23 @@ function getAdminLevels(countryCode) {
     });
 }
 
-
-
-var color1 = getColor(50, 50);  // default color
-var color2 = getColor(30, 70);  // mouse-hover color
-var color3 = getColor(5, 5);    // selection-color;
-
 function updateLayer(selectionName) {
+
+    var color1 = getColor(50, 50);  // default color
+    // var color2 = getColor(30, 70);  // mouse-hover color
+    var color3 = getColor(5, 5);    // selection-color;
 
     var layer = nameLayerMapping[selectionName];
     layer.setStyle({
         fillColor: (mapSelections.indexOf(selectionName) == -1)?color1:color3
     });
+
+    var level = (selectionName.split(':')[1]) << 0;
+    if (level != currentLevel) {
+        currentLevel = level;
+        refreshMap();
+    }
+
 }
 
 
@@ -81,6 +86,10 @@ function onEachMapFeature(feature, layer) {
     var selectionName = selectedCountry+":"+currentLevel+":"+name;
 
     nameLayerMapping[selectionName] = layer;
+
+    var color1 = getColor(50, 50);  // default color
+    var color2 = getColor(30, 70);  // mouse-hover color
+    var color3 = getColor(5, 5);    // selection-color;
 
     layer.setStyle({
         fillColor: (mapSelections.indexOf(selectionName) == -1)?color1:color3,
@@ -117,7 +126,6 @@ function onEachMapFeature(feature, layer) {
     });
 
     layer.bindLabel(name);
-    locations[selectionName] = name;
 
     // var polygonCenter = layer.getBounds().getCenter();
     // L.marker(polygonCenter)
@@ -172,7 +180,27 @@ function refreshAdminLevels() {
                 refreshMap();
             }}(i));
             $("#admin-level-buttons").append(btn);
+
         }
     }
+
+    for (var k in adminLevels) {
+        for (var i in adminLevels[k]) {
+            if (adminLevels[k][i] != null) {
+                var features = adminLevels[k][i]["features"];
+                for (var j in features) {
+                    if ("properties" in features[j]) {
+                        var properties = features[j]["properties"];
+                        var propName = adminLevelPropNames[k][i];
+                        var name = properties[propName];
+                        var selectionName = k +":"+ i +":"+ name;
+
+                        locations[selectionName] = name;
+                    }
+                }
+            }
+        }
+    }
+
     refreshMap();
 }

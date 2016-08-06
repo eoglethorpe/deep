@@ -376,6 +376,9 @@ $(document).ready(function() {
 
         redirectPost(window.location.pathname, data, csrf_token);
     });
+
+    // Trigger on change of country selection.
+    $("#country").trigger('change');
 });
 
 $(document).on('click', '.btn-add', function(e){
