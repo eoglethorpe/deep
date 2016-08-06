@@ -9,7 +9,6 @@ function updateLocationSelections() {
     }
     for (var i=0; i < mapSelections.length; i++) {
         var selectionKey = mapSelections[i];
-
         element = $('<li>'+manual_location_input[0].selectize.options[selectionKey].text+'<a onclick="unSelect(\''+selectionKey+'\', this)"><i class="fa fa-times"></i></a></li>');
         element.appendTo(container);
 
@@ -43,21 +42,6 @@ function drawChart() {
     data.addColumn('string', 'Manager');
     data.addColumn('string', 'ToolTip');
 
-    // For each orgchart box, provide the name, manager, and tooltip to show.
-    // data.addRows([
-    //     ['All Population', '', ''],
-    //     ['Affected', 'All Population', ''],
-    //     ['Non Affected', 'All Population', ''],
-    //     ['Displaced', 'Affected', ''],
-    //     ['Non displaced', 'Affected', ''],
-    //     ['IDP', 'Displaced', ''],
-    //     ['Refugees', 'Displaced', ''],
-    //     ['Asylum Seekers', 'Displaced', ''],
-    //     ['Returnees', 'Displaced', ''],
-    //     ['Others of Concern', 'Displaced', ''],
-    //     ['Host', 'Non displaced', ''],
-    //     ['Non host', 'Non displaced', ''],
-    // ]);
     data.addRows(affected_groups);
 
     // Create the chart.
@@ -155,33 +139,10 @@ function changeLeadPreview(simplified) {
     }
 }
 
-
-// var attrs = [
-//     {
-//         'id': { 'pk': 'context', 'text': 'Context'},
-//         'data': [
-//             {'pk': 'hazard',    'text': 'Hazard Developments'},
-//             {'pk': 'lessons',   'text': 'Lessons Learned'},
-//             {'pk': 'stake',     'text': 'Stakeholders'},
-//             {'pk': 'politics',  'text': 'Politics & security overview'},
-//             {'pk': 'society',   'text': 'Society & community'},
-//             {'pk': 'economy',   'text': 'Economy'}
-//         ]
-//     },
-//     {
-//         'id': {'pk': 'population-data', 'text': 'Population data & characterstics'},
-//         'data': [
-//             {'pk': 'specific',      'text': 'Population with specific needs'},
-//             {'pk': 'displacement',  'text': 'Population displacement'},
-//             {'pk': 'demography',    'text': 'Demography'}
-//         ]
-//     }
-// ];
-
 var attr_inputs = [];
 
 function initAttrInputs(){
-    // temporarily fill up attr_inputs
+    //  fill up attr_inputs
     for(var i=0; i<attrs.length; i++){
         var attr_group = attrs[i];
         for(var j=0; j<attr_group['data'].length; j++){
@@ -293,7 +254,7 @@ function grabAttrInput(id){
             }
         }
     } else{
-        // no result found (shouldn't happen)
+        // more than 1 result found (shouldn't happen)
     }
 }
 
@@ -310,14 +271,13 @@ $(document).ready(function() {
     $("#manual-location-input").change(function(){
         var key = $("#manual-location-input").val();
         //mapSelections.push(key);
-        if( !mapSelections.inArray(key) ){
+        if( !inArray(mapSelections, key) ){
             container = $('#selected-location-list').find('ul');
             element = $('<li>'+$("#manual-location-input option:selected").text()+'<a onclick="unSelect(\''+key+'\', this)"><i class="fa fa-times"></i></a></li>');
             element.appendTo(container);
+            mapSelections.push(key);
         }
-        pushIfNotExist(mapSelections, key);
         updateLayer(key);
-
 
         manual_location_input[0].selectize.clear(true);
     });
