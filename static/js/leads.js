@@ -334,6 +334,9 @@ $(document).ready(function() {
             done: function(data){
                 location.reload();
             },
+            success: function(data){
+                location.reload();
+            },
             error: function(){
                 alert("Error adding lead.");
             }
