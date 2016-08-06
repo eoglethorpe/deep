@@ -4,6 +4,7 @@ from django.views.generic import View, TemplateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
+from django.core.urlresolvers import reverse
 
 from users.models import *
 from leads.models import *
@@ -162,6 +163,9 @@ class AddEntry(View):
             context["attr_data"] = temp
 
         context.update(get_entry_form_data(context["event"]))
+
+        if "prev_entry" in request.GET:
+            context["prev_entry"] = Entry.objects.get(pk=request.GET["prev_entry"])
         return render(request, "entries/add-entry.html", context)
 
     @method_decorator(login_required)
@@ -260,4 +264,7 @@ class AddEntry(View):
                     attr_data.reliability = attr['reliability'][i]
                 attr_data.save()
 
-        return redirect("entries:entries", event)
+        if request.POST["add_another"] == "1":
+            return redirect(reverse("entries:add", args=[event, entry.lead.pk]) + "?prev_entry="+str(entry.pk))
+        else:
+            return redirect("entries:entries", event)

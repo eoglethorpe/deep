@@ -315,7 +315,7 @@ $(document).ready(function() {
             element = $('<li>'+$("#manual-location-input option:selected").text()+'<a onclick="unSelect(\''+key+'\', this)"><i class="fa fa-times"></i></a></li>');
             element.appendTo(container);
         }
-        mapSelections.pushIfNotExist(key);
+        pushIfNotExist(mapSelections, key);
         updateLayer(key);
 
 
@@ -345,7 +345,7 @@ $(document).ready(function() {
 
     initAttrInputs();
 
-    $("#save-btn").on('click', function(){
+    var saveFunction = function(addAnother=false) {
         var current = $("#information-attributes .active");
         if(current != null) {
             grabAttrInput(current.data('attr-pk'));
@@ -354,7 +354,7 @@ $(document).ready(function() {
         var data = {};
 
         var affecteds = [];
-        for (s in selected_groups) {
+        for (var s in selected_groups) {
             affecteds.push(affected_groups[selected_groups[s].row][0]);
         }
         data["affected_groups"] = JSON.stringify(affecteds);
@@ -374,8 +374,12 @@ $(document).ready(function() {
         });
         data["specific_needs_groups"] = JSON.stringify(spgroups);
 
+        data["add_another"] = addAnother?"1":"0";
+
         redirectPost(window.location.pathname, data, csrf_token);
-    });
+    };
+    $("#save-btn").on('click', function(){saveFunction(false);});
+    $("#save-add-btn").on('click', function(){saveFunction(true);});
 
     // Trigger on change of country selection.
     $("#country").trigger('change');

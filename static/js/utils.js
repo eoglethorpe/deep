@@ -18,20 +18,18 @@ String.prototype.hashCode = function() {
   return hash;
 };
 
-// check if an element exists in array using a comparer function
-// comparer : function(currentElement)
-Array.prototype.inArray = function(value) {
-    for(var i=0; i < this.length; i++) {
-        if(this[i] == value) return true;
+// check if an element exists in array.
+function inArray(array, value) {
+    for(var i=0; i < array.length; i++) {
+        if(array[i] == value) return true;
     }
     return false;
 };
 
-// adds an element to the array if it does not already exist using a comparer
-// function
-Array.prototype.pushIfNotExist = function(element) {
-    if (!this.inArray(element)) {
-        this.push(element);
+// adds an element to the array.
+function pushIfNotExist(array, element) {
+    if (!inArray(array, element)) {
+        array.push(element);
     }
 };
 
