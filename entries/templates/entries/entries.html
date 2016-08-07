@@ -44,6 +44,34 @@ DEEP | Entries
 
 {% block body %}
 
+
+<div id="date-range-input" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <h3 class="modal-title">Enter date range</h3>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>start date:</label><br>
+                        <input type="date" id="start-date" class="form-control">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>end date:</label><br>
+                        <input type="date" id="end-date" class="form-control">
+                    </div>
+                </div>
+                <div style="margin-top: 24px; text-align: right;">
+                    <button type="button" class="btn btn-default" id="cancel-btn" data-dismiss="modal">CANCEL</button>
+                    <button type="button" class="btn btn-primary" id="ok-btn" style="min-width: 50px; margin-left: 16px;" >OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {% include 'navigation-bar.html' %}
 
 <div class="section" id="body-section">
@@ -65,6 +93,30 @@ DEEP | Entries
                     <option value="range">Range</option>
                 </select>
             </div>
+            <div class="col-sm-3 col-md-2 col-xs-6">
+                <select id="vulnerable-groups-filter" placeholder="Vulnerable groups">
+                    <option value="">Vulnerable groups</option>
+                    {% for vulnerable_group in vulnerable_groups %}
+                    <option value="{{vulnerable_group}}">{{vulnerable_group}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-3 col-md-2 col-xs-6">
+                <select id="specific-needs-groups-filter" placeholder="Specific Needs Groups">
+                    <option value="">Specific Needs Groups</option>
+                    {% for group in specific_needs_groups %}
+                    <option value="{{group}}">{{group}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-3 col-md-2 col-xs-6">
+                <select id="affected-groups-filter" placeholder="Affected Groups">
+                    <option value="">Affected Groups</option>
+                    {% for group in affected_groups %}
+                    <option value="{{group}}">{{group}}</option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
         <br>
         <table id="entries-table" class="table table-bordered" cellspacing="0" width="100%">
@@ -73,7 +125,7 @@ DEEP | Entries
                     <th>Created</th>
                     <th>Lead</th>
                     <th>Vulnerable Groups</th>
-                    <th>Specific Need Groups</th>
+                    <th>Specific Needs Groups</th>
                     <th>Affected Groups</th>
                     <th>Information Attributes</th>
                 </tr>

@@ -1,5 +1,63 @@
+var previous_date_created = "";
+var last_date_filter = "#date-created-filter";
+
+
+// Checks if the date is in give range
+function dateInRange(date, min, max){
+    date.setHours(0, 0, 0, 0);
+    min.setHours(0, 0, 0, 0);
+    max.setHours(0, 0, 0, 0);
+    return (date >= min && date <= max);
+}
+
+function filterDate(filter, date){
+    dateStr = date.toDateString();
+    switch( filter ){
+        case "today":
+            return (new Date()).toDateString() == dateStr;
+        case "yesterday":
+            yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            return yesterday.toDateString() == dateStr;
+        case "last-seven-days":
+            min = new Date();
+            min.setDate(min.getDate() - 7);
+            return dateInRange(date, min, (new Date));
+        case "this-week":
+            min = new Date();
+            min.setDate(min.getDate() - min.getDay());
+            return dateInRange(date, min, (new Date));
+        case "last-thirty-days":
+            min = new Date();
+            min.setDate(min.getDate() - 30);
+            return dateInRange(date, min, (new Date));
+        case "this-month":
+            min = new Date();
+            min.setDate(1);
+            return dateInRange(date, min, (new Date));
+        default:
+            return true;
+    }
+}
+
+// Inject the custom search into Data Tables
+$.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+        var filter = $("#date-created-filter").val();
+        date = new Date(data[0].substr(0, 10));
+        if(filter == 'range'){
+            return dateInRange(date, start_date, end_date);
+        }
+        return filterDate(filter, date);
+    }
+);
+
+
 $(document).ready(function() {
     $("#date-created-filter").selectize();
+    $("#vulnerable-groups-filter").selectize();
+    $("#specific-needs-groups-filter").selectize();
+    $("#affected-groups-filter").selectize();
 
     var entriesTable = $('#entries-table').DataTable({
         lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
@@ -46,31 +104,60 @@ $(document).ready(function() {
                         }
                     }
                     return information_attributes;
-                    // var information_attributes = "none";
-                    // if(data.information_attributes.length != 0){
-                    //     var information_attributes = "";
-                    //     for(var i = 0; i < data.information_attributes.length; i++){
-                    //         information_attributes += data.information_attributes[i].attribute;
-                    //         if(i<(data.information_attributes.length-1)){
-                    //             information_attributes += ",";
-                    //         }
-                    //         information_attributes += data.information_attributes[i].excerpt + "<br>";
-                    //         if(data.information_attributes[i].number!=null){
-                    //             information_attributes += "number: " + data.information_attributes[i].number + ", ";
-                    //         }
-                    //         if(data.information_attributes[i].reliability!=null){
-                    //             information_attributes += "reliability: " + data.information_attributes[i].reliability + " ";
-                    //         }
-                    //         information_attributes += "<br>";
-                    //     }
-                    // }
-                    // return information_attributes;
                 }
             }
+        ],
+        initComplete: function(){
+            var that = this;
+            $('#date-created-filter').on('change', function(){
+                if($(this).val() != 'range'){
+                    that.api().draw();
+                }
+            });
+            $("#date-range-input #cancel-btn").on('click', function(){
+                if(last_date_filter == "#date-created-filter"){
+                    date_created_filter[0].selectize.setValue(previous_date_created);
+                } else {
+                    date_published_filter[0].selectize.setValue(previous_date_created);
+                }
+            });
+            $("#date-range-input #ok-btn").on('click', function(){
+                start_date = new Date($('#date-range-input #start-date').val());
+                end_date = new Date($('#date-range-input #end-date').val());
+                $("#date-range-input").modal('hide');
+                that.api().draw();
+            });
+            $('#date-created-filter').on('focus', function () {
+                previous_date_created = $(this).val();
+            }).change(function() {
+                if($(this).val() == 'range'){
+                    $("#date-range-input").modal('show');
+                } else {
+                    previous_date_created = $(this).val();
+                }
+            });
 
 
-        ]
+            $('#vulnerable-groups-filter').on('change', function(){
+                entriesTable.column(2)
+                    .search( $(this).val() )
+                    .draw();
+            });
+            $('#specific-needs-groups-filter').on('change', function(){
+                entriesTable.column(3)
+                    .search( $(this).val() )
+                    .draw();
+            });
+            $('#affected-groups-filter').on('change', function(){
+                entriesTable.column(4)
+                    .search( $(this).val() )
+                    .draw();
+            });
+
+        }
     });
+
+
 
     function getFormattedInformationAttributes(information_attributes){
         var out = "";
