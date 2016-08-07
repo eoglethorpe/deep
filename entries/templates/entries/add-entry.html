@@ -84,7 +84,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     {% if attr_data %}{% for pk, ad in attr_data.items %}
         "{{pk}}": {
             "id": "{{pk}}",
-            "data": [{% for data in ad.data %}"{{data}}",{% endfor %}],
+            "data": [{% for data in ad.data %}"{{data|escapejs}}",{% endfor %}],
             "number": [{% for number in ad.number %}"{{number}}",{% endfor %}],
             "reliability": [{% for reliability in ad.reliability %}"{{reliability}}",{% endfor %}],
             "severity": [{% for severity in ad.severity %}"{{severity}}",{% endfor %}],
