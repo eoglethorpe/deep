@@ -41,7 +41,7 @@ $ python setup.py install
 
 ### Migration
 
-You need a mysql database. Create one if it doesn't exist.
+A MySQL database is required to use DEEP. Create one if it doesn't exist whose name matches ```DATABASE_NAME```.
 
 Create a file 'mysql.cnf' and enter the database details as follows:
 
