@@ -1,3 +1,5 @@
+import time
+
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
@@ -57,7 +59,8 @@ class ExportXls(View):
     @method_decorator(login_required)
     def get(self, request, event):
         response = HttpResponse(content = export_xls.export(), content_type='application/vnd.ms-excel')
-        response['Content-Disposition'] = 'attachment; filename="out.xlsx"'
+        response['Content-Disposition'] = 'attachment; filename=\
+                "%s DEEP Export.xlsx"' % time.strftime("%Y-%m-%d")
 
         return response
 
@@ -65,10 +68,7 @@ class ExportXls(View):
 class ExportDocx(View):
     @method_decorator(login_required)
     def get(self, request, event):
-#        response = HttpResponse(content = \
-#                                , content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-#        response['Content-Disposition'] = 'attachment; filename="out.docx"'
-#       return response
+
         ord = ['geoarea', 'reliability', 'severity', 'affected', 'sector']
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
         response['Content-Disposition'] = 'attachment; filename=download.docx'
