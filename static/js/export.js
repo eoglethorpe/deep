@@ -1,7 +1,8 @@
 $(document).ready(function(){
     $( "#sortable" ).sortable({
-        change: function(event, ui){
+        stop: function(event, ui){
             heirarchy = $( "#sortable" ).sortable("toArray");
+            //console.log(heirarchy);
         }
     });
     $( "#sortable" ).disableSelection();
