@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'users',
     'leads',
     'entries',
+    'report',
 ]
 
 MIDDLEWARE_CLASSES = [

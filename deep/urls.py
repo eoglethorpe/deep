@@ -7,10 +7,12 @@ from rest_framework.routers import DefaultRouter
 
 from users.views import *
 from deep.views import *
+from report.views import *
 
 from users.rest_views import *
 from leads.rest_views import *
 from entries.rest_views import *
+
 
 
 router = DefaultRouter()
@@ -35,6 +37,8 @@ urlpatterns = [
     url(r'^(?P<event>\d+)/dashboard/$', DashboardView.as_view(), name="dashboard"),
     url(r'^(?P<event>\d+)/leads/', include('leads.urls', namespace='leads')),
     url(r'^(?P<event>\d+)/entries/', include('entries.urls', namespace='entries')),
+
+    url(r'^report/', include('report.urls', namespace='report')),
 
     url(r'user/status/', UserStatusView.as_view(), name="status"),
     url(r'date/', DateExtractorView.as_view(), name="date"),
