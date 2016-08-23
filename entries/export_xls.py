@@ -6,6 +6,7 @@ from openpyxl import Workbook
 from openpyxl.writer.excel import save_virtual_workbook
 from openpyxl.styles import Font, Alignment
 
+from entries.export_fields import *
 from entries.models import *
 
 EXPORT_TAB = 'DEEP Export | Entries'
