@@ -1,5 +1,3 @@
-import time
-
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
@@ -12,7 +10,7 @@ from users.models import *
 from leads.models import *
 from entries.models import *
 from entries.strippers import *
-from . import export_xls, export_docx
+from . import export_xls, export_docx, export_fields
 
 import os
 import json
@@ -59,8 +57,7 @@ class ExportXls(View):
     @method_decorator(login_required)
     def get(self, request, event):
         response = HttpResponse(content = export_xls.export(), content_type='application/vnd.ms-excel')
-        response['Content-Disposition'] = 'attachment; filename=\
-                "%s DEEP Export.xlsx"' % time.strftime("%Y-%m-%d")
+        response['Content-Disposition'] = 'attachment; filename = %s' % export_fields.get_file_name('xls')
 
         return response
 
@@ -69,9 +66,9 @@ class ExportDocx(View):
     @method_decorator(login_required)
     def get(self, request, event):
 
-        ord = ['geoarea', 'reliability', 'severity', 'affected', 'sector']
+        ord = ["Map Selections", "Affected Groups", "Vulnerable Groups"]
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-        response['Content-Disposition'] = 'attachment; filename=download.docx'
+        response['Content-Disposition'] = 'attachment; filename = %s' % export_fields.get_file_name('doc')
         export_docx.export(ord).save(response)
 
         return response
