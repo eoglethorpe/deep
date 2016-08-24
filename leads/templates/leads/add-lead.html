@@ -7,7 +7,6 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 
 {% block head %}
 <link href="{% static 'css/add-lead.css' %}" type="text/css" rel="stylesheet">
-<link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/selectize.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/dropzone.css' %}" type="text/css" rel="stylesheet">
@@ -19,11 +18,11 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 
 {% block body %}
 
-{% include 'navigation-bar.html' %}
+{% include 'navbar.html' %}
 
-<div class="section" id="body-section">
+<section id="main">
     <div class="container">
-        <div class="title">{% if lead %}Edit{% else %}Create{% endif %} Lead</div>
+        <h2>{% if lead %}Edit{% else %}Create{% endif %} Lead</h2>
         <div class="form-wrapper">
             <div class="row">
                 <div class="col-md-8 col-md-offset-1">
@@ -149,7 +148,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
             </div>
         </div>
     </div>
-</div>
+</section>
 
 <script>
 

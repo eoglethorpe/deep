@@ -1,0 +1,61 @@
+@import 'base';
+@import 'navbar';
+
+#main{
+    h2{
+        text-transform: uppercase;
+        color: $primary-color;
+        font-size: 1.5em;
+        margin-bottom: 24px;
+    }
+    label{
+        color: #717171;
+    }
+    #filters{
+        margin-bottom: 24px;
+    }
+
+    #entries-table{
+        tbody{
+            tr[role="row"]{
+                cursor: pointer;
+            }
+
+            .odd, .odd+tr:not(.even){
+                background-color: #f0f0f0;
+            }
+            .even, .even+tr:not(.odd){
+                background-color: #fff;
+            }
+
+            .entry-detail{
+                padding: 10px 32px;
+                .fa{
+                    margin-right: 10px;
+                }
+                .row-header{
+                    text-align: right;
+                    button{
+                        margin: 10px;
+                    }
+                }
+
+                .btn-edit .fa{
+                    color: #d35400;
+                }
+                .btn-delete .fa{
+                    color: #e74c3c;
+                }
+
+                .label-container{
+                    text-align: right;
+                }
+
+                hr{
+                    border-top-color: #ddd;
+                    margin: 6px;
+                }
+            }
+        }
+    }
+}

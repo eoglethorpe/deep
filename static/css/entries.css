@@ -1,62 +1,78 @@
-#body-section{
-    padding-top: 30px;
-}
+body {
+  font-family: 'Lato', sans-serif;
+  background-color: #fafafa;
+  color: #414141; }
 
-.title{
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    font-size: 1.5em;
-    color: #008080;
-}
+a, a:hover, a:active, a:visited {
+  text-decoration: none; }
 
-.entry-detail{
-    padding: 24px;
-}
+a, button, input[type="submit"] {
+  text-transform: uppercase; }
 
-.row-header{
-    text-align: right;
-}
-.row-header button{
-    margin-left: 4px;
-    margin-right: 4px;
-}
+#error {
+  color: #c0392b; }
 
-.label-container{
-    text-align: right;
-}
+nav {
+  background-color: #008080;
+  height: 71px;
+  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
+  margin-bottom: 24px; }
+  nav .fa {
+    margin-right: 10px; }
+  nav .caret {
+    margin-left: 10px; }
+  nav img {
+    width: 60px;
+    margin-top: 14px; }
+  nav a, nav a:visited {
+    color: #fff; }
+  nav a:hover, nav a:active, nav button:hover, nav button:active {
+    color: #eee; }
+  nav .menu-item {
+    padding: 24px 16px;
+    display: inline-block; }
+  nav .active {
+    background-color: #004d4d; }
+  nav button {
+    background-color: transparent;
+    border: none;
+    color: #fff; }
+  nav #event-menu {
+    margin-right: 24px; }
+  nav .dropdown ul li a {
+    color: #414141; }
 
-.btn-edit .fa{
-    color: #f39c12;
-}
-.btn-mark-processed .fa{
-    color: #2ecc71;
-}
-.btn-delete .fa{
-    color: #e74c3c;
-}
+#main h2 {
+  text-transform: uppercase;
+  color: #008080;
+  font-size: 1.5em;
+  margin-bottom: 24px; }
+#main label {
+  color: #717171; }
+#main #filters {
+  margin-bottom: 24px; }
+#main #entries-table tbody tr[role="row"] {
+  cursor: pointer; }
+#main #entries-table tbody .odd, #main #entries-table tbody .odd + tr:not(.even) {
+  background-color: #f0f0f0; }
+#main #entries-table tbody .even, #main #entries-table tbody .even + tr:not(.odd) {
+  background-color: #fff; }
+#main #entries-table tbody .entry-detail {
+  padding: 10px 32px; }
+  #main #entries-table tbody .entry-detail .fa {
+    margin-right: 10px; }
+  #main #entries-table tbody .entry-detail .row-header {
+    text-align: right; }
+    #main #entries-table tbody .entry-detail .row-header button {
+      margin: 10px; }
+  #main #entries-table tbody .entry-detail .btn-edit .fa {
+    color: #d35400; }
+  #main #entries-table tbody .entry-detail .btn-delete .fa {
+    color: #e74c3c; }
+  #main #entries-table tbody .entry-detail .label-container {
+    text-align: right; }
+  #main #entries-table tbody .entry-detail hr {
+    border-top-color: #ddd;
+    margin: 6px; }
 
-#entries-table tbody tr[role="row"]{
-    cursor: pointer;
-}
-#entries-table tbody tr[role="row"]:hover{
-    background-color: #008080;
-    color: #fff;
-}
-
-
-.row-location, .row-excerpt{
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.row-excerpt .content{
-    line-height: 1.5;
-    text-align: justify;
-}
-
-.odd, .odd+tr:not(.even){
-    background-color: #f0f0f0;
-}
-.even, .even+tr:not(.odd){
-    background-color: #fafafa;
-}
+/*# sourceMappingURL=entries.css.map */

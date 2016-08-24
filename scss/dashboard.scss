@@ -1,0 +1,17 @@
+@import 'base';
+@import 'navbar';
+
+#main{
+    h2{
+        line-height: 1.5;
+        strong{
+            text-transform: uppercase;
+            display: block;
+        }
+    }
+
+    a{
+        margin-top: 50px;
+        padding: 10px 24px;
+    }
+}

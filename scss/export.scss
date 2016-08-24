@@ -1,0 +1,31 @@
+@import 'base';
+@import 'navbar';
+
+#main{
+    h3{
+        padding-bottom: 32px;
+    }
+    #sortable{
+        padding: 0;
+        li{
+            list-style: none;
+            padding: 8px 16px;
+            margin: 10px 0;
+        }
+    }
+
+    form button{
+        width: 100%;
+    }
+
+    #export-btn-wrapper {
+        padding: 24px;
+        form {
+            margin-top: 10px;
+        }
+    }
+    .fa{
+        margin-right: 10px;
+    }
+
+}

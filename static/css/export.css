@@ -1,30 +1,62 @@
-#body-section{
-    padding-top: 48px;
-}
+body {
+  font-family: 'Lato', sans-serif;
+  background-color: #fafafa;
+  color: #414141; }
 
-h3{
-    padding-bottom: 32px;
-}
-#sortable{
-    padding: 0;
-}
-#sortable li{
+a, a:hover, a:active, a:visited {
+  text-decoration: none; }
+
+a, button, input[type="submit"] {
+  text-transform: uppercase; }
+
+#error {
+  color: #c0392b; }
+
+nav {
+  background-color: #008080;
+  height: 71px;
+  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
+  margin-bottom: 24px; }
+  nav .fa {
+    margin-right: 10px; }
+  nav .caret {
+    margin-left: 10px; }
+  nav img {
+    width: 60px;
+    margin-top: 14px; }
+  nav a, nav a:visited {
+    color: #fff; }
+  nav a:hover, nav a:active, nav button:hover, nav button:active {
+    color: #eee; }
+  nav .menu-item {
+    padding: 24px 16px;
+    display: inline-block; }
+  nav .active {
+    background-color: #004d4d; }
+  nav button {
+    background-color: transparent;
+    border: none;
+    color: #fff; }
+  nav #event-menu {
+    margin-right: 24px; }
+  nav .dropdown ul li a {
+    color: #414141; }
+
+#main h3 {
+  padding-bottom: 32px; }
+#main #sortable {
+  padding: 0; }
+  #main #sortable li {
     list-style: none;
     padding: 8px 16px;
-    margin: 10px 0;
-}
+    margin: 10px 0; }
+#main form button {
+  width: 100%; }
+#main #export-btn-wrapper {
+  padding: 24px; }
+  #main #export-btn-wrapper form {
+    margin-top: 10px; }
+#main .fa {
+  margin-right: 10px; }
 
-form button{
-    width: 100%;
-}
-
-#export-btn-wrapper form{
-    margin-top: 10px;
-}
-#export-btn-wrapper{
-    padding: 24px;
-}
-
-.fa{
-    margin-right: 10px;
-}
+/*# sourceMappingURL=export.css.map */

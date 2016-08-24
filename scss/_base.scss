@@ -1,0 +1,20 @@
+$primary-color: #008080;
+
+
+body{
+    font-family: 'Lato', sans-serif;
+    background-color: #fafafa;
+    color: #414141;
+}
+
+a, a:hover, a:active, a:visited{
+    text-decoration: none;
+}
+
+a, button, input[type="submit"]{
+    text-transform: uppercase;
+}
+
+#error{
+    color: #c0392b;
+}

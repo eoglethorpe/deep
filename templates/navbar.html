@@ -1,0 +1,61 @@
+{% load staticfiles %}
+
+<nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2">
+                {% if event %}
+                <a href="{% url 'dashboard' event=event.pk%}"><img src="{% static 'img/deep-logo-white.png' %}"></a>
+                {% else %}
+                <a href="{% url 'dashboard' %}"><img src="{% static 'img/deep-logo-white.png' %}"></a>
+                {% endif %}
+            </div>
+
+            <div class="col-sm-2">
+                <a class="{% if current_page == 'report' %}active{% endif %} menu-item" href="#">Report</a>
+            </div>
+
+            <div class="col-sm-6">
+                <span class="dropdown menu-item" id="event-menu">
+                    {% if all_events %}
+                    <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+                        <i class="fa fa-location-arrow"></i>{% if event %} {{event}} {% else %} Select an event {% endif %}<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        {% for ev in all_events %}
+                        <li><a href="{% url request.resolver_match.view_name event=ev.pk %}">{{ev}}</a></li>
+                        {% endfor %}
+                        <li><a href="{% url 'dashboard' %}">None</a></li>
+                    </ul>
+                    {% else %}
+                    <button class="dropdown-toggle" type="button" enabled="disabled" data-toggle="dropdown">
+                        {% if event %} <i class="fa fa-location-arrow"></i>{{event}}{% endif %}
+                    </button>
+                    {% endif %}
+                </span>
+                {% if event and all_events %}
+                <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' event=event.pk %}">Leads</a>
+                <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' event=event.pk %}">Entries</a>
+                <a class="{% if current_page == 'export' %}active{% endif %} menu-item" href="{% url 'entries:export' event=event.pk %}">Export</a>
+                {% endif %}
+            </div>
+
+            <div class="col-sm-2">
+                <span class="dropdown menu-item" id="user-menu">
+                    <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+                        <i class="fa fa-user"></i>{{ user.first_name }}<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        {% if request.user.is_superuser %}
+                        <li><a href="/admin"><i class="fa fa-user-secret"></i>Admin panel</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a></li>
+                    </ul>
+                </span>
+            </div>
+        </div>
+
+
+
+    </div>
+</nav>

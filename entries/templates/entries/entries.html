@@ -30,7 +30,6 @@ DEEP | Entries
     };
 </script>
 <link href="{% static 'css/entries.css' %}" type="text/css" rel="stylesheet">
-<link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% static 'css/datatables.min.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.bootstrap.min.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}"/>
@@ -72,11 +71,11 @@ DEEP | Entries
 </div>
 
 
-{% include 'navigation-bar.html' %}
+{% include 'navbar.html' %}
 
-<div class="section" id="body-section">
+<section id="main">
     <div class="container-fluid">
-        <div class="title">Current Entries</div>
+        <h2>Current Entries</h2>
         <div class="row" id="filters">
             <div class="col-sm-12">
                 <label>Apply filter:</label>
@@ -132,7 +131,7 @@ DEEP | Entries
             </thead>
         </table>
     </div>
-</div>
+</section>
 
 
 {% endblock %}
