@@ -10,6 +10,19 @@ from docx.oxml.ns import qn
 
 from entries.export_fields import *
 
+
+def gen_base_vals():
+    """which columns should be included and which function is used to create them"""
+    return OrderedDict([
+            ('Created At' , 'get_ent_created_at'),
+            ('Created By' , 'get_created_by'),
+            ('Lead' , 'get_lead'),
+            ('Vulnerable Groups' , 'get_vuln'),
+            ('Specific Needs Groups' , 'get_specific'),
+            ('Affected Groups' , 'get_aff_all'),
+            ('Map Selections' , 'get_geo'),
+            ('evt_obj', 'get_event')])
+
 def _sort(ents, order):
     """arrange entries based on hierarchy and place into ordered list"""
 
