@@ -60,6 +60,7 @@ $(document).ready(function() {
     $("#affected-groups-filter").selectize();
 
     var entriesTable = $('#entries-table').DataTable({
+        "order": [[ 0, "desc" ]],
         lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
         ajax: {
             type: "GET",
@@ -72,26 +73,29 @@ $(document).ready(function() {
                 data: null,
                 render: function (data, type, row ) {
                     return formatDate(data.created_at)+'<br>'+data.created_by_name;
-                }
+                },
             },
-            {data: "lead_name"},
+            {data: "lead_name", width: "25%"},
             {
                 data: null,
                 render: function(data, type, row){
                     return data.vulnerable_groups.join(", ");
-                }
+                },
+                width: "15%"
             },
             {
                 data: null,
                 render: function(data, type, row){
                     return data.specific_needs_groups.join(", ");
-                }
+                },
+                width: "15%"
             },
             {
                 data: null,
                 render: function(data, type, row){
                     return data.affected_groups.join(", ");
-                }
+                },
+                width: "15%"
             },
             {
                 data: null,
@@ -104,7 +108,8 @@ $(document).ready(function() {
                         }
                     }
                     return information_attributes;
-                }
+                },
+                width: "20%"
             }
         ],
         initComplete: function(){
@@ -157,14 +162,20 @@ $(document).ready(function() {
         }
     });
 
-
+    var reliabilities = {"COM": "Completely", "USU": "Usually", "FAI": "Fairly", "NUS": "Not Usually", "UNR": "Unreliable", "CBJ": "Cannot be Judged"}
+    var severities = {"NOP": "No Problem", "MIN": "Minor Problem", "SOC": "Situation of Concern", "SOM": "Situation of Major Concern", "SEV": "Severe Condition", "CRI": "Critical Situation"};
 
     function getFormattedInformationAttributes(information_attributes){
         var out = "";
         for(var i=0; i<information_attributes.length; i++){
             out += "<h5>"+information_attributes[i].attribute+"</h5>";
             out += "<p>"+information_attributes[i].excerpt+"</p>";
-            out += "<label>numbers: </label>"+information_attributes[i].number+", <label>reliability: </label>"+information_attributes[i].reliability+", <label>severity: </label>"+information_attributes[i].severity;
+            if (information_attributes[i].number != null)
+                out += "<label>Numbers:</label> "+information_attributes[i].number + " ";
+            if (information_attributes[i].reliability != null)
+                out += "<label>Reliability:</label> " + reliabilities[information_attributes[i].reliability] + " ";
+            if (information_attributes[i].severity != null)
+                out+= "<label>Severity:</label> " + severities[information_attributes[i].severity] + " ";
             if(i < information_attributes.length-1){
                 out+="<hr>";
             }

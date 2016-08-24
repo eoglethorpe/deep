@@ -67,3 +67,6 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+# SASS cache
+.sass-cache/

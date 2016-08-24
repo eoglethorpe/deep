@@ -1,109 +1,95 @@
-#body-section{
-    padding-top: 30px;
-}
+body {
+  font-family: 'Lato', sans-serif;
+  background-color: #fafafa;
+  color: #414141; }
 
-.title{
-    font-size: 2em;
-    margin-bottom: 20px;
-    padding-left: 6px;
-    color: #008080;
-}
+a, a:hover, a:active, a:visited {
+  text-decoration: none; }
 
-.form-wrapper{
-    background-color: #fafafa;
-    padding: 24px;
-    box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1);
-}
+a, button, input[type="submit"] {
+  text-transform: uppercase; }
 
-/*
- Extra small devices (phones, less than 768px)
- Small devices (tablets, 768px and up)
- Medium devices (desktops, 992px and up)
- Large devices (large desktops, 1200px and up)
- */
+#error {
+  color: #c0392b; }
 
-.label-container{
-}
-@media screen and (min-width: 992px) {
-    .label-container{
-        text-align: right;
-        padding-top: 6px;
-    }
-}
+nav {
+  background-color: #008080;
+  height: 71px;
+  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
+  margin-bottom: 24px; }
+  nav .fa {
+    margin-right: 10px; }
+  nav .caret {
+    margin-left: 10px; }
+  nav img {
+    width: 60px;
+    margin-top: 14px; }
+  nav a, nav a:visited {
+    color: #fff; }
+  nav a:hover, nav a:active, nav button:hover, nav button:active {
+    color: #eee; }
+  nav .menu-item {
+    padding: 24px 16px;
+    display: inline-block; }
+  nav .active {
+    background-color: #004d4d; }
+  nav button {
+    background-color: transparent;
+    border: none;
+    color: #fff; }
+  nav #event-menu {
+    margin-right: 24px; }
+  nav .dropdown ul li a {
+    color: #414141; }
 
-label{
-    display: block;
-}
+.form-wrapper {
+  background-color: #f5f5f5;
+  padding: 24px;
+  box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1); }
 
-.form-wrapper .row{
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
+#description-row textarea {
+  white-space: pre-wrap; }
 
-input[type="text"]{
-    width: 100%;
-    padding: 6px 10px;
-    background-color: #fff;
-    border: 1px solid #eee;
-    border-radius: 4px;
-}
-input[type="date"]{
-    padding: 6px 10px;
-    background-color: #fff;
-    border: 1px solid #eee;
-    border-radius: 4px;
-}
+form .row {
+  margin-top: 16px; }
 
-#description-row textarea{
-    white-space: pre-wrap;
-}
+.actions {
+  text-align: right;
+  margin-top: 20px; }
 
-#attachment-label-container{
-    display: block;
-    text-align: left;
-    margin-bottom: 10px;
-}
+.label-container {
+  text-align: right; }
 
-.bootstrap-select .filter-option{
-    color: #717171;
-}
+#attachment-label-container {
+  display: block;
+  text-align: left;
+  margin-bottom: 10px; }
 
-.actions{
-    text-align: right;
-    margin-top: 20px;
-}
-.actions button{
-    margin-left: 10px;
-}
-.dz-label{
-    margin-bottom: 10px;
-}
+.dz-label {
+  margin-bottom: 10px; }
 
 .dropzone-container {
-    border-radius: 6px;
-    border: 1px dashed #aaa;
-    width: 100%;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 90px;
-    cursor: pointer;
-}
+  border-radius: 6px;
+  border: 1px dashed #aaa;
+  width: 100%;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 90px;
+  cursor: pointer; }
 
 .dropzone.dz-clickable {
-    cursor: pointer;
-}
+  cursor: pointer; }
 
-.dz-message{
-    display: block;
-    font-size: 1.5em;
-    color: #aaa;
-    vertical-align: middle;
-}
+.dz-message {
+  display: block;
+  font-size: 1.5em;
+  color: #aaa;
+  vertical-align: middle; }
 
 .dropzone.dz-drag-hover {
-    border: none!important;
-}
+  border: none !important; }
 
-.dz-drag-hover dropzone-container{
-    border-color: #000;
-}
+.dz-drag-hover dropzone-container {
+  border-color: #000; }
+
+/*# sourceMappingURL=add-lead.css.map */

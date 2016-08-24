@@ -8,7 +8,6 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 {% block head %}
 
 <link href="{% static 'css/add-entry.css' %}" type="text/css" rel="stylesheet">
-<link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/selectize.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/split-pane.css' %}" type="text/css" rel="stylesheet">
@@ -101,7 +100,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 {% endblock %}
 
 {% block body %}
-{% include 'navigation-bar.html' %}
+{% include 'navbar.html' %}
 
 <div class="split-pane fixed-left">
 
@@ -173,9 +172,6 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 </div>
             </div>
 
-
-
-
             <div>
                 <h3> Affected Groups </h3>
                 <div id="chart-div"></div>
@@ -184,7 +180,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
         <div id="information-attributes">
             <h3> Information Attributes </h3>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div id="attr-contents">
 
                     </div>

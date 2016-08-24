@@ -10,31 +10,27 @@ DEEP | Sign in
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-4 col-md-offset-1">
-            <div class="app-info">
-                <img class="logo" src="{% static 'img/deep-logo-blue.png' %}">
-                <div class="welcome-msg">Welcome to <span class="name">Data Entry &amp; Extraction Platform<span></div>
-                <div class="extra">Sign in to get started or <a href="/register">Register</a></div>
-            </div>
-        </div>
-        <div class="col-md-5">
-            <div class="form-wrapper">
-                <div class="title">Sign in</div>
-                <form method="post">
-                    {% csrf_token %}
-                    {% if error %}
-                        <div>{{ error }}</div>
-                    {% endif %}
-                    <input type="text" placeholder="Email" name="email" {% if email %}value="{{email}}"{% endif %} required>
-                    <input type="password" placeholder="Password" name="password" required>
-                    <div class="action">
-                        <input type="submit" class="btn btn-default" value="Sign in">
-                    </div>
-                </form>
+<section id="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div id="wrapper">
+                    <h2>Sign in</h2>
+                    <p>Welcome to <strong>Data Entry &amp; Extraction Platform</strong></p>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        {% if error %}
+                            <div id="error">{{ error }}</div>
+                        {% endif %}
+                        <input class="form-control" type="text" placeholder="Email" name="email" {% if email %}value="{{email}}"{% endif %} required>
+                        <input class="form-control" type="password" placeholder="Password" name="password" required>
+                        <input type="submit" class="btn btn-primary" value="Sign in">
+                    </form>
+                    <p>Sign in to get started or <a href="/register">Register</a></p>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 {% endblock %}

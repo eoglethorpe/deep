@@ -75,6 +75,7 @@ $.fn.dataTable.ext.search.push(
 
 $(document).ready(function() {
     var leadsTable = $('#leads-table').DataTable( {
+        "order": [[ 0, "desc" ]], 
         lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
         ajax: {
             type: "GET",
@@ -90,7 +91,7 @@ $(document).ready(function() {
                 }
             },
             { data: "assigned_to_name" },
-            { data: "name"},
+            { data: "name" , width: "40%"},
             { data: "published_at" },
             { data: null, render: function(data, type, row) { return confidentialities[data.confidentiality]; } },
             { data: "source"},
@@ -196,7 +197,8 @@ $(document).ready(function() {
         e.stopPropagation();
     });
     // Add event listener for opening and closing details
-    $('#leads-table tbody').on('click', 'tr', function () {
+    $('#leads-table tbody').on('click', 'tr[role="row"]', function () {
+
         var tr = $(this);
         var row = leadsTable.row( tr );
 
@@ -242,7 +244,7 @@ $(document).ready(function() {
 
         // `data` is the original data object for the row
         return '<div class= "row-detail">' +
-                '<div class="row-title">' + data.name + '</div>' +
+                '<h3>' + data.name + '</h3>' +
                 '<div class="extra"><span><i class="fa fa-user"></i>' + data.created_by_name + '</span><span><i class="fa fa-calendar"></i>' + (new Date(data.created_at)).toLocaleDateString() + '</span></div>' +
                 '<div class="row">' +
                     '<div class="col-md-6">' +

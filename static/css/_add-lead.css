@@ -1,0 +1,104 @@
+#body-section{
+    padding-top: 30px;
+}
+
+.title{
+    font-size: 2em;
+    margin-bottom: 20px;
+    padding-left: 6px;
+    color: #008080;
+}
+
+.form-wrapper{
+    background-color: #fafafa;
+    padding: 24px;
+    box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+/*
+ Extra small devices (phones, less than 768px)
+ Small devices (tablets, 768px and up)
+ Medium devices (desktops, 992px and up)
+ Large devices (large desktops, 1200px and up)
+ */
+
+.label-container{
+}
+@media screen and (min-width: 992px) {
+    .label-container{
+        text-align: right;
+        padding-top: 6px;
+    }
+}
+
+label{
+    display: block;
+}
+
+.form-wrapper .row{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+input[type="text"]{
+    width: 100%;
+    padding: 6px 10px;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+input[type="date"]{
+    padding: 6px 10px;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+
+#description-row textarea{
+    white-space: pre-wrap;
+}
+
+#attachment-label-container{
+    display: block;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.bootstrap-select .filter-option{
+    color: #717171;
+}
+
+.actions{
+    text-align: right;
+    margin-top: 20px;
+}
+.actions button{
+    margin-left: 10px;
+}
+.dz-label{
+    margin-bottom: 10px;
+}
+.dropzone-container {
+    border-radius: 6px;
+    border: 1px dashed #aaa;
+    width: 100%;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 90px;
+    cursor: pointer;
+}
+.dropzone.dz-clickable {
+    cursor: pointer;
+}
+.dz-message{
+    display: block;
+    font-size: 1.5em;
+    color: #aaa;
+    vertical-align: middle;
+}
+.dropzone.dz-drag-hover {
+    border: none!important;
+}
+.dz-drag-hover dropzone-container{
+    border-color: #000;
+}

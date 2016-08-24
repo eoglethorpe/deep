@@ -44,7 +44,8 @@ class EntrySerializer(serializers.ModelSerializer):
                 'attribute': attr.attribute.name,
                 'excerpt': attr.excerpt,
                 'number': attr.number,
-                'reliability': attr.reliability
+                'reliability': attr.reliability,
+                'severity': attr.severity,
             })
         return attributes
 

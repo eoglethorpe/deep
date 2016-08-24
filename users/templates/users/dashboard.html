@@ -7,14 +7,13 @@ DEEP | Dashboard
 
 {% block head %}
 <link href="{% static 'css/dashboard.css' %}" type="text/css" rel="stylesheet">
-<link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
 
-{% include 'navigation-bar.html' %}
+{% include 'navbar.html' %}
 
-<div class="section" id="body-section">
+<section id="main">
     <div class="container-fluid">
         <div class="jumbotron">
             <h2>Welcome to <strong>Data Entry &amp; Extraction Platform</strong></h2>
@@ -23,16 +22,9 @@ DEEP | Dashboard
             {% else %}
             <p>Please select an event to get started</p>
             {% endif %}
-            <div id="download-extension-link">
-                <a class="btn btn-primary" target="_blank" href="https://chrome.google.com/webstore/detail/deep-create-lead/eolekcokhpndiemngdnnicfmgehdgplp/">Download chrome extension</a>
-            </div>
+            <a class="btn btn-primary" target="_blank" href="https://chrome.google.com/webstore/detail/deep-create-lead/eolekcokhpndiemngdnnicfmgehdgplp/">Download chrome extension</a>
         </div>
-        <!-- <div id="under-construction">
-            Under construction!
-        </div>
-         -->
     </div>
-</div>
-<div class="section" id="footer-section">
-</div>
+</section>
+
 {% endblock %}

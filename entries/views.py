@@ -36,6 +36,7 @@ def get_entry_form_data(event):
         data["attributes"][group] = \
             InformationAttribute.objects.filter(group=group)
     data["reliabilities"] = AttributeData.RELIABILITIES
+    data["severities"] = AttributeData.SEVERITIES
 
     # Affected Groups.
     data["affected_groups"] = AffectedGroup.objects.all()
@@ -259,6 +260,9 @@ class AddEntry(View):
                 if attr['reliability'][i] != '' and \
                         attr['reliability'][i] != 'NOA':
                     attr_data.reliability = attr['reliability'][i]
+                if attr['severity'][i] != '' and \
+                        attr['severity'][i] != 'NOA':
+                    attr_data.severity = attr['severity'][i]
                 attr_data.save()
 
         if request.POST["add_another"] == "1":
