@@ -86,8 +86,8 @@ body, html{
     margin-bottom: 10px;
 }
 #the-map path {
-    stroke: #414141;
-    stroke-width: 2px;
+    stroke: #000;
+    stroke-width: 1px;
     stroke-linejoin: round;
 }
 
