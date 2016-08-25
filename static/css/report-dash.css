@@ -42,21 +42,4 @@ nav {
   nav .dropdown ul li a {
     color: #414141; }
 
-#main h3 {
-  padding-bottom: 32px; }
-#main #sortable {
-  padding: 0; }
-  #main #sortable li {
-    list-style: none;
-    padding: 8px 16px;
-    margin: 10px 0; }
-#main form button {
-  width: 100%; }
-#main #export-btn-wrapper {
-  padding: 24px; }
-  #main #export-btn-wrapper form {
-    margin-top: 10px; }
-#main .fa {
-  margin-right: 10px; }
-
-/*# sourceMappingURL=export.css.map */
+/*# sourceMappingURL=report-dash.css.map */

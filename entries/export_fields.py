@@ -14,10 +14,60 @@ def get_file_name(t):
 
     return '%s DEEP Export%s' % (time.strftime("%Y-%m-%d"), post)
 
-def get_aff(e):
+def get_admn_lvl1(e):
+    return ', '.join([v.name for v in e.map_selections.all() if v.admin_level_id == 1])
+
+def get_admn_lvl2(e):
+    return ', '.join([v.name for v in e.map_selections.all() if v.admin_level_id == 2])
+
+def get_admn_lvl3(e):
+    return ', '.join([v.name for v in e.map_selections.all() if v.admin_level_id == 3])
+
+def get_admn_lvl4(e):
+    return ', '.join([v.name for v in e.map_selections.all() if v.admin_level_id == 4])
+
+def get_admn_lvl5(e):
+    return ', '.join([v.name for v in e.map_selections.all() if v.admin_level_id == 5])
+
+def get_aff_all(e):
     return ', '.join([v.name for v in e.affected_groups.all()])
 
-def get_created_at(e):
+def get_aff_lvl1(e):
+    grps = ['Affected', 'Non Affected']
+    return ', '.join([v.name for v in e.affected_groups.all() if v.name in grps])
+
+def get_aff_lvl2(e):
+    grps = ['Displaced', 'Non Displaced']
+    return ', '.join([v.name for v in e.affected_groups.all() if v.name in grps])
+
+def get_aff_lvl3(e):
+    grps = ['IDP', 'Others of Concern', 'Refugees and Asylum Seekers', 'Returnees', 'Host', 'Non-Host']
+    return ', '.join([v.name for v in e.affected_groups.all() if v.name in grps])
+
+def get_source(e):
+    return e.lead.source_id
+
+def get_lead_id(*args):
+    id = '0'*(3-len(str(args[0].lead_id))) + str(args[0].lead_id)
+    return 'lead' + id
+
+def get_entry_id(*args):
+    id = '0'*(3-len(str(args[0].id))) + str(args[0].id)
+    return 'entry' + id
+
+def get_tag_id(*args):
+    id = '0'*(3-len(str(args[1].pk))) + str(args[1].pk)
+    return 'tag' + id
+def get_confidentiality(e):
+    return e.lead.get_confidentiality_display()
+
+def get_crisis(e):
+    return e.lead.event.name
+
+def get_lead_created_at(e):
+    return "{0:%b %d %Y %I:%M%p}".format(e.lead.created_at)
+
+def get_ent_created_at(e):
     return "{0:%b %d %Y %I:%M%p}".format(e.created_at)
 
 def get_created_by(e):
@@ -39,17 +89,26 @@ def get_event(e):
     """used to include the event object itself in gen_base_vals()"""
     return e
 
-def gen_base_vals():
-    """which columns should be included and which function is used to create them"""
-    return OrderedDict([
-            ('Created At' , 'get_created_at'),
-            ('Created By' , 'get_created_by'),
-            ('Lead' , 'get_lead'),
-            ('Vulnerable Groups' , 'get_vuln'),
-            ('Specific Needs Groups' , 'get_specific'),
-            ('Affected Groups' , 'get_aff'),
-            ('Map Selections' , 'get_geo'),
-            ('evt_obj', 'get_event')])
+def get_countries(e):
+    return ', '.join(set([v.admin_level.country.name for v in e.map_selections.all()]))
+
+def get_ia_lvl1(att):
+    return att.attribute.group.name
+
+def get_ia_lvl2(att):
+    return att.attribute.name
+
+def get_ia_exc(att):
+    return att.excerpt
+
+def get_ia_num(att):
+    return att.number
+
+def get_ia_rel(att):
+    return att.get_reliability_display()
+
+def get_ia_sev(att):
+    return att.get_severity_display()
 
 def gen_ia_names(ents):
     """figure out which IAs are present in all entries and generate respecitve cols
@@ -59,10 +118,10 @@ def gen_ia_names(ents):
         for ad in e.attributedata_set.all():
             an = ad.attribute.name
             ret[ad.attribute] = [
-                '%s Excerpt' % an,
-                '%s Num' % an,
-                '%s Severity' % an,
-                '%s Reliability' % an
+                '%s excerpt' % an,
+                '%s number' % an,
+                '%s serverity' % an,
+                '%s reliability' % an
                 ]
 
     return ret

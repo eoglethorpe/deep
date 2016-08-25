@@ -11,7 +11,6 @@ DEEP | Leads
     var postUrl = "{% url 'leads:add' event.pk %}";
 </script>
 <link href="{% static 'css/leads.css' %}" type="text/css" rel="stylesheet">
-<link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% static 'css/datatables.min.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.bootstrap.min.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}"/>
@@ -22,7 +21,6 @@ DEEP | Leads
 {% endblock %}
 
 {% block body %}
-
 
 <div id="date-range-input" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -50,9 +48,9 @@ DEEP | Leads
     </div>
 </div>
 
+{% include 'navbar.html' %}
 
-{% include 'navigation-bar.html' %}
-<div class="section" id="body-section">
+<section id="main">
     <div class="container-fluid">
         <div class="block" id="action-block">
             <a class="btn btn-default" href="{% url 'leads:add-sos' event=event.pk %}"><i class="fa fa-plus"></i>Add Survey of Survey</a>
@@ -60,7 +58,7 @@ DEEP | Leads
         </div>
 
         <div class="block" id="leads-block">
-            <div class="title">Current Leads</div>
+            <h2>Current Leads</h2>
             <div class="row" id="filters">
                 <div class="col-sm-12">
                     <label>Apply filter:</label>
@@ -127,7 +125,7 @@ DEEP | Leads
             </table>
         </div>
     </div>
-</div>
+</section>
 
 <div id="drag-overlay" hidden>
     <div id="border">
@@ -138,7 +136,7 @@ DEEP | Leads
 <div id="add-lead-from-attachment" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="title">Add Lead</div>
+            <h3>Add Lead</h3>
             <form id="add-lead-form">
                 {% csrf_token %}
                 <div class="row">
@@ -181,7 +179,7 @@ DEEP | Leads
                     <div class="col-sm-9"><input type="date" name="publish-date" class="form-control" placeholder="yyyy-mm-dd"></div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-3">Attachments</div>
+                    <div class="col-sm-3 input-label"><label>Attachments</label></div>
                     <div class="col-sm-9" id="attachments-list"></div>
                 </div>
                 <div class="row" id="action-row">

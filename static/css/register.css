@@ -1,0 +1,34 @@
+body {
+  font-family: 'Lato', sans-serif; }
+
+a, a:hover, a:active, a:visited {
+  text-decoration: none; }
+
+a, button, input[type="submit"] {
+  text-transform: uppercase; }
+
+#error {
+  color: #c0392b; }
+
+#main {
+  padding-top: 100px;
+  background-color: #414141;
+  background-image: url("../img/bg.jpg");
+  background-position: center center;
+  background-size: cover;
+  background-blend-mode: soft-light;
+  min-height: 100vh; }
+  #main #wrapper {
+    padding: 24px;
+    background-color: rgba(255, 255, 255, 0.6); }
+    #main #wrapper p {
+      color: #fff; }
+      #main #wrapper p strong {
+        text-transform: uppercase;
+        font-weight: 700; }
+    #main #wrapper p:last-child {
+      text-align: center; }
+    #main #wrapper form input {
+      margin-top: 16px; }
+
+/*# sourceMappingURL=register.css.map */

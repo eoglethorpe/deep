@@ -60,6 +60,7 @@ $(document).ready(function() {
     $("#affected-groups-filter").selectize();
 
     var entriesTable = $('#entries-table').DataTable({
+        "order": [[ 0, "desc" ]],
         lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
         ajax: {
             type: "GET",
@@ -72,26 +73,29 @@ $(document).ready(function() {
                 data: null,
                 render: function (data, type, row ) {
                     return formatDate(data.created_at)+'<br>'+data.created_by_name;
-                }
+                },
             },
-            {data: "lead_name"},
+            {data: "lead_name", width: "25%"},
             {
                 data: null,
                 render: function(data, type, row){
                     return data.vulnerable_groups.join(", ");
-                }
+                },
+                width: "15%"
             },
             {
                 data: null,
                 render: function(data, type, row){
                     return data.specific_needs_groups.join(", ");
-                }
+                },
+                width: "15%"
             },
             {
                 data: null,
                 render: function(data, type, row){
                     return data.affected_groups.join(", ");
-                }
+                },
+                width: "15%"
             },
             {
                 data: null,
@@ -104,7 +108,8 @@ $(document).ready(function() {
                         }
                     }
                     return information_attributes;
-                }
+                },
+                width: "20%"
             }
         ],
         initComplete: function(){
