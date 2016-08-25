@@ -162,6 +162,9 @@ function refreshMap() {
     }
 
     layer = L.geoJson(adminLevels[selectedCountry][currentLevel], {
+        pointToLayer: function (feature, latlng) {
+            return L.circleMarker(latlng, {});
+        },
         onEachFeature: onEachMapFeature
     }).addTo(map);
 
