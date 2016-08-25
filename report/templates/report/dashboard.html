@@ -1,5 +1,21 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block head %}
+<link href="{% static 'css/report-dash.css' %}" type="text/css" rel="stylesheet">
+{% endblock %}
 
 {% block body %}
-Hello world
+{% include 'navbar.html' %}
+<section id="main">
+    <div class="container-fluid">
+        {% for country in countries %}
+        {{country.name}} <br>
+        {% for event in country.event_set.all %}
+        {{event}}<br>
+        {% endfor %}
+        <hr>
+        {% endfor %}
+    </div>
+</section>
 {% endblock %}
