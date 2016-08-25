@@ -50,6 +50,7 @@ class ExportView(View):
         context["current_page"] = "export"
         context["event"] = Event.objects.get(pk=event)
         context["all_events"] = Event.objects.all()
+        context.update(get_entry_form_data(context["event"]))
         UserProfile.set_last_event(request, context["event"])
         return render(request, "entries/export.html", context)
 
@@ -66,8 +67,17 @@ class ExportXls(View):
 class ExportDocx(View):
     @method_decorator(login_required)
     def get(self, request, event):
+        order = request.GET.get("order").split(',')
+        order_values = {
+            "geoarea": "Map Selections",
+            "affected": "Affected Groups",
+            # "reliability": "Reliability",
+            # "severity": "Severity",
+            # "sector": "Sector",
+        }
+        ord = [order_values[a] for a in order if a in order_values]
 
-        ord = ["Map Selections", "Affected Groups", "Vulnerable Groups"]
+        # ord = ["Map Selections", "Affected Groups", "Vulnerable Groups"]
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
         response['Content-Disposition'] = 'attachment; filename = %s' % export_fields.get_file_name('doc')
         export_docx.export(ord).save(response)
