@@ -63,7 +63,7 @@ DEEP | Entries
                             </form>
                         </div>
                         <div class="col-sm-6">
-                            <form action="{% url 'entries:exportdocx' event=event.pk %}">
+                            <form id="export-doc" action="{% url 'entries:exportdocx' event=event.pk %}">
                                 <button type="submit" class="btn btn-warning" ><i class="fa fa-file-word-o"></i>Export to Word</button>
                             </form>
                         </div>
@@ -74,4 +74,5 @@ DEEP | Entries
 
     </div>
 </section>
+
 {% endblock %}

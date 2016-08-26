@@ -1,3 +1,4 @@
+var heirarchy;
 $(document).ready(function(){
     $( "#sortable" ).sortable({
         stop: function(event, ui){
@@ -8,4 +9,14 @@ $(document).ready(function(){
     $( "#sortable" ).disableSelection();
 
     heirarchy = $( "#sortable" ).sortable("toArray");
+
+
+    $('#export-doc').submit(function () {
+        $("<input>").attr({
+            'type': 'hidden',
+            'name': 'order',
+        }).val(heirarchy).appendTo($('#export-doc'));
+    });
+
+
 });

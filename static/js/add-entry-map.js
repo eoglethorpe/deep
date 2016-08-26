@@ -7,9 +7,11 @@ var nameLayerMapping = {};
 var currentLevel = 0;
 var selectedCountry = "";
 var layer;
+var mapColors = ['#008080','#80d0d0','#FFEB3B'];
 
 var map = L.map('the-map'); //.setView([27.7, 85.3], 6);
-// L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+//L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+L.tileLayer('https://data.humdata.org/crisis-tiles/{z}/{x}/{y}.png').addTo(map);
 
 // On country selected, fetch the admin levels data.
 $("#country").on('change', function(e) {
@@ -57,14 +59,15 @@ function getAdminLevels(countryCode) {
 
 function updateLayer(selectionName) {
 
-    var color1 = getColor(50, 50);  // default color
+    var color1 = mapColors[0];  // default color
     // var color2 = getColor(30, 70);  // mouse-hover color
-    var color3 = getColor(5, 5);    // selection-color;
+    var color3 = mapColors[2];   // selection-color;
 
     var layer = nameLayerMapping[selectionName];
     if(layer){
         layer.setStyle({
-            fillColor: (mapSelections.indexOf(selectionName) == -1)?color1:color3
+            fillColor: (mapSelections.indexOf(selectionName) == -1)?color1:color3,
+            fillOpacity:'0.55'
         });
     }
 
@@ -89,23 +92,24 @@ function onEachMapFeature(feature, layer) {
 
     nameLayerMapping[selectionName] = layer;
 
-    var color1 = getColor(50, 50);  // default color
-    var color2 = getColor(30, 70);  // mouse-hover color
-    var color3 = getColor(5, 5);    // selection-color;
+    var color1 = mapColors[0];  // default color
+    var color2 = mapColors[1];  // mouse-hover color
+    var color3 = mapColors[2];    // selection-color;
 
     layer.setStyle({
         fillColor: (mapSelections.indexOf(selectionName) == -1)?color1:color3,
-        color: 'white',
+        fillOpacity:'0.55',
+        opacity: 1,
     });
 
     layer.on('mouseover', function() {
         this.setStyle({
-            fillColor: color2
+            fillOpacity:'0.15'
         });
     });
     layer.on('mouseout', function() {
         this.setStyle({
-            fillColor: (mapSelections.indexOf(selectionName) == -1)?color1:color3
+            fillOpacity:'0.55'
         });
     });
 
@@ -158,6 +162,9 @@ function refreshMap() {
     }
 
     layer = L.geoJson(adminLevels[selectedCountry][currentLevel], {
+        pointToLayer: function (feature, latlng) {
+            return L.circleMarker(latlng, {});
+        },
         onEachFeature: onEachMapFeature
     }).addTo(map);
 
