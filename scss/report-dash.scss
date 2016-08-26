@@ -1,2 +1,69 @@
 @import 'base';
 @import 'navbar';
+
+body{
+    background-color: #f0f0f0;
+}
+
+#main{
+    h2{
+        margin-top: 0;
+        margin-bottom: 16px;
+    }
+    #country-list{
+        background-color: #fff;
+        box-shadow: 5px 0 9px -5px rgba(0,0,0,0.4);
+
+        .country{
+            padding: 10px 16px;
+            cursor: pointer;
+            .event{
+                color: #969696;
+            }
+        }
+        .country:hover{
+            background-color: rgba(0,0,0,0.1);
+            .event{
+                    color: #717171;
+            }
+        }
+    }
+    #report-list{
+        background-color: #f5f5f5;
+
+        header{
+            padding: 32px;
+            background-color: #fafafa;
+            box-shadow: 0 5px 9px -5px rgba(0,0,0,0.2);
+
+            h3{
+                margin-top: 0;
+                display: inline-block;
+            }
+            select{
+                float: right;
+            }
+        }
+        #reports{
+            #weekly-report-list{
+                .weekly-report{
+                    padding: 10px 24px;
+
+                    button{
+                        float: right;
+                    }
+                }
+            }
+            #monthly-report-list{
+                .monthly-report{
+                    padding: 10px 24px;
+
+                    .fa{
+                        margin-right: 10px;
+                    }
+                }
+            }
+
+        }
+    }
+}

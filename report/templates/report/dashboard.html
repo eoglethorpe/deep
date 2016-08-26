@@ -9,13 +9,78 @@
 {% include 'navbar.html' %}
 <section id="main">
     <div class="container-fluid">
-        {% for country in countries %}
-        {{country.name}} <br>
-        {% for event in country.event_set.all %}
-        {{event}}<br>
-        {% endfor %}
-        <hr>
-        {% endfor %}
+        <h2>Report</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div id="country-list">
+                    {% for country in countries %}
+                    <div class="country">
+                        {{country.name}}
+                        <br>
+                        <span class="event">
+                            {% for event in country.event_set.all %}
+                            {{event}}
+                            {% if not forloop.last %}
+                            ,
+                            {% endif %}
+                            {% endfor %}
+                        </span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div id="report-list">
+                    <header>
+                        <h3>Nepal</h3>
+                        <select>
+                            <option>Event #1</option>
+                            <option>Event #2</option>
+                            <option>Event #3</option>
+                        </select>
+                    </header>
+                    <div id="reports">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div id="weekly-report-list">
+                                    <div class="weekly-report">
+                                        <button><i class="fa fa-edit"></i></button>
+                                        <h5>Week #16</h5>
+                                        <p>Partially Completed</p>
+                                    </div>
+                                    <div class="weekly-report">
+                                        <button><i class="fa fa-edit"></i></button>
+                                        <h5>Week #16</h5>
+                                        <p>Partially Completed</p>
+                                    </div>
+                                    <div class="weekly-report">
+                                        <button><i class="fa fa-edit"></i></button>
+                                        <h5>Week #16</h5>
+                                        <p>Partially Completed</p>
+                                    </div>
+                                    <div class="weekly-report">
+                                        <button><i class="fa fa-edit"></i></button>
+                                        <h5>Week #16</h5>
+                                        <p>Partially Completed</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="monthly-report-list">
+                                    <div class="monthly-report">
+                                        <h4>Month #4</h4>
+                                        <p>This report is awesome, but is it?</p>
+                                        <p>Partially Completed</p>
+                                        <button class="btn btn-edit btn-default"><i class="fa fa-edit"></i>Edit</button>
+                                        <button class="btn btn-export btn-default"><i class="fa fa-external-link"></i>Export</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 {% endblock %}
