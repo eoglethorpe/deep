@@ -1,33 +1,61 @@
 #TODO: heiracrchy should return types, not strings #yolo
 """exporting entries to a docx"""
 from operator import itemgetter
-from collections import OrderedDict
 
-from docx import Document
+from docx import Document, RT
+from docx.enum.dml import MSO_THEME_COLOR_INDEX
 from docx.oxml import OxmlElement
 from docx.shared import Pt, RGBColor
 from docx.oxml.ns import qn
 
 from entries.export_fields import *
 
+MAPSELS = 'Map Selections'
 
 def gen_base_vals():
     """which columns should be included and which function is used to create them"""
     return OrderedDict([
-            ('Created At' , 'get_ent_created_at'),
-            ('Created By' , 'get_created_by'),
             ('Lead' , 'get_lead'),
             ('Vulnerable Groups' , 'get_vuln'),
             ('Specific Needs Groups' , 'get_specific'),
             ('Affected Groups' , 'get_aff_all'),
-            ('Map Selections' , 'get_geo'),
+            (MAPSELS , 'get_geo'),
             ('evt_obj', 'get_event')])
 
 def _sort(ents, order):
-    """arrange entries based on hierarchy and place into ordered list"""
+    """arrange entries based on hierarchy and place into ordered list
+        we assume there are a maximum of 5 admin levels and all entries
+        are given values for the admin levels"""
+    ADMN_LVLS = ['Admin ' + str(v) for v in range(1,6)]
+
+
+    #replace MAPSELS in order with ADMN_LVLS
+    for i,v in enumerate(ADMN_LVLS):
+        order.insert(order.index(MAPSELS) + i+1, v)
+
+    order.pop(order.index(MAPSELS))
 
     #created ODs of {att type; att val (by running function name)}
-    r = [OrderedDict(((k,globals()[v](e)) for k,v in gen_base_vals().items())) for e in ents]
+    r = []
+    for e in ents:
+        cd = OrderedDict()
+        for k,v in gen_base_vals().items():
+            #break up geo locations into spereate admin areas and make a string csl for sorting
+            if k == MAPSELS:
+                out = v
+                locs = globals()[v](e)
+                for i,lvl in enumerate(ADMN_LVLS):
+                    clvl = 'Admin ' + str(i+1)
+                    if clvl in locs:
+                        cd[lvl] = ', '.join(locs[lvl])
+                    else:
+                        cd[lvl] = ''
+
+            else:
+                cd[k] = globals()[v](e)
+
+        r.append(cd)
+
     r.sort(key=itemgetter(*order))
 
     return r
@@ -37,6 +65,54 @@ def _colorify_runs(runs, rgb_val):
     for r in runs:
         f = r.font
         f.color.rgb = rgb_val
+
+def _add_hyperlink(paragraph, url, text):
+    """
+    A work around function that places a hyperlink within a paragraph object.
+    See: https://github.com/python-openxml/python-docx/issues/74#issuecomment-215678765
+
+    :param paragraph: The paragraph we are adding the hyperlink to.
+    :param url: A string containing the required url
+    :param text: The text displayed for the url
+    :return: A Run object containing the hyperlink
+    """
+
+    # This gets access to the document.xml.rels file and gets a new relation id value
+    part = paragraph.part
+    r_id = part.relate_to(url, RT.HYPERLINK, is_external=True)
+
+    # Create the w:hyperlink tag and add needed values
+    hyperlink = OxmlElement('w:hyperlink')
+    hyperlink.set(qn('r:id'), r_id, )
+    hyperlink.set(qn('w:history'), '1')
+
+    # Create a w:r element
+    new_run = OxmlElement('w:r')
+
+    # Create a new w:rPr element
+    rPr = OxmlElement('w:rPr')
+
+    # Create a w:rStyle element, note this currently does not add the hyperlink style as its not in
+    # the default template, I have left it here in case someone uses one that has the style in it
+    rStyle = OxmlElement('w:rStyle')
+    rStyle.set(qn('w:val'), 'Hyperlink')
+
+    # Join all the xml elements together add add the required text to the w:r element
+    rPr.append(rStyle)
+    new_run.append(rPr)
+    new_run.text = text
+    hyperlink.append(new_run)
+
+    # Create a new Run object and add the hyperlink into it
+    r = paragraph.add_run()
+    r._r.append(hyperlink)
+
+    # A workaround for the lack of a hyperlink style (doesn't go purple after using the link)
+    # Delete this if using a template that has the hyperlink style in it
+    r.font.color.theme_color = MSO_THEME_COLOR_INDEX.HYPERLINK
+    r.font.underline = True
+
+    return r
 
 def _add_line(para):
     #a very convoluded way to add a horizontal line to the document
@@ -88,24 +164,33 @@ def _add_line(para):
 def _get_head(ent, order, doc):
     """take in an entry and order and generate header based on values in order"""
     first = True
+    runs = []
 
     for ord in order:
         #check to see if there's a value for the type
         if len(ent[ord]) > 0:
-            if not first:
-                pass
-#                p.add_run(' | ').bold = True
-#                r.bold = True
-#               r.italic = True
             p = doc.add_paragraph()
             pf = p.paragraph_format
             pf.line_spacing = Pt(14)
 
-            k_run = p.add_run(ord + ': ')
-            k_run.italic = True
-            v_run = p.add_run(str(ent[ord]))
+            #segment geoareas into their admin levels
+            if ord == MAPSELS:
+                for k,v in ent[order].items():
+                    l_run = p.add_run(k + ': ')
+                    l_run.bold = True
+                    n_run = v
+                    runs.append(l_run)
+                    runs.append(n_run)
+                    doc.add_paragraph()
 
-            _colorify_runs([k_run, v_run], RGBColor(68,120,202))
+            else:
+                k_run = p.add_run(ord + ': ')
+                k_run.italic = True
+                v_run = p.add_run(str(ent[ord]))
+                runs.append(k_run)
+                runs.append(v_run)
+
+            _colorify_runs(runs, RGBColor(68,120,202))
 
             first = False
 
@@ -121,7 +206,7 @@ def _get_bod(ent, order, doc):
             p = doc.add_paragraph()
             p.add_run(k + ': ').bold = True
             p.add_run(str(v))
-        #we will use the event objec to find IAs
+        #we will use the event object to find IAs
         elif k == 'evt_obj':
             if first_ia:
                 doc.add_paragraph()
@@ -131,13 +216,26 @@ def _get_bod(ent, order, doc):
                 f.bold, f.underline = True, True
 
                 first_ia = False
-            for k,v in gen_ias(Entry.objects.all(), v).items():
+            for ik,iv in gen_ias(Entry.objects.all(), v).items():
                 #only print IAs for which there is an entry
-                if v:
+                if iv:
                     ia_exists = True
                     ia_p = doc.add_paragraph()
-                    ia_p.add_run(k + ': ').bold = True
-                    ia_p.add_run(str(v))
+                    ia_p.add_run(ik + ': ').bold = True
+                    ia_p.add_run(str(iv))
+
+                    #add in (source [url'd], date)
+                    if ik.endswith('excerpt'):
+                        ia_p.add_run(' (')
+                        if get_lead_url(v):
+                            if not get_source(v):
+                                _add_hyperlink(ia_p, get_lead_url(v), 'Reference')
+                            else:
+                                _add_hyperlink(ia_p, get_lead_url(v), get_source(v))
+                        else:
+                            ia_p.add_run('Manual Entry')
+
+                        ia_p.add_run(', ' + get_lead_created_at_dt(v) + ')')
 
     line_p = doc.add_paragraph()
     _add_line(line_p)

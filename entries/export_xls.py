@@ -2,6 +2,7 @@
 
 """exporting entries to xlsx"""
 import itertools
+from copy import deepcopy
 
 from openpyxl import Workbook
 from openpyxl.writer.excel import save_virtual_workbook
@@ -10,7 +11,8 @@ from openpyxl.styles import Font
 from entries.export_fields import *
 from entries.models import *
 
-EXPORT_TAB = 'DEEP Export | Entries'
+GROUPED_TAB = 'Grouped Entries'
+SPLIT_TAB = 'Split Entries'
 META_TAB =  'Metadata'
 
 def _expand_cols(wb):
@@ -39,18 +41,11 @@ def init_xls():
     #initialize Workbook and activie sheet
     wb = Workbook()
     wb.remove_sheet(wb.get_sheet_by_name('Sheet'))
-    wb.create_sheet(EXPORT_TAB, 0)
+    wb.create_sheet(SPLIT_TAB)
+    wb.create_sheet(GROUPED_TAB)
     wb.create_sheet(META_TAB)
 
     return wb
-
-def gen_meta(sht):
-    """return a sheet with metadata info on export"""
-    sht.append(['Export Information'])
-    sht.append(['Date', time.strftime("%Y-%m-%d at %H:%M")])
-    sht.append(['Number of entries', len(Entry.objects.all())])
-
-    _make_bold(sht.rows[0])
 
 def _make_bold(cells):
     """make a list of cells bold"""
@@ -62,39 +57,6 @@ def _mk_col_nm(cn):
 
 def _mk_col_nm_lst(cl):
     return [_mk_col_nm(cn) for cn in cl]
-
-#- Date of lead publication
-#- Date of information
-#- created_by
-#- Lead title
-#- Confidentiality
-#- Source
-#- Crisis name
-#- Country
-#- Admin level 1
-#- Admin level 2
-#- Admin level 3
-#- Admin level 4
-#- Admin level 5
-#-Affected_groups Level 1
-#-Affected group level 2
-#-Affected group level 3
-#- vulnerable_groups
-#- specific_needs_groups
-#- Information attribute level 1
-#- Information attribute level 2
-#- Excerpt
-#- Number
-#- Reliability
-#- Severity
-#- Lead ID
-#- Entry ID
-#- Tag ID
-
-#not included
-# Sector
-# Sub sector
-
 
 def _gen_base_vals():
     """which columns should be included and which function is used to create them"""
@@ -116,8 +78,7 @@ def _gen_base_vals():
             ('Affected Groups Level 2', 'get_aff_lvl2'),
             ('Affected Groups Level 3', 'get_aff_lvl3'),
             ('Vulnerable Groups' , 'get_vuln'),
-            ('Specific Needs Groups' , 'get_specific'),
-            ('Map Selections' , 'get_geo')])
+            ('Specific Needs Groups' , 'get_specific')])
 
 def _gen_ias():
     """similar to base_vals but for ias"""
@@ -136,9 +97,44 @@ def _gen_ids():
             ('Entry ID', 'get_entry_id'),
             ('Tag ID', 'get_tag_id')])
 
+def _split_row(row):
+    """a crude method for breaking up a row"""
 
-def gen_exports(sht):
-    #values are method names to be used in lookups
+    #used to flag if a list returned by recusrive fun shouldn't be included (work around)
+    class skip():
+        pass
+
+    out = []
+    def rec(l, it):
+        if it == len(l):
+            return []
+
+        elif isinstance(l[it], list):
+            if len(l[it]) > 0:
+                for v in l[it]:
+                    tmp = deepcopy(l)
+                    tmp[it] = v
+                    out.append((rec(tmp, 0)))
+
+                return [skip]
+            else:
+                return [''] + rec(l,it+1)
+
+        else:
+            return [l[it]] + rec(l,it+1)
+
+    #only do recurisve if our row contains >1 list, else return just the row
+    if True in [isinstance(v, list) for v in row]:
+        rec(row, 0)
+        l = [r for r in out if skip not in r]
+        return [r for r in out if skip not in r]
+    else:
+        return [row]
+
+def _gen_out(sht, type):
+    """Generate either a split or grouped sheet"""
+
+    #values of dicts are method names to be used in lookups
     ents = Entry.objects.all()
     base_cols = _gen_base_vals()
     ia_cols = _gen_ias()
@@ -151,17 +147,35 @@ def gen_exports(sht):
 
     for e in ents:
         for att in e.attributedata_set.all():
-            sht.append([globals()[t](e) for t in base_cols.values()] + \
+            out = [globals()[t](e) for t in base_cols.values()] + \
                             [globals()[t](att) for t in ia_cols.values()] + \
-                            [globals()[t](e, att) for t in id_cols.values()])
+                            [globals()[t](e, att) for t in id_cols.values()]
+
+            if type == GROUPED_TAB:
+                sht.append([', '.join(v) if isinstance(v, list) else v for v in out])
+            elif type == SPLIT_TAB:
+                l = _split_row(out)
+                for v in _split_row(out):
+                    sht.append(v)
+            else:
+                raise Exception('Must specify output type')
+
+def _gen_meta(sht):
+    """return a sheet with metadata info on export"""
+    sht.append(['Export Information'])
+    sht.append(['Date', time.strftime("%Y-%m-%d at %H:%M")])
+    sht.append(['Number of entries', len(Entry.objects.all())])
+
+    _make_bold(sht.rows[0])
 
 
 def export():
     wb = init_xls()
-    gen_exports(wb.get_sheet_by_name(EXPORT_TAB))
-    gen_meta(wb.get_sheet_by_name(META_TAB))
+    _gen_out(wb.get_sheet_by_name(SPLIT_TAB), SPLIT_TAB)
+    _gen_out(wb.get_sheet_by_name(GROUPED_TAB), GROUPED_TAB)
+    _gen_meta(wb.get_sheet_by_name(META_TAB))
 
     _expand_cols(wb)
     _fill_cells(wb)
-    _add_filters(wb.get_sheet_by_name(EXPORT_TAB))
+    _add_filters(wb.get_sheet_by_name(GROUPED_TAB))
     return save_virtual_workbook(wb)
