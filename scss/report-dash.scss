@@ -8,14 +8,14 @@ body{
 #main{
     h2{
         margin-top: 0;
-        margin-bottom: 16px;
+        margin-bottom: 32px;
     }
     #country-list{
         background-color: #fff;
         box-shadow: 5px 0 9px -5px rgba(0,0,0,0.4);
 
         .country{
-            padding: 10px 16px;
+            padding: 16px 32px;
             cursor: pointer;
             .event{
                 color: #969696;

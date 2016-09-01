@@ -1,0 +1,26 @@
+@import 'base';
+@import 'navbar';
+
+body{
+    background-color: #f0f0f0;
+}
+
+#main{
+    h2{
+        margin-top: 0;
+        margin-bottom: 32px;
+        text-transform: uppercase;
+    }
+    #filters{
+        margin-bottom: 16px;
+    }
+
+    #entries{
+        background-color: #fff;
+        box-shadow: 5px 0 9px -5px rgba( 0, 0, 0, 0.3);
+
+        .entry{
+            padding: 16px 32px;
+        }
+    }
+}

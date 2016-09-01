@@ -3,6 +3,7 @@
 
 {% block head %}
 <link href="{% static 'css/report-dash.css' %}" type="text/css" rel="stylesheet">
+<script src="{% static 'js/report-dash.js' %}"></script>
 {% endblock %}
 
 {% block body %}
@@ -39,7 +40,7 @@
                             <option>Event #3</option>
                         </select>
                     </header>
-                    <div id="reports">
+                    <div class="reports">
                         <div class="row">
                             <div class="col-md-6">
                                 <div id="weekly-report-list">
