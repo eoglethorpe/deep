@@ -135,5 +135,9 @@ DEEP | Entries
     </div>
 </section>
 
+<form id="delete-form" style="visibility:collapse;" method="post" action="{% url 'entries:delete' event=event.pk %}">
+    {% csrf_token %}
+    <input id="delete-id" name="id" type="text">
+</form>
 
 {% endblock %}

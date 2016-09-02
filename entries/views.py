@@ -279,3 +279,11 @@ class AddEntry(View):
             return redirect(reverse("entries:add", args=[event, entry.lead.pk]) + "?prev_entry="+str(entry.pk))
         else:
             return redirect("entries:entries", event)
+
+
+class DeleteEntry(View):
+    @method_decorator(login_required)
+    def post(self, request, event):
+        entry = Entry.objects.get(pk=request.POST["id"])
+        entry.delete()
+        return redirect('entries:entries', event=event)

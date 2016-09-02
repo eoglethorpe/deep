@@ -206,7 +206,7 @@ $(document).ready(function() {
         return  '<div class="entry-detail">' +
                     '<div class="row-header">'+
                         '<button class="btn btn-default btn-edit" onclick="window.location.href=\'/' + currentEvent + '/entries/edit/' + data.id + '/\'"><i class="fa fa-edit"></i>Edit</button>' +
-                        '<button class="btn btn-default btn-delete"><i class="fa fa-trash"></i>Delete</button>'+
+                        '<button class="btn btn-default btn-delete" onclick="deleteEntry('+data.id+');"><i class="fa fa-trash"></i>Delete</button>'+
                     '</div>'+
                     '<div class="row">'+
                         '<div class="col-sm-2 label-container"><label>lead:</label></div>'+
@@ -248,4 +248,11 @@ function formatDate(date) {
     if (day.length < 2) day = '0' + day;
 
     return [year, month, day].join('-');
+}
+
+function deleteEntry(id) {
+    if (confirm("Are you sure you want to delete this entry?")) {
+        $("#delete-id").val(id);
+        $("#delete-form").submit();
+    }
 }

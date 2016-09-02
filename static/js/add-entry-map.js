@@ -1,3 +1,4 @@
+
 var locations = {};
 
 var adminLevels = {};
@@ -12,6 +13,12 @@ var mapColors = ['#008080','#80d0d0','#FFEB3B'];
 var map = L.map('the-map'); //.setView([27.7, 85.3], 6);
 //L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
 L.tileLayer('https://data.humdata.org/crisis-tiles/{z}/{x}/{y}.png').addTo(map);
+
+$('#map-modal').on('shown.bs.modal', function() {
+    console.log("shown");
+    map.invalidateSize();
+    refreshMap();
+});
 
 // On country selected, fetch the admin levels data.
 $("#country").on('change', function(e) {
