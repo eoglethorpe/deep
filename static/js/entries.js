@@ -75,7 +75,27 @@ $(document).ready(function() {
                     return formatDate(data.created_at)+'<br>'+data.created_by_name;
                 },
             },
-            {data: "lead_name", width: "25%"},
+            {
+                data: null,
+                render: function(data, type, row){
+                    var information_attributes = "";
+                    for(var i=0; i<data.information_attributes.length; i++){
+                        information_attributes += data.information_attributes[i].attribute;
+                        if(i<data.information_attributes.length-1){
+                            information_attributes+=", ";
+                        }
+                    }
+                    return information_attributes;
+                },
+                width: "20%"
+            },
+            {
+                data: null,
+                render: function(data, type, row){
+                    return data.affected_groups.join(", ");
+                },
+                width: "15%"
+            },
             {
                 data: null,
                 render: function(data, type, row){
@@ -90,27 +110,7 @@ $(document).ready(function() {
                 },
                 width: "15%"
             },
-            {
-                data: null,
-                render: function(data, type, row){
-                    return data.affected_groups.join(", ");
-                },
-                width: "15%"
-            },
-            {
-                data: null,
-                render: function(data, type, row){
-                    var information_attributes = "";
-                    for(var i=0; i<data.information_attributes.length; i++){
-                        information_attributes += data.information_attributes[i].attribute;
-                        if(i<data.information_attributes.length-1){
-                            information_attributes+=", ";
-                        }
-                    }
-                    return information_attributes;
-                },
-                width: "20%"
-            }
+            {data: "lead_name", width: "25%"},
         ],
         initComplete: function(){
             var that = this;

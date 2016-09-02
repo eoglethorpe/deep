@@ -3,8 +3,8 @@
 
 // example of serverAddress http://52.87.160.69
 // don't add the trailing /
-var serverAddress = 'http://localhost:8000';
-//var serverAddress = 'http://52.87.160.69';
+// var serverAddress = 'http://localhost:8000';
+var serverAddress = 'http://52.87.160.69';
 
 var currentEvent = 0;
 var currentUser = -1;
@@ -122,6 +122,11 @@ $(document).ready(function(){
                             $(".app-info").removeClass('hidden');
                             $(".app-info").show();
                             $("#submit-success-msg").removeClass('hidden');
+
+                            if (toString.call(response) === '[object Object]') {
+                                var newURL = response;
+                                chrome.tabs.create({ url: serverAddress + response.url });
+                            }
                         },
                         error: function(response){
                             $("#loading-animation").hide();
@@ -177,21 +182,21 @@ $(document).ready(function(){
             },
         });
 
-        // $.ajax({
-        //     type: 'GET',
-        //     url: serverAddress + '/api/v1/sources/',
-        //     success: function(response){
-        //         if(response) {
-        //             for(i = 0; i < response.length; i++){
-        //                 $('#source').append('<option value="'+response[i].source+'">'+response[i].source+'</option>');
-        //             }
-        //             $('#source').selectize();
-        //         }
-        //     },
-        //     error: function(response){
-        //         console.log(response);
-        //     },
-        // });
+        $.ajax({
+            type: 'GET',
+            url: serverAddress + '/api/v1/sources/',
+            success: function(response){
+                if(response) {
+                    for(i = 0; i < response.length; i++){
+                        $('#source').append('<option value="'+response[i].source+'">'+response[i].source+'</option>');
+                    }
+                    $('#source').selectize();
+                }
+            },
+            error: function(response){
+                console.log(response);
+            },
+        });
 
         $('#confidentiality').selectize();
     }

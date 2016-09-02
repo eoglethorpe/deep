@@ -156,7 +156,7 @@ function initAttrInputs(){
                     'id': attr['pk'],
                     'data': [""],
                     'number': [""],
-                    'reliability': ['NOA'],
+                    'reliability': ['USU'],
                     'severity': ['NOA']
                 };
             }
@@ -184,7 +184,7 @@ function initAttrInputs(){
             attr.text(attr_group['data'][j]['text']);
             attr.appendTo(attr_group_flexrow);
 
-            if(attr_inputs[index]['data'][0].length > 0 || attr_inputs[index]['number'][0].length > 0 || attr_inputs[index]['reliability'][0] != 'NOA' || attr_inputs[index]['severity'][0] != 'NOA'){
+            if(attr_inputs[index]['data'][0].length > 0){
                 attr.addClass('filled');
             }
             index++;
@@ -247,7 +247,7 @@ function grabAttrInput(id){
             attr_input['reliability'].push((excerpts.eq(i)).find('.reliability').val());
             attr_input['severity'].push((excerpts.eq(i)).find('.severity').val());
 
-            if(attr_input['data'][0].length > 0 || attr_input['number'][0] != 0 || attr_input['reliability'][0] != 'NOA'){
+            if(attr_input['data'][0].length > 0) {
                 $('#attr-'+attr_input['id']).addClass('filled');
             } else {
                 $('#attr-'+attr_input['id']).removeClass('filled');
