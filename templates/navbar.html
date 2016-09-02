@@ -7,7 +7,7 @@
                 {% if event %}
                 <a href="{% url 'dashboard' event=event.pk%}"><img src="{% static 'img/deep-logo-white.png' %}"></a>
                 {% else %}
-                <a href="{% url 'dashboard' %}"><img src="{% static 'img/deep-logo-white.png' %}"></a>
+                <a href="{% url 'dashboard' %}?last_event=1"><img src="{% static 'img/deep-logo-white.png' %}"></a>
                 {% endif %}
             </div>
 
@@ -37,6 +37,10 @@
                 <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' event=event.pk %}">Leads</a>
                 <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' event=event.pk %}">Entries</a>
                 <a class="{% if current_page == 'export' %}active{% endif %} menu-item" href="{% url 'entries:export' event=event.pk %}">Export</a>
+                {% endif %}
+
+                {% if cancel_url %}
+                    <a class="menu-item" href="{{cancel_url}}" onclick="return confirm('Are you sure?')">Cancel</a>
                 {% endif %}
             </div>
 

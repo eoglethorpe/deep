@@ -103,6 +103,7 @@ class AddEntry(View):
         context = {}
         context["current_page"] = "entries"
         context["event"] = Event.objects.get(pk=event)
+        context["cancel_url"] = reverse("entries:entries", args=[event])
         UserProfile.set_last_event(request, context["event"])
 
         if id:

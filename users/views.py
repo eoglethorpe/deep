@@ -132,6 +132,12 @@ class DashboardView(View):
 
     @method_decorator(login_required)
     def get(self, request, event=None):
+
+        if not event and "last_event" in request.GET and request.GET["last_event"]:
+            last_event = UserProfile.get_last_event(request)
+            if last_event:
+                return redirect("dashboard", last_event.pk)
+
         context = {}
         context["current_page"] = "dashboard"
         if event:

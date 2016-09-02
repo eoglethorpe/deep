@@ -64,6 +64,8 @@ class AddLead(View):
         if id:
             context["lead"] = Lead.objects.get(pk=id)
         context.update(get_lead_form_data())
+
+        context["cancel_url"] = reverse("leads:leads", args=[event])
         return render(request, "leads/add-lead.html", context)
 
     @method_decorator(login_required)
