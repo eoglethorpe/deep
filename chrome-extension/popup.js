@@ -3,8 +3,8 @@
 
 // example of serverAddress http://52.87.160.69
 // don't add the trailing /
-// var serverAddress = 'http://localhost:8000';
-var serverAddress = 'http://52.87.160.69';
+var serverAddress = 'http://localhost:8000';
+// var serverAddress = 'http://52.87.160.69';
 
 var currentEvent = 0;
 var currentUser = -1;

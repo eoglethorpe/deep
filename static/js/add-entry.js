@@ -292,18 +292,38 @@ $(document).ready(function() {
     });
     changeLeadPreview(leadSimplified!="");
 
-    // $("#information-attributes .attr").bind('dragover', function(e) {
-    //     e.originalEvent.preventDefault();
-    //     return false;
-    // });
-    // $("#information-attributes .attr").bind('drop', function(e) {
-    //     e.originalEvent.preventDefault();
-    //     var excerpt = e.originalEvent.dataTransfer.getData('Text');
-    //     // addExcerpt(excerpt, $(this).data("attrPk"));
-    //     return false;
-    // });
-
     initAttrInputs();
+
+    $("#information-attributes .attr").bind('dragover', function(e) {
+        e.originalEvent.preventDefault();
+        return false;
+    });
+    $("#information-attributes .attr").bind('drop', function(e) {
+        e.originalEvent.preventDefault();
+        var excerpt = e.originalEvent.dataTransfer.getData('Text');
+        var pk = $(this).data("attr-pk");
+        $(this).click();
+
+        var result = $.grep(attr_inputs, function(e){ return e.id == pk; });
+        var attr = result[0]['data'];
+        if (attr[attr.length-1].trim().length > 0) {
+            console.log("pushing");
+            attr.push(excerpt);
+            result[0]['number'].push("");
+            result[0]['reliability'].push("USU");
+            result[0]['severity'].push("NOA");
+        }
+        else {
+            attr[attr.length-1] = excerpt;
+        }
+
+        var excerpts = $('#attr-inputs #contents').find('.attr-input');
+        if(excerpts){
+            excerpts.remove();
+        }
+        selectAttr(pk);
+        return false;
+    });
 
     var saveFunction = function(addAnother=false) {
         var current = $("#information-attributes .active");
