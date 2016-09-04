@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^export/$', views.ExportView.as_view(), name="export"),
     url(r'^exportxls/$', views.ExportXls.as_view(), name="exportxls"),
     url(r'^exportdocx/$', views.ExportDocx.as_view(), name="exportdocx"),
+    url(r'^delete/$', views.DeleteEntry.as_view(), name='delete'),
 ]

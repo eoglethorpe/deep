@@ -156,7 +156,7 @@ function initAttrInputs(){
                     'id': attr['pk'],
                     'data': [""],
                     'number': [""],
-                    'reliability': ['NOA'],
+                    'reliability': ['USU'],
                     'severity': ['NOA']
                 };
             }
@@ -184,7 +184,7 @@ function initAttrInputs(){
             attr.text(attr_group['data'][j]['text']);
             attr.appendTo(attr_group_flexrow);
 
-            if(attr_inputs[index]['data'][0].length > 0 || attr_inputs[index]['number'][0].length > 0 || attr_inputs[index]['reliability'][0] != 'NOA' || attr_inputs[index]['severity'][0] != 'NOA'){
+            if(attr_inputs[index]['data'][0].length > 0){
                 attr.addClass('filled');
             }
             index++;
@@ -247,7 +247,7 @@ function grabAttrInput(id){
             attr_input['reliability'].push((excerpts.eq(i)).find('.reliability').val());
             attr_input['severity'].push((excerpts.eq(i)).find('.severity').val());
 
-            if(attr_input['data'][0].length > 0 || attr_input['number'][0] != 0 || attr_input['reliability'][0] != 'NOA'){
+            if(attr_input['data'][0].length > 0) {
                 $('#attr-'+attr_input['id']).addClass('filled');
             } else {
                 $('#attr-'+attr_input['id']).removeClass('filled');
@@ -292,20 +292,42 @@ $(document).ready(function() {
     });
     changeLeadPreview(leadSimplified!="");
 
-    // $("#information-attributes .attr").bind('dragover', function(e) {
-    //     e.originalEvent.preventDefault();
-    //     return false;
-    // });
-    // $("#information-attributes .attr").bind('drop', function(e) {
-    //     e.originalEvent.preventDefault();
-    //     var excerpt = e.originalEvent.dataTransfer.getData('Text');
-    //     // addExcerpt(excerpt, $(this).data("attrPk"));
-    //     return false;
-    // });
-
     initAttrInputs();
 
+    $("#information-attributes .attr").bind('dragover', function(e) {
+        e.originalEvent.preventDefault();
+        return false;
+    });
+    $("#information-attributes .attr").bind('drop', function(e) {
+        e.originalEvent.preventDefault();
+        var excerpt = e.originalEvent.dataTransfer.getData('Text');
+        var pk = $(this).data("attr-pk");
+        $(this).click();
+
+        var result = $.grep(attr_inputs, function(e){ return e.id == pk; });
+        var attr = result[0]['data'];
+        if (attr[attr.length-1].trim().length > 0) {
+            console.log("pushing");
+            attr.push(excerpt);
+            result[0]['number'].push("");
+            result[0]['reliability'].push("USU");
+            result[0]['severity'].push("NOA");
+        }
+        else {
+            attr[attr.length-1] = excerpt;
+        }
+
+        var excerpts = $('#attr-inputs #contents').find('.attr-input');
+        if(excerpts){
+            excerpts.remove();
+        }
+        selectAttr(pk);
+        return false;
+    });
+
     var saveFunction = function(addAnother=false) {
+        if (!confirm("Are you sure you want to save these changes?"))
+            return;
         var current = $("#information-attributes .active");
         if(current != null) {
             grabAttrInput(current.data('attr-pk'));

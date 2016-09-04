@@ -1,7 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
 
 from datetime import datetime
@@ -62,6 +64,8 @@ class AddLead(View):
         if id:
             context["lead"] = Lead.objects.get(pk=id)
         context.update(get_lead_form_data())
+
+        context["cancel_url"] = reverse("leads:leads", args=[event])
         return render(request, "leads/add-lead.html", context)
 
     @method_decorator(login_required)
@@ -146,6 +150,11 @@ class AddLead(View):
             context["error"] = error
             return render(request, "leads/add-lead.html",
                           context)
+
+        if "redirect-url" in request.POST:
+            return JsonResponse({
+                "url": reverse('entries:add', args=[event, lead.pk])
+            })
 
         return redirect("leads:leads", event=event)
 
