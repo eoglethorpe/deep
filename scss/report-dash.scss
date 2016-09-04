@@ -44,13 +44,15 @@ body{
                 float: right;
             }
         }
-        #reports{
+        .reports{
             #weekly-report-list{
                 .weekly-report{
                     padding: 10px 24px;
 
                     button{
                         float: right;
+                        margin-right: 16px;
+                        margin-top: 16px;
                     }
                 }
             }

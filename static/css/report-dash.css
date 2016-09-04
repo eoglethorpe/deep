@@ -71,13 +71,15 @@ body {
       display: inline-block; }
     #main #report-list header select {
       float: right; }
-  #main #report-list #reports #weekly-report-list .weekly-report {
+  #main #report-list .reports #weekly-report-list .weekly-report {
     padding: 10px 24px; }
-    #main #report-list #reports #weekly-report-list .weekly-report button {
-      float: right; }
-  #main #report-list #reports #monthly-report-list .monthly-report {
+    #main #report-list .reports #weekly-report-list .weekly-report button {
+      float: right;
+      margin-right: 16px;
+      margin-top: 16px; }
+  #main #report-list .reports #monthly-report-list .monthly-report {
     padding: 10px 24px; }
-    #main #report-list #reports #monthly-report-list .monthly-report .fa {
+    #main #report-list .reports #monthly-report-list .monthly-report .fa {
       margin-right: 10px; }
 
 /*# sourceMappingURL=report-dash.css.map */

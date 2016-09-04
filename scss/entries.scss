@@ -27,7 +27,12 @@
             .even, .even+tr:not(.odd){
                 background-color: #fff;
             }
-
+            .btn-edit .fa{
+                color: #9b59b6;
+            }
+            .btn-delete .fa{
+                color: #e74c3c;
+            }
             .entry-detail{
                 padding: 10px 32px;
                 .fa{
@@ -38,13 +43,6 @@
                     button{
                         margin: 10px;
                     }
-                }
-
-                .btn-edit .fa{
-                    color: #d35400;
-                }
-                .btn-delete .fa{
-                    color: #e74c3c;
                 }
 
                 .label-container{
