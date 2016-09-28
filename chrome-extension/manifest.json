@@ -9,6 +9,10 @@
     "default_icon": "deep-logo.png",
     "default_popup": "popup.html"
   },
+  "background": {
+      "scripts": ["background.js"],
+      "persistent": false
+  },
   "permissions": [
     "activeTab",
     "http://localhost:8000/*",

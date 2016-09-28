@@ -3,8 +3,8 @@
 
 // example of serverAddress http://52.87.160.69
 // don't add the trailing /
-var serverAddress = 'http://localhost:8000';
-// var serverAddress = 'http://52.87.160.69';
+// var serverAddress = 'http://localhost:8000';
+var serverAddress = 'http://52.87.160.69';
 
 var currentEvent = 0;
 var currentUser = -1;
@@ -13,6 +13,11 @@ var currentPage = null;
 
 var article = null;
 var articleDate = null;
+
+var tabId;
+
+var inputs = {};
+
 
 chrome.tabs.executeScript(null, {file: "contentscript.js"});
 chrome.runtime.onMessage.addListener( function(request, sender) {
@@ -29,6 +34,8 @@ function getCurrentTabUrl(callback) {
         var url = tab.url;
         console.assert(typeof url == 'string', 'tab.url should be a string');
 
+        tabId = tab.id;
+
         $.ajax({
             type: 'GET',
             url: serverAddress + '/date/?link='+tab.url,
@@ -41,8 +48,8 @@ function getCurrentTabUrl(callback) {
         loc.href = tab.url;
         var doc = (new DOMParser).parseFromString(currentPage, 'text/html');
         article = new Readability(loc, doc).parse();
-        console.log(article);
-        $('#name').val(article.title);
+        if (article != null)
+            $('#name').val(article.title);
 
         callback(url);
     });
@@ -64,11 +71,15 @@ function extractDomain(url) {
     return domain;
 }
 
+
 document.addEventListener('DOMContentLoaded', function(){
     getCurrentTabUrl(function(url){
         document.getElementById('url').value = url;
         document.getElementById('website').value = extractDomain(url);
+
+        setSaveLoadHandlers();
     });
+
     // getCurrentTabTitle(function(title){
     //     document.getElementById('name').value = title;
     // });
@@ -76,6 +87,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 $(document).ready(function(){
+    $("#login").href = serverAddress;
+
+
     $.ajax({
         type: 'GET',
         url: serverAddress + '/user/status',
@@ -87,6 +101,13 @@ $(document).ready(function(){
                     $(".form-wrapper").removeClass('hidden');
                     currentEvent = response.last_event;
                     currentUser = response.user_id;
+                    console.log(currentEvent);
+
+                    if (inputs["user-select"])
+                        currentUser = inputs["user-select"];
+                    if (inputs["events"])
+                        currentEvent = inputs["events"];
+
                     $.ajax({
                         type: 'GET',
                         url: serverAddress + '/api/v1/events/',
@@ -159,7 +180,7 @@ $(document).ready(function(){
             success: function(response){
                 if(response){
                     for(i = 0; i < response.length; i++){
-                        if(response[i].first_name){
+                        if(response[i].first_name) {
                             if(response[i].id == currentUser){
                                 $('#user-select').append('<option value="'+response[i].id+'" selected>' + response[i].first_name + ' ' + response[i].last_name + ' (' + response[i].email +')'+ '</option>');
                             } else {
@@ -188,7 +209,8 @@ $(document).ready(function(){
             success: function(response){
                 if(response) {
                     for(i = 0; i < response.length; i++){
-                        $('#source').append('<option value="'+response[i].source+'">'+response[i].source+'</option>');
+                        $('#source').append('<option value="'+response[i].source+'"'
+                            + ((inputs.source == response[i].source)?' selected':'') + '>'+response[i].source+'</option>');
                     }
                     $('#source').selectize();
                 }
@@ -226,3 +248,43 @@ $(document).ready(function(){
         getCSRFToken();
     });
 });
+
+$(document).ready(function(){
+    $('body').on('click', 'a', function(){
+        chrome.tabs.create({url: $(this).attr('href')});
+        return false;
+    });
+});
+
+
+
+function save(key, val) {
+    chrome.runtime.sendMessage({"msg": "set", "tab_id": tabId, "key": key, "val": val});
+}
+
+function load(key, callback) {
+    chrome.runtime.sendMessage({"msg": "get", "tab_id": tabId, "key": key}, function(response) {
+        callback(response.val);
+    });
+}
+
+
+function setSaveLoadHandlers() {
+    ["events", "name", "source", "confidentiality", "user-select", "publish-date", "url", "website"]
+        .forEach(function(name) { setSaveLoadHandlerFor(name); });
+}
+
+function setSaveLoadHandlerFor(inputname) {
+    $("#" + inputname).change(function() {
+        save(inputname, this.value);
+    });
+    $("#" + inputname).on("keyup", function() {
+        save(inputname, this.value);
+    });
+
+    load(inputname, function(val) {
+        inputs[inputname] = val;
+        if (val)
+            $("#" + inputname).val(val);
+    });
+}

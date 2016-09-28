@@ -203,7 +203,7 @@ def _extractFromHTMLTag(parsedHTML):
 
 def extractArticlePublishedDate(articleLink, html = None):
 
-    print("Extracting date from " + articleLink)
+    # print("Extracting date from " + articleLink)
 
     articleDate = None
 
@@ -229,8 +229,9 @@ def extractArticlePublishedDate(articleLink, html = None):
         articleDate = possibleDate
 
     except Exception as e:
-        print("Exception in extractArticlePublishedDate for " + articleLink)
-        print(e.message, e.args)
+        pass
+        # print("Exception in extractArticlePublishedDate for " + articleLink)
+        # print(e.message, e.args)
 
     return articleDate
 
