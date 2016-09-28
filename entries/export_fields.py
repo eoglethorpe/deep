@@ -30,7 +30,10 @@ def get_admn_lvl4(e):
 def get_admn_lvl5(e):
     return [v.name for v in e.map_selections.all() if v.admin_level_id == 5]
 
-def get_aff_all(e):
+def get_aff_all_str(e):
+    return ', '.join(get_aff_all_list(e))
+
+def get_aff_all_list(e):
     return [v.name for v in e.affected_groups.all()]
 
 def get_aff_lvl1(e):
@@ -44,6 +47,18 @@ def get_aff_lvl2(e):
 def get_aff_lvl3(e):
     grps = ['IDP', 'Others of Concern', 'Refugees and Asylum Seekers', 'Returnees', 'Host', 'Non-Host']
     return [v.name for v in e.affected_groups.all() if v.name in grps]
+
+def get_sector_str(e):
+    return ', '.join(get_sector_list(e))
+
+def get_sector_list(e):
+    return ['To Implement']
+
+def get_sub_sector_str(e):
+    return ', '.join(get_sector_list(e))
+
+def get_sub_sector_list(e):
+    return ['To Implement']
 
 def get_source(e):
     return e.lead.source_id
@@ -59,6 +74,7 @@ def get_entry_id(*args):
 def get_tag_id(*args):
     id = '0'*(3-len(str(args[1].pk))) + str(args[1].pk)
     return 'tag' + id
+
 def get_confidentiality(e):
     return e.lead.get_confidentiality_display()
 
@@ -68,19 +84,25 @@ def get_crisis(e):
 def get_lead_url(e):
     return e.lead.url
 
-def get_lead_created_at_dt(e):
+def get_lead_created_at_dt_num(e):
+    return "{0:%m/%d/%Y}".format(e.lead.created_at)
+
+def get_lead_created_at_dt_readable(e):
     return "{0:%b %d %Y}".format(e.lead.created_at)
 
-def get_lead_created_at(e):
+def get_lead_created_at_tm(e):
     return "{0:%b %d %Y %I:%M%p}".format(e.lead.created_at)
 
-def get_ent_created_at(e):
+def get_ent_created_at_m(e):
     return "{0:%b %d %Y %I:%M%p}".format(e.created_at)
 
 def get_created_by(e):
     return e.created_by.username
 
-def get_lead(e):
+def get_lead_nm_title_case(e):
+    return ' '.join(w.capitalize() for w in e.lead.name.split(' '))
+
+def get_lead_nm(e):
     return e.lead.name
 
 def get_geo_list(e):
@@ -100,13 +122,20 @@ def get_geo_dict(e):
     for v in d.values():
         v.sort()
 
-    print(d)
     return d
 
-def get_vuln(e):
+
+
+def get_vuln_str(e):
+    return ', '.join(get_vuln_list(e))
+
+def get_vuln_list(e):
     return [g.__str__() for g in e.vulnerable_groups.all()]
 
-def get_specific(e):
+def get_specific_str(e):
+    return ', '.join(get_specific_list(e))
+
+def get_specific_list(e):
     return [g.__str__() for g in e.specific_needs_groups.all()]
 
 def get_event(e):

@@ -110,7 +110,13 @@ $(document).ready(function() {
                 },
                 width: "15%"
             },
-            {data: "lead_name", width: "25%"},
+            {data: "lead_name", width: "20%"},
+            {
+                data: null,
+                render: function(data, type, row){
+                    return '<button class="btn btn-default btn-edit" onclick="window.location.href=\'/' + currentEvent + '/entries/edit/' + data.id + '/\'"><i class="fa fa-edit"></i></button><button class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>';
+                }
+            },
         ],
         initComplete: function(){
             var that = this;
@@ -235,6 +241,10 @@ $(document).ready(function() {
                 '</div>'
             ;
     }
+
+    $('#entries-table tbody').on('click', 'button', function(e){
+        e.stopPropagation();
+    });
 
 });
 

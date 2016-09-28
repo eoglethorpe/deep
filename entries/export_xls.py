@@ -61,10 +61,10 @@ def _mk_col_nm_lst(cl):
 def _gen_base_vals():
     """which columns should be included and which function is used to create them"""
     return OrderedDict([
-            ('Date of Lead Publication' , 'get_lead_created_at'),
-            ('Date of Entry Creation' , 'get_ent_created_at'),
+            ('Date of Lead Publication' , 'get_lead_created_at_tm'),
+            ('Date of Entry Creation' , 'get_ent_created_at_m'),
             ('Created By' , 'get_created_by'),
-            ('Lead Title' , 'get_lead'),
+            ('Lead Title' , 'get_lead_nm'),
             ('Confidentiality', 'get_confidentiality'),
             ('Source', 'get_source'),
             ('Crisis Name', 'get_crisis'),
@@ -77,8 +77,8 @@ def _gen_base_vals():
             ('Affected Groups Level 1', 'get_aff_lvl1'),
             ('Affected Groups Level 2', 'get_aff_lvl2'),
             ('Affected Groups Level 3', 'get_aff_lvl3'),
-            ('Vulnerable Groups' , 'get_vuln'),
-            ('Specific Needs Groups' , 'get_specific')])
+            ('Vulnerable Groups' , 'get_vuln_list'),
+            ('Specific Needs Groups' , 'get_specific_list')])
 
 def _gen_ias():
     """similar to base_vals but for ias"""
@@ -105,6 +105,7 @@ def _split_row(row):
         pass
 
     out = []
+    #a recursive function that creates permutations of rows based on their contents that are lists
     def rec(l, it):
         if it == len(l):
             return []
@@ -117,13 +118,18 @@ def _split_row(row):
                     out.append((rec(tmp, 0)))
 
                 return [skip]
+
             else:
-                return [''] + rec(l,it+1)
+                tmp = deepcopy(l)
+                tmp[it] = ''
+                out.append((rec(tmp, 0)))
+                return [skip]
+
 
         else:
             return [l[it]] + rec(l,it+1)
 
-    #only do recurisve if our row contains >1 list, else return just the row
+    #only do recurisve if our row contains > 1 list, else return just the row. realistically it always will
     if True in [isinstance(v, list) for v in row]:
         rec(row, 0)
         l = [r for r in out if skip not in r]
@@ -154,7 +160,6 @@ def _gen_out(sht, type):
             if type == GROUPED_TAB:
                 sht.append([', '.join(v) if isinstance(v, list) else v for v in out])
             elif type == SPLIT_TAB:
-                l = _split_row(out)
                 for v in _split_row(out):
                     sht.append(v)
             else:

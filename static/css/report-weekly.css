@@ -43,18 +43,26 @@ nav {
     color: #414141; }
 
 body {
-  background-color: #f0f0f0; }
+  background-color: #f0f0f0;
+  min-height: 100vh; }
 
-#main h2 {
-  margin-top: 0;
-  margin-bottom: 32px;
-  text-transform: uppercase; }
-#main #filters {
-  margin-bottom: 16px; }
+#main header {
+  height: 20vh; }
+  #main header h2 {
+    margin-top: 0;
+    margin-bottom: 32px;
+    text-transform: uppercase; }
+  #main header #filters {
+    margin-bottom: 24px; }
 #main #entries {
   background-color: #fff;
-  box-shadow: 5px 0 9px -5px rgba(0, 0, 0, 0.3); }
+  box-shadow: 2px 0 3px 0 rgba(0, 0, 0, 0.3);
+  height: calc(80vh-100px);
+  overflow-y: scroll; }
   #main #entries .entry {
-    padding: 16px 32px; }
+    padding: 10px 32px;
+    cursor: pointer; }
+    #main #entries .entry .details {
+      color: #969696; }
 
 /*# sourceMappingURL=report-weekly.css.map */

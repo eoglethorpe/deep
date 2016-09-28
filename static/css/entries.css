@@ -57,6 +57,10 @@ nav {
   background-color: #f0f0f0; }
 #main #entries-table tbody .even, #main #entries-table tbody .even + tr:not(.odd) {
   background-color: #fff; }
+#main #entries-table tbody .btn-edit .fa {
+  color: #9b59b6; }
+#main #entries-table tbody .btn-delete .fa {
+  color: #e74c3c; }
 #main #entries-table tbody .entry-detail {
   padding: 10px 32px; }
   #main #entries-table tbody .entry-detail .fa {
@@ -65,10 +69,6 @@ nav {
     text-align: right; }
     #main #entries-table tbody .entry-detail .row-header button {
       margin: 10px; }
-  #main #entries-table tbody .entry-detail .btn-edit .fa {
-    color: #d35400; }
-  #main #entries-table tbody .entry-detail .btn-delete .fa {
-    color: #e74c3c; }
   #main #entries-table tbody .entry-detail .label-container {
     text-align: right; }
   #main #entries-table tbody .entry-detail hr {
