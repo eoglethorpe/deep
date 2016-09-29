@@ -201,6 +201,7 @@ class AddEntry(View):
 
         # Save the affected groups.
         # ['All Population', 'Affected', 'Non Displaced', 'Refugees']
+        entry.affected_groups.clear()
         for group in affected_groups:
             entry.affected_groups.add(AffectedGroup.objects.get(name=group))
 

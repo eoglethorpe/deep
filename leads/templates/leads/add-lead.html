@@ -78,7 +78,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                         </div>
                         <div class="row">
                             <div class="col-md-3 label-container">
-                                <label>Published at:</label>
+                                <label>Publication date:</label>
                             </div>
                             <div class="col-md-9">
                                 <input type="date" class="form-control" name="publish-date" placeholder="yyyy-mm-dd" {% if lead %}value="{{lead.published_at|date:"Y-m-d"}}"{% endif %}>

@@ -114,7 +114,7 @@ $(document).ready(function() {
             {
                 data: null,
                 render: function(data, type, row){
-                    return '<button class="btn btn-default btn-edit" onclick="window.location.href=\'/' + currentEvent + '/entries/edit/' + data.id + '/\'"><i class="fa fa-edit"></i></button><button class="btn btn-default btn-delete"><i class="fa fa-trash"></i></button>';
+                    return '<button class="btn btn-default btn-edit" onclick="window.location.href=\'/' + currentEvent + '/entries/edit/' + data.id + '/\'"><i class="fa fa-edit"></i></button><button class="btn btn-default btn-delete" onclick="deleteEntry('+data.id+')";><i class="fa fa-trash"></i></button>';
                 }
             },
         ],
