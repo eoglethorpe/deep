@@ -17,7 +17,7 @@ nav {
   background-color: #008080;
   height: 71px;
   box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
-  margin-bottom: 24px; }
+  z-index: 100; }
   nav .fa {
     margin-right: 10px; }
   nav .caret {
@@ -49,15 +49,15 @@ body {
   padding: 0; }
   body .split-pane {
     font-size: 12px;
-    height: calc(100vh - 100px) !important; }
+    height: calc(100vh - 75px) !important; }
     body .split-pane .split-pane-divider {
       background: rgba(0, 0, 0, 0.2); }
     body .split-pane #left-component {
       width: 40em;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4); }
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+      background-color: #fff; }
       body .split-pane #left-component #lead-options-container {
-        padding: 8px;
-        background-color: #f5f5f5; }
+        padding: 8px; }
         body .split-pane #left-component #lead-options-container button {
           padding: 5px 10px;
           border-radius: 0;
@@ -93,16 +93,28 @@ body {
       /* Same as left component width */
       margin-left: 3px;
       /* Same as divider width */
-      background-color: #fff;
-      /*Information Attributes*/ }
-      body .split-pane #right-component #the-map {
-        margin-top: 10px;
-        height: 360px;
-        margin-bottom: 10px; }
-        body .split-pane #right-component #the-map path {
-          stroke: #414141;
-          stroke-width: 2px;
-          stroke-linejoin: round; }
+      padding-top: 10px; }
+      body .split-pane #right-component #locations-container .fa {
+        margin-right: 10px; }
+      body .split-pane #right-component #vulnerable-groups-container, body .split-pane #right-component #specific-need-groups-container {
+        min-height: 100px; }
+      body .split-pane #right-component #selected-location-list {
+        height: 200px;
+        overflow-y: scroll;
+        background-color: #f0f0f0;
+        padding: 10px 16px; }
+        body .split-pane #right-component #selected-location-list ul {
+          list-style: none;
+          padding-left: 0; }
+          body .split-pane #right-component #selected-location-list ul li {
+            text-indent: -16px;
+            padding-left: 20px; }
+            body .split-pane #right-component #selected-location-list ul li a {
+              color: #e78c6c;
+              margin-left: 10px;
+              cursor: pointer; }
+              body .split-pane #right-component #selected-location-list ul li a .fa {
+                margin-right: 6px; }
       body .split-pane #right-component #information-attributes .attr-title {
         font-weight: bold;
         text-transform: uppercase;
@@ -141,7 +153,7 @@ body {
         background-color: #008080; }
       body .split-pane #right-component .google-visualization-orgchart-linebottom {
         border-bottom: 1px solid #008080 !important; }
-      body .split-pane #right-component #save-btn, body .split-pane #right-component #save-add-btn {
+      body .split-pane #right-component #save-btn, body .split-pane #right-component #save-add-btn, body .split-pane #right-component #cancel-btn {
         position: fixed;
         text-align: center;
         border-radius: 50%;
@@ -159,8 +171,14 @@ body {
         height: 48px;
         right: 28px;
         bottom: 120px; }
-      body .split-pane #right-component #save-add-btn #plus-icon {
-        font-size: 0.5em; }
+        body .split-pane #right-component #save-add-btn #plus-icon {
+          font-size: 0.5em; }
+      body .split-pane #right-component #cancel-btn {
+        width: 48px;
+        height: 48px;
+        right: 28px;
+        bottom: 200px;
+        font-size: 1.2em; }
       body .split-pane #right-component #save-btn .fa, body .split-pane #right-component #save-add-btn .fa {
         margin-right: 0; }
       body .split-pane #right-component #admin-level-buttons button {
@@ -173,15 +191,13 @@ body {
       body .split-pane #right-component .attr-title::after {
         content: '𝅌';
         margin-left: 10px; }
-      body .split-pane #right-component #selected-location-list {
-        margin-top: 10px;
-        max-height: 200px;
-        overflow-y: scroll; }
-      body .split-pane #right-component #selected-location-list li a {
-        color: #e78c6c;
-        margin-left: 10px;
-        cursor: pointer; }
-      body .split-pane #right-component #selected-location-list li a .fa {
-        margin-right: 0; }
+  body #map-modal .modal-body {
+    padding: 0; }
+    body #map-modal .modal-body #the-map {
+      height: 60vh; }
+      body #map-modal .modal-body #the-map path {
+        stroke: #717171;
+        stroke-width: 1px;
+        stroke-linejoin: round; }
 
 /*# sourceMappingURL=add-entry.css.map */

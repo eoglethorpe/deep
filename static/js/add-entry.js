@@ -9,7 +9,7 @@ function updateLocationSelections() {
     }
     for (var i=0; i < mapSelections.length; i++) {
         var selectionKey = mapSelections[i];
-        element = $('<li>'+manual_location_input[0].selectize.options[selectionKey].text+'<a onclick="unSelect(\''+selectionKey+'\', this)"><i class="fa fa-times"></i></a></li>');
+        element = $('<li><a onclick="unSelect(\''+selectionKey+'\', this)"><i class="fa fa-times"></i></a>'+manual_location_input[0].selectize.options[selectionKey].text+'</li>');
         element.appendTo(container);
 
         // Select the option with value selectionKey.
@@ -175,7 +175,7 @@ function initAttrInputs(){
         var attr_group = attrs[i];
         var attr_group_title = attr_title_template.clone();
         var attr_group_flexrow = flexrow_template.clone();
-        attr_group_flexrow.hide();
+        //attr_group_flexrow.hide();
 
         for(var j = 0; j<attr_group['data'].length; j++){
             var attr = attr_template.clone();
@@ -273,7 +273,7 @@ $(document).ready(function() {
         //mapSelections.push(key);
         if( !inArray(mapSelections, key) ){
             container = $('#selected-location-list').find('ul');
-            element = $('<li>'+$("#manual-location-input option:selected").text()+'<a onclick="unSelect(\''+key+'\', this)"><i class="fa fa-times"></i></a></li>');
+            element = $('<li><a onclick="unSelect(\''+key+'\', this)"><i class="fa fa-times"></i></a>'+$("#manual-location-input option:selected").text()+'</li>');
             element.appendTo(container);
             mapSelections.push(key);
         }

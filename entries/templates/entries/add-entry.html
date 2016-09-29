@@ -103,19 +103,18 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 {% include 'navbar.html' %}
 
 
-<div id="map-modal" class="modal fade" role="dialog" data-backdrop="false">
-    <div class="modal-dialog">
+<div id="map-modal" class="modal fade" role="dialog" >
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Select locations</h4>
             </div>
             <div class="modal-body">
-                <div id="the-map" style="height:360px"></div>
+                <div id="the-map"></div>
             </div>
             <div class="modal-footer">
                 <div id="admin-level-buttons"></div>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -150,77 +149,81 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     <div class="split-pane-component" id="right-component">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-12">
-                    <h4> Locations </h4>
-                    <div class="row">
-                        <div class="col-lg-5">
-                            <div class="form-group">
-                                <select name="country" id="country" placeholder="Select a country">
-                                    {% for country in countries %}
-                                    <option value="{{country.pk}}" {% if entry and entry.country == country %}selected{% endif %}>{{country.name}}</option>
-                                    {% endfor %}
-                                </select>
+                <div class="col-md-7">
+                    <div id="locations-container">
+                        <h4>Locations</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select name="country" id="country" placeholder="Select a country">
+                                        {% for country in countries %}
+                                        <option value="{{country.pk}}" {% if entry and entry.country == country %}selected{% endif %}>{{country.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <select name="manual-location-input" id="manual-location-input" class="form-control"  placeholder="Add a location">
+                                        <option value="">Add a location</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#map-modal"><i class="fa fa-map"></i>Add from map</button>
+                                </div>
                             </div>
-                            <div class="form-group" id="manual-input">
-                                <!--label>Enter location manually:</label-->
-                                <select name="manual-location-input" id="manual-location-input" class="form-control"  placeholder="Add a location">
-                                    <option value="">Add a location</option>
-                                </select>
-                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#map-modal">Open Map</button>
-                            </div>
-
-                        </div>
-
-                        <div class="col-lg-5">
-                            <div id="selected-location-list">
-                                <ul>
-                                </ul>
+                            <div class="col-md-6">
+                                <div id="selected-location-list">
+                                    <ul>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-lg-7">
-                    <h4> Affected Groups </h4>
-                    <div id="chart-div"></div>
-                </div>
-                <div class="col-lg-4">
-                    <h4> Vulnerable Groups </h4>
-                    <select id="vulnerable-groups" name="vulnerable-groups" class="form-control" placeholder="Select vulnerable group" multiple="true">
-                        {% for vulnerable_group in vulnerable_groups %}
-                        <option value="{{vulnerable_group.pk}}" {% if vulnerable_group in entry.vulnerable_groups.all %}selected{% endif %}>{{vulnerable_group}}</option>
-                        {% endfor %}
-                    </select>
-                    <h4> Groups with specific needs </h4>
-                    <select id="groups-with-specific-needs" name="groups-with-specific-needs" class="form-control" placeholder="Select groups with specific needs" multiple="true">
-                        {% for specific_group in specific_needs_groups %}
-                        <option value="{{specific_group.pk}}" {% if specific_group in entry.specific_needs_groups.all %}selected{% endif %}>{{specific_group}}</option>
-                        {% endfor %}
-                    </select>
+                <div class="col-md-5">
+                    <div id="vulnerable-groups-container">
+                        <h5>Vulnerable Groups</h5>
+                        <select id="vulnerable-groups" name="vulnerable-groups" class="form-control" placeholder="Select vulnerable group" multiple="true">
+                            {% for vulnerable_group in vulnerable_groups %}
+                            <option value="{{vulnerable_group.pk}}" {% if vulnerable_group in entry.vulnerable_groups.all %}selected{% endif %}>{{vulnerable_group}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div id="specific-need-groups-container">
+                        <h5> Groups with specific needs </h5>
+                        <select id="groups-with-specific-needs" name="groups-with-specific-needs" class="form-control" placeholder="Select groups with specific needs" multiple="true">
+                            {% for specific_group in specific_needs_groups %}
+                            <option value="{{specific_group.pk}}" {% if specific_group in entry.specific_needs_groups.all %}selected{% endif %}>{{specific_group}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                 </div>
             </div>
-
+            <hr>
+            <div>
+                <h4>Affected Groups</h4>
+                <div id="chart-div"></div>
+            </div>
+            <hr>
             <div id="information-attributes">
-                <h4> Information Attributes </h4>
+                <h4>Information Attributes</h4>
                 <div class="row">
                     <div class="col-md-5">
                         <div id="attr-contents">
-    
                         </div>
                     </div>
-    
+
                     <div class="col-md-6" id="attr-inputs">
                         <div id="selected-attr-title"></div>
                         <div id="contents"></div>
                     </div>
                 </div>
             </div>
-    
+
+            <button id="cancel-btn" class="btn btn-danger"><i class="fa fa-times"></i></button>
             <button id="save-btn" class="btn btn-primary"><i class="fa fa-save"></i></button>
             <button id="save-add-btn" class="btn btn-default"><i id="save-icon" class="fa fa-save"></i><i id="plus-icon" class="fa fa-plus"></i></button>
-    
+
         </div>
     </div>
 </div>

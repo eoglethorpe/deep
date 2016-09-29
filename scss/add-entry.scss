@@ -8,17 +8,18 @@ body{
 
     .split-pane{
         font-size: 12px;
-        height: calc(100vh - 100px)!important;
+        height: calc(100vh - 75px)!important;
         .split-pane-divider {
             background: rgba(0, 0, 0, 0.2);
         }
         #left-component {
             width: 40em;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+            background-color: #fff;
 
             #lead-options-container{
                 padding: 8px;
-                background-color: #f5f5f5;
+                //background-color: #f5f5f5;
 
                 button{
                     padding: 5px 10px;
@@ -68,20 +69,43 @@ body{
         #right-component {
             left: 40em;  /* Same as left component width */
             margin-left: 3px;  /* Same as divider width */
-            background-color: #fff;
+            padding-top: 10px;
 
-            #the-map{
-                margin-top: 10px;
-                height: 360px;
-                margin-bottom: 10px;
-                path {
-                    stroke: #414141;
-                    stroke-width: 2px;
-                    stroke-linejoin: round;
+            #locations-container{
+                .fa{
+                    margin-right: 10px;
                 }
             }
 
-            /*Information Attributes*/
+            #vulnerable-groups-container, #specific-need-groups-container{
+                min-height: 100px;
+            }
+            #selected-location-list{
+                height: 200px;
+                overflow-y: scroll;
+                background-color: #f0f0f0;
+                padding: 10px 16px;
+                ul{
+                    list-style: none;
+                    padding-left: 0;
+
+                    li{
+                        text-indent: -16px;
+                        padding-left: 20px;
+
+                        a{
+                            color: #e78c6c;
+                            margin-left: 10px;
+                            cursor: pointer;
+                            .fa{
+                                margin-right: 6px;
+                            }
+                        }
+                    }
+                }
+
+            }
+
             #information-attributes{
                 .attr-title {
                     font-weight: bold;
@@ -136,7 +160,7 @@ body{
                 border-bottom: 1px solid #008080!important;
             }
 
-            #save-btn, #save-add-btn{
+            #save-btn, #save-add-btn, #cancel-btn{
                 position: fixed;
                 text-align: center;
                 border-radius: 50%;
@@ -156,11 +180,19 @@ body{
                 height: 48px;
                 right: 28px;
                 bottom: 120px;
-            }
-            #save-add-btn #plus-icon{
-                font-size: 0.5em;
 
+                #plus-icon{
+                    font-size: 0.5em;
+                }
             }
+            #cancel-btn{
+                width: 48px;
+                height: 48px;
+                right: 28px;
+                bottom: 200px;
+                font-size: 1.2em;
+            }
+
             #save-btn .fa, #save-add-btn .fa{
                 margin-right: 0;
             }
@@ -182,21 +214,23 @@ body{
                 margin-left: 10px;
             }
 
-            #selected-location-list{
-                margin-top: 10px;
-                max-height: 200px;
-                overflow-y: scroll;
-            }
-            #selected-location-list li a{
-                color: #e78c6c;
-                margin-left: 10px;
-                cursor: pointer;
-            }
-            #selected-location-list li a .fa{
-                margin-right: 0;
-            }
-
         }
+    }
+
+    #map-modal{
+        .modal-body{
+            padding: 0;
+
+            #the-map{
+                height: 60vh;
+                path {
+                    stroke: #717171;
+                    stroke-width: 1px;
+                    stroke-linejoin: round;
+                }
+            }
+        }
+
     }
 
 
