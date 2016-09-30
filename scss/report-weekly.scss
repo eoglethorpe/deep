@@ -55,5 +55,17 @@ body{
             }
         }
 
+        section{
+            padding: 24px;
+        }
+
+        .event-timeline{
+            margin-bottom: 16px;
+            
+            .row:first-child{
+                margin-bottom: 16px;
+            }
+        }
+
     }
 }

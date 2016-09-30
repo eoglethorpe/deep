@@ -100,21 +100,79 @@ DEEP | Weekly Report
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <a href="#">Key events</a>
+                                    <a href="#key-events">Key events</a>
                                 </div>
                                 <div class="col-md-3">
-                                    <a href="#">Humanitarian profile</a>
+                                    <a href="#humanitarian-profile">Humanitarian profile</a>
                                 </div>
                                 <div class="col-md-3">
-                                    <a href="#">People in need</a>
+                                    <a href="#people-in-need">People in need</a>
                                 </div>
                                 <div class="col-md-3">
-                                    <a href="#">Humanitarian access</a>
+                                    <a href="#humanitarian-access">Humanitarian access</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <hr>
+                    <section id="key-events">
+                        <h4>Key events this week:</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <select id="disaster-type-select" placeholder="Select type of disaster">
+                                    <option>Earthquake</option>
+                                    <option>Ground Shaking</option>
+                                    <option>Tsunami</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <select id="status-select" placeholder="Select status">
+                                    <option>Earthquake</option>
+                                    <option>Ground Shaking</option>
+                                    <option>Tsunami</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4>Events for timeline:</h4>
+                                <div id="event-timeline-container">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="event-timeline-template" hidden>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <input class="form-control">
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-default">+</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>start date:</label>
+                                    <input type="date" class="form-control">
+                                </div>
+                                <div class="col-md-3">
+                                    <label>end date:</label>
+                                    <input type="date" class="form-control">
+                                </div>
+                                <div class="col-md-3">
+                                    <label></label>
+                                    <select class="category-select" placeholder="Select Category">
+                                        <option>this</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section id="humanitarian-profile">
+                    </section>
+                    <section id="people-in-need">
+                    </section>
+                    <section id="humanitarian-access">
+                    </section>
                 </div>
             </div>
         </div>

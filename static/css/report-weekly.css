@@ -81,5 +81,11 @@ body {
       #main #report-content #navigator a {
         display: inline-block;
         padding: 10px 24px; }
+    #main #report-content section {
+      padding: 24px; }
+    #main #report-content .event-timeline {
+      margin-bottom: 16px; }
+      #main #report-content .event-timeline .row:first-child {
+        margin-bottom: 16px; }
 
 /*# sourceMappingURL=report-weekly.css.map */
