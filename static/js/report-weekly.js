@@ -8,4 +8,6 @@ $(document).ready(function(){
             $(this).data('expanded', true);
         }
     });
+
+    $('.filter').selectize();
 });
