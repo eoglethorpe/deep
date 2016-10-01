@@ -41,6 +41,8 @@ nav {
   nav #event-menu {
     margin-right: 24px; }
   nav .dropdown ul li a {
+    padding-top: 8px;
+    padding-bottom: 8px;
     color: #414141; }
 
 body {
@@ -67,7 +69,7 @@ body {
         body .split-pane #left-component #lead-options-container #tag-buttons {
           margin-top: 10px; }
       body .split-pane #left-component #lead-preview-container {
-        height: calc(100% - 85px); }
+        height: calc(100% - 70px); }
       body .split-pane #left-component #lead-preview {
         width: 100%;
         height: 100%;
@@ -163,20 +165,20 @@ body {
       body .split-pane #right-component #save-btn {
         width: 64px;
         height: 64px;
-        right: 20px;
-        bottom: 24px;
+        right: 30px;
+        bottom: 36px;
         font-size: 1.5em; }
       body .split-pane #right-component #save-add-btn {
         width: 48px;
         height: 48px;
-        right: 28px;
-        bottom: 120px; }
+        right: 38px;
+        bottom: 128px; }
         body .split-pane #right-component #save-add-btn #plus-icon {
           font-size: 0.5em; }
       body .split-pane #right-component #cancel-btn {
         width: 48px;
         height: 48px;
-        right: 28px;
+        right: 38px;
         bottom: 200px;
         font-size: 1.2em; }
       body .split-pane #right-component #save-btn .fa, body .split-pane #right-component #save-add-btn .fa {

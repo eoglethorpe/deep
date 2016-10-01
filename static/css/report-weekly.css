@@ -16,7 +16,7 @@ nav {
   background-color: #008080;
   height: 71px;
   box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
-  margin-bottom: 24px; }
+  z-index: 100; }
   nav .fa {
     margin-right: 10px; }
   nav .caret {
@@ -40,29 +40,52 @@ nav {
   nav #event-menu {
     margin-right: 24px; }
   nav .dropdown ul li a {
+    padding-top: 8px;
+    padding-bottom: 8px;
     color: #414141; }
 
 body {
   background-color: #f0f0f0;
   min-height: 100vh; }
 
-#main header {
-  height: 20vh; }
-  #main header h2 {
-    margin-top: 0;
-    margin-bottom: 32px;
-    text-transform: uppercase; }
-  #main header #filters {
-    margin-bottom: 24px; }
-#main #entries {
-  background-color: #fff;
-  box-shadow: 2px 0 3px 0 rgba(0, 0, 0, 0.3);
-  height: calc(80vh-100px);
-  overflow-y: scroll; }
-  #main #entries .entry {
-    padding: 10px 32px;
-    cursor: pointer; }
-    #main #entries .entry .details {
-      color: #969696; }
+#main {
+  padding-top: 24px; }
+  #main header {
+    height: 140px; }
+    #main header h2 {
+      margin-top: 0;
+      margin-bottom: 32px;
+      text-transform: uppercase; }
+    #main header #filters {
+      margin-bottom: 24px; }
+      #main header #filters label {
+        margin-top: 8px; }
+  #main #entries {
+    height: calc(100vh - 250px) !important;
+    background-color: #fff;
+    box-shadow: 2px 0 5px 3px rgba(0, 0, 0, 0.2);
+    overflow-y: scroll; }
+    #main #entries .entry {
+      padding: 10px 32px;
+      cursor: pointer; }
+      #main #entries .entry .details {
+        color: #969696; }
+  #main #report-content {
+    height: calc(100vh - 250px) !important;
+    background-color: #fff;
+    box-shadow: 2px 0 5px 3px rgba(0, 0, 0, 0.2);
+    overflow-y: scroll;
+    position: relative; }
+    #main #report-content #navigator {
+      padding-top: 16px; }
+      #main #report-content #navigator a {
+        display: inline-block;
+        padding: 10px 24px; }
+    #main #report-content section {
+      padding: 24px; }
+    #main #report-content .event-timeline {
+      margin-bottom: 16px; }
+      #main #report-content .event-timeline .row:first-child {
+        margin-bottom: 16px; }
 
 /*# sourceMappingURL=report-weekly.css.map */

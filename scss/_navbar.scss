@@ -2,7 +2,7 @@ nav{
     background-color: $primary-color;
     height: 71px;
     box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
-    
+
     z-index: 100;
 
     .fa{
@@ -46,7 +46,10 @@ nav{
     .dropdown{
         ul{
             li{
+
                 a{
+                    padding-top: 8px;
+                    padding-bottom: 8px;
                     color: #414141;
                 }
             }

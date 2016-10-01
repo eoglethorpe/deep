@@ -7,8 +7,9 @@ body{
 }
 
 #main{
+    padding-top: 24px;
     header{
-        height: 20vh;
+        height: 140px;
         h2{
             margin-top: 0;
             margin-bottom: 32px;
@@ -16,14 +17,17 @@ body{
         }
         #filters{
             margin-bottom: 24px;
+
+            label{
+                margin-top: 8px;
+            }
         }
     }
 
-
     #entries{
+        height: calc(100vh - 250px)!important;
         background-color: #fff;
-        box-shadow: 2px 0 3px 0 rgba( 0, 0, 0, 0.3);
-        height: calc(80vh-100px);
+        box-shadow: 2px 0 5px 3px rgba( 0, 0, 0, 0.2);
         overflow-y: scroll;
 
         .entry{
@@ -34,5 +38,34 @@ body{
                 color: #969696;
             }
         }
+    }
+
+    #report-content{
+        height: calc(100vh - 250px)!important;
+        background-color: #fff;
+        box-shadow: 2px 0 5px 3px rgba( 0, 0, 0, 0.2);
+        overflow-y: scroll;
+        position: relative;
+
+        #navigator{
+            padding-top: 16px;
+            a{
+                display: inline-block;
+                padding: 10px 24px;
+            }
+        }
+
+        section{
+            padding: 24px;
+        }
+
+        .event-timeline{
+            margin-bottom: 16px;
+            
+            .row:first-child{
+                margin-bottom: 16px;
+            }
+        }
+
     }
 }

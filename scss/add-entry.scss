@@ -6,6 +6,7 @@ body{
     margin: 0;
     padding: 0;
 
+
     .split-pane{
         font-size: 12px;
         height: calc(100vh - 75px)!important;
@@ -16,6 +17,7 @@ body{
             width: 40em;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
             background-color: #fff;
+
 
             #lead-options-container{
                 padding: 8px;
@@ -34,7 +36,7 @@ body{
             }
 
             #lead-preview-container{
-                height: calc(100% - 85px);
+                height: calc(100% - 70px);
             }
 
             #lead-preview{
@@ -171,15 +173,15 @@ body{
             #save-btn{
                 width: 64px;
                 height: 64px;
-                right: 20px;
-                bottom: 24px;
+                right: 30px;
+                bottom: 36px;
                 font-size: 1.5em;
             }
             #save-add-btn{
                 width: 48px;
                 height: 48px;
-                right: 28px;
-                bottom: 120px;
+                right: 38px;
+                bottom: 128px;
 
                 #plus-icon{
                     font-size: 0.5em;
@@ -188,7 +190,7 @@ body{
             #cancel-btn{
                 width: 48px;
                 height: 48px;
-                right: 28px;
+                right: 38px;
                 bottom: 200px;
                 font-size: 1.2em;
             }
@@ -232,7 +234,5 @@ body{
         }
 
     }
-
-
 
 }
