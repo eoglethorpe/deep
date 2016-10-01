@@ -33,6 +33,13 @@ function pushIfNotExist(array, element) {
     }
 };
 
+// remove element from array
+Array.prototype.removeValue = function(value) {
+    var index = this.indexOf(value);
+    if (index > -1)
+        this.splice(index, 1);
+};
+
 
 function redirectPost(location, args, csrf_token)
 {

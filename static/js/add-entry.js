@@ -197,37 +197,132 @@ function initAttrInputs(){
     }
 }
 
-function selectAttr(id){
-    var result = $.grep(attr_inputs, function(e){ return e.id == id; });
-    if(result.length == 0){
-        // no result found (shouldn't happen)
-    } else if(result.length == 1){
+var selectedAttrs = [];
+var selectedTitles = [];
+
+function removeAttrs(attrs) {
+    for (var j=0; j<selectedAttrs.length; ++j) {
+        var result = $.grep(attr_inputs, function(e) {return e.id == selectedAttrs[j]; });
+        if (result.length != 1)
+            continue;
 
         attr_input = result[0];
-        var excerpts = $('#attr-inputs #contents');
-        var excerptTemplate = $('.template-attr-input');
         for(var i=0; i<attr_input['data'].length; i++){
-            var excerpt = excerptTemplate.clone();
-            excerpt.removeClass('template-attr-input');
-            excerpt.addClass('attr-input');
-            if(i < (attr_input['data'].length-1)){
-                var btn = excerpt.find('.btn-add');
-                btn.removeClass('btn-primary');
-                btn.removeClass('btn-add');
-                btn.addClass('btn-danger');
-                btn.addClass('btn-remove');
-                btn.text('-')
+            if (attrs.some(function(x) {
+                return x.data == attr_input['data'][i] &&
+                    x.number == attr_input['number'][i] &&
+                    x.reliability == attr_input['reliability'][i] &&
+                    x.severity == attr_input['severity'][i];
+            }))
+            {
+                attr_input['data'].splice(i, 1);
+                attr_input['number'].splice(i, 1);
+                attr_input['severity'].splice(i, 1);
+                attr_input['reliability'].splice(i, 1);
+                i--;
             }
-            excerpt.find('textarea').val(attr_input['data'][i]);
-            excerpt.find('input').val(attr_input['number'][i]);
-            excerpt.find('.reliability').val(attr_input['reliability'][i]);
-            excerpt.find('.severity').val(attr_input['severity'][i]);
-            excerpt.appendTo(excerpts);
-            excerpt.show();
+
         }
-    } else{
-        // multiple results found (shouldn't happen)
+    };
+}
+
+function refreshAttrs() {
+    if (selectedAttrs.length == 0) {
+        $('#selected-attr-title').text("");
+        return;
     }
+
+    var title = "";
+    for (var i=0; i<selectedTitles.length; ++i) {
+        if (i==0)
+            title = selectedTitles[i];
+        else
+            title += ", " + selectedTitles[i];
+    }
+    $('#selected-attr-title').text(title);
+
+    // first get common attributes
+    var common_attrs = [
+    ];
+
+    for (var j=0; j<selectedAttrs.length; ++j) {
+        var result = $.grep(attr_inputs, function(e) {return e.id == selectedAttrs[j]; });
+        if (result.length != 1)
+            continue;
+
+        attr_input = result[0];
+
+        attrs = [];
+        for(var i=0; i<attr_input['data'].length; i++){
+            attr = {
+                data: attr_input['data'][i],
+                number: attr_input['number'][i],
+                reliability: attr_input['reliability'][i],
+                severity: attr_input['severity'][i]
+            };
+            attrs.push(attr);
+        }
+
+        if (common_attrs.length == 0) {
+            common_attrs = attrs;
+        }
+        else {
+            common_attrs = common_attrs.filter(function(x) {
+                return attrs.some(function(y) {
+                    return y.data == x.data && y.number == x.number
+                        && y.reliability == x.reliability && y.severity == x.severity;
+                });
+            });
+        }
+    };
+
+    if (common_attrs.length == 0) {
+        common_attrs.push({
+            data: '',
+            number: '',
+            reliability: 'USU',
+            severity: 'NOA'
+        });
+    }
+
+    // remove the common attributes, since we will be re-adding them later
+    // at grabAttrInput()
+    removeAttrs(common_attrs);
+
+    // now show all common attributes
+    var excerpts = $('#attr-inputs #contents');
+    var excerptTemplate = $('.template-attr-input');
+
+    for (var j=0; j<common_attrs.length; ++j) {
+        var excerpt = excerptTemplate.clone();
+        excerpt.removeClass('template-attr-input');
+        excerpt.addClass('attr-input');
+        if(j < (common_attrs.length-1)){
+            var btn = excerpt.find('.btn-add');
+            btn.removeClass('btn-primary');
+            btn.removeClass('btn-add');
+            btn.addClass('btn-danger');
+            btn.addClass('btn-remove');
+            btn.text('-')
+        }
+        excerpt.find('textarea').val(common_attrs[j]['data']);
+        excerpt.find('input').val(common_attrs[j]['number']);
+        excerpt.find('.reliability').val(common_attrs[j]['reliability']);
+        excerpt.find('.severity').val(common_attrs[j]['severity']);
+        excerpt.appendTo(excerpts);
+        excerpt.show();
+    }
+}
+
+
+function selectAttr(id) {
+    selectedAttrs.push(id);
+    refreshAttrs();
+}
+
+function unselectAttr(id) {
+    selectedAttrs.removeValue(id);
+    refreshAttrs();
 }
 
 function grabAttrInput(id){
@@ -236,10 +331,10 @@ function grabAttrInput(id){
         // no result found (shouldn't happen)
     } else if(result.length == 1){
         attr_input = result[0];
-        attr_input['data'] = [];
-        attr_input['number'] = [];
-        attr_input['reliability'] = [];
-        attr_input['severity'] = [];
+        // attr_input['data'] = [];
+        // attr_input['number'] = [];
+        // attr_input['reliability'] = [];
+        // attr_input['severity'] = [];
         var excerpts = $('#attr-inputs #contents').find('.attr-input');
         for(var i=0; i<excerpts.length; i++){
             attr_input['data'].push((excerpts.eq(i)).find('textarea').val());
@@ -330,7 +425,9 @@ $(document).ready(function() {
             return;
         var current = $("#information-attributes .active");
         if(current != null) {
-            grabAttrInput(current.data('attr-pk'));
+            current.each(function() {
+                grabAttrInput($(this).data('attr-pk'));
+            });
         }
 
         var data = {};
@@ -399,18 +496,29 @@ $(document).on('click', '.btn-remove', function(e){
 });
 
 $(document).on('click', '#information-attributes .attr', function(e) {
+
     var current = $("#information-attributes .active");
     if(current != null){
-        grabAttrInput(current.data('attr-pk'));
-        current.removeClass('active');
+        current.each(function() {
+            grabAttrInput($(this).data('attr-pk'));
+        });
+        // current.removeClass('active');
         var excerpts = $('#attr-inputs #contents').find('.attr-input');
         if(excerpts){
             excerpts.remove();
         }
     }
-    $(this).addClass('active');
-    $('#selected-attr-title').text($(this).text());
-    selectAttr($(this).data('attr-pk'));
+
+    if ($(this).hasClass('active')) {
+        $(this).removeClass('active');
+        selectedTitles.removeValue($(this).text());
+        unselectAttr($(this).data('attr-pk'));
+    }
+    else {
+        $(this).addClass('active');
+        selectedTitles.push($(this).text());
+        selectAttr($(this).data('attr-pk'));
+    }
 });
 
 $(document).on('click', '.attr-title', function(){
