@@ -140,6 +140,8 @@ body{
                 .active{
                     background-color: $primary-color;
                     color: #fff;
+                    box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.5);
+                    transform: scaleY(1.1);
                 }
             }
 
