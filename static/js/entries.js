@@ -157,17 +157,17 @@ $(document).ready(function() {
 
 
             $('#vulnerable-groups-filter').on('change', function(){
-                entriesTable.column(3)
-                    .search( $(this).val() )
-                    .draw();
-            });
-            $('#specific-needs-groups-filter').on('change', function(){
                 entriesTable.column(4)
                     .search( $(this).val() )
                     .draw();
             });
+            $('#specific-needs-groups-filter').on('change', function(){
+                entriesTable.column(5)
+                    .search( $(this).val() )
+                    .draw();
+            });
             $('#affected-groups-filter').on('change', function(){
-                entriesTable.column(2)
+                entriesTable.column(3)
                     .search( $(this).val() )
                     .draw();
             });

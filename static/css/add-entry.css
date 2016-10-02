@@ -142,7 +142,9 @@ body {
         color: #008080; }
       body .split-pane #right-component #information-attributes .active {
         background-color: #008080;
-        color: #fff; }
+        color: #fff;
+        box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.5);
+        transform: scaleY(1.1); }
       body .split-pane #right-component table {
         border-collapse: separate !important; }
       body .split-pane #right-component .attr-input {

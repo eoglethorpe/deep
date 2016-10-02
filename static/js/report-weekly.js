@@ -28,4 +28,6 @@ $(document).ready(function(){
     }
 
     addEventTimeline();
+
+    $('#navigator').width($('#report-content').innerWidth())
 });
