@@ -3,7 +3,10 @@
 
 {% block head %}
 <link href="{% static 'css/report-dash.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/selectize.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
 <script src="{% static 'js/report-dash.js' %}"></script>
+<script src="{% static 'js/selectize.js' %}"></script>
 
 <script>
     var selection_pk = "{{selection.pk}}";
@@ -21,6 +24,8 @@
         <div class="row">
             <div class="col-md-4">
                 <div id="country-list">
+                    <h3>Country List</h3>
+                    <hr>
                     {% for country in countries %}
                     <a href="{% url 'report:dashboard' %}?country={{country.pk}}">
                         <div class="country {% if selection and selection == country %}active{% endif %}">
@@ -40,17 +45,22 @@
                 {% if selection %}
                 <div id="report-list">
                     <header>
-                        <h3>{{selection.name}}</h3>
-                        <select id="event-select">
-                            {% for event in selection.event_set.all %}
-                            <option value="{{event.pk}}">{{event}}</option>
-                            {% endfor %}
-                        </select>
+                        <div class="col-md-9">
+                            <h3>{{selection.name}}</h3>
+                        </div>
+                        <div class="col-md-3">
+                            <select id="select-event">
+                                {% for event in selection.event_set.all %}
+                                <option value="{{event.pk}}">{{event}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                         <div>
                             <button class="btn btn-default" onclick="addWeeklyReport()">Add weekly report</button>
                             <button class="btn btn-default">Add monthly report</button>
                         </div>
                     </header>
+                    <hr>
                     <div class="reports">
                         <div class="row">
                             <div class="col-md-6">
