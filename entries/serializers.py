@@ -11,6 +11,7 @@ class EntrySerializer(serializers.ModelSerializer):
     created_by_name = serializers.SerializerMethodField()
     information_attributes = serializers.SerializerMethodField()
     countries = serializers.SerializerMethodField()
+    areas = serializers.SerializerMethodField()
     vulnerable_groups = serializers.SerializerMethodField()
     specific_needs_groups = serializers.SerializerMethodField()
 
@@ -19,7 +20,7 @@ class EntrySerializer(serializers.ModelSerializer):
         fields = ('id', 'lead', 'lead_name', 'lead_type',
                   'affected_groups', 'information_attributes',
                   'vulnerable_groups', 'specific_needs_groups',
-                  'countries',
+                  'countries', 'areas',
                   'created_at', 'created_by', 'created_by_name')
 
         # TODO: Automatically set created_by.
@@ -58,6 +59,9 @@ class EntrySerializer(serializers.ModelSerializer):
 
     def get_specific_needs_groups(self, entry):
         return [str(s) for s in entry.specific_needs_groups.all()]
+
+    def get_areas(self, entry):
+        return [s.name for s in entry.map_selections.all()]
 
 
 class CountrySerializer(serializers.ModelSerializer):

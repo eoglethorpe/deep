@@ -1,4 +1,25 @@
-// @TODO: add all sectors and probably move to add-sos.html for previous data
+function styleText(text) {
+    return "<div>" + text + "</div>";
+}
+
+function changeLeadPreview(simplified) {
+    isSimplified = simplified;
+    var frame = $("#lead-preview");
+    var simplifiedFrame = $("#lead-simplified-preview");
+
+    if (simplified) {
+        simplifiedFrame.html(styleText(leadSimplified));
+
+        simplifiedFrame.css("display", "inherit");
+        frame.css("display", "none");
+    }
+    else {
+        simplifiedFrame.css("display", "none");
+        frame.css("display", "inherit");
+        selectedTags = {};
+    }
+}
+
 
 var sectorData = [
     { id: 'food', title: 'Food', quantification: '', analytical_value: ''},
@@ -20,6 +41,12 @@ var sectorData = [
 
 
 $(document).ready(function(){
+    $('div.split-pane').splitPane();
+    $('input[type=radio][name=lead-view-option]').change(function() {
+        changeLeadPreview(this.value=='simplified');
+    });
+    changeLeadPreview(leadSimplified!="");
+
     function createSectors(){
         var sectorContainer = $('#sectors');
         var sectorTemplate = $('<a class="sector"></a>');

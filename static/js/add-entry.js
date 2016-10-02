@@ -397,10 +397,10 @@ $(document).ready(function() {
         e.originalEvent.preventDefault();
         var excerpt = e.originalEvent.dataTransfer.getData('Text');
         var pk = $(this).data("attr-pk");
-        $(this).click();
 
         var result = $.grep(attr_inputs, function(e){ return e.id == pk; });
         var attr = result[0]['data'];
+
         if (attr[attr.length-1].trim().length > 0) {
             console.log("pushing");
             attr.push(excerpt);
@@ -412,11 +412,19 @@ $(document).ready(function() {
             attr[attr.length-1] = excerpt;
         }
 
-        var excerpts = $('#attr-inputs #contents').find('.attr-input');
-        if(excerpts){
-            excerpts.remove();
+        // unselect all others
+        while(selectedAttrs.length > 0) {
+            var other = $("#information-attributes .attr")
+                .filter(function() {
+                    return $(this).data("attr-pk") ==  selectedAttrs[0];
+                });
+            console.log(other);
+            other.click();
         }
-        selectAttr(pk);
+
+        // select this
+        $(this).click();
+
         return false;
     });
 

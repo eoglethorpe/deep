@@ -260,6 +260,7 @@ $(document).ready(function() {
                     '<div class="col-md-6">' +
                         '<div class="actions">' +
                             '<button class="btn btn-default btn-add-entry" onclick="window.location.href=\'/' + currentEvent + '/entries/add/' + data.id + '/\'"><i class="fa fa-share"></i>Add Entry</button>' +
+                            '<button class="btn btn-default btn-add-entry" onclick="window.location.href=\'/' + currentEvent + '/leads/add-sos/' + data.id + '/\'"><i class="fa fa-share"></i>Add Survey of Survey</button>' +
                             '<button class="btn btn-default btn-edit" onclick="window.location.href=\'/' + currentEvent + '/leads/edit/' + data.id + '/\'"><i class="fa fa-edit"></i>Edit</button>' +
                             (
                                 (data.status == "PEN") ?

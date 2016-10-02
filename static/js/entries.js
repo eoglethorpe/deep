@@ -91,31 +91,38 @@ $(document).ready(function() {
             },
             {
                 data: null,
+                render: function(data, type, row) {
+                    return data.areas.join(", ");
+                },
+                width: "16%"
+            },
+            {
+                data: null,
                 render: function(data, type, row){
                     return data.affected_groups.join(", ");
                 },
-                width: "15%"
+                width: "12%"
             },
             {
                 data: null,
                 render: function(data, type, row){
                     return data.vulnerable_groups.join(", ");
                 },
-                width: "15%"
+                width: "12%"
             },
             {
                 data: null,
                 render: function(data, type, row){
                     return data.specific_needs_groups.join(", ");
                 },
-                width: "15%"
+                width: "12%"
             },
-            {data: "lead_name", width: "20%"},
+            {data: "lead_name", width: "12%"},
             {
                 data: null,
                 render: function(data, type, row){
                     return '<button class="btn btn-default btn-edit" onclick="window.location.href=\'/' + currentEvent + '/entries/edit/' + data.id + '/\'"><i class="fa fa-edit"></i></button><button class="btn btn-default btn-delete" onclick="deleteEntry('+data.id+')";><i class="fa fa-trash"></i></button>';
-                }
+                },
             },
         ],
         initComplete: function(){
@@ -150,17 +157,17 @@ $(document).ready(function() {
 
 
             $('#vulnerable-groups-filter').on('change', function(){
-                entriesTable.column(2)
-                    .search( $(this).val() )
-                    .draw();
-            });
-            $('#specific-needs-groups-filter').on('change', function(){
                 entriesTable.column(3)
                     .search( $(this).val() )
                     .draw();
             });
-            $('#affected-groups-filter').on('change', function(){
+            $('#specific-needs-groups-filter').on('change', function(){
                 entriesTable.column(4)
+                    .search( $(this).val() )
+                    .draw();
+            });
+            $('#affected-groups-filter').on('change', function(){
+                entriesTable.column(2)
                     .search( $(this).val() )
                     .draw();
             });

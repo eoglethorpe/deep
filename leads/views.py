@@ -10,6 +10,7 @@ from datetime import datetime
 
 from users.models import *
 from leads.models import *
+from entries.strippers import *
 
 
 def get_lead_form_data():
@@ -45,12 +46,42 @@ class LeadsView(View):
 
 class AddSoS(View):
     @method_decorator(login_required)
-    def get(self, request, event, id=None):
+    def get(self, request, event, lead_id):
         context = {}
         context["current_page"] = "leads"
         context["event"] = Event.objects.get(pk=event)
-        if id:
-            context["lead"] = Lead.objects.get(pk=id)
+        context["lead"] = Lead.objects.get(pk=lead_id)
+        lead = context["lead"]
+
+        # Find simplified version of the lead content.
+        # Make sure to catch any exception.
+
+        try:
+            if lead.lead_type == "URL":
+                doc = WebDocument(lead.url)
+
+                if doc.html:
+                    context["lead_simplified"] = \
+                        HtmlStripper(doc.html).simplify()
+                elif doc.pdf:
+                    context["lead_simplified"] = \
+                        PdfStripper(doc.pdf).simplify()
+
+            elif lead.lead_type == "MAN":
+                context["lead_simplified"] = lead.description
+
+            elif lead.lead_type == "ATT":
+                attachment = lead.attachment
+                name, extension = os.path.splitext(attachment.upload.name)
+                if extension == ".pdf":
+                    context["lead_simplified"] = \
+                        PdfStripper(attachment.upload).simplify()
+                elif extension in [".html", ".htm"]:
+                    context["lead_simplified"] = \
+                        HtmlStripper(attachment.upload.read()).simplify()
+        except:
+            print("Error while simplifying")
+
         return render(request, "leads/add-sos.html", context)
 
 
@@ -65,7 +96,7 @@ class AddLead(View):
             context["lead"] = Lead.objects.get(pk=id)
         context.update(get_lead_form_data())
 
-        context["cancel_url"] = reverse("leads:leads", args=[event])
+        # context["cancel_url"] = reverse("leads:leads", args=[event])
         return render(request, "leads/add-lead.html", context)
 
     @method_decorator(login_required)
