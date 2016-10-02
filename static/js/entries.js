@@ -55,9 +55,11 @@ $.fn.dataTable.ext.search.push(
 
 $(document).ready(function() {
     $("#date-created-filter").selectize();
+    $("#areas-filter").selectize();
+    $("#sectors-filter").selectize();
+    $("#affected-groups-filter").selectize();
     $("#vulnerable-groups-filter").selectize();
     $("#specific-needs-groups-filter").selectize();
-    $("#affected-groups-filter").selectize();
 
     var entriesTable = $('#entries-table').DataTable({
         "order": [[ 0, "desc" ]],
@@ -87,7 +89,7 @@ $(document).ready(function() {
                     }
                     return information_attributes;
                 },
-                width: "20%"
+                width: "16%"
             },
             {
                 data: null,
@@ -98,26 +100,33 @@ $(document).ready(function() {
             },
             {
                 data: null,
+                render: function(data, type, row) {
+                    return data.sectors.join(", ");
+                },
+                width: "10%"
+            },
+            {
+                data: null,
                 render: function(data, type, row){
                     return data.affected_groups.join(", ");
                 },
-                width: "12%"
+                width: "10%"
             },
             {
                 data: null,
                 render: function(data, type, row){
                     return data.vulnerable_groups.join(", ");
                 },
-                width: "12%"
+                width: "10%"
             },
             {
                 data: null,
                 render: function(data, type, row){
                     return data.specific_needs_groups.join(", ");
                 },
-                width: "12%"
+                width: "10%"
             },
-            {data: "lead_name", width: "12%"},
+            {data: "lead_name", width: "10%"},
             {
                 data: null,
                 render: function(data, type, row){
@@ -155,19 +164,28 @@ $(document).ready(function() {
                 }
             });
 
-
-            $('#vulnerable-groups-filter').on('change', function(){
-                entriesTable.column(4)
+            $('#areas-filter').on('change', function(){
+                entriesTable.column(2)
                     .search( $(this).val() )
                     .draw();
             });
-            $('#specific-needs-groups-filter').on('change', function(){
-                entriesTable.column(5)
+            $('#sectors-filter').on('change', function(){
+                entriesTable.column(3)
                     .search( $(this).val() )
                     .draw();
             });
             $('#affected-groups-filter').on('change', function(){
-                entriesTable.column(3)
+                entriesTable.column(4)
+                    .search( $(this).val() )
+                    .draw();
+            });
+            $('#vulnerable-groups-filter').on('change', function(){
+                entriesTable.column(5)
+                    .search( $(this).val() )
+                    .draw();
+            });
+            $('#specific-needs-groups-filter').on('change', function(){
+                entriesTable.column(6)
                     .search( $(this).val() )
                     .draw();
             });

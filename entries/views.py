@@ -22,7 +22,10 @@ def get_entry_form_data(event):
     # Countries.
     data["countries"] = event.countries.all()
     # Sectors.
-    data["sectors"] = Sector.objects.all()
+    data["sectors"] = {}
+    sectors = Sector.objects.filter(parent__isnull=True)
+    for sector in sectors:
+        data["sectors"][sector] = Sector.objects.filter(parent=sector)
 
     # Vulnerable groups.
     data["vulnerable_groups"] = VulnerableGroup.objects.all()
@@ -92,6 +95,12 @@ class EntriesView(View):
         context["current_page"] = "entries"
         context["event"] = Event.objects.get(pk=event)
         context["all_events"] = Event.objects.all()
+
+        context["areas"] = list(context["event"].countries.all())
+        for entry in Entry.objects.filter(lead__event__pk=event):
+            areas = [s.name for s in entry.map_selections.all()]
+            context["areas"] =  list(set(context["areas"] + areas))
+
         context.update(get_entry_form_data(context["event"]))
         UserProfile.set_last_event(request, context["event"])
         return render(request, "entries/entries.html", context)
@@ -143,6 +152,8 @@ class AddEntry(View):
                 elif extension in [".html", ".htm"]:
                     context["lead_simplified"] = \
                         HtmlStripper(attachment.upload.read()).simplify()
+                else:
+                    context["lead_simplified"] = attachment.upload.read()
         except:
             print("Error while simplifying")
 
@@ -185,6 +196,7 @@ class AddEntry(View):
         else:
             entry = Entry()
 
+        sectors = json.loads(request.POST["sectors"])
         affected_groups = json.loads(request.POST["affected_groups"])
         map_data = json.loads(request.POST["map_data"])
         information_attributes = json.loads(
@@ -198,6 +210,11 @@ class AddEntry(View):
             entry.lead = Lead.objects.get(pk=lead_id)
         entry.created_by = request.user
         entry.save()
+
+        # Save the sectors
+        entry.sectors.clear()
+        for sector in sectors:
+            entry.sectors.add(Sector.objects.get(name=sector))
 
         # Save the affected groups.
         # ['All Population', 'Affected', 'Non Displaced', 'Refugees']

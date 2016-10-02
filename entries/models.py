@@ -52,10 +52,12 @@ class AdminLevelSelection(models.Model):
 
 class Sector(models.Model):
     name = models.CharField(max_length=70, primary_key=True)
+    title = models.CharField(max_length=200)
     tags_json = models.TextField(blank=True, default="[]")
+    parent = models.ForeignKey('Sector', null=True, default=None, blank=True)
 
     def __str__(self):
-        return self.name
+        return self.title
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -120,6 +122,7 @@ class Entry(models.Model):
     map_selections = models.ManyToManyField(AdminLevelSelection, blank=True)
     vulnerable_groups = models.ManyToManyField(VulnerableGroup, blank=True)
     specific_needs_groups = models.ManyToManyField(SpecificNeedsGroup, blank=True)
+    sectors = models.ManyToManyField(Sector, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, null=True)  # Remove null=True.

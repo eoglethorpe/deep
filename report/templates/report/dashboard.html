@@ -4,6 +4,13 @@
 {% block head %}
 <link href="{% static 'css/report-dash.css' %}" type="text/css" rel="stylesheet">
 <script src="{% static 'js/report-dash.js' %}"></script>
+
+<script>
+    var selection_pk = "{{selection.pk}}";
+
+    var weekly_report_url = "{% url 'report:weekly' 'XX' 99 %}";
+    var monthly_report_url = "{% url 'report:monthly' %}";
+</script>
 {% endblock %}
 
 {% block body %}
@@ -15,30 +22,34 @@
             <div class="col-md-4">
                 <div id="country-list">
                     {% for country in countries %}
-                    <div class="country">
-                        {{country.name}}
-                        <br>
-                        <span class="event">
-                            {% for event in country.event_set.all %}
-                            {{event}}
-                            {% if not forloop.last %}
-                            ,
-                            {% endif %}
-                            {% endfor %}
-                        </span>
-                    </div>
+                    <a href="{% url 'report:dashboard' %}?country={{country.pk}}">
+                        <div class="country {% if selection and selection == country %}active{% endif %}">
+                            {{country.name}}
+                            <br>
+                            <span class="event">
+                                {% for event in country.event_set.all %}
+                                {{event}}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </span>
+                        </div>
+                    </a>
                     {% endfor %}
                 </div>
             </div>
             <div class="col-md-8">
+                {% if selection %}
                 <div id="report-list">
                     <header>
-                        <h3>Nepal</h3>
-                        <select>
-                            <option>Event #1</option>
-                            <option>Event #2</option>
-                            <option>Event #3</option>
+                        <h3>{{selection.name}}</h3>
+                        <select id="event-select">
+                            {% for event in selection.event_set.all %}
+                            <option value="{{event.pk}}">{{event}}</option>
+                            {% endfor %}
                         </select>
+                        <div>
+                            <button class="btn btn-default" onclick="addWeeklyReport()">Add weekly report</button>
+                            <button class="btn btn-default">Add monthly report</button>
+                        </div>
                     </header>
                     <div class="reports">
                         <div class="row">
@@ -80,6 +91,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>

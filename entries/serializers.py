@@ -14,13 +14,14 @@ class EntrySerializer(serializers.ModelSerializer):
     areas = serializers.SerializerMethodField()
     vulnerable_groups = serializers.SerializerMethodField()
     specific_needs_groups = serializers.SerializerMethodField()
+    sectors = serializers.SerializerMethodField()
 
     class Meta:
         model = Entry
         fields = ('id', 'lead', 'lead_name', 'lead_type',
                   'affected_groups', 'information_attributes',
                   'vulnerable_groups', 'specific_needs_groups',
-                  'countries', 'areas',
+                  'countries', 'areas', 'sectors',
                   'created_at', 'created_by', 'created_by_name')
 
         # TODO: Automatically set created_by.
@@ -61,7 +62,10 @@ class EntrySerializer(serializers.ModelSerializer):
         return [str(s) for s in entry.specific_needs_groups.all()]
 
     def get_areas(self, entry):
-        return [s.name for s in entry.map_selections.all()]
+        return [s.name for s in entry.map_selections.all()] + self.get_countries(entry)
+
+    def get_sectors(self, entry):
+        return [s.title for s in entry.sectors.all()]
 
 
 class CountrySerializer(serializers.ModelSerializer):

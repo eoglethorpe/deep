@@ -34,11 +34,27 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     leadSimplified = leadSimplified.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
     // Sectors and tags.
+    var sectors = {
+        {% for sector, ss in sectors.items %} "{{sector.name}}": {title: "{{sector.title}}", subsectors: { {% for s in ss %}"{{s.name}}":"{{s.title}}",{% endfor %} }}, {% endfor %}
+    };
     var tags = {
-        {% for sector in sectors %} "{{sector.name}}": {{sector.tags_json|safe}}, {% endfor %}
+        {% for sector, ss in sectors.items %}
+            "{{sector.name}}": {{sector.tags_json|safe}},
+            {% for subsector in ss %} "{{subsector.name}}": {{subsector.tags_json|safe}}, {% endfor %}
+        {% endfor %}
     };
     // Currently selected tags and their colors.
-    var selectedTags = {};
+    var selectedTags = {
+        {% if prev_entry %}
+        {% for sector in prev_entry.sectors.all %}
+        "{{ sector.name }}" : getColor(),
+        {% endfor %}
+        {% elif entry %}
+        {% for sector in entry.sectors.all %}
+        "{{ sector.name }}" : getColor(),
+        {% endfor %}
+        {% endif %}
+    };
 
     // Current map selections.
     var mapSelections = [
@@ -130,7 +146,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 <label class="btn btn-default radio-inline active"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
                 <label class="btn btn-default radio-inline"><input type="radio" name="lead-view-option" value="original">Original</label>
             </div>
-            <div id="tag-buttons"></div>
+            <div id="tag-buttons" style="max-height:200px; overflow:auto;"></div>
         </div>
         {% endif %}
 

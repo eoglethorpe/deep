@@ -92,6 +92,34 @@ DEEP | Entries
                     <option value="range">Range</option>
                 </select>
             </div>
+
+            <div class="col-sm-3 col-md-2 col-xs-6">
+                <select id="areas-filter" placeholder="Areas">
+                    <option value="">Areas</option>
+                    {% for area in areas %}
+                    <option value="{{area}}">{{area}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-3 col-md-2 col-xs-6">
+                <select id="sectors-filter" placeholder="Sectors">
+                    <option value="">Sectors</option>
+                    {% for sector, ss in sectors.items %}
+                    <option value="{{sector.name}}">{{sector.title}}</option>
+                    {% for subsector in ss %}
+                    <option value="{{subsector.name}}">{{subsector.title}}</option>
+                    {% endfor %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-3 col-md-2 col-xs-6">
+                <select id="affected-groups-filter" placeholder="Affected Groups">
+                    <option value="">Affected Groups</option>
+                    {% for group in affected_groups %}
+                    <option value="{{group}}">{{group}}</option>
+                    {% endfor %}
+                </select>
+            </div>
             <div class="col-sm-3 col-md-2 col-xs-6">
                 <select id="vulnerable-groups-filter" placeholder="Vulnerable groups">
                     <option value="">Vulnerable groups</option>
@@ -108,24 +136,15 @@ DEEP | Entries
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-sm-3 col-md-2 col-xs-6">
-                <select id="affected-groups-filter" placeholder="Affected Groups">
-                    <option value="">Affected Groups</option>
-                    {% for group in affected_groups %}
-                    <option value="{{group}}">{{group}}</option>
-                    {% endfor %}
-                </select>
-            </div>
         </div>
         <br>
         <table id="entries-table" class="table table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                <!--Created / Sector / Affected group / Vulnerable group / Groups with Specific needs / Excerpt-->
-
                     <th>Created</th>
                     <th>Information Attributes</th>
                     <th>Geographical Areas</th>
+                    <th>Sectors</th>
                     <th>Affected Groups</th>
                     <th>Vulnerable Groups</th>
                     <th>Groups with Specific Needs</th>

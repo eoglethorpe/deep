@@ -95,25 +95,45 @@ function styleText(text) {
 }
 
 
-function fillTagButtons() {
-    for (var tag in tags) {
-        var btn = $("<button class='btn btn-default'>"+tag+"</button>");
-        $("#tag-buttons").append(btn);
+function fillTagButtons(tag, title) {
+    var btn = $("<button class='btn btn-default'>"+title+"</button>");
+    $("#tag-buttons").append(btn);
 
-        btn.on('click', function(btn, tag) { return function() {
-            if (!btn.hasClass("btn-tag-select")) {
-                btn.addClass("btn-tag-select");
-                selectedTags[tag] = getColor();
-                btn.css("background-color", selectedTags[tag]);
-            }
-            else {
-                btn.removeClass("btn-tag-select");
-                delete selectedTags[tag];
-                btn.css("background-color", "");
-            }
+    if (tag in selectedTags) {
+        btn.addClass("btn-tag-select");
+        btn.css("background-color", selectedTags[tag]);
+    }
 
-            $("#lead-simplified-preview").html(styleText(leadSimplified));
-        }}(btn, tag));
+    btn.on('click', function(btn, tag) { return function() {
+        if (!btn.hasClass("btn-tag-select")) {
+            btn.addClass("btn-tag-select");
+            selectedTags[tag] = getColor();
+            btn.css("background-color", selectedTags[tag]);
+        }
+        else {
+            btn.removeClass("btn-tag-select");
+            delete selectedTags[tag];
+            btn.css("background-color", "");
+        }
+
+        $("#lead-simplified-preview").html(styleText(leadSimplified));
+    }}(btn, tag));
+}
+
+function refreshSectors() {
+    var length = Object.keys(sectors).length;
+    var i = 0;
+    for (var sector in sectors) {
+        fillTagButtons(sector, sectors[sector].title);
+
+        $("#tag-buttons").append("<br>");
+
+        var subsectors = sectors[sector].subsectors;
+        for (var subsector in subsectors)
+            fillTagButtons(subsector, subsectors[subsector]);
+
+        if (++i < length)
+            $("#tag-buttons").append("<hr style='margin:0px;padding:5px;'>");
     }
 }
 
@@ -127,15 +147,13 @@ function changeLeadPreview(simplified) {
 
         simplifiedFrame.css("display", "inherit");
         frame.css("display", "none");
-
-        fillTagButtons();
+        refreshSectors();
     }
     else {
         simplifiedFrame.css("display", "none");
         frame.css("display", "inherit");
 
         $("#tag-buttons").empty();
-        selectedTags = {};
     }
 }
 
@@ -441,6 +459,7 @@ $(document).ready(function() {
         var data = {};
 
         var affecteds = [];
+        if (selected_groups.length > 0)
         for (var s in selected_groups) {
             affecteds.push(affected_groups[selected_groups[s].row][0]);
         }
@@ -462,6 +481,8 @@ $(document).ready(function() {
         data["specific_needs_groups"] = JSON.stringify(spgroups);
 
         data["add_another"] = addAnother?"1":"0";
+
+        data["sectors"] = JSON.stringify(Object.keys(selectedTags));
 
         redirectPost(window.location.pathname, data, csrf_token);
     };
