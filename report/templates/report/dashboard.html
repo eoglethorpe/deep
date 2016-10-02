@@ -3,7 +3,10 @@
 
 {% block head %}
 <link href="{% static 'css/report-dash.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/selectize.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
 <script src="{% static 'js/report-dash.js' %}"></script>
+<script src="{% static 'js/selectize.js' %}"></script>
 {% endblock %}
 
 {% block body %}
@@ -14,6 +17,8 @@
         <div class="row">
             <div class="col-md-4">
                 <div id="country-list">
+                    <h3>Country List</h3>
+                    <hr>
                     {% for country in countries %}
                     <div class="country">
                         {{country.name}}
@@ -33,13 +38,18 @@
             <div class="col-md-8">
                 <div id="report-list">
                     <header>
-                        <h3>Nepal</h3>
-                        <select>
-                            <option>Event #1</option>
-                            <option>Event #2</option>
-                            <option>Event #3</option>
-                        </select>
+                        <div class="col-md-9">
+                            <h3>Nepal</h3>
+                        </div>
+                        <div class="col-md-3">
+                            <select id="select-event">
+                                <option value="one">Event #1</option>
+                                <option>Event #2</option>
+                                <option>Event #3</option>
+                            </select>
+                        </div>
                     </header>
+                    <hr>
                     <div class="reports">
                         <div class="row">
                             <div class="col-md-6">

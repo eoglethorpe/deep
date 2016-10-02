@@ -7,12 +7,17 @@ body{
 
 #main{
     h2{
-        margin-top: 0;
+        margin-top: 24px;
         margin-bottom: 32px;
     }
     #country-list{
         background-color: #fff;
-        box-shadow: 5px 0 9px -5px rgba(0,0,0,0.4);
+        box-shadow: 2px 0 5px 3px rgba( 0, 0, 0, 0.2);
+
+        h3{
+            padding: 32px;
+            padding-bottom: 0;
+        }
 
         .country{
             padding: 16px 32px;
@@ -29,19 +34,18 @@ body{
         }
     }
     #report-list{
-        background-color: #f5f5f5;
+        background-color: #fff;
+        box-shadow: 2px 0 5px 3px rgba(0, 0, 0, 0.2);
 
         header{
             padding: 32px;
-            background-color: #fafafa;
-            box-shadow: 0 5px 9px -5px rgba(0,0,0,0.2);
+            background-color: #fff;
+            color: #008080;
 
             h3{
                 margin-top: 0;
+                padding-bottom: 0;
                 display: inline-block;
-            }
-            select{
-                float: right;
             }
         }
         .reports{
