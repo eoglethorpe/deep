@@ -7,16 +7,26 @@ body{
 
 #main{
     h2{
-        margin-top: 24px;
         margin-bottom: 32px;
+        margin-top: 32px;
+        text-transform: uppercase;
     }
     #country-list{
         background-color: #fff;
-        box-shadow: 2px 0 5px 3px rgba( 0, 0, 0, 0.2);
+        box-shadow: 2px 0 5px 3px rgba(0, 0, 0, 0.2);
 
         h3{
-            padding: 32px;
-            padding-bottom: 0;
+            margin-top: 0;
+            margin-bottom: 0;
+            padding: 24px;
+        }
+        h4{
+            text-transform: uppercase;
+            padding-top: 24px;
+            padding-left: 24px;
+        }
+        hr{
+            margin: 0;
         }
 
         .country{
@@ -31,14 +41,21 @@ body{
             .event{
                     color: #717171;
             }
+
+        }
+        .active{
+            border-right: 3px solid $primary-color;
+
+            background-color: #f0f0f0;
         }
     }
+
     #report-list{
         background-color: #fff;
         box-shadow: 2px 0 5px 3px rgba(0, 0, 0, 0.2);
 
         header{
-            padding: 32px;
+            padding: 24px;
             background-color: #fff;
             color: #008080;
 
@@ -69,7 +86,6 @@ body{
                     }
                 }
             }
-
         }
     }
 }

@@ -48,14 +48,22 @@ body {
   background-color: #f0f0f0; }
 
 #main h2 {
-  margin-top: 24px;
-  margin-bottom: 32px; }
+  margin-bottom: 32px;
+  margin-top: 32px;
+  text-transform: uppercase; }
 #main #country-list {
   background-color: #fff;
   box-shadow: 2px 0 5px 3px rgba(0, 0, 0, 0.2); }
   #main #country-list h3 {
-    padding: 32px;
-    padding-bottom: 0; }
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 24px; }
+  #main #country-list h4 {
+    text-transform: uppercase;
+    padding-top: 24px;
+    padding-left: 24px; }
+  #main #country-list hr {
+    margin: 0; }
   #main #country-list .country {
     padding: 16px 32px;
     cursor: pointer; }
@@ -65,11 +73,14 @@ body {
     background-color: rgba(0, 0, 0, 0.1); }
     #main #country-list .country:hover .event {
       color: #717171; }
+  #main #country-list .active {
+    border-right: 3px solid #008080;
+    background-color: #f0f0f0; }
 #main #report-list {
   background-color: #fff;
   box-shadow: 2px 0 5px 3px rgba(0, 0, 0, 0.2); }
   #main #report-list header {
-    padding: 32px;
+    padding: 24px;
     background-color: #fff;
     color: #008080; }
     #main #report-list header h3 {
