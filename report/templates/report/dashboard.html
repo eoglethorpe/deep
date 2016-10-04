@@ -7,13 +7,6 @@
 <link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
 <script src="{% static 'js/report-dash.js' %}"></script>
 <script src="{% static 'js/selectize.js' %}"></script>
-
-<script>
-    var selection_pk = "{{selection.pk}}";
-
-    var weekly_report_url = "{% url 'report:weekly' 'XX' 99 %}";
-    var monthly_report_url = "{% url 'report:monthly' %}";
-</script>
 {% endblock %}
 
 {% block body %}
@@ -26,14 +19,14 @@
                 <div id="country-list">
                     <h3>Country List</h3>
                     <hr>
-                    {% for country in countries %}
+                    {% for c in countries %}
                     <a href="{% url 'report:dashboard' %}?country={{country.pk}}">
-                        <div class="country {% if selection and selection == country %}active{% endif %}">
-                            {{country.name}}
+                        <div class="country {% if country and country == c%}active{% endif %}">
+                            {{c.name}}
                             <br>
                             <span class="event">
-                                {% for event in country.event_set.all %}
-                                {{event}}{% if not forloop.last %}, {% endif %}
+                                {% for e in c.event_set.all %}
+                                {{e}}{% if not forloop.last %}, {% endif %}
                                 {% endfor %}
                             </span>
                         </div>
@@ -42,22 +35,18 @@
                 </div>
             </div>
             <div class="col-md-8">
-                {% if selection %}
+                {% if country %}
                 <div id="report-list">
                     <header>
                         <div class="col-md-9">
-                            <h3>{{selection.name}}</h3>
+                            <h3>{{country.name}}</h3>
                         </div>
                         <div class="col-md-3">
                             <select id="select-event">
-                                {% for event in selection.event_set.all %}
-                                <option value="{{event.pk}}">{{event}}</option>
+                                {% for e in country.event_set.all %}
+                                <option value="{{e.pk}}">{{e}}</option>
                                 {% endfor %}
                             </select>
-                        </div>
-                        <div>
-                            <button class="btn btn-default" onclick="addWeeklyReport()">Add weekly report</button>
-                            <button class="btn btn-default">Add monthly report</button>
                         </div>
                     </header>
                     <hr>
@@ -65,26 +54,23 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div id="weekly-report-list">
+
                                     <div class="weekly-report">
-                                        <button><i class="fa fa-edit"></i></button>
-                                        <h5>Week #16</h5>
-                                        <p>Partially Completed</p>
+                                        <button class="btn btn-default" onclick="location.href='{% url 'report:weekly' country.pk event.pk %}?start_date={{new_week_date|date:"d-M-Y"}}';"><i class="fa fa-edit"></i></button>
+                                        <h5>Week #{{weekly_report_count|add:1}}</h5>
+                                        <p>Status</p>
+                                        <p>{{new_week_date|date:"d M Y"}}</p>
                                     </div>
+
+                                    {% for report in weekly_reports %}
+                                    <hr>
                                     <div class="weekly-report">
-                                        <button><i class="fa fa-edit"></i></button>
-                                        <h5>Week #16</h5>
-                                        <p>Partially Completed</p>
+                                        <button class="btn btn-default" onclick="location.href='{% url 'report:weekly' country.pk event.pk report.pk %}';"><i class="fa fa-edit"></i></button>
+                                        <h5>Week #{{forloop.revcounter}}</h5>
+                                        <p>Status</p>
+                                        <p>{{report.start_date|date:"d M Y"}}</p>
                                     </div>
-                                    <div class="weekly-report">
-                                        <button><i class="fa fa-edit"></i></button>
-                                        <h5>Week #16</h5>
-                                        <p>Partially Completed</p>
-                                    </div>
-                                    <div class="weekly-report">
-                                        <button><i class="fa fa-edit"></i></button>
-                                        <h5>Week #16</h5>
-                                        <p>Partially Completed</p>
-                                    </div>
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="col-md-6">

@@ -30,4 +30,31 @@ $(document).ready(function(){
     addEventTimeline();
 
     $('#navigator').width($('#report-content').innerWidth())
+
+    setInputData();
 });
+
+function setInputData() {
+    // Humanitarian profile data
+    for (var pk in data["human"]["number"])
+        $(".human-number[data-human-pk='" + pk + "']").val(data["human"]["number"][pk]);
+    for (var pk in data["human"]["source"])
+        $(".human-source[data-human-pk='" + pk + "']").val(data["human"]["source"][pk]);
+    for (var pk in data["human"]["comment"])
+        $(".human-comment[data-human-pk='" + pk + "']").val(data["human"]["comment"][pk]);
+}
+
+function getInputData() {
+
+    // Humanitarian profile data
+    $(".human-number").each(function() {
+        data["human"]["number"][$(this).data("human-pk")] = $(this).val();
+    });
+    $(".human-source").each(function() {
+        data["human"]["source"][$(this).data("human-pk")] = $(this).val();
+    });
+    $(".human-comment").each(function() {
+        data["human"]["comment"][$(this).data("human-pk")] = $(this).val();
+    });
+
+}
