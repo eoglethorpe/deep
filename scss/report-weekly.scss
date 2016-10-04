@@ -15,6 +15,10 @@ body{
             margin-bottom: 32px;
             text-transform: uppercase;
         }
+        button{
+            float: right;
+            margin-right: 8px;
+        }
         #filters{
             margin-bottom: 24px;
 
@@ -97,6 +101,27 @@ body{
 
             .sub{
                 margin-left: 24px;
+            }
+        }
+
+        #people-in-need{
+            .toplevel{
+                padding-bottom: 20px;
+                padding-left: 16px;
+
+                .sub{
+                    margin-left: 24px;
+                }
+            }
+            .row{
+                margin-bottom: 10px;
+            }
+        }
+        #humanitarian-access{
+            text-transform: none;
+
+            .right-pane{
+                padding-left: 48px;
             }
         }
 

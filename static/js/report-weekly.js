@@ -12,6 +12,7 @@ $(document).ready(function(){
     $('.filter').selectize();
     $('#disaster-type-select').selectize();
     $('#status-select').selectize();
+    $('.access-select').selectize();
 
     function addEventTimeline(){
         var container = $('#event-timeline-container');
