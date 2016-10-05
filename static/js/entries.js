@@ -70,6 +70,12 @@ $(document).ready(function() {
             dataSrc: '',
             url: "/api/v1/entries/?event=" + currentEvent,
         },
+        "columnDefs": [
+            {
+                "targets": [ 9 ],
+                "visible": false,
+            }
+        ],
         columns: [
             {
                 data: null,
@@ -133,6 +139,12 @@ $(document).ready(function() {
                     return '<button class="btn btn-default btn-edit" onclick="window.location.href=\'/' + currentEvent + '/entries/edit/' + data.id + '/\'"><i class="fa fa-edit"></i></button><button class="btn btn-default btn-delete" onclick="deleteEntry('+data.id+')";><i class="fa fa-trash"></i></button>';
                 },
             },
+            {
+                data: null,
+                render: function(data, type, row){
+                    return format(data);
+                },
+            }
         ],
         initComplete: function(){
             var that = this;

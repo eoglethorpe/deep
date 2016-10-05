@@ -7,6 +7,13 @@ function updateLocationSelections() {
     if(items){
         items.remove();
     }
+
+    if(mapSelections.length == 0){
+        $("#empty-text").show();
+    } else{
+        $("#empty-text").hide();
+    }
+
     for (var i=0; i < mapSelections.length; i++) {
         var selectionKey = mapSelections[i];
         element = $('<li><a onclick="unSelect(\''+selectionKey+'\', this)"><i class="fa fa-times"></i></a>'+manual_location_input[0].selectize.options[selectionKey].text+'</li>');
@@ -17,7 +24,6 @@ function updateLocationSelections() {
 }
 
 function refreshLocations() {
-
     // TODO: Clear all from select-location.
     //mapSelections = [];
     for (var key in locations) {
@@ -382,6 +388,7 @@ $(document).ready(function() {
         updateLayer(key);
 
         manual_location_input[0].selectize.clear(true);
+
     });
 
     $('.split-pane').splitPane();

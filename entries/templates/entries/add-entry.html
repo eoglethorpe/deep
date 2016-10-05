@@ -183,18 +183,58 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <select name="manual-location-input" id="manual-location-input" class="form-control"  placeholder="Add a location">
-                                        <option value="">Add a location</option>
-                                    </select>
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <select name="manual-location-input" id="manual-location-input" class="form-control"  placeholder="Add a location">
+                                                <option value="">Add a location</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#map-modal"><i class="fa fa-map"></i></button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#map-modal"><i class="fa fa-map"></i>Add from map</button>
+
+                                <div id="vulnerable-groups-container">
+                                    <h5>Vulnerable Groups</h5>
+                                    <select id="vulnerable-groups" name="vulnerable-groups" class="form-control" placeholder="Select vulnerable group" multiple="true">
+                                        {% for vulnerable_group in vulnerable_groups %}
+                                        <option value="{{vulnerable_group.pk}}" {% if vulnerable_group in entry.vulnerable_groups.all %}selected{% endif %}>{{vulnerable_group}}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div id="selected-location-list">
+                                    <p id="empty-text" hidden>No location added!</p>
                                     <ul>
                                     </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div id="specific-need-groups-container">
+                                    <h5> Groups with specific needs </h5>
+                                    <select id="groups-with-specific-needs" name="groups-with-specific-needs" class="form-control" placeholder="Select groups with specific needs" multiple="true">
+                                        {% for specific_group in specific_needs_groups %}
+                                        <option value="{{specific_group.pk}}" {% if specific_group in entry.specific_needs_groups.all %}selected{% endif %}>{{specific_group}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div id="sectors-container">
+                                    <h5>Sectors and subsectors</h5>
+                                    <select id="sectors-subsectors" name="sectors-subsectors" class="form-control" placeholder="Select sectors subsectors" multiple="true">
+                                    {% for sector, ss in sectors.items %}
+                                    <option value="{{sector.pk}}">{{sector.name}}</option>
+                                    {% for subsector in ss %}
+                                    <option value="{{subsector.pk}}">{{sector.name}} / {{subsector.name}}</option>
+                                    {% endfor %}
+                                    {% endfor %}
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -229,14 +269,11 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         {% endfor %}
                         </select>
                     </div>
+                    <h4>Affected Groups</h4>
+                    <div id="chart-div"></div>
                 </div>
             </div>
-            <hr>
-            <div>
-                <h4>Affected Groups</h4>
-                <div id="chart-div"></div>
-            </div>
-            <hr>
+
             <div id="information-attributes">
                 <h4>Information Attributes</h4>
                 <div class="row">
@@ -252,9 +289,11 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 </div>
             </div>
 
-            <button id="cancel-btn" class="btn btn-danger" onclick="if (confirm('All changes will be discarded. Are you sure?')) location.href='{% url 'entries:entries' event.pk %}';"><i class="fa fa-times"></i></button>
-            <button id="save-btn" class="btn btn-primary"><i class="fa fa-save"></i></button>
-            <button id="save-add-btn" class="btn btn-default"><i id="save-icon" class="fa fa-save"></i><i id="plus-icon" class="fa fa-plus"></i></button>
+            <button id="cancel-btn" class="btn btn-danger" onclick="if (confirm('All changes will be discarded. Are you sure?')) location.href='{% url 'entries:entries' event.pk %}';" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="left" title="Cancel"><i class="fa fa-times"></i></button>
+
+            <button id="save-btn" class="btn btn-primary" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="left" title="Save"><i class="fa fa-save"></i></button>
+
+            <button id="save-add-btn" class="btn btn-default" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="left" title="Save and add another"><i id="save-icon" class="fa fa-save"></i><i id="plus-icon" class="fa fa-plus"></i></button>
 
         </div>
     </div>

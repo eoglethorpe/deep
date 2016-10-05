@@ -52,12 +52,16 @@ DEEP | Leads
 
 <section id="main">
     <div class="container-fluid">
-        <div class="block" id="action-block">
-            <a class="btn btn-default" href="{% url 'leads:add' event=event.pk %}"><i class="fa fa-plus"></i>Add Lead</a>
-        </div>
 
         <div class="block" id="leads-block">
-            <h2>Current Leads</h2>
+            <div class="row">
+                <div class="col-md-2">
+                    <h2>Current Leads</h2>
+                </div>
+                <div class="col-md-4">
+                    <a class="btn btn-primary btn-xl" href="{% url 'leads:add' event=event.pk %}" style="margin-top:16px;"><i class="fa fa-plus" style=" margin-right: 10px;"></i>Add Lead</a>
+                </div>
+            </div>
             <div class="row" id="filters">
                 <div class="col-sm-12">
                     <label>Apply filter:</label>

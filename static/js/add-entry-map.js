@@ -83,7 +83,7 @@ function updateLayer(selectionName) {
         currentLevel = level;
         refreshMap();
     }
-
+    updateLocationSelections();
 }
 
 
