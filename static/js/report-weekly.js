@@ -1,3 +1,26 @@
+
+function addEventTimeline(data) {
+    var container = $('#event-timeline-container');
+    var event_timeline = $('.event-timeline-template').clone();
+
+    event_timeline.removeClass('event-timeline-template');
+    event_timeline.addClass('event-timeline');
+
+    if (data) {
+        event_timeline.find('.event-value').val(data.value);
+        event_timeline.find('.start-date').val(data.start_date);
+        event_timeline.find('.end-date').val(data.end_date);
+        event_timeline.find('.category-select').val(data.category);
+    }
+
+    event_timeline.find('select').selectize();
+    event_timeline.appendTo(container);
+    event_timeline.show();
+
+    event_timeline.find('button').on('click', addEventTimeline);
+
+}
+
 $(document).ready(function(){
     // $('.entry').on('click', function(){
     //     if($(this).data('expanded')|false == true){
@@ -9,39 +32,31 @@ $(document).ready(function(){
     //     }
     // });
 
-    $('.filter').selectize();
-    $('#disaster-type-select').selectize();
-    $('#status-select').selectize();
-    $('.access-select').selectize();
-
-    function addEventTimeline(){
-        var container = $('#event-timeline-container');
-        var event_timeline = $('.event-timeline-template').clone();
-
-        event_timeline.removeClass('event-timeline-template');
-        event_timeline.addClass('event-timeline');
-        event_timeline.find('select').selectize();
-        event_timeline.appendTo(container);
-        event_timeline.show();
-
-        event_timeline.find('button').on('click', addEventTimeline);
-
-    }
-
-    addEventTimeline();
-
     $('#navigator').width($('#report-content').innerWidth())
-
-    setInputData();
 
     $("#save-btn").click(function() {
         getInputData();
         var d = { "data": JSON.stringify(data), "start_date": start_date };
         redirectPost(window.location.pathname, d, csrf_token);
     });
+
+    setInputData();
+
+    $('.filter').selectize();
+    $('#disaster-type-select').selectize();
+    $('#status-select').selectize();
+    $('.access-select').selectize();
 });
 
 function setInputData() {
+
+    // Key events
+    $("#disaster-type-select").val(data["disaster_type"]);
+    $("#status-select").val(data["status"]);
+
+    for (var i=0; i<data["events"].length; ++i)
+        addEventTimeline(data["events"][i]);
+
     // Humanitarian profile data
     for (var pk in data["human"]["number"])
         $(".human-number[data-human-pk='" + pk + "']").val(data["human"]["number"][pk]);
@@ -76,6 +91,11 @@ function setInputData() {
     for (var pk in data["people"]["planned-comment"])
         $(".people-planned-comment[data-people-pk='" + pk + "']").val(data["people"]["planned-comment"][pk]);
 
+    // IPC
+    $("input[data-ipc]").each(function() {
+        $(this).val(data["ipc"][$(this).data("ipc")]);
+    });
+
     // Access data
     for (var pk in data["access"])
         $(".access-select[data-access-pk='" + pk + "']").val(data["access"][pk]);
@@ -90,6 +110,20 @@ function setInputData() {
 }
 
 function getInputData() {
+
+    // Key events
+    data["disaster_type"] = $("#disaster-type-select").val();
+    data["status"] = $("#status-select").val();
+
+    data["events"] = [];
+    $(".event-timeline").each(function() {
+        var newevent = {};
+        newevent["value"] = $(this).find('.event-value').val();
+        newevent["start_date"] = $(this).find('.start-date').val();
+        newevent["end_date"] = $(this).find('.end-date').val();
+        newevent["category"] = $(this).find('.category-select').val();
+        data["events"].push(newevent);
+    });
 
     // Humanitarian profile data
     $(".human-number").each(function() {
@@ -138,6 +172,11 @@ function getInputData() {
     });
     $(".people-planned-comment").each(function() {
         data["people"]["planned-comment"][$(this).data("people-pk")] = $(this).val();
+    });
+
+    // IPC
+    $("input[data-ipc]").each(function() {
+        data["ipc"][$(this).data("ipc")] = $(this).val();
     });
 
     // Access data

@@ -62,18 +62,29 @@ class WeeklyReportView(View):
         context["event"] = event
         context["entries"] = Entry.objects.filter(lead__event=event)
 
+        context["reliabilities"] = dict(AttributeData.RELIABILITIES)
+        context["severities"] = dict(AttributeData.SEVERITIES)
+
+        # Get the report if in edit mode, otherwise get the start date of the
+        # new weekly report
         if report_id:
             context["report"] = WeeklyReport.objects.get(pk=report_id)
         else:
             start_date = datetime.strptime(request.GET["start_date"], '%d-%b-%Y')
             context["start_date"] = start_date
 
+
+        # Get field values
+        context["disaster_types"] = DisasterType.objects.all()
+        context["report_statuses"] = ReportStatus.objects.all()
+        context["category_timelines"] = CategoryTimeline.objects.all()
+
         context["human_profile_fields"] = \
             HumanProfileField.objects.filter(parent__isnull=True)
         context["people_in_need_fields"] = \
             PeopleInNeedField.objects.filter(parent__isnull=True)
-        context["human_access_fields"] = HumanAccessField.objects.filter()
-        context["human_access_pin_fields"] = HumanAccessPinField.objects.filter()
+        context["human_access_fields"] = HumanAccessField.objects.all()
+        context["human_access_pin_fields"] = HumanAccessPinField.objects.all()
 
         return render(request, "report/weekly.html", context)
 

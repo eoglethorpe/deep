@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load dict_access %}
 
 {% block title %}
 DEEP | Weekly Report
@@ -15,27 +16,41 @@ DEEP | Weekly Report
 
 <script>
     {% if report %}
-
     var data = JSON.parse("{{report.data|escapejs}}");
-
     {% else %}
-
     var data = {};
-    data["human"] = { "number": {}, "source": {}, "comment": {} };
-    data["people"] = {
-        "total": {}, "moderate": {}, "severe": {}, "planned": {},
-        "total-source": {}, "moderate-source": {}, "severe-source": {}, "planned-source": {},
-        "total-comment": {}, "moderate-comment": {}, "severe-comment": {}, "planned-comment": {},
-    };
-    data["access"] = {};
-    data["access-pin"] = { "number": {}, "source": {}, "comment: {} };
-
     {% endif %}
+
+    if (!data["disaster_type"])
+        data["disaster_type"] = null;
+    if (!data["status"])
+        data["status"] = null;
+
+    if (!data["events"] || data["events"].length==0)
+        data["events"] = [{"value":null, "start_date":null, "end_date":null, "category":null}];
+
+    if (!data["human"])
+        data["human"] = { "number": {}, "source": {}, "comment": {} };
+
+    if (!data["people"])
+        data["people"] = {
+            "total": {}, "moderate": {}, "severe": {}, "planned": {},
+            "total-source": {}, "moderate-source": {}, "severe-source": {}, "planned-source": {},
+            "total-comment": {}, "moderate-comment": {}, "severe-comment": {}, "planned-comment": {},
+        };
+    if (!data["ipc"])
+        data["ipc"] = {"a":null, "b":null, "c":null, "d":null, "e":null, "f":null, "g":null};
+    if (!data["access"])
+        data["access"] = {};
+    if (!data["access-pin"])
+        data["access-pin"] = { "number": {}, "source": {}, "comment": {} };
 
     var csrf_token = "{% csrf_token %}";
 
     {% if start_date %}
     var start_date = "{{start_date|date:'d-M-Y'}}";
+    {% else %}
+    var start_date = "{{report.date|date:'d-M-Y'}}";
     {% endif %}
 
 </script>
@@ -132,7 +147,7 @@ DEEP | Weekly Report
                             <label>{{data.attribute.name}}</label>
                             <p>{{data.excerpt}}</p>
                             <div>
-                                <label>Reliablility:</label><span class="reliability"> {{data.reliability}}</span>, <label>Severity:</label><span class="severity"> {{data.severity}}</span>
+                                <label>Reliablility:</label><span class="reliability"> {{data.reliability|getfrom:reliabilities}}</span>, <label>Severity:</label><span class="severity"> {{data.severity|getfrom:severities}}</span>
                             </div>
                             {% empty %}
                             <p>[N/A]</p>
@@ -155,20 +170,21 @@ DEEP | Weekly Report
                     </div>
                     <section id="key-events">
                         <h3>Key Events</h3>
-                        <h4>Key events this week:</h4>
                         <div class="row">
                             <div class="col-md-6">
                                 <select id="disaster-type-select" placeholder="Select type of disaster">
-                                    <option>Earthquake</option>
-                                    <option>Ground Shaking</option>
-                                    <option>Tsunami</option>
+                                    <option>--Select type of disaster--</option>
+                                {% for type in disaster_types %}
+                                    <option value="{{type.pk}}">{% if type.parent %}{{type.parent}} / {% endif %}{{type}}</option>
+                                {% endfor %}
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <select id="status-select" placeholder="Select status">
-                                    <option>Earthquake</option>
-                                    <option>Ground Shaking</option>
-                                    <option>Tsunami</option>
+                                    <option>--Select status--</option>
+                                {% for status in report_statuses %}
+                                    <option value="{{status.pk}}">{{status}}</option>
+                                {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -183,7 +199,7 @@ DEEP | Weekly Report
                         <div class="event-timeline-template" hidden>
                             <div class="row">
                                 <div class="col-md-9">
-                                    <input class="form-control">
+                                    <input class="form-control event-value">
                                 </div>
                                 <div class="col-md-3">
                                     <button class="btn btn-default">+</button>
@@ -192,16 +208,19 @@ DEEP | Weekly Report
                             <div class="row">
                                 <div class="col-md-3">
                                     <label>start date:</label>
-                                    <input type="date" class="form-control">
+                                    <input type="date" class="form-control start-date">
                                 </div>
                                 <div class="col-md-3">
                                     <label>end date:</label>
-                                    <input type="date" class="form-control">
+                                    <input type="date" class="form-control end-date">
                                 </div>
                                 <div class="col-md-3">
                                     <label></label>
                                     <select class="category-select" placeholder="Select Category">
-                                        <option>this</option>
+                                        <option>--Select category--</option>
+                                    {% for category in category_timelines %}
+                                        <option value="{{category.pk}}">{{category}}</option>
+                                    {% endfor %}
                                     </select>
                                 </div>
                             </div>
@@ -306,23 +325,23 @@ DEEP | Weekly Report
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-3"><label class="sub">1. None/Minimal</label></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Number"></div>
+                                    <div class="col-md-3"><input data-ipc="a" class="form-control" placeholder="Number"></div>
                                     <div class="col-md-3"><label class="sub">4. Emergency</label></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Number"></div>
+                                    <div class="col-md-3"><input data-ipc="b" class="form-control" placeholder="Number"></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3"><label class="sub">2. Stressed</label></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Number"></div>
+                                    <div class="col-md-3"><input data-ipc="c" class="form-control" placeholder="Number"></div>
                                     <div class="col-md-3"><label class="sub">5. Famine</label></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Number"></div>
+                                    <div class="col-md-3"><input data-ipc="d" class="form-control" placeholder="Number"></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3"><label class="sub">3. Crisis</label></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Number"></div>
-                                    <div class="col-md-6"><input class="form-control" placeholder="Source"></div>
+                                    <div class="col-md-3"><input data-ipc="e" class="form-control" placeholder="Number"></div>
+                                    <div class="col-md-6"><input data-ipc="f" class="form-control" placeholder="Source"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-12"><input class="form-control" placeholder="Comment"></div>
+                                    <div class="col-md-12"><input data-ipc="g" class="form-control" placeholder="Comment"></div>
                                 </div>
                             </div>
                         </div>
