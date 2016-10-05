@@ -25,7 +25,7 @@ class ReportDashboardView(View):
 
         event_id = request.GET.get("event")
         if not event_id:
-            event_id = Event.objects.get(countries__pk=country_id).pk
+            event_id = Event.objects.filter(countries__pk=country_id)[0].pk
 
         country = Country.objects.get(pk=country_id)
         event = Event.objects.get(pk=event_id)
