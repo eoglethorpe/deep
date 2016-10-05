@@ -49,6 +49,9 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0; }
+  body .tooltip.left .tooltip-inner {
+    font-size: 1.2em;
+    padding: 10px 24px; }
   body .split-pane {
     font-size: 12px;
     height: calc(100vh - 75px) !important; }
