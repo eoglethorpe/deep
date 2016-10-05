@@ -471,7 +471,11 @@ $(document).ready(function() {
 
         data["add_another"] = addAnother?"1":"0";
 
-        data["sectors"] = "{}"; //JSON.stringify(Object.keys(selectedTags));
+        var ssectors = [];
+        $('#sectors-subsectors :selected').each(function(i, selected) {
+            ssectors[i] = $(selected).val();
+        });
+        data["sectors"] = JSON.stringify(ssectors);
 
         redirectPost(window.location.pathname, data, csrf_token);
     };

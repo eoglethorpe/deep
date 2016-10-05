@@ -11,6 +11,7 @@ DEEP | Weekly Report
 <link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
 <script src="{% static 'js/report-weekly.js' %}"></script>
 <script src="{% static 'js/selectize.js' %}"></script>
+<script src="{% static 'js/utils.js' %}"></script>
 
 <script>
     {% if report %}
@@ -20,9 +21,23 @@ DEEP | Weekly Report
     {% else %}
 
     var data = {};
-    data["human"] = { "number": {}, "source": {}, "comment": {}};
+    data["human"] = { "number": {}, "source": {}, "comment": {} };
+    data["people"] = {
+        "total": {}, "moderate": {}, "severe": {}, "planned": {},
+        "total-source": {}, "moderate-source": {}, "severe-source": {}, "planned-source": {},
+        "total-comment": {}, "moderate-comment": {}, "severe-comment": {}, "planned-comment": {},
+    };
+    data["access"] = {};
+    data["access-pin"] = { "number": {}, "source": {}, "comment: {} };
 
     {% endif %}
+
+    var csrf_token = "{% csrf_token %}";
+
+    {% if start_date %}
+    var start_date = "{{start_date|date:'d-M-Y'}}";
+    {% endif %}
+
 </script>
 {% endblock %}
 
@@ -38,8 +53,8 @@ DEEP | Weekly Report
                     </h2>
                 </div>
                 <div class="col-md-4">
-                    <button class="btn btn-cancel btn-default"><i class="fa fa-times"></i> Cancel</button>
-                    <button class="btn btn-save btn-default"><i class="fa fa-save"></i> Save</button>
+                    <button class="btn btn-cancel btn-default" id="cancel-btn"><i class="fa fa-times"></i> Cancel</button>
+                    <button class="btn btn-save btn-default" id="save-btn"><i class="fa fa-save"></i> Save</button>
                 </div>
             </div>
             <div id="filters">
@@ -253,7 +268,7 @@ DEEP | Weekly Report
                             <div class="col-md-4">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label>{{subfield.name}}</label>
+                                        <label class="sub">{{subfield.name}}</label>
                                     </div>
                                 </div>
                             </div>
@@ -284,7 +299,7 @@ DEEP | Weekly Report
                             <div class="col-md-4">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label>IPC</label>
+                                        <label class="sub">IPC</label>
                                     </div>
                                 </div>
                             </div>
@@ -320,7 +335,7 @@ DEEP | Weekly Report
                                 <div class="row">
                                     <div class="col-md-8"><label class="title">{{field.name}}</label></div>
                                     <div class="col-md-4">
-                                        <select class="access-select">
+                                        <select class="access-select" data-access-pk="{{field.pk}}">
                                             <option value="Yes">Yes</option>
                                             <option value="No">No</option>
                                             <option value="DNK">DNK</option>
@@ -338,11 +353,11 @@ DEEP | Weekly Report
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-5"><input class="form-control" placeholder="Number"></div>
-                                        <div class="col-md-7"><input class="form-control" placeholder="Source/Date"></div>
+                                        <div class="col-md-5"><input class="form-control access-pin-number" data-access-pin-pk="{{field.pk}}" placeholder="Number"></div>
+                                        <div class="col-md-7"><input class="form-control access-pin-source" data-access-pin-pk="{{field.pk}}" placeholder="Source/Date"></div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12"><input class="form-control" placeholder="Comment"></div>
+                                        <div class="col-md-12"><input class="form-control access-pin-comment" data-access-pin-pk="{{field.pk}}" placeholder="Comment"></div>
                                     </div>
                                 </div>
                                 {% endfor %}

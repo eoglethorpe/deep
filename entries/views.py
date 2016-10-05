@@ -157,9 +157,13 @@ class AddEntry(View):
         except:
             print("Error while simplifying")
 
-        if entry:
+        if "prev_entry" in request.GET:
+            prev_entry = Entry.objects.get(pk=request.GET["prev_entry"])
+            context["prev_entry"] = prev_entry
+
+        if entry or prev_entry:
             context["entry"] = entry
-            attr_data = AttributeData.objects.filter(entry=entry)
+            attr_data = AttributeData.objects.filter(entry=(entry if entry else prev_entry))
             temp = {}
             for ad in attr_data:
                 if not ad.number:
@@ -183,9 +187,6 @@ class AddEntry(View):
             context["attr_data"] = temp
 
         context.update(get_entry_form_data(context["event"]))
-
-        if "prev_entry" in request.GET:
-            context["prev_entry"] = Entry.objects.get(pk=request.GET["prev_entry"])
         return render(request, "entries/add-entry.html", context)
 
     @method_decorator(login_required)

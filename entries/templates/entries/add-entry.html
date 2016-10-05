@@ -108,9 +108,14 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     };
 
     // Select affected groups.
-    var selected_groups = [{% if entry %}{% for group in affected_groups %}
+    var selected_groups = [
+    {% if entry %}{% for group in affected_groups %}
     {% if group in entry.affected_groups.all %}{row:{{forloop.counter0}}, column:null},{% endif %}
-    {% endfor %}{% endif %}];
+    {% endfor %}
+    {% elif prev_entry %}{% for group in affected_groups %}
+    {% if group in prev_entry.affected_groups.all %}{row:{{forloop.counter0}}, column:null},{% endif %}
+    {% endfor %}{% endif %}
+    ];
 </script>
 
 {% endblock %}
@@ -201,7 +206,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         <h5>Vulnerable Groups</h5>
                         <select id="vulnerable-groups" name="vulnerable-groups" class="form-control" placeholder="Select vulnerable group" multiple="true">
                             {% for vulnerable_group in vulnerable_groups %}
-                            <option value="{{vulnerable_group.pk}}" {% if vulnerable_group in entry.vulnerable_groups.all %}selected{% endif %}>{{vulnerable_group}}</option>
+                            <option value="{{vulnerable_group.pk}}" {% if vulnerable_group in entry.vulnerable_groups.all or vulnerable_group in prev_entry.vulnerable_groups.all %}selected{% endif %}>{{vulnerable_group}}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -209,7 +214,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         <h5> Groups with specific needs </h5>
                         <select id="groups-with-specific-needs" name="groups-with-specific-needs" class="form-control" placeholder="Select groups with specific needs" multiple="true">
                             {% for specific_group in specific_needs_groups %}
-                            <option value="{{specific_group.pk}}" {% if specific_group in entry.specific_needs_groups.all %}selected{% endif %}>{{specific_group}}</option>
+                            <option value="{{specific_group.pk}}" {% if specific_group in entry.specific_needs_groups.all or specific_group in prev_entry.specific_needs_groups.all %}selected{% endif %}>{{specific_group}}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -217,9 +222,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         <h5>Sectors and subsectors</h5>
                         <select id="sectors-subsectors" name="sectors-subsectors" class="form-control" placeholder="Select sectors subsectors" multiple="true">
                         {% for sector, ss in sectors.items %}
-                        <option value="{{sector.pk}}">{{sector.name}}</option>
+                        <option value="{{sector.pk}}" {% if sector in entry.sectors.all or sector in prev_entry.sectors.all %}selected{% endif %}>{{sector.title}}</option>
                         {% for subsector in ss %}
-                        <option value="{{subsector.pk}}">{{subsector.name}}</option>
+                        <option value="{{subsector.pk}}" {% if subsector in entry.sectors.all or subsector in prev_entry.sectors.all %}selected{% endif %}>{{sector.title}} / {{subsector.title}}</option>
                         {% endfor %}
                         {% endfor %}
                         </select>
