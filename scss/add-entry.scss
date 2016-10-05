@@ -6,6 +6,12 @@ body{
     margin: 0;
     padding: 0;
 
+    .tooltip.left {
+        .tooltip-inner{
+            font-size: 1.2em;
+            padding: 10px 24px;
+        }
+    }
 
     .split-pane{
         font-size: 12px;

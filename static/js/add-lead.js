@@ -21,6 +21,8 @@ $(document).ready(function() {
                 break;
         }
     }
+    // jquery date plugin
+    //$( "#published-at" ).datepicker({ dateFormat: 'dd-mm-yy' });
 
     // automatically fill website when url gets pasted on
     $('input[name="url"]').on('paste', function(e){
