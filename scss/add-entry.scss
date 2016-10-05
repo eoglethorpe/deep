@@ -79,17 +79,21 @@ body{
             margin-left: 3px;  /* Same as divider width */
             padding-top: 10px;
 
+            #chart-div{
+                overflow: hidden;
+            }
             #locations-container{
                 .fa{
-                    margin-right: 10px;
+
                 }
             }
 
+
             #vulnerable-groups-container, #specific-need-groups-container{
-                min-height: 100px;
+
             }
             #selected-location-list{
-                height: 200px;
+                height: 180px;
                 overflow-y: scroll;
                 background-color: #f0f0f0;
                 padding: 10px 16px;

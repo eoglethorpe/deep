@@ -178,12 +178,25 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <select name="manual-location-input" id="manual-location-input" class="form-control"  placeholder="Add a location">
-                                        <option value="">Add a location</option>
-                                    </select>
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <select name="manual-location-input" id="manual-location-input" class="form-control"  placeholder="Add a location">
+                                                <option value="">Add a location</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#map-modal"><i class="fa fa-map"></i></button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#map-modal"><i class="fa fa-map"></i>Add from map</button>
+
+                                <div id="vulnerable-groups-container">
+                                    <h5>Vulnerable Groups</h5>
+                                    <select id="vulnerable-groups" name="vulnerable-groups" class="form-control" placeholder="Select vulnerable group" multiple="true">
+                                        {% for vulnerable_group in vulnerable_groups %}
+                                        <option value="{{vulnerable_group.pk}}" {% if vulnerable_group in entry.vulnerable_groups.all %}selected{% endif %}>{{vulnerable_group}}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -194,45 +207,41 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div id="specific-need-groups-container">
+                                    <h5> Groups with specific needs </h5>
+                                    <select id="groups-with-specific-needs" name="groups-with-specific-needs" class="form-control" placeholder="Select groups with specific needs" multiple="true">
+                                        {% for specific_group in specific_needs_groups %}
+                                        <option value="{{specific_group.pk}}" {% if specific_group in entry.specific_needs_groups.all %}selected{% endif %}>{{specific_group}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div id="sectors-container">
+                                    <h5>Sectors and subsectors</h5>
+                                    <select id="sectors-subsectors" name="sectors-subsectors" class="form-control" placeholder="Select sectors subsectors" multiple="true">
+                                    {% for sector, ss in sectors.items %}
+                                    <option value="{{sector.pk}}">{{sector.name}}</option>
+                                    {% for subsector in ss %}
+                                    <option value="{{subsector.pk}}">{{subsector.name}}</option>
+                                    {% endfor %}
+                                    {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="col-md-5">
-                    <div id="vulnerable-groups-container">
-                        <h5>Vulnerable Groups</h5>
-                        <select id="vulnerable-groups" name="vulnerable-groups" class="form-control" placeholder="Select vulnerable group" multiple="true">
-                            {% for vulnerable_group in vulnerable_groups %}
-                            <option value="{{vulnerable_group.pk}}" {% if vulnerable_group in entry.vulnerable_groups.all %}selected{% endif %}>{{vulnerable_group}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div id="specific-need-groups-container">
-                        <h5> Groups with specific needs </h5>
-                        <select id="groups-with-specific-needs" name="groups-with-specific-needs" class="form-control" placeholder="Select groups with specific needs" multiple="true">
-                            {% for specific_group in specific_needs_groups %}
-                            <option value="{{specific_group.pk}}" {% if specific_group in entry.specific_needs_groups.all %}selected{% endif %}>{{specific_group}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div id="sectors-container">
-                        <h5>Sectors and subsectors</h5>
-                        <select id="sectors-subsectors" name="sectors-subsectors" class="form-control" placeholder="Select sectors subsectors" multiple="true">
-                        {% for sector, ss in sectors.items %}
-                        <option value="{{sector.pk}}">{{sector.name}}</option>
-                        {% for subsector in ss %}
-                        <option value="{{subsector.pk}}">{{subsector.name}}</option>
-                        {% endfor %}
-                        {% endfor %}
-                        </select>
-                    </div>
+                    <h4>Affected Groups</h4>
+                    <div id="chart-div"></div>
                 </div>
             </div>
-            <hr>
-            <div>
-                <h4>Affected Groups</h4>
-                <div id="chart-div"></div>
-            </div>
-            <hr>
+
             <div id="information-attributes">
                 <h4>Information Attributes</h4>
                 <div class="row">
