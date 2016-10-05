@@ -4,6 +4,10 @@
 body{
     background-color: #f0f0f0;
     min-height: 100vh;
+
+    .fa{
+        margin-right: 10px;
+    }
 }
 
 #main{
@@ -69,6 +73,8 @@ body{
 
         section{
             padding: 24px;
+            padding-top: 72px;
+            margin-bottom: -64px;
 
 
             h3{
