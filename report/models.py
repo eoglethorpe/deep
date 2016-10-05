@@ -32,6 +32,30 @@ class HumanProfileField(models.Model):
         return self.name
 
 
+class PeopleInNeedField(models.Model):
+    name = models.CharField(max_length=100)
+    parent = models.ForeignKey('PeopleInNeedField', default=None, null=True, blank=True)
+
+    def __str__(self):
+        if self.parent:
+            return self.name + " [" + self.parent.name + "]"
+        return self.name
+
+
+class HumanAccessField(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class HumanAccessPinField(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
 class WeeklyReport(models.Model):
     data = models.TextField(default="{}")
     start_date = models.DateField()  # start date for the week
