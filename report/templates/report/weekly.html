@@ -62,7 +62,12 @@ DEEP | Weekly Report
                         <h5>Entry #{{forloop.counter}}</h5>
                         <div class="details" hidden>
                             {% for data in entry.attributedata_set.all %}
-                            <p>{{data.excerpt}}</p> <span>{{data.reliability}}</span> <span>{{data.severity}}</span>
+                            <p>{{data.excerpt}}</p>
+                            <div>
+                                <span class="reliability" data-value="4"></span>
+                                <span class="severity" data-value="2"></span>
+                            </div>
+
                             {% endfor %}
                         </div>
                     </div>
