@@ -395,6 +395,7 @@ $(document).ready(function() {
     $("#country").selectize();
     $("#vulnerable-groups").selectize();
     $("#groups-with-specific-needs").selectize();
+    $("#sectors-subsectors").selectize();
 
     $('input[type=radio][name=lead-view-option]').change(function() {
         changeLeadPreview(this.value=='simplified');
@@ -455,8 +456,7 @@ $(document).ready(function() {
         var data = {};
 
         var affecteds = [];
-        if (selected_groups.length > 0)
-        for (var s in selected_groups) {
+        for (var s=0; s<selected_groups.length; s++) {
             affecteds.push(affected_groups[selected_groups[s].row][0]);
         }
         data["affected_groups"] = JSON.stringify(affecteds);
