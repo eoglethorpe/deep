@@ -7,6 +7,13 @@ function updateLocationSelections() {
     if(items){
         items.remove();
     }
+
+    if(mapSelections.length == 0){
+        $("#empty-text").show();
+    } else{
+        $("#empty-text").hide();
+    }
+
     for (var i=0; i < mapSelections.length; i++) {
         var selectionKey = mapSelections[i];
         element = $('<li><a onclick="unSelect(\''+selectionKey+'\', this)"><i class="fa fa-times"></i></a>'+manual_location_input[0].selectize.options[selectionKey].text+'</li>');
@@ -17,7 +24,6 @@ function updateLocationSelections() {
 }
 
 function refreshLocations() {
-
     // TODO: Clear all from select-location.
     //mapSelections = [];
     for (var key in locations) {
@@ -382,12 +388,14 @@ $(document).ready(function() {
         updateLayer(key);
 
         manual_location_input[0].selectize.clear(true);
+
     });
 
     $('.split-pane').splitPane();
     $("#country").selectize();
     $("#vulnerable-groups").selectize();
     $("#groups-with-specific-needs").selectize();
+    $("#sectors-subsectors").selectize();
 
     $('input[type=radio][name=lead-view-option]').change(function() {
         changeLeadPreview(this.value=='simplified');
@@ -448,8 +456,7 @@ $(document).ready(function() {
         var data = {};
 
         var affecteds = [];
-        if (selected_groups.length > 0)
-        for (var s in selected_groups) {
+        for (var s=0; s<selected_groups.length; s++) {
             affecteds.push(affected_groups[selected_groups[s].row][0]);
         }
         data["affected_groups"] = JSON.stringify(affecteds);

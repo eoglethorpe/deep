@@ -1,13 +1,13 @@
 $(document).ready(function(){
-    $('.entry').on('click', function(){
-        if($(this).data('expanded')|false == true){
-            $(this).find('.details').slideUp();
-            $(this).data('expanded', false);
-        } else{
-            $(this).find('.details').slideDown();
-            $(this).data('expanded', true);
-        }
-    });
+    // $('.entry').on('click', function(){
+    //     if($(this).data('expanded')|false == true){
+    //         $(this).find('.details').slideUp();
+    //         $(this).data('expanded', false);
+    //     } else{
+    //         $(this).find('.details').slideDown();
+    //         $(this).data('expanded', true);
+    //     }
+    // });
 
     $('.filter').selectize();
     $('#disaster-type-select').selectize();
@@ -43,6 +43,8 @@ function setInputData() {
         $(".human-source[data-human-pk='" + pk + "']").val(data["human"]["source"][pk]);
     for (var pk in data["human"]["comment"])
         $(".human-comment[data-human-pk='" + pk + "']").val(data["human"]["comment"][pk]);
+
+    // People in need data
 }
 
 function getInputData() {
@@ -57,5 +59,7 @@ function getInputData() {
     $(".human-comment").each(function() {
         data["human"]["comment"][$(this).data("human-pk")] = $(this).val();
     });
+
+    // People in need data
 
 }

@@ -37,14 +37,23 @@ body{
         background-color: #fff;
         box-shadow: 2px 0 5px 3px rgba( 0, 0, 0, 0.2);
         overflow-y: scroll;
+        h3{
+            padding-left: 32px;
+        }
 
         .entry{
             padding: 10px 32px;
-            cursor: pointer;
+            
 
             .details{
                 color: #969696;
             }
+        }
+
+        .title{
+            text-transform: uppercase;
+            margin-top: 16px;
+            margin-bottom: 10px;
         }
     }
 

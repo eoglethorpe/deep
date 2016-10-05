@@ -78,17 +78,49 @@ DEEP | Weekly Report
         <div class="row">
             <div class="col-md-4">
                 <div id="entries">
+                    <h3>Entries</h3>
+                    <hr>
                     {% for entry in entries %}
                     <div class="entry">
-                        <h5>Entry #{{forloop.counter}}</h5>
-                        <div class="details" hidden>
+                        <h4>Entry #{{forloop.counter}}</h4>
+                        <div id="affected-groups">
+                            <label>Affected groups:</label>
+                            {% for ag in entry.affected_groups.all %}
+                            {{ ag }}
+                            {% if not forloop.last %}, {% endif %}
+                            {% empty %}
+                            [N/A]
+                            {% endfor %}
+                        </div>
+                        <div id="specific-need-groups">
+                            <label>Specific needs groups:</label>
+                            {% for sng in entry.specific_needs_groups.all %}
+                            {{ sng }}
+                            {% if not forloop.last %}, {% endif %}
+                            {% empty %}
+                            [N/A]
+                            {% endfor %}
+                        </div>
+                        <div id="vulnerable-groups">
+                            <label>Vulnerable groups:</label>
+                            {% for vg in entry.vulnerable_groups.all %}
+                            {{ vg }}
+                            {% if not forloop.last %}, {% endif %}
+                            {% empty %}
+                            [N/A]
+                            {% endfor %}
+                        </div>
+
+                        <div id="excerpts">
+                            <label class="title">Excerpts:</label><br>
                             {% for data in entry.attributedata_set.all %}
+                            <label>{{data.attribute.name}}</label>
                             <p>{{data.excerpt}}</p>
                             <div>
-                                <span class="reliability" data-value="4"></span>
-                                <span class="severity" data-value="2"></span>
+                                <label>Reliablility:</label><span class="reliability"> {{data.reliability}}</span>, <label>Severity:</label><span class="severity"> {{data.severity}}</span>
                             </div>
-
+                            {% empty %}
+                            <p>[N/A]</p>
                             {% endfor %}
                         </div>
                     </div>
@@ -197,22 +229,22 @@ DEEP | Weekly Report
                             </div>
                             <div class="col-md-8">
                                 <div class="row">
-                                    <div class="col-md-3"><input class="form-control" placeholder="Total"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Moderate"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Severe"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Planned"></div>
+                                    <div class="col-md-3"><input class="people-total form-control" data-people-pk="{{field.pk}}" placeholder="Total"></div>
+                                    <div class="col-md-3"><input class="people-moderate form-control" data-people-pk="{{field.pk}}" placeholder="Moderate"></div>
+                                    <div class="col-md-3"><input class="people-severe form-control" data-people-pk="{{field.pk}}" placeholder="Severe"></div>
+                                    <div class="col-md-3"><input class="people-planned form-control" data-people-pk="{{field.pk}}" placeholder="Planned"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
+                                    <div class="col-md-3"><input class="people-total-source form-control" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
+                                    <div class="col-md-3"><input class="people-moderate-source form-control" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
+                                    <div class="col-md-3"><input class="people-severe-source form-control" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
+                                    <div class="col-md-3"><input class="people-planned-source form-control" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
+                                    <div class="col-md-3"><input class="people-total-comment form-control" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
+                                    <div class="col-md-3"><input class="people-moderate-comment form-control" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
+                                    <div class="col-md-3"><input class="people-severe-comment form-control" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
+                                    <div class="col-md-3"><input class="people-planned-comment form-control" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
                                 </div>
                             </div>
                         </div>
@@ -227,22 +259,22 @@ DEEP | Weekly Report
                             </div>
                             <div class="col-md-8">
                                 <div class="row">
-                                    <div class="col-md-3"><input class="form-control" placeholder="Total"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Moderate"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Severe"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Planned"></div>
+                                    <div class="col-md-3"><input class="people-total form-control" data-people-pk="{{subfield.pk}}" placeholder="Total"></div>
+                                    <div class="col-md-3"><input class="people-moderate form-control" data-people-pk="{{subfield.pk}}" placeholder="Moderate"></div>
+                                    <div class="col-md-3"><input class="people-severe form-control" data-people-pk="{{subfield.pk}}" placeholder="Severe"></div>
+                                    <div class="col-md-3"><input class="people-planned form-control" data-people-pk="{{subfield.pk}}" placeholder="Planned"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
+                                    <div class="col-md-3"><input class="people-total-source form-control" data-people-pk="{{subfield.pk}}" placeholder="Source/Date"></div>
+                                    <div class="col-md-3"><input class="people-moderate-source form-control" data-people-pk="{{subfield.pk}}" placeholder="Source/Date"></div>
+                                    <div class="col-md-3"><input class="people-severe-source form-control" data-people-pk="{{subfield.pk}}" placeholder="Source/Date"></div>
+                                    <div class="col-md-3"><input class="people-planned-source form-control" data-people-pk="{{subfield.pk}}" placeholder="Source/Date"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
+                                    <div class="col-md-3"><input class="people-total-comment form-control" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
+                                    <div class="col-md-3"><input class="people-moderate-comment form-control" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
+                                    <div class="col-md-3"><input class="people-severe-comment form-control" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
+                                    <div class="col-md-3"><input class="people-planned-comment form-control" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
                                 </div>
                             </div>
                         </div>
