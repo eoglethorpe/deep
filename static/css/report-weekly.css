@@ -56,6 +56,9 @@ body {
       margin-top: 0;
       margin-bottom: 32px;
       text-transform: uppercase; }
+    #main header button {
+      float: right;
+      margin-right: 8px; }
     #main header #filters {
       margin-bottom: 24px; }
       #main header #filters label {
@@ -105,5 +108,16 @@ body {
       margin-bottom: 10px; }
     #main #report-content #humanitarian-profile .sub {
       margin-left: 24px; }
+    #main #report-content #people-in-need .toplevel {
+      padding-bottom: 20px;
+      padding-left: 16px; }
+      #main #report-content #people-in-need .toplevel .sub {
+        margin-left: 24px; }
+    #main #report-content #people-in-need .row {
+      margin-bottom: 10px; }
+    #main #report-content #humanitarian-access {
+      text-transform: none; }
+      #main #report-content #humanitarian-access .right-pane {
+        padding-left: 48px; }
 
 /*# sourceMappingURL=report-weekly.css.map */
