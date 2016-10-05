@@ -87,6 +87,7 @@ body{
                 overflow-y: scroll;
                 background-color: #f0f0f0;
                 padding: 10px 16px;
+
                 ul{
                     list-style: none;
                     padding-left: 0;
@@ -104,6 +105,13 @@ body{
                             }
                         }
                     }
+                }
+                #empty-text{
+                    text-align: center;
+                    margin-top: 32px;
+                    font-size: 1.2em;
+                    color: #aaa;
+                    text-transform: uppercase;
                 }
 
             }
