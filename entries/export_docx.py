@@ -31,7 +31,7 @@ def _sort(ents, order):
         we assume there are a maximum of 5 admin levels and all entries
         are given values for the admin levels"""
 
-    ADMN_LVLS = ['Admin ' + str(v) for v in range(1,6)]
+    ADMN_LVLS = ['Admin ' + _xstr(v) for v in range(1,6)]
 
 
     #replace MAPSELS in order with ADMN_LVLS
@@ -50,7 +50,7 @@ def _sort(ents, order):
                 out = v
                 locs = globals()[v](e)
                 for i,lvl in enumerate(ADMN_LVLS):
-                    clvl = 'Admin ' + str(i+1)
+                    clvl = 'Admin ' + _xstr(i+1)
                     if clvl in locs:
                         cd[lvl] = ', '.join(locs[lvl])
                     else:
@@ -190,7 +190,7 @@ def _add_head(ent, order, doc):
             else:
                 k_run = p.add_run(ord + ': ')
                 k_run.italic = True
-                v_run = p.add_run(str(ent[ord]))
+                v_run = p.add_run(_xstr(ent[ord]))
                 runs.append(k_run)
                 runs.append(v_run)
 
@@ -198,6 +198,16 @@ def _add_head(ent, order, doc):
 
             first = False
 
+def _xstr(v):
+    """safely convert a value to string"""
+    if v is None:
+        return ''
+
+    try:
+        return str(v.encode('utf8').decode('UTF-8'))
+
+    except:
+        return str(v)
 
 def _add_bod(ent, order, doc):
     """generate the body of an entry"""
@@ -209,17 +219,14 @@ def _add_bod(ent, order, doc):
     r = t.add_run(get_lead_nm(ent['evt_obj']))
     r.font.bold, r.font.underline = True, True
 
-            # p = doc.add_paragraph()
-            # p.paragraph_format.space_after = int(1)
-            #
-    tbl = doc.add_table(rows=0, cols = 2, style = None)
+    tbl = doc.add_table(rows=0, cols = 2, style = 'Table Grid')
     for k,v in ent.items():
         #get general base level... make it as a table so that we can have nice justifaction
         if k != 'evt_obj':
             row = tbl.add_row().cells
             row[0].text = k
             row[0].paragraphs[0].runs[0].bold = True
-            row[1].text = str(v)
+            row[1].text = _xstr(v)
 
             row[0].width, row[1].width = 4828800, 4828800
 
@@ -236,7 +243,7 @@ def _add_bod(ent, order, doc):
                 if iv:
                     ia_p = doc.add_paragraph()
                     ia_p.add_run(ik + ': ').bold = True
-                    ia_p.add_run(str(iv))
+                    ia_p.add_run(_xstr(iv))
 
                     #add in (source [url'd], date)
                     if ik.endswith('excerpt'):
@@ -293,7 +300,7 @@ def _add_bili(sortents, d):
                 _add_hyperlink(ent, v[1], v[1] + ' ')
                 run = ''
             else:
-                run = str(v[1])
+                run = _xstr(v[1])
 
             #to not add a period to last element
             if i < len(e.values())-1:
@@ -307,7 +314,7 @@ def _add_meta(order, d, filter = None):
     p = d.add_paragraph()
 
     if not filter:
-        p.add_run('#nofilter').bold = True
+        p.add_run('Filter: None Provided').bold = True
     else:
         p.add_run('#TellEwanToFixThis').bold = True
 
