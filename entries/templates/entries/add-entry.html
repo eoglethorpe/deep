@@ -213,6 +213,17 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                             {% endfor %}
                         </select>
                     </div>
+                    <div id="sectors-container">
+                        <h5>Sectors and subsectors</h5>
+                        <select id="sectors-subsectors" name="sectors-subsectors" class="form-control" placeholder="Select sectors subsectors" multiple="true">
+                        {% for sector, ss in sectors.items %}
+                        <option value="{{sector.pk}}">{{sector.name}}</option>
+                        {% for subsector in ss %}
+                        <option value="{{subsector.pk}}">{{subsector.name}}</option>
+                        {% endfor %}
+                        {% endfor %}
+                        </select>
+                    </div>
                 </div>
             </div>
             <hr>
