@@ -11,6 +11,19 @@ DEEP | Weekly Report
 <link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
 <script src="{% static 'js/report-weekly.js' %}"></script>
 <script src="{% static 'js/selectize.js' %}"></script>
+
+<script>
+    {% if report %}
+
+    var data = JSON.parse("{{report.data|escapejs}}");
+
+    {% else %}
+
+    var data = {};
+    data["human"] = { "number": {}, "source": {}, "comment": {}};
+
+    {% endif %}
+</script>
 {% endblock %}
 
 {% block body %}
@@ -18,9 +31,16 @@ DEEP | Weekly Report
 <section id="main">
     <div class="container-fluid">
         <header>
-            <h2>
-                {% if report %}Edit{% else %}Add{% endif %} Weekly Report / <small>{{event}}</small>
-            </h2>
+            <div class="row">
+                <div class="col-md-8">
+                    <h2>
+                        {% if report %}Edit{% else %}Add{% endif %} Weekly Report / <small>{{event}}</small>
+                    </h2>
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-save btn-default"><i class="fa fa-save"></i> Save</button>
+                </div>
+            </div>
             <div id="filters">
                 <div class="row">
                     <div class="col-md-1">
@@ -142,50 +162,202 @@ DEEP | Weekly Report
                     </section>
                     <section id="humanitarian-profile">
                         <h3>Humanitarian Profile</h3>
-                        <div class="row">
-                            <div class="col-md-6"><label>Total population in effected area</label></div>
-                            <div class="col-md-2"><input class="form-control" placeholder="Number of person"></div>
-                            <div class="col-md-2"><input class="form-control" placeholder="Source/Date"></div>
-                            <div class="col-md-2"><input class="form-control" placeholder="Comment"></div>
-                        </div>
+                        {% for field in human_profile_fields %}
 
                         <div class="row">
-                            <div class="col-md-6"><label>Total population not affected</label></div>
-                            <div class="col-md-2"><input class="form-control" placeholder="Number of person"></div>
-                            <div class="col-md-2"><input class="form-control" placeholder="Source/Date"></div>
-                            <div class="col-md-2"><input class="form-control" placeholder="Comment"></div>
+                            <div class="col-md-6"><label>{{field.name}}</label></div>
+                            <div class="col-md-2"><input class="human-number form-control" data-human-pk="{{field.pk}}" placeholder="Number of person"></div>
+                            <div class="col-md-2"><input class="human-source form-control" data-human-pk="{{field.pk}}" placeholder="Source/Date"></div>
+                            <div class="col-md-2"><input class="human-comment form-control" data-human-pk="{{field.pk}}" placeholder="Comment"></div>
                         </div>
 
-                        <label class="title">Total casualties</label>
+                        {% for subfield in field.humanprofilefield_set.all %}
+
                         <div class="row">
-                            <div class="col-md-6"><label class="sub">Missing</label></div>
-                            <div class="col-md-2"><input class="form-control" placeholder="Number of person"></div>
-                            <div class="col-md-2"><input class="form-control" placeholder="Source/Date"></div>
-                            <div class="col-md-2"><input class="form-control" placeholder="Comment"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6"><label  class="sub">Injured</label></div>
-                            <div class="col-md-2"><input class="form-control" placeholder="Number of person"></div>
-                            <div class="col-md-2"><input class="form-control" placeholder="Source/Date"></div>
-                            <div class="col-md-2"><input class="form-control" placeholder="Comment"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6"><label  class="sub">Ill</label></div>
-                            <div class="col-md-2"><input class="form-control" placeholder="Number of person"></div>
-                            <div class="col-md-2"><input class="form-control" placeholder="Source/Date"></div>
-                            <div class="col-md-2"><input class="form-control" placeholder="Comment"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6"><label  class="sub">Dead</label></div>
-                            <div class="col-md-2"><input class="form-control" placeholder="Number of person"></div>
-                            <div class="col-md-2"><input class="form-control" placeholder="Source/Date"></div>
-                            <div class="col-md-2"><input class="form-control" placeholder="Comment"></div>
+                            <div class="col-md-6"><label  class="sub">{{subfield.name}}</label></div>
+                            <div class="col-md-2"><input class="human-number form-control" data-human-pk="{{subfield.pk}}" placeholder="Number of person"></div>
+                            <div class="col-md-2"><input class="human-source form-control" data-human-pk="{{subfield.pk}}" placeholder="Source/Date"></div>
+                            <div class="col-md-2"><input class="human-comment form-control" data-human-pk="{{subfield.pk}}" placeholder="Comment"></div>
                         </div>
 
+                        {% endfor %}
+                        {% endfor %}
                     </section>
                     <section id="people-in-need">
+                        <h3>People in need</h3>
+                        <div class="row toplevel">
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <label>Total people in need</label>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-3"><input class="form-control" placeholder="Total"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Moderate"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Severe"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Planned"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row toplevel">
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <label class="sub">Health</label>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-3"><input class="form-control" placeholder="Total"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Moderate"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Severe"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Planned"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row toplevel">
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <label class="sub">Nutrition</label>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-3"><input class="form-control" placeholder="Total"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Moderate"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Severe"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Planned"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row toplevel">
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <label class="sub">IPC</label>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-3"><label class="sub">1. None/Minimal</label></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Number"></div>
+                                    <div class="col-md-3"><label class="sub">4. Emergency</label></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Number"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3"><label class="sub">2. Stressed</label></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Number"></div>
+                                    <div class="col-md-3"><label class="sub">5. Famine</label></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Number"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3"><label class="sub">3. Crisis</label></div>
+                                    <div class="col-md-3"><input class="form-control" placeholder="Number"></div>
+                                    <div class="col-md-6"><input class="form-control" placeholder="Source"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12"><input class="form-control" placeholder="Comment"></div>
+                                </div>
+                            </div>
+                        </div>
                     </section>
                     <section id="humanitarian-access">
+                        <h3>Humanitarian access</h3>
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="row">
+                                    <div class="col-md-8"><label class="title">Impediments to Entry</label></div>
+                                    <div class="col-md-4">
+                                        <select class="access-select">
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+                                            <option value="DNK">DNK</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-8"><label class="title">Restriction of Movement</label></div>
+                                    <div class="col-md-4">
+                                        <select class="access-select">
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+                                            <option value="DNK">DNK</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-8"><label class="title">Restriction of population's access to aid</label></div>
+                                    <div class="col-md-4">
+                                        <select class="access-select">
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+                                            <option value="DNK">DNK</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5 right-pane">
+                                <div class="row">
+                                    <div class="row">
+                                        <label class="title">PIN with normal access</label>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5"><input class="form-control" placeholder="Number"></div>
+                                        <div class="col-md-7"><input class="form-control" placeholder="Source/Date"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12"><input class="form-control" placeholder="Comment"></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="row">
+                                        <label class="title">PIN with limited access</label>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5"><input class="form-control" placeholder="Number"></div>
+                                        <div class="col-md-7"><input class="form-control" placeholder="Source/Date"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12"><input class="form-control" placeholder="Comment"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </section>
                 </div>
             </div>

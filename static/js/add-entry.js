@@ -121,19 +121,8 @@ function fillTagButtons(tag, title) {
 }
 
 function refreshSectors() {
-    var length = Object.keys(sectors).length;
-    var i = 0;
     for (var sector in sectors) {
-        fillTagButtons(sector, sectors[sector].title);
-
-        $("#tag-buttons").append("<br>");
-
-        var subsectors = sectors[sector].subsectors;
-        for (var subsector in subsectors)
-            fillTagButtons(subsector, subsectors[subsector]);
-
-        if (++i < length)
-            $("#tag-buttons").append("<hr style='margin:0px;padding:5px;'>");
+        fillTagButtons(sector, sectors[sector]);
     }
 }
 
@@ -482,7 +471,7 @@ $(document).ready(function() {
 
         data["add_another"] = addAnother?"1":"0";
 
-        data["sectors"] = JSON.stringify(Object.keys(selectedTags));
+        data["sectors"] = "{}"; //JSON.stringify(Object.keys(selectedTags));
 
         redirectPost(window.location.pathname, data, csrf_token);
     };

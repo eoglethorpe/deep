@@ -35,16 +35,15 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
     // Sectors and tags.
     var sectors = {
-        {% for sector, ss in sectors.items %} "{{sector.name}}": {title: "{{sector.title}}", subsectors: { {% for s in ss %}"{{s.name}}":"{{s.title}}",{% endfor %} }}, {% endfor %}
+        {% for sector, ss in sectors.items %} "{{sector.name}}": "{{sector.title}}", {% endfor %}
     };
     var tags = {
-        {% for sector, ss in sectors.items %}
-            "{{sector.name}}": {{sector.tags_json|safe}},
-            {% for subsector in ss %} "{{subsector.name}}": {{subsector.tags_json|safe}}, {% endfor %}
-        {% endfor %}
+        {% for sector, ss in sectors.items %} "{{sector.name}}": {{sector.tags_json|safe}}, {% endfor %}
     };
+
     // Currently selected tags and their colors.
     var selectedTags = {
+        {% comment %}
         {% if prev_entry %}
         {% for sector in prev_entry.sectors.all %}
         "{{ sector.name }}" : getColor(),
@@ -54,6 +53,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
         "{{ sector.name }}" : getColor(),
         {% endfor %}
         {% endif %}
+        {% endcomment %}
     };
 
     // Current map selections.
@@ -87,7 +87,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     // name, parent, tooltip.
     var affected_groups = [
         {% for group in affected_groups %}
-        ['{{group.name}}', '{% if group.parent %}{{group.parent}}{% endif %}', ''],
+        ['{{group}}', '{% if group.parent %}{{group.parent}}{% endif %}', ''],
         {% endfor %}
     ];
 
