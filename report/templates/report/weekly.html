@@ -186,11 +186,12 @@ DEEP | Weekly Report
                     </section>
                     <section id="people-in-need">
                         <h3>People in need</h3>
+                        {% for field in people_in_need_fields %}
                         <div class="row toplevel">
                             <div class="col-md-4">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label>Total people in need</label>
+                                        <label>{{field.name}}</label>
                                     </div>
                                 </div>
                             </div>
@@ -215,11 +216,12 @@ DEEP | Weekly Report
                                 </div>
                             </div>
                         </div>
+                        {% for subfield in field.peopleinneedfield_set.all %}
                         <div class="row toplevel">
                             <div class="col-md-4">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label>Health</label>
+                                        <label>{{subfield.name}}</label>
                                     </div>
                                 </div>
                             </div>
@@ -244,35 +246,8 @@ DEEP | Weekly Report
                                 </div>
                             </div>
                         </div>
-                        <div class="row toplevel">
-                            <div class="col-md-4">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>Nutrition</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col-md-3"><input class="form-control" placeholder="Total"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Moderate"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Severe"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Planned"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Source/Date"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
-                                    <div class="col-md-3"><input class="form-control" placeholder="Comment"></div>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
+                        {% endfor %}
                         <div class="row toplevel">
                             <div class="col-md-4">
                                 <div class="row">
@@ -309,8 +284,9 @@ DEEP | Weekly Report
                         <h3>Humanitarian access</h3>
                         <div class="row">
                             <div class="col-md-7">
+                                {% for field in human_access_fields %}
                                 <div class="row">
-                                    <div class="col-md-8"><label class="title">Impediments to Entry</label></div>
+                                    <div class="col-md-8"><label class="title">{{field.name}}</label></div>
                                     <div class="col-md-4">
                                         <select class="access-select">
                                             <option value="Yes">Yes</option>
@@ -319,32 +295,14 @@ DEEP | Weekly Report
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-8"><label class="title">Restriction of Movement</label></div>
-                                    <div class="col-md-4">
-                                        <select class="access-select">
-                                            <option value="Yes">Yes</option>
-                                            <option value="No">No</option>
-                                            <option value="DNK">DNK</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-8"><label class="title">Restriction of population's access to aid</label></div>
-                                    <div class="col-md-4">
-                                        <select class="access-select">
-                                            <option value="Yes">Yes</option>
-                                            <option value="No">No</option>
-                                            <option value="DNK">DNK</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                {% endfor %}
                             </div>
                             <div class="col-md-5 right-pane">
+                                {% for field in human_access_pin_fields %}
                                 <div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <label class="title">PIN with normal access</label>
+                                            <label class="title">{{field.name}}</label>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -355,20 +313,7 @@ DEEP | Weekly Report
                                         <div class="col-md-12"><input class="form-control" placeholder="Comment"></div>
                                     </div>
                                 </div>
-                                <div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <label class="title">PIN with limited access</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-5"><input class="form-control" placeholder="Number"></div>
-                                        <div class="col-md-7"><input class="form-control" placeholder="Source/Date"></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12"><input class="form-control" placeholder="Comment"></div>
-                                    </div>
-                                </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </section>

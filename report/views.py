@@ -61,6 +61,10 @@ class WeeklyReportView(View):
 
         context["human_profile_fields"] = \
             HumanProfileField.objects.filter(parent__isnull=True)
+        context["people_in_need_fields"] = \
+            PeopleInNeedField.objects.filter(parent__isnull=True)
+        context["human_access_fields"] = HumanAccessField.objects.filter()
+        context["human_access_pin_fields"] = HumanAccessPinField.objects.filter()
 
         return render(request, "report/weekly.html", context)
 

@@ -21,7 +21,7 @@
                     <hr>
                     <hr>
                     {% for c in countries %}
-                    <a href="{% url 'report:dashboard' %}?country={{country.pk}}">
+                    <a href="{% url 'report:dashboard' %}?country={{c.pk}}">
                         <div class="country {% if country and country == c%}active{% endif %}">
                             {{c.name}}
                             <br>
