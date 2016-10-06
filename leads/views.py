@@ -7,9 +7,11 @@ from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
 
 from datetime import datetime
+import json
 
 from users.models import *
 from leads.models import *
+from entries.models import *
 from entries.strippers import *
 
 
@@ -57,7 +59,7 @@ class SoSView(View):
 
 class AddSoS(View):
     @method_decorator(login_required)
-    def get(self, request, event, lead_id):
+    def get(self, request, event, lead_id, sos_id=None):
         context = {}
         context["current_page"] = "leads"
         context["event"] = Event.objects.get(pk=event)
@@ -104,11 +106,17 @@ class AddSoS(View):
         context["confidentialities"] = AssessmentConfidentiality.objects.all()
         context["statuses"] = AssessmentStatus.objects.all()
 
+        if sos_id:
+            context["sos"] = SurveyOfSurvey.objects.get(pk=sos_id)
+
         return render(request, "leads/add-sos.html", context)
 
     @method_decorator(login_required)
-    def post(self, request, event, lead_id):
-        sos = SurveyOfSurvey()
+    def post(self, request, event, lead_id, sos_id=None):
+        if sos_id:
+            sos = SurveyOfSurvey.objects.get(pk=sos_id)
+        else:
+            sos = SurveyOfSurvey()
 
         sos.lead = Lead.objects.get(pk=lead_id)
 
@@ -126,18 +134,44 @@ class AddSoS(View):
         if request.POST["sampling-type"] and request.POST["sampling_type"] != "":
             sos.sampling_type = SamplingType.objects.get(pk=request.POST["sampling_type"])
         sos.created_by = request.user
+        sos.sectors_covered = request.POST["sectors_covered"]
         sos.save()
 
+        map_data = json.loads(request.POST["map_data"])
+        temp = sos.map_selections.all()
+        sos.map_selections.clear()
+        temp.delete()
+        for area in map_data:
+            m = area.split(':')
+            admin_level = AdminLevel.objects.get(
+                country=Country.objects.get(code=m[0]),
+                level=int(m[1])+1
+            )
+            try:
+                selection = AdminLevelSelection.objects.get(
+                    admin_level=admin_level, name=m[2]
+                )
+            except:
+                selection = AdminLevelSelection(admin_level=admin_level,
+                                                name=m[2])
+                selection.save()
+
+            sos.map_selections.add(selection)
+
+
+        sos.unit_of_analysis.clear()
         if request.POST["analysis-unit"] and request.POST["analysis-unit"] != "null":
             pks = request.POST["analysis-unit"].split(",")
             for pk in pks:
                 sos.unit_of_analysis.add(UnitOfAnalysis.objects.get(pk=pk))
 
+        sos.start_data_collection.clear()
         if request.POST["start-of-field"] and request.POST["start-of-field"] != "null":
             pks = request.POST["start-of-field"].split(",")
             for pk in pks:
                 sos.start_data_collection.add(DataCollectionTechnique.objects.get(pk=pk))
 
+        sos.end_data_collection.clear()
         if request.POST["end-of-field"] and request.POST["end-of-field"] != "null":
             pks = request.POST["end-of-field"].split(",")
             for pk in pks:

@@ -66,26 +66,6 @@ function changeLeadPreview(simplified) {
     }
 }
 
-
-var sectorData = [
-    { id: 'food', title: 'Food', quantification: null, analytical_value: null},
-    { id: 'water-supply', title: 'Water Supply', quantification: null, analytical_value: null},
-    { id: 'hygine', title: 'Hygine', quantification: null, analytical_value: null},
-    { id: 'sanitation', title: 'Sanitation', quantification: null, analytical_value: null},
-    { id: 'livelihood', title: 'Livelihood', quantification: null, analytical_value: null},
-    { id: 'health', title: 'Health', quantification: null, analytical_value: null},
-    { id: 'nutrition', title: 'Nutrition', quantification: null, analytical_value: null},
-    { id: 'shelter', title: 'Shelter', quantification: null, analytical_value: null},
-    { id: 'non-food-items', title: 'Non Food Items', quantification: null, analytical_value: null},
-    { id: 'protection', title: 'Protection', quantification: null, analytical_value: null},
-    { id: 'child-protection', title: 'Child Protection', quantification: null, analytical_value: null},
-    { id: 'humanitarian-access', title: 'Humanitarian Access', quantification: null, analytical_value: null},
-    { id: 'market', title: 'Market', quantification: null, analytical_value: null},
-    { id: 'logistic', title: 'Logistic', quantification: null, analytical_value: null},
-    { id: 'commercial', title: 'Commercial', quantification: null, analytical_value: null},
-];
-
-
 $(document).ready(function(){
     $('.selectize-control').selectize();
     $('#country').selectize();
@@ -121,9 +101,8 @@ $(document).ready(function(){
             if(i == 0){
                 sector.addClass('active');
                 $('#sector-input').find('.title').text(sectorData[i].title);
-                $('#sector-input').find('#quantification').val(sectorData[i].quantification);
-                $('#sector-input').find('#analytical-value').val(sectorData[i].analytical_value);
-
+                $('#sector-input').find('#quantification').selectize()[0].selectize.setValue(sectorData[i].quantification);
+                $('#sector-input').find('#analytical-value').selectize()[0].selectize.setValue(sectorData[i].analytical_value);
             }
             if((sectorData[i].quantification != null && sectorData[i].quantification.length > 0)
                 || (sectorData[i].analytical_value != null && sectorData[i].analytical_value.length > 0)){
@@ -171,7 +150,7 @@ $(document).ready(function(){
             data[$(this).attr('id')] = $(this).val();
         });
 
-        console.log(sectorData);
+        data["map_data"] = JSON.stringify(mapSelections);
         data["sectors_covered"] = JSON.stringify(sectorData);
         redirectPost(window.location.pathname, data, csrf_token);
     });
