@@ -14,7 +14,7 @@ $(document).ready(function(){
     $('#status-select').selectize();
     $('.access-select').selectize();
 
-    function addEventTimeline(){
+    function addEventTimeline(add_btn){
         var container = $('#event-timeline-container');
         var event_timeline = $('.event-timeline-template').clone();
 
@@ -24,11 +24,26 @@ $(document).ready(function(){
         event_timeline.appendTo(container);
         event_timeline.show();
 
-        event_timeline.find('button').on('click', addEventTimeline);
+
+        var set_remove_btn = !(add_btn | false);
+
+        if(set_remove_btn){
+            event_timeline.find('button').text('-');
+            event_timeline.find('button').removeClass('btn-primary');
+            event_timeline.find('button').addClass('btn-danger');
+            event_timeline.find('button').on('click', function(){
+                $(this).closest('.event-timeline').remove();
+            })
+        } else {
+            event_timeline.find('button').text('+');
+            event_timeline.find('button').removeClass('btn-danger');
+            event_timeline.find('button').addClass('btn-primary');
+            event_timeline.find('button').on('click', addEventTimeline);
+        }
 
     }
 
-    addEventTimeline();
+    addEventTimeline(true);
 
     $('#navigator').width($('#report-content').innerWidth())
 
@@ -63,3 +78,8 @@ function getInputData() {
     // People in need data
 
 }
+
+
+$(window).on('resize', function(e) {
+    $('#navigator').width($('#report-content').innerWidth())
+});
