@@ -68,27 +68,28 @@ function changeLeadPreview(simplified) {
 
 
 var sectorData = [
-    { id: 'food', title: 'Food', quantification: '', analytical_value: ''},
-    { id: 'water-supply', title: 'Water Supply', quantification: '', analytical_value: ''},
-    { id: 'hygine', title: 'Hygine', quantification: '', analytical_value: ''},
-    { id: 'sanitation', title: 'Sanitation', quantification: '', analytical_value: ''},
-    { id: 'livelihood', title: 'Livelihood', quantification: '', analytical_value: ''},
-    { id: 'health', title: 'Health', quantification: '', analytical_value: ''},
-    { id: 'nutrition', title: 'Nutrition', quantification: '', analytical_value: ''},
-    { id: 'shelter', title: 'Shelter', quantification: '', analytical_value: ''},
-    { id: 'non-food-items', title: 'Non Food Items', quantification: '', analytical_value: ''},
-    { id: 'protection', title: 'Protection', quantification: '', analytical_value: ''},
-    { id: 'child-protection', title: 'Child Protection', quantification: '', analytical_value: ''},
-    { id: 'humanitarian-access', title: 'Humanitarian Access', quantification: '', analytical_value: ''},
-    { id: 'market', title: 'Market', quantification: '', analytical_value: ''},
-    { id: 'logistic', title: 'Logistic', quantification: '', analytical_value: ''},
-    { id: 'commercial', title: 'Commercial', quantification: '', analytical_value: ''},
+    { id: 'food', title: 'Food', quantification: null, analytical_value: null},
+    { id: 'water-supply', title: 'Water Supply', quantification: null, analytical_value: null},
+    { id: 'hygine', title: 'Hygine', quantification: null, analytical_value: null},
+    { id: 'sanitation', title: 'Sanitation', quantification: null, analytical_value: null},
+    { id: 'livelihood', title: 'Livelihood', quantification: null, analytical_value: null},
+    { id: 'health', title: 'Health', quantification: null, analytical_value: null},
+    { id: 'nutrition', title: 'Nutrition', quantification: null, analytical_value: null},
+    { id: 'shelter', title: 'Shelter', quantification: null, analytical_value: null},
+    { id: 'non-food-items', title: 'Non Food Items', quantification: null, analytical_value: null},
+    { id: 'protection', title: 'Protection', quantification: null, analytical_value: null},
+    { id: 'child-protection', title: 'Child Protection', quantification: null, analytical_value: null},
+    { id: 'humanitarian-access', title: 'Humanitarian Access', quantification: null, analytical_value: null},
+    { id: 'market', title: 'Market', quantification: null, analytical_value: null},
+    { id: 'logistic', title: 'Logistic', quantification: null, analytical_value: null},
+    { id: 'commercial', title: 'Commercial', quantification: null, analytical_value: null},
 ];
 
 
 $(document).ready(function(){
-
+    $('.selectize-control').selectize();
     $('#country').selectize();
+
     manual_location_input = $("#manual-location-input").selectize();
     $("#manual-location-input").change(function(){
         var key = $("#manual-location-input").val();
@@ -124,7 +125,8 @@ $(document).ready(function(){
                 $('#sector-input').find('#analytical-value').val(sectorData[i].analytical_value);
 
             }
-            if(sectorData[i].quantification.length > 0 || sectorData[i].analytical_value.length > 0){
+            if((sectorData[i].quantification != null && sectorData[i].quantification.length > 0)
+                || (sectorData[i].analytical_value != null && sectorData[i].analytical_value.length > 0)){
                 sector.addClass('filled');
             }
             sector.text(sectorData[i].title);
@@ -133,10 +135,10 @@ $(document).ready(function(){
                 var current = $('#sectors .active');
                 current.removeClass('active');
 
-                sectorData[current.prop('id')].quantification = $('#sector-input').find('#quantification').val();
-                sectorData[current.prop('id')].analytical_value = $('#sector-input').find('#analytical-value').val();
+                var q = sectorData[current.prop('id')].quantification = $('#sector-input').find('#quantification').val();
+                var a = sectorData[current.prop('id')].analytical_value = $('#sector-input').find('#analytical-value').val();
 
-                if(sectorData[current.prop('id')].quantification.length > 0 || sectorData[current.prop('id')].analytical_value.length > 0){
+                if((q != null && q.length>0) || (a != null && a.length>0)){
                     current.addClass('filled');
                 } else{
                     current.removeClass('filled')
@@ -144,8 +146,11 @@ $(document).ready(function(){
                 $(this).addClass('active');
 
                 $('#sector-input').find('.title').text(sectorData[$(this).prop('id')].title);
-                $('#sector-input').find('#quantification').val(sectorData[$(this).prop('id')].quantification);
-                $('#sector-input').find('#analytical-value').val(sectorData[$(this).prop('id')].analytical_value);
+                $('#sector-input').find('#quantification').selectize()[0].selectize.clear(true);;
+                $('#sector-input').find('#analytical-value').selectize()[0].selectize.clear(true);
+
+                $('#sector-input').find('#quantification').selectize()[0].selectize.setValue(sectorData[$(this).prop('id')].quantification);
+                $('#sector-input').find('#analytical-value').selectize()[0].selectize.setValue(sectorData[$(this).prop('id')].analytical_value);
             });
             sector.appendTo(sectorContainer);
         }
@@ -154,4 +159,20 @@ $(document).ready(function(){
 
     // Trigger on change of country selection.
     $("#country").trigger('change');
+
+    $("#save-btn").click(function() {
+
+        var current = $('#sectors .active');
+        sectorData[current.prop('id')].quantification = $('#sector-input').find('#quantification').val();
+        sectorData[current.prop('id')].analytical_value = $('#sector-input').find('#analytical-value').val();
+
+        var data = {};
+        $(".save-data").each(function() {
+            data[$(this).attr('id')] = $(this).val();
+        });
+
+        console.log(sectorData);
+        data["sectors_covered"] = JSON.stringify(sectorData);
+        redirectPost(window.location.pathname, data, csrf_token);
+    });
 });

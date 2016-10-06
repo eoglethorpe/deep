@@ -93,8 +93,57 @@ class AddSoS(View):
         except:
             print("Error while simplifying")
 
+        # Get fields options
+        context["proximities"] = ProximityToSource.objects.all()
+        context["units_of_analysis"] = UnitOfAnalysis.objects.all()
+        context["data_collection_techniques"] = DataCollectionTechnique.objects.all()
+        context["sampling_types"] = SamplingType.objects.all()
+        context["quantifications"] = SectorQuantification.objects.all()
+        context["analytical_values"] = SectorAnalyticalValue.objects.all()
+        context["frequencies"] = AssessmentFrequency.objects.all()
+        context["confidentialities"] = AssessmentConfidentiality.objects.all()
+        context["statuses"] = AssessmentStatus.objects.all()
+
         return render(request, "leads/add-sos.html", context)
 
+    @method_decorator(login_required)
+    def post(self, request, event, lead_id):
+        sos = SurveyOfSurvey()
+
+        sos.lead = Lead.objects.get(pk=lead_id)
+
+        sos.title = request.POST["assesment-title"]
+        sos.lead_organization = request.POST["lead-organization"]
+        sos.partners = request.POST["other-assesment-partners"]
+        if request.POST["assesment-frequency"] and request.POST["assesment-frequency"] != "":
+            sos.frequency = AssessmentFrequency.objects.get(pk=request.POST["assesment-frequency"])
+        if request.POST["assesment-status"] and request.POST["assesment-status"] != "":
+            sos.status = AssessmentStatus.objects.get(pk=request.POST["assesment-status"])
+        if request.POST["assesment-confidentiality"] and request.POST["assesment-confidentiality"] != "":
+            sos.confidentiality = AssessmentConfidentiality.objects.get(pk=request.POST["assesment-confidentiality"])
+        if request.POST["source-proximity"] and request.POST["source-proximity"] != "":
+            sos.proximity_to_source = ProximityToSource.objects.get(pk=request.POST["source-proximity"])
+        if request.POST["sampling-type"] and request.POST["sampling_type"] != "":
+            sos.sampling_type = SamplingType.objects.get(pk=request.POST["sampling_type"])
+        sos.created_by = request.user
+        sos.save()
+
+        if request.POST["analysis-unit"] and request.POST["analysis-unit"] != "null":
+            pks = request.POST["analysis-unit"].split(",")
+            for pk in pks:
+                sos.unit_of_analysis.add(UnitOfAnalysis.objects.get(pk=pk))
+
+        if request.POST["start-of-field"] and request.POST["start-of-field"] != "null":
+            pks = request.POST["start-of-field"].split(",")
+            for pk in pks:
+                sos.start_data_collection.add(DataCollectionTechnique.objects.get(pk=pk))
+
+        if request.POST["end-of-field"] and request.POST["end-of-field"] != "null":
+            pks = request.POST["end-of-field"].split(",")
+            for pk in pks:
+                sos.end_data_collection.add(DataCollectionTechnique.objects.get(pk=pk))
+
+        return redirect('leads:sos', event)
 
 class AddLead(View):
     @method_decorator(login_required)
