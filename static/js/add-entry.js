@@ -193,7 +193,10 @@ function initAttrInputs(){
         for(var j = 0; j<attr_group['data'].length; j++){
             var attr = attr_template.clone();
             attr.data('attr-pk', attr_group['data'][j]['pk']);
-            attr.prop('id', 'attr-'+attr_group['data'][j]['pk']);
+            attr.prop('id', 'attr-' + attr_group['data'][j]['pk']);
+
+            attr.addClass(attr_group['class_name']);
+
             attr.text(attr_group['data'][j]['text']);
             attr.appendTo(attr_group_flexrow);
 
@@ -478,7 +481,11 @@ $(document).ready(function() {
 
         data["add_another"] = addAnother?"1":"0";
 
-        data["sectors"] = "{}"; //JSON.stringify(Object.keys(selectedTags));
+        var ssectors = [];
+        $('#sectors-subsectors :selected').each(function(i, selected) {
+            ssectors[i] = $(selected).val();
+        });
+        data["sectors"] = JSON.stringify(ssectors);
 
         redirectPost(window.location.pathname, data, csrf_token);
     };

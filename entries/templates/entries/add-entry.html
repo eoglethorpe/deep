@@ -78,7 +78,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
         {% for attribute in attributes %}
             {'pk': '{{ attribute.pk }}', 'text': '{{attribute.name|safe}}'},
         {% endfor %}
-            ]
+            ],
+            'class_name': '{{ group.class_name }}'
         },
     {% endfor %}
     ];
@@ -108,10 +109,35 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     };
 
     // Select affected groups.
-    var selected_groups = [{% if entry %}{% for group in affected_groups %}
+    var selected_groups = [
+    {% if entry %}{% for group in affected_groups %}
     {% if group in entry.affected_groups.all %}{row:{{forloop.counter0}}, column:null},{% endif %}
-    {% endfor %}{% endif %}];
+    {% endfor %}
+    {% elif prev_entry %}{% for group in affected_groups %}
+    {% if group in prev_entry.affected_groups.all %}{row:{{forloop.counter0}}, column:null},{% endif %}
+    {% endfor %}{% endif %}
+    ];
 </script>
+
+<style>
+    {% for group, attributes in attributes.items %}
+    .{{group.class_name}} {
+        background-color: {{group.color}};
+        color: {{group.text_color}};
+    }
+    .{{group.class_name}}.active {
+        background-color: {{group.selected_color}};
+        color: {{group.selected_text_color}};
+    }
+    .{{group.class_name}}.filled {
+        color: {{group.selected_color}};
+    }
+    .{{group.class_name}}.active.filled {
+        background-color: {{group.selected_color}};
+        color: {{group.selected_text_color}};
+    }
+    {% endfor %}
+</style>
 
 {% endblock %}
 
@@ -217,7 +243,6 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                                         {% endfor %}
                                     </select>
                                 </div>
-
                             </div>
                             <div class="col-md-6">
                                 <div id="sectors-container">
@@ -226,7 +251,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                                     {% for sector, ss in sectors.items %}
                                     <option value="{{sector.pk}}">{{sector.name}}</option>
                                     {% for subsector in ss %}
-                                    <option value="{{subsector.pk}}">{{subsector.name}}</option>
+                                    <option value="{{subsector.pk}}">{{sector.name}} / {{subsector.name}}</option>
                                     {% endfor %}
                                     {% endfor %}
                                     </select>

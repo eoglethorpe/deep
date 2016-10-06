@@ -14,6 +14,7 @@ from . import export_xls, export_docx, export_fields
 
 import os
 import json
+from collections import OrderedDict
 
 
 def get_entry_form_data(event):
@@ -33,11 +34,13 @@ def get_entry_form_data(event):
     data["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
 
     # Information Attributes
-    data["attributes"] = {}
+    data["attributes"] = OrderedDict()
     attr_groups = InformationAttributeGroup.objects.all()
-    for group in attr_groups:
+    for i, group in enumerate(attr_groups):
         data["attributes"][group] = \
             InformationAttribute.objects.filter(group=group)
+        group.class_name = "info-attr-" + str(i)
+
     data["reliabilities"] = AttributeData.RELIABILITIES
     data["severities"] = AttributeData.SEVERITIES
 
@@ -157,9 +160,14 @@ class AddEntry(View):
         except:
             print("Error while simplifying")
 
-        if entry:
+        prev_entry = None
+        if "prev_entry" in request.GET:
+            prev_entry = Entry.objects.get(pk=request.GET["prev_entry"])
+            context["prev_entry"] = prev_entry
+
+        if entry or prev_entry:
             context["entry"] = entry
-            attr_data = AttributeData.objects.filter(entry=entry)
+            attr_data = AttributeData.objects.filter(entry=(entry if entry else prev_entry))
             temp = {}
             for ad in attr_data:
                 if not ad.number:
@@ -183,9 +191,6 @@ class AddEntry(View):
             context["attr_data"] = temp
 
         context.update(get_entry_form_data(context["event"]))
-
-        if "prev_entry" in request.GET:
-            context["prev_entry"] = Entry.objects.get(pk=request.GET["prev_entry"])
         return render(request, "entries/add-entry.html", context)
 
     @method_decorator(login_required)

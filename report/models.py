@@ -72,3 +72,24 @@ class WeeklyReport(models.Model):
     class Meta:
         ordering = [ '-start_date' ]
 
+
+class DisasterType(models.Model):
+    name = models.CharField(max_length=200)
+    parent = models.ForeignKey('DisasterType', null=True, blank=True, default=None)
+
+    def __str__(self):
+        return self.name
+
+
+class ReportStatus(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class CategoryTimeline(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name

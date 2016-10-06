@@ -58,15 +58,19 @@
                             <div class="col-md-6">
                                 <div id="weekly-report-list">
 
+                                    {% if new_week_date %}
                                     <div class="weekly-report">
                                         <button class="btn btn-default" onclick="location.href='{% url 'report:weekly' country.pk event.pk %}?start_date={{new_week_date|date:"d-M-Y"}}';"><i class="fa fa-edit"></i></button>
                                         <h5>Week #{{weekly_report_count|add:1}}</h5>
                                         <p>Status</p>
                                         <p>{{new_week_date|date:"d M Y"}}</p>
                                     </div>
+                                    {% endif %}
 
                                     {% for report in weekly_reports %}
+                                    {% if new_week_date %}
                                     <hr>
+                                    {% endif %}
                                     <div class="weekly-report">
                                         <button class="btn btn-default" onclick="location.href='{% url 'report:weekly' country.pk event.pk report.pk %}';"><i class="fa fa-edit"></i></button>
                                         <h5>Week #{{forloop.revcounter}}</h5>
