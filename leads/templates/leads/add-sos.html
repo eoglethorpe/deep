@@ -6,9 +6,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 {% endblock %}
 
 {% block head %}
-<link href="{% static 'css/add-lead.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/add-sos.css' %}" type="text/css" rel="stylesheet">
-<link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/split-pane.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/selectize.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
@@ -24,7 +22,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 <script src="{% static 'js/utils.js' %}"></script>
 
 <style>
-    
+
 </style>
 
 <script>
@@ -41,8 +39,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 {% endblock %}
 
 {% block body %}
-
-{% include 'navigation-bar.html' %}
+{% include 'navbar.html' %}
 
 <div id="map-modal" class="modal fade" role="dialog" >
     <div class="modal-dialog modal-lg">
@@ -85,62 +82,69 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
     </div>
     <div class="split-pane-divider" id="my-divider"></div>
     <div class="split-pane-component" id="right-component">
-        <h2>Survey of Survey</h2>
-        <form>
-            <div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" name="assesment-title"  placeholder="Title of assessment">
-                        <input type="text" class="form-control " name="lead-organization"  placeholder="Lead Organization">
-                        <input type="text" class="form-control" name="other-assesment-partners"  placeholder="Other assessment partners">
-                        <input type="text" class="form-control " name="assesment-frequency" placeholder="Assessment Frequency">
-                        <input type="text" class="form-control" name="assesment-status" placeholder="Assessment Status">
-                        <input type="text" class="form-control " name="assesment-confidentiality" placeholder="Assessment Confidentiality">
-                    </div>
-                    <div class="col-md-6">
-                        <!--div id="the-map" style="height:300px;"></div-->
-                        <div class="form-group">
-                            <select name="country" id="country" placeholder="Select a country">
-                                {% for country in event.countries.all %}
-                                <option value="{{country.pk}}" {% if entry and entry.country == country %}selected{% endif %}>{{country.name}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-9">
-                                    <select name="manual-location-input" id="manual-location-input" class="form-control"  placeholder="Add a location">
-                                        <option value="">Add a location</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#map-modal"><i class="fa fa-map"></i></button>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div id="selected-location-list" class="col-md-12">
-                                    <p id="empty-text" hidden>No location added!</p>
-                                    <ul>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" name="source-proximity"  placeholder="Proximity to the source">
-                        <input type="text" class="form-control" name="analysis-unit"  placeholder="Unit of analysis">
-                        <input type="text" class="form-control" name="start-of-field"  placeholder="Start of field data collection">
-                        <input type="text" class="form-control" name="end-of-field"  placeholder="End of field data collection">
-                        <input type="text" class="form-control" name="sampling-type" placeholder="Sampling type">
-                    </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-9">
+                    <h2>Survey of Survey</h2>
+                </div>
+                <div class="col-md-3" style="text-align:right;">
+                    <button class="btn btn-danger" id="save-btn" ><i class="fa fa-times"></i>Cancel</button>
+                    <button class="btn btn-primary" id="save-btn"><i class="fa fa-plus"></i>Save</button>
+
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="assesment-title"  placeholder="Title of assessment">
+                    <input type="text" class="form-control " name="lead-organization"  placeholder="Lead Organization">
+                    <input type="text" class="form-control" name="other-assesment-partners"  placeholder="Other assessment partners">
+                    <input type="text" class="form-control " name="assesment-frequency" placeholder="Assessment Frequency">
+                    <input type="text" class="form-control" name="assesment-status" placeholder="Assessment Status">
+                    <input type="text" class="form-control " name="assesment-confidentiality" placeholder="Assessment Confidentiality">
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="source-proximity"  placeholder="Proximity to the source">
+                    <input type="text" class="form-control" name="analysis-unit"  placeholder="Unit of analysis">
+                    <input type="text" class="form-control" name="start-of-field"  placeholder="Start of field data collection">
+                    <input type="text" class="form-control" name="end-of-field"  placeholder="End of field data collection">
+                    <input type="text" class="form-control" name="sampling-type" placeholder="Sampling type">
+                </div>
+                <div class="col-md-4">
+                    <!--div id="the-map" style="height:300px;"></div-->
+                    <div class="form-group">
+                        <select name="country" id="country" placeholder="Select a country">
+                            {% for country in event.countries.all %}
+                            <option value="{{country.pk}}" {% if entry and entry.country == country %}selected{% endif %}>{{country.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <select name="manual-location-input" id="manual-location-input" class="form-control"  placeholder="Add a location">
+                                    <option value="">Add a location</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#map-modal"><i class="fa fa-map"></i></button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="selected-location-list" class="col-md-12">
+                                <p id="empty-text" hidden>No location added!</p>
+                                <ul>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
             <div id="sector-block">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="block-title">
-                            Sectors covered by the assesment
-                        </div>
+                        <h3>Sectors covered by the assesment</h3>
                     </div>
                 </div>
                 <div class="row">
@@ -150,7 +154,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                     </div>
                     <div class="col-md-6 col-md-offset-1">
                         <div id="sector-input">
-                            <div class="title"></div>
+                            <h4 class="title"></h4>
                             <div class="group">
                                 <label>Quantification</label>
                                 <input type=text class="form-control" placeholder="Quantification" id="quantification">
@@ -163,14 +167,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                     </div>
                 </div>
             </div>
-            <div id="action-block">
-                <div class="row">
-                    <div class="col-md-12">
-                        <input type="submit" class="btn btn-default">
-                    </div>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 

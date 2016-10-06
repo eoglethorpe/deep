@@ -49,6 +49,86 @@ body {
   margin: 0;
   padding: 0; }
   body .split-pane {
-    height: calc(100vh - $navbar-height); }
+    height: calc(100vh - 71px);
+    font-size: 12px; }
+    body .split-pane .split-pane-divider {
+      background: rgba(0, 0, 0, 0.2); }
+    body .split-pane #left-component {
+      width: 40em;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+      background-color: #fff; }
+      body .split-pane #left-component #lead-options-container {
+        padding: 8px; }
+        body .split-pane #left-component #lead-options-container button {
+          padding: 5px 10px;
+          border-radius: 0;
+          line-height: 1;
+          margin-right: 8px;
+          margin-bottom: 5px; }
+        body .split-pane #left-component #lead-options-container #tag-buttons {
+          margin-top: 10px; }
+      body .split-pane #left-component #lead-preview-container {
+        height: calc(100% - 70px); }
+      body .split-pane #left-component #lead-preview {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: none; }
+      body .split-pane #left-component #lead-simplified-preview {
+        width: 100%;
+        padding: 16px;
+        background-color: #fafafa; }
+        body .split-pane #left-component #lead-simplified-preview div {
+          color: #717171;
+          white-space: pre-wrap;
+          line-height: 1.5; }
+        body .split-pane #left-component #lead-simplified-preview h1 {
+          font-size: 1.5em; }
+    body .split-pane #my-divider {
+      left: 40em;
+      /* Same as left component width */
+      width: 3px;
+      background-color: transparent; }
+    body .split-pane #right-component {
+      left: 40em;
+      /* Same as left component width */
+      margin-left: 3px;
+      /* Same as divider width */
+      padding-top: 10px; }
+      body .split-pane #right-component h2 {
+        margin-bottom: 32px; }
+      body .split-pane #right-component #save-btn {
+        margin-top: 16px;
+        margin-left: 10px; }
+        body .split-pane #right-component #save-btn .fa {
+          margin-right: 10px; }
+      body .split-pane #right-component .form-control {
+        margin-bottom: 16px; }
+      body .split-pane #right-component #sector-block {
+        padding: 0 50px; }
+        body .split-pane #right-component #sector-block h3 {
+          margin-bottom: 24px; }
+        body .split-pane #right-component #sector-block h4 {
+          text-transform: uppercase; }
+        body .split-pane #right-component #sector-block .control-label {
+          padding-left: 6px; }
+        body .split-pane #right-component #sector-block .sector {
+          display: block;
+          padding: 6px 24px;
+          text-align: right;
+          text-transform: uppercase;
+          cursor: pointer; }
+        body .split-pane #right-component #sector-block .active {
+          background-color: rgba(0, 0, 0, 0.1); }
+        body .split-pane #right-component #sector-block .filled::after {
+          content: "\2713";
+          margin-right: -20px;
+          padding-left: 10px; }
+        body .split-pane #right-component #sector-block #sector-input .title {
+          margin-bottom: 32px; }
+        body .split-pane #right-component #sector-block #sector-input .group {
+          margin-bottom: 24px; }
+        body .split-pane #right-component #sector-block #sector-input label {
+          margin-bottom: 12px; }
 
 /*# sourceMappingURL=add-sos.css.map */
