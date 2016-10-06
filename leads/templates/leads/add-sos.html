@@ -10,7 +10,10 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 <link href="{% static 'css/add-sos.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/split-pane.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/selectize.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
 
+<script src="{% static 'js/selectize.js' %}"></script>
 <script src="{% static 'js/split-pane.js' %}"></script>
 <script src="{% static 'js/utils.js' %}"></script>
 
@@ -18,6 +21,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 <link rel="stylesheet" href="{% static 'css/leaflet.label.css' %}" >
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 <script src="{% static 'js/leaflet.label.js' %}"></script>
+<script src="{% static 'js/utils.js' %}"></script>
 
 <style>
     html, body {
@@ -58,6 +62,8 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
     var leadSimplified = "{% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %}";
     leadSimplified = leadSimplified.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
+    // Map selections
+    var mapSelections = [];
 </script>
 
 {% endblock %}
@@ -65,6 +71,25 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 {% block body %}
 
 {% include 'navigation-bar.html' %}
+
+<div id="map-modal" class="modal fade" role="dialog" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Select locations</h4>
+            </div>
+            <div class="modal-body">
+                <div id="the-map" style="height:500px;"></div>
+            </div>
+            <div class="modal-footer">
+                <div id="admin-level-buttons"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <div class="split-pane fixed-left">
     <div class="split-pane-component" id="left-component">
@@ -101,7 +126,33 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                         <input type="text" class="form-control " name="assesment-confidentiality" placeholder="Assessment Confidentiality">
                     </div>
                     <div class="col-md-6">
-                        <div id="the-map" style="height:300px;"></div>
+                        <!--div id="the-map" style="height:300px;"></div-->
+                        <div class="form-group">
+                            <select name="country" id="country" placeholder="Select a country">
+                                {% for country in event.countries.all %}
+                                <option value="{{country.pk}}" {% if entry and entry.country == country %}selected{% endif %}>{{country.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <select name="manual-location-input" id="manual-location-input" class="form-control"  placeholder="Add a location">
+                                        <option value="">Add a location</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#map-modal"><i class="fa fa-map"></i></button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="selected-location-list" class="col-md-12">
+                                    <p id="empty-text" hidden>No location added!</p>
+                                    <ul>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-3">
                         <input type="text" class="form-control" name="source-proximity"  placeholder="Proximity to the source">
@@ -152,5 +203,5 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 </div>
 
 <script src="{% static 'js/add-sos.js' %}"></script>
-<script src="{% static 'js/add-entry-map.js' %}"></script>
+<script src="{% static 'js/add-sos-map.js' %}"></script>
 {% endblock %}

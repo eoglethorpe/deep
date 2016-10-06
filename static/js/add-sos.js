@@ -1,3 +1,49 @@
+var manual_location_input;
+
+
+function updateLocationSelections() {
+    var container = $('#selected-location-list ul');
+    var items = container.find('li');
+    if(items){
+        items.remove();
+    }
+
+    if(mapSelections.length == 0){
+        $("#empty-text").show();
+    } else{
+        $("#empty-text").hide();
+    }
+
+    for (var i=0; i < mapSelections.length; i++) {
+        var selectionKey = mapSelections[i];
+        element = $('<li><a onclick="unSelect(\''+selectionKey+'\', this)"><i class="fa fa-times"></i></a>'+manual_location_input[0].selectize.options[selectionKey].text+'</li>');
+        element.appendTo(container);
+
+        // Select the option with value selectionKey.
+    }
+}
+
+function refreshLocations() {
+    // TODO: Clear all from select-location.
+    //mapSelections = [];
+    for (var key in locations) {
+        var name = locations[key];
+        manual_location_input[0].selectize.addOption({value: key, text: name});
+        // Add key to mapSelections array on selection and call updateLayer(key).
+    }
+
+    updateLocationSelections();
+}
+
+function unSelect(key, that){
+    mapSelections.splice(mapSelections.indexOf(key), 1);
+    updateLayer(key);
+    $(that).closest('li').remove();
+}
+
+
+
+
 function styleText(text) {
     return "<div>" + text + "</div>";
 }
@@ -41,6 +87,24 @@ var sectorData = [
 
 
 $(document).ready(function(){
+
+    $('#country').selectize();
+    manual_location_input = $("#manual-location-input").selectize();
+    $("#manual-location-input").change(function(){
+        var key = $("#manual-location-input").val();
+        //mapSelections.push(key);
+        if( !inArray(mapSelections, key) ){
+            container = $('#selected-location-list').find('ul');
+            element = $('<li><a onclick="unSelect(\''+key+'\', this)"><i class="fa fa-times"></i></a>'+$("#manual-location-input option:selected").text()+'</li>');
+            element.appendTo(container);
+            mapSelections.push(key);
+        }
+        updateLayer(key);
+
+        manual_location_input[0].selectize.clear(true);
+
+    });
+
     $('div.split-pane').splitPane();
     $('input[type=radio][name=lead-view-option]').change(function() {
         changeLeadPreview(this.value=='simplified');
@@ -87,4 +151,7 @@ $(document).ready(function(){
         }
     }
     createSectors();
+
+    // Trigger on change of country selection.
+    $("#country").trigger('change');
 });

@@ -35,6 +35,12 @@ function refreshLocations() {
     updateLocationSelections();
 }
 
+function unSelect(key, that){
+    mapSelections.splice(mapSelections.indexOf(key), 1);
+    updateLayer(key);
+    $(that).closest('li').remove();
+}
+
 
 
 google.charts.load('current', {packages:["orgchart"]});
@@ -367,12 +373,6 @@ function grabAttrInput(id){
     } else{
         // more than 1 result found (shouldn't happen)
     }
-}
-
-function unSelect(key, that){
-    mapSelections.splice(mapSelections.indexOf(key), 1);
-    updateLayer(key);
-    $(that).closest('li').remove();
 }
 
 
