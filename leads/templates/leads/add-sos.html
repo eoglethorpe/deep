@@ -34,6 +34,8 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 
     // Map selections
     var mapSelections = [];
+
+    var csrf_token = "{% csrf_token %}";
 </script>
 
 {% endblock %}
@@ -88,26 +90,58 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                     <h2>Survey of Survey</h2>
                 </div>
                 <div class="col-md-3" style="text-align:right;">
-                    <button class="btn btn-danger" id="save-btn" ><i class="fa fa-times"></i>Cancel</button>
+                    <button class="btn btn-danger" id="cancel-btn" ><i class="fa fa-times"></i>Cancel</button>
                     <button class="btn btn-primary" id="save-btn"><i class="fa fa-plus"></i>Save</button>
-
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <input type="text" class="form-control" name="assesment-title"  placeholder="Title of assessment">
-                    <input type="text" class="form-control " name="lead-organization"  placeholder="Lead Organization">
-                    <input type="text" class="form-control" name="other-assesment-partners"  placeholder="Other assessment partners">
-                    <input type="text" class="form-control " name="assesment-frequency" placeholder="Assessment Frequency">
-                    <input type="text" class="form-control" name="assesment-status" placeholder="Assessment Status">
-                    <input type="text" class="form-control " name="assesment-confidentiality" placeholder="Assessment Confidentiality">
+                    <input type="text" class="save-data form-control" id="assesment-title"  placeholder="Title of assessment">
+                    <input type="text" class="save-data form-control" id="lead-organization"  placeholder="Lead Organization">
+                    <input type="text" class="save-data form-control" id="other-assesment-partners"  placeholder="Other assessment partners">
+                    <select class="save-data form-control selectize-control" id="assesment-frequency" placeholder="Assessment Frequency">
+                    {% for frequency in frequencies %}
+                    <option value="{{frequency.pk}}">{{frequency}}</option>
+                    {% endfor %}
+                    </select>
+                    <select class="save-data form-control selectize-control" id="assesment-status" placeholder="Assessment Status">
+                    {% for status in statuses %}
+                    <option value="{{status.pk}}">{{status}}</option>
+                    {% endfor %}
+                    </select>
+                    <select class="save-data form-control selectize-control" id="assesment-confidentiality" placeholder="Assessment Confidentiality">
+                    {% for confidentiality in confidentialities %}
+                    <option value="{{confidentiality.pk}}">{{confidentiality}}</option>
+                    {% endfor %}
+                    </select>
                 </div>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" name="source-proximity"  placeholder="Proximity to the source">
-                    <input type="text" class="form-control" name="analysis-unit"  placeholder="Unit of analysis">
-                    <input type="text" class="form-control" name="start-of-field"  placeholder="Start of field data collection">
-                    <input type="text" class="form-control" name="end-of-field"  placeholder="End of field data collection">
-                    <input type="text" class="form-control" name="sampling-type" placeholder="Sampling type">
+                    <select class="save-data form-control selectize-control" id="source-proximity"  placeholder="Proximity to the source">
+                    {% for proximity in proximities %}
+                    <option value="{{proximity.pk}}">{{proximity}}</option>
+                    {% endfor %}
+                    </select>
+                    <select class="save-data form-control selectize-control" id="analysis-unit"  placeholder="Unit of analysis" multiple>
+                    {% for unit in units_of_analysis %}
+                    <option value="{{unit.pk}}">{{unit}}</option>
+                    {% endfor %}
+                    </select>
+                    </select>
+                    <select class="save-data form-control selectize-control" id="start-of-field"  placeholder="Start of field data collection" multiple>
+                    {% for dc in data_collection_techniques %}
+                    <option value="{{dc.pk}}">{{dc}}</option>
+                    {% endfor %}
+                    </select>
+                    <select class="save-data form-control selectize-control" id="end-of-field"  placeholder="End of field data collection" multiple>
+                    {% for dc in data_collection_techniques %}
+                    <option value="{{dc.pk}}">{{dc}}</option>
+                    {% endfor %}
+                    </select>
+                    <select class="save-data form-control selectize-control" id="sampling-type" placeholder="Sampling type">
+                    {% for type in sampling_types %}
+                    <option value="{{type.pk}}">{{type}}</option>
+                    {% endfor %}
+                    </select>
                 </div>
                 <div class="col-md-4">
                     <!--div id="the-map" style="height:300px;"></div-->
@@ -157,11 +191,21 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                             <h4 class="title"></h4>
                             <div class="group">
                                 <label>Quantification</label>
-                                <input type=text class="form-control" placeholder="Quantification" id="quantification">
+                                <select class="form-control selectize-control" placeholder="Quantification" id="quantification">
+                                <option value="">Quantification</option>
+                                {% for quantification in quantifications %}
+                                <option value="{{quantification.pk}}">{{quantification}}</option>
+                                {% endfor %}
+                                </select>
                             </div>
                             <div class="group">
                                 <label>Analytical value</label>
-                                <input type=text class="form-control" placeholder="Analytical Value" id="analytical-value">
+                                <select class="form-control selectize-control" placeholder="Analytical Value" id="analytical-value">
+                                <option value="">Analytical value</option>
+                                {% for value in analytical_values %}
+                                <option value="{{value.pk}}">{{value}}</option>
+                                {% endfor %}
+                                </select>
                             </div>
                         </div>
                     </div>

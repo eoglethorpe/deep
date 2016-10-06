@@ -67,7 +67,8 @@ class SosSerializer(serializers.ModelSerializer):
         model = SurveyOfSurvey
         depth = 1
         fields = ('id', 'title', 'lead_organization', 'partners',
-                  'proximity_to_source', 'unit_of_analysis', 'data_collection_technique',
+                  'proximity_to_source', 'unit_of_analysis', 'start_data_collection',
+                  'end_data_collection',
                   'sampling_type', 'frequency', 'status', 'confidentiality',
                   'countries', 'areas')
 
