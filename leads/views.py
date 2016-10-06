@@ -36,12 +36,23 @@ class LeadsView(View):
         context.update(get_lead_form_data())
         return render(request, "leads/leads.html", context)
 
-
     @method_decorator(login_required)
     def post(self, request, event):
         print(request.POST)
         print(request.FILES)
         return redirect('leads:leads', event)
+
+
+class SoSView(View):
+    @method_decorator(login_required)
+    def get(self, request, event):
+        context = {}
+        context["current_page"] = "sos"
+        context["event"] = Event.objects.get(pk=event)
+        UserProfile.set_last_event(request, context["event"])
+        context["all_events"] = Event.objects.all()
+        context.update(get_lead_form_data())
+        return render(request, "leads/sos.html", context)
 
 
 class AddSoS(View):

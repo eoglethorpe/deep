@@ -55,14 +55,14 @@ class EntrySerializer(serializers.ModelSerializer):
         cs = [s.admin_level.country.name for s in entry.map_selections.all()]
         return list(set(cs))
 
+    def get_areas(self, entry):
+        return [s.name for s in entry.map_selections.all()] + self.get_countries(entry)
+
     def get_vulnerable_groups(self, entry):
         return [str(v) for v in entry.vulnerable_groups.all()]
 
     def get_specific_needs_groups(self, entry):
         return [str(s) for s in entry.specific_needs_groups.all()]
-
-    def get_areas(self, entry):
-        return [s.name for s in entry.map_selections.all()] + self.get_countries(entry)
 
     def get_sectors(self, entry):
         return [s.title for s in entry.sectors.all()]

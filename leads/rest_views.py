@@ -30,3 +30,14 @@ class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     perimission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+
+class SosViewSet(viewsets.ModelViewSet):
+    serializer_class = SosSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        event = self.request.GET.get("event")
+        if event:
+            return SurveyOfSurvey.objects.filter(event__pk=event)
+        return SurveyOfSurvey.objects.all()

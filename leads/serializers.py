@@ -57,3 +57,23 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ('id', 'name',)
+
+
+class SosSerializer(serializers.ModelSerializer):
+    countries = serializers.SerializerMethodField()
+    areas = serializers.SerializerMethodField()
+
+    class Meta:
+        model = SurveyOfSurvey
+        depth = 1
+        fields = ('id', 'title', 'lead_organization', 'partners',
+                  'proximity_to_source', 'unit_of_analysis', 'data_collection_technique',
+                  'sampling_type', 'frequency', 'status', 'confidentiality',
+                  'countries', 'areas')
+
+    def get_countries(self, entry):
+        cs = [s.admin_level.country.name for s in entry.map_selections.all()]
+        return list(set(cs))
+
+    def get_areas(self, entry):
+        return [s.name for s in entry.map_selections.all()] + self.get_countries(entry)
