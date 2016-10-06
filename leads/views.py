@@ -61,7 +61,7 @@ class AddSoS(View):
     @method_decorator(login_required)
     def get(self, request, event, lead_id, sos_id=None):
         context = {}
-        context["current_page"] = "leads"
+        context["current_page"] = "sos"
         context["event"] = Event.objects.get(pk=event)
         context["lead"] = Lead.objects.get(pk=lead_id)
         lead = context["lead"]
@@ -131,8 +131,8 @@ class AddSoS(View):
             sos.confidentiality = AssessmentConfidentiality.objects.get(pk=request.POST["assesment-confidentiality"])
         if request.POST["source-proximity"] and request.POST["source-proximity"] != "":
             sos.proximity_to_source = ProximityToSource.objects.get(pk=request.POST["source-proximity"])
-        if request.POST["sampling-type"] and request.POST["sampling_type"] != "":
-            sos.sampling_type = SamplingType.objects.get(pk=request.POST["sampling_type"])
+        if request.POST["sampling-type"] and request.POST["sampling-type"] != "":
+            sos.sampling_type = SamplingType.objects.get(pk=request.POST["sampling-type"])
         sos.created_by = request.user
         sos.sectors_covered = request.POST["sectors_covered"]
         sos.save()

@@ -6,7 +6,9 @@ DEEP | Survey of surveys
 {% endblock %}
 
 {% block head %}
-
+<script>
+    var currentEvent = {{event.pk}};
+</script>
 <link href="{% static 'css/sos.css' %}" type="text/css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% static 'css/datatables.min.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.bootstrap.min.css' %}"/>

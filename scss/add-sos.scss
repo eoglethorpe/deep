@@ -72,7 +72,7 @@ body{
             h2{
                 margin-bottom: 32px;
             }
-            #save-btn{
+            #save-btn, #cancel-btn{
                 margin-top: 16px;
                 margin-left: 10px;
                 .fa{
@@ -82,7 +82,26 @@ body{
             .form-control{
                 margin-bottom: 16px;
             }
+            #selected-location-list{
+                height: 150px;
+                overflow-y: scroll;
+                background-color: #f0f0f0;
+                margin-top: 16px;
 
+                ul{
+                    list-style: none;
+                    padding-left: 16px;
+                    padding-top: 10px;
+                }
+                #empty-text{
+                    text-align: center;
+                    margin-top: 24px;
+                }
+                .fa{
+                    margin-right: 10px;
+                    color: #e74c3c;
+                }
+            }
             #sector-block{
                 padding: 0 50px;
 
@@ -124,5 +143,21 @@ body{
 
             }
         }
+    }
+
+    #map-modal{
+        .modal-body{
+            padding: 0;
+
+            #the-map{
+                height: 60vh;
+                path {
+                    stroke: #717171;
+                    stroke-width: 1px;
+                    stroke-linejoin: round;
+                }
+            }
+        }
+
     }
 }

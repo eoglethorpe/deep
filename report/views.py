@@ -46,6 +46,7 @@ class ReportDashboardView(View):
         context["weekly_report_count"] = weekly_reports.count()
         context["country"] = country
         context["event"] = event
+        context["current_page"] = "report"
 
         return render(request, "report/dashboard.html", context)
 
@@ -61,6 +62,7 @@ class WeeklyReportView(View):
         context["country"] = country
         context["event"] = event
         context["entries"] = Entry.objects.filter(lead__event=event)
+        context["current_page"] = "report"
 
         context["reliabilities"] = dict(AttributeData.RELIABILITIES)
         context["severities"] = dict(AttributeData.SEVERITIES)
