@@ -1,6 +1,8 @@
+$navbar-height: 71px;
+
 nav{
     background-color: $primary-color;
-    height: 71px;
+    height: $navbar-height;
     box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
 
     z-index: 100;
