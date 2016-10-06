@@ -1,65 +1,54 @@
-form input{
+body {
+  font-family: 'Lato', sans-serif;
+  background-color: #fafafa;
+  color: #414141; }
 
-    margin-bottom: 10px;
-}
+a, a:hover, a:active, a:visited {
+  text-decoration: none; }
 
-form{
-    background-color: #fafafa;
-    box-shadow: 0px 1px 3px 2px rgba(0, 0, 0, 0.2);
-    padding: 24px;
-}
+a, button, input[type="submit"] {
+  text-transform: uppercase; }
 
-.block-title{
-    text-transform: uppercase;
-    color: #008080;
-    font-size: 1.2em;
-    margin-bottom: 48px;
-}
+#error {
+  color: #c0392b; }
 
-#sector-block{
-    margin-top: 20px;
-    background-color: #fff;
-    padding: 24px 50px;
-}
+nav {
+  background-color: #008080;
+  height: 71px;
+  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
+  z-index: 100; }
+  nav .fa {
+    margin-right: 10px; }
+  nav .caret {
+    margin-left: 10px; }
+  nav img {
+    width: 60px;
+    margin-top: 14px; }
+  nav a, nav a:visited {
+    color: #fff; }
+  nav a:hover, nav a:active, nav button:hover, nav button:active {
+    color: #eee; }
+  nav .menu-item {
+    padding: 24px 16px;
+    display: inline-block; }
+  nav .active {
+    background-color: #004d4d; }
+  nav button {
+    background-color: transparent;
+    border: none;
+    color: #fff; }
+  nav #event-menu {
+    margin-right: 24px; }
+  nav .dropdown ul li a {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    color: #414141; }
 
-.control-label{
-    padding-left: 6px;
-}
+body {
+  height: 100vh;
+  margin: 0;
+  padding: 0; }
+  body .split-pane {
+    height: calc(100vh - $navbar-height); }
 
-
-#sectors .sector{
-    display: block;
-    padding: 6px 24px;
-    text-align: right;
-    text-transform: uppercase;
-    cursor: pointer;
-}
-
-#sectors .active{
-    background-color: rgba(0, 0, 0, 0.1);
-}
-#sectors .filled::after{
-    content: "\2713";
-    margin-right: -20px;
-    padding-left: 10px;
-}
-
-#sector-input .title{
-    margin-bottom: 32px;
-}
-#sector-input .group{
-    margin-bottom: 24px;
-}
-#sector-input label{
-    margin-bottom: 12px;
-}
-
-#action-block{
-    text-align: right;
-    margin-top: 40px;
-    margin-bottom: 10px;
-}
-
-#action-block input[type="submit"]{
-    min-width: 100px;
-}
+/*# sourceMappingURL=add-sos.css.map */

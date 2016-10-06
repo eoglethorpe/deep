@@ -1,0 +1,12 @@
+@import 'base';
+@import 'navbar';
+
+body{
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+
+    .split-pane{
+        height: calc(100vh - $navbar-height);
+    }
+}
