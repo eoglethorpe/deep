@@ -193,7 +193,10 @@ function initAttrInputs(){
         for(var j = 0; j<attr_group['data'].length; j++){
             var attr = attr_template.clone();
             attr.data('attr-pk', attr_group['data'][j]['pk']);
-            attr.prop('id', 'attr-'+attr_group['data'][j]['pk']);
+            attr.prop('id', 'attr-' + attr_group['data'][j]['pk']);
+
+            attr.addClass(attr_group['class_name']);
+
             attr.text(attr_group['data'][j]['text']);
             attr.appendTo(attr_group_flexrow);
 

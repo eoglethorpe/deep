@@ -74,12 +74,17 @@ class AffectedGroup(models.Model):
 
 class InformationAttributeGroup(models.Model):
     name = models.CharField(max_length=70, primary_key=True)
+    order = models.IntegerField(default=1)
+    color = models.CharField(max_length=20, default="#f0f0f0")
+    text_color = models.CharField(max_length=20, default="#414141")
+    selected_color = models.CharField(max_length=20, default="#008080")
+    selected_text_color = models.CharField(max_length=20, default="#ffffff")
 
     def __str__(self):
         return self.name
 
     class Meta:
-        ordering = ["name"]
+        ordering = ["order"]
 
 
 class InformationAttribute(models.Model):
