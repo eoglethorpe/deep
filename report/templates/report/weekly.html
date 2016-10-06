@@ -172,6 +172,7 @@ DEEP | Weekly Report
                         <h3>Key Events</h3>
                         <div class="row">
                             <div class="col-md-6">
+                                <label>Select type of disaster:</label>
                                 <select id="disaster-type-select" placeholder="Select type of disaster">
                                     <option>--Select type of disaster--</option>
                                 {% for type in disaster_types %}
@@ -180,6 +181,7 @@ DEEP | Weekly Report
                                 </select>
                             </div>
                             <div class="col-md-6">
+                                <label>Select status:</label>
                                 <select id="status-select" placeholder="Select status">
                                     <option>--Select status--</option>
                                 {% for status in report_statuses %}
