@@ -87,7 +87,7 @@ $(document).ready(function() {
             {
                 data: null,
                 render: function (data, type, row ) {
-                    return formatDate(data.created_at) + "<br>" + data.created_by_name;
+                    return formatDate(data.created_at) + "<br>" + formatTime(data.created_at) + "<br>" + data.created_by_name;
                 }
             },
             { data: "assigned_to_name" },
@@ -357,7 +357,7 @@ function markProcessed(id, status) {
 }
 
 function deleteLead(id) {
-    if (confirm("Are you sure you want to delete this lead?")) {
+    if (confirm("Are you sure you want to delete this lead?\nAll entries related to this lead will also be deleted.")) {
         $("#delete-id").val(id);
         $("#delete-form").submit();
     }
@@ -373,4 +373,17 @@ function formatDate(date) {
     if (day.length < 2) day = '0' + day;
 
     return [year, month, day].join('-');
+}
+
+function formatTime(time) {
+    var d = new Date(time),
+        hr = '' + (d.getHours() + 1),
+        min = '' + d.getMinutes(),
+        sec = d.getSeconds();
+
+    if (hr.length < 2) hr = '0' + hr;
+    if (min.length < 2) min = '0' + min;
+    if (sec.length < 2) sec = '0' + sec;
+
+    return [hr, min].join(':') + "<span hidden>"+sec+"</span>";
 }
