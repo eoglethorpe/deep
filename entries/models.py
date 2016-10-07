@@ -101,9 +101,9 @@ class VulnerableGroup(models.Model):
     max_age = models.IntegerField(default=None, blank=True, null=True)
 
     def __str__(self):
-        if not self.min_age:
+        if not self.min_age and self.max_age:
             return self.name + " (< " + str(self.max_age) + " years old)"
-        elif not self.max_age:
+        elif not self.max_age and self.min_age:
             return self.name + " (" + str(self.min_age) + "+ years old)"
         elif self.min_age and self.max_age:
             return self.name + " (" + str(self.min_age) + " to " + \
