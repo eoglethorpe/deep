@@ -248,9 +248,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                                     <h5>Sectors and subsectors</h5>
                                     <select id="sectors-subsectors" name="sectors-subsectors" class="form-control" placeholder="Select sectors subsectors" multiple="true">
                                     {% for sector, ss in sectors.items %}
-                                    <option value="{{sector.pk}}">{{sector.name}}</option>
+                                    <option value="{{sector.pk}}">{{sector.title}}</option>
                                     {% for subsector in ss %}
-                                    <option value="{{subsector.pk}}">{{sector.name}} / {{subsector.name}}</option>
+                                    <option value="{{subsector.pk}}">{{sector.title}} / {{subsector.title}}</option>
                                     {% endfor %}
                                     {% endfor %}
                                     </select>
