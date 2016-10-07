@@ -7,9 +7,10 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
 
 {% block head %}
 <link href="{% static 'css/add-sos.css' %}" type="text/css" rel="stylesheet">
-<link href="{% static 'css/split-pane.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/selectize.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/split-pane.css' %}" type="text/css" rel="stylesheet">
+
 
 <script src="{% static 'js/selectize.js' %}"></script>
 <script src="{% static 'js/split-pane.js' %}"></script>
@@ -130,45 +131,45 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                     <input type="text" class="save-data form-control" id="assesment-title" placeholder="Title of assessment" {% if sos and sos.title %}value="{{sos.title}}"{% endif %}>
                     <input type="text" class="save-data form-control" id="lead-organization" placeholder="Lead Organization" {% if sos and sos.lead_organization %}value="{{sos.lead_organization}}"{% endif %}>
                     <input type="text" class="save-data form-control" id="other-assesment-partners" placeholder="Other assessment partners" {% if sos and sos.partners %}value="{{sos.partners}}"{% endif %}>
-                    <select class="save-data form-control selectize-control" id="assesment-frequency" placeholder="Assessment Frequency">
-                    {% for frequency in frequencies %}
-                    <option value="{{frequency.pk}}" {% if sos and sos.frequency == frequency %}selected{% endif %}>{{frequency}}</option>
-                    {% endfor %}
+                    <select class="save-data selectize-control" id="assesment-frequency" placeholder="Assessment Frequency">
+                        {% for frequency in frequencies %}
+                        <option value="{{frequency.pk}}" {% if sos and sos.frequency == frequency %}selected{% endif %}>{{frequency}}</option>
+                        {% endfor %}
                     </select>
-                    <select class="save-data form-control selectize-control" id="assesment-status" placeholder="Assessment Status">
-                    {% for status in statuses %}
-                    <option value="{{status.pk}}" {% if sos and sos.status == status %}selected{% endif %}>{{status}}</option>
-                    {% endfor %}
+                    <select class="save-data selectize-control" id="assesment-status" placeholder="Assessment Status">
+                        {% for status in statuses %}
+                        <option value="{{status.pk}}" {% if sos and sos.status == status %}selected{% endif %}>{{status}}</option>
+                        {% endfor %}
                     </select>
-                    <select class="save-data form-control selectize-control" id="assesment-confidentiality" placeholder="Assessment Confidentiality">
-                    {% for confidentiality in confidentialities %}
-                    <option value="{{confidentiality.pk}}" {% if sos and sos.confidentiality == confidentiality %}selected{% endif %}>{{confidentiality}}</option>
-                    {% endfor %}
+                    <select class="save-data selectize-control" id="assesment-confidentiality" placeholder="Assessment Confidentiality">
+                        {% for confidentiality in confidentialities %}
+                        <option value="{{confidentiality.pk}}" {% if sos and sos.confidentiality == confidentiality %}selected{% endif %}>{{confidentiality}}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <select class="save-data form-control selectize-control" id="source-proximity"  placeholder="Proximity to the source">
-                    {% for proximity in proximities %}
-                    <option value="{{proximity.pk}}" {% if sos and sos.proximity_to_source == proximity %}selected{% endif %}>{{proximity}}</option>
-                    {% endfor %}
+                    <select class="save-data selectize-control" id="source-proximity"  placeholder="Proximity to the source">
+                        {% for proximity in proximities %}
+                        <option value="{{proximity.pk}}" {% if sos and sos.proximity_to_source == proximity %}selected{% endif %}>{{proximity}}</option>
+                        {% endfor %}
                     </select>
-                    <select class="save-data form-control selectize-control" id="analysis-unit"  placeholder="Unit of analysis" multiple>
-                    {% for unit in units_of_analysis %}
-                    <option value="{{unit.pk}}" {% if sos and unit in sos.unit_of_analysis.all %}selected{% endif %}>{{unit}}</option>
-                    {% endfor %}
+                    <select class="save-data selectize-control" id="analysis-unit"  placeholder="Unit of analysis" multiple>
+                        {% for unit in units_of_analysis %}
+                        <option value="{{unit.pk}}" {% if sos and unit in sos.unit_of_analysis.all %}selected{% endif %}>{{unit}}</option>
+                        {% endfor %}
                     </select>
                     </select>
-                    <select class="save-data form-control selectize-control" id="start-of-field"  placeholder="Start of field data collection" multiple>
+                    <select class="save-data selectize-control" id="start-of-field"  placeholder="Start of field data collection" multiple>
                     {% for dc in data_collection_techniques %}
                     <option value="{{dc.pk}}" {% if sos and dc in sos.start_data_collection.all %}selected{% endif %}>{{dc}}</option>
                     {% endfor %}
                     </select>
-                    <select class="save-data form-control selectize-control" id="end-of-field"  placeholder="End of field data collection" multiple>
+                    <select class="save-data selectize-control" id="end-of-field"  placeholder="End of field data collection" multiple>
                     {% for dc in data_collection_techniques %}
                     <option value="{{dc.pk}}" {% if sos and dc in sos.end_data_collection.all %}selected{% endif %}>{{dc}}</option>
                     {% endfor %}
                     </select>
-                    <select class="save-data form-control selectize-control" id="sampling-type" placeholder="Sampling type">
+                    <select class="save-data selectize-control" id="sampling-type" placeholder="Sampling type">
                     {% for type in sampling_types %}
                     <option value="{{type.pk}}" {% if sos and sos.sampling_type == type %}selected{% endif %}>{{type}}</option>
                     {% endfor %}
@@ -186,7 +187,7 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-9">
-                                <select name="manual-location-input" id="manual-location-input" class="form-control"  placeholder="Add a location">
+                                <select name="manual-location-input" id="manual-location-input" placeholder="Add a location">
                                     <option value="">Add a location</option>
                                 </select>
                             </div>
@@ -195,10 +196,12 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                             </div>
                         </div>
                         <div class="row">
-                            <div id="selected-location-list" class="col-md-12">
-                                <p id="empty-text" hidden>No location added!</p>
-                                <ul>
-                                </ul>
+                            <div class="col-md-12">
+                                <div id="selected-location-list">
+                                    <p id="empty-text" hidden>No location added!</p>
+                                    <ul>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -222,7 +225,7 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                             <h4 class="title"></h4>
                             <div class="group">
                                 <label>Quantification</label>
-                                <select class="form-control selectize-control" placeholder="Quantification" id="quantification">
+                                <select class="form-control" placeholder="Quantification" id="quantification">
                                 <option value="">Quantification</option>
                                 {% for quantification in quantifications %}
                                 <option value="{{quantification.pk}}">{{quantification}}</option>
@@ -231,7 +234,7 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                             </div>
                             <div class="group">
                                 <label>Analytical value</label>
-                                <select class="form-control selectize-control" placeholder="Analytical Value" id="analytical-value">
+                                <select class="form-control" placeholder="Analytical Value" id="analytical-value">
                                 <option value="">Analytical value</option>
                                 {% for value in analytical_values %}
                                 <option value="{{value.pk}}">{{value}}</option>

@@ -97,13 +97,28 @@ body {
       padding-top: 10px; }
       body .split-pane #right-component h2 {
         margin-bottom: 32px; }
-      body .split-pane #right-component #save-btn {
+      body .split-pane #right-component #save-btn, body .split-pane #right-component #cancel-btn {
         margin-top: 16px;
         margin-left: 10px; }
-        body .split-pane #right-component #save-btn .fa {
+        body .split-pane #right-component #save-btn .fa, body .split-pane #right-component #cancel-btn .fa {
           margin-right: 10px; }
       body .split-pane #right-component .form-control {
         margin-bottom: 16px; }
+      body .split-pane #right-component #selected-location-list {
+        height: 150px;
+        overflow-y: scroll;
+        background-color: #f0f0f0;
+        margin-top: 16px; }
+        body .split-pane #right-component #selected-location-list ul {
+          list-style: none;
+          padding-left: 16px;
+          padding-top: 10px; }
+        body .split-pane #right-component #selected-location-list #empty-text {
+          text-align: center;
+          margin-top: 24px; }
+        body .split-pane #right-component #selected-location-list .fa {
+          margin-right: 10px;
+          color: #e74c3c; }
       body .split-pane #right-component #sector-block {
         padding: 0 50px; }
         body .split-pane #right-component #sector-block h3 {
@@ -130,5 +145,13 @@ body {
           margin-bottom: 24px; }
         body .split-pane #right-component #sector-block #sector-input label {
           margin-bottom: 12px; }
+  body #map-modal .modal-body {
+    padding: 0; }
+    body #map-modal .modal-body #the-map {
+      height: 60vh; }
+      body #map-modal .modal-body #the-map path {
+        stroke: #717171;
+        stroke-width: 1px;
+        stroke-linejoin: round; }
 
 /*# sourceMappingURL=add-sos.css.map */
