@@ -208,3 +208,14 @@ class SurveyOfSurvey(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class SectorCovered(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.identifier = "-".join(self.name.lower().split())
+
+    def __str__(self):
+        return self.name

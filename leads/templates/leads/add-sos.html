@@ -45,27 +45,16 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
     var csrf_token = "{% csrf_token %}";
 
     var sectorData = [];
-    {% if not sos or sos.sectors_covered == "{}" %}
-    sectorData = [
-        { id: 'food', title: 'Food', quantification: null, analytical_value: null},
-        { id: 'water-supply', title: 'Water Supply', quantification: null, analytical_value: null},
-        { id: 'hygine', title: 'Hygine', quantification: null, analytical_value: null},
-        { id: 'sanitation', title: 'Sanitation', quantification: null, analytical_value: null},
-        { id: 'livelihood', title: 'Livelihood', quantification: null, analytical_value: null},
-        { id: 'health', title: 'Health', quantification: null, analytical_value: null},
-        { id: 'nutrition', title: 'Nutrition', quantification: null, analytical_value: null},
-        { id: 'shelter', title: 'Shelter', quantification: null, analytical_value: null},
-        { id: 'non-food-items', title: 'Non Food Items', quantification: null, analytical_value: null},
-        { id: 'protection', title: 'Protection', quantification: null, analytical_value: null},
-        { id: 'child-protection', title: 'Child Protection', quantification: null, analytical_value: null},
-        { id: 'humanitarian-access', title: 'Humanitarian Access', quantification: null, analytical_value: null},
-        { id: 'market', title: 'Market', quantification: null, analytical_value: null},
-        { id: 'logistic', title: 'Logistic', quantification: null, analytical_value: null},
-        { id: 'commercial', title: 'Commercial', quantification: null, analytical_value: null},
-    ];
-    {% else %}
+    {% if sos and not sos.sectors_covered == "{}" %}
     sectorData = {{sos.sectors_covered|safe}};
     {% endif %}
+
+    {% for sc in sectors_covered %}
+        if (sectorData.filter(function(item) { return item.id == '{{sc.identifier}}'; }).length == 0)
+            sectorData.push(
+                { id: '{{sc.identifier}}', title: '{{sc.name}}', quantification: null, analytical_value: null }
+            );
+    {% endfor %}
 
 
 </script>

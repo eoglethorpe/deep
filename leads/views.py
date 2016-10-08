@@ -105,6 +105,7 @@ class AddSoS(View):
         context["frequencies"] = AssessmentFrequency.objects.all()
         context["confidentialities"] = AssessmentConfidentiality.objects.all()
         context["statuses"] = AssessmentStatus.objects.all()
+        context["sectors_covered"] = SectorCovered.objects.all()
 
         if sos_id:
             context["sos"] = SurveyOfSurvey.objects.get(pk=sos_id)
