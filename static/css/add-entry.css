@@ -61,8 +61,18 @@ body {
       width: 40em;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
       background-color: #fff; }
+      body .split-pane #left-component .btn-zoom {
+        opacity: 75%;
+        font-size: 1.5em;
+        background-color: #fafafa;
+        float: right; }
+      body .split-pane #left-component #zoom-in {
+        right: 52px; }
+      body .split-pane #left-component #zoom-out {
+        right: 10px; }
       body .split-pane #left-component #lead-options-container {
-        padding: 8px; }
+        padding: 8px;
+        position: relative; }
         body .split-pane #left-component #lead-options-container button {
           padding: 5px 10px;
           border-radius: 0;

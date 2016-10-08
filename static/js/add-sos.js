@@ -58,11 +58,13 @@ function changeLeadPreview(simplified) {
 
         simplifiedFrame.css("display", "inherit");
         frame.css("display", "none");
+        $(".btn-zoom").show();
     }
     else {
         simplifiedFrame.css("display", "none");
         frame.css("display", "inherit");
         selectedTags = {};
+        $(".btn-zoom").hide();
     }
 }
 
@@ -154,4 +156,18 @@ $(document).ready(function(){
         data["sectors_covered"] = JSON.stringify(sectorData);
         redirectPost(window.location.pathname, data, csrf_token);
     });
+});
+
+$(document).on('click', '#zoom-in', function(){
+
+    var font_size=$("#lead-preview-container").css('font-size');
+    font_size=parseInt(font_size)+1+'px';
+    $("#lead-preview-container").css('font-size',font_size);
+});
+
+$(document).on('click', '#zoom-out', function(){
+
+    var font_size=$("#lead-preview-container").css('font-size');
+    font_size=parseInt(font_size)-1+'px';
+    $("#lead-preview-container").css('font-size',font_size);
 });

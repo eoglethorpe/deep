@@ -149,12 +149,14 @@ function changeLeadPreview(simplified) {
         simplifiedFrame.css("display", "inherit");
         frame.css("display", "none");
         refreshSectors();
+        $(".btn-zoom").show();
     }
     else {
         simplifiedFrame.css("display", "none");
         frame.css("display", "inherit");
 
         $("#tag-buttons").empty();
+        $(".btn-zoom").hide();
     }
 }
 
@@ -555,4 +557,18 @@ $(document).on('click', '#information-attributes .attr', function(e) {
 
 $(document).on('click', '.attr-title', function(){
     $(this).next().toggle();
+});
+
+$(document).on('click', '#zoom-in', function(){
+
+    var font_size=$("#lead-preview-container").css('font-size');
+    font_size=parseInt(font_size)+1+'px';
+    $("#lead-preview-container").css('font-size',font_size);
+});
+
+$(document).on('click', '#zoom-out', function(){
+
+    var font_size=$("#lead-preview-container").css('font-size');
+    font_size=parseInt(font_size)-1+'px';
+    $("#lead-preview-container").css('font-size',font_size);
 });
