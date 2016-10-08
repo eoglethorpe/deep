@@ -44,8 +44,9 @@ DEEP | Entries
 <section id="main">
     <div class="container">
         <div class="row">
+            <h2>Entries</h2>
             <div class="col-md-7">
-                <h3>Hierarchy<br><small>(drag to rearrange)</small></h3>
+                <h4>Hierarchy<small> (drag to rearrange)</small></h4>
                 <ul id="sortable">
                   <li class="ui-state-default" id="geoarea">Geo Area</li>
                   <li class="ui-state-default" id="reliability">Reliability</li>
@@ -56,22 +57,22 @@ DEEP | Entries
             </div>
             <div class="col-md-5">
                 <div id="export-btn-wrapper">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <form action="{% url 'entries:exportxls' event=event.pk %}">
-                                <button type="submit" class="btn btn-info" ><i class="fa fa-file-excel-o"></i>Export to Excel</button>
-                            </form>
-                        </div>
-                        <div class="col-sm-6">
-                            <form id="export-doc" action="{% url 'entries:exportdocx' event=event.pk %}">
-                                <button type="submit" class="btn btn-warning" ><i class="fa fa-file-word-o"></i>Export to Word</button>
-                            </form>
-                        </div>
-                    </div>
+                    <form action="{% url 'entries:exportxls' event=event.pk %}">
+                        <button type="submit" class="btn btn-primary" ><i class="fa fa-file-excel-o"></i>Export to Excel</button>
+                    </form>
+                    <form id="export-doc" action="{% url 'entries:exportdocx' event=event.pk %}">
+                        <button type="submit" class="btn btn-info" ><i class="fa fa-file-word-o"></i>Export to Word</button>
+                    </form>
                 </div>
             </div>
         </div>
-
+        <hr>
+        <div class="row">
+            <h2>Survey of surveys</h2>
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary" ><i class="fa fa-file-excel-o"></i>Export to Excel</button>
+            </div>
+        </div>
     </div>
 </section>
 

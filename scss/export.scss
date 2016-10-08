@@ -2,9 +2,19 @@
 @import 'navbar';
 
 #main{
-    h3{
-        padding-bottom: 32px;
+
+    h2{
+        text-transform: uppercase;
+        font-size: 1.5em;
+        color: $primary-color;
+        margin-bottom: 32px;
     }
+
+    h4{
+        margin-top: 0;
+        margin-bottom: 16px;
+    }
+
     #sortable{
         padding: 0;
         li{
@@ -14,12 +24,11 @@
         }
     }
 
-    form button{
-        width: 100%;
-    }
 
     #export-btn-wrapper {
+        margin-top: 72px;
         padding: 24px;
+        text-align: center;
         form {
             margin-top: 10px;
         }
@@ -27,5 +36,6 @@
     .fa{
         margin-right: 10px;
     }
+
 
 }
