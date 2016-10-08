@@ -131,6 +131,8 @@ class Entry(models.Model):
     specific_needs_groups = models.ManyToManyField(SpecificNeedsGroup, blank=True)
     sectors = models.ManyToManyField(Sector, blank=True)
 
+    date = models.DateField(null=True, blank=True, default=None)
+
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, null=True)  # Remove null=True.
 

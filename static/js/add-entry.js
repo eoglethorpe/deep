@@ -489,6 +489,8 @@ $(document).ready(function() {
         });
         data["sectors"] = JSON.stringify(ssectors);
 
+        data["date"] = $("#entry-date").val();
+
         redirectPost(window.location.pathname, data, csrf_token);
     };
     $("#save-btn").on('click', function(){saveFunction(false);});

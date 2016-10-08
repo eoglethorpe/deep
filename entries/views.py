@@ -165,8 +165,10 @@ class AddEntry(View):
             prev_entry = Entry.objects.get(pk=request.GET["prev_entry"])
             context["prev_entry"] = prev_entry
 
-        if entry or prev_entry:
+        if entry:
             context["entry"] = entry
+
+        if entry or prev_entry:
             attr_data = AttributeData.objects.filter(entry=(entry if entry else prev_entry))
             temp = {}
             for ad in attr_data:
@@ -213,6 +215,10 @@ class AddEntry(View):
 
         if lead_id:
             entry.lead = Lead.objects.get(pk=lead_id)
+
+        if "date" in request.POST and request.POST["date"] != "":
+            entry.date = request.POST["date"]
+
         entry.created_by = request.user
         entry.save()
 
