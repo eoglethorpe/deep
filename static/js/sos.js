@@ -10,8 +10,22 @@ function formatDate(date) {
     return [year, month, day].join('-');
 }
 
+function formatTime(time) {
+    var d = new Date(time),
+        hr = '' + (d.getHours() + 1),
+        min = '' + d.getMinutes(),
+        sec = d.getSeconds();
+
+    if (hr.length < 2) hr = '0' + hr;
+    if (min.length < 2) min = '0' + min;
+    if (sec.length < 2) sec = '0' + sec;
+
+    return [hr, min].join(':') + "<span hidden>"+sec+"</span>";
+}
+
 $(document).ready(function(){
     var sosTable = $('#sos-table').DataTable({
+        "order": [[ 0, "desc" ]], 
         ajax: {
             type: "GET",
             dataType: "json",
@@ -22,10 +36,10 @@ $(document).ready(function(){
             {
                 data: null,
                 render: function (data, type, row ) {
-                    return formatDate(data.created_at) + "<br>" + data.created_by_name;
+                    return formatDate(data.created_at) + "<br>" + formatTime(data.created_at) + "<br>" + data.created_by_name;
                 }
             },
-            { data :"title" },
+            { data :"title", width: '15%' },
             {
                 data :null,
                 render: function (data, type, row ) {
@@ -37,13 +51,15 @@ $(document).ready(function(){
                         }
                     }
                     return areas;
-                }
+                },
+                width: '10%'
             },
+            { data: "sectors_covered" },
             { data: "lead_organization" },
-            { data: "frequency.name" },
-            { data: "confidentiality.name" },
-            { data: "status.name" },
-            { data: "proximity_to_source.name" },
+            { data: null, render: function(data, type, row) { return data.frequency?data.frequency.name:"";} },
+            { data: null, render: function(data, type, row) { return data.confidentiality?data.confidentiality.name:"";} },
+            { data: null, render: function(data, type, row) { return data.status?data.status.name:"";} },
+            { data: null, render: function(data, type, row) { return data.proximity_to_source?data.proximity_to_source.name:"";} },
             {
                 data: null,
                 render: function(data, type, row){

@@ -24,9 +24,22 @@ body{
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
             background-color: #fff;
 
+            .btn-zoom{
+                opacity: 75%;
+                font-size: 1.5em;
+                background-color: #fafafa;
+                float: right;
+            }
+            #zoom-in{
+                right: 52px;
+            }
+            #zoom-out{
+                right: 10px;
+            }
 
             #lead-options-container{
                 padding: 8px;
+                position: relative;
                 //background-color: #f5f5f5;
 
                 button{

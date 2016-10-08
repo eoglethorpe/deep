@@ -44,18 +44,24 @@ nav {
     padding-bottom: 8px;
     color: #414141; }
 
-#main h3 {
-  padding-bottom: 32px; }
+#main h2 {
+  text-transform: uppercase;
+  font-size: 1.5em;
+  color: #008080;
+  margin-bottom: 32px; }
+#main h4 {
+  margin-top: 0;
+  margin-bottom: 16px; }
 #main #sortable {
   padding: 0; }
   #main #sortable li {
     list-style: none;
     padding: 8px 16px;
     margin: 10px 0; }
-#main form button {
-  width: 100%; }
 #main #export-btn-wrapper {
-  padding: 24px; }
+  margin-top: 72px;
+  padding: 24px;
+  text-align: center; }
   #main #export-btn-wrapper form {
     margin-top: 10px; }
 #main .fa {

@@ -80,7 +80,7 @@ $(document).ready(function() {
             {
                 data: null,
                 render: function (data, type, row ) {
-                    return formatDate(data.created_at)+'<br>'+data.created_by_name;
+                    return formatDate(data.created_at) + "<br>" + formatTime(data.created_at) + "<br>" + data.created_by_name;
                 },
             },
             {
@@ -302,4 +302,17 @@ function deleteEntry(id) {
         $("#delete-id").val(id);
         $("#delete-form").submit();
     }
+}
+
+function formatTime(time) {
+    var d = new Date(time),
+        hr = '' + (d.getHours() + 1),
+        min = '' + d.getMinutes(),
+        sec = d.getSeconds();
+
+    if (hr.length < 2) hr = '0' + hr;
+    if (min.length < 2) min = '0' + min;
+    if (sec.length < 2) sec = '0' + sec;
+
+    return [hr, min].join(':') + "<span hidden>"+sec+"</span>";
 }

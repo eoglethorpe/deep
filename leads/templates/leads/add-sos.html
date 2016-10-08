@@ -45,27 +45,16 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
     var csrf_token = "{% csrf_token %}";
 
     var sectorData = [];
-    {% if not sos or sos.sectors_covered == "{}" %}
-    sectorData = [
-        { id: 'food', title: 'Food', quantification: null, analytical_value: null},
-        { id: 'water-supply', title: 'Water Supply', quantification: null, analytical_value: null},
-        { id: 'hygine', title: 'Hygine', quantification: null, analytical_value: null},
-        { id: 'sanitation', title: 'Sanitation', quantification: null, analytical_value: null},
-        { id: 'livelihood', title: 'Livelihood', quantification: null, analytical_value: null},
-        { id: 'health', title: 'Health', quantification: null, analytical_value: null},
-        { id: 'nutrition', title: 'Nutrition', quantification: null, analytical_value: null},
-        { id: 'shelter', title: 'Shelter', quantification: null, analytical_value: null},
-        { id: 'non-food-items', title: 'Non Food Items', quantification: null, analytical_value: null},
-        { id: 'protection', title: 'Protection', quantification: null, analytical_value: null},
-        { id: 'child-protection', title: 'Child Protection', quantification: null, analytical_value: null},
-        { id: 'humanitarian-access', title: 'Humanitarian Access', quantification: null, analytical_value: null},
-        { id: 'market', title: 'Market', quantification: null, analytical_value: null},
-        { id: 'logistic', title: 'Logistic', quantification: null, analytical_value: null},
-        { id: 'commercial', title: 'Commercial', quantification: null, analytical_value: null},
-    ];
-    {% else %}
+    {% if sos and not sos.sectors_covered == "{}" %}
     sectorData = {{sos.sectors_covered|safe}};
     {% endif %}
+
+    {% for sc in sectors_covered %}
+        if (sectorData.filter(function(item) { return item.id == '{{sc.identifier}}'; }).length == 0)
+            sectorData.push(
+                { id: '{{sc.identifier}}', title: '{{sc.name}}', quantification: null, analytical_value: null }
+            );
+    {% endfor %}
 
 
 </script>
@@ -102,6 +91,9 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                 <label class="btn btn-default radio-inline active"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
                 <label class="btn btn-default radio-inline"><input type="radio" name="lead-view-option" value="original">Original</label>
             </div>
+            <button class="btn btn-regular btn-zoom" id="zoom-out" data-toggle="tooltip" title="zoom out"><i class="fa fa-search-minus"></i></button>
+            <button class="btn btn-regular btn-zoom" id="zoom-in" data-toggle="tooltip" title="zoom in"><i class="fa fa-search-plus"></i></button>
+            <div id="tag-buttons" style="max-height:200px; overflow:auto;"></div>
         </div>
         {% endif %}
 
@@ -132,16 +124,19 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                     <input type="text" class="save-data form-control" id="lead-organization" placeholder="Lead Organization" {% if sos and sos.lead_organization %}value="{{sos.lead_organization}}"{% endif %}>
                     <input type="text" class="save-data form-control" id="other-assesment-partners" placeholder="Other assessment partners" {% if sos and sos.partners %}value="{{sos.partners}}"{% endif %}>
                     <select class="save-data selectize-control" id="assesment-frequency" placeholder="Assessment Frequency">
+                        <option>Select frequency</option>
                         {% for frequency in frequencies %}
                         <option value="{{frequency.pk}}" {% if sos and sos.frequency == frequency %}selected{% endif %}>{{frequency}}</option>
                         {% endfor %}
                     </select>
                     <select class="save-data selectize-control" id="assesment-status" placeholder="Assessment Status">
+                        <option>Select status</option>
                         {% for status in statuses %}
                         <option value="{{status.pk}}" {% if sos and sos.status == status %}selected{% endif %}>{{status}}</option>
                         {% endfor %}
                     </select>
                     <select class="save-data selectize-control" id="assesment-confidentiality" placeholder="Assessment Confidentiality">
+                        <option>Select confidentiality</option>
                         {% for confidentiality in confidentialities %}
                         <option value="{{confidentiality.pk}}" {% if sos and sos.confidentiality == confidentiality %}selected{% endif %}>{{confidentiality}}</option>
                         {% endfor %}
@@ -149,6 +144,7 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                 </div>
                 <div class="col-md-4">
                     <select class="save-data selectize-control" id="source-proximity"  placeholder="Proximity to the source">
+                        <option>Select proximity to source</option>
                         {% for proximity in proximities %}
                         <option value="{{proximity.pk}}" {% if sos and sos.proximity_to_source == proximity %}selected{% endif %}>{{proximity}}</option>
                         {% endfor %}
@@ -159,17 +155,18 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                         {% endfor %}
                     </select>
                     </select>
-                    <select class="save-data selectize-control" id="start-of-field"  placeholder="Start of field data collection" multiple>
+
+                    <select class="save-data selectize-control" id="data-collection-technique"  placeholder="Data collection technique" multiple>
                     {% for dc in data_collection_techniques %}
-                    <option value="{{dc.pk}}" {% if sos and dc in sos.start_data_collection.all %}selected{% endif %}>{{dc}}</option>
+                    <option value="{{dc.pk}}" {% if sos and dc in sos.data_collection_technique.all %}selected{% endif %}>{{dc}}</option>
                     {% endfor %}
                     </select>
-                    <select class="save-data selectize-control" id="end-of-field"  placeholder="End of field data collection" multiple>
-                    {% for dc in data_collection_techniques %}
-                    <option value="{{dc.pk}}" {% if sos and dc in sos.end_data_collection.all %}selected{% endif %}>{{dc}}</option>
-                    {% endfor %}
-                    </select>
+
+                    <input class="save-data form-control" id="start-of-field" placeholder="Start of field data collection" type="date" {% if sos and sos.start_data_collection %}value="{{sos.start_data_collection|date:"Y-m-d"}}"{% endif %}>
+                    <input class="save-data form-control" id="end-of-field" placeholder="End of field data collection" type="date" {% if sos and sos.end_data_collection %}value="{{sos.end_data_collection|date:"Y-m-d"}}"{% endif %}>
+
                     <select class="save-data selectize-control" id="sampling-type" placeholder="Sampling type">
+                    <option>Select sampling type</option>
                     {% for type in sampling_types %}
                     <option value="{{type.pk}}" {% if sos and sos.sampling_type == type %}selected{% endif %}>{{type}}</option>
                     {% endfor %}

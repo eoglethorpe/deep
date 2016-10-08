@@ -171,6 +171,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 <label class="btn btn-default radio-inline active"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
                 <label class="btn btn-default radio-inline"><input type="radio" name="lead-view-option" value="original">Original</label>
             </div>
+            <button class="btn btn-regular btn-zoom" id="zoom-out" data-toggle="tooltip" title="zoom out"><i class="fa fa-search-minus"></i></button>
+            <button class="btn btn-regular btn-zoom" id="zoom-in" data-toggle="tooltip" title="zoom in"><i class="fa fa-search-plus"></i></button>
             <div id="tag-buttons" style="max-height:200px; overflow:auto;"></div>
         </div>
         {% endif %}
@@ -248,9 +250,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                                     <h5>Sectors and subsectors</h5>
                                     <select id="sectors-subsectors" name="sectors-subsectors" class="form-control" placeholder="Select sectors subsectors" multiple="true">
                                     {% for sector, ss in sectors.items %}
-                                    <option value="{{sector.pk}}">{{sector.name}}</option>
+                                    <option value="{{sector.pk}}">{{sector.title}}</option>
                                     {% for subsector in ss %}
-                                    <option value="{{subsector.pk}}">{{sector.name}} / {{subsector.name}}</option>
+                                    <option value="{{subsector.pk}}">{{sector.title}} / {{subsector.title}}</option>
                                     {% endfor %}
                                     {% endfor %}
                                     </select>
