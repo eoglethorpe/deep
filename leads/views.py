@@ -123,6 +123,10 @@ class AddSoS(View):
         sos.title = request.POST["assesment-title"]
         sos.lead_organization = request.POST["lead-organization"]
         sos.partners = request.POST["other-assesment-partners"]
+        if request.POST["start-of-field"] and request.POST["start-of-field"] != "":
+            sos.start_data_collection = request.POST["start-of-field"]
+        if request.POST["end-of-field"] and request.POST["end-of-field"] != "":
+            sos.end_data_collection = request.POST["end-of-field"]
         if request.POST["assesment-frequency"] and request.POST["assesment-frequency"] != "":
             sos.frequency = AssessmentFrequency.objects.get(pk=request.POST["assesment-frequency"])
         if request.POST["assesment-status"] and request.POST["assesment-status"] != "":
@@ -165,17 +169,11 @@ class AddSoS(View):
             for pk in pks:
                 sos.unit_of_analysis.add(UnitOfAnalysis.objects.get(pk=pk))
 
-        sos.start_data_collection.clear()
-        if request.POST["start-of-field"] and request.POST["start-of-field"] != "null":
-            pks = request.POST["start-of-field"].split(",")
+        sos.data_collection_technique.clear()
+        if request.POST["data-collection-technique"] and request.POST["data-collection-technique"] != "null":
+            pks = request.POST["data-collection-technique"].split(",")
             for pk in pks:
-                sos.start_data_collection.add(DataCollectionTechnique.objects.get(pk=pk))
-
-        sos.end_data_collection.clear()
-        if request.POST["end-of-field"] and request.POST["end-of-field"] != "null":
-            pks = request.POST["end-of-field"].split(",")
-            for pk in pks:
-                sos.end_data_collection.add(DataCollectionTechnique.objects.get(pk=pk))
+                sos.data_collection_technique.add(DataCollectionTechnique.objects.get(pk=pk))
 
         return redirect('leads:sos', event)
 
