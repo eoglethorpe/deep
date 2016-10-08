@@ -39,7 +39,7 @@ $(document).ready(function(){
                     return formatDate(data.created_at) + "<br>" + formatTime(data.created_at) + "<br>" + data.created_by_name;
                 }
             },
-            { data :"title" },
+            { data :"title", width: '15%' },
             {
                 data :null,
                 render: function (data, type, row ) {
@@ -51,8 +51,10 @@ $(document).ready(function(){
                         }
                     }
                     return areas;
-                }
+                },
+                width: '10%'
             },
+            { data: "sectors_covered" },
             { data: "lead_organization" },
             { data: null, render: function(data, type, row) { return data.frequency?data.frequency.name:"";} },
             { data: null, render: function(data, type, row) { return data.confidentiality?data.confidentiality.name:"";} },

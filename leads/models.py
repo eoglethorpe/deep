@@ -188,14 +188,14 @@ class SurveyOfSurvey(models.Model):
 
     title = models.CharField(max_length=200)
     lead_organization = models.CharField(max_length=200, blank=True, null=True)
-    partners = models.TextField()
+    partners = models.TextField(blank=True)
 
     map_selections = models.ManyToManyField('entries.AdminLevelSelection', blank=True)
     proximity_to_source = models.ForeignKey(ProximityToSource, blank=True, null=True)
     unit_of_analysis = models.ManyToManyField(UnitOfAnalysis, blank=True)
     data_collection_technique = models.ManyToManyField(DataCollectionTechnique, blank=True)
-    start_data_collection = models.DateField(null=True, default=None)
-    end_data_collection = models.DateField(null=True, default=None)
+    start_data_collection = models.DateField(null=True, default=None, blank=True)
+    end_data_collection = models.DateField(null=True, default=None, blank=True)
     sampling_type = models.ForeignKey(SamplingType, blank=True, null=True)
     frequency = models.ForeignKey(AssessmentFrequency, blank=True, null=True)
     status = models.ForeignKey(AssessmentStatus, blank=True, null=True)
@@ -208,3 +208,14 @@ class SurveyOfSurvey(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class SectorCovered(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.identifier = "-".join(self.name.lower().split())
+
+    def __str__(self):
+        return self.name
