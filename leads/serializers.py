@@ -66,6 +66,7 @@ class SosSerializer(serializers.ModelSerializer):
     created_by_name = serializers.SerializerMethodField()
     lead_id = serializers.SerializerMethodField()
     sectors_covered = serializers.SerializerMethodField()
+    affected_groups = serializers.SerializerMethodField()
 
     class Meta:
         model = SurveyOfSurvey
@@ -76,7 +77,8 @@ class SosSerializer(serializers.ModelSerializer):
                   'end_data_collection', 'data_collection_technique',
                   'sectors_covered',
                   'sampling_type', 'frequency', 'status', 'confidentiality',
-                  'countries', 'areas', 'sectors_covered', 'lead_id')
+                  'countries', 'areas', 'sectors_covered', 'lead_id',
+                  'affected_groups')
 
     def get_countries(self, entry):
         cs = [s.admin_level.country.name for s in entry.map_selections.all()]
@@ -99,3 +101,6 @@ class SosSerializer(serializers.ModelSerializer):
                 data.append(sc["title"])
 
         return ", ".join(data)
+
+    def get_affected_groups(self, sos):
+        return ", ".join(json.loads(sos.affected_groups))

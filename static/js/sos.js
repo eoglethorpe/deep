@@ -39,7 +39,7 @@ $(document).ready(function(){
                     return formatDate(data.created_at) + "<br>" + formatTime(data.created_at) + "<br>" + data.created_by_name;
                 }
             },
-            { data :"title", width: '15%' },
+            { data :"title", width: '13%' },
             {
                 data :null,
                 render: function (data, type, row ) {
@@ -55,11 +55,12 @@ $(document).ready(function(){
                 width: '10%'
             },
             { data: "sectors_covered" },
+            { data: "affected_groups" },
             { data: "lead_organization" },
-            { data: null, render: function(data, type, row) { return data.frequency?data.frequency.name:"";} },
-            { data: null, render: function(data, type, row) { return data.confidentiality?data.confidentiality.name:"";} },
-            { data: null, render: function(data, type, row) { return data.status?data.status.name:"";} },
-            { data: null, render: function(data, type, row) { return data.proximity_to_source?data.proximity_to_source.name:"";} },
+            { data: null, render: function(data, type, row) { return data.frequency?data.frequency.name:"";}, width: '6%', },
+            { data: null, render: function(data, type, row) { return data.confidentiality?data.confidentiality.name:"";}, width: '6%', },
+            { data: null, render: function(data, type, row) { return data.status?data.status.name:"";}, width: '6%', },
+            { data: null, render: function(data, type, row) { return data.proximity_to_source?data.proximity_to_source.name:"";}, width: '10%', },
             {
                 data: null,
                 render: function(data, type, row){
