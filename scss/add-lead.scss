@@ -1,6 +1,18 @@
 @import 'base';
 @import 'navbar';
 
+#main{
+    h2{
+        text-align: left!important;
+        clear:both;
+        text-transform: uppercase;
+        color: $primary-color;
+        margin-bottom: 24px;
+        margin-top: 32px;
+        font-size: 1.5em;
+    }
+}
+
 .form-wrapper{
     background-color: #f5f5f5;
     padding: 24px;

@@ -15,6 +15,8 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 <script type="text/javascript" src="{% static 'js/dropzone.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/add-lead.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
+
 
 {% endblock %}
 
@@ -24,7 +26,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 
 <section id="main">
     <div class="container">
-        <h2>{% if lead %}Edit{% else %}Create{% endif %} Lead</h2>
+        <h2>{% if lead %}Edit{% else %}Add{% endif %} Lead</h2>
         <div class="form-wrapper">
             <div class="row">
                 <div class="col-md-8 col-md-offset-1">
