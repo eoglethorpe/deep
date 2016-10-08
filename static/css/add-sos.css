@@ -104,6 +104,16 @@ body {
       margin-left: 3px;
       /* Same as divider width */
       padding-top: 10px; }
+      body .split-pane #right-component #chart-div {
+        overflow: hidden; }
+      body .split-pane #right-component .affected-group {
+        background-color: #f0f0f0;
+        cursor: pointer; }
+      body .split-pane #right-component .active-affected-group {
+        color: #fff;
+        background-color: #008080; }
+      body .split-pane #right-component .google-visualization-orgchart-linebottom {
+        border-bottom: 1px solid #008080 !important; }
       body .split-pane #right-component h2 {
         margin-bottom: 32px; }
       body .split-pane #right-component #save-btn, body .split-pane #right-component #cancel-btn {

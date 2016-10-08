@@ -82,6 +82,22 @@ body{
             margin-left: 3px;  /* Same as divider width */
             padding-top: 10px;
 
+            #chart-div{
+                overflow: hidden;
+            }
+
+            .affected-group{
+                background-color: #f0f0f0;
+                cursor: pointer;
+            }
+            .active-affected-group{
+                color: #fff;
+                background-color: #008080;
+            }
+            .google-visualization-orgchart-linebottom {
+                border-bottom: 1px solid #008080!important;
+            }
+
             h2{
                 margin-bottom: 32px;
             }

@@ -15,6 +15,7 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
 <script src="{% static 'js/selectize.js' %}"></script>
 <script src="{% static 'js/split-pane.js' %}"></script>
 <script src="{% static 'js/utils.js' %}"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
 <link rel="stylesheet" href="{% static 'css/leaflet.label.css' %}" >
@@ -217,7 +218,7 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                         <div id="sectors">
                         </div>
                     </div>
-                    <div class="col-md-6 col-md-offset-1">
+                    <div class="col-md-3 col-md-offset-1">
                         <div id="sector-input">
                             <h4 class="title"></h4>
                             <div class="group">
@@ -239,6 +240,10 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                                 </select>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-md-5">
+                        <h4>Affected Groups</h4>
+                        <div id="chart-div"></div>
                     </div>
                 </div>
             </div>
