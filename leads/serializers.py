@@ -3,6 +3,7 @@ from django.conf import settings
 from rest_framework import serializers
 
 import os
+import json
 
 from leads.models import *
 
@@ -64,6 +65,7 @@ class SosSerializer(serializers.ModelSerializer):
     areas = serializers.SerializerMethodField()
     created_by_name = serializers.SerializerMethodField()
     lead_id = serializers.SerializerMethodField()
+    sectors_covered = serializers.SerializerMethodField()
 
     class Meta:
         model = SurveyOfSurvey
@@ -71,7 +73,8 @@ class SosSerializer(serializers.ModelSerializer):
         fields = ('id', 'created_at', 'created_by_name',
                   'title', 'lead_organization', 'partners',
                   'proximity_to_source', 'unit_of_analysis', 'start_data_collection',
-                  'end_data_collection',
+                  'end_data_collection', 'data_collection_technique',
+                  'sectors_covered',
                   'sampling_type', 'frequency', 'status', 'confidentiality',
                   'countries', 'areas', 'sectors_covered', 'lead_id')
 
@@ -87,3 +90,12 @@ class SosSerializer(serializers.ModelSerializer):
 
     def get_lead_id(self, sos):
         return sos.lead.pk
+
+    def get_sectors_covered(self, sos):
+        scs = json.loads(sos.sectors_covered)
+        data = []
+        for sc in scs:
+            if sc["quantification"] or sc["analytical_value"]:
+                data.append(sc["title"])
+
+        return ", ".join(data)
