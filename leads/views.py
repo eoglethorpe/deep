@@ -108,9 +108,18 @@ class AddSoS(View):
         context["confidentialities"] = AssessmentConfidentiality.objects.all()
         context["statuses"] = AssessmentStatus.objects.all()
         context["sectors_covered"] = SectorCovered.objects.all()
+        context["affected_groups"] = AffectedGroup.objects.all()
 
         if sos_id:
             context["sos"] = SurveyOfSurvey.objects.get(pk=sos_id)
+
+            sos = context["sos"]
+            ags = json.loads(sos.affected_groups)
+            sos.selected_affected_groups = []
+            for ag in ags:
+                sos.selected_affected_groups.append(
+                    AffectedGroup.objects.get(name=ag)
+                )
 
         return render(request, "leads/add-sos.html", context)
 
@@ -126,6 +135,7 @@ class AddSoS(View):
         sos.title = request.POST["assesment-title"]
         sos.lead_organization = request.POST["lead-organization"]
         sos.partners = request.POST["other-assesment-partners"]
+        sos.affected_groups = request.POST["affected_groups"]
         if request.POST["start-of-field"] and request.POST["start-of-field"] != "":
             sos.start_data_collection = request.POST["start-of-field"]
         if request.POST["end-of-field"] and request.POST["end-of-field"] != "":
@@ -165,6 +175,10 @@ class AddSoS(View):
 
             sos.map_selections.add(selection)
 
+        # affected_groups = json.loads(request.POST["affected_groups"])
+        # sos.affected_groups.clear()
+        # for group in affected_groups:
+        #     sos.affected_groups.add(AffectedGroup.objects.get(name=group))
 
         sos.unit_of_analysis.clear()
         if request.POST["analysis-unit"] and request.POST["analysis-unit"] != "null":

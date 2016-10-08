@@ -57,7 +57,20 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
             );
     {% endfor %}
 
+    // Affected groups.
+    // name, parent, tooltip.
+    var affected_groups = [
+        {% for group in affected_groups %}
+        ['{{group}}', '{% if group.parent %}{{group.parent}}{% endif %}', ''],
+        {% endfor %}
+    ];
 
+    // Select affected groups.
+    var selected_groups = [
+    {% if sos %}{% for group in affected_groups %}
+    {% if group in sos.selected_affected_groups %}{row:{{forloop.counter0}}, column:null},{% endif %}
+    {% endfor %}{% endif %}
+    ];
 </script>
 
 {% endblock %}
@@ -163,8 +176,12 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                     {% endfor %}
                     </select>
 
-                    <input class="save-data form-control" id="start-of-field" placeholder="Start of field data collection" type="date" {% if sos and sos.start_data_collection %}value="{{sos.start_data_collection|date:"Y-m-d"}}"{% endif %}>
-                    <input class="save-data form-control" id="end-of-field" placeholder="End of field data collection" type="date" {% if sos and sos.end_data_collection %}value="{{sos.end_data_collection|date:"Y-m-d"}}"{% endif %}>
+                    <div style="position: relative";>
+                        <input class="save-data form-control" id="start-of-field" placeholder="Start of field data collection" type="date" {% if sos and sos.start_data_collection %}value="{{sos.start_data_collection|date:"Y-m-d"}}"{% endif %}>
+                    </div>
+                    <div style="position: relative";>
+                        <input class="save-data form-control" id="end-of-field" placeholder="End of field data collection" type="date" {% if sos and sos.end_data_collection %}value="{{sos.end_data_collection|date:"Y-m-d"}}"{% endif %}>
+                    </div>
 
                     <select class="save-data selectize-control" id="sampling-type" placeholder="Sampling type">
                     <option>Select sampling type</option>

@@ -194,6 +194,12 @@ $(document).ready(function(){
             data[$(this).attr('id')] = $(this).val();
         });
 
+        var affecteds = [];
+        for (var s=0; s<selected_groups.length; s++) {
+            affecteds.push(affected_groups[selected_groups[s].row][0]);
+        }
+        data["affected_groups"] = JSON.stringify(affecteds);
+
         data["map_data"] = JSON.stringify(mapSelections);
         data["sectors_covered"] = JSON.stringify(sectorData);
         redirectPost(window.location.pathname, data, csrf_token);

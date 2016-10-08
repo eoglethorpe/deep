@@ -203,6 +203,10 @@ class SurveyOfSurvey(models.Model):
 
     sectors_covered = models.TextField(default="{}")
 
+    # TODO Fix db constraint bug to use manytomanyfield
+    # affected_groups = models.ManyToManyField('entries.AffectedGroup', blank=True)
+    affected_groups = models.TextField(default="[]")
+
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User)
 
