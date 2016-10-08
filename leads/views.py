@@ -14,6 +14,8 @@ from leads.models import *
 from entries.models import *
 from entries.strippers import *
 
+from excel_writer import ExcelWriter, RowCollection
+
 
 def get_lead_form_data():
     """ Get data required to construct "Add Lead" form.
@@ -302,3 +304,51 @@ class DeleteLead(View):
         # lead.status = Lead.DELETED
         # lead.save()
         return redirect('leads:leads', event=event)
+
+
+class ExportSosXls(View):
+    @method_decorator(login_required)
+    def get(self, request, event):
+        ew = ExcelWriter()
+
+        ws = ew.get_active()
+        soses = SurveyOfSurvey.objects.filter(lead__event__pk=event)
+
+        titles = [
+            "Row number", "Id", "Title", "Lead organization",
+            "Other partners", "Proximity to source", "Unit of analysis",
+            "Start of field data collection", "End of field data collection",
+            "Data collection technique", "Assessment frequency",
+            "Assessment status", "Assessment confidentiality", "Sampling type",
+        ]
+
+        sectors_covered = SectorCovered.objects.all()
+        for sc in sectors_covered:
+            titles.append(sc.name + " - Quantification")
+            titles.append(sc.name + " - Analytical Value")
+
+
+        # Create title row
+        for i, t in enumerate(titles):
+            ws.cell(row=1, column=i+1).value = t
+
+        ew.auto_fit_cells_in_row(1)
+
+        # Fill data
+        for i, sos in enumerate(soses):
+            rows = RowCollection(1)
+            rows.add_values([i, sos.pk, sos.title, sos.lead_organization, sos.partners,
+                             sos.proximity_to_source.name])
+
+            rows.permute_and_add(sos.unit_of_analysis.all())
+            rows.add_values([sos.start_data_collection if sos.start_data_collection else "",
+                             sos.end_data_collection if sos.end_data_collection else ""])
+            rows.permute_and_add(sos.data_collection_technique.all())
+            rows.add_values([sos.frequency.name if sos.frequency else "",
+                             sos.status.name if sos.status else "",
+                             sos.confidentiality.name if sos.confidentiality else "",
+                             sos.sampling_type.name if sos.sampling_type else ""])
+
+            ew.append(rows.rows)
+
+        return ew.get_http_response("survey of surveys")

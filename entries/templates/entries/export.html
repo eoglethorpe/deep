@@ -70,7 +70,7 @@ DEEP | Entries
         <div class="row">
             <h2>Survey of surveys</h2>
             <div class="col-md-12">
-                <button type="submit" class="btn btn-primary" ><i class="fa fa-file-excel-o"></i>Export to Excel</button>
+                <a href="{% url 'leads:exportsosxls' event=event.pk %}" type="submit" class="btn btn-primary" ><i class="fa fa-file-excel-o"></i>Export to Excel</a>
             </div>
         </div>
     </div>

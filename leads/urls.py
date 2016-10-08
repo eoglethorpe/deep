@@ -11,4 +11,6 @@ urlpatterns = [
     url(r'^mark_processed/$', views.MarkProcessed.as_view(), name='mark_processed'),
     url(r'^delete/$', views.DeleteLead.as_view(), name='delete'),
     url(r'^sos/$', views.SoSView.as_view(), name="sos"),
+
+    url(r'^exportsosxls/$', views.ExportSosXls.as_view(), name="exportsosxls"),
 ]
