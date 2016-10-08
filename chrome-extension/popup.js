@@ -3,8 +3,8 @@
 
 // example of serverAddress http://52.87.160.69
 // don't add the trailing /
-// var serverAddress = 'http://localhost:8000';
-var serverAddress = 'http://52.87.160.69';
+var serverAddress = 'http://localhost:8000';
+//var serverAddress = 'http://54.166.53.245';
 
 var currentEvent = 0;
 var currentUser = -1;
@@ -88,6 +88,26 @@ document.addEventListener('DOMContentLoaded', function(){
 
 $(document).ready(function(){
     $("#login").href = serverAddress;
+
+    var date = $('input[type="date"]').css('padding-left', '32px');
+    var today_btn = $('<button>&#9679;</button>');
+    today_btn.appendTo(date.parent());
+    today_btn.css('z-index', '10');
+    date.css('position', 'relative');
+    today_btn.css('position', 'absolute');
+    today_btn.css('left', date.position().left+24+'px');
+    today_btn.css('top', date.position().top-5+'px');
+    today_btn.css('cursor', 'pointer');
+    today_btn.css('background-color', 'transparent');
+    today_btn.css('border', 'none');
+    today_btn.css('font-size', '2em');
+    today_btn.css('padding', '0');
+    today_btn.css('outline', 'none');
+
+    today_btn.on('click', function(e){
+        e.preventDefault();
+        date[0].valueAsDate = new Date();
+    });
 
 
     $.ajax({
