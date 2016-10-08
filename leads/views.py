@@ -329,7 +329,7 @@ class ExportSosXls(View):
         soses = SurveyOfSurvey.objects.filter(lead__event__pk=event)
 
         titles = [
-            "Row number", "Id", "Title", "Lead organization",
+            "Id", "Title", "Lead organization",
             "Other partners", "Proximity to source", "Unit of analysis",
             "Start of field data collection", "End of field data collection",
             "Data collection technique", "Assessment frequency",
@@ -351,8 +351,8 @@ class ExportSosXls(View):
         # Fill data
         for i, sos in enumerate(soses):
             rows = RowCollection(1)
-            rows.add_values([i, sos.pk, sos.title, sos.lead_organization, sos.partners,
-                             sos.proximity_to_source.name])
+            rows.add_values([sos.pk, sos.title, sos.lead_organization, sos.partners,
+                             sos.proximity_to_source.name if sos.proximity_to_source else ""])
 
             rows.permute_and_add(sos.unit_of_analysis.all())
             rows.add_values([sos.start_data_collection if sos.start_data_collection else "",
@@ -362,6 +362,26 @@ class ExportSosXls(View):
                              sos.status.name if sos.status else "",
                              sos.confidentiality.name if sos.confidentiality else "",
                              sos.sampling_type.name if sos.sampling_type else ""])
+
+            scs = json.loads(sos.sectors_covered)
+            scids = [s["id"] for s in scs]
+            for sc in sectors_covered:
+                if sc.identifier in scids:
+                    s = scs[scids.index(sc.identifier)]
+                    try:
+                        q = SectorQuantification.objects.get(pk=s["quantification"])
+                        q = q.name
+                    except:
+                        q = ""
+
+                    try:
+                        a = SectorAnalyticalValue.objects.get(pk=s["analytical_value"])
+                        a = a.name
+                    except:
+                        a = ""
+                    rows.add_values([q, a])
+                else:
+                    rows.add_values(["", ""])
 
             ew.append(rows.rows)
 
