@@ -128,7 +128,7 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                     <h2>Survey of Survey</h2>
                 </div>
                 <div class="col-md-3" style="text-align:right;">
-                    <button class="btn btn-danger" id="cancel-btn" ><i class="fa fa-times"></i>Cancel</button>
+                    <button class="btn btn-danger" id="cancel-btn" onclick="if (confirm('All changes will be discarded. Are you sure?')) location.href='{% url "leads:leads" event.pk %}'"><i class="fa fa-times"></i>Cancel</button>
                     <button class="btn btn-primary" id="save-btn"><i class="fa fa-plus"></i>Save</button>
                 </div>
             </div>
