@@ -334,6 +334,7 @@ class ExportSosXls(View):
             "Start of field data collection", "End of field data collection",
             "Data collection technique", "Assessment frequency",
             "Assessment status", "Assessment confidentiality", "Sampling type",
+            "Affected groups",
         ]
 
         sectors_covered = SectorCovered.objects.all()
@@ -362,6 +363,12 @@ class ExportSosXls(View):
                              sos.status.name if sos.status else "",
                              sos.confidentiality.name if sos.confidentiality else "",
                              sos.sampling_type.name if sos.sampling_type else ""])
+
+            ags = json.loads(sos.affected_groups)
+            affected_groups = []
+            for ag in ags:
+                affected_groups.append(AffectedGroup.objects.get(name=ag))
+            rows.permute_and_add(affected_groups)
 
             scs = json.loads(sos.sectors_covered)
             scids = [s["id"] for s in scs]

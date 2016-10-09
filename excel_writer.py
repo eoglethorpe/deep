@@ -42,6 +42,7 @@ class RowCollection:
             return
         if n == 1:
             self.add_value(values[0])
+            return
 
         oldrows = self.rows[:]
         for i in range(1, n):
@@ -51,7 +52,6 @@ class RowCollection:
         for i in range(0, n):
             for j in range(0, len(oldrows)):
                 self.rows[i*len(oldrows)+j].append(str(values[i]))
-                print(self.rows[i*len(oldrows)+j], values[i])
 
     def add_value(self, value):
         for row in self.rows:
