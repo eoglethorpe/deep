@@ -254,11 +254,15 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 <div class="col-md-5">
                     <h4>Affected Groups</h4>
                     <div id="chart-div"></div>
-                    <label>Date:</label>
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <input id="entry-date" type="date" class="form-control end-date" {% if entry %}value="{{ entry.date|date:'Y-m-d' }}"{% elif prev_entry %}value="{{ prev_entry.date|date:'Y-m-d' }}"{% endif %}>
+                    <br>
+
+                    <div>
+                        <label>Date of the information:</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input id="entry-date" type="date" class="form-control end-date" value="{% if entry %}{{ entry.date|date:'Y-m-d' }}{% elif prev_entry %}{{ prev_entry.date|date:'Y-m-d' }}{% elif lead.published_at %}{{ lead.published_at|date:'Y-m-d'  }}{% endif %}">
+                            </div>
                         </div>
                     </div>
                 </div>

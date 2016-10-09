@@ -181,11 +181,11 @@ Dropzone.options.attachmentDropzone = {
 
         var dz = this;
         this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
-            if (!confirm("Are you sure you want to save these changes?")) {
-                e.preventDefault();
-                e.stopPropagation();
-                return;
-            }
+            // if (!confirm("Are you sure you want to save these changes?")) {
+            //    e.preventDefault();
+            //    e.stopPropagation();
+            //    return;
+            // }
             var leadtype = $("input[name='lead-type']:checked").val();
             if (leadtype == "attachment" && dz.getQueuedFiles().length > 0) {
                 e.preventDefault();

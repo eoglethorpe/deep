@@ -449,8 +449,8 @@ $(document).ready(function() {
     });
 
     var saveFunction = function(addAnother=false) {
-        if (!confirm("Are you sure you want to save these changes?"))
-            return;
+        // if (!confirm("Are you sure you want to save these changes?"))
+        //     return;
         var current = $("#information-attributes .active");
         if(current != null) {
             current.each(function() {
