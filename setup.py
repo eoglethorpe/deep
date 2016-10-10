@@ -6,6 +6,6 @@ setup(
     install_requires=[
         'django', 'djangorestframework', 'mysqlclient', 'readability-lxml', 'requests',
         'pdfminer3k', 'openpyxl', 'python-docx', 'pillow', 'python-dateutil', 'beautifulsoup4',
-        'mysqlclient',
+        'mysqlclient', 'django-cors-headers',
     ],
 ) 
