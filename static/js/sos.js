@@ -41,27 +41,22 @@ $(document).ready(function(){
                 }
             },
             { data :"title", width: '13%' },
+            { data: "areas_summary", },
             {
-                data :null,
-                render: function (data, type, row ) {
-                    var areas = '';
-                    for(var i=0; i<data.areas.length; i++){
-                        areas += data.areas[i];
-                        if(i!=data.areas.length-1){
-                            areas += ', ';
-                        }
-                    }
-                    return areas;
-                },
-                width: '10%'
+                data: null,
+                render: function(data, type, row) {
+                    var list = [];
+                    for (var item in data["sectors_covered"])
+                        list.push(item);
+                    return list.join(", ");
+                }
             },
-            { data: "sectors_covered" },
-            { data: "affected_groups" },
+            { data: null, render: function(data, type, row) { return data["affected_groups"].join(", "); } },
             { data: "lead_organization" },
-            { data: null, render: function(data, type, row) { return data.frequency?data.frequency.name:"";}, width: '6%', },
-            { data: null, render: function(data, type, row) { return data.confidentiality?data.confidentiality.name:"";}, width: '6%', },
-            { data: null, render: function(data, type, row) { return data.status?data.status.name:"";}, width: '6%', },
-            { data: null, render: function(data, type, row) { return data.proximity_to_source?data.proximity_to_source.name:"";}, width: '10%', },
+            { data: "frequency" },
+            { data: "confidentiality" },
+            { data: "status" },
+            { data: "proximity_to_source" },
             {
                 data: null,
                 render: function(data, type, row){
