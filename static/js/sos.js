@@ -26,6 +26,7 @@ function formatTime(time) {
 $(document).ready(function(){
     var sosTable = $('#sos-table').DataTable({
         "order": [[ 0, "desc" ]], 
+        "bPaginate": false,
         ajax: {
             type: "GET",
             dataType: "json",

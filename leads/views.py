@@ -342,6 +342,11 @@ class ExportSosXls(View):
             titles.append(sc.name + " - Quantification")
             titles.append(sc.name + " - Analytical Value")
 
+        countries = Event.objects.get(pk=event).countries.all()
+        for country in countries:
+            admin_levels = country.adminlevel_set.all()
+            for admin_level in admin_levels:
+                titles.append(admin_level.name)
 
         # Create title row
         for i, t in enumerate(titles):
@@ -389,6 +394,15 @@ class ExportSosXls(View):
                     rows.add_values([q, a])
                 else:
                     rows.add_values(["", ""])
+
+            for country in countries:
+                admin_levels = country.adminlevel_set.all()
+                for admin_level in admin_levels:
+                    selections = []
+                    for map_selection in sos.map_selections.all():
+                        if admin_level == map_selection.admin_level:
+                            selections.append(map_selection.name)
+                    rows.permute_and_add(selections)
 
             ew.append(rows.rows)
 
