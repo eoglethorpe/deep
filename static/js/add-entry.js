@@ -448,7 +448,7 @@ $(document).ready(function() {
         return false;
     });
 
-    var saveFunction = function(addAnother=false) {
+    var saveFunction = function(addAnother=false, keep_all=true) {
         // if (!confirm("Are you sure you want to save these changes?"))
         //     return;
         var current = $("#information-attributes .active");
@@ -491,10 +491,13 @@ $(document).ready(function() {
 
         data["date"] = $("#entry-date").val();
 
+        data["keep_all"] = keep_all;
+
         redirectPost(window.location.pathname, data, csrf_token);
     };
     $("#save-btn").on('click', function(){saveFunction(false);});
     $("#save-add-btn").on('click', function(){saveFunction(true);});
+    $("#save-add-map-btn").on('click', function(){saveFunction(true, false);});
 
     // Trigger on change of country selection.
     $("#country").trigger('change');

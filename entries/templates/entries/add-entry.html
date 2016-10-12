@@ -86,6 +86,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
     // Fill the attributes.
     var attr_data = {
+    {% if keep_all %}
     {% if attr_data %}{% for pk, ad in attr_data.items %}
         "{{pk}}": {
             "id": "{{pk}}",
@@ -95,6 +96,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
             "severity": [{% for severity in ad.severity %}"{{severity}}",{% endfor %}],
         },
     {% endfor %}{% endif %}
+    {% endif %}
     };
 
     // Select affected groups.
@@ -210,7 +212,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                                     <h5>Vulnerable Groups</h5>
                                     <select id="vulnerable-groups" name="vulnerable-groups" class="form-control" placeholder="Select vulnerable group" multiple="true">
                                         {% for vulnerable_group in vulnerable_groups %}
-                                        <option value="{{vulnerable_group.pk}}" {% if vulnerable_group in entry.vulnerable_groups.all or vulnerable_group in prev_entry.vulnerable_groups.all %}selected{% endif %}>{{vulnerable_group}}</option>
+                                        <option value="{{vulnerable_group.pk}}" {% if keep_all %}{% if vulnerable_group in entry.vulnerable_groups.all or vulnerable_group in prev_entry.vulnerable_groups.all %}selected{% endif %}{% endif %}>{{vulnerable_group}}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -229,7 +231,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                                     <h5> Groups with specific needs </h5>
                                     <select id="groups-with-specific-needs" name="groups-with-specific-needs" class="form-control" placeholder="Select groups with specific needs" multiple="true">
                                         {% for specific_group in specific_needs_groups %}
-                                        <option value="{{specific_group.pk}}" {% if specific_group in entry.specific_needs_groups.all or specific_group in prev_entry.specific_needs_groups.all %}selected{% endif %}>{{specific_group}}</option>
+                                        <option value="{{specific_group.pk}}" {% if keep_all %}{% if specific_group in entry.specific_needs_groups.all or specific_group in prev_entry.specific_needs_groups.all %}selected{% endif %}{% endif %}>{{specific_group}}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -239,9 +241,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                                     <h5>Sectors and subsectors</h5>
                                     <select id="sectors-subsectors" name="sectors-subsectors" class="form-control" placeholder="Select sectors subsectors" multiple="true">
                                     {% for sector, ss in sectors.items %}
-                                    <option value="{{sector.pk}}" {% if sector in entry.sectors.all or sector in prev_entry.sectors.all %}selected{% endif %}>{{sector.title}}</option>
+                                    <option value="{{sector.pk}}" {% if keep_all %}{% if sector in entry.sectors.all or sector in prev_entry.sectors.all %}selected{% endif %}{% endif %}>{{sector.title}}</option>
                                     {% for subsector in ss %}
-                                    <option value="{{subsector.pk}}" {% if subsector in entry.sectors.all or subsector in prev_entry.sectors.all %}selected{% endif %}>{{sector.title}} / {{subsector.title}}</option>
+                                    <option value="{{subsector.pk}}" {% if keep_all %}{% if subsector in entry.sectors.all or subsector in prev_entry.sectors.all %}selected{% endif %}{% endif %}>{{sector.title}} / {{subsector.title}}</option>
                                     {% endfor %}
                                     {% endfor %}
                                     </select>
@@ -284,10 +286,12 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
             </div>
 
             <button id="cancel-btn" class="btn btn-danger" onclick="if (confirm('All changes will be discarded. Are you sure?')) location.href='{% url 'entries:entries' event.pk %}';" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="left" title="Cancel"><i class="fa fa-times"></i></button>
-
+            
             <button id="save-btn" class="btn btn-primary" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="left" title="Save"><i class="fa fa-save"></i></button>
 
             <button id="save-add-btn" class="btn btn-default" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="left" title="Save and add another"><i id="save-icon" class="fa fa-save"></i><i id="plus-icon" class="fa fa-plus"></i></button>
+
+            <button id="save-add-map-btn" class="btn btn-default" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="left" title="Save and add another"><i id="save-icon" class="fa fa-save"></i><i id="plus-icon" class="fa fa-plus"></i></button>
 
         </div>
     </div>

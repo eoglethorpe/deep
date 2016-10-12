@@ -160,6 +160,8 @@ class AddEntry(View):
         except:
             print("Error while simplifying")
 
+        context["keep_all"] = "keep_all" not in request.GET or request.GET["keep_all"] == "1"
+
         prev_entry = None
         if "prev_entry" in request.GET:
             prev_entry = Entry.objects.get(pk=request.GET["prev_entry"])
@@ -306,7 +308,8 @@ class AddEntry(View):
                 attr_data.save()
 
         if request.POST["add_another"] == "1":
-            return redirect(reverse("entries:add", args=[event, entry.lead.pk]) + "?prev_entry="+str(entry.pk))
+            return redirect(reverse("entries:add", args=[event, entry.lead.pk]) + "?prev_entry="+str(entry.pk) + \
+                            "&keep_all=" + ("1" if request.POST["keep_all"] == True else "0"))
         else:
             return redirect("entries:entries", event)
 
