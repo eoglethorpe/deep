@@ -169,7 +169,7 @@ body {
         background-color: #008080; }
       body .split-pane #right-component .google-visualization-orgchart-linebottom {
         border-bottom: 1px solid #008080 !important; }
-      body .split-pane #right-component #save-btn, body .split-pane #right-component #save-add-btn, body .split-pane #right-component #cancel-btn {
+      body .split-pane #right-component #save-btn, body .split-pane #right-component #save-add-btn, body .split-pane #right-component #save-edit-btn, body .split-pane #right-component #cancel-btn {
         position: fixed;
         text-align: center;
         border-radius: 50%;
@@ -186,14 +186,22 @@ body {
         width: 48px;
         height: 48px;
         right: 38px;
-        bottom: 128px; }
+        bottom: 116px; }
         body .split-pane #right-component #save-add-btn #plus-icon {
+          font-size: 0.5em; }
+      body .split-pane #right-component #save-edit-btn {
+        width: 48px;
+        height: 48px;
+        right: 38px;
+        bottom: 184px;
+        font-size: 1.2em; }
+        body .split-pane #right-component #save-edit-btn #map-icon {
           font-size: 0.5em; }
       body .split-pane #right-component #cancel-btn {
         width: 48px;
         height: 48px;
         right: 38px;
-        bottom: 200px;
+        bottom: 252px;
         font-size: 1.2em; }
       body .split-pane #right-component #save-btn .fa, body .split-pane #right-component #save-add-btn .fa {
         margin-right: 0; }

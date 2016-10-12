@@ -309,7 +309,7 @@ class AddEntry(View):
 
         if request.POST["add_another"] == "1":
             return redirect(reverse("entries:add", args=[event, entry.lead.pk]) + "?prev_entry="+str(entry.pk) + \
-                            "&keep_all=" + ("1" if request.POST["keep_all"] == True else "0"))
+                            "&keep_all=" + ("1" if request.POST["keep_all"] == "true" else "0"))
         else:
             return redirect("entries:entries", event)
 

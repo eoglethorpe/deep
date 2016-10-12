@@ -497,7 +497,7 @@ $(document).ready(function() {
     };
     $("#save-btn").on('click', function(){saveFunction(false);});
     $("#save-add-btn").on('click', function(){saveFunction(true);});
-    $("#save-add-map-btn").on('click', function(){saveFunction(true, false);});
+    $("#save-edit-btn").on('click', function(){saveFunction(true, false);});
 
     // Trigger on change of country selection.
     $("#country").trigger('change');
