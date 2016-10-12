@@ -65,11 +65,12 @@ class SosSerializer(serializers.ModelSerializer):
     areas = serializers.SerializerMethodField()
     areas_summary = serializers.SerializerMethodField()
     created_by_name = serializers.SerializerMethodField()
-    lead_id = serializers.SerializerMethodField()
     sectors_covered = serializers.SerializerMethodField()
     affected_groups = serializers.SerializerMethodField()
     unit_of_analysis = serializers.SerializerMethodField()
     data_collection_technique = serializers.SerializerMethodField()
+    lead = LeadSerializer()
+    lead_id = serializers.IntegerField(source='lead.id', read_only=True)
 
     proximity_to_source = serializers.CharField(source='proximity_to_source.name', read_only=True)
     start_data_collection = serializers.CharField(source='start_data_collection.name', read_only=True)
@@ -88,8 +89,8 @@ class SosSerializer(serializers.ModelSerializer):
                   'end_data_collection', 'data_collection_technique',
                   'sectors_covered',
                   'sampling_type', 'frequency', 'status', 'confidentiality',
-                  'countries', 'areas', 'areas_summary', 'sectors_covered', 'lead_id',
-                  'affected_groups')
+                  'countries', 'areas', 'areas_summary', 'sectors_covered',
+                  'affected_groups', 'lead', 'lead_id')
 
 
     def get_countries(self, sos):
@@ -112,9 +113,6 @@ class SosSerializer(serializers.ModelSerializer):
 
     def get_created_by_name(self, sos):
         return sos.created_by.get_full_name()
-
-    def get_lead_id(self, sos):
-        return sos.lead.pk
 
     def get_sectors_covered(self, sos):
         scs = json.loads(sos.sectors_covered)
