@@ -6,6 +6,8 @@ import os
 import json
 
 from leads.models import *
+from entries.models import *
+from geojson_handler import GeoJsonHandler
 
 
 class SourceSerializer(serializers.ModelSerializer):
@@ -97,11 +99,28 @@ class SosSerializer(serializers.ModelSerializer):
         return {s.admin_level.country.pk: s.admin_level.country.name for s in sos.map_selections.all()}
 
     def get_areas(self, sos):
+        if sos.map_selections.count() == 0:
+            return
+
         data = {}
+        children_properties = []
         for s in sos.map_selections.all():
             if s.admin_level.name not in data:
                 data[s.admin_level.name] = {"country": s.admin_level.country.pk, "locations": []}
             data[s.admin_level.name]["locations"].append(s.name)
+            
+            child_admin = AdminLevel.objects.filter(level=s.admin_level.level+1, country=s.admin_level.country)
+            if child_admin.count() > 0:
+                children_properties.append((child_admin[0], s.admin_level.property_name, s.name))
+
+        # Get children areas if exist as well
+        for cp in children_properties:
+            geojson = GeoJsonHandler(cp[0].geojson.read().decode())
+            features = geojson.filter_features(cp[1], cp[2])
+
+            if cp[0].name not in data:
+                data[cp[0].name] = {"country": cp[0].country.pk, "locations": []}
+            data[cp[0].name]["locations"].extend([f["properties"][cp[0].property_name] for f in features])
         return data
 
     def get_country_names(self, sos):
