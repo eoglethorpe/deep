@@ -185,7 +185,7 @@ body{
                 border-bottom: 1px solid #008080!important;
             }
 
-            #save-btn, #save-add-btn, #cancel-btn{
+            #save-btn, #save-add-btn, #save-edit-btn, #cancel-btn{
                 position: fixed;
                 text-align: center;
                 border-radius: 50%;
@@ -204,17 +204,29 @@ body{
                 width: 48px;
                 height: 48px;
                 right: 38px;
-                bottom: 128px;
+                bottom: 116px;
 
                 #plus-icon{
                     font-size: 0.5em;
                 }
             }
+            #save-edit-btn{
+                width: 48px;
+                height: 48px;
+                right: 38px;
+                bottom: 184px;
+                font-size: 1.2em;
+
+                #map-icon{
+                    font-size: 0.5em;
+                }
+            }
+
             #cancel-btn{
                 width: 48px;
                 height: 48px;
                 right: 38px;
-                bottom: 200px;
+                bottom: 252px;
                 font-size: 1.2em;
             }
 

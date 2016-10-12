@@ -285,6 +285,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
             <button id="cancel-btn" class="btn btn-danger" onclick="if (confirm('All changes will be discarded. Are you sure?')) location.href='{% url 'entries:entries' event.pk %}';" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="left" title="Cancel"><i class="fa fa-times"></i></button>
 
+            <button id="save-edit-btn" class="btn btn-default" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="left" title="Save and add another in same location"><i id="save-icon" class="fa fa-save"></i><i id="map-icon" class="fa fa-map-o"></i></button>
+
             <button id="save-btn" class="btn btn-primary" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="left" title="Save"><i class="fa fa-save"></i></button>
 
             <button id="save-add-btn" class="btn btn-default" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="left" title="Save and add another"><i id="save-icon" class="fa fa-save"></i><i id="plus-icon" class="fa fa-plus"></i></button>
