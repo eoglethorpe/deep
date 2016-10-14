@@ -98,6 +98,9 @@ class SosSerializer(serializers.ModelSerializer):
         return {s.admin_level.country.pk: s.admin_level.country.name for s in sos.map_selections.all()}
 
     def get_areas(self, sos):
+        summary = self.context['request'].query_params.get('summary')
+        if summary:
+            return
         if sos.map_selections.count() == 0:
             return
 
