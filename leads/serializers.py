@@ -75,8 +75,7 @@ class SosSerializer(serializers.ModelSerializer):
     lead_id = serializers.IntegerField(source='lead.id', read_only=True)
 
     proximity_to_source = serializers.CharField(source='proximity_to_source.name', read_only=True)
-    start_data_collection = serializers.CharField(source='start_data_collection.name', read_only=True)
-    end_data_collection = serializers.CharField(source='end_data_collection.name', read_only=True)
+    data_collection_technique = serializers.CharField(source='data_collection_technique.name', read_only=True)
     sampling_type = serializers.CharField(source='sampling_type.name', read_only=True)
     frequency = serializers.CharField(source='frequency.name', read_only=True)
     status = serializers.CharField(source='status.name', read_only=True)
