@@ -151,8 +151,8 @@ class SosSerializer(serializers.ModelSerializer):
                 or \
                 (sc["analytical_value"] and not SectorAnalyticalValue.objects.get(pk=sc["analytical_value"]).is_default):
                 data[sc["title"]] = {
-                    "quantification": sc["quantification"],
-                    "analytical_value": sc["analytical_value"]
+                    "quantification": SectorQuantification.objects.get(pk=sc["quantification"]).name,
+                    "analytical_value": SectorAnalyticalValue.objects.get(pk=sc["analytical_value"]).name
                 }
         return data
 
