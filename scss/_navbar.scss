@@ -1,10 +1,9 @@
-$navbar-height: 71px;
+$navbar-height: 70px;
 
 nav{
     background-color: $primary-color;
     height: $navbar-height;
     box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
-
     z-index: 100;
 
     .fa{
@@ -13,12 +12,11 @@ nav{
     .caret{
         margin-left: 10px;
     }
-
     img{
         width: 60px;
         margin-top: 14px;
+        margin-bottom: 4px;
     }
-
     a, a:visited{
         color: #fff;
     }

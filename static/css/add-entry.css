@@ -15,7 +15,7 @@ a, button, input[type="submit"] {
 
 nav {
   background-color: #008080;
-  height: 71px;
+  height: 70px;
   box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
   z-index: 100; }
   nav .fa {
@@ -24,7 +24,8 @@ nav {
     margin-left: 10px; }
   nav img {
     width: 60px;
-    margin-top: 14px; }
+    margin-top: 14px;
+    margin-bottom: 4px; }
   nav a, nav a:visited {
     color: #fff; }
   nav a:hover, nav a:active, nav button:hover, nav button:active {
