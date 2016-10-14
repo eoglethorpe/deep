@@ -106,7 +106,12 @@ class SosSerializer(serializers.ModelSerializer):
         children_properties = []
         for s in sos.map_selections.all():
             if s.admin_level.name not in data:
-                data[s.admin_level.name] = {"country": s.admin_level.country.pk, "locations": []}
+                data[s.admin_level.name] = {"country": s.admin_level.country.pk, "locations": [], "pcodes": []}
+
+            if s.admin_level.property_pcode != "":
+                features = GeoJsonHandler(admin_level.geojson.read().decode()).filter_features(admin_level.property_name, s.name)
+                data[s.admin_level.name]["pcodes"].extend([f["properties"][admin_level.property_pcode] for f in features])
+            # else:
             data[s.admin_level.name]["locations"].append(s.name)
             
             child_admin = AdminLevel.objects.filter(level=s.admin_level.level+1, country=s.admin_level.country)
@@ -119,7 +124,11 @@ class SosSerializer(serializers.ModelSerializer):
             features = geojson.filter_features(cp[1], cp[2])
 
             if cp[0].name not in data:
-                data[cp[0].name] = {"country": cp[0].country.pk, "locations": []}
+                data[cp[0].name] = {"country": cp[0].country.pk, "locations": [], "pcodes": []}
+
+            if cp[0].property_pcode != "":
+                data[cp[0].name]["pcodes"].extend([f["properties"][cp[0].property_pcode] for f in features])
+            # else:
             data[cp[0].name]["locations"].extend([f["properties"][cp[0].property_name] for f in features])
         return data
 
@@ -137,7 +146,10 @@ class SosSerializer(serializers.ModelSerializer):
         scs = json.loads(sos.sectors_covered)
         data = {}
         for sc in scs:
-            if sc["quantification"] or sc["analytical_value"]:
+            # TODO: check if values are default instead of "1"
+            if (sc["quantification"] and not SectorQuantification.objects.get(pk=sc["quantification"]).is_default) \
+                or \
+                (sc["analytical_value"] and not SectorAnalyticalValue.objects.get(pk=sc["analytical_value"]).is_default):
                 data[sc["title"]] = {
                     "quantification": sc["quantification"],
                     "analytical_value": sc["analytical_value"]
