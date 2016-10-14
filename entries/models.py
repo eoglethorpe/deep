@@ -24,6 +24,7 @@ class AdminLevel(models.Model):
     country = models.ForeignKey(Country)
     name = models.CharField(max_length=70)
     property_name = models.CharField(max_length=70)
+    property_pcode = models.CharField(max_length=50, default="", blank=True)
     geojson = models.FileField(upload_to='adminlevels/')
 
     def __str__(self):

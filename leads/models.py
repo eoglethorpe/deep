@@ -150,6 +150,7 @@ class SamplingType(models.Model):
 
 class SectorQuantification(models.Model):
     name = models.CharField(max_length=100)
+    is_default = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -157,6 +158,7 @@ class SectorQuantification(models.Model):
 
 class SectorAnalyticalValue(models.Model):
     name = models.CharField(max_length=100)
+    is_default = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
