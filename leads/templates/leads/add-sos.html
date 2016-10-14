@@ -57,6 +57,9 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
             );
     {% endfor %}
 
+    var default_quantification = "{{default_quantification.pk}}";
+    var default_analytical_value = "{{default_analytical_value.pk}}";
+
     // Affected groups.
     // name, parent, tooltip.
     var affected_groups = [
@@ -241,18 +244,18 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                             <div class="group">
                                 <label>Quantification</label>
                                 <select class="form-control" placeholder="Quantification" id="quantification">
-                                <option value="">Quantification</option>
+                                <!--option value="">Quantification</option-->
                                 {% for quantification in quantifications %}
-                                <option value="{{quantification.pk}}">{{quantification}}</option>
+                                <option value="{{quantification.pk}}" {% if quantification == default_quantification %}selected{% endif %}>{{quantification}}</option>
                                 {% endfor %}
                                 </select>
                             </div>
                             <div class="group">
                                 <label>Analytical value</label>
                                 <select class="form-control" placeholder="Analytical Value" id="analytical-value">
-                                <option value="">Analytical value</option>
+                                <!--option value="">Analytical value</option-->
                                 {% for value in analytical_values %}
-                                <option value="{{value.pk}}">{{value}}</option>
+                                <option value="{{value.pk}}" {% if value == default_analytical_value %}selected{% endif %}>{{value}}</option>
                                 {% endfor %}
                                 </select>
                             </div>

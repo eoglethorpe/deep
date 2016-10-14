@@ -110,6 +110,12 @@ class AddSoS(View):
         context["sectors_covered"] = SectorCovered.objects.all()
         context["affected_groups"] = AffectedGroup.objects.all()
 
+        try:
+            context["default_quantification"] = SectorQuantification.objects.get(is_default=True)
+            context["default_analytical_value"] = SectorAnalyticalValue.objects.get(is_default=True)
+        except:
+            pass
+
         if sos_id:
             context["sos"] = SurveyOfSurvey.objects.get(pk=sos_id)
 
