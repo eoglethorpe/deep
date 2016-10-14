@@ -148,8 +148,8 @@ $(document).ready(function(){
                 $('#sector-input').find('#quantification').selectize()[0].selectize.setValue(sectorData[i].quantification);
                 $('#sector-input').find('#analytical-value').selectize()[0].selectize.setValue(sectorData[i].analytical_value);
             }
-            if((sectorData[i].quantification != null && sectorData[i].quantification.length > 0)
-                || (sectorData[i].analytical_value != null && sectorData[i].analytical_value.length > 0)){
+            if((sectorData[i].quantification != null && sectorData[i].quantification.length > 0 && sectorData[i].quantification != default_quantification)
+                || (sectorData[i].analytical_value != null && sectorData[i].analytical_value.length > 0 && sectorData[i].analytical_value != default_analytical_value)){
                 sector.addClass('filled');
             }
             sector.text(sectorData[i].title);
@@ -161,7 +161,7 @@ $(document).ready(function(){
                 var q = sectorData[current.prop('id')].quantification = $('#sector-input').find('#quantification').val();
                 var a = sectorData[current.prop('id')].analytical_value = $('#sector-input').find('#analytical-value').val();
 
-                if((q != null && q.length>0) || (a != null && a.length>0)){
+                if((q != null && q.length>0 && q != default_quantification) || (a != null && a.length>0 && a != default_analytical_value)){
                     current.addClass('filled');
                 } else{
                     current.removeClass('filled')
