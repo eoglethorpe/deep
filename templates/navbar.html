@@ -3,7 +3,7 @@
 <nav>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 {% if event %}
                 <a href="{% url 'dashboard' event=event.pk%}"><img src="{% static 'img/deep-logo-white.png' %}"></a>
                 {% else %}
@@ -11,11 +11,11 @@
                 {% endif %}
             </div>
 
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a class="{% if current_page == 'report' %}active{% endif %} menu-item" href="{% url 'report:dashboard' %}">Report</a>
             </div>
 
-            <div class="col-sm-6">
+            <div class="col-sm-8">
                 <span class="dropdown menu-item" id="event-menu">
                     {% if all_events %}
                     <button class="dropdown-toggle" type="button" data-toggle="dropdown">
