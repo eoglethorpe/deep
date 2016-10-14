@@ -113,8 +113,8 @@ class SosSerializer(serializers.ModelSerializer):
             if s.admin_level.property_pcode != "":
                 features = GeoJsonHandler(s.admin_level.geojson.read().decode()).filter_features(s.admin_level.property_name, s.name)
                 data[s.admin_level.name]["pcodes"].extend([f["properties"][s.admin_level.property_pcode] for f in features])
-            # else:
-            data[s.admin_level.name]["locations"].append(s.name)
+            else:
+                data[s.admin_level.name]["locations"].append(s.name)
             
             child_admin = AdminLevel.objects.filter(level=s.admin_level.level+1, country=s.admin_level.country)
             if child_admin.count() > 0:
@@ -130,8 +130,8 @@ class SosSerializer(serializers.ModelSerializer):
 
             if cp[0].property_pcode != "":
                 data[cp[0].name]["pcodes"].extend([f["properties"][cp[0].property_pcode] for f in features])
-            # else:
-            data[cp[0].name]["locations"].extend([f["properties"][cp[0].property_name] for f in features])
+            else:
+                data[cp[0].name]["locations"].extend([f["properties"][cp[0].property_name] for f in features])
         return data
 
     def get_country_names(self, sos):
