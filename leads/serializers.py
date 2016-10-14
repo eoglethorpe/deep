@@ -109,8 +109,8 @@ class SosSerializer(serializers.ModelSerializer):
                 data[s.admin_level.name] = {"country": s.admin_level.country.pk, "locations": [], "pcodes": []}
 
             if s.admin_level.property_pcode != "":
-                features = GeoJsonHandler(admin_level.geojson.read().decode()).filter_features(admin_level.property_name, s.name)
-                data[s.admin_level.name]["pcodes"].extend([f["properties"][admin_level.property_pcode] for f in features])
+                features = GeoJsonHandler(s.admin_level.geojson.read().decode()).filter_features(s.admin_level.property_name, s.name)
+                data[s.admin_level.name]["pcodes"].extend([f["properties"][s.admin_level.property_pcode] for f in features])
             # else:
             data[s.admin_level.name]["locations"].append(s.name)
             
