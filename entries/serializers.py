@@ -3,6 +3,7 @@ from django.conf import settings
 from rest_framework import serializers
 
 from entries.models import *
+from geojson_handler import GeoJsonHandler
 
 
 class EntrySerializer(serializers.ModelSerializer):
@@ -12,6 +13,7 @@ class EntrySerializer(serializers.ModelSerializer):
     information_attributes = serializers.SerializerMethodField()
     countries = serializers.SerializerMethodField()
     areas = serializers.SerializerMethodField()
+    areas_summary = serializers.SerializerMethodField()
     vulnerable_groups = serializers.SerializerMethodField()
     specific_needs_groups = serializers.SerializerMethodField()
     sectors = serializers.SerializerMethodField()
@@ -21,7 +23,7 @@ class EntrySerializer(serializers.ModelSerializer):
         fields = ('id', 'lead', 'lead_name', 'lead_type',
                   'affected_groups', 'information_attributes',
                   'vulnerable_groups', 'specific_needs_groups',
-                  'countries', 'areas', 'sectors',
+                  'countries', 'areas', 'areas_summary', 'sectors',
                   'created_at', 'created_by', 'created_by_name')
 
         # TODO: Automatically set created_by.
@@ -52,11 +54,56 @@ class EntrySerializer(serializers.ModelSerializer):
         return attributes
 
     def get_countries(self, entry):
+        return {s.admin_level.country.pk: s.admin_level.country.name for s in entry.map_selections.all()}
+
+    def get_country_names(self, entry):
         cs = [s.admin_level.country.name for s in entry.map_selections.all()]
         return list(set(cs))
 
+    def get_areas_summary(self, entry):
+        summary = self.context['request'].query_params.get('summary')
+        if not summary:
+            return
+        return ", ".join([s.name for s in entry.map_selections.all()] + self.get_country_names(entry))
+
     def get_areas(self, entry):
-        return [s.name for s in entry.map_selections.all()] + self.get_countries(entry)
+        summary = self.context['request'].query_params.get('summary')
+        if summary:
+            return
+        if entry.map_selections.count() == 0:
+            return
+
+        data = {}
+        children_properties = []
+        admin_features = {}
+        for s in entry.map_selections.all():
+            if s.admin_level.name not in data:
+                data[s.admin_level.name] = {"country": s.admin_level.country.pk, "locations": [], "pcodes": []}
+
+            if s.pcode != "":
+                data[s.admin_level.name]["pcodes"].append(s.pcode)
+            else:
+                data[s.admin_level.name]["locations"].append(s.name)
+
+        # Uncomment below all for children of parent as well
+        #     child_admin = AdminLevel.objects.filter(level=s.admin_level.level+1, country=s.admin_level.country)
+
+        #     if child_admin.count() > 0:
+        #         if child_admin[0].pk not in admin_features:
+        #             admin_features[child_admin[0].pk] = GeoJsonHandler(child_admin[0].geojson.read().decode())
+        #         children_properties.append((child_admin[0], admin_features[child_admin[0].pk].filter_features(s.admin_level.property_name, s.name)))
+
+        # # Get children areas if exist as well
+        # for cp in children_properties:
+        #     features = cp[1]
+        #     if cp[0].name not in data:
+        #         data[cp[0].name] = {"country": cp[0].country.pk, "locations": [], "pcodes": []}
+
+        #     if cp[0].property_pcode != "":
+        #         data[cp[0].name]["pcodes"].extend([f["properties"][cp[0].property_pcode] for f in features])
+        #     else:
+        #         data[cp[0].name]["locations"].extend([f["properties"][cp[0].property_name] for f in features])
+        return data
 
     def get_vulnerable_groups(self, entry):
         return [str(v) for v in entry.vulnerable_groups.all()]

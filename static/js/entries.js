@@ -69,7 +69,7 @@ $(document).ready(function() {
             type: "GET",
             dataType: "json",
             dataSrc: '',
-            url: "/api/v1/entries/?event=" + currentEvent,
+            url: "/api/v1/entries/?event=" + currentEvent + "&summary=1",
         },
         "columnDefs": [
             {
@@ -99,10 +99,7 @@ $(document).ready(function() {
                 width: "16%"
             },
             {
-                data: null,
-                render: function(data, type, row) {
-                    return data.areas.join(", ");
-                },
+                data: "areas_summary",
                 width: "16%"
             },
             {
