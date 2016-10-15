@@ -111,7 +111,9 @@ class SosSerializer(serializers.ModelSerializer):
             if s.admin_level.name not in data:
                 data[s.admin_level.name] = {"country": s.admin_level.country.pk, "locations": [], "pcodes": []}
 
-            if s.admin_level.property_pcode != "":
+            if s.pcode != "":
+                data[s.admin_level.name]["pcodes"].append(s.pcode)
+            elif s.admin_level.property_pcode != "":
                 if s.admin_level.pk not in admin_features:
                     admin_features[s.admin_level.pk] = GeoJsonHandler(s.admin_level.geojson.read().decode())
                 features = admin_features[s.admin_level.pk].filter_features(s.admin_level.property_name, s.name)

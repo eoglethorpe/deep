@@ -43,9 +43,13 @@ def _admin_level_delete(sender, instance, **kwargs):
 class AdminLevelSelection(models.Model):
     admin_level = models.ForeignKey(AdminLevel)
     name = models.CharField(max_length=70)
+    pcode = models.CharField(max_length=50, default="", blank=True)
 
     def __str__(self):
-        return self.name + ", " + str(self.admin_level)
+        if self.pcode == "":
+            return self.name + ", " + str(self.admin_level)
+        else:
+            return self.name + " (" + self.pcode + ")" + ", " + str(self.admin_level)
 
     class Meta:
         unique_together = ('admin_level', 'name')

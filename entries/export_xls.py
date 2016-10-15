@@ -10,6 +10,7 @@ from openpyxl.styles import Font
 
 from entries.export_fields import *
 from entries.models import *
+from entries.refresh_pcodes import refresh_pcodes
 
 GROUPED_TAB = 'Grouped Entries'
 SPLIT_TAB = 'Split Entries'
@@ -180,6 +181,7 @@ def _gen_meta(sht):
 
 
 def export():
+    refresh_pcodes()
     wb = init_xls()
     _gen_out(wb.get_sheet_by_name(SPLIT_TAB), SPLIT_TAB)
     _gen_out(wb.get_sheet_by_name(GROUPED_TAB), GROUPED_TAB)
