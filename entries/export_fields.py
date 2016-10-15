@@ -4,6 +4,7 @@ from collections import OrderedDict
 from re import sub
 
 from entries.models import *
+from geojson_handler import GeoJsonHandler
 
 def get_file_name(t):
     if t == 'xls':
@@ -16,19 +17,48 @@ def get_file_name(t):
     return '%s DEEP Export%s' % (time.strftime("%Y-%m-%d"), post)
 
 def get_admn_lvl1(e):
-    return [v.name for v in e.map_selections.all() if v.admin_level_id == 1]
+    return [v.name for v in e.map_selections.all() if v.admin_level.level == 1]
 
 def get_admn_lvl2(e):
-    return [v.name for v in e.map_selections.all() if v.admin_level_id == 2]
+    return [v.name for v in e.map_selections.all() if v.admin_level.level == 2]
 
 def get_admn_lvl3(e):
-    return [v.name for v in e.map_selections.all() if v.admin_level_id == 3]
+    return [v.name for v in e.map_selections.all() if v.admin_level.level == 3]
 
 def get_admn_lvl4(e):
-    return [v.name for v in e.map_selections.all() if v.admin_level_id == 4]
+    return [v.name for v in e.map_selections.all() if v.admin_level.level == 4]
 
 def get_admn_lvl5(e):
-    return [v.name for v in e.map_selections.all() if v.admin_level_id == 5]
+    return [v.name for v in e.map_selections.all() if v.admin_level.level == 5]
+
+def _get_pcode(e, level):
+    admin_features = {}
+    pcodes = []
+    for v in e.map_selections.all():
+        if v.admin_level.property_pcode == "":
+            continue
+        if v.admin_level.level == level:
+            if v.admin_level.pk not in admin_features:
+                admin_features[v.admin_level.pk] = GeoJsonHandler(v.admin_level.geojson.read().decode())
+            features = admin_features[v.admin_level.pk].filter_features(v.admin_level.property_name, v.name)
+            pcodes.extend([f["properties"][v.admin_level.property_pcode] for f in features])
+    return pcodes
+
+def get_pcode_lvl1(e):
+    return _get_pcode(e, 1)
+
+def get_pcode_lvl2(e):
+    return _get_pcode(e, 2)
+
+def get_pcode_lvl3(e):
+    return _get_pcode(e, 3)
+
+def get_pcode_lvl4(e):
+    return _get_pcode(e, 4)
+
+def get_pcode_lvl5(e):
+    return _get_pcode(e, 5)
+
 
 def get_aff_all_str(e):
     return ', '.join(get_aff_all_list(e))

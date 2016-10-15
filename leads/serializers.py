@@ -106,25 +106,33 @@ class SosSerializer(serializers.ModelSerializer):
 
         data = {}
         children_properties = []
+        admin_features = {}
         for s in sos.map_selections.all():
             if s.admin_level.name not in data:
                 data[s.admin_level.name] = {"country": s.admin_level.country.pk, "locations": [], "pcodes": []}
 
             if s.admin_level.property_pcode != "":
-                features = GeoJsonHandler(s.admin_level.geojson.read().decode()).filter_features(s.admin_level.property_name, s.name)
+                if s.admin_level.pk not in admin_features:
+                    admin_features[s.admin_level.pk] = GeoJsonHandler(s.admin_level.geojson.read().decode())
+                features = admin_features[s.admin_level.pk].filter_features(s.admin_level.property_name, s.name)
                 data[s.admin_level.name]["pcodes"].extend([f["properties"][s.admin_level.property_pcode] for f in features])
             else:
                 data[s.admin_level.name]["locations"].append(s.name)
             
             child_admin = AdminLevel.objects.filter(level=s.admin_level.level+1, country=s.admin_level.country)
+
             if child_admin.count() > 0:
-                children_properties.append((child_admin[0], s.admin_level.property_name, s.name))
+                if child_admin[0].pk not in admin_features:
+                    admin_features[child_admin[0].pk] = GeoJsonHandler(child_admin[0].geojson.read().decode())
+                children_properties.append((child_admin[0], admin_features[child_admin[0].pk].filter_features(s.admin_level.property_name, s.name)))
+                # children_properties.append((child_admin[0], s.admin_level.property_name, s.name))
 
         # Get children areas if exist as well
         for cp in children_properties:
-            geojson = GeoJsonHandler(cp[0].geojson.read().decode())
-            features = geojson.filter_features(cp[1], cp[2])
+            # geojson = GeoJsonHandler(cp[0].geojson.read().decode())
+            # features = geojson.filter_features(cp[1], cp[2])
 
+            features = cp[1]
             if cp[0].name not in data:
                 data[cp[0].name] = {"country": cp[0].country.pk, "locations": [], "pcodes": []}
 
