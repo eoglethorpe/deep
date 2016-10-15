@@ -113,11 +113,6 @@ class SosSerializer(serializers.ModelSerializer):
 
             if s.pcode != "":
                 data[s.admin_level.name]["pcodes"].append(s.pcode)
-            elif s.admin_level.property_pcode != "":
-                if s.admin_level.pk not in admin_features:
-                    admin_features[s.admin_level.pk] = GeoJsonHandler(s.admin_level.geojson.read().decode())
-                features = admin_features[s.admin_level.pk].filter_features(s.admin_level.property_name, s.name)
-                data[s.admin_level.name]["pcodes"].extend([f["properties"][s.admin_level.property_pcode] for f in features])
             else:
                 data[s.admin_level.name]["locations"].append(s.name)
             
@@ -127,13 +122,9 @@ class SosSerializer(serializers.ModelSerializer):
                 if child_admin[0].pk not in admin_features:
                     admin_features[child_admin[0].pk] = GeoJsonHandler(child_admin[0].geojson.read().decode())
                 children_properties.append((child_admin[0], admin_features[child_admin[0].pk].filter_features(s.admin_level.property_name, s.name)))
-                # children_properties.append((child_admin[0], s.admin_level.property_name, s.name))
 
         # Get children areas if exist as well
         for cp in children_properties:
-            # geojson = GeoJsonHandler(cp[0].geojson.read().decode())
-            # features = geojson.filter_features(cp[1], cp[2])
-
             features = cp[1]
             if cp[0].name not in data:
                 data[cp[0].name] = {"country": cp[0].country.pk, "locations": [], "pcodes": []}
@@ -149,6 +140,9 @@ class SosSerializer(serializers.ModelSerializer):
         return list(set(cs))
 
     def get_areas_summary(self, sos):
+        summary = self.context['request'].query_params.get('summary')
+        if not summary:
+            return
         return ", ".join([s.name for s in sos.map_selections.all()] + self.get_country_names(sos))
 
     def get_created_by_name(self, sos):

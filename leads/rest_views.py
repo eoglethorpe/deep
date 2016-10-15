@@ -7,6 +7,7 @@ from rest_framework.response import Response
 
 from leads.models import *
 from leads.serializers import *
+from entries.refresh_pcodes import *
 
 
 class SourceViewSet(viewsets.ModelViewSet):
@@ -37,6 +38,7 @@ class SosViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
+        refresh_pcodes()
         event = self.request.GET.get("event")
         if event:
             return SurveyOfSurvey.objects.filter(event__pk=event)
