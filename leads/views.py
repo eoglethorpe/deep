@@ -62,6 +62,8 @@ class SoSView(View):
 class AddSoS(View):
     @method_decorator(login_required)
     def get(self, request, event, lead_id, sos_id=None):
+        refresh_pcodes()
+
         context = {}
         context["current_page"] = "sos"
         context["event"] = Event.objects.get(pk=event)
@@ -160,6 +162,7 @@ class AddSoS(View):
         sos.sectors_covered = request.POST["sectors_covered"]
         sos.save()
 
+        # Map selections
         map_data = json.loads(request.POST["map_data"])
         temp = sos.map_selections.all()
         sos.map_selections.clear()
@@ -171,12 +174,21 @@ class AddSoS(View):
                 level=int(m[1])+1
             )
             try:
-                selection = AdminLevelSelection.objects.get(
-                    admin_level=admin_level, name=m[2]
-                )
+                if len(m) == 4:
+                    selection = AdminLevelSelection.objects.get(
+                        admin_level=admin_level, pcode=m[3]
+                    )
+                else:
+                    selection = AdminLevelSelection.objects.get(
+                        admin_level=admin_level, name=m[2]
+                    )
             except:
-                selection = AdminLevelSelection(admin_level=admin_level,
-                                                name=m[2])
+                if len(m) == 4:
+                    selection = AdminLevelSelection(admin_level=admin_level,
+                                                    name=m[2], pcode=m[3])
+                else:
+                    selection = AdminLevelSelection(admin_level=admin_level,
+                                                    name=m[2])
                 selection.save()
 
             sos.map_selections.add(selection)

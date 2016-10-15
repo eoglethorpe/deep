@@ -49,11 +49,11 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     var mapSelections = [
     {% if prev_entry %}
     {% for selection in prev_entry.map_selections.all %}
-    "{{selection.admin_level.country.code}}:{{selection.admin_level.level|add:"-1"}}:{{selection.name}}",
+    "{{selection.admin_level.country.code}}:{{selection.admin_level.level|add:"-1"}}:{{selection.name}}{% if selection.pcode != "" %}:{{selection.pcode}}{% endif %}",
     {% endfor %}
     {% elif entry %}
     {% for selection in entry.map_selections.all %}
-    "{{selection.admin_level.country.code}}:{{selection.admin_level.level|add:"-1"}}:{{selection.name}}",
+    "{{selection.admin_level.country.code}}:{{selection.admin_level.level|add:"-1"}}:{{selection.name}}{% if selection.pcode != "" %}:{{selection.pcode}}{% endif %}",
     {% endfor %}
     {% endif %}
     ];

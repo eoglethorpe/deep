@@ -64,7 +64,7 @@ class EntrySerializer(serializers.ModelSerializer):
         summary = self.context['request'].query_params.get('summary')
         if not summary:
             return
-        return ", ".join([s.name for s in entry.map_selections.all()] + self.get_country_names(entry))
+        return ", ".join(list(set([s.name for s in entry.map_selections.all()] + self.get_country_names(entry))))
 
     def get_areas(self, entry):
         summary = self.context['request'].query_params.get('summary')
@@ -128,6 +128,6 @@ class CountrySerializer(serializers.ModelSerializer):
             levels["level"+str(level.level)] = [
                     level.name, level.property_name,
                     # str(level.geojson.read(), 'utf-8')
-                    level.geojson.url
+                    level.geojson.url, level.property_pcode
                 ]
         return levels

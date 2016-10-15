@@ -11,6 +11,7 @@ from leads.models import *
 from entries.models import *
 from entries.strippers import *
 from . import export_xls, export_docx, export_fields
+from entries.refresh_pcodes import *
 
 import os
 import json
@@ -112,6 +113,8 @@ class EntriesView(View):
 class AddEntry(View):
     @method_decorator(login_required)
     def get(self, request, event, lead_id=None, id=None):
+        refresh_pcodes()
+
         context = {}
         context["current_page"] = "entries"
         context["event"] = Event.objects.get(pk=event)
@@ -237,7 +240,7 @@ class AddEntry(View):
 
         # Save the map data.
         # ['NP:0:Mid-Western Development Region', 'NP:1:Bheri', 'NP:2:Dang',
-        #  'NP:2:Rukum']
+        #  'NP:2:Rukum', 'HT:1:BLAH:HT123']
         temp = entry.map_selections.all()
         entry.map_selections.clear()
         temp.delete()
@@ -248,12 +251,21 @@ class AddEntry(View):
                 level=int(m[1])+1
             )
             try:
-                selection = AdminLevelSelection.objects.get(
-                    admin_level=admin_level, name=m[2]
-                )
+                if len(m) == 4:
+                    selection = AdminLevelSelection.objects.get(
+                        admin_level=admin_level, pcode=m[3]
+                    )
+                else:
+                    selection = AdminLevelSelection.objects.get(
+                        admin_level=admin_level, name=m[2]
+                    )
             except:
-                selection = AdminLevelSelection(admin_level=admin_level,
-                                                name=m[2])
+                if len(m) == 4:
+                    selection = AdminLevelSelection(admin_level=admin_level,
+                                                    name=m[2], pcode=m[3])
+                else:
+                    selection = AdminLevelSelection(admin_level=admin_level,
+                                                    name=m[2])
                 selection.save()
 
             entry.map_selections.add(selection)

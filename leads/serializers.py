@@ -143,7 +143,7 @@ class SosSerializer(serializers.ModelSerializer):
         summary = self.context['request'].query_params.get('summary')
         if not summary:
             return
-        return ", ".join([s.name for s in sos.map_selections.all()] + self.get_country_names(sos))
+        return ", ".join(list(set([s.name for s in sos.map_selections.all()] + self.get_country_names(sos))))
 
     def get_created_by_name(self, sos):
         return sos.created_by.get_full_name()
