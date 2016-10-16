@@ -1,9 +1,9 @@
-
 var locations = {};
 
 var adminLevels = {};
 var adminLevelNames = {};
 var adminLevelPropNames = {};
+var adminLevelPropPcodes = {};
 var nameLayerMapping = {};
 var currentLevel = 0;
 var selectedCountry = "";
@@ -41,12 +41,13 @@ function getAdminLevels(countryCode) {
         adminLevels[countryCode] = [];
         adminLevelNames[countryCode] = [];
         adminLevelPropNames[countryCode] = [];
+        adminLevelPropPcodes[countryCode] = [];
 
         for (var i=0; i<levels.length; ++i) {
             var level = data["admin_levels"][levels[i]];
             adminLevelNames[countryCode].push(level[0]);
             adminLevelPropNames[countryCode].push(level[1]);
-            // adminLevels[countryCode].push(JSON.parse(level[2]));
+            adminLevelPropPcodes[countryCode].push(level[3]);
 
             adminLevels[countryCode].push(null);
 
@@ -91,11 +92,20 @@ function onEachMapFeature(feature, layer) {
     var isSelected = false;
 
     var propName = adminLevelPropNames[selectedCountry][currentLevel];
+    var propPcode = adminLevelPropPcodes[selectedCountry][currentLevel];
     var name = "";
-    if (feature.properties && feature.properties[propName]) {
-        name = feature.properties[propName];
+    var pcode = "";
+
+    if (feature.properties) {
+        if (feature.properties[propName])
+            name = feature.properties[propName];
+        if (propPcode != "" && feature.properties[propPcode])
+            pcode = feature.properties[propPcode];
     }
+
     var selectionName = selectedCountry+":"+currentLevel+":"+name;
+    if (pcode != "")
+        selectionName += ":" + pcode;
 
     nameLayerMapping[selectionName] = layer;
 
@@ -209,8 +219,13 @@ function refreshAdminLevels() {
                     if ("properties" in features[j]) {
                         var properties = features[j]["properties"];
                         var propName = adminLevelPropNames[k][i];
+                        var propPcode = adminLevelPropPcodes[k][i];
+
                         var name = properties[propName];
                         var selectionName = k +":"+ i +":"+ name;
+
+                        if (propPcode != "" && properties[propPcode] != "")
+                            selectionName += ":" + properties[propPcode]
 
                         locations[selectionName] = name;
                     }
