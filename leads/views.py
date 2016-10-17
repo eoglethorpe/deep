@@ -13,6 +13,7 @@ from users.models import *
 from leads.models import *
 from entries.models import *
 from entries.strippers import *
+from entries.refresh_pcodes import refresh_pcodes
 
 from excel_writer import ExcelWriter, RowCollection
 
