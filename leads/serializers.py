@@ -98,13 +98,17 @@ class SosSerializer(serializers.ModelSerializer):
         return {s.admin_level.country.pk: s.admin_level.country.name for s in sos.map_selections.all()}
 
 
-    def get_child_features(self, admin_features, children_properties, admin):
-        child_admin = AdminLevel.objects.filter(level=admin.admin_level.level+1, country=admin.admin_level.country)
+    def get_child_features(self, admin_features, children_properties, admin, name):
+        child_admin = AdminLevel.objects.filter(level=admin.level+1, country=admin.country)
 
         if child_admin.count() > 0:
             if child_admin[0].pk not in admin_features:
                 admin_features[child_admin[0].pk] = GeoJsonHandler(child_admin[0].geojson.read().decode())
-            children_properties.append((child_admin[0], admin_features[child_admin[0].pk].filter_features(admin.admin_level.property_name, admin.name)))
+            features = admin_features[child_admin[0].pk].filter_features(admin.property_name, name)
+            children_properties.append((child_admin[0], features))
+
+            for f in features:
+                self.get_child_features(admin_features, children_properties, child_admin[0], f["properties"][child_admin[0].property_name])
 
     def get_areas(self, sos):
         summary = self.context['request'].query_params.get('summary')
@@ -125,7 +129,7 @@ class SosSerializer(serializers.ModelSerializer):
             else:
                 data[s.admin_level.name]["locations"].append(s.name)
 
-            self.get_child_features(admin_features, children_properties, s)
+            self.get_child_features(admin_features, children_properties, s.admin_level, s.name)
 
         # Get children areas if exist as well
         for cp in children_properties:
