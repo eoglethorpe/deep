@@ -116,7 +116,7 @@ class SosSerializer(serializers.ModelSerializer):
             else:
                 data[s.admin_level.name]["locations"].append(s.name)
             
-            child_admin = AdminLevel.objects.filter(level=s.admin_level.level+1, country=s.admin_level.country)
+            child_admin = AdminLevel.objects.filter(level__gt=s.admin_level.level, country=s.admin_level.country)
 
             if child_admin.count() > 0:
                 if child_admin[0].pk not in admin_features:
