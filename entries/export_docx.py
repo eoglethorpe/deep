@@ -217,9 +217,6 @@ def _get_rel_shp(scr):
 
 c = 0
 def _add_bod(doc, ent, att):
-    global c
-    c+=1
-    print(c)
     """generate the text of an info att for a given entry"""
     p = doc.add_paragraph(style = 'gentext')
 
@@ -298,9 +295,6 @@ def _add_sectors(d, ents, subcats):
     """take in all entries, divide them by sectors and print out"""
     parent_sects = _get_parents_sects()
     ents_by_sect = _split_ent_by_sect(ents, subcats)
-    print('ents by sect')
-    print(ents_by_sect)
-
 
     #go through each sector and print out IAs based on their categories
     for s in parent_sects:
@@ -325,7 +319,6 @@ def _add_sectors(d, ents, subcats):
                 #now check our dict to see if relevant att is present with entries
                 if s in ents_by_sect.keys():
                     for e in ents_by_sect[s]:
-                        print(e)
                         for iv in [att for att in e.attributedata_set.all() if att.attribute == ia]:
                             _add_bod(d, iv.entry, iv)
 
