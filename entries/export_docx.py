@@ -1,75 +1,13 @@
-#TODO: heiracrchy should return types, not strings #yolo
-"""exporting entries to a docx"""
-from operator import itemgetter
-
 from docx import Document, RT
 from docx.enum.dml import MSO_THEME_COLOR_INDEX
 from docx.oxml import OxmlElement
-from docx.shared import Pt, RGBColor
+from docx.shared import Pt, RGBColor, Inches
 from docx.oxml.ns import qn
 
 from entries.export_fields import *
+from entries.models import InformationAttribute, InformationAttributeGroup, Sector
 
-MAPSELS = 'Map Selections'
-
-def gen_base_vals():
-    """which columns should be included and which function is used to create them"""
-    return OrderedDict([
-            ('Affected Groups' , 'get_aff_all_str'),
-            ('Sector' , 'get_sector_str'),
-            ('Sub-Sector' , 'get_sub_sector_str'),
-            (MAPSELS , 'get_geo_dict'),
-            ('Name Source', 'get_source'),
-            ('Publication Date', 'get_lead_created_at_dt_num'),
-            ('Confidentiality', 'get_confidentiality'),
-            ('Vulnerable Groups' , 'get_vuln_str'),
-            ('Specific Needs Groups' , 'get_specific_str'),
-            ('evt_obj', 'get_event')])
-
-def _sort(ents, order):
-    """arrange entries based on hierarchy and place into ordered list
-        we assume there are a maximum of 5 admin levels and all entries
-        are given values for the admin levels"""
-
-    ADMN_LVLS = ['Admin ' + _xstr(v) for v in range(1,6)]
-
-
-    #replace MAPSELS in order with ADMN_LVLS
-    for i,v in enumerate(ADMN_LVLS):
-        order.insert(order.index(MAPSELS) + i+1, v)
-
-    order.pop(order.index(MAPSELS))
-
-    #created ODs of {att type; att val (by running function name)}
-    r = []
-    for e in ents:
-        cd = OrderedDict()
-        for k,v in gen_base_vals().items():
-            #break up geo locations into spereate admin areas and make a string csl for sorting
-            if k == MAPSELS:
-                out = v
-                locs = globals()[v](e)
-                for i,lvl in enumerate(ADMN_LVLS):
-                    clvl = 'Admin ' + _xstr(i+1)
-                    if clvl in locs:
-                        cd[lvl] = ', '.join(locs[lvl])
-                    else:
-                        cd[lvl] = ''
-
-            else:
-                cd[k] = globals()[v](e)
-
-        r.append(cd)
-
-    r.sort(key=itemgetter(*order))
-
-    return r
-
-def _colorify_runs(runs, rgb_val):
-    """take in a list of runs and make them the same color based on rgb"""
-    for r in runs:
-        f = r.font
-        f.color.rgb = rgb_val
+NO_SECTOR_LABEL = 'No Sector'
 
 def _add_hyperlink(paragraph, url, text):
     """
@@ -117,7 +55,23 @@ def _add_hyperlink(paragraph, url, text):
     r.font.color.theme_color = MSO_THEME_COLOR_INDEX.HYPERLINK
     r.font.underline = True
 
-    return r
+    return r    
+
+
+def _sort(ents, order):
+    """arrange entries based on hierarchy and place into ordered list
+        we assume there are a maximum of 5 admin levels and all entries
+        are given values for the admin levels"""
+    #TODO: make work
+
+    return ents
+
+def _colorify_runs(runs, rgb_val):
+    """take in a list of runs and make them the same color based on rgb"""
+    for r in runs:
+        f = r.font
+        f.color.rgb = rgb_val
+
 
 def _add_line(para):
     #a very convoluded way to add a horizontal line to the document
@@ -164,40 +118,7 @@ def _add_line(para):
     bottom.set(qn('w:space'), '1')
     bottom.set(qn('w:color'), 'auto')
     pBdr.append(bottom)
-
-
-def _add_head(ent, order, doc):
-    """take in an entry and order and generate header based on values in order"""
-    first = True
-    runs = []
-
-    for ord in order:
-        #check to see if there's a value for the type
-        if len(ent[ord]) > 0:
-            p = doc.add_paragraph()
-            p.paragraph_format.line_spacing = Pt(14)
-
-            #segment geoareas into their admin levels
-            if ord == MAPSELS:
-                for k,v in ent[order].items():
-                    l_run = p.add_run(k + ': ')
-                    l_run.bold = True
-                    n_run = v
-                    runs.append(l_run)
-                    runs.append(n_run)
-                    doc.add_paragraph()
-
-            else:
-                k_run = p.add_run(ord + ': ')
-                k_run.italic = True
-                v_run = p.add_run(_xstr(ent[ord]))
-                runs.append(k_run)
-                runs.append(v_run)
-
-            _colorify_runs(runs, RGBColor(68,120,202))
-
-            first = False
-
+    
 def _xstr(v):
     """safely convert a value to string"""
     if v is None:
@@ -208,59 +129,6 @@ def _xstr(v):
 
     except:
         return str(v)
-
-def _add_bod(ent, order, doc):
-    """generate the body of an entry"""
-    #use to add space before first IA
-    first_ia = True
-
-    #add lead
-    t = doc.add_paragraph()
-    r = t.add_run(get_lead_nm(ent['evt_obj']))
-    r.font.bold, r.font.underline = True, True
-
-    tbl = doc.add_table(rows=0, cols = 2, style = 'Table Grid')
-    for k,v in ent.items():
-        #get general base level... make it as a table so that we can have nice justifaction
-        if k != 'evt_obj':
-            row = tbl.add_row().cells
-            row[0].text = k
-            row[0].paragraphs[0].runs[0].bold = True
-            row[1].text = _xstr(v)
-
-            row[0].width, row[1].width = 4828800, 4828800
-
-        #find IAs with event object
-        elif k == 'evt_obj':
-            if first_ia:
-                doc.add_paragraph()
-                # r = title_p.add_run('INFORMATION ATTRIBUTES')
-                # r.font.bold, r.font.underline = True, True
-
-                first_ia = False
-            for ik,iv in gen_ias(Entry.objects.all(), v).items():
-                #only print IAs for which there is an entry
-                if iv:
-                    ia_p = doc.add_paragraph()
-                    ia_p.add_run(ik + ': ').bold = True
-                    ia_p.add_run(_xstr(iv))
-
-                    #add in (source [url'd], date)
-                    if ik.endswith('excerpt'):
-                        ia_p.add_run(' (')
-                        if get_lead_url(v):
-                            if not get_source(v):
-                                _add_hyperlink(ia_p, get_lead_url(v), 'Reference')
-                            else:
-                                _add_hyperlink(ia_p, get_lead_url(v), get_source(v))
-                        else:
-                            ia_p.add_run('Manual Entry')
-
-                        ia_p.add_run(', ' + get_lead_created_at_dt_readable(v) + ')')
-
-    line_p = doc.add_paragraph()
-    _add_line(line_p)
-
 
 def _gen_bili(sortents):
     """generate bibliography
@@ -274,10 +142,10 @@ def _gen_bili(sortents):
     """
     return [
         OrderedDict([
-            ('Source' , get_source(e['evt_obj'])),
-            ('Title' , get_lead_nm_title_case(e['evt_obj'])),
-            ('Date' , get_lead_created_at_dt_num(e['evt_obj'])),
-            ('URL' , get_lead_url(e['evt_obj']))
+            ('Source' , get_source(e)),
+            ('Title' , get_lead_nm_title_case(e)),
+            ('Date' , get_lead_created_at_dt_num(e)),
+            ('URL' , get_lead_url(e))
         ]) for e in sortents
     ]
 
@@ -286,7 +154,8 @@ def _add_bili(sortents, d):
     Name of Source. Title of Lead. Publication Date (MM/DD/YYYY). hyperlink (all in Title Case)
     UNHCR. Dont Have to Live Like a Refugee. 31/08/2016. https://mylink.com/
 """
-    d.add_paragraph()
+    sep = d.add_paragraph()
+    _add_line(sep)
     bib = d.add_paragraph()
     bib.add_run('Bibliography').bold = True
 
@@ -308,36 +177,224 @@ def _add_bili(sortents, d):
             else:
                 ent.add_run(run)
 
+def _get_sev_shp(scr):
+    BASE_DIR = 'static/img/doc_export/sev_'
+    add = 0
 
-def _add_meta(order, d, filter = None):
-    """add in filter and ordering info"""
-    p = d.add_paragraph()
+    if scr == 'NOP':
+        add = 1
+    elif scr == 'MIN':
+        add = 2
+    elif scr == 'SOC':
+        add = 3
+    elif scr == 'SOM':
+        add = 4
+    elif scr == 'SEV':
+        add = 5
+    elif scr == 'CRI':
+        add = 6
 
-    if not filter:
-        p.add_run('Filter: None Provided').bold = True
+    return BASE_DIR + str(add) + '.png'
+
+def _get_rel_shp(scr):
+    BASE_DIR = 'static/img/doc_export/rel_'
+    add = 0
+
+    if scr == 'COM':
+        add = 1
+    elif scr == 'USU':
+        add = 2
+    elif scr == 'FAI':
+        add = 3
+    elif scr == 'NUS':
+        add = 4
+    elif scr == 'UNR':
+        add = 5
+    elif scr == 'CBJ':
+        add = 6
+
+    return BASE_DIR + str(add) + '.png'
+
+c = 0
+def _add_bod(doc, ent, att):
+    global c
+    c+=1
+    print(c)
+    """generate the text of an info att for a given entry"""
+    p = doc.add_paragraph(style = 'gentext')
+
+    #add excerpt
+    p.add_run(get_ia_exc(att))
+
+    #add source
+    p.add_run(' (')
+    if get_lead_url(ent):
+        if not get_source(ent):
+            _add_hyperlink(p, get_lead_url(ent), 'Reference')
+        else:
+            _add_hyperlink(p, get_lead_url(ent), get_source(ent))
     else:
-        p.add_run('#TellEwanToFixThis').bold = True
+        p.add_run('Manual Entry')
 
-    op = d.add_paragraph()
-    op.add_run('Entry Order:').bold=True
-    for v in order:
-        d.add_paragraph(v, style='ListNumber')
+    #add date
+    p.add_run(', ' + get_lead_created_at_dt_readable(ent) + ') ')
 
-    _add_line(d.add_paragraph())
+    #sev, rel
+    r = p.add_run()
+    #r.add_picture(_get_sev_shp(1), height=Inches(.5))
+    r.add_picture(_get_sev_shp(att.severity), height=Inches(.2))
+    r.add_text(' ')
+    r.add_picture(_get_rel_shp(att.reliability), height=Inches(.2))
+
+    doc.add_paragraph(style = 'gentext')
+
+def _split_ent_by_sect(ents, sects):
+    """take in entries and sects and split entries into provided sects (there can be repeats)
+        return: {sector1: [ent1... entx], sector2: [ent1... entx]}
+    """
+
+    #create a list of [(IA, [parent sectors])]... set is used to avoid repeats
+    divd = []
+    for ent in ents:
+        if len(ent.sectors.all()) == 0:
+            divd.append((ent, [Sector(NO_SECTOR_LABEL)]))
+
+        for v in ent.sectors.all():
+            hold = []
+            if v.parent == None:
+                hold.append(v)
+            else:
+                hold.append(v.parent)
+
+            divd.append((ent, list(set(hold))))
+
+    ret = {}
+    for att in divd:
+        for sect in att[1]:
+            if sect not in ret:
+                ret[sect] = [att[0]]
+            else:
+                ret[sect].append(att[0])
+
+    return ret
+
+def _get_parents_sects():
+    """get all parent sects"""
+    #workaround to add a 'None' sector where no sectors are selected
+    ret = [Sector(NO_SECTOR_LABEL)]
+
+    #iterate through all sectors and pull their parents to get full list
+    for sect in Sector.objects.all():
+        #if a given subsector doesn't have a parent then we declare it a parent
+        if not sect.parent:
+            ret.append(sect)
+        else:
+            if sect.parent not in ret:
+                ret.append(sect)
+
+    return ret
+
+def _add_sectors(d, ents, subcats):
+    """take in all entries, divide them by sectors and print out"""
+    parent_sects = _get_parents_sects()
+    ents_by_sect = _split_ent_by_sect(ents, subcats)
+    print('ents by sect')
+    print(ents_by_sect)
+
+
+    #go through each sector and print out IAs based on their categories
+    for s in parent_sects:
+        p = d.add_paragraph(style='mainhead')
+        p.add_run(s.name)
+        d.add_paragraph()
+        d.add_paragraph(style = 'gentext')
+
+        #add in info attribute group headings
+        for cat in set(subcats):
+            p = d.add_paragraph(style='secondhead')
+            p.add_run(cat.name)
+            d.add_paragraph(style = 'gentext')
+
+            #go through the InformationAttributes that are in this particular group and write out IA name
+            #...regardless of it is contained in data or not. if relevant IA is present, add in text
+            for ia in cat.informationattribute_set.all():
+                has_val = False
+                p = d.add_paragraph(style='iatext')
+                p.add_run(ia.name + ':')
+
+                #now check our dict to see if relevant att is present with entries
+                if s in ents_by_sect.keys():
+                    for e in ents_by_sect[s]:
+                        print(e)
+                        for iv in [att for att in e.attributedata_set.all() if att.attribute == ia]:
+                            _add_bod(d, iv.entry, iv)
+
+                if not has_val:
+                    d.add_paragraph(style='gentext')
+
+def _find_att(ents, att):
+    """take in a list of entries and the desired InfoAttribute and return the attribute objects and entry"""
+    ret = []
+    for e in ents:
+        for v in e.attributedata_set.all():
+            if v.attribute == att:
+                ret.append(v)
+
+    return ret
+
+def _add_gen_cat_second(d, ents, att):
+    """add in secondary headers"""
+    p = d.add_paragraph(style='secondhead')
+    p.add_run(att.name)
+    d.add_paragraph(style = 'gentext')
+
+    has_val = False
+
+    #iterate through all applicable IAs in a given IA group and get their values
+    for v in _find_att(ents, att):
+        _add_bod(d, v.entry, v)
+        has_val = True
+
+    if not has_val:
+        d.add_paragraph(style = 'gentext')
+
+def _add_gen_cat(d, ents, cat):
+    p = d.add_paragraph(style='mainhead')
+    p.add_run(cat.name)
+    d.add_paragraph()
+    d.add_paragraph(style = 'gentext')
+
+    for att in [v for v in InformationAttribute.objects.all() if v.group == cat]:
+        #if the given IA group is present in our data
+        _add_gen_cat_second(d, ents, att)
+
+
+def _add_meta(d):
+    """just show sev and rel translations"""
 
 def _gendoc(order, sortents):
     """generate the docx based on given order"""
-    d = Document()
+
+    #read in a blank template that contains our desired fields
+    d = Document('media/doc_export/template.docx')
 
     #meta info
-    _add_meta(order, d)
+    _add_meta(d)
 
-    for ent in sortents:
-        #show headers
-        #_add_head(ent, order, d)
+    #the first part of export are universal categories that sector independant and the rest are sorted by sector
+    single_cats = [InformationAttributeGroup('Context'), InformationAttributeGroup('Population data and characterstics'),
+                   InformationAttributeGroup('Humanitarian access'),
+                   InformationAttributeGroup('Information and communication')]
+    all_cats = [v.group for v in InformationAttribute.objects.all()]
 
-        #show base values
-        _add_bod(ent, order, d)
+    for cat in single_cats:
+        if cat not in all_cats:
+            raise Exception('Given category is not present. Model may have changed.')
+        else:
+            _add_gen_cat(d, sortents, cat)
+
+    #now we add data sorted by sector
+    _add_sectors(d, sortents, [v for v in all_cats if v not in single_cats])
 
     #show bibliography
     _add_bili(sortents, d)
