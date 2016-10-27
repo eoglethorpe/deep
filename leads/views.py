@@ -90,15 +90,21 @@ class AddSoS(View):
 
             elif lead.lead_type == "ATT":
                 attachment = lead.attachment
-                name, extension = os.path.splitext(attachment.upload.name)
+                try:
+                    name, extension = os.path.splitext(attachment.upload.name)
+                except:
+                    name, extension = attachment.upload.name, ""
                 if extension == ".pdf":
                     context["lead_simplified"] = \
                         PdfStripper(attachment.upload).simplify()
                 elif extension in [".html", ".htm"]:
                     context["lead_simplified"] = \
                         HtmlStripper(attachment.upload.read()).simplify()
+                else:
+                    context["lead_simplified"] = attachment.upload.read()
         except:
-            print("Error while simplifying")
+            # print("Error while simplifying")
+            pass
 
         # Get fields options
         context["proximities"] = ProximityToSource.objects.all()
