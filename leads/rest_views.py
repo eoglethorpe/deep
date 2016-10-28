@@ -41,5 +41,5 @@ class SosViewSet(viewsets.ModelViewSet):
         refresh_pcodes()
         event = self.request.GET.get("event")
         if event:
-            return SurveyOfSurvey.objects.filter(event__pk=event)
+            return SurveyOfSurvey.objects.filter(lead__event__pk=event)
         return SurveyOfSurvey.objects.all()
