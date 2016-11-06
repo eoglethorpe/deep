@@ -175,29 +175,39 @@ $(document).ready(function() {
             });
 
             $('#areas-filter').on('change', function(){
+                var regex = '^.*' + $(this).text() + '.*$';
                 entriesTable.column(2)
-                    .search( $(this).val() )
+                    .search(regex, true, false)
+                    // .search( $(this).val() )
                     .draw();
             });
             $('#sectors-filter').on('change', function(){
+                var regex = '^.*' + $(this).text() + '.*$';
                 entriesTable.column(3)
-                    .search( $(this).val() )
+                    .search(regex, true, false)
+                    // .search( $(this).text() )
                     .draw();
                 console.log($(this).val());
             });
             $('#affected-groups-filter').on('change', function(){
+                var regex = '^.*' + $(this).val() + '.*$';
+                console.log(regex);
                 entriesTable.column(4)
-                    .search( $(this).val() )
+                    .search(regex, true, false)// $(this).val() )
                     .draw();
             });
             $('#vulnerable-groups-filter').on('change', function(){
+                var regex = '^.*' + $(this).text() + '.*$';
                 entriesTable.column(5)
-                    .search( $(this).val() )
+                    .search(regex, true, false)
+                    // .search( $(this).val() )
                     .draw();
             });
             $('#specific-needs-groups-filter').on('change', function(){
+                var regex = '^.*' + $(this).text() + '.*$';
                 entriesTable.column(6)
-                    .search( $(this).val() )
+                    .search(regex, true, false)
+                    // .search( $(this).val() )
                     .draw();
             });
 

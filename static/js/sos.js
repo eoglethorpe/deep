@@ -31,7 +31,7 @@ $(document).ready(function(){
             type: "GET",
             dataType: "json",
             dataSrc: '',
-            url: "/api/v1/survey-of-surveys?summary=1"
+            url: "/api/v1/survey-of-surveys/?event=" + currentEvent + "&summary=1",
         },
         columns: [
             {

@@ -151,7 +151,10 @@ class AddEntry(View):
 
             elif lead.lead_type == "ATT":
                 attachment = lead.attachment
-                name, extension = os.path.splitext(attachment.upload.name)
+                try:
+                    name, extension = os.path.splitext(attachment.upload.name)
+                except:
+                    name, extension = attachment.upload.name, ""
                 if extension == ".pdf":
                     context["lead_simplified"] = \
                         PdfStripper(attachment.upload).simplify()
@@ -161,7 +164,8 @@ class AddEntry(View):
                 else:
                     context["lead_simplified"] = attachment.upload.read()
         except:
-            print("Error while simplifying")
+            # print("Error while simplifying")
+            pass
 
         context["keep_all"] = "keep_all" not in request.GET or request.GET["keep_all"] == "1"
 
