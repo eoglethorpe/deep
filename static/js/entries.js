@@ -183,6 +183,7 @@ $(document).ready(function() {
                 entriesTable.column(3)
                     .search( $(this).val() )
                     .draw();
+                console.log($(this).val());
             });
             $('#affected-groups-filter').on('change', function(){
                 entriesTable.column(4)
