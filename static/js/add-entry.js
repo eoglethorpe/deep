@@ -35,4 +35,15 @@ $(document).ready(function(){
         }
     });
 
+    $('#edit-entries-btn').on('click', function(){
+        $('#page-one').fadeOut(function(){
+            $('#page-two').fadeIn();
+        });
+    });
+    $('#back-to-excerpts-btn').on('click', function(){
+        $('#page-two').fadeOut(function(){
+            $('#page-one').fadeIn();
+        });
+    });
+
 });

@@ -100,7 +100,10 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     </div>
                 </div>
             </div>
-            <div id="page-two">
+            <div id="page-two" hidden>
+                <div style="text-align: right">
+                    <button id="back-to-excerpts-btn"  class="btn btn-primary">Back to excerpts</button>
+                </div>
                 <div id="entries">
                     <div class="entry">
                         <h3>Entry #1</h3>
@@ -126,12 +129,12 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                                 </div>
                             </div>
                             <div class="col-md-3 col-md-offset-3">
-                                <input type="date" class="form-control">
+                                <input type="text" class="form-control" placeholder="Date">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <textarea class="form-control">The first level is only drag and drop. Pieces of text are	selected from the lead and dragged and dropped into the appropriatebox on the right pane.</textarea>
+                                <textarea class="form-control">The first level is only drag and drop. Pieces of text are selected from the lead and dragged and dropped into the appropriatebox on the right pane.</textarea>
                             </div>
                         </div>
                         <div id="attributes">
