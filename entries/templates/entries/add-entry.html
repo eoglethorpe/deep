@@ -31,7 +31,75 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     <div class="split-pane-divider" id="divider"></div>
     <div class="split-pane-component" id="right-component">
         <div class="container-fluid">
-
+            <div id="page-one">
+                <div class="row">
+                    <div class="col-md-6">
+                        <select class="form-control" placeholder="Select excerpt" id="select-excerpt">
+                            <option>Excerpt 1</option>
+                            <option>Excerpt 2</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-primary" id="edit-entries-btn">Edit Entries</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <textarea class="form-control" id="excerpt-text" placeholder="Excerpt"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="pillars">
+                            <div class="pillar">
+                                <div class="pillar-header">
+                                    Bla Blu header
+                                </div>
+                                <div class="sub-pillar">
+                                    Bla Blu
+                                </div>
+                                <div class="sub-pillar">
+                                    Bla Blu
+                                </div>
+                                <div class="sub-pillar">
+                                    Bla Blu
+                                </div>
+                                <div class="sub-pillar">
+                                    Bla Blu
+                                </div>
+                            </div>
+                            <div class="pillar">
+                                <div class="pillar-header">
+                                    Bla Blu header
+                                </div>
+                                <div class="sub-pillar">
+                                    Bla Blu bleh fl
+                                </div>
+                                <div class="sub-pillar">
+                                    Bla Blu
+                                </div>
+                                <div class="sub-pillar">
+                                    Bla Blu
+                                </div>
+                                <div class="sub-pillar">
+                                    Bla Blu
+                                </div>
+                            </div>
+                            <div class="pillar">
+                                <div class="pillar-header">
+                                    Bla Blu header
+                                </div>
+                                <div class="sub-pillar">
+                                    Bla Blu
+                                </div>
+                                <div class="sub-pillar">
+                                    Bla Blu
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id="page-two">
                 <div id="entries">
                     <div class="entry">
@@ -91,7 +159,6 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

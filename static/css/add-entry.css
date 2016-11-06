@@ -63,7 +63,37 @@ body {
       background-color: transparent; }
     body .split-pane #right-component {
       left: 40em;
-      margin-left: 3px; }
+      margin-left: 3px;
+      padding-top: 24px; }
+      body .split-pane #right-component .row {
+        margin-bottom: 24px; }
+      body .split-pane #right-component #page-one #edit-entries-btn {
+        float: right; }
+      body .split-pane #right-component #page-one #excerpt-text {
+        height: 96px; }
+      body .split-pane #right-component #page-one #pillars {
+        display: flex;
+        flex-direction: column; }
+        body .split-pane #right-component #page-one #pillars .pillar {
+          margin-top: 4px;
+          margin-bottom: 4px;
+          -webkit-user-select: none; }
+          body .split-pane #right-component #page-one #pillars .pillar .pillar-header {
+            display: inline-block;
+            padding: 24px;
+            margin-right: 2px;
+            background-color: #ccc; }
+          body .split-pane #right-component #page-one #pillars .pillar .sub-pillar {
+            display: inline-block;
+            padding: 24px;
+            margin-right: 2px;
+            cursor: pointer;
+            background-color: #eee;
+            transition: 0.2s all ease-in-out; }
+          body .split-pane #right-component #page-one #pillars .pillar .active {
+            transform: scaleY(1.1);
+            background-color: #008080;
+            color: #fff; }
     body .split-pane #page-two #entries {
       padding-top: 24px; }
       body .split-pane #page-two #entries h3 {
