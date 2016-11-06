@@ -1,453 +1,579 @@
-
-var map;
-var drawingManager;
-var selectedShape;
-var colors = ['#3498db', '#e74c3c', '#2ecc71', '#f1c40f', '#34495e'];
-var selectedColor;
-var colorButtons = {};
+var manual_location_input;
 
 
-function clearSelection() {
-    if (selectedShape) {
-        if(selectedShape.type != google.maps.drawing.OverlayType.MARKER){
-            selectedShape.setEditable(false);
-        }
-        selectedShape = null;
+function updateLocationSelections() {
+    var container = $('#selected-location-list ul');
+    var items = container.find('li');
+    if(items){
+        items.remove();
+    }
+
+    if(mapSelections.length == 0){
+        $("#empty-text").show();
+    } else{
+        $("#empty-text").hide();
+    }
+
+    for (var i=0; i < mapSelections.length; i++) {
+        var selectionKey = mapSelections[i];
+        element = $('<li><a onclick="unSelect(\''+selectionKey+'\', this)"><i class="fa fa-times"></i></a>'+manual_location_input[0].selectize.options[selectionKey].text+'</li>');
+        element.appendTo(container);
+
+        // Select the option with value selectionKey.
     }
 }
 
-function setSelection(shape) {
-    clearSelection();
-    selectedShape = shape;
-    if(shape.type != google.maps.drawing.OverlayType.MARKER){
-        shape.setEditable(true);
-        selectColor(shape.get('fillColor') || shape.get('strokeColor'));
-    }
-}
-
-function deleteSelectedShape() {
-    if (selectedShape) {
-        selectedShape.setMap(null);
-        shapes = $.grep(shapes, function(shape){
-            return shape.id != selectedShape.id;
-        });
-    }
-}
-
-function selectColor(color) {
-    selectedColor = color;
-    for (var i = 0; i < colors.length; ++i) {
-        var currColor = colors[i];
-        colorButtons[currColor].style.border = currColor == color ? '2px solid #789' : '2px solid #fff';
+function refreshLocations() {
+    // TODO: Clear all from select-location.
+    //mapSelections = [];
+    for (var key in locations) {
+        var name = locations[key];
+        manual_location_input[0].selectize.addOption({value: key, text: name});
+        // Add key to mapSelections array on selection and call updateLayer(key).
     }
 
-    // Retrieves the current options from the drawing manager and replaces the
-    // stroke or fill color as appropriate.
-
-    var rectangleOptions = drawingManager.get('rectangleOptions');
-    rectangleOptions.fillColor = color;
-    drawingManager.set('rectangleOptions', rectangleOptions);
-
-    var circleOptions = drawingManager.get('circleOptions');
-    circleOptions.fillColor = color;
-    drawingManager.set('circleOptions', circleOptions);
-
-    var polygonOptions = drawingManager.get('polygonOptions');
-    polygonOptions.fillColor = color;
-    drawingManager.set('polygonOptions', polygonOptions);
+    updateLocationSelections();
 }
 
-function setSelectedShapeColor(color) {
-    if (selectedShape) {
-        if (selectedShape.type == google.maps.drawing.OverlayType.POLYLINE) {
-            selectedShape.set('strokeColor', color);
-        } else {
-            selectedShape.set('fillColor', color);
-        }
-        selectedShape.color = color;
-    }
+function unSelect(key, that){
+    mapSelections.splice(mapSelections.indexOf(key), 1);
+    updateLayer(key);
+    $(that).closest('li').remove();
 }
 
-function makeColorButton(color) {
-    var button = document.createElement('span');
-    button.className = 'color-button';
-    button.style.backgroundColor = color;
-    google.maps.event.addDomListener(button, 'click', function() {
-        selectColor(color);
-        setSelectedShapeColor(color);
+
+
+google.charts.load('current', {packages:["orgchart"]});
+google.charts.setOnLoadCallback(drawChart);
+
+var mouseover_group = -1;
+
+function drawChart() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Name');
+    data.addColumn('string', 'Manager');
+    data.addColumn('string', 'ToolTip');
+
+    data.addRows(affected_groups);
+
+    // Create the chart.
+    var chart = new google.visualization.OrgChart(document.getElementById('chart-div'));
+    // Draw the chart, setting the allowHtml option to true for the tooltips.
+    chart.draw(data, {
+        nodeClass: 'affected-group',
+        selectedNodeClass: 'active-affected-group',
     });
-    return button;
-}
-
-function buildColorPalette() {
-    var colorPalette = document.getElementById('color-palette');
-    for (var i = 0; i < colors.length; ++i) {
-        var currColor = colors[i];
-        var colorButton = makeColorButton(currColor);
-        colorPalette.appendChild(colorButton);
-        colorButtons[currColor] = colorButton;
-    }
-    selectColor(colors[0]);
-}
-
-function addShape(shape){
-    shapes.push(shape);
-}
-
-function getShapes(){
-    shapeData = [];
-    for(i=0; i<shapes.length; i++){
-        switch(shapes[i].type){
-            case 'polygon':
-                path = [];
-                shapes[i].getPath().forEach(function(latLng, i){
-                    path.push({lat: latLng.lat(), lng: latLng.lng()});
-                });
-                shapeData.push({
-                    type: shapes[i].type,
-                    path: path,
-                    color: shapes[i].color
-                });
-                break;
-            case 'marker':
-                shapeData.push({
-                    type: shapes[i].type,
-                    position: {lat: shapes[i].position.lat(), lng: shapes[i].position.lng()},
-                    //color: shapes[i].color
-                });
-                break;
-            case 'circle':
-                shapeData.push({
-                    type: shapes[i].type,
-                    center: {lat: shapes[i].center.lat(), lng: shapes[i].center.lng()},
-                    radius: shapes[i].radius,
-                    color: shapes[i].color
-                });
-                break;
-            default:
-        }
-    }
-    return shapeData;
-}
-
-function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: new google.maps.LatLng(0,0),
-        scrollwheel: false,
-        zoom: 1,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-    });
-
-    if(testShapes.length > 0){
-        var boundbox = new google.maps.LatLngBounds();
-        for(i = 0; i < testShapes.length; i++){
-            switch(testShapes[i].type){
-                case "polygon":
-                    var polygon = new google.maps.Polygon({
-                        path: testShapes[i].path,
-                        strokeWeight: 0,
-                        fillColor: testShapes[i].color || colors[0],
-                        fillOpacity: 0.5,
-                        map: map
-                    });
-                    polygon.id = shapeIdToken++;
-                    polygon.type = testShapes[i].type;
-                    polygon.color = testShapes[i].color;
-                    shapes.push(polygon);
-                    for(j = 0; j < testShapes[i].path.length; j++){
-                        boundbox.extend(new google.maps.LatLng(testShapes[i].path[j].lat, testShapes[i].path[j].lng));
-                    }
-                    google.maps.event.addListener(polygon, 'click', function() {
-                        setSelection(polygon);
-                    });
-                    break;
-
-                case "circle":
-                    var circle = new google.maps.Circle({
-                        center: testShapes[i].center,
-                        radius: testShapes[i].radius,
-                        strokeWeight: 0,
-                        fillColor: testShapes[i].color || colors[0],
-                        fillOpacity: 0.5,
-                        map: map
-                    });
-                    circle.id = shapeIdToken++;
-                    circle.type = testShapes[i].type;
-                    circle.color = testShapes[i].color;
-                    shapes.push(circle);
-                    google.maps.event.addListener(circle, 'click', function() {
-                        setSelection(circle);
-                    });
-                    boundbox.extend(new google.maps.LatLng(testShapes[i].center.lat, testShapes[i].center.lng));
-                    //boundbox.extend(circle.getBounds());
-                    break;
-
-                case "marker":
-                {
-                    var marker = new google.maps.Marker({
-                        position: testShapes[i].position,
-                        draggable: true,
-                        editable: true,
-                        map: map
-                    });
-                    marker.id = shapeIdToken++;
-                    marker.type = testShapes[i].type;
-                    shapes.push(marker);
-                    google.maps.event.addListener(marker, 'click', function() {
-                        setSelection(this);
-                    });
-                    boundbox.extend(new google.maps.LatLng(testShapes[i].position.lat, testShapes[i].position.lng));
-                    break;
-                }
+    google.visualization.events.addListener(chart, 'select', function(){
+        var selection = chart.getSelection();
+        if (selection.length == 0){
+            if(mouseover_group != -1){
+                selected_groups = $.grep(selected_groups, function(item){
+                    return item.row != mouseover_group;
+                })
             }
+            chart.setSelection(selected_groups);
+        } else{
+            selected_groups.push(selection[0]);
+            chart.setSelection(selected_groups);
         }
-        map.fitBounds(boundbox);
-    }
-
-    var polyOptions = {
-        strokeWeight: 0,
-        fillOpacity: 0.5,
-        editable: true
-    };
-
-    // Creates a drawing manager attached to the map that allows the user to draw
-    // markers, lines, and shapes.
-    drawingManager = new google.maps.drawing.DrawingManager({
-        drawingMode: google.maps.drawing.OverlayType.POLYGON,
-        drawingControlOptions: {
-            position: google.maps.ControlPosition.BOTTOM_LEFT,
-            drawingModes: [
-                google.maps.drawing.OverlayType.MARKER,
-                google.maps.drawing.OverlayType.CIRCLE,
-                google.maps.drawing.OverlayType.POLYGON,
-            ]
-        },
-        markerOptions: {
-            draggable: true
-        },
-
-        rectangleOptions: polyOptions,
-        circleOptions: polyOptions,
-        polygonOptions: polyOptions,
-        map: map
     });
-    drawingManager.setDrawingMode(null);
-
-    google.maps.event.addListener(drawingManager, 'overlaycomplete', function(e) {
-        var newShape = e.overlay;
-        newShape.type = e.type;
-        newShape.id = shapeIdToken++;
-        //if (e.type != google.maps.drawing.OverlayType.MARKER) {
-            // Switch back to non-drawing mode after drawing a shape.
-            drawingManager.setDrawingMode(null);
-
-            // Add an event listener that selects the newly-drawn shape when the user
-            // mouses down on it.
-            google.maps.event.addListener(newShape, 'click', function() {
-                setSelection(newShape);
-            });
-            setSelection(newShape);
-        //}
-        addShape(newShape);
+    google.visualization.events.addListener(chart, 'onmouseover', function(row){
+        mouseover_group = row.row;
+    });
+    google.visualization.events.addListener(chart, 'onmouseout', function(row){
+        mouseover_group = -1;
     });
 
-    // Clear the current selection when the drawing mode is changed, or when the
-    // map is clicked.
-    google.maps.event.addListener(drawingManager, 'drawingmode_changed', clearSelection);
-    google.maps.event.addListener(map, 'click', clearSelection);
-    google.maps.event.addDomListener(document.getElementById('delete-button'), 'click', deleteSelectedShape);
-
-    buildColorPalette();
-
-
-    // Create the search box and link it to the UI element.
-    var input = document.getElementById('pac-input');
-    var searchBox = new google.maps.places.SearchBox(input);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-    // Bias the SearchBox results towards current map's viewport.
-    map.addListener('bounds_changed', function() {
-        searchBox.setBounds(map.getBounds());
-    });
-
-    var markers = [];
-    // Listen for the event fired when the user selects a prediction and retrieve
-    // more details for that place.
-    searchBox.addListener('places_changed', function() {
-        var places = searchBox.getPlaces();
-
-        if (places.length == 0) {
-            return;
-        }
-
-        // Clear out the old markers.
-        markers.forEach(function(marker) {
-            marker.setMap(null);
-        });
-        markers = [];
-
-        // For each place, get the icon, name and location.
-        var bounds = new google.maps.LatLngBounds();
-        places.forEach(
-            function(place) {
-                var icon = {
-                    url: place.icon,
-                    size: new google.maps.Size(71, 71),
-                    origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(17, 34),
-                    scaledSize: new google.maps.Size(25, 25)
-                };
-
-                // Create a marker for each place.
-                markers.push(
-                    new google.maps.Marker({
-                        map: map,
-                        icon: icon,
-                        title: place.name,
-                        position: place.geometry.location
-                    })
-                );
-
-                if (place.geometry.viewport) {
-                    // Only geocodes have viewport.
-                    bounds.union(place.geometry.viewport);
-                } else {
-                    bounds.extend(place.geometry.location);
-                }
-            }
-        );
-        map.fitBounds(bounds);
-    });
+    // Set default selections.
+    chart.setSelection(selected_groups);
 }
 
-function change_lead_preview(simplified) {
-    frame = $("#lead-preview");
+
+
+function styleText(text) {
+    for (var tag in selectedTags) {
+        var color = selectedTags[tag];
+
+        for (var j in tags[tag]) {
+            var keyword = tags[tag][j];
+
+            var search = '\\b('+keyword+')\\b';
+            var regex = new RegExp(search, "ig");
+            var replace = "<span style='background-color:" + color + ";'> $1 </span>";
+            text = text.replace(regex, replace);
+        }
+    }
+    return "<div>" + text + "</div>";
+}
+
+
+function fillTagButtons(tag, title) {
+    var btn = $("<button class='btn btn-default'>"+title+"</button>");
+    $("#tag-buttons").append(btn);
+
+    if (tag in selectedTags) {
+        btn.addClass("btn-tag-select");
+        btn.css("background-color", selectedTags[tag]);
+    }
+
+    btn.on('click', function(btn, tag) { return function() {
+        if (!btn.hasClass("btn-tag-select")) {
+            btn.addClass("btn-tag-select");
+            selectedTags[tag] = getColor();
+            btn.css("background-color", selectedTags[tag]);
+        }
+        else {
+            btn.removeClass("btn-tag-select");
+            delete selectedTags[tag];
+            btn.css("background-color", "");
+        }
+
+        $("#lead-simplified-preview").html(styleText(leadSimplified));
+    }}(btn, tag));
+}
+
+function refreshSectors() {
+    for (var sector in sectors) {
+        fillTagButtons(sector, sectors[sector]);
+    }
+}
+
+function changeLeadPreview(simplified) {
+    isSimplified = simplified;
+    var frame = $("#lead-preview");
+    var simplifiedFrame = $("#lead-simplified-preview");
+
     if (simplified) {
-        frame.attr('src', "data:text/html;charset=utf-8," + lead_simplified);
+        simplifiedFrame.html(styleText(leadSimplified));
+
+        simplifiedFrame.css("display", "inherit");
+        frame.css("display", "none");
+        refreshSectors();
+        $(".btn-zoom").show();
     }
     else {
-        if (lead_type == 'URL')
-            frame.attr('src', lead_url);
-        else if (lead_type == 'MAN')
-            frame.attr('src', "data:text/html;charset=utf-8," + lead_description);
-        else if (lead_type == 'ATT')
-            if (lead_attachment.endsWith(".pdf") ||
-                    lead_attachment.endsWith(".htm") ||
-                    lead_attachment.endsWith(".html"))
-                frame.attr('src', lead_attachment);
-            // TODO Set other allowable extensions including images, text etc.
+        simplifiedFrame.css("display", "none");
+        frame.css("display", "inherit");
+
+        $("#tag-buttons").empty();
+        $(".btn-zoom").hide();
     }
 }
 
+var attr_inputs = [];
+
+function initAttrInputs(){
+    //  fill up attr_inputs
+    for(var i=0; i<attrs.length; i++){
+        var attr_group = attrs[i];
+        for(var j=0; j<attr_group['data'].length; j++){
+            var attr = attr_group['data'][j];
+            var attr_input;
+            if (attr['pk'] in attr_data) {
+                attr_input = attr_data[attr['pk']];
+            }
+            else {
+                attr_input = {
+                    'id': attr['pk'],
+                    'data': [""],
+                    'number': [""],
+                    'reliability': ['USU'],
+                    'severity': ['NOA']
+                };
+            }
+            attr_inputs.push(attr_input);
+        }
+    }
+
+    // create html elements
+    var attr_container = $('#information-attributes #attr-contents');
+    var flexrow_template = $('<div class="flexrow"></div>');
+    var attr_title_template = $('<div class="attr-title"></div>');
+    var attr_template = $('<div class="attr"></div>');
+
+    var index = 0;
+    for(var i=0; i<attrs.length; i++){
+        var attr_group = attrs[i];
+        var attr_group_title = attr_title_template.clone();
+        var attr_group_flexrow = flexrow_template.clone();
+        //attr_group_flexrow.hide();
+
+        for(var j = 0; j<attr_group['data'].length; j++){
+            var attr = attr_template.clone();
+            attr.data('attr-pk', attr_group['data'][j]['pk']);
+            attr.prop('id', 'attr-' + attr_group['data'][j]['pk']);
+
+            attr.addClass(attr_group['class_name']);
+
+            attr.text(attr_group['data'][j]['text']);
+            attr.appendTo(attr_group_flexrow);
+
+            if(attr_inputs[index]['data'][0].length > 0){
+                attr.addClass('filled');
+            }
+            index++;
+        }
+        attr_group_title.text(attr_group['id']['text']);
+
+        attr_group_title.appendTo(attr_container);
+        attr_group_flexrow.appendTo(attr_container);
+        //attr_group.append
+    }
+}
+
+var selectedAttrs = [];
+var selectedTitles = [];
+
+function removeAttrs(attrs) {
+    for (var j=0; j<selectedAttrs.length; ++j) {
+        var result = $.grep(attr_inputs, function(e) {return e.id == selectedAttrs[j]; });
+        if (result.length != 1)
+            continue;
+
+        attr_input = result[0];
+        for(var i=0; i<attr_input['data'].length; i++){
+            if (attrs.some(function(x) {
+                return x.data == attr_input['data'][i] &&
+                    x.number == attr_input['number'][i] &&
+                    x.reliability == attr_input['reliability'][i] &&
+                    x.severity == attr_input['severity'][i];
+            }))
+            {
+                attr_input['data'].splice(i, 1);
+                attr_input['number'].splice(i, 1);
+                attr_input['severity'].splice(i, 1);
+                attr_input['reliability'].splice(i, 1);
+                i--;
+            }
+
+        }
+    };
+}
+
+function refreshAttrs() {
+    if (selectedAttrs.length == 0) {
+        $('#selected-attr-title').text("");
+        return;
+    }
+
+    var title = "";
+    for (var i=0; i<selectedTitles.length; ++i) {
+        if (i==0)
+            title = selectedTitles[i];
+        else
+            title += ", " + selectedTitles[i];
+    }
+    $('#selected-attr-title').text(title);
+
+    // first get common attributes
+    var common_attrs = [
+    ];
+
+    for (var j=0; j<selectedAttrs.length; ++j) {
+        var result = $.grep(attr_inputs, function(e) {return e.id == selectedAttrs[j]; });
+        if (result.length != 1)
+            continue;
+
+        attr_input = result[0];
+
+        attrs = [];
+        for(var i=0; i<attr_input['data'].length; i++){
+            attr = {
+                data: attr_input['data'][i],
+                number: attr_input['number'][i],
+                reliability: attr_input['reliability'][i],
+                severity: attr_input['severity'][i]
+            };
+            attrs.push(attr);
+        }
+
+        if (common_attrs.length == 0) {
+            common_attrs = attrs;
+        }
+        else {
+            common_attrs = common_attrs.filter(function(x) {
+                return attrs.some(function(y) {
+                    return y.data == x.data && y.number == x.number
+                        && y.reliability == x.reliability && y.severity == x.severity;
+                });
+            });
+        }
+    };
+
+    if (common_attrs.length == 0) {
+        common_attrs.push({
+            data: '',
+            number: '',
+            reliability: 'USU',
+            severity: 'NOA'
+        });
+    }
+
+    // remove the common attributes, since we will be re-adding them later
+    // at grabAttrInput()
+    removeAttrs(common_attrs);
+
+    // now show all common attributes
+    var excerpts = $('#attr-inputs #contents');
+    var excerptTemplate = $('.template-attr-input');
+
+    for (var j=0; j<common_attrs.length; ++j) {
+        var excerpt = excerptTemplate.clone();
+        excerpt.removeClass('template-attr-input');
+        excerpt.addClass('attr-input');
+        if(j < (common_attrs.length-1)){
+            var btn = excerpt.find('.btn-add');
+            btn.removeClass('btn-primary');
+            btn.removeClass('btn-add');
+            btn.addClass('btn-danger');
+            btn.addClass('btn-remove');
+            btn.text('-')
+        }
+        excerpt.find('textarea').val(common_attrs[j]['data']);
+        excerpt.find('input').val(common_attrs[j]['number']);
+        excerpt.find('.reliability').val(common_attrs[j]['reliability']);
+        excerpt.find('.severity').val(common_attrs[j]['severity']);
+        excerpt.appendTo(excerpts);
+        excerpt.show();
+    }
+}
+
+
+function selectAttr(id) {
+    selectedAttrs.push(id);
+    refreshAttrs();
+}
+
+function unselectAttr(id) {
+    selectedAttrs.removeValue(id);
+    refreshAttrs();
+}
+
+function grabAttrInput(id){
+    var result = $.grep(attr_inputs, function(e){ return e.id == id; });
+    if(result.length == 0){
+        // no result found (shouldn't happen)
+    } else if(result.length == 1){
+        attr_input = result[0];
+        // attr_input['data'] = [];
+        // attr_input['number'] = [];
+        // attr_input['reliability'] = [];
+        // attr_input['severity'] = [];
+        var excerpts = $('#attr-inputs #contents').find('.attr-input');
+        for(var i=0; i<excerpts.length; i++){
+            attr_input['data'].push((excerpts.eq(i)).find('textarea').val());
+            attr_input['number'].push((excerpts.eq(i)).find('input').val());
+            attr_input['reliability'].push((excerpts.eq(i)).find('.reliability').val());
+            attr_input['severity'].push((excerpts.eq(i)).find('.severity').val());
+
+            if(attr_input['data'][0].length > 0) {
+                $('#attr-'+attr_input['id']).addClass('filled');
+            } else {
+                $('#attr-'+attr_input['id']).removeClass('filled');
+            }
+        }
+    } else{
+        // more than 1 result found (shouldn't happen)
+    }
+}
+
+
+
 $(document).ready(function() {
-    $('#lead-select').selectize();
-    $('div.split-pane').splitPane();
-    $('#country').selectize();
-    $('#sector').selectize();
-    $('#vulnerable-group-1').selectize();
-    $('#affected-group').selectize();
-    $('#underlying-factor').selectize();
-    $('#crisis-driver').selectize();
-    $('#status').selectize();
-    $('#problem-timeline').selectize();
-    $('#severity').selectize();
-    $('#reliability').selectize();
+    manual_location_input = $("#manual-location-input").selectize();
+    $("#manual-location-input").change(function(){
+        var key = $("#manual-location-input").val();
+        //mapSelections.push(key);
+        if( !inArray(mapSelections, key) ){
+            container = $('#selected-location-list').find('ul');
+            element = $('<li><a onclick="unSelect(\''+key+'\', this)"><i class="fa fa-times"></i></a>'+$("#manual-location-input option:selected").text()+'</li>');
+            element.appendTo(container);
+            mapSelections.push(key);
+        }
+        updateLayer(key);
+
+        manual_location_input[0].selectize.clear(true);
+
+    });
+
+    $('.split-pane').splitPane();
+    $("#country").selectize();
+    $("#vulnerable-groups").selectize();
+    $("#groups-with-specific-needs").selectize();
+    $("#sectors-subsectors").selectize();
 
     $('input[type=radio][name=lead-view-option]').change(function() {
-        change_lead_preview(this.value=='simplified');
+        changeLeadPreview(this.value=='simplified');
     });
-    change_lead_preview(lead_simplified!="");
+    changeLeadPreview(leadSimplified!="");
 
-    // @TODO: add other map data as well
-    $('#entry-form').submit(function(eventObj){
-        $('<input>').attr('type', 'hidden')
-            .attr('name', 'excerpt')
-            .attr('value', $('#excerpt').val())
-            .appendTo('#entry-form');
-        $('<input>').attr('type', 'hidden')
-            .attr('name', "map-data")
-            .attr('value', JSON.stringify(getShapes()))
-            .appendTo('#entry-form');
-        return true;
+    initAttrInputs();
+
+    $("#information-attributes .attr").bind('dragover', function(e) {
+        e.originalEvent.preventDefault();
+        return false;
+    });
+    $("#information-attributes .attr").bind('drop', function(e) {
+        e.originalEvent.preventDefault();
+        var excerpt = e.originalEvent.dataTransfer.getData('Text');
+        var pk = $(this).data("attr-pk");
+
+        var result = $.grep(attr_inputs, function(e){ return e.id == pk; });
+        var attr = result[0]['data'];
+
+        if (attr[attr.length-1].trim().length > 0) {
+            console.log("pushing");
+            attr.push(excerpt);
+            result[0]['number'].push("");
+            result[0]['reliability'].push("USU");
+            result[0]['severity'].push("NOA");
+        }
+        else {
+            attr[attr.length-1] = excerpt;
+        }
+
+        // unselect all others
+        while(selectedAttrs.length > 0) {
+            var other = $("#information-attributes .attr")
+                .filter(function() {
+                    return $(this).data("attr-pk") ==  selectedAttrs[0];
+                });
+            console.log(other);
+            other.click();
+        }
+
+        // select this
+        $(this).click();
+
+        return false;
     });
 
-    var vgIdToken = 1;
-
-    function addVulnerableGroup(){
-        var newVulnerableGroup = $('.vg-wrapper-template').clone();
-        newVulnerableGroup.prop('id', 'vulnerable-group'+vgIdToken);
-        newVulnerableGroup.prop('name', 'vulnerable-group'+vgIdToken);
-        newVulnerableGroup.find('.vg-known-cases').prop('id', 'add-vulnerable-group'+vgIdToken);
-
-        newVulnerableGroup.find('.vg-known-cases').prop('name', 'add-vulnerable-group-known-cases-'+vgIdToken);
-        newVulnerableGroup.find('.vg-select').prop('name', 'add-vulnerable-group-'+vgIdToken);
-
-        newVulnerableGroup.find('.vg-select').selectize();
-
-        vgIdToken++;
-
-        newVulnerableGroup.removeClass('vg-wrapper-template');
-        newVulnerableGroup.addClass('vg-wrapper');
-        newVulnerableGroup.removeClass('hidden');
-
-        newVulnerableGroup.find('.vg-btn-add').on('click', function(e){
-            e.preventDefault();
-            addVulnerableGroup();
-            $(this).removeClass('vg-btn-add');
-            $(this).addClass('vg-btn-remove');
-            $(this).removeClass('btn-primary');
-            $(this).addClass('btn-danger');
-            $(this).text('-');
-            $(this).off('click');
-
-            $(this).on('click', function(e){
-                e.preventDefault();
-                $(this).closest('.vg-wrapper').remove();
+    var saveFunction = function(addAnother=false, keep_all=true) {
+        // if (!confirm("Are you sure you want to save these changes?"))
+        //     return;
+        var current = $("#information-attributes .active");
+        if(current != null) {
+            current.each(function() {
+                grabAttrInput($(this).data('attr-pk'));
             });
-        });
+        }
 
-        newVulnerableGroup.appendTo($('#vulnerable-group-container'));
+        var data = {};
+
+        var affecteds = [];
+        for (var s=0; s<selected_groups.length; s++) {
+            affecteds.push(affected_groups[selected_groups[s].row][0]);
+        }
+        data["affected_groups"] = JSON.stringify(affecteds);
+
+        data["map_data"] = JSON.stringify(mapSelections);
+        data["information_attributes"] = JSON.stringify(attr_inputs);
+
+        var vgroups = [];
+        $('#vulnerable-groups :selected').each(function(i, selected) {
+            vgroups[i] = $(selected).val();
+        });
+        data["vulnerable_groups"] = JSON.stringify(vgroups);
+
+        var spgroups = [];
+        $('#groups-with-specific-needs :selected').each(function(i, selected) {
+            spgroups[i] = $(selected).val();
+        });
+        data["specific_needs_groups"] = JSON.stringify(spgroups);
+
+        data["add_another"] = addAnother?"1":"0";
+
+        var ssectors = [];
+        $('#sectors-subsectors :selected').each(function(i, selected) {
+            ssectors[i] = $(selected).val();
+        });
+        data["sectors"] = JSON.stringify(ssectors);
+
+        data["date"] = $("#entry-date").val();
+
+        data["keep_all"] = keep_all;
+
+        redirectPost(window.location.pathname, data, csrf_token);
+    };
+    $("#save-btn").on('click', function(){saveFunction(false);});
+    $("#save-add-btn").on('click', function(){saveFunction(true);});
+    $("#save-edit-btn").on('click', function(){saveFunction(true, false);});
+
+    // Trigger on change of country selection.
+    $("#country").trigger('change');
+});
+
+$(document).on('click', '.btn-add', function(e){
+    var current = $(e.target);
+
+    current.removeClass('btn-primary');
+    current.removeClass('btn-add');
+    current.addClass('btn-danger');
+    current.addClass('btn-remove');
+    current.text('-');
+
+    var excerpts = $('#attr-inputs #contents');
+    var excerpt = $('.template-attr-input').clone();
+
+    excerpt.removeClass('template-attr-input');
+    excerpt.addClass('attr-input');
+
+    excerpt.find('textarea').val(attr_input['data']);
+    excerpt.find('input').val(attr_input['number']);
+    excerpt.find('.reliability').val(attr_input['reliability']);
+    excerpt.find('.severity').val(attr_input['severity']);
+    excerpt.appendTo(excerpts);
+    excerpt.show();
+
+    excerpt.get(0).scrollIntoView();
+});
+
+$(document).on('click', '.btn-remove', function(e){
+
+    var current = $(e.target);
+    var container = (current.closest('.attr-input')).remove();
+});
+
+$(document).on('click', '#information-attributes .attr', function(e) {
+
+    var current = $("#information-attributes .active");
+    if(current != null){
+        current.each(function() {
+            grabAttrInput($(this).data('attr-pk'));
+        });
+        // current.removeClass('active');
+        var excerpts = $('#attr-inputs #contents').find('.attr-input');
+        if(excerpts){
+            excerpts.remove();
+        }
     }
 
-    var agIdToken = 1;
-
-    function addAffectedGroup(){
-        var newAffectedGroup = $('.ag-wrapper-template').clone();
-        newAffectedGroup.prop('id', 'affected-group'+agIdToken);
-        newAffectedGroup.prop('name', 'affected-group'+agIdToken);
-        newAffectedGroup.find('.ag-known-cases').prop('id', 'add-affected-group'+agIdToken);
-
-        newAffectedGroup.find('.ag-known-cases').prop('name', 'add-affected-group-known-cases-'+agIdToken);
-        newAffectedGroup.find('.ag-select').prop('name', 'add-affected-group-'+agIdToken);
-
-        newAffectedGroup.find('.ag-select').selectize();
-
-        agIdToken++;
-
-        newAffectedGroup.removeClass('ag-wrapper-template');
-        newAffectedGroup.addClass('ag-wrapper');
-        newAffectedGroup.removeClass('hidden');
-
-        newAffectedGroup.find('.ag-btn-add').on('click', function(e){
-            e.preventDefault();
-            addAffectedGroup();
-            $(this).removeClass('ag-btn-add');
-            $(this).addClass('ag-btn-remove');
-            $(this).removeClass('btn-primary');
-            $(this).addClass('btn-danger');
-            $(this).text('-');
-            $(this).off('click');
-
-            $(this).on('click', function(e){
-                e.preventDefault();
-                $(this).closest('.ag-wrapper').remove();
-            });
-        });
-
-        newAffectedGroup.appendTo($('#affected-group-container'));
+    if ($(this).hasClass('active')) {
+        $(this).removeClass('active');
+        selectedTitles.removeValue($(this).text());
+        unselectAttr($(this).data('attr-pk'));
     }
+    else {
+        $(this).addClass('active');
+        selectedTitles.push($(this).text());
+        selectAttr($(this).data('attr-pk'));
+    }
+});
 
-    addVulnerableGroup();
-    addAffectedGroup();
+$(document).on('click', '.attr-title', function(){
+    $(this).next().toggle();
+});
 
+$(document).on('click', '#zoom-in', function(){
+
+    var font_size=$("#lead-preview-container").css('font-size');
+    font_size=parseInt(font_size)+1+'px';
+    $("#lead-preview-container").css('font-size',font_size);
+});
+
+$(document).on('click', '#zoom-out', function(){
+
+    var font_size=$("#lead-preview-container").css('font-size');
+    font_size=parseInt(font_size)-1+'px';
+    $("#lead-preview-container").css('font-size',font_size);
 });
