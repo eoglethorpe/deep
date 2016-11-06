@@ -42,3 +42,101 @@ class AdminLevelSelection(models.Model):
 
     class Meta:
         unique_together = ('admin_level', 'name')
+
+
+class Reliability(models.Model):
+    name = models.CharField(max_length=100)
+    level = models.IntegerField()
+    is_default = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
+
+
+class Severity(models.Model):
+    name = models.CharField(max_length=100)
+    level = models.IntegerField()
+    is_default = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
+
+
+class AffectedGroup(models.Model):
+    name = models.CharField(max_length=150)
+    parent = models.ForeignKey("entries.AffectedGroup", blank=True, default=None, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class VulnerableGroup(models.Model):
+    name = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.name
+
+
+class SpecificNeedsGroup(models.Model):
+    name = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.name
+
+
+class InformationPillar(models.Model):
+    name = models.CharField(max_length=150)
+    contains_sectors = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
+
+
+class InformationSubpillar(models.Model):
+    name = models.CharField(max_length=150)
+    pillar = models.ForeignKey(InformationPillar)
+
+    def __str__(self):
+        return self.name
+
+
+class Sector(models.Model):
+    name = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.name
+
+
+class Subsector(models.Model):
+    name = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.name
+
+
+class InformationAttribute(models.Model):
+    subpillar = models.ForeignKey(InformationSubpillar)
+    sector = models.ForeignKey(Sector)
+    subsector = models.ForeignKey(Subsector)
+
+    def __str__(self):
+        return str(self.subpillar) + "/" + str(self.sector) + "/" + str(self.subsector)
+
+
+class EntryInformation(models.Model):
+    excerpt = models.TextField(blank=True)
+    date = models.DateField()
+    reliability = models.ForeignKey(Reliability)
+    severity = models.ForeignKey(Severity)
+    attributes = models.ManyToManyField(InformationAttribute, blank=True)
+    
+    def __str__(self):
+        return self.excerpt
+
+
+class Entry(models.Model):
+    lead = models.ForeignKey(Lead)
+    informations = models.ManyToManyField(EntryInformation, blank=True)
+
+    def __str__(self):
+        return str(self.lead)
