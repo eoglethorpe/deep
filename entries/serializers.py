@@ -5,7 +5,7 @@ from rest_framework import serializers
 from entries.models import *
 from geojson_handler import GeoJsonHandler
 
-
+"""
 class EntrySerializer(serializers.ModelSerializer):
     lead_name = serializers.SerializerMethodField()
     lead_type = serializers.SerializerMethodField()
@@ -131,3 +131,4 @@ class CountrySerializer(serializers.ModelSerializer):
                     level.geojson.url, level.property_pcode
                 ]
         return levels
+"""

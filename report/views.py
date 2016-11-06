@@ -61,7 +61,7 @@ class WeeklyReportView(View):
         context = {}
         context["country"] = country
         context["event"] = event
-        context["entries"] = Entry.objects.filter(lead__event=event)
+        # context["entries"] = Entry.objects.filter(lead__event=event)
         context["current_page"] = "report"
 
         context["reliabilities"] = dict(AttributeData.RELIABILITIES)

@@ -16,6 +16,24 @@ class SourceSerializer(serializers.ModelSerializer):
         fields = ('source',)
 
 
+class CountrySerializer(serializers.ModelSerializer):
+    admin_levels = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Country
+        fields = ('code', 'name', 'admin_levels')
+
+    def get_admin_levels(self, country):
+        levels = {}
+        for level in country.adminlevel_set.all():
+            levels["level"+str(level.level)] = [
+                    level.name, level.property_name,
+                    # str(level.geojson.read(), 'utf-8')
+                    level.geojson.url, level.property_pcode
+                ]
+        return levels
+        
+
 class LeadSerializer(serializers.ModelSerializer):
     """ Lead serializer used by the REST api
     """

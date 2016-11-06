@@ -110,6 +110,7 @@ DEEP | Weekly Report
                 <div id="entries">
                     <h3>Entries</h3>
                     <hr>
+                    {% comment %}
                     {% for entry in entries %}
                     <div class="entry">
                         <h4>Entry #{{forloop.counter}}</h4>
@@ -156,6 +157,7 @@ DEEP | Weekly Report
                     </div>
                     {% if not forloop.last %}<hr>{% endif %}
                     {% endfor %}
+                    {% endcomment %}
 
                 </div>
             </div>

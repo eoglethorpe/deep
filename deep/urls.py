@@ -17,7 +17,7 @@ from entries.rest_views import *
 
 router = DefaultRouter()
 router.register(r'leads', LeadViewSet, base_name='lead')
-router.register(r'entries', EntryViewSet, base_name='entry')
+# router.register(r'entries', EntryViewSet, base_name='entry')
 router.register(r'sources', SourceViewSet, base_name='source')
 router.register(r'events', EventViewSet, base_name='event')
 router.register(r'users', UserViewSet, base_name='user')
