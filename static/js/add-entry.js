@@ -25,4 +25,14 @@ var informations = [
 
 $(document).ready(function(){
     $('.split-pane').splitPane();
+
+    $('.sub-pillar').click(function(){
+        if ($(this).hasClass('active')){
+            $(this).removeClass('active');
+        }
+        else {
+            $(this).addClass('active');
+        }
+    });
+
 });
