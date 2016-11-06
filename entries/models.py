@@ -128,7 +128,12 @@ class EntryInformation(models.Model):
     date = models.DateField()
     reliability = models.ForeignKey(Reliability)
     severity = models.ForeignKey(Severity)
+    number = models.IntegerField(blank=True, default=None, null=True)
     attributes = models.ManyToManyField(InformationAttribute, blank=True)
+    vulnerable_groups = models.ManyToManyField(VulnerableGroup, blank=True)
+    specific_needs_groups = models.ManyToManyField(SpecificNeedsGroup, blank=True)
+    affected_groups = models.ManyToManyField(AffectedGroup, blank=True)
+    map_selections = models.ManyToManyField(AdminLevelSelection, blank=True)
     
     def __str__(self):
         return self.excerpt
