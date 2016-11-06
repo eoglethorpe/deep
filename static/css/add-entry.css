@@ -50,7 +50,7 @@ body {
   margin: 0;
   padding: 0; }
   body .split-pane {
-    height: calc(100vh - $navbar-height) !important; }
+    height: calc(100vh - 70px - 2px) !important; }
     body .split-pane .split-pane-divider {
       background-color: rgba(0, 0, 0, 0.2); }
     body .split-pane #left-component {
@@ -64,5 +64,50 @@ body {
     body .split-pane #right-component {
       left: 40em;
       margin-left: 3px; }
+    body .split-pane #page-two #entries {
+      padding-top: 24px; }
+      body .split-pane #page-two #entries h3 {
+        margin-top: 0;
+        margin-bottom: 24px;
+        text-transform: uppercase; }
+      body .split-pane #page-two #entries .entry {
+        padding: 24px;
+        background-color: #fff;
+        border: 3px solid #eee;
+        border-top: none; }
+        body .split-pane #page-two #entries .entry .row {
+          margin-bottom: 16px; }
+        body .split-pane #page-two #entries .entry .severity span, body .split-pane #page-two #entries .entry .reliability span {
+          width: 32px;
+          height: 24px;
+          background-color: #ccc;
+          display: inline-block; }
+        body .split-pane #page-two #entries .entry .severity label, body .split-pane #page-two #entries .entry .reliability label {
+          vertical-align: super;
+          margin-right: 16px; }
+        body .split-pane #page-two #entries .entry .reliability ._1 {
+          background-color: #aab0ed; }
+        body .split-pane #page-two #entries .entry .reliability ._2 {
+          background-color: #7f88e5; }
+        body .split-pane #page-two #entries .entry .reliability ._3 {
+          background-color: #5561dc; }
+        body .split-pane #page-two #entries .entry .reliability ._4 {
+          background-color: #2b3ad3; }
+        body .split-pane #page-two #entries .entry .reliability ._5 {
+          background-color: #232fa8; }
+        body .split-pane #page-two #entries .entry .severity ._1 {
+          background-color: #f9d9d9; }
+        body .split-pane #page-two #entries .entry .severity ._2 {
+          background-color: #f2adad; }
+        body .split-pane #page-two #entries .entry .severity ._3 {
+          background-color: #ec8080; }
+        body .split-pane #page-two #entries .entry .severity ._4 {
+          background-color: #e55454; }
+        body .split-pane #page-two #entries .entry .severity ._5 {
+          background-color: #de2828; }
+        body .split-pane #page-two #entries .entry .pillar, body .split-pane #page-two #entries .entry .sub-pillar, body .split-pane #page-two #entries .entry .sector, body .split-pane #page-two #entries .entry .sub-sector {
+          padding: 10px 24px;
+          background-color: #eee;
+          text-align: center; }
 
 /*# sourceMappingURL=add-entry.css.map */

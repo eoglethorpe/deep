@@ -7,7 +7,7 @@ body{
     padding: 0;
 
     .split-pane{
-        height: calc(100vh - $navbar-height)!important;
+        height: calc(100vh - #{$navbar-height} - 2px)!important;
 
         .split-pane-divider{
             background-color: rgba(0, 0, 0, 0.2);
@@ -25,6 +25,64 @@ body{
         #right-component{
             left: 40em;
             margin-left: 3px;
+        }
+        #page-two{
+            #entries{
+                padding-top: 24px;
+
+                h3{
+                    margin-top: 0;
+                    margin-bottom: 24px;
+                    text-transform: uppercase;
+                }
+                .entry{
+                    padding: 24px;
+                    background-color: #fff;
+                    border: 3px solid #eee;
+                    border-top: none;
+
+                    .row{
+                        margin-bottom: 16px;
+                    }
+                    .severity, .reliability{
+                        span{
+                            width: 32px;
+                            height: 24px;
+                            background-color: #ccc;
+                            display: inline-block;
+                        }
+                        label{
+                            vertical-align: super;
+                            margin-right: 16px;
+                        }
+
+                    }
+
+                    $reliability-base: #1A237E;
+                    .reliability{
+                        ._1{ background-color: lighten($reliability-base, 50%); }
+                        ._2{ background-color: lighten($reliability-base, 40%); }
+                        ._3{ background-color: lighten($reliability-base, 30%);  }
+                        ._4{ background-color: lighten($reliability-base, 20%); }
+                        ._5{ background-color: lighten($reliability-base, 10%); }
+                    }
+                    $severity-base: #B71C1C;
+                    .severity{
+                        ._1{ background-color: lighten($severity-base, 50%); }
+                        ._2{ background-color: lighten($severity-base, 40%); }
+                        ._3{ background-color: lighten($severity-base, 30%);  }
+                        ._4{ background-color: lighten($severity-base, 20%); }
+                        ._5{ background-color: lighten($severity-base, 10%); }
+                    }
+
+                    .pillar, .sub-pillar, .sector, .sub-sector{
+                        padding: 10px 24px;
+                        background-color: #eee;
+                        text-align: center;
+                    }
+                }
+            }
+
         }
     }
 }

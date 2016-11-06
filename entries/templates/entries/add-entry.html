@@ -11,6 +11,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
 <script type="text/javascript" src="{% static 'js/split-pane.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/add-entry.js' %}"></script>
 
 <!-- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script> -->
@@ -30,6 +31,70 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     <div class="split-pane-divider" id="divider"></div>
     <div class="split-pane-component" id="right-component">
         <div class="container-fluid">
+
+            <div id="page-two">
+                <div id="entries">
+                    <div class="entry">
+                        <h3>Entry #1</h3>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="reliability">
+                                    <label>Reliability </label>
+                                    <span class="_1"></span>
+                                    <span class="_2"></span>
+                                    <span class="_3"></span>
+                                    <span class="_4"></span>
+                                    <span class="_5"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="severity">
+                                    <label>Severity </label>
+                                    <span class="_1"></span>
+                                    <span class="_2"></span>
+                                    <span class="_3"></span>
+                                    <span class="_4"></span>
+                                    <span class="_5"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-md-offset-3">
+                                <input type="date" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <textarea class="form-control">The first level is only drag and drop. Pieces of text are	selected from the lead and dragged and dropped into the appropriatebox on the right pane.</textarea>
+                            </div>
+                        </div>
+                        <div id="attributes">
+                            <div class="attribute">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="pillar">pillar</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="sub-pillar">sub pillar</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="sector">sector</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="sub-sector">sub sector</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
