@@ -2,7 +2,7 @@
 db.sqlite3
 mysql.cnf
 
-.css.map
+*.css.map
 os
 
 # Media files, uploaded by users
