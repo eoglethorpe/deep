@@ -116,19 +116,23 @@ body{
 
                 $reliability-base: #1A237E;
                 .reliability{
+                    cursor: pointer;
                     ._1{ background-color: lighten($reliability-base, 50%); }
                     ._2{ background-color: lighten($reliability-base, 40%); }
                     ._3{ background-color: lighten($reliability-base, 30%);  }
                     ._4{ background-color: lighten($reliability-base, 20%); }
                     ._5{ background-color: lighten($reliability-base, 10%); }
+                    .active{ transform: scale(1.2); }
                 }
                 $severity-base: #B71C1C;
                 .severity{
+                    cursor: pointer;
                     ._1{ background-color: lighten($severity-base, 50%); }
                     ._2{ background-color: lighten($severity-base, 40%); }
                     ._3{ background-color: lighten($severity-base, 30%);  }
                     ._4{ background-color: lighten($severity-base, 20%); }
                     ._5{ background-color: lighten($severity-base, 10%); }
+                    .active{ transform: scale(1.2); }
                 }
 
                 .excerpt{
