@@ -187,6 +187,7 @@ $(document).ready(function() {
                     .search(regex, true, false)
                     // .search( $(this).text() )
                     .draw();
+                console.log($(this).val());
             });
             $('#affected-groups-filter').on('change', function(){
                 var regex = '^.*' + $(this).val() + '.*$';

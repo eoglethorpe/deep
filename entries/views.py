@@ -10,7 +10,7 @@ from users.models import *
 from leads.models import *
 from entries.models import *
 from entries.strippers import *
-from . import export_xls, export_docx, export_fields
+# from . import export_xls, export_docx, export_fields
 from entries.refresh_pcodes import *
 
 import os
@@ -18,78 +18,46 @@ import json
 from collections import OrderedDict
 
 
-def get_entry_form_data(event):
-    data = {}
-
-    # Countries.
-    data["countries"] = event.countries.all()
-    # Sectors.
-    data["sectors"] = {}
-    sectors = Sector.objects.filter(parent__isnull=True)
-    for sector in sectors:
-        data["sectors"][sector] = Sector.objects.filter(parent=sector)
-
-    # Vulnerable groups.
-    data["vulnerable_groups"] = VulnerableGroup.objects.all()
-    # Specific needs groups.
-    data["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
-
-    # Information Attributes
-    data["attributes"] = OrderedDict()
-    attr_groups = InformationAttributeGroup.objects.all()
-    for i, group in enumerate(attr_groups):
-        data["attributes"][group] = \
-            InformationAttribute.objects.filter(group=group)
-        group.class_name = "info-attr-" + str(i)
-
-    data["reliabilities"] = AttributeData.RELIABILITIES
-    data["severities"] = AttributeData.SEVERITIES
-
-    # Affected Groups.
-    data["affected_groups"] = AffectedGroup.objects.all()
-    return data
-
-
 class ExportView(View):
     @method_decorator(login_required)
     def get(self, request, event):
-        context = {}
-        context["current_page"] = "export"
-        context["event"] = Event.objects.get(pk=event)
-        context["all_events"] = Event.objects.all()
-        context.update(get_entry_form_data(context["event"]))
-        UserProfile.set_last_event(request, context["event"])
-        return render(request, "entries/export.html", context)
+        # context = {}
+        # context["current_page"] = "export"
+        # context["event"] = Event.objects.get(pk=event)
+        # context["all_events"] = Event.objects.all()
+
+        # UserProfile.set_last_event(request, context["event"])
+        return HttpResponse("To be updated") # render(request, "entries/export.html", context)
 
 
 class ExportXls(View):
     @method_decorator(login_required)
     def get(self, request, event):
-        response = HttpResponse(content = export_xls.export(), content_type='application/vnd.ms-excel')
-        response['Content-Disposition'] = 'attachment; filename = %s' % export_fields.get_file_name('xls')
+        # response = HttpResponse(content = export_xls.export(), content_type='application/vnd.ms-excel')
+        # response['Content-Disposition'] = 'attachment; filename = %s' % export_fields.get_file_name('xls')
 
-        return response
+        return HttpResponse("To be updated") # response
 
 
 class ExportDocx(View):
     @method_decorator(login_required)
     def get(self, request, event):
-        order = request.GET.get("order").split(',')
-        order_values = {
-            "geoarea": "Map Selections",
-            "affected": "Affected Groups",
-            # "reliability": "Reliability",
-            # "severity": "Severity",
-            # "sector": "Sector",
-        }
-        ord = [order_values[a] for a in order if a in order_values]
+        # order = request.GET.get("order").split(',')
+        # order_values = {
+        #     "geoarea": "Map Selections",
+        #     "affected": "Affected Groups",
+        #     # "reliability": "Reliability",
+        #     # "severity": "Severity",
+        #     # "sector": "Sector",
+        # }
+        # ord = [order_values[a] for a in order if a in order_values]
 
-        # ord = ["Map Selections", "Affected Groups", "Vulnerable Groups"]
-        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-        response['Content-Disposition'] = 'attachment; filename = %s' % export_fields.get_file_name('doc')
-        export_docx.export(ord).save(response)
+        # # ord = ["Map Selections", "Affected Groups", "Vulnerable Groups"]
+        # response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        # response['Content-Disposition'] = 'attachment; filename = %s' % export_fields.get_file_name('doc')
+        # export_docx.export(ord).save(response)
 
-        return response
+        return HttpResponse("To be updated") # response
 
 
 class EntriesView(View):
@@ -99,15 +67,8 @@ class EntriesView(View):
         context["current_page"] = "entries"
         context["event"] = Event.objects.get(pk=event)
         context["all_events"] = Event.objects.all()
-
-        context["areas"] = list(context["event"].countries.all())
-        for entry in Entry.objects.filter(lead__event__pk=event):
-            areas = [s.name for s in entry.map_selections.all()]
-            context["areas"] =  list(set(context["areas"] + areas))
-
-        context.update(get_entry_form_data(context["event"]))
         UserProfile.set_last_event(request, context["event"])
-        return render(request, "entries/entries.html", context)
+        return HttpResponse("To be updated") # render(request, "entries/entries.html", context)
 
 
 class AddEntry(View):
@@ -118,221 +79,15 @@ class AddEntry(View):
         context = {}
         context["current_page"] = "entries"
         context["event"] = Event.objects.get(pk=event)
-        # context["cancel_url"] = reverse("entries:entries", args=[event])
+        context["dummy_list"] = range(5)
+        # context["all_events"] = Event.objects.all()
         UserProfile.set_last_event(request, context["event"])
-
-        if id:
-            entry = Entry.objects.get(pk=int(id))
-            lead = entry.lead
-        elif lead_id:
-            entry = None
-            lead = Lead.objects.get(pk=int(lead_id))
-        else:
-            raise Exception("Wrong view")
-
-        context["lead"] = lead
-
-        # Find simplified version of the lead content.
-        # Make sure to catch any exception.
-
-        try:
-            if lead.lead_type == "URL":
-                doc = WebDocument(lead.url)
-
-                if doc.html:
-                    context["lead_simplified"] = \
-                        HtmlStripper(doc.html).simplify()
-                elif doc.pdf:
-                    context["lead_simplified"] = \
-                        PdfStripper(doc.pdf).simplify()
-
-            elif lead.lead_type == "MAN":
-                context["lead_simplified"] = lead.description
-
-            elif lead.lead_type == "ATT":
-                attachment = lead.attachment
-                try:
-                    name, extension = os.path.splitext(attachment.upload.name)
-                except:
-                    name, extension = attachment.upload.name, ""
-                if extension == ".pdf":
-                    context["lead_simplified"] = \
-                        PdfStripper(attachment.upload).simplify()
-                elif extension in [".html", ".htm"]:
-                    context["lead_simplified"] = \
-                        HtmlStripper(attachment.upload.read()).simplify()
-                else:
-                    context["lead_simplified"] = attachment.upload.read()
-        except:
-            # print("Error while simplifying")
-            pass
-
-        context["keep_all"] = "keep_all" not in request.GET or request.GET["keep_all"] == "1"
-
-        prev_entry = None
-        if "prev_entry" in request.GET:
-            prev_entry = Entry.objects.get(pk=request.GET["prev_entry"])
-            context["prev_entry"] = prev_entry
-
-        if entry:
-            context["entry"] = entry
-
-        if entry or prev_entry:
-            attr_data = AttributeData.objects.filter(entry=(entry if entry else prev_entry))
-            temp = {}
-            for ad in attr_data:
-                if not ad.number:
-                    ad.number = ""
-                if not ad.reliability:
-                    ad.reliability = "NOA"
-                if not ad.severity:
-                    ad.severity = "NOA"
-                if ad.attribute.pk in temp:
-                    temp[ad.attribute.pk]["data"].append(ad.excerpt)
-                    temp[ad.attribute.pk]["number"].append(ad.number)
-                    temp[ad.attribute.pk]["reliability"].append(ad.reliability)
-                    temp[ad.attribute.pk]["severity"].append(ad.severity)
-                else:
-                    temp[ad.attribute.pk] = {}
-                    temp[ad.attribute.pk]["data"] = [ad.excerpt]
-                    temp[ad.attribute.pk]["number"] = [ad.number]
-                    temp[ad.attribute.pk]["reliability"] = [ad.reliability]
-                    temp[ad.attribute.pk]["severity"] = [ad.severity]
-
-            context["attr_data"] = temp
-
-        context.update(get_entry_form_data(context["event"]))
         return render(request, "entries/add-entry.html", context)
-
-    @method_decorator(login_required)
-    def post(self, request, event, lead_id=None, id=None):
-
-        if id:
-            entry = Entry.objects.get(id=id)
-        else:
-            entry = Entry()
-
-        sectors = json.loads(request.POST["sectors"])
-        affected_groups = json.loads(request.POST["affected_groups"])
-        map_data = json.loads(request.POST["map_data"])
-        information_attributes = json.loads(
-            request.POST["information_attributes"])
-        vulnerable_groups = json.loads(
-            request.POST["vulnerable_groups"])
-        specific_needs_groups = json.loads(
-            request.POST["specific_needs_groups"])
-
-        if lead_id:
-            entry.lead = Lead.objects.get(pk=lead_id)
-
-        if "date" in request.POST and request.POST["date"] != "":
-            entry.date = request.POST["date"]
-
-        entry.created_by = request.user
-        entry.save()
-
-        # Save the sectors
-        entry.sectors.clear()
-        for sector in sectors:
-            entry.sectors.add(Sector.objects.get(name=sector))
-
-        # Save the affected groups.
-        # ['All Population', 'Affected', 'Non Displaced', 'Refugees']
-        entry.affected_groups.clear()
-        for group in affected_groups:
-            entry.affected_groups.add(AffectedGroup.objects.get(name=group))
-
-        # Save the map data.
-        # ['NP:0:Mid-Western Development Region', 'NP:1:Bheri', 'NP:2:Dang',
-        #  'NP:2:Rukum', 'HT:1:BLAH:HT123']
-        temp = entry.map_selections.all()
-        entry.map_selections.clear()
-        temp.delete()
-        for area in map_data:
-            m = area.split(':')
-            admin_level = AdminLevel.objects.get(
-                country=Country.objects.get(code=m[0]),
-                level=int(m[1])+1
-            )
-            try:
-                if len(m) == 4:
-                    selection = AdminLevelSelection.objects.get(
-                        admin_level=admin_level, pcode=m[3]
-                    )
-                else:
-                    selection = AdminLevelSelection.objects.get(
-                        admin_level=admin_level, name=m[2]
-                    )
-            except:
-                if len(m) == 4:
-                    selection = AdminLevelSelection(admin_level=admin_level,
-                                                    name=m[2], pcode=m[3])
-                else:
-                    selection = AdminLevelSelection(admin_level=admin_level,
-                                                    name=m[2])
-                selection.save()
-
-            entry.map_selections.add(selection)
-
-        # The vulnerable groups.
-        temp = entry.vulnerable_groups.all()
-        entry.vulnerable_groups.clear()
-        temp.delete()
-        for vg in vulnerable_groups:
-            vulnerable_group = VulnerableGroup.objects.get(pk=int(vg))
-            entry.vulnerable_groups.add(vulnerable_group)
-
-        # The specific needs groups.
-        temp = entry.specific_needs_groups.all()
-        entry.specific_needs_groups.clear()
-        temp.delete()
-        for sg in specific_needs_groups:
-            specific_group = SpecificNeedsGroup.objects.get(pk=int(sg))
-            entry.specific_needs_groups.add(specific_group)
-
-        #  [{'id': '7', 'data': [''], 'number': [''], 'reliability': ['NOA']},
-        #   {'id': '8', 'data': ['Popula'], 'number': ['20'],
-        #    'reliability': ['NOA']},
-        #   {'id': '9', 'data': ['Demo'], 'number': [''],
-        #    'reliability': ['NOA']},
-        #   {'id': '1', 'data': [''], 'number': [''], 'reliability': ['NOA']},
-        #   {'id': '2', 'data': [''], 'number': [''], 'reliability': ['NOA']},
-        #   {'id': '3', 'data': [''], 'number': [''], 'reliability': ['NOA']},
-        #   {'id': '4', 'data': ['Politics'], 'number': [''],
-        #    'reliability': ['USU']},
-        #    {'id': '5', 'data': [''], 'number': [''], 'reliability': ['NOA']},
-        #    {'id': '6', 'data': [''], 'number': [''], 'reliability': ['NOA']}]
-
-        AttributeData.objects.filter(entry=entry).delete()
-        for attr in information_attributes:
-            for i in range(len(attr['data'])):
-                if attr['data'][i] == "":
-                    continue
-                attr_data = AttributeData()
-                attr_data.entry = entry
-                attr_data.attribute = InformationAttribute.objects.get(
-                    pk=int(attr["id"]))
-                attr_data.excerpt = attr["data"][i]
-                if attr["number"][i] != '':
-                    attr_data.number = int(attr["number"][i])
-                if attr['reliability'][i] != '' and \
-                        attr['reliability'][i] != 'NOA':
-                    attr_data.reliability = attr['reliability'][i]
-                if attr['severity'][i] != '' and \
-                        attr['severity'][i] != 'NOA':
-                    attr_data.severity = attr['severity'][i]
-                attr_data.save()
-
-        if request.POST["add_another"] == "1":
-            return redirect(reverse("entries:add", args=[event, entry.lead.pk]) + "?prev_entry="+str(entry.pk) + \
-                            "&keep_all=" + ("1" if request.POST["keep_all"] == "true" else "0"))
-        else:
-            return redirect("entries:entries", event)
 
 
 class DeleteEntry(View):
     @method_decorator(login_required)
     def post(self, request, event):
-        entry = Entry.objects.get(pk=request.POST["id"])
-        entry.delete()
+        # entry = Entry.objects.get(pk=request.POST["id"])
+        # entry.delete()
         return redirect('entries:entries', event=event)

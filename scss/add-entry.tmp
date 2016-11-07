@@ -1,0 +1,273 @@
+@import 'base';
+@import 'navbar';
+
+body{
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+
+    .tooltip.left {
+        .tooltip-inner{
+            font-size: 1.2em;
+            padding: 10px 24px;
+        }
+    }
+
+    .split-pane{
+        font-size: 12px;
+        height: calc(100vh - 75px)!important;
+        .split-pane-divider {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        #left-component {
+            width: 40em;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+            background-color: #fff;
+
+            .btn-zoom{
+                opacity: 75%;
+                font-size: 1.5em;
+                background-color: #fafafa;
+                float: right;
+            }
+            #zoom-in{
+                right: 52px;
+            }
+            #zoom-out{
+                right: 10px;
+            }
+
+            #lead-options-container{
+                padding: 8px;
+                position: relative;
+                //background-color: #f5f5f5;
+
+                button{
+                    padding: 5px 10px;
+                    border-radius: 0;
+                    line-height: 1;
+                    margin-right: 8px;
+                    margin-bottom: 5px;
+                }
+                #tag-buttons{
+                    margin-top: 10px;
+                }
+            }
+
+            #lead-preview-container{
+                height: calc(100% - 70px);
+            }
+
+            #lead-preview{
+                width: 100%;
+                height: 100%;
+                border: none;
+                display: none;
+            }
+
+            #lead-simplified-preview{
+                width: 100%;
+                padding: 16px;
+                background-color: #fafafa;
+                div{
+                    color: #717171;
+                    white-space: pre-wrap;
+                    line-height: 1.5;
+                }
+                h1{
+                    font-size: 1.5em;
+                }
+            }
+
+        }
+
+        #my-divider {
+            left: 40em; /* Same as left component width */
+            width: 3px;
+            background-color: transparent;
+        }
+
+        #right-component {
+            left: 40em;  /* Same as left component width */
+            margin-left: 3px;  /* Same as divider width */
+            padding-top: 10px;
+
+            #chart-div{
+                overflow: hidden;
+            }
+            #locations-container{
+                .fa{
+
+                }
+            }
+
+            #selected-location-list{
+                height: 180px;
+                overflow-y: scroll;
+                background-color: #f0f0f0;
+                padding: 10px 16px;
+
+                ul{
+                    list-style: none;
+                    padding-left: 0;
+
+                    li{
+                        text-indent: -16px;
+                        padding-left: 20px;
+
+                        a{
+                            color: #e78c6c;
+                            margin-left: 10px;
+                            cursor: pointer;
+                            .fa{
+                                margin-right: 6px;
+                            }
+                        }
+                    }
+                }
+                #empty-text{
+                    text-align: center;
+                    margin-top: 32px;
+                    font-size: 1.2em;
+                    color: #aaa;
+                    text-transform: uppercase;
+                }
+
+            }
+
+            #information-attributes{
+                .attr-title {
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    margin: 10px 0px 8px 0px;
+                }
+                #selected-attr-title{
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    margin: 10px 0px 16px 0px;
+                }
+                .flexrow {
+                    display: flex;
+                    flex-flow: row wrap;
+                }
+                .attr {
+                    flex: 1;
+                    font-size: 1em;
+                    text-align: center;
+                    margin: 3px;
+                    padding: 8px;
+                    cursor: pointer;
+                    box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.1);
+                    transition: all 0.2s;
+                }
+                .active{
+                    box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.5);
+                    transform: scaleY(1.1);
+                }
+            }
+
+            table{border-collapse: separate!important;}
+
+
+            .attr-input{
+                margin-bottom: 32px;
+            }
+
+            .affected-group{
+                background-color: #f0f0f0;
+                cursor: pointer;
+            }
+            .active-affected-group{
+                color: #fff;
+                background-color: #008080;
+            }
+            .google-visualization-orgchart-linebottom {
+                border-bottom: 1px solid #008080!important;
+            }
+
+            #save-btn, #save-add-btn, #save-edit-btn, #cancel-btn{
+                position: fixed;
+                text-align: center;
+                border-radius: 50%;
+                box-shadow: 0 3px 10px 2px rgba(0, 0, 0, 0.6);
+                outline: none;
+                z-index: 100;
+            }
+            #save-btn{
+                width: 64px;
+                height: 64px;
+                right: 30px;
+                bottom: 36px;
+                font-size: 1.5em;
+            }
+            #save-add-btn{
+                width: 48px;
+                height: 48px;
+                right: 38px;
+                bottom: 116px;
+
+                #plus-icon{
+                    font-size: 0.5em;
+                }
+            }
+            #save-edit-btn{
+                width: 48px;
+                height: 48px;
+                right: 38px;
+                bottom: 184px;
+                font-size: 1.2em;
+
+                #map-icon{
+                    font-size: 0.5em;
+                }
+            }
+
+            #cancel-btn{
+                width: 48px;
+                height: 48px;
+                right: 38px;
+                bottom: 252px;
+                font-size: 1.2em;
+            }
+
+            #save-btn .fa, #save-add-btn .fa{
+                margin-right: 0;
+            }
+
+
+            #admin-level-buttons button{
+                margin: 4px;
+            }
+
+            .attr-input .form-control{
+                padding: 4px 6px;
+                font-size: 10px;
+            }
+            .attr-title{
+                cursor: pointer;
+            }
+            .attr-title::after{
+                content: '𝅌';
+                margin-left: 10px;
+            }
+
+        }
+    }
+
+    #map-modal{
+        .modal-body{
+            padding: 0;
+
+            #the-map{
+                height: 60vh;
+                path {
+                    stroke: #717171;
+                    stroke-width: 1px;
+                    stroke-linejoin: round;
+                }
+            }
+        }
+
+    }
+
+}

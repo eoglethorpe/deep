@@ -6,249 +6,330 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 {% endblock %}
 
 {% block head %}
+
 <link href="{% static 'css/add-entry.css' %}" type="text/css" rel="stylesheet">
-<link href="{% static 'css/navigation-bar.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/selectize.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/split-pane.css' %}" type="text/css" rel="stylesheet">
 
-<script>
-
-</script>
-
-
 <script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/split-pane.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/add-entry.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
+
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
+<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+
+<!-- <link rel="stylesheet" href="{% static 'css/leaflet.css' %}" />
+<script src="{% static 'js/leaflet.js' %}"></script> -->
+
+<link rel="stylesheet" href="{% static 'css/leaflet.label.css' %}" >
+<script src="{% static 'js/leaflet.label.js' %}"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script>
+    // Is simplified option selected?
+    var isSimplified;
+    // Simplified version of the lead.
+    var leadSimplified = "{% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %}";
+    leadSimplified = leadSimplified.replace(/(?:\r\n|\r|\n)/g, '<br />');
+
+    // Sectors and tags.
+    var sectors = {
+        {% for sector, ss in sectors.items %} "{{sector.name}}": "{{sector.title}}", {% endfor %}
+    };
+    var tags = {
+        {% for sector, ss in sectors.items %} "{{sector.name}}": {{sector.tags_json|safe}}, {% endfor %}
+    };
+
+    // Currently selected tags and their colors.
+    var selectedTags = {
+    };
+
+    // Current map selections.
+    var mapSelections = [
+    {% if prev_entry %}
+    {% for selection in prev_entry.map_selections.all %}
+    "{{selection.admin_level.country.code}}:{{selection.admin_level.level|add:"-1"}}:{{selection.name}}{% if selection.pcode != "" %}:{{selection.pcode}}{% endif %}",
+    {% endfor %}
+    {% elif entry %}
+    {% for selection in entry.map_selections.all %}
+    "{{selection.admin_level.country.code}}:{{selection.admin_level.level|add:"-1"}}:{{selection.name}}{% if selection.pcode != "" %}:{{selection.pcode}}{% endif %}",
+    {% endfor %}
+    {% endif %}
+    ];
+
+    // Information attributes.
+    var attrs = [
+    {% for group, attributes in attributes.items %}
+        {
+            'id': {'pk': '{{group.pk}}', 'text': '{{group.name|safe}}'},
+            'data': [
+        {% for attribute in attributes %}
+            {'pk': '{{ attribute.pk }}', 'text': '{{attribute.name|safe}}'},
+        {% endfor %}
+            ],
+            'class_name': '{{ group.class_name }}'
+        },
+    {% endfor %}
+    ];
+
+    // Affected groups.
+    // name, parent, tooltip.
+    var affected_groups = [
+        {% for group in affected_groups %}
+        ['{{group}}', '{% if group.parent %}{{group.parent}}{% endif %}', ''],
+        {% endfor %}
+    ];
+
+    // CSRF Token Tag for Form.
+    var csrf_token = "{% csrf_token %}";
+
+    // Fill the attributes.
+    var attr_data = {
+    {% if keep_all %}
+    {% if attr_data %}{% for pk, ad in attr_data.items %}
+        "{{pk}}": {
+            "id": "{{pk}}",
+            "data": [{% for data in ad.data %}"{{data|escapejs}}",{% endfor %}],
+            "number": [{% for number in ad.number %}"{{number}}",{% endfor %}],
+            "reliability": [{% for reliability in ad.reliability %}"{{reliability}}",{% endfor %}],
+            "severity": [{% for severity in ad.severity %}"{{severity}}",{% endfor %}],
+        },
+    {% endfor %}{% endif %}
+    {% endif %}
+    };
+
+    // Select affected groups.
+    var selected_groups = [
+    {% if entry %}{% for group in affected_groups %}
+    {% if group in entry.affected_groups.all %}{row:{{forloop.counter0}}, column:null},{% endif %}
+    {% endfor %}
+    {% elif prev_entry %}{% for group in affected_groups %}
+    {% if group in prev_entry.affected_groups.all %}{row:{{forloop.counter0}}, column:null},{% endif %}
+    {% endfor %}{% endif %}
+    ];
+</script>
+
+<style>
+    {% for group, attributes in attributes.items %}
+    .{{group.class_name}} {
+        background-color: {{group.color}};
+        color: {{group.text_color}};
+    }
+    .{{group.class_name}}.active {
+        background-color: {{group.selected_color}};
+        color: {{group.selected_text_color}};
+    }
+    .{{group.class_name}}.filled {
+        color: {{group.selected_color}};
+    }
+    .{{group.class_name}}.active.filled {
+        background-color: {{group.selected_color}};
+        color: {{group.selected_text_color}};
+    }
+    {% endfor %}
+</style>
 
 {% endblock %}
 
 {% block body %}
+{% include 'navbar.html' %}
 
-{% include 'navigation-bar.html' %}
 
-<script>
-{% if lead %}
-    var lead_type = '{{lead.lead_type}}';
-    {% if lead.url %}var lead_url = '{{lead.url}}';{% endif %}
-    {% if lead.description %}var lead_description = "{{lead.description|escapejs}}";{% endif %}
-    {% if lead.attachment %}var lead_attachment = "{{lead.attachment.upload.url}}";{% endif %}
-{% else %}
-    var lead_type = '';
-{% endif %}
-    var lead_simplified = "<style>body{font-family: 'Lato', sans-serif; font-size: 13px; background-color: #fafafa; color: #717171;}body div{padding: 24px; white-space: pre-wrap; line-height: 1.5;}</style><div>{% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %}</div>";
+<div id="map-modal" class="modal fade" role="dialog" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Select locations</h4>
+            </div>
+            <div class="modal-body">
+                <div id="the-map"></div>
+            </div>
+            <div class="modal-footer">
+                <div id="admin-level-buttons"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    lead_description = lead_description.replace(/(?:\r\n|\r|\n)/g, '<br />');
-    lead_simplified = lead_simplified.replace(/(?:\r\n|\r|\n)/g, '<br />');
-</script>
 
 <div class="split-pane fixed-left">
     <div class="split-pane-component" id="left-component">
         {% if lead_simplified %}
         <div id="lead-options-container">
-            <label class="radio-inline"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
-            <label class="radio-inline"><input type="radio" name="lead-view-option" value="original">Original</label>
+            <div class="btn-group" data-toggle="buttons" {% if lead.lead_type == 'MAN' %} style="display:none;" {% endif %}>
+                <label class="btn btn-default radio-inline active"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
+                <label class="btn btn-default radio-inline"><input type="radio" name="lead-view-option" value="original">Original</label>
+            </div>
+            <button class="btn btn-regular btn-zoom" id="zoom-out" data-toggle="tooltip" title="zoom out"><i class="fa fa-search-minus"></i></button>
+            <button class="btn btn-regular btn-zoom" id="zoom-in" data-toggle="tooltip" title="zoom in"><i class="fa fa-search-plus"></i></button>
+            <div id="tag-buttons" style="max-height:200px; overflow:auto;"></div>
         </div>
         {% endif %}
+
         <div id="lead-preview-container">
-            <iframe id="lead-preview" src="data:text/html;charset=utf-8,No preview available"></iframe>
+            {% if lead.lead_type == 'URL' %}
+            <iframe id="lead-preview" src="{{ lead.url }}"></iframe>
+            {% elif lead.lead_type == 'ATT' %}
+            <iframe id="lead-preview" src="{{ lead.attachment.upload.url}}"></iframe>
+            {% endif %}
+            <div id="lead-simplified-preview">{{lead_simplified|safe|escape}}</div>
         </div>
     </div>
+
     <div class="split-pane-divider" id="my-divider"></div>
+
     <div class="split-pane-component" id="right-component">
-        <div class="form-wrapper">
-
-            <div class="row row-form">
-                <div class="col-xs-12">
-                    <label>Excerpt</label>
-                    <textarea id="excerpt" class="form-control" rows="8">{% if entry %}{{entry.excerpt}}{% endif %}</textarea>
-                </div>
-            </div>
-
-            <div class="row row-form">
-                <div class="col-xs-12">
-                    <label>Location</label>
-                    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-                    <div id="map"></div>
-                    <div id="panel">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-7">
+                    <div id="locations-container">
+                        <h4>Locations</h4>
                         <div class="row">
-                            <div class="col-sm-6">
-                                <button class="btn btn-default" id="delete-button">Delete selected shape</button>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select name="country" id="country" placeholder="Select a country">
+                                        {% for country in countries %}
+                                        <option value="{{country.pk}}" {% if entry and entry.country == country %}selected{% endif %}>{{country.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <select name="manual-location-input" id="manual-location-input" class="form-control"  placeholder="Add a location">
+                                                <option value="">Add a location</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#map-modal"><i class="fa fa-map"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="vulnerable-groups-container">
+                                    <h5>Vulnerable Groups</h5>
+                                    <select id="vulnerable-groups" name="vulnerable-groups" class="form-control" placeholder="Select vulnerable group" multiple="true">
+                                        {% for vulnerable_group in vulnerable_groups %}
+                                        <option value="{{vulnerable_group.pk}}" {% if keep_all %}{% if vulnerable_group in entry.vulnerable_groups.all or vulnerable_group in prev_entry.vulnerable_groups.all %}selected{% endif %}{% endif %}>{{vulnerable_group}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-sm-6">
-                                <label>Selection color:</label>
-                                <div id="color-palette"></div>
+                            <div class="col-md-6">
+                                <div id="selected-location-list">
+                                    <p id="empty-text" hidden>No location added!</p>
+                                    <ul>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div id="specific-need-groups-container">
+                                    <h5> Groups with specific needs </h5>
+                                    <select id="groups-with-specific-needs" name="groups-with-specific-needs" class="form-control" placeholder="Select groups with specific needs" multiple="true">
+                                        {% for specific_group in specific_needs_groups %}
+                                        <option value="{{specific_group.pk}}" {% if keep_all %}{% if specific_group in entry.specific_needs_groups.all or specific_group in prev_entry.specific_needs_groups.all %}selected{% endif %}{% endif %}>{{specific_group}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="sectors-container">
+                                    <h5>Sectors and subsectors</h5>
+                                    <select id="sectors-subsectors" name="sectors-subsectors" class="form-control" placeholder="Select sectors subsectors" multiple="true">
+                                    {% for sector, ss in sectors.items %}
+                                    <option value="{{sector.pk}}" {% if keep_all %}{% if sector in entry.sectors.all or sector in prev_entry.sectors.all %}selected{% endif %}{% endif %}>{{sector.title}}</option>
+                                    {% for subsector in ss %}
+                                    <option value="{{subsector.pk}}" {% if keep_all %}{% if subsector in entry.sectors.all or subsector in prev_entry.sectors.all %}selected{% endif %}{% endif %}>{{sector.title}} / {{subsector.title}}</option>
+                                    {% endfor %}
+                                    {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <h4>Affected Groups</h4>
+                    <div id="chart-div"></div>
+
+                    <br>
+
+                    <div>
+                        <label>Date of the information:</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input id="entry-date" type="date" class="form-control end-date" value="{% if entry %}{{ entry.date|date:'Y-m-d' }}{% elif prev_entry %}{{ prev_entry.date|date:'Y-m-d' }}{% elif lead.published_at %}{{ lead.published_at|date:'Y-m-d'  }}{% endif %}">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <form id="entry-form" method="post">
-                {% csrf_token %}
-                <div class="row row-form">
-                    <div class="col-sm-3 label-container"><label>Country:</label></div>
-                    <div class="col-sm-9">
-                        <select name="country" id="country" placeholder="Select a country">
-                            <option value="">Select a country</option>
-                            {% for country in countries %}
-                            <option value="{{country.pk}}" {% if entry and entry.country == country %}selected{% endif %}>{{country.name}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row row-form">
-                    <div class="col-sm-3 label-container"><label>Locations (Geonames):</label></div>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="location-geonames" id="location-geonames">
-                    </div>
-                </div>
-
-                <div class="row row-form">
-                    <div class="col-sm-3 label-container"><label>Locations (Administrative):</label></div>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="location-administrative" id="location-administrative">
-                    </div>
-                </div>
-
-                <div class="row row-form">
-                    <div class="col-sm-3 label-container"><label>Sector:</label></div>
-                    <div class="col-sm-9">
-                        <select id="sector" name="sector" placeholder="Select sectors" multiple>
-                            <option value="">Select sectors</option>
-                            {% for sector in sectors %}
-                            <option value="{{sector.pk}}" {% if entry_sectors and sector.pk in entry_sectors %}selected{% endif %}>{{sector}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-                <div class="vg-wrapper-template hidden row">
-                    <div class="col-sm-9">
-                        <select class="vg-select" placeholder="Select a group">
-                            <option value="">Select a group</option>
-                            {% for vg in vulnerable_groups %}
-                            <option value="{{vg.pk}}">{{vg}}</option>
-                            {% endfor %}
-                        </select>
-                        <input class="form-control vg-known-cases" type="text" placeholder="Enter number of known cases">
-                    </div>
-                    <div class="col-sm-3">
-                        <button class="btn btn-primary vg-btn-add">+</button>
-                    </div>
-                </div>
-                <div class="ag-wrapper-template hidden row">
-                    <div class="col-sm-9">
-                        <select class="ag-select" placeholder="Select a group">
-                            <option value="">Select a group</option>
-                            {% for ag in affected_groups %}
-                            <option value="{{ag.pk}}">{{ag}}</option>
-                            {% endfor %}
-                        </select>
-                        <input type="text" class="form-control ag-known-cases" placeholder="Enter number of known cases">
-                    </div>
-                    <div class="col-sm-3">
-                        <button class="btn btn-primary ag-btn-add">+</button>
-                    </div>
-                </div>
-
-                <div class="row row-form">
-                    <div class="col-sm-3 label-container"><label>Vulnerable Group:</label></div>
-                    <div class="col-sm-9">
-                        <div id="vulnerable-group-container">
+            <div id="information-attributes">
+                <h4>Information Attributes</h4>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div id="attr-contents">
                         </div>
                     </div>
-                </div>
 
-                <div class="row row-form">
-                    <div class="col-sm-3 label-container"><label>Affected Group:</label></div>
-                    <div class="col-sm-9">
-                        <div id="affected-group-container">
-                        </div>
+                    <div class="col-md-6" id="attr-inputs">
+                        <div id="selected-attr-title"></div>
+                        <div id="contents"></div>
                     </div>
                 </div>
+            </div>
 
-                <div class="row row-form">
-                    <div class="col-sm-3 label-container"><label>Underlying Factor:</label></div>
-                    <div class="col-sm-9">
-                        <select id="underlying-factor" name="underlying-factor" placeholder="Select factors" multiple>
-                            <option value="">Select factors</option>
-                            {% for uf in underlying_factors %}
-                            <option value="{{uf.pk}}" {% if entry_underlying_factors and uf.pk in entry_underlying_factors %}selected{% endif %}>{{uf}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
+            <button id="cancel-btn" class="btn btn-danger" onclick="if (confirm('All changes will be discarded. Are you sure?')) location.href='{% url 'entries:entries' event.pk %}';" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="left" title="Cancel"><i class="fa fa-times"></i></button>
 
-                <div class="row row-form">
-                    <div class="col-sm-3 label-container"><label>Crisis Driver:</label></div>
-                    <div class="col-sm-9">
-                        <select id="crisis-driver" name="crisis-driver" placeholder="Select crisis drivers" multiple>
-                            <option value="">Select crisis drivers</option>
-                            {% for cd in crisis_drivers %}
-                            <option value="{{cd.pk}}" {% if entry_crisis_drivers and cd.pk in entry_crisis_drivers %}selected{% endif %}>{{cd}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
+            <button id="save-edit-btn" class="btn btn-default" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="left" title="Save and add another in same location"><i id="save-icon" class="fa fa-save"></i><i id="map-icon" class="fa fa-map-o"></i></button>
 
-                <div class="row row-form">
-                    <div class="col-sm-3 label-container"><label>Status:</label></div>
-                    <div class="col-sm-9">
-                        <select id="status" name="status" placeholder="Select status">
-                            <option value="">Select status</option>
-                            {% for status in statuses %}
-                            <option value="{{status.0}}" {% if entry and entry.status == status.0 %}selected{% endif %}>{{status.1}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
+            <button id="save-btn" class="btn btn-primary" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="left" title="Save"><i class="fa fa-save"></i></button>
 
-                <div class="row row-form">
-                    <div class="col-sm-3 label-container"><label>Problem Timeline:</label></div>
-                    <div class="col-sm-9">
-                        <select id="problem-timeline" name="problem-timeline" placeholder="Select problem timeline">
-                            <option value="">Select problem timeline</option>
-                            {% for pt in problem_timelines %}
-                            <option value="{{pt.0}}" {% if entry and entry.problem_timeline == pt.0 %}selected{% endif %}>{{pt.1}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
+            <button id="save-add-btn" class="btn btn-default" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="left" title="Save and add another"><i id="save-icon" class="fa fa-save"></i><i id="plus-icon" class="fa fa-plus"></i></button>
 
-                <div class="row row-form">
-                    <div class="col-sm-3 label-container"><label>Severity:</label></div>
-                    <div class="col-sm-9">
-                        <select id="severity" name="severity">
-                            <option value="">Select severity</option>
-                            {% for pt in severities %}
-                            <option value="{{pt.0}}" {% if entry and entry.severity == pt.0 %}selected{% endif %}>{{pt.1}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row row-form">
-                    <div class="col-sm-3 label-container"><label>Reliability:</label></div>
-                    <div class="col-sm-9">
-                        <select id="reliability" name="reliability">
-                            <option value="">Select reliability</option>
-                            {% for pt in reliabilities %}
-                            <option value="{{pt.0}}" {% if entry and entry.reliability == pt.0 %}selected{% endif %}>{{pt.1}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row row-form row-action">
-                    <div class="col-md-12">
-                        <input type="submit" class="btn btn-default">
-                    </div>
-                </div>
-
-            </form>
         </div>
     </div>
 </div>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-nr38mjHS3Y_PapPYSmTaFFQ9ucQGwig&libraries=places,drawing&callback=initMap" async defer></script>
+
+<div class="template-attr-input" hidden>
+    <div class="row">
+        <div class="col-xs-10">
+            <textarea class="form-control" placeholder="Excerpt"></textarea>
+        </div>
+        <div class="col-xs-2">
+            <button class="btn btn-primary btn-add" >+</button>
+        </div>
+    </div>
+    <div class="row" style="padding-top:8px;">
+        <div class="col-xs-3">
+            <input type="number" class="form-control" placeholder="Number">
+        </div>
+        <div class="col-xs-4">
+            <select class="severity form-control">
+                <option value="NOA">-- Select Severity --</option>
+                {% for serverity in severities %}
+                <option value="{{serverity.0}}">{{serverity.1}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-xs-4">
+            <select class="reliability form-control">
+                <option value="NOA">-- Select Reliability --</option>
+                {% for reliability in reliabilities %}
+                <option value="{{reliability.0}}">{{reliability.1}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/add-entry.js' %}"></script>
+<script src="{% static 'js/add-entry-map.js' %}"></script>
+
 {% endblock %}

@@ -201,7 +201,7 @@ Dropzone.options.attachmentDropzone = {
 
         // for multiple, successmultiple
         this.on("success", function(files, response) {
-            window.location.href = "{% url 'leads:leads' event=event.pk %}";
+            window.location.href = url; //"{% url 'leads:leads' event=event.pk %}";
         });
 
         // for multiple, errormultiple

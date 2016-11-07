@@ -4,6 +4,17 @@ from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
 
 
+class Country(models.Model):
+    code = models.CharField(max_length=5, primary_key=True)
+    name = models.CharField(max_length=70)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'countries'
+
+
 class Event(models.Model):
     """ Event Model
 
@@ -11,7 +22,7 @@ class Event(models.Model):
     """
 
     name = models.CharField(max_length=100)
-    countries = models.ManyToManyField("entries.Country", blank=True)
+    countries = models.ManyToManyField(Country, blank=True)
 
     def __str__(self):
         return self.name
@@ -23,10 +34,10 @@ class Source(models.Model):
     Sources are available lead sources.
     """
 
-    source = models.CharField(max_length=100, primary_key=True)
+    name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.source
+        return self.name
 
 
 class Lead(models.Model):

@@ -16,6 +16,15 @@ class SourceViewSet(viewsets.ModelViewSet):
     perimission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
+
+class CountryViewSet(viewsets.ModelViewSet):
+    serializer_class = CountrySerializer
+    perimission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        return Country.objects.all()
+
+
 class LeadViewSet(viewsets.ModelViewSet):
     serializer_class = LeadSerializer
     perimission_classes = (permissions.IsAuthenticatedOrReadOnly,)
