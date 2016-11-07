@@ -7,6 +7,14 @@ body{
     padding: 0;
     background-color: #f0f0f0;
 
+    .fa{
+        margin-right: 10px;
+    }
+    .fa-long-arrow-right{
+        margin-right: 0;
+        margin-left: 10px;
+    }
+
     #page-one{
         .split-pane{
             height: calc(100vh - #{$navbar-height} - 2px)!important;
@@ -33,13 +41,7 @@ body{
                     margin-bottom: 24px;
                 }
 
-                .fa{
-                    margin-right: 10px;
-                }
-                .fa-long-arrow-right{
-                    margin-right: 0;
-                    margin-left: 10px;
-                }
+
 
 
             }
@@ -98,14 +100,17 @@ body{
                 border-top: none;
 
                 .row{
-                    margin-bottom: 16px;
+                    margin-bottom: 8px;
                 }
                 .severity, .reliability{
+                    cursor: pointer;
+
                     span{
                         width: 16px;
-                        height: 24px;
+                        height: 16px;
                         background-color: #ccc;
                         display: inline-block;
+                        cursor: pointer;
                     }
                     label{
                         vertical-align: super;
@@ -133,6 +138,20 @@ body{
 
                 .excerpt{
                     height: 96px;
+                }
+
+                #geo-location, #affected-group{
+                    border: 3px solid #eee;
+                    padding: 10px;
+                    background-color: #eee;
+                    height: 128px;
+
+                    a{
+                        float: right;
+                    }
+                    .fa{
+                        margin-right: 0;
+                    }
                 }
 
                 .pillar, .sub-pillar, .sector, .sub-sector{
