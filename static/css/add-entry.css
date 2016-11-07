@@ -110,10 +110,11 @@ body {
         text-transform: uppercase; }
       body #page-two #entries .entry {
         padding: 24px;
+        padding-bottom: 0;
         background-color: #fff;
         border: 3px solid #eee;
         border-top: none; }
-        body #page-two #entries .entry .row {
+        body #page-two #entries .entry .row:first-child {
           margin-bottom: 8px; }
         body #page-two #entries .entry .severity, body #page-two #entries .entry .reliability {
           cursor: pointer; }
@@ -126,40 +127,60 @@ body {
           body #page-two #entries .entry .severity label, body #page-two #entries .entry .reliability label {
             vertical-align: super;
             margin-right: 16px; }
-        body #page-two #entries .entry .reliability ._1 {
-          background-color: #aab0ed; }
-        body #page-two #entries .entry .reliability ._2 {
-          background-color: #7f88e5; }
-        body #page-two #entries .entry .reliability ._3 {
-          background-color: #5561dc; }
-        body #page-two #entries .entry .reliability ._4 {
-          background-color: #2b3ad3; }
-        body #page-two #entries .entry .reliability ._5 {
-          background-color: #232fa8; }
-        body #page-two #entries .entry .severity ._1 {
-          background-color: #f9d9d9; }
-        body #page-two #entries .entry .severity ._2 {
-          background-color: #f2adad; }
-        body #page-two #entries .entry .severity ._3 {
-          background-color: #ec8080; }
-        body #page-two #entries .entry .severity ._4 {
-          background-color: #e55454; }
-        body #page-two #entries .entry .severity ._5 {
-          background-color: #de2828; }
+        body #page-two #entries .entry .reliability {
+          cursor: pointer; }
+          body #page-two #entries .entry .reliability ._1 {
+            background-color: #aab0ed; }
+          body #page-two #entries .entry .reliability ._2 {
+            background-color: #7f88e5; }
+          body #page-two #entries .entry .reliability ._3 {
+            background-color: #5561dc; }
+          body #page-two #entries .entry .reliability ._4 {
+            background-color: #2b3ad3; }
+          body #page-two #entries .entry .reliability ._5 {
+            background-color: #232fa8; }
+          body #page-two #entries .entry .reliability .active {
+            transform: scale(1.2); }
+        body #page-two #entries .entry .severity {
+          cursor: pointer; }
+          body #page-two #entries .entry .severity ._1 {
+            background-color: #f2adad; }
+          body #page-two #entries .entry .severity ._2 {
+            background-color: #ec8080; }
+          body #page-two #entries .entry .severity ._3 {
+            background-color: #e55454; }
+          body #page-two #entries .entry .severity ._4 {
+            background-color: #de2828; }
+          body #page-two #entries .entry .severity ._5 {
+            background-color: #b71c1c; }
+          body #page-two #entries .entry .severity .active {
+            transform: scale(1.2); }
         body #page-two #entries .entry .excerpt {
           height: 96px; }
+        body #page-two #entries .entry #geo-location {
+          margin-top: 4px; }
         body #page-two #entries .entry #geo-location, body #page-two #entries .entry #affected-group {
           border: 3px solid #eee;
-          padding: 10px;
+          padding: 4px;
           background-color: #eee;
-          height: 128px; }
+          height: 64px; }
           body #page-two #entries .entry #geo-location a, body #page-two #entries .entry #affected-group a {
             float: right; }
           body #page-two #entries .entry #geo-location .fa, body #page-two #entries .entry #affected-group .fa {
             margin-right: 0; }
-        body #page-two #entries .entry .pillar, body #page-two #entries .entry .sub-pillar, body #page-two #entries .entry .sector, body #page-two #entries .entry .sub-sector {
-          padding: 10px 24px;
-          background-color: #eee;
-          text-align: center; }
+        body #page-two #entries .entry #attributes {
+          display: flex;
+          flex-direction: column; }
+          body #page-two #entries .entry #attributes .attribute {
+            margin-bottom: 16px;
+            display: block; }
+            body #page-two #entries .entry #attributes .attribute .right {
+              background-color: #ddd;
+              padding: 8px 24px; }
+            body #page-two #entries .entry #attributes .attribute .left {
+              background-color: #f0f0f0;
+              padding: 8px 24px; }
+      body #page-two #entries .entry:nth-child(odd) {
+        background-color: #f5f5f5; }
 
 /*# sourceMappingURL=add-entry.css.map */

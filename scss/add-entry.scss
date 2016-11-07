@@ -95,11 +95,12 @@ body{
             }
             .entry{
                 padding: 24px;
+                padding-bottom: 0;
                 background-color: #fff;
                 border: 3px solid #eee;
                 border-top: none;
 
-                .row{
+                .row:first-child{
                     margin-bottom: 8px;
                 }
                 .severity, .reliability{
@@ -121,30 +122,36 @@ body{
 
                 $reliability-base: #1A237E;
                 .reliability{
+                    cursor: pointer;
                     ._1{ background-color: lighten($reliability-base, 50%); }
                     ._2{ background-color: lighten($reliability-base, 40%); }
                     ._3{ background-color: lighten($reliability-base, 30%);  }
                     ._4{ background-color: lighten($reliability-base, 20%); }
                     ._5{ background-color: lighten($reliability-base, 10%); }
+                    .active{ transform: scale(1.2); }
                 }
                 $severity-base: #B71C1C;
                 .severity{
-                    ._1{ background-color: lighten($severity-base, 50%); }
-                    ._2{ background-color: lighten($severity-base, 40%); }
-                    ._3{ background-color: lighten($severity-base, 30%);  }
-                    ._4{ background-color: lighten($severity-base, 20%); }
-                    ._5{ background-color: lighten($severity-base, 10%); }
+                    cursor: pointer;
+                    ._1{ background-color: lighten($severity-base, 40%); }
+                    ._2{ background-color: lighten($severity-base, 30%); }
+                    ._3{ background-color: lighten($severity-base, 20%);  }
+                    ._4{ background-color: lighten($severity-base, 10%); }
+                    ._5{ background-color: lighten($severity-base, 0%); }
+                    .active{ transform: scale(1.2); }
                 }
 
                 .excerpt{
                     height: 96px;
                 }
-
+                #geo-location{
+                    margin-top: 4px;
+                }
                 #geo-location, #affected-group{
                     border: 3px solid #eee;
-                    padding: 10px;
+                    padding: 4px;
                     background-color: #eee;
-                    height: 128px;
+                    height: 64px;
 
                     a{
                         float: right;
@@ -154,11 +161,30 @@ body{
                     }
                 }
 
-                .pillar, .sub-pillar, .sector, .sub-sector{
-                    padding: 10px 24px;
-                    background-color: #eee;
-                    text-align: center;
+                #attributes{
+                    display: flex;
+                    flex-direction: column;
+
+
+                    .attribute{
+                        margin-bottom: 16px;
+                        display: block;
+
+                        .right{
+                            background-color: #ddd;
+                            padding: 8px 24px;
+                        }
+                        .left{
+                            background-color: #f0f0f0;
+                            padding: 8px 24px;
+                        }
+
+
+                    }
                 }
+            }
+            .entry:nth-child(odd){
+                background-color: #f5f5f5;
             }
         }
     }
