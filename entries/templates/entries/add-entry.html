@@ -8,7 +8,10 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 {% block head %}
 <link href="{% static 'css/split-pane.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/add-entry.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/selectize.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
 
+<script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/split-pane.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/add-entry.js' %}"></script>
@@ -150,7 +153,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 </div>
 
 <!--
-excerpt-template -> excerpt
+entry-template -> excerpt
 vulnerable-group-select
 specific-need-group-select
 specific-needs-group-list
@@ -192,15 +195,19 @@ sub-sector
             <input type="text" class="form-control form-group" placeholder="Number">
         </div>
         <div class="col-md-2">
-            <select class="vulnerable-group-select" class="form-control form-group" placeholder="Select vulnerable group"></select>
-            <select class="specific-need-group-select" class="form-control form-group" placeholder="Select specific need group"></select>
+            <select class="vulnerable-group-select" class="form-control form-group" placeholder="Select vulnerable group" multiple>
+                {% for vg in vulnerable_groups %}
+                <option value="{{vg.pk}}">{{vg}}</option>
+                {% endfor %}
+            </select>
+            <select class="specific-need-group-select" class="form-control form-group" placeholder="Select specific need group" multiple></select>
         </div>
         <div class="col-md-5">
             <div class="row">
                 <div class="col-md-5">
-                    <div class="specific-needs-group">
-                        <label>Specific needs groups:</label><a class="btn btn-primary btn-sm"><i class="fa fa-line-chart"></i></a>
-                        <div class="specific-needs-group-list"></div>
+                    <div class="affected-group">
+                        <label>Affected groups:</label><a class="btn btn-primary btn-sm"><i class="fa fa-line-chart"></i></a>
+                        <div class="affected-group-list"></div>
                     </div>
                     <div class="geo-location">
                         <label>Geo locations:</label><a class="btn btn-primary btn-sm"><i class="fa fa-map"></i></a>

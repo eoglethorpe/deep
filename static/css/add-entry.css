@@ -221,14 +221,14 @@ body {
           height: 96px; }
         body #page-two #entries .entry .geo-location {
           margin-top: 4px; }
-        body #page-two #entries .entry .geo-location, body #page-two #entries .entry .specific-needs-group {
+        body #page-two #entries .entry .geo-location, body #page-two #entries .entry .affected-group {
           border: 3px solid #eee;
           padding: 4px;
           background-color: #eee;
           height: 64px; }
-          body #page-two #entries .entry .geo-location a, body #page-two #entries .entry .specific-needs-group a {
+          body #page-two #entries .entry .geo-location a, body #page-two #entries .entry .affected-group a {
             float: right; }
-          body #page-two #entries .entry .geo-location .fa, body #page-two #entries .entry .specific-needs-group .fa {
+          body #page-two #entries .entry .geo-location .fa, body #page-two #entries .entry .affected-group .fa {
             margin-right: 0; }
         body #page-two #entries .entry .attribute-list {
           display: flex;

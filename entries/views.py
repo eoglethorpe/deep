@@ -92,6 +92,7 @@ class AddEntry(View):
         context["pillars_one"] = InformationPillar.objects.filter(contains_sectors=False)
         context["pillars_two"] = InformationPillar.objects.filter(contains_sectors=True)
         context["sectors"] = Sector.objects.all()
+        context["vulnerable_groups"] = VulnerableGroup.objects.all()
 
         UserProfile.set_last_event(request, context["event"])
         return render(request, "entries/add-entry.html", context)
