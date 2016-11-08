@@ -135,99 +135,87 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
             <button id="back-to-excerpts-btn"  class="btn btn-primary"><i class="fa fa-long-arrow-left"></i>Back to excerpts</button>
         </div>
         <div id="entries">
+        </div>
+    </div>
+</div>
 
-            {% for i in dummy_list %}
-            <div class="entry">
-                <div class="row">
-                    <div class="col-md-3">
-                        <textarea class="form-control excerpt" >The first level is only drag and drop. Pieces of text are selected from the lead and dragged and dropped into the appropriatebox on the right pane.</textarea>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="reliability">
-                            <label>Reliability </label><br>
-                            <span class="_1"></span>
-                            <span class="_2"></span>
-                            <span class="_3"></span>
-                            <span class="_4"></span>
-                            <span class="_5"></span>
-                        </div>
-                        <div class="severity">
-                            <label>Severity </label><br>
-                            <span class="_1"></span>
-                            <span class="_2"></span>
-                            <span class="_3"></span>
-                            <span class="_4"></span>
-                            <span class="_5"></span>
-                        </div>
-                    </div>
+<!--
+excerpt-template -> excerpt
+vulnerable-group-select
+specific-need-group-select
+specific-needs-group-list
+geo-locations-list
+attribute-list
 
-                    <div class="col-md-1">
-                        <input type="text" class="form-control form-group" placeholder="Date">
-                        <input type="text" class="form-control form-group" placeholder="Number">
-                    </div>
+attribute-template -> attribute
+pillar
+sub-pillar
+sector
+sub-sector
+ -->
 
-                    <div class="col-md-2">
-                        <select class="form-control form-group">
-                            <option>Select vulnerable group</option>
-                        </select>
-                        <select class="form-control form-group">
-                            <option>Select specific need group</option>
-                        </select>
+<div class="entry-template" hidden>
+    <div class="row">
+        <div class="col-md-3">
+            <textarea class="form-control excerpt" ></textarea>
+        </div>
+        <div class="col-md-1">
+            <div class="reliability">
+                <label>Reliability </label><br>
+                <span class="_1"></span>
+                <span class="_2"></span>
+                <span class="_3"></span>
+                <span class="_4"></span>
+                <span class="_5"></span>
+            </div>
+            <div class="severity">
+                <label>Severity </label><br>
+                <span class="_1"></span>
+                <span class="_2"></span>
+                <span class="_3"></span>
+                <span class="_4"></span>
+                <span class="_5"></span>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <input type="text" class="form-control form-group" placeholder="Date">
+            <input type="text" class="form-control form-group" placeholder="Number">
+        </div>
+        <div class="col-md-2">
+            <select class="vulnerable-group-select" class="form-control form-group" placeholder="Select vulnerable group"></select>
+            <select class="specific-need-group-select" class="form-control form-group" placeholder="Select specific need group"></select>
+        </div>
+        <div class="col-md-5">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="specific-needs-group">
+                        <label>Specific needs groups:</label><a class="btn btn-primary btn-sm"><i class="fa fa-line-chart"></i></a>
+                        <div class="specific-needs-group-list"></div>
                     </div>
-                    <div class="col-md-5">
-                        <div class="row">
-                            <div class="col-md-5">
-                                <div id="affected-group">
-                                    <label>Affected groups:</label><a class="btn btn-primary btn-sm"><i class="fa fa-line-chart"></i></a>
-                                </div>
-                                <div id="geo-location">
-                                    <label>Geo locations:</label><a class="btn btn-primary btn-sm"><i class="fa fa-map"></i></a>
-                                </div>
-                            </div>
-                            <div class="col-md-7">
-                                <div id="attributes">
-                                    <div class="attribute">
-                                        <span class="left">
-                                            <span class="pillar">pillar1</span> / <span class="sub-pillar">subpillar</span>
-                                        </span>
-                                        <span class="right">
-                                            <span class="sector">sector1</span> / <a class="pillar">sub-sector</a>
-                                        </span>
-                                    </div>
-                                    <div class="attribute">
-                                        <span class="left">
-                                            <span class="pillar">pillar1</span> / <span class="sub-pillar">subpillar</span>
-                                        </span>
-                                        <span class="right">
-                                            <span class="sector">sector1</span> / <a class="pillar">sub-sector</a>
-                                        </span>
-                                    </div>
-
-                                    <div class="attribute">
-                                        <span class="left">
-                                            <span class="pillar">pillar1</span> / <span class="sub-pillar">subpillar</span>
-                                        </span>
-                                        <span class="right">
-                                            <span class="sector">sector1</span> / <a class="pillar">sub-sector</a>
-                                        </span>
-                                    </div>
-                                    <div class="attribute">
-                                        <span class="left">
-                                            <span class="pillar">pillar1</span> / <span class="sub-pillar">subpillar</span>
-                                        </span>
-                                        <span class="right">
-                                            <span class="sector">sector1</span> / <a class="pillar">sub-sector</a>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="geo-location">
+                        <label>Geo locations:</label><a class="btn btn-primary btn-sm"><i class="fa fa-map"></i></a>
+                        <div class="geo-locations-list"></div>
                     </div>
                 </div>
-
+                <div class="col-md-6">
+                    <div class="attribute-list">
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <a class="btn btn-primary btn-action"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-danger btn-action"><i class="fa fa-times"></i></a>
+                </div>
             </div>
-
-            {% endfor %}
+        </div>
+    </div>
+</div>
+<div class="attribute-template" hidden>
+    <div class="row">
+        <div class="col-md-6">
+            <span class="pillar"></span> / <span class="sub-pillar"></span>
+        </div>
+        <div class="col-md-6">
+            <span class="sector"></span> / <a class="pillar"></a>
         </div>
     </div>
 </div>
