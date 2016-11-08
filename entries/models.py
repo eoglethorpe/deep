@@ -69,12 +69,18 @@ class AffectedGroup(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Affected Groups"
+
 
 class VulnerableGroup(models.Model):
     name = models.CharField(max_length=150)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Vulnerable Groups"
 
 
 class SpecificNeedsGroup(models.Model):
@@ -83,6 +89,9 @@ class SpecificNeedsGroup(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Specific Needs Groups"
+
 
 class InformationPillar(models.Model):
     name = models.CharField(max_length=150)
@@ -90,6 +99,9 @@ class InformationPillar(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Information Pillars"
 
 
 class InformationSubpillar(models.Model):
