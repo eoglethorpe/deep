@@ -58,7 +58,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 {% endif %}
                 <div id="lead-simplified-preview">{{lead_simplified|safe|escape}}</div>
             </div>
-            
+
         </div>
         <div class="split-pane-divider" id="divider"></div>
         <div class="split-pane-component" id="right-component">
@@ -70,7 +70,11 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                             <option>Excerpt 2</option>
                         </select>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <button class="btn btn-primary" id="add-excerpt"><i class="fa fa-plus"></i>Add excerpt</button>
+                        <button class="btn btn-danger" id="delete-excerpt"><i class="fa fa-times"></i>Delete excerpt</button>
+                    </div>
+                    <div class="col-md-2">
                         <button class="btn btn-primary" id="edit-entries-btn">Edit Entries <i class="fa fa-long-arrow-right"></i></button>
                     </div>
                 </div>
@@ -81,7 +85,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="matrix-one">                            
+                        <div id="matrix-one">
                             {% for pillar in pillars_one %}
                             <div class="pillar">
                                 <div class="pillar-header">{{pillar}}</div>
