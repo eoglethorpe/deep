@@ -24,17 +24,11 @@ var informations = [
 
 
 $(document).ready(function(){
+
+    // Split screen for preview
     $('.split-pane').splitPane();
 
-    $('.sub-pillar').click(function(){
-        if ($(this).hasClass('active')){
-            $(this).removeClass('active');
-        }
-        else {
-            $(this).addClass('active');
-        }
-    });
-
+    // Navigation buttons between pages    
     $('#edit-entries-btn').on('click', function(){
         $('#page-one').fadeOut(function(){
             $('#page-two').fadeIn();
@@ -46,14 +40,37 @@ $(document).ready(function(){
         });
     });
 
+    // Matrix one selection of attribute
+    $('#matrix-one .sub-pillar').click(function(){
+        if ($(this).hasClass('active')){
+            $(this).removeClass('active');
+        }
+        else {
+            $(this).addClass('active');
+        }
+    });
+
+    // Matrix two selection of attribute
+    $('#matrix-two .attribute-block').click(function(){
+        if ($(this).hasClass('active')){
+            $(this).removeClass('active');
+        }
+        else {
+            $(this).addClass('active');
+        }
+    })
+
+    // reliability and severity selection
     $('.reliability span').click(function(){
-     $('.reliability span').removeClass('active');
+     $(this).closest('.reliability').find('span').removeClass('active');
      $(this).addClass('active');
     });
 
     $('.severity span').click(function(){
-     $('.severity span').removeClass('active');
+     $(this).closest('.severity').find('span').removeClass('active');
      $(this).addClass('active');
     });
+
+
 
 });

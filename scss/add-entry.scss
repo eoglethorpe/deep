@@ -97,6 +97,9 @@ body{
                     .attribute-block {
                         background-color: #ccc;
                     }
+                    .attribute-block.active {
+                        background-color: #333;
+                    }
                 }
 
             }
