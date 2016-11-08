@@ -90,7 +90,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                             <div class="pillar">
                                 <div class="pillar-header">{{pillar}}</div>
                                 {% for subpillar in pillar.informationsubpillar_set.all %}
-                                <div class="sub-pillar">{{subpillar}}</div>
+                                <div class="sub-pillar" data-pillar-id="{{pillar.pk}}" data-subpillar-id="{{subpillar.pk}}">{{subpillar}}</div>
                                 {% endfor %}
                             </div>
                             {% endfor %}
@@ -117,7 +117,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                                     {% endif %}
                                     <td class="subpillar">{{subpillar}}</td>
 
-                                    {% for sector in sectors %}<td class="attribute-block"></td>{% endfor %}
+                                    {% for sector in sectors %}<td class="attribute-block" data-pillar-id="{{pillar.pk}}" data-subpillar-id="{{subpillar.pk}}" data-sector-id="{{sector.pk}}"></td>{% endfor %}
                                 </tr>
                                 {% endfor %}
                                 {% endfor %}

@@ -1,13 +1,13 @@
 /*
 Data structure
 
-var informations = [
+var excerpts = [
     {
         excerpt: "",
-        attributesL [
-            { subpillar: spid, sector: secid, subsector: ssecid },
-            { subpillar: spid, sector: secid, subsector: ssecid },
-            { subpillar: spid, sector: secid, subsector: ssecid },
+        attributes: [
+            { pillar: pid, subpillar: spid, sector: secid, subsector: ssecid },
+            { pillar: pid, subpillar: spid, sector: secid, subsector: ssecid },
+            { pillar: pid, subpillar: spid, sector: secid, subsector: ssecid },
         ],
         reliability: relid, severity: sevid, date: date, number: number,
         affected_groups: [ agid, agid, ... ],
@@ -21,6 +21,95 @@ var informations = [
     ...
 ];
 */
+
+
+var excerpts = [];
+var selectedExcerpt = -1;
+var refreshing = false;
+
+function refreshExcerpts() {
+    if (refreshing)
+        return;
+    
+    // Make sure an excerpt is selected
+    if (selectedExcerpt < 0) {
+        if (excerpts.length > 0) {
+            selectedExcerpt = 0;
+        } else {
+            addExcerpt("New excerpt");
+            return;
+        }
+    }
+
+    refreshing = true;
+
+    // Update selection
+    var sel = $("#select-excerpt");
+    sel.empty();
+    for (var i=0; i<excerpts.length; ++i) {
+        var excerpt = excerpts[i];
+        var option = $("<option value='" + i + "'></option>");
+        option.text(excerpt.excerpt);
+        option.appendTo(sel);
+    }
+    sel.val(selectedExcerpt);
+
+    var excerpt = excerpts[selectedExcerpt];
+    if (excerpt) {
+        // Update excerpt text
+        $("#excerpt-text").val(excerpt.excerpt);
+
+        // Update attributes
+        $("#matrix-one .sub-pillar").removeClass('active');
+        $("#matrix-two .attribute-block").removeClass('active');
+        for (var i=0; i<excerpt.attributes.length; ++i) {
+            var attribute = excerpt.attributes[i];
+
+            if (!attribute.sector) {
+                // First matrix
+                $("#matrix-one")
+                    .find('.sub-pillar[data-pillar-id="' + attribute.pillar + '"][data-subpillar-id="' + attribute.subpillar + '"]')
+                        .addClass('active');
+
+            } else {
+                // Second matrix
+                $("#matrix-two")
+                    .find('.attribute-block[data-pillar-id="' + attribute.pillar + '"][data-subpillar-id="' + attribute.subpillar + '"][data-sector-id="' + attribute.sector + '"]')
+                        .addClass('active');
+            }
+        }
+    }
+
+    refreshing = false;
+}
+
+
+function addExcerpt(excerpt) {
+    // Create new excerpt and refresh
+    var excerpt = {
+        excerpt: excerpt,
+        attributes: [],
+        reliability: 0, severity: 0, date: null, number: null,
+        affected_groups: [], vulnerable_groups: [], specific_needs_groups: [],
+        map_selections: []
+    };
+    excerpts.push(excerpt);
+
+    selectedExcerpt = excerpts.length - 1;
+    refreshExcerpts();
+}
+
+function deleteExcerpt() {
+    if (selectedExcerpt < 0 || selectedExcerpt >= excerpts.length)
+        return;
+
+    // Delete selected excerpt and refresh
+    excerpts.splice(selectedExcerpt, 1);
+
+    if (selectedExcerpt >= excerpts.length)
+        selectedExcerpt--;
+    refreshExcerpts();
+}
 
 
 function styleText(text) {
@@ -89,11 +178,33 @@ $(document).ready(function(){
 
     // Matrix one selection of attribute
     $('#matrix-one .sub-pillar').click(function(){
+        var parent = $(this).closest('.pillar');
+
         if ($(this).hasClass('active')){
             $(this).removeClass('active');
+
+            if (excerpts[selectedExcerpt]) {
+                // Remove the attribute
+                var subpillar = $(this);
+                var index = excerpts[selectedExcerpt].attributes.findIndex(function(attr){
+                    return attr.pillar == subpillar.data('pillar-id')
+                        && attr.subpillar == subpillar.data('subpillar-id');
+                });
+                if (index >= 0)
+                    excerpts[selectedExcerpt].attributes.splice(index, 1);
+            }
         }
         else {
             $(this).addClass('active');
+
+            if (excerpts[selectedExcerpt]) {
+                // Add new attribute
+                excerpts[selectedExcerpt].attributes.push({
+                    pillar: $(this).data('pillar-id'),
+                    subpillar: $(this).data('subpillar-id'),
+                    sector: null, subsector: null
+                });
+            }
         }
     });
 
@@ -101,9 +212,30 @@ $(document).ready(function(){
     $('#matrix-two .attribute-block').click(function(){
         if ($(this).hasClass('active')){
             $(this).removeClass('active');
+
+            if (excerpts[selectedExcerpt]) {
+                // Remove the attribute
+                var block = $(this);
+                var index = excerpts[selectedExcerpt].attributes.findIndex(function(attr){
+                    return attr.pillar == block.data('pillar-id')
+                        && attr.subpillar == block.data('subpillar-id')
+                        && attr.sector == block.data('sector-id');
+                });
+                if (index >= 0)
+                    excerpts[selectedExcerpt].attributes.splice(index, 1);
+            }
         }
         else {
             $(this).addClass('active');
+
+            if (excerpts[selectedExcerpt]) {
+                // Add new attribute
+                excerpts[selectedExcerpt].attributes.push({
+                    pillar: $(this).data('pillar-id'),
+                    subpillar: $(this).data('subpillar-id'),
+                    sector: $(this).data('sector-id'), subsector: null
+                });
+            }
         }
     })
 
@@ -118,5 +250,23 @@ $(document).ready(function(){
      $(this).addClass('active');
     });
 
+    // Add, remove and refresh excerpts
+    $("#add-excerpt").unbind().click(function() {
+        addExcerpt("New excerpt");
+    });
+    $("#delete-excerpt").unbind().click(function() {
+        deleteExcerpt();
+    });
+    $("#select-excerpt").change(function() {
+        selectedExcerpt = $(this).val();
+        refreshExcerpts();
+    });
+    refreshExcerpts();
+
+    // Excerpt text handler
+    $("#excerpt-text").on('input paste drop', function() {
+        excerpts[selectedExcerpt].excerpt = $("#excerpt-text").val();
+        refreshExcerpts();
+    });
 
 });
