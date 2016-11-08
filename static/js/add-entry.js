@@ -36,7 +36,7 @@ function refreshExcerpts() {
         if (excerpts.length > 0) {
             selectedExcerpt = 0;
         } else {
-            addExcerpt("New excerpt");
+            addExcerpt("");
             return;
         }
     }
@@ -49,7 +49,7 @@ function refreshExcerpts() {
     for (var i=0; i<excerpts.length; ++i) {
         var excerpt = excerpts[i];
         var option = $("<option value='" + i + "'></option>");
-        option.text(excerpt.excerpt);
+        option.text(excerpt.excerpt.length>0?excerpt.excerpt.substr(0, 100):"New excerpt");
         option.appendTo(sel);
     }
     sel.val(selectedExcerpt);
@@ -213,6 +213,9 @@ $(document).ready(function(){
         if ($(this).hasClass('active')){
             $(this).removeClass('active');
 
+            // Color
+            $(this).css("background-color", $(this).data('bk-color'));
+
             if (excerpts[selectedExcerpt]) {
                 // Remove the attribute
                 var block = $(this);
@@ -228,6 +231,9 @@ $(document).ready(function(){
         else {
             $(this).addClass('active');
 
+            // Color
+            $(this).css("background-color", $(this).data('active-bk-color'));
+
             if (excerpts[selectedExcerpt]) {
                 // Add new attribute
                 excerpts[selectedExcerpt].attributes.push({
@@ -237,7 +243,9 @@ $(document).ready(function(){
                 });
             }
         }
-    })
+    });
+    // Matrix-two default color
+    $("#matrix-two .attribute-block").css("background-color", function(){ return $(this).data('bk-color'); });
 
     // Reliability and severity selection
     $('.reliability span').click(function(){
@@ -252,7 +260,7 @@ $(document).ready(function(){
 
     // Add, remove and refresh excerpts
     $("#add-excerpt").unbind().click(function() {
-        addExcerpt("New excerpt");
+        addExcerpt("");
     });
     $("#delete-excerpt").unbind().click(function() {
         deleteExcerpt();

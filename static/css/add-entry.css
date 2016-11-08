@@ -125,10 +125,10 @@ body {
         body #page-one .split-pane #right-component #matrix-two .subpillar {
           background-color: #f9d9c3; }
         body #page-one .split-pane #right-component #matrix-two .attribute-block {
-          background-color: #fbe8db;
+          /*background-color: lighten(#f7caac, 10%);*/
           cursor: pointer; }
         body #page-one .split-pane #right-component #matrix-two .attribute-block.active {
-          background-color: #ea7120; }
+          /*background-color: darken(#f7caac, 30%);;*/ }
   body #page-one #edit-entries-btn {
     float: right; }
   body #page-one #excerpt-text {

@@ -94,6 +94,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 <div class="row">
                     <div class="col-md-12">
                         <div id="matrix-one">
+
                             {% for pillar in pillars_one %}
                             <div class="pillar">
                                 <div class="pillar-header">{{pillar}}</div>
@@ -102,6 +103,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                                 {% endfor %}
                             </div>
                             {% endfor %}
+
                         </div>
                     </div>
                 </div>
@@ -119,13 +121,13 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                                 {% for subpillar in pillar.informationsubpillar_set.all %}
                                 <tr>
                                     {% if forloop.first %}
-                                    <td class="pillar-header" rowspan="{{pillar.informationsubpillar_set.count}}">
+                                    <td class="pillar-header" style="background-color:{{pillar.background_color}};" rowspan="{{pillar.informationsubpillar_set.count}}">
                                         {{pillar}}
                                     </td>
                                     {% endif %}
-                                    <td class="subpillar">{{subpillar}}</td>
+                                    <td class="subpillar" style="background-color:{{pillar.background_color}};">{{subpillar}}</td>
 
-                                    {% for sector in sectors %}<td class="attribute-block" data-pillar-id="{{pillar.pk}}" data-subpillar-id="{{subpillar.pk}}" data-sector-id="{{sector.pk}}"></td>{% endfor %}
+                                    {% for sector in sectors %}<td class="attribute-block" data-pillar-id="{{pillar.pk}}" data-subpillar-id="{{subpillar.pk}}" data-sector-id="{{sector.pk}}" data-bk-color="{{pillar.background_color}}" data-active-bk-color="{{pillar.active_background_color}}"></td>{% endfor %}
                                 </tr>
                                 {% endfor %}
                                 {% endfor %}
