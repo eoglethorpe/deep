@@ -48,104 +48,174 @@ nav {
 body {
   height: 100vh;
   margin: 0;
-  padding: 0; }
-  body .split-pane {
+  padding: 0;
+  background-color: #f0f0f0; }
+  body .fa {
+    margin-right: 10px; }
+  body .fa-long-arrow-right {
+    margin-right: 0;
+    margin-left: 10px; }
+  body #page-one .split-pane {
     height: calc(100vh - 70px - 2px) !important; }
-    body .split-pane .split-pane-divider {
+    body #page-one .split-pane .split-pane-divider {
       background-color: rgba(0, 0, 0, 0.2); }
-    body .split-pane #left-component {
+    body #page-one .split-pane #left-component {
       width: 40em;
       box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.3);
       background-color: #fff; }
-    body .split-pane #divider {
+    body #page-one .split-pane #divider {
       left: 40em;
       width: 3px;
       background-color: transparent; }
-    body .split-pane #right-component {
+    body #page-one .split-pane #right-component {
       left: 40em;
       margin-left: 3px;
       padding-top: 24px; }
-      body .split-pane #right-component .row {
+      body #page-one .split-pane #right-component .row {
         margin-bottom: 24px; }
-      body .split-pane #right-component #page-one #edit-entries-btn {
+      body #page-one .split-pane #right-component #edit-entries-btn {
         float: right; }
-      body .split-pane #right-component #page-one #excerpt-text {
+      body #page-one .split-pane #right-component #excerpt-text {
         height: 96px; }
-      body .split-pane #right-component #page-one .matrix-one {
+      body #page-one .split-pane #right-component .matrix-one {
         display: flex;
         flex-direction: column; }
-        body .split-pane #right-component #page-one .matrix-one .pillar {
+        body #page-one .split-pane #right-component .matrix-one .pillar {
           margin-top: 4px;
           margin-bottom: 4px;
           -webkit-user-select: none; }
-          body .split-pane #right-component #page-one .matrix-one .pillar .pillar-header {
+          body #page-one .split-pane #right-component .matrix-one .pillar .pillar-header {
             display: inline-block;
             padding: 24px;
             margin-right: 2px;
             background-color: #ccc; }
-          body .split-pane #right-component #page-one .matrix-one .pillar .sub-pillar {
+          body #page-one .split-pane #right-component .matrix-one .pillar .sub-pillar {
             display: inline-block;
             padding: 24px;
             margin-right: 2px;
             cursor: pointer;
             background-color: #eee;
             transition: 0.2s all ease-in-out; }
-          body .split-pane #right-component #page-one .matrix-one .pillar .active {
+          body #page-one .split-pane #right-component .matrix-one .pillar .active {
             transform: scaleY(1.1), scaleX(1.02);
             background-color: #008080;
             color: #fff; }
-      body .split-pane #right-component #page-one #matrix-two .pillar {
+      body #page-one .split-pane #right-component #matrix-two .pillar {
         display: flex;
         flex-direction: row; }
-        body .split-pane #right-component #page-one #matrix-two .pillar .sub-pillar .attribute-block {
+        body #page-one .split-pane #right-component #matrix-two .pillar .sub-pillar .attribute-block {
           display: inline-block;
           width: 48px;
           height: 16px;
           background-color: #102; }
-    body .split-pane #page-two #entries {
+  body #page-one #edit-entries-btn {
+    float: right; }
+  body #page-one #excerpt-text {
+    height: 96px; }
+  body #page-one #pillars {
+    display: flex;
+    flex-direction: column; }
+    body #page-one #pillars .pillar {
+      margin-top: 4px;
+      margin-bottom: 4px;
+      -webkit-user-select: none; }
+      body #page-one #pillars .pillar .pillar-header {
+        display: inline-block;
+        padding: 24px;
+        margin-right: 2px;
+        background-color: #ccc; }
+      body #page-one #pillars .pillar .sub-pillar {
+        display: inline-block;
+        padding: 24px;
+        margin-right: 2px;
+        cursor: pointer;
+        background-color: #eee;
+        transition: 0.2s all ease-in-out; }
+      body #page-one #pillars .pillar .active {
+        transform: scaleY(1.1);
+        background-color: #008080;
+        color: #fff; }
+  body #page-two {
+    padding-top: 24px; }
+    body #page-two #entries {
       padding-top: 24px; }
-      body .split-pane #page-two #entries h3 {
+      body #page-two #entries h3 {
         margin-top: 0;
         margin-bottom: 24px;
         text-transform: uppercase; }
-      body .split-pane #page-two #entries .entry {
+      body #page-two #entries .entry {
         padding: 24px;
+        padding-bottom: 0;
         background-color: #fff;
         border: 3px solid #eee;
         border-top: none; }
-        body .split-pane #page-two #entries .entry .row {
-          margin-bottom: 16px; }
-        body .split-pane #page-two #entries .entry .severity span, body .split-pane #page-two #entries .entry .reliability span {
-          width: 32px;
-          height: 24px;
-          background-color: #ccc;
-          display: inline-block; }
-        body .split-pane #page-two #entries .entry .severity label, body .split-pane #page-two #entries .entry .reliability label {
-          vertical-align: super;
-          margin-right: 16px; }
-        body .split-pane #page-two #entries .entry .reliability ._1 {
-          background-color: #aab0ed; }
-        body .split-pane #page-two #entries .entry .reliability ._2 {
-          background-color: #7f88e5; }
-        body .split-pane #page-two #entries .entry .reliability ._3 {
-          background-color: #5561dc; }
-        body .split-pane #page-two #entries .entry .reliability ._4 {
-          background-color: #2b3ad3; }
-        body .split-pane #page-two #entries .entry .reliability ._5 {
-          background-color: #232fa8; }
-        body .split-pane #page-two #entries .entry .severity ._1 {
-          background-color: #f9d9d9; }
-        body .split-pane #page-two #entries .entry .severity ._2 {
-          background-color: #f2adad; }
-        body .split-pane #page-two #entries .entry .severity ._3 {
-          background-color: #ec8080; }
-        body .split-pane #page-two #entries .entry .severity ._4 {
-          background-color: #e55454; }
-        body .split-pane #page-two #entries .entry .severity ._5 {
-          background-color: #de2828; }
-        body .split-pane #page-two #entries .entry .pillar, body .split-pane #page-two #entries .entry .sub-pillar, body .split-pane #page-two #entries .entry .sector, body .split-pane #page-two #entries .entry .sub-sector {
-          padding: 10px 24px;
+        body #page-two #entries .entry .row:first-child {
+          margin-bottom: 8px; }
+        body #page-two #entries .entry .severity, body #page-two #entries .entry .reliability {
+          cursor: pointer; }
+          body #page-two #entries .entry .severity span, body #page-two #entries .entry .reliability span {
+            width: 16px;
+            height: 16px;
+            background-color: #ccc;
+            display: inline-block;
+            cursor: pointer; }
+          body #page-two #entries .entry .severity label, body #page-two #entries .entry .reliability label {
+            vertical-align: super;
+            margin-right: 16px; }
+        body #page-two #entries .entry .reliability {
+          cursor: pointer; }
+          body #page-two #entries .entry .reliability ._1 {
+            background-color: #aab0ed; }
+          body #page-two #entries .entry .reliability ._2 {
+            background-color: #7f88e5; }
+          body #page-two #entries .entry .reliability ._3 {
+            background-color: #5561dc; }
+          body #page-two #entries .entry .reliability ._4 {
+            background-color: #2b3ad3; }
+          body #page-two #entries .entry .reliability ._5 {
+            background-color: #232fa8; }
+          body #page-two #entries .entry .reliability .active {
+            transform: scale(1.2); }
+        body #page-two #entries .entry .severity {
+          cursor: pointer; }
+          body #page-two #entries .entry .severity ._1 {
+            background-color: #f2adad; }
+          body #page-two #entries .entry .severity ._2 {
+            background-color: #ec8080; }
+          body #page-two #entries .entry .severity ._3 {
+            background-color: #e55454; }
+          body #page-two #entries .entry .severity ._4 {
+            background-color: #de2828; }
+          body #page-two #entries .entry .severity ._5 {
+            background-color: #b71c1c; }
+          body #page-two #entries .entry .severity .active {
+            transform: scale(1.2); }
+        body #page-two #entries .entry .excerpt {
+          height: 96px; }
+        body #page-two #entries .entry #geo-location {
+          margin-top: 4px; }
+        body #page-two #entries .entry #geo-location, body #page-two #entries .entry #affected-group {
+          border: 3px solid #eee;
+          padding: 4px;
           background-color: #eee;
-          text-align: center; }
+          height: 64px; }
+          body #page-two #entries .entry #geo-location a, body #page-two #entries .entry #affected-group a {
+            float: right; }
+          body #page-two #entries .entry #geo-location .fa, body #page-two #entries .entry #affected-group .fa {
+            margin-right: 0; }
+        body #page-two #entries .entry #attributes {
+          display: flex;
+          flex-direction: column; }
+          body #page-two #entries .entry #attributes .attribute {
+            margin-bottom: 16px;
+            display: block; }
+            body #page-two #entries .entry #attributes .attribute .right {
+              background-color: #ddd;
+              padding: 8px 24px; }
+            body #page-two #entries .entry #attributes .attribute .left {
+              background-color: #f0f0f0;
+              padding: 8px 24px; }
+      body #page-two #entries .entry:nth-child(odd) {
+        background-color: #f5f5f5; }
 
 /*# sourceMappingURL=add-entry.css.map */
