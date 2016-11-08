@@ -5,7 +5,7 @@ body{
     height: 100vh;
     margin: 0;
     padding: 0;
-    background-color: #fafafa;
+    background-color: #f0f0f0;
 
     .fa{
         margin-right: 10px;
@@ -40,6 +40,65 @@ body{
                 .row{
                     margin-bottom: 24px;
                 }
+
+
+                #edit-entries-btn{
+                    float: right;
+                }
+                #excerpt-text{
+                    height: 96px;
+                }
+                .matrix-one{
+                    display: flex;
+                    flex-direction: column;
+
+                    .pillar{
+                        margin-top: 4px;
+                        margin-bottom: 4px;
+                        -webkit-user-select: none;
+
+                        .pillar-header{
+                            display: inline-block;
+                            padding: 24px;
+                            margin-right: 2px;
+                            background-color: #ccc;
+                        }
+                        .sub-pillar{
+                            display: inline-block;
+                            padding: 24px;
+                            margin-right: 2px;
+                            cursor: pointer;
+                            background-color: #eee;
+                            transition: 0.2s all ease-in-out;
+                        }
+                        .active{
+                            transform: scaleY(1.1), scaleX(1.02);
+                            background-color: $primary-color;
+                            color: #fff;
+                        }
+                    }
+                }
+                #matrix-two{
+                    width: 100%;
+                    border-spacing: 4px;
+                    border-collapse: separate;
+
+                    .sector {
+                        width: 7%;
+                    }
+
+                    .pillar-header {
+
+                    }
+                    .sub-pillar {
+
+                    }
+
+                    .attribute-block {
+                        background-color: #ccc;
+                    }
+                }
+
             }
         }
         #edit-entries-btn{
@@ -93,8 +152,12 @@ body{
                 padding: 24px;
                 padding-bottom: 0;
                 background-color: #fff;
-                border-bottom: 1px solid #ddd;
+                border: 3px solid #eee;
+                border-top: none;
 
+                .row:first-child{
+                    margin-bottom: 8px;
+                }
                 .severity, .reliability{
                     cursor: pointer;
 
@@ -175,8 +238,8 @@ body{
                     }
                 }
             }
-            .entry:nth-child(even){
-                background-color: #fafafa;
+            .entry:nth-child(odd){
+                background-color: #f5f5f5;
             }
         }
     }

@@ -50,53 +50,44 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="pillars">
+                        <div class="matrix-one">                            
+                            {% for pillar in pillars_one %}
                             <div class="pillar">
-                                <div class="pillar-header">
-                                    Bla Blu header
-                                </div>
-                                <div class="sub-pillar">
-                                    Bla Blu
-                                </div>
-                                <div class="sub-pillar">
-                                    Bla Blu
-                                </div>
-                                <div class="sub-pillar">
-                                    Bla Blu
-                                </div>
-                                <div class="sub-pillar">
-                                    Bla Blu
-                                </div>
+                                <div class="pillar-header">{{pillar}}</div>
+                                {% for subpillar in pillar.informationsubpillar_set.all %}
+                                <div class="sub-pillar">{{subpillar}}</div>
+                                {% endfor %}
                             </div>
-                            <div class="pillar">
-                                <div class="pillar-header">
-                                    Bla Blu header
-                                </div>
-                                <div class="sub-pillar">
-                                    Bla Blu bleh fl
-                                </div>
-                                <div class="sub-pillar">
-                                    Bla Blu
-                                </div>
-                                <div class="sub-pillar">
-                                    Bla Blu
-                                </div>
-                                <div class="sub-pillar">
-                                    Bla Blu
-                                </div>
-                            </div>
-                            <div class="pillar">
-                                <div class="pillar-header">
-                                    Bla Blu header
-                                </div>
-                                <div class="sub-pillar">
-                                    Bla Blu
-                                </div>
-                                <div class="sub-pillar">
-                                    Bla Blu
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table id="matrix-two">
+                            <thead>
+                                <td><td>
+                                {% for sector in sectors %}
+                                <td class="sector">{{sector}}</td>
+                                {% endfor %}
+                            </thead>
+                            <tbody>
+                                {% for pillar in pillars_two %}
+                                {% for subpillar in pillar.informationsubpillar_set.all %}
+                                <tr>
+                                    {% if forloop.first %}
+                                    <td class="pillar-header" rowspan="{{pillar.informationsubpillar_set.count}}">
+                                        {{pillar}}
+                                    </td>
+                                    {% endif %}
+                                    <td class="subpillar">{{subpillar}}</td>
+
+                                    {% for sector in sectors %}<td class="attribute-block"></td>{% endfor %}
+                                </tr>
+                                {% endfor %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

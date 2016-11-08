@@ -81,6 +81,11 @@ class AddEntry(View):
         context["event"] = Event.objects.get(pk=event)
         context["dummy_list"] = range(5)
         # context["all_events"] = Event.objects.all()
+
+        context["pillars_one"] = InformationPillar.objects.filter(contains_sectors=False)
+        context["pillars_two"] = InformationPillar.objects.filter(contains_sectors=True)
+        context["sectors"] = Sector.objects.all()
+
         UserProfile.set_last_event(request, context["event"])
         return render(request, "entries/add-entry.html", context)
 
