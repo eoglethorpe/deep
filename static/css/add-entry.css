@@ -49,7 +49,7 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0;
-  background-color: #f0f0f0; }
+  background-color: #fafafa; }
   body .fa {
     margin-right: 10px; }
   body .fa-long-arrow-right {
@@ -112,10 +112,7 @@ body {
         padding: 24px;
         padding-bottom: 0;
         background-color: #fff;
-        border: 3px solid #eee;
-        border-top: none; }
-        body #page-two #entries .entry .row:first-child {
-          margin-bottom: 8px; }
+        border-bottom: 1px solid #ddd; }
         body #page-two #entries .entry .severity, body #page-two #entries .entry .reliability {
           cursor: pointer; }
           body #page-two #entries .entry .severity span, body #page-two #entries .entry .reliability span {
@@ -180,7 +177,7 @@ body {
             body #page-two #entries .entry #attributes .attribute .left {
               background-color: #f0f0f0;
               padding: 8px 24px; }
-      body #page-two #entries .entry:nth-child(odd) {
-        background-color: #f5f5f5; }
+      body #page-two #entries .entry:nth-child(even) {
+        background-color: #fafafa; }
 
 /*# sourceMappingURL=add-entry.css.map */
