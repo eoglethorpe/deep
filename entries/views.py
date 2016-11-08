@@ -12,6 +12,7 @@ from entries.models import *
 from entries.strippers import *
 # from . import export_xls, export_docx, export_fields
 from entries.refresh_pcodes import *
+from leads.views import get_simplified_lead
 
 import os
 import json
@@ -76,11 +77,17 @@ class AddEntry(View):
     def get(self, request, event, lead_id=None, id=None):
         refresh_pcodes()
 
+        if not id:
+            lead = Lead.objects.get(pk=lead_id)
+
         context = {}
         context["current_page"] = "entries"
         context["event"] = Event.objects.get(pk=event)
         context["dummy_list"] = range(5)
         # context["all_events"] = Event.objects.all()
+
+        context["lead"] = lead
+        get_simplified_lead(lead, context)
 
         context["pillars_one"] = InformationPillar.objects.filter(contains_sectors=False)
         context["pillars_two"] = InformationPillar.objects.filter(contains_sectors=True)

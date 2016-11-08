@@ -18,6 +18,43 @@ from entries.refresh_pcodes import refresh_pcodes
 from excel_writer import ExcelWriter, RowCollection
 
 
+def get_simplified_lead(lead, context):
+    # Find simplified version of the lead content.
+    # Make sure to catch any exception.
+
+    try:
+        if lead.lead_type == "URL":
+            doc = WebDocument(lead.url)
+
+            if doc.html:
+                context["lead_simplified"] = \
+                    HtmlStripper(doc.html).simplify()
+            elif doc.pdf:
+                context["lead_simplified"] = \
+                    PdfStripper(doc.pdf).simplify()
+
+        elif lead.lead_type == "MAN":
+            context["lead_simplified"] = lead.description
+
+        elif lead.lead_type == "ATT":
+            attachment = lead.attachment
+            try:
+                name, extension = os.path.splitext(attachment.upload.name)
+            except:
+                name, extension = attachment.upload.name, ""
+            if extension == ".pdf":
+                context["lead_simplified"] = \
+                    PdfStripper(attachment.upload).simplify()
+            elif extension in [".html", ".htm"]:
+                context["lead_simplified"] = \
+                    HtmlStripper(attachment.upload.read()).simplify()
+            else:
+                context["lead_simplified"] = attachment.upload.read()
+    except:
+        # print("Error while simplifying")
+        pass
+
+
 def get_lead_form_data():
     """ Get data required to construct "Add Lead" form.
     """
@@ -71,40 +108,7 @@ class AddSoS(View):
         context["lead"] = Lead.objects.get(pk=lead_id)
         lead = context["lead"]
 
-        # Find simplified version of the lead content.
-        # Make sure to catch any exception.
-
-        try:
-            if lead.lead_type == "URL":
-                doc = WebDocument(lead.url)
-
-                if doc.html:
-                    context["lead_simplified"] = \
-                        HtmlStripper(doc.html).simplify()
-                elif doc.pdf:
-                    context["lead_simplified"] = \
-                        PdfStripper(doc.pdf).simplify()
-
-            elif lead.lead_type == "MAN":
-                context["lead_simplified"] = lead.description
-
-            elif lead.lead_type == "ATT":
-                attachment = lead.attachment
-                try:
-                    name, extension = os.path.splitext(attachment.upload.name)
-                except:
-                    name, extension = attachment.upload.name, ""
-                if extension == ".pdf":
-                    context["lead_simplified"] = \
-                        PdfStripper(attachment.upload).simplify()
-                elif extension in [".html", ".htm"]:
-                    context["lead_simplified"] = \
-                        HtmlStripper(attachment.upload.read()).simplify()
-                else:
-                    context["lead_simplified"] = attachment.upload.read()
-        except:
-            # print("Error while simplifying")
-            pass
+        get_simplified_lead(lead, context)
 
         # Get fields options
         context["proximities"] = ProximityToSource.objects.all()
