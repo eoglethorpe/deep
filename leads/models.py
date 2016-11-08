@@ -137,12 +137,18 @@ class ProximityToSource(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Proximity to Sources"
+
 
 class UnitOfAnalysis(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Units of Analysis"
 
 
 class DataCollectionTechnique(models.Model):
@@ -151,6 +157,10 @@ class DataCollectionTechnique(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Data Collection Techniques"
+
+
 
 class SamplingType(models.Model):
     name = models.CharField(max_length=100)
@@ -158,6 +168,8 @@ class SamplingType(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Sampling Types"
 
 class SectorQuantification(models.Model):
     name = models.CharField(max_length=100)
@@ -174,12 +186,17 @@ class SectorAnalyticalValue(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Sector Analytical Values"
 
 class AssessmentFrequency(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Assessment Frequencies"
 
 
 class AssessmentConfidentiality(models.Model):
@@ -188,12 +205,18 @@ class AssessmentConfidentiality(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Assessment Confidentialities"
+
 
 class AssessmentStatus(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Assessment Statuses"
 
 
 class SurveyOfSurvey(models.Model):
@@ -226,6 +249,10 @@ class SurveyOfSurvey(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name_plural = "Survey of Surveys"
+
+
 
 class SectorCovered(models.Model):
     name = models.CharField(max_length=100)
@@ -236,3 +263,7 @@ class SectorCovered(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Sectors Covered"
+

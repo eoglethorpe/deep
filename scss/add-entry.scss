@@ -26,6 +26,23 @@ body{
                 width: 40em;
                 box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.3);
                 background-color: #fff;
+                padding: 16px;
+
+                .fa{
+                    margin-right: 0;
+                }
+
+                #lead-options-container{
+                    padding: 2px;
+
+                    #zoom-buttons{
+                        text-align: right;
+
+                        .fa{
+                            font-size: 1.2em;
+                        }
+                    }
+                }
             }
             #divider{
                 left: 40em;
@@ -95,18 +112,18 @@ body{
                     }
 
                     .pillar-header {
-
+                        background-color: #f7caac;
                     }
-                    .sub-pillar {
-
+                    .subpillar {
+                        background-color: lighten(#f7caac, 5%);
                     }
 
                     .attribute-block {
-                        background-color: #ccc;
+                        background-color: lighten(#f7caac, 10%);
                         cursor: pointer;
                     }
                     .attribute-block.active {
-                        background-color: #333;
+                        background-color: darken(#f7caac, 30%);;
                     }
                 }
 
@@ -151,6 +168,7 @@ body{
     }
     #page-two{
         padding-top: 24px;
+
 
         #entries{
             padding-top: 24px;

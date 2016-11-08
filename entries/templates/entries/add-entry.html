@@ -40,13 +40,21 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
             {% if lead_simplified %}
             <div id="lead-options-container">
-                <div class="btn-group" data-toggle="buttons" {% if lead.lead_type == 'MAN' %} style="display:none;" {% endif %}>
-                    <label class="btn btn-default radio-inline active"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
-                    <label class="btn btn-default radio-inline"><input type="radio" name="lead-view-option" value="original">Original</label>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="btn-group" data-toggle="buttons" {% if lead.lead_type == 'MAN' %} style="display:none;" {% endif %}>
+                            <label class="btn btn-default radio-inline active"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
+                            <label class="btn btn-default radio-inline"><input type="radio" name="lead-view-option" value="original">Original</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div id="zoom-buttons">
+                            <button class="btn btn-regular btn-zoom" id="zoom-out" data-toggle="tooltip" title="zoom out"><i class="fa fa-search-minus"></i></button>
+                            <button class="btn btn-regular btn-zoom" id="zoom-in" data-toggle="tooltip" title="zoom in"><i class="fa fa-search-plus"></i></button>
+                            <div id="tag-buttons" style="max-height:200px; overflow:auto;"></div>
+                        </div>
+                    </div>
                 </div>
-                <button class="btn btn-regular btn-zoom" id="zoom-out" data-toggle="tooltip" title="zoom out"><i class="fa fa-search-minus"></i></button>
-                <button class="btn btn-regular btn-zoom" id="zoom-in" data-toggle="tooltip" title="zoom in"><i class="fa fa-search-plus"></i></button>
-                <div id="tag-buttons" style="max-height:200px; overflow:auto;"></div>
             </div>
             {% endif %}
 
@@ -90,7 +98,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                             <div class="pillar">
                                 <div class="pillar-header">{{pillar}}</div>
                                 {% for subpillar in pillar.informationsubpillar_set.all %}
-                                <div class="sub-pillar">{{subpillar}}</div>
+                                <div class="sub-pillar" data-pillar-id="{{pillar.pk}}" data-subpillar-id="{{subpillar.pk}}">{{subpillar}}</div>
                                 {% endfor %}
                             </div>
                             {% endfor %}
@@ -117,7 +125,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                                     {% endif %}
                                     <td class="subpillar">{{subpillar}}</td>
 
-                                    {% for sector in sectors %}<td class="attribute-block"></td>{% endfor %}
+                                    {% for sector in sectors %}<td class="attribute-block" data-pillar-id="{{pillar.pk}}" data-subpillar-id="{{subpillar.pk}}" data-sector-id="{{sector.pk}}"></td>{% endfor %}
                                 </tr>
                                 {% endfor %}
                                 {% endfor %}
