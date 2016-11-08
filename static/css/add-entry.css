@@ -86,15 +86,17 @@ body {
           -webkit-user-select: none; }
           body #page-one .split-pane #right-component #matrix-one .pillar .pillar-header {
             display: inline-block;
-            padding: 24px;
+            padding: 8px 10px;
             margin-right: 2px;
-            background-color: #ccc; }
+            background-color: #fff;
+            text-align: center;
+            width: 192px; }
           body #page-one .split-pane #right-component #matrix-one .pillar .sub-pillar {
             display: inline-block;
-            padding: 24px;
+            padding: 8px 10px;
             margin-right: 2px;
             cursor: pointer;
-            background-color: #eee;
+            background-color: #ddd;
             transition: 0.2s all ease-in-out; }
           body #page-one .split-pane #right-component #matrix-one .pillar .active {
             transform: scaleY(1.1), scaleX(1.02);
@@ -104,6 +106,9 @@ body {
         width: 100%;
         border-spacing: 4px;
         border-collapse: separate; }
+        body #page-one .split-pane #right-component #matrix-two td {
+          padding: 6px;
+          text-align: center; }
         body #page-one .split-pane #right-component #matrix-two .sector {
           width: 7%; }
         body #page-one .split-pane #right-component #matrix-two .attribute-block {
