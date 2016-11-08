@@ -62,16 +62,22 @@ body {
     body #page-one .split-pane #left-component {
       width: 40em;
       box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.3);
-      background-color: #fff;
-      padding: 16px; }
+      background-color: #fff; }
       body #page-one .split-pane #left-component .fa {
         margin-right: 0; }
       body #page-one .split-pane #left-component #lead-options-container {
-        padding: 2px; }
+        padding: 16px;
+        margin-bottom: 4px;
+        height: 48px; }
         body #page-one .split-pane #left-component #lead-options-container #zoom-buttons {
           text-align: right; }
           body #page-one .split-pane #left-component #lead-options-container #zoom-buttons .fa {
             font-size: 1.2em; }
+      body #page-one .split-pane #left-component #lead-preview-container #lead-preview {
+        height: calc(100vh - 70px - 82px);
+        box-sizing: border-box;
+        width: 100%;
+        border: none; }
     body #page-one .split-pane #divider {
       left: 40em;
       width: 3px;
