@@ -31,6 +31,9 @@ class HumanProfileField(models.Model):
             return self.name + " [" + self.parent.name + "]"
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Humanitarian Profile Fields"
+
 
 class PeopleInNeedField(models.Model):
     name = models.CharField(max_length=100)
@@ -41,6 +44,10 @@ class PeopleInNeedField(models.Model):
             return self.name + " [" + self.parent.name + "]"
         return self.name
 
+    class Meta:
+        verbose_name_plural = "PIN Fields"
+
+
 
 class HumanAccessField(models.Model):
     name = models.CharField(max_length=100)
@@ -48,12 +55,18 @@ class HumanAccessField(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Humanitarian Access Fields"
+
 
 class HumanAccessPinField(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Humanitarian Access PIN Fields"
 
 
 class WeeklyReport(models.Model):
@@ -71,7 +84,7 @@ class WeeklyReport(models.Model):
 
     class Meta:
         ordering = [ '-start_date' ]
-
+        verbose_name_plural = "Weekly Reports"
 
 class DisasterType(models.Model):
     name = models.CharField(max_length=200)
@@ -80,6 +93,8 @@ class DisasterType(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Disaster Types"
 
 class ReportStatus(models.Model):
     name = models.CharField(max_length=100)
@@ -87,9 +102,16 @@ class ReportStatus(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Report Statuses"
+
 
 class CategoryTimeline(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Category Timelines"
+
