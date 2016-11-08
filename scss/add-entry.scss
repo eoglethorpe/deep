@@ -38,7 +38,7 @@ body{
                 #excerpt-text{
                     height: 96px;
                 }
-                #pillars{
+                .matrix-one{
                     display: flex;
                     flex-direction: column;
 
@@ -62,9 +62,30 @@ body{
                             transition: 0.2s all ease-in-out;
                         }
                         .active{
-                            transform: scaleY(1.1);
+                            transform: scaleY(1.1), scaleX(1.02);
                             background-color: $primary-color;
                             color: #fff;
+                        }
+                    }
+                }
+                #matrix-two{
+
+                    .pillar{
+                        display: flex;
+                        flex-direction: row;
+
+                        .pillar-header{
+
+                        }
+
+                        .sub-pillar{
+
+                            .attribute-block{
+                                display: inline-block;
+                                width: 48px;
+                                height: 16px;
+                                background-color: #102;
+                            }
                         }
                     }
                 }

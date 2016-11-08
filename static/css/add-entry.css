@@ -71,29 +71,37 @@ body {
         float: right; }
       body .split-pane #right-component #page-one #excerpt-text {
         height: 96px; }
-      body .split-pane #right-component #page-one #pillars {
+      body .split-pane #right-component #page-one .matrix-one {
         display: flex;
         flex-direction: column; }
-        body .split-pane #right-component #page-one #pillars .pillar {
+        body .split-pane #right-component #page-one .matrix-one .pillar {
           margin-top: 4px;
           margin-bottom: 4px;
           -webkit-user-select: none; }
-          body .split-pane #right-component #page-one #pillars .pillar .pillar-header {
+          body .split-pane #right-component #page-one .matrix-one .pillar .pillar-header {
             display: inline-block;
             padding: 24px;
             margin-right: 2px;
             background-color: #ccc; }
-          body .split-pane #right-component #page-one #pillars .pillar .sub-pillar {
+          body .split-pane #right-component #page-one .matrix-one .pillar .sub-pillar {
             display: inline-block;
             padding: 24px;
             margin-right: 2px;
             cursor: pointer;
             background-color: #eee;
             transition: 0.2s all ease-in-out; }
-          body .split-pane #right-component #page-one #pillars .pillar .active {
-            transform: scaleY(1.1);
+          body .split-pane #right-component #page-one .matrix-one .pillar .active {
+            transform: scaleY(1.1), scaleX(1.02);
             background-color: #008080;
             color: #fff; }
+      body .split-pane #right-component #page-one #matrix-two .pillar {
+        display: flex;
+        flex-direction: row; }
+        body .split-pane #right-component #page-one #matrix-two .pillar .sub-pillar .attribute-block {
+          display: inline-block;
+          width: 48px;
+          height: 16px;
+          background-color: #102; }
     body .split-pane #page-two #entries {
       padding-top: 24px; }
       body .split-pane #page-two #entries h3 {
