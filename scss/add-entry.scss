@@ -79,24 +79,23 @@ body{
                     }
                 }
                 #matrix-two{
+                    width: 100%;
+                    border-spacing: 4px;
+                    border-collapse: separate;
 
-                    .pillar{
-                        display: flex;
-                        flex-direction: row;
+                    .sector {
+                        width: 7%;
+                    }
 
-                        .pillar-header{
+                    .pillar-header {
 
-                        }
+                    }
+                    .sub-pillar {
 
-                        .sub-pillar{
+                    }
 
-                            .attribute-block{
-                                display: inline-block;
-                                width: 48px;
-                                height: 16px;
-                                background-color: #102;
-                            }
-                        }
+                    .attribute-block {
+                        background-color: #ccc;
                     }
                 }
 

@@ -100,14 +100,14 @@ body {
             transform: scaleY(1.1), scaleX(1.02);
             background-color: #008080;
             color: #fff; }
-      body #page-one .split-pane #right-component #matrix-two .pillar {
-        display: flex;
-        flex-direction: row; }
-        body #page-one .split-pane #right-component #matrix-two .pillar .sub-pillar .attribute-block {
-          display: inline-block;
-          width: 48px;
-          height: 16px;
-          background-color: #102; }
+      body #page-one .split-pane #right-component #matrix-two {
+        width: 100%;
+        border-spacing: 4px;
+        border-collapse: separate; }
+        body #page-one .split-pane #right-component #matrix-two .sector {
+          width: 7%; }
+        body #page-one .split-pane #right-component #matrix-two .attribute-block {
+          background-color: #ccc; }
   body #page-one #edit-entries-btn {
     float: right; }
   body #page-one #excerpt-text {
