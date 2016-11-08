@@ -46,4 +46,14 @@ $(document).ready(function(){
         });
     });
 
+    $('.reliability span').click(function(){
+     $('.reliability span').removeClass('active');
+     $(this).addClass('active');
+    });
+
+    $('.severity span').click(function(){
+     $('.severity span').removeClass('active');
+     $(this).addClass('active');
+    });
+
 });

@@ -79,6 +79,7 @@ class AddEntry(View):
         context = {}
         context["current_page"] = "entries"
         context["event"] = Event.objects.get(pk=event)
+        context["dummy_list"] = range(5)
         # context["all_events"] = Event.objects.all()
 
         context["pillars_one"] = InformationPillar.objects.filter(contains_sectors=False)

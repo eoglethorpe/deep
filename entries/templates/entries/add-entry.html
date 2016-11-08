@@ -23,7 +23,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
 {% block body %}
 {% include 'navbar.html' %}
-<div id="page-one">
+<div id="page-one" hidden>
     <div class="split-pane fixed-left">
         <div class="split-pane-component" id="left-component">
             <div class="container-fluid">
@@ -50,7 +50,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="pillars">
+                        <div class="matrix-one">                            
                             {% for pillar in pillars_one %}
                             <div class="pillar">
                                 <div class="pillar-header">{{pillar}}</div>
@@ -62,85 +62,187 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="matrix-two">
+                            <div class="pillar">
+                                <div class="pillar-header">
+                                    Scope and Scale
+                                </div>
+                                <div class="sub-pillar">
+                                    Drivers
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                </div>
+                                <div class="sub-pillar">
+                                    Aggrav. fact
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                </div>
+                                <div class="sub-pillar">
+                                    Syst. Disrupt.
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                </div>
+                                <div class="sub-pillar">
+                                    Hum. Issues
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                    <div class="attribute-block">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<div id="page-two" hidden>
+<div id="page-two">
     <div class="container-fluid">
         <div style="text-align: right">
             <button id="back-to-excerpts-btn"  class="btn btn-primary"><i class="fa fa-long-arrow-left"></i>Back to excerpts</button>
         </div>
         <div id="entries">
+
+            {% for i in dummy_list %}
             <div class="entry">
                 <div class="row">
                     <div class="col-md-3">
-                        <h3>Entry #1</h3>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="reliability">
-                            <label>Reliability </label>
-                            <span class="_1"></span>
-                            <span class="_2"></span>
-                            <span class="_3"></span>
-                            <span class="_4"></span>
-                            <span class="_5"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="severity">
-                            <label>Severity </label>
-                            <span class="_1"></span>
-                            <span class="_2"></span>
-                            <span class="_3"></span>
-                            <span class="_4"></span>
-                            <span class="_5"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" placeholder="Date">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-5">
-                        <label>Excerpt:</label>
                         <textarea class="form-control excerpt" >The first level is only drag and drop. Pieces of text are selected from the lead and dragged and dropped into the appropriatebox on the right pane.</textarea>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-1">
+                        <div class="reliability">
+                            <label>Reliability </label><br>
+                            <span class="_1"></span>
+                            <span class="_2"></span>
+                            <span class="_3"></span>
+                            <span class="_4"></span>
+                            <span class="_5"></span>
+                        </div>
+                        <div class="severity">
+                            <label>Severity </label><br>
+                            <span class="_1"></span>
+                            <span class="_2"></span>
+                            <span class="_3"></span>
+                            <span class="_4"></span>
+                            <span class="_5"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-1">
+                        <input type="text" class="form-control form-group" placeholder="Date">
+                        <input type="text" class="form-control form-group" placeholder="Number">
+                    </div>
+
+                    <div class="col-md-2">
                         <select class="form-control form-group">
                             <option>Select vulnerable group</option>
                         </select>
                         <select class="form-control form-group">
-                            <option>Select affected group</option>
+                            <option>Select specific need group</option>
                         </select>
                     </div>
-                </div>
-                <div id="attributes">
-                    <div class="attribute">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="pillar">pillar</div>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div id="affected-group">
+                                    <label>Affected groups:</label><a class="btn btn-primary btn-sm"><i class="fa fa-line-chart"></i></a>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="sub-pillar">sub pillar</div>
+                                <div id="geo-location">
+                                    <label>Geo locations:</label><a class="btn btn-primary btn-sm"><i class="fa fa-map"></i></a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="sector">sector</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="sub-sector">sub sector</div>
+                            <div class="col-md-7">
+                                <div id="attributes">
+                                    <div class="attribute">
+                                        <span class="left">
+                                            <span class="pillar">pillar1</span> / <span class="sub-pillar">subpillar</span>
+                                        </span>
+                                        <span class="right">
+                                            <span class="sector">sector1</span> / <a class="pillar">sub-sector</a>
+                                        </span>
+                                    </div>
+                                    <div class="attribute">
+                                        <span class="left">
+                                            <span class="pillar">pillar1</span> / <span class="sub-pillar">subpillar</span>
+                                        </span>
+                                        <span class="right">
+                                            <span class="sector">sector1</span> / <a class="pillar">sub-sector</a>
+                                        </span>
+                                    </div>
+
+                                    <div class="attribute">
+                                        <span class="left">
+                                            <span class="pillar">pillar1</span> / <span class="sub-pillar">subpillar</span>
+                                        </span>
+                                        <span class="right">
+                                            <span class="sector">sector1</span> / <a class="pillar">sub-sector</a>
+                                        </span>
+                                    </div>
+                                    <div class="attribute">
+                                        <span class="left">
+                                            <span class="pillar">pillar1</span> / <span class="sub-pillar">subpillar</span>
+                                        </span>
+                                        <span class="right">
+                                            <span class="sector">sector1</span> / <a class="pillar">sub-sector</a>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
+            {% endfor %}
         </div>
     </div>
 </div>

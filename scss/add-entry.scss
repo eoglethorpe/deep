@@ -7,6 +7,14 @@ body{
     padding: 0;
     background-color: #f0f0f0;
 
+    .fa{
+        margin-right: 10px;
+    }
+    .fa-long-arrow-right{
+        margin-right: 0;
+        margin-left: 10px;
+    }
+
     #page-one{
         .split-pane{
             height: calc(100vh - #{$navbar-height} - 2px)!important;
@@ -33,14 +41,64 @@ body{
                     margin-bottom: 24px;
                 }
 
-                .fa{
-                    margin-right: 10px;
-                }
-                .fa-long-arrow-right{
-                    margin-right: 0;
-                    margin-left: 10px;
-                }
 
+                #edit-entries-btn{
+                    float: right;
+                }
+                #excerpt-text{
+                    height: 96px;
+                }
+                .matrix-one{
+                    display: flex;
+                    flex-direction: column;
+
+                    .pillar{
+                        margin-top: 4px;
+                        margin-bottom: 4px;
+                        -webkit-user-select: none;
+
+                        .pillar-header{
+                            display: inline-block;
+                            padding: 24px;
+                            margin-right: 2px;
+                            background-color: #ccc;
+                        }
+                        .sub-pillar{
+                            display: inline-block;
+                            padding: 24px;
+                            margin-right: 2px;
+                            cursor: pointer;
+                            background-color: #eee;
+                            transition: 0.2s all ease-in-out;
+                        }
+                        .active{
+                            transform: scaleY(1.1), scaleX(1.02);
+                            background-color: $primary-color;
+                            color: #fff;
+                        }
+                    }
+                }
+                #matrix-two{
+
+                    .pillar{
+                        display: flex;
+                        flex-direction: row;
+
+                        .pillar-header{
+
+                        }
+
+                        .sub-pillar{
+
+                            .attribute-block{
+                                display: inline-block;
+                                width: 48px;
+                                height: 16px;
+                                background-color: #102;
+                            }
+                        }
+                    }
+                }
 
             }
         }
@@ -93,19 +151,23 @@ body{
             }
             .entry{
                 padding: 24px;
+                padding-bottom: 0;
                 background-color: #fff;
                 border: 3px solid #eee;
                 border-top: none;
 
-                .row{
-                    margin-bottom: 16px;
+                .row:first-child{
+                    margin-bottom: 8px;
                 }
                 .severity, .reliability{
+                    cursor: pointer;
+
                     span{
                         width: 16px;
-                        height: 24px;
+                        height: 16px;
                         background-color: #ccc;
                         display: inline-block;
+                        cursor: pointer;
                     }
                     label{
                         vertical-align: super;
@@ -116,30 +178,69 @@ body{
 
                 $reliability-base: #1A237E;
                 .reliability{
+                    cursor: pointer;
                     ._1{ background-color: lighten($reliability-base, 50%); }
                     ._2{ background-color: lighten($reliability-base, 40%); }
                     ._3{ background-color: lighten($reliability-base, 30%);  }
                     ._4{ background-color: lighten($reliability-base, 20%); }
                     ._5{ background-color: lighten($reliability-base, 10%); }
+                    .active{ transform: scale(1.2); }
                 }
                 $severity-base: #B71C1C;
                 .severity{
-                    ._1{ background-color: lighten($severity-base, 50%); }
-                    ._2{ background-color: lighten($severity-base, 40%); }
-                    ._3{ background-color: lighten($severity-base, 30%);  }
-                    ._4{ background-color: lighten($severity-base, 20%); }
-                    ._5{ background-color: lighten($severity-base, 10%); }
+                    cursor: pointer;
+                    ._1{ background-color: lighten($severity-base, 40%); }
+                    ._2{ background-color: lighten($severity-base, 30%); }
+                    ._3{ background-color: lighten($severity-base, 20%);  }
+                    ._4{ background-color: lighten($severity-base, 10%); }
+                    ._5{ background-color: lighten($severity-base, 0%); }
+                    .active{ transform: scale(1.2); }
                 }
 
                 .excerpt{
                     height: 96px;
                 }
-
-                .pillar, .sub-pillar, .sector, .sub-sector{
-                    padding: 10px 24px;
-                    background-color: #eee;
-                    text-align: center;
+                #geo-location{
+                    margin-top: 4px;
                 }
+                #geo-location, #affected-group{
+                    border: 3px solid #eee;
+                    padding: 4px;
+                    background-color: #eee;
+                    height: 64px;
+
+                    a{
+                        float: right;
+                    }
+                    .fa{
+                        margin-right: 0;
+                    }
+                }
+
+                #attributes{
+                    display: flex;
+                    flex-direction: column;
+
+
+                    .attribute{
+                        margin-bottom: 16px;
+                        display: block;
+
+                        .right{
+                            background-color: #ddd;
+                            padding: 8px 24px;
+                        }
+                        .left{
+                            background-color: #f0f0f0;
+                            padding: 8px 24px;
+                        }
+
+
+                    }
+                }
+            }
+            .entry:nth-child(odd){
+                background-color: #f5f5f5;
             }
         }
     }
