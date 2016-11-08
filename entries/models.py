@@ -108,6 +108,7 @@ class Sector(models.Model):
 
 
 class Subsector(models.Model):
+    sector = models.ForeignKey(Sector)
     name = models.CharField(max_length=150)
 
     def __str__(self):

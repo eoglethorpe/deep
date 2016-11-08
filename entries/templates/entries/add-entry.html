@@ -51,51 +51,14 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 <div class="row">
                     <div class="col-md-12">
                         <div id="pillars">
+                            {% for pillar in pillars_one %}
                             <div class="pillar">
-                                <div class="pillar-header">
-                                    Bla Blu header
-                                </div>
-                                <div class="sub-pillar">
-                                    Bla Blu
-                                </div>
-                                <div class="sub-pillar">
-                                    Bla Blu
-                                </div>
-                                <div class="sub-pillar">
-                                    Bla Blu
-                                </div>
-                                <div class="sub-pillar">
-                                    Bla Blu
-                                </div>
+                                <div class="pillar-header">{{pillar}}</div>
+                                {% for subpillar in pillar.informationsubpillar_set.all %}
+                                <div class="sub-pillar">{{subpillar}}</div>
+                                {% endfor %}
                             </div>
-                            <div class="pillar">
-                                <div class="pillar-header">
-                                    Bla Blu header
-                                </div>
-                                <div class="sub-pillar">
-                                    Bla Blu bleh fl
-                                </div>
-                                <div class="sub-pillar">
-                                    Bla Blu
-                                </div>
-                                <div class="sub-pillar">
-                                    Bla Blu
-                                </div>
-                                <div class="sub-pillar">
-                                    Bla Blu
-                                </div>
-                            </div>
-                            <div class="pillar">
-                                <div class="pillar-header">
-                                    Bla Blu header
-                                </div>
-                                <div class="sub-pillar">
-                                    Bla Blu
-                                </div>
-                                <div class="sub-pillar">
-                                    Bla Blu
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
