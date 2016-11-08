@@ -28,7 +28,7 @@ $(document).ready(function(){
     // Split screen for preview
     $('.split-pane').splitPane();
 
-    // Navigation buttons between pages    
+    // Navigation buttons between pages
     $('#edit-entries-btn').on('click', function(){
         $('#page-one').fadeOut(function(){
             $('#page-two').fadeIn();

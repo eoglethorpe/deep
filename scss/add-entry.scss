@@ -48,7 +48,7 @@ body{
                 #excerpt-text{
                     height: 96px;
                 }
-                .matrix-one{
+                #matrix-one{
                     display: flex;
                     flex-direction: column;
 
@@ -96,6 +96,7 @@ body{
 
                     .attribute-block {
                         background-color: #ccc;
+                        cursor: pointer;
                     }
                     .attribute-block.active {
                         background-color: #333;

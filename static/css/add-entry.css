@@ -77,26 +77,26 @@ body {
         float: right; }
       body #page-one .split-pane #right-component #excerpt-text {
         height: 96px; }
-      body #page-one .split-pane #right-component .matrix-one {
+      body #page-one .split-pane #right-component #matrix-one {
         display: flex;
         flex-direction: column; }
-        body #page-one .split-pane #right-component .matrix-one .pillar {
+        body #page-one .split-pane #right-component #matrix-one .pillar {
           margin-top: 4px;
           margin-bottom: 4px;
           -webkit-user-select: none; }
-          body #page-one .split-pane #right-component .matrix-one .pillar .pillar-header {
+          body #page-one .split-pane #right-component #matrix-one .pillar .pillar-header {
             display: inline-block;
             padding: 24px;
             margin-right: 2px;
             background-color: #ccc; }
-          body #page-one .split-pane #right-component .matrix-one .pillar .sub-pillar {
+          body #page-one .split-pane #right-component #matrix-one .pillar .sub-pillar {
             display: inline-block;
             padding: 24px;
             margin-right: 2px;
             cursor: pointer;
             background-color: #eee;
             transition: 0.2s all ease-in-out; }
-          body #page-one .split-pane #right-component .matrix-one .pillar .active {
+          body #page-one .split-pane #right-component #matrix-one .pillar .active {
             transform: scaleY(1.1), scaleX(1.02);
             background-color: #008080;
             color: #fff; }
@@ -107,7 +107,8 @@ body {
         body #page-one .split-pane #right-component #matrix-two .sector {
           width: 7%; }
         body #page-one .split-pane #right-component #matrix-two .attribute-block {
-          background-color: #ccc; }
+          background-color: #ccc;
+          cursor: pointer; }
         body #page-one .split-pane #right-component #matrix-two .attribute-block.active {
           background-color: #333; }
   body #page-one #edit-entries-btn {
