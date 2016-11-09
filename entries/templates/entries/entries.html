@@ -17,14 +17,143 @@ DEEP | Entries
 
 {% endblock %}
 
-{% block body %}<h2>Current Entries</h2>
+{% block body %}
 
 {% include 'navbar.html' %}
 
 <section id="main">
     <div class="container-fluid">
         <h2>Current Entries</h2>
+        <div class="row" id="filters">
+            <div class="col-sm-12">
+                <label>Apply filter:</label>
+            </div>
+            <div class="col-sm-3 col-md-2 col-xs-6">
+                <select id="date-created-filter" placeholder="Date Created">
+                    <option value="">Date Created</option>
+                    <option value="today">Today</option>
+                    <option value="yesterday">Yesterday</option>
+                    <option value="last-seven-days">Last 7 days</option>
+                    <option value="this-week">This week</option>
+                    <option value="last-thirty-days">Last 30 days</option>
+                    <option value="this-month">This month</option>
+                    <option value="range">Range</option>
+                </select>
+            </div>
+
+            <div class="col-sm-3 col-md-2 col-xs-6">
+                <select id="areas-filter" placeholder="Areas">
+                    <option value="">Areas</option>
+                    {% for area in areas %}
+                    <option value="{{area}}">{{area}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-3 col-md-2 col-xs-6">
+                <select id="sectors-filter" placeholder="Sectors">
+                    <option value="">Sectors</option>
+                    {% for sector, ss in sectors.items %}
+                    <option value="{{sector.name}}">{{sector.title}}</option>
+                    {% for subsector in ss %}
+                    <option value="{{subsector.name}}">{{subsector.title}}</option>
+                    {% endfor %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-3 col-md-2 col-xs-6">
+                <select id="affected-groups-filter" placeholder="Affected Groups">
+                    <option value="">Affected Groups</option>
+                    {% for group in affected_groups %}
+                    <option value="{{group}}">{{group}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-3 col-md-2 col-xs-6">
+                <select id="vulnerable-groups-filter" placeholder="Vulnerable groups">
+                    <option value="">Vulnerable groups</option>
+                    {% for vulnerable_group in vulnerable_groups %}
+                    <option value="{{vulnerable_group}}">{{vulnerable_group}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-3 col-md-2 col-xs-6">
+                <select id="specific-needs-groups-filter" placeholder="Specific Needs Groups">
+                    <option value="">Specific Needs Groups</option>
+                    {% for group in specific_needs_groups %}
+                    <option value="{{group}}">{{group}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div id="entries">
+            <div class="entry">
+                <h2></h2>
+                <div class="information-list">
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
+<div class="information-template" hidden>
+    <div class="row">
+        <div class="col-md-3">
+            <p class="excerpt" ></p>
+        </div>
+        <div class="col-md-1">
+            <div class="reliability">
+                <label>Reliability </label><br>
+                <span class="_1"></span>
+                <span class="_2"></span>
+                <span class="_3"></span>
+                <span class="_4"></span>
+                <span class="_5"></span>
+            </div>
+            <div class="severity">
+                <label>Severity </label><br>
+                <span class="_1"></span>
+                <span class="_2"></span>
+                <span class="_3"></span>
+                <span class="_4"></span>
+                <span class="_5"></span>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <p><label>Date:</label><br><span class="date"></span></p>
+            <p><label>Number:</label><br><span class="number"></span></p>
+        </div>
+        <div class="col-md-2">
+            <p><label>Vunerable groups selected:</label><br><span class="vulnerable-groups"></span></p>
+            <p><label>Specific need groups selected:</label></br><span class="sepecific-need-groups"></span></p>
+        </div>
+        <div class="col-md-5">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="affected-group">
+                        <label>Affected groups:</label>
+                        <div class="affected-group-list"></div>
+                    </div>
+                    <div class="geo-location">
+                        <label>Geo locations:</label>
+                        <div class="geo-locations-list"></div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="attribute-list">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="attribute-template" hidden>
+    <div class="row">
+        <div class="col-md-6">
+            <span class="pillar"></span> / <span class="sub-pillar"></span>
+        </div>
+        <div class="col-md-6">
+            <span class="sector"></span> / <span class="sub-sector"></span>
+        </div>
+    </div>
+</div>
 {% endblock %}

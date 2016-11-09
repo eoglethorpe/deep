@@ -1,6 +1,12 @@
 @import 'base';
 @import 'navbar';
 
+$background-color: #fafafa;
+
+body{
+    background-color: $background-color;
+}
+
 #main{
     h2{
         text-transform: uppercase;
@@ -14,44 +20,71 @@
     #filters{
         margin-bottom: 24px;
     }
+    #entries{
 
-    #entries-table{
-        tbody{
-            tr[role="row"]{
-                cursor: pointer;
-            }
+        .entry{
+            background-color: darken($background-color, 10%);
+            padding: 16px;
+            margin: 8px;
 
-            .odd, .odd+tr:not(.even){
-                background-color: #f0f0f0;
-            }
-            .even, .even+tr:not(.odd){
-                background-color: #fff;
-            }
-            .btn-edit .fa{
-                color: #9b59b6;
-            }
-            .btn-delete .fa{
-                color: #e74c3c;
-            }
-            .entry-detail{
-                padding: 10px 32px;
-                .fa{
-                    margin-right: 10px;
-                }
-                .row-header{
-                    text-align: right;
-                    button{
-                        margin: 10px;
+            .information{
+                background-color: lighten($background-color, 100%);
+                margin: 8px;
+                padding: 16px;
+
+                .severity, .reliability{
+                    margin-top: 8px;
+                    span{
+                        width: 16px;
+                        height: 16px;
+                        background-color: #ccc;
+                        display: inline-block;
+                        cursor: pointer;
                     }
+                    label{
+                        vertical-align: super;
+                        margin-right: 16px;
+                    }
+
                 }
 
-                .label-container{
-                    text-align: right;
+                $reliability-base: #1A237E;
+                .reliability{
+                    cursor: pointer;
+                    ._1{ background-color: lighten($reliability-base, 50%); }
+                    ._2{ background-color: lighten($reliability-base, 40%); }
+                    ._3{ background-color: lighten($reliability-base, 30%);  }
+                    ._4{ background-color: lighten($reliability-base, 20%); }
+                    ._5{ background-color: lighten($reliability-base, 10%); }
+                    .active{ transform: scale(1.2); }
+                }
+                $severity-base: #B71C1C;
+                .severity{
+                    cursor: pointer;
+                    ._1{ background-color: lighten($severity-base, 40%); }
+                    ._2{ background-color: lighten($severity-base, 30%); }
+                    ._3{ background-color: lighten($severity-base, 20%);  }
+                    ._4{ background-color: lighten($severity-base, 10%); }
+                    ._5{ background-color: lighten($severity-base, 0%); }
+                    .active{ transform: scale(1.2); }
                 }
 
-                hr{
-                    border-top-color: #ddd;
-                    margin: 6px;
+                p{
+                    padding: 8px;
+                }
+
+                .excerpt{
+                    height: 96px;
+                }
+
+                .geo-location{
+                    margin-top: 4px;
+                }
+                .geo-location, .affected-group{
+                    border: 3px solid #eee;
+                    padding: 4px;
+                    background-color: #eee;
+                    height: 64px;
                 }
             }
         }
