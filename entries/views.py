@@ -69,7 +69,7 @@ class EntriesView(View):
         context["event"] = Event.objects.get(pk=event)
         context["all_events"] = Event.objects.all()
         UserProfile.set_last_event(request, context["event"])
-        return HttpResponse("To be updated") # render(request, "entries/entries.html", context)
+        return render(request, "entries/entries.html", context)
 
 
 class AddEntry(View):

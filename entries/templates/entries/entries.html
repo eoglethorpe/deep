@@ -6,32 +6,8 @@ DEEP | Entries
 {% endblock %}
 
 {% block head %}
-<script>
-    var currentEvent = {{event.pk}};
-    var severities = {
-        {% for pt in severities %}
-        "{{pt.0}}":"{{pt.1}}",
-        {% endfor %}
-    };
-    var reliabilities = {
-        {% for pt in reliabilities %}
-        "{{pt.0}}":"{{pt.1}}",
-        {% endfor %}
-    };
-    var problemTimelines = {
-        {% for pt in problem_timelines %}
-        "{{pt.0}}":"{{pt.1}}",
-        {% endfor %}
-    };
-    var statuses = {
-        {% for status in statuses %}
-        "{{status.0}}":"{{status.1}}",
-        {% endfor %}
-    };
-</script>
+
 <link href="{% static 'css/entries.css' %}" type="text/css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="{% static 'css/datatables.min.css' %}"/>
-<link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.bootstrap.min.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/selectize.bootstrap3.css' %}"/>
 <script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
@@ -41,125 +17,14 @@ DEEP | Entries
 
 {% endblock %}
 
-{% block body %}
-
-
-<div id="date-range-input" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-body">
-                <h3 class="modal-title">Enter date range</h3>
-                <br>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <label>start date:</label><br>
-                        <input type="date" id="start-date" class="form-control">
-                    </div>
-                    <div class="col-sm-6">
-                        <label>end date:</label><br>
-                        <input type="date" id="end-date" class="form-control">
-                    </div>
-                </div>
-                <div style="margin-top: 24px; text-align: right;">
-                    <button type="button" class="btn btn-default" id="cancel-btn" data-dismiss="modal">CANCEL</button>
-                    <button type="button" class="btn btn-primary" id="ok-btn" style="min-width: 50px; margin-left: 16px;" >OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
+{% block body %}<h2>Current Entries</h2>
 
 {% include 'navbar.html' %}
 
 <section id="main">
     <div class="container-fluid">
         <h2>Current Entries</h2>
-        <div class="row" id="filters">
-            <div class="col-sm-12">
-                <label>Apply filter:</label>
-            </div>
-            <div class="col-sm-3 col-md-2 col-xs-6">
-                <select id="date-created-filter" placeholder="Date Created">
-                    <option value="">Date Created</option>
-                    <option value="today">Today</option>
-                    <option value="yesterday">Yesterday</option>
-                    <option value="last-seven-days">Last 7 days</option>
-                    <option value="this-week">This week</option>
-                    <option value="last-thirty-days">Last 30 days</option>
-                    <option value="this-month">This month</option>
-                    <option value="range">Range</option>
-                </select>
-            </div>
-
-            <div class="col-sm-3 col-md-2 col-xs-6">
-                <select id="areas-filter" placeholder="Areas">
-                    <option value="">Areas</option>
-                    {% for area in areas %}
-                    <option value="{{area}}">{{area}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-sm-3 col-md-2 col-xs-6">
-                <select id="sectors-filter" placeholder="Sectors">
-                    <option value="">Sectors</option>
-                    {% for sector, ss in sectors.items %}
-                    <option value="{{sector.name}}">{{sector.title}}</option>
-                    {% for subsector in ss %}
-                    <option value="{{subsector.name}}">{{subsector.title}}</option>
-                    {% endfor %}
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-sm-3 col-md-2 col-xs-6">
-                <select id="affected-groups-filter" placeholder="Affected Groups">
-                    <option value="">Affected Groups</option>
-                    {% for group in affected_groups %}
-                    <option value="{{group}}">{{group}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-sm-3 col-md-2 col-xs-6">
-                <select id="vulnerable-groups-filter" placeholder="Vulnerable groups">
-                    <option value="">Vulnerable groups</option>
-                    {% for vulnerable_group in vulnerable_groups %}
-                    <option value="{{vulnerable_group}}">{{vulnerable_group}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-sm-3 col-md-2 col-xs-6">
-                <select id="specific-needs-groups-filter" placeholder="Specific Needs Groups">
-                    <option value="">Specific Needs Groups</option>
-                    {% for group in specific_needs_groups %}
-                    <option value="{{group}}">{{group}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-        <br>
-        <table id="entries-table" class="table table-bordered" cellspacing="0" width="100%">
-            <thead>
-                <tr>
-                    <th>Created</th>
-                    <th>Information Attributes</th>
-                    <th>Geographical Areas</th>
-                    <th>Sectors</th>
-                    <th>Affected Groups</th>
-                    <th>Vulnerable Groups</th>
-                    <th>Groups with Specific Needs</th>
-                    <th>Lead</th>
-                    <th>Actions</th>
-                    <th>Details</th>
-                </tr>
-            </thead>
-        </table>
     </div>
 </section>
-
-<form id="delete-form" style="visibility:collapse;" method="post" action="{% url 'entries:delete' event=event.pk %}">
-    {% csrf_token %}
-    <input id="delete-id" name="id" type="text">
-</form>
 
 {% endblock %}
