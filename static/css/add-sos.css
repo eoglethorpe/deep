@@ -13,7 +13,7 @@ a, button, input[type="submit"] {
   color: #c0392b; }
 
 nav {
-  background-color: teal;
+  background-color: #008080;
   height: 60px;
   box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
   z-index: 100; }
@@ -29,7 +29,9 @@ nav {
   nav a:hover, nav a:active, nav button:hover, nav button:active {
     color: #eee; }
   nav .menu-item {
-    padding: 24px 16px;
+    height: 60px;
+    vertical-align: middle;
+    padding: calc(30px - 10px);
     display: inline-block; }
   nav .active {
     background-color: #004d4d; }
@@ -113,7 +115,7 @@ body {
         color: #fff;
         background-color: #008080; }
       body .split-pane #right-component .google-visualization-orgchart-linebottom {
-        border-bottom: 1px solid teal !important; }
+        border-bottom: 1px solid #008080 !important; }
       body .split-pane #right-component h2 {
         margin-bottom: 32px; }
       body .split-pane #right-component #save-btn, body .split-pane #right-component #cancel-btn {
@@ -172,3 +174,5 @@ body {
         stroke: #717171;
         stroke-width: 1px;
         stroke-linejoin: round; }
+
+/*# sourceMappingURL=add-sos.css.map */

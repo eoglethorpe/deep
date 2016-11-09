@@ -15,7 +15,6 @@ nav{
     img{
         width: 100px;
         margin-top: 14px;
-    
     }
     a, a:visited{
         color: #fff;
@@ -25,7 +24,9 @@ nav{
     }
 
     .menu-item{
-        padding: 24px 16px;
+        height: $navbar-height;
+        vertical-align: middle;
+        padding: calc(#{$navbar-height/2} - 10px);
         display: inline-block;
     }
 

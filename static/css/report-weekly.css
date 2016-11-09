@@ -13,7 +13,7 @@ a, button, input[type="submit"] {
   color: #c0392b; }
 
 nav {
-  background-color: teal;
+  background-color: #008080;
   height: 60px;
   box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
   z-index: 100; }
@@ -29,7 +29,9 @@ nav {
   nav a:hover, nav a:active, nav button:hover, nav button:active {
     color: #eee; }
   nav .menu-item {
-    padding: 24px 16px;
+    height: 60px;
+    vertical-align: middle;
+    padding: calc(30px - 10px);
     display: inline-block; }
   nav .active {
     background-color: #004d4d; }
@@ -128,3 +130,5 @@ body {
       text-transform: none; }
       #main #report-content #humanitarian-access .right-pane {
         padding-left: 48px; }
+
+/*# sourceMappingURL=report-weekly.css.map */
