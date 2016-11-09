@@ -13,8 +13,8 @@ a, button, input[type="submit"] {
   color: #c0392b; }
 
 nav {
-  background-color: #008080;
-  height: 70px;
+  background-color: teal;
+  height: 60px;
   box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
   z-index: 100; }
   nav .fa {
@@ -22,9 +22,8 @@ nav {
   nav .caret {
     margin-left: 10px; }
   nav img {
-    width: 60px;
-    margin-top: 14px;
-    margin-bottom: 4px; }
+    width: 100px;
+    margin-top: 14px; }
   nav a, nav a:visited {
     color: #fff; }
   nav a:hover, nav a:active, nav button:hover, nav button:active {
@@ -56,7 +55,7 @@ body {
     margin-right: 0;
     margin-left: 10px; }
   body #page-one .split-pane {
-    height: calc(100vh - 70px - 2px) !important; }
+    height: calc(100vh - 60px - 2px) !important; }
     body #page-one .split-pane .split-pane-divider {
       background-color: rgba(0, 0, 0, 0.2); }
     body #page-one .split-pane #left-component {
@@ -74,7 +73,7 @@ body {
           body #page-one .split-pane #left-component #lead-options-container #zoom-buttons .fa {
             font-size: 1.2em; }
       body #page-one .split-pane #left-component #lead-preview-container #lead-preview {
-        height: calc(100vh - 70px - 82px);
+        height: calc(100vh - 60px - 82px);
         box-sizing: border-box;
         width: 100%;
         border: none; }
@@ -115,7 +114,7 @@ body {
             transition: 0.2s all ease-in-out; }
           body #page-one .split-pane #right-component #matrix-one .pillar .active {
             transform: scaleY(1.1), scaleX(1.02);
-            background-color: #008080;
+            background-color: teal;
             color: #fff; }
       body #page-one .split-pane #right-component #matrix-two {
         width: 100%;
@@ -160,7 +159,7 @@ body {
         transition: 0.2s all ease-in-out; }
       body #page-one #pillars .pillar .active {
         transform: scaleY(1.1);
-        background-color: #008080;
+        background-color: teal;
         color: #fff; }
   body #page-two {
     padding-top: 24px; }
@@ -252,5 +251,3 @@ body {
             margin: 0; }
       body #page-two #entries .entry:nth-child(even) {
         background-color: #f0f0f0; }
-
-/*# sourceMappingURL=add-entry.css.map */
