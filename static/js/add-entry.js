@@ -81,13 +81,51 @@ function refreshPageTwo() {
 
         // Load values
         entry.find('.excerpt').val(excerpt.excerpt);
+        entry.find('.entry-date').val(excerpt.date);
+        entry.find('.entry-number').val(excerpt.number);
+
         entry.find('.vulnerable-group-select').val(excerpt.vulnerable_groups);        
         entry.find('.vulnerable-group-select').selectize();
+        entry.find('.specific-need-group-select').val(excerpt.specific_needs_groups);
         entry.find('.specific-need-group-select').selectize();
+
+        entry.find('.attribute-list').empty();
+
+        for (var j=0; j<excerpt.attributes.length; ++j) {
+            // Get each attribute and its pillar, subpillar, sector and subsector
+            var attr = excerpt.attributes[j];
+            var attribute = $(".attribute-template").clone();
+
+            var pillar = pillars[attr.pillar];
+            attribute.find('.pillar').text(pillar.name);
+            attribute.find('.sub-pillar').text(pillar.subpillars[attr.subpillar]);
+
+            // Sector
+            if (attr.sector) {
+                var sector = sectors[attr.sector];
+                attribute.find('.sector').text(sector.name);
+
+                // Subsector
+                if (attr.subsector) {
+                    attribute.find('.sub-sector').text(sector.subsectors[attr.subsector]);
+                } else {
+                    attribute.find('.sub-sector').text("Select a subsector");
+                }
+            }
+            // If there is not sector, hide the div tag containing the sector/subsector
+            else {
+                attribute.find('.sector').closest('div').html("");
+            }
+
+            attribute.appendTo(entry.find('.attribute-list'));
+            attribute.show();
+        }
 
         entry.appendTo(entriesContainer);
         entry.show();
     }
+
+    addTodayButtons();
 }
 
 function refreshExcerpts() {
@@ -195,11 +233,13 @@ $(document).ready(function(){
 
     // Navigation buttons between pages
     $('#edit-entries-btn').on('click', function(){
+        refreshExcerpts();
         $('#page-one').fadeOut(function(){
             $('#page-two').fadeIn();
         });
     });
     $('#back-to-excerpts-btn').on('click', function(){
+        refreshExcerpts();
         $('#page-two').fadeOut(function(){
             $('#page-one').fadeIn();
         });
@@ -292,26 +332,45 @@ $(document).ready(function(){
     refreshExcerpts();
 
     // Excerpt text handler
-    $("#excerpt-text").on('input paste drop', function() {
-        excerpts[selectedExcerpt].excerpt = $("#excerpt-text").val();
+    $("#excerpt-text").on('input paste drop change', function() {
+        excerpts[selectedExcerpt].excerpt = $(this).val();
         refreshExcerpts();
     });
 
     // Page 2
 
+    // Excerpt, date and number
+    $(document).on('input paste drop change', '.entry .excerpt', function() {
+        var excerpt = excerpts[parseInt($(this).closest('.entry').data('entry-id'))];
+        excerpt.excerpt = $(this).val();
+    });
+    $(document).on('input paste drop change', '.entry .entry-date', function() {
+        var excerpt = excerpts[parseInt($(this).closest('.entry').data('entry-id'))];
+        excerpt.date = $(this).val();
+    });
+    $(document).on('input paste drop change', '.entry .entry-number', function() {
+        var excerpt = excerpts[parseInt($(this).closest('.entry').data('entry-id'))];
+        excerpt.number = $(this).val();
+    });
+    
     // Reliability and severity selection
-    $('.reliability span').click(function(){
+    $(document).on('click', '.entry .reliability span', function(){
         $(this).closest('.reliability').find('span').removeClass('active');
         $(this).addClass('active');
     });
 
-    $('.severity span').click(function(){
+    $(document).on('click', '.entry .severity span', function(){
         $(this).closest('.severity').find('span').removeClass('active');
         $(this).addClass('active');
     });
 
-    $('.vulnerable-group-select').change(function(){
+    // Vulnerable group and specific needs group
+    $(document).on('change', '.entry .vulnerable-group-select', function(){
         var excerpt = excerpts[parseInt($(this).closest('.entry').data('entry-id'))];
         excerpt.vulnerable_groups = $(this).val();
+    });
+    $(document).on('change', '.entry .specific-need-group-select', function(){
+        var excerpt = excerpts[parseInt($(this).closest('.entry').data('entry-id'))];
+        excerpt.specific_needs_groups = $(this).val();
     });
 });

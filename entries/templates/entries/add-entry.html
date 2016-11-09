@@ -30,7 +30,33 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     // Is simplified option selected?
     var isSimplified;
 
+    // Attributes
+    var pillars = {
+        {% for pillar in pillars_one %}
+        {{pillar.pk}}: {
+            name: "{{pillar}}", subpillars: {
+                {% for subpillar in pillar.informationsubpillar_set.all %}{{subpillar.pk}}: "{{subpillar}}",{% endfor %}
+            }
+        },
+        {% endfor %}
+        {% for pillar in pillars_two %}
+        {{pillar.pk}}: {
+            name: "{{pillar}}", subpillars: {
+                {% for subpillar in pillar.informationsubpillar_set.all %}{{subpillar.pk}}: "{{subpillar}}",{% endfor %}
+            }
+        },
+        {% endfor %}
+    };
 
+    var sectors = {
+        {% for sector in sectors %}
+        {{sector.pk}}: {
+            name: "{{sector}}", subsectors: {
+                {% for subsector in sector.subsector_set.all %}{{subsector.pk}}: "{{subsector}}",{% endfor %}
+            }
+        },
+        {% endfor %}
+    };
 </script>
 
 {% endblock %}
@@ -169,7 +195,7 @@ sub-sector
 
 <div class="entry-template" hidden>
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
             <textarea class="form-control excerpt" ></textarea>
         </div>
         <div class="col-md-1">
@@ -190,9 +216,11 @@ sub-sector
                 <span class="_5"></span>
             </div>
         </div>
-        <div class="col-md-1">
-            <input type="text" class="form-control form-group" placeholder="Date">
-            <input type="text" class="form-control form-group" placeholder="Number">
+        <div class="col-md-2">
+            <div style="position: relative;">
+                <input type="date" class="entry-date form-control form-group" placeholder="Date">
+            </div>
+            <input type="number" step="1" min="0" class="entry-number form-control form-group" placeholder="Number">
         </div>
         <div class="col-md-2">
             <select class="vulnerable-group-select" class="form-control form-group" placeholder="Select vulnerable group" multiple>
@@ -200,7 +228,11 @@ sub-sector
                 <option value="{{vg.pk}}">{{vg}}</option>
                 {% endfor %}
             </select>
-            <select class="specific-need-group-select" class="form-control form-group" placeholder="Select specific need group" multiple></select>
+            <select class="specific-need-group-select" class="form-control form-group" placeholder="Select specific need group" multiple>
+                {% for sg in specific_needs_groups %}
+                <option value="{{sg.pk}}">{{sg}}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="col-md-5">
             <div class="row">
@@ -232,7 +264,7 @@ sub-sector
             <span class="pillar"></span> / <span class="sub-pillar"></span>
         </div>
         <div class="col-md-6">
-            <span class="sector"></span> / <a class="pillar"></a>
+            <span class="sector"></span> / <a class="sub-sector"></a>
         </div>
     </div>
 </div>
