@@ -27,22 +27,7 @@ var excerpts = [];
 var selectedExcerpt = -1;
 var refreshing = false;
 
-function refreshExcerpts() {
-    if (refreshing)
-        return;
-    
-    // Make sure an excerpt is selected
-    if (selectedExcerpt < 0) {
-        if (excerpts.length > 0) {
-            selectedExcerpt = 0;
-        } else {
-            addExcerpt("");
-            return;
-        }
-    }
-
-    refreshing = true;
-
+function refreshPageOne() {
     // Update selection
     var sel = $("#select-excerpt");
     sel.empty();
@@ -62,6 +47,7 @@ function refreshExcerpts() {
         // Update attributes
         $("#matrix-one .sub-pillar").removeClass('active');
         $("#matrix-two .attribute-block").removeClass('active');
+        $("#matrix-two .attribute-block").css("background-color", function(){ return $(this).data('bk-color'); });
         for (var i=0; i<excerpt.attributes.length; ++i) {
             var attribute = excerpt.attributes[i];
 
@@ -73,12 +59,55 @@ function refreshExcerpts() {
 
             } else {
                 // Second matrix
-                $("#matrix-two")
-                    .find('.attribute-block[data-pillar-id="' + attribute.pillar + '"][data-subpillar-id="' + attribute.subpillar + '"][data-sector-id="' + attribute.sector + '"]')
-                        .addClass('active');
+                var ab = $("#matrix-two")
+                    .find('.attribute-block[data-pillar-id="' + attribute.pillar + '"][data-subpillar-id="' + attribute.subpillar + '"][data-sector-id="' + attribute.sector + '"]');
+                ab.addClass('active');
+                ab.css('background-color', ab.data("active-bk-color"));
             }
         }
     }
+}
+
+function refreshPageTwo() {
+    var entriesContainer = $("#entries");
+    entriesContainer.empty();
+    for (var i=0; i<excerpts.length; ++i) {
+        var excerpt = excerpts[i];
+
+        var entry = $(".entry-template").clone();
+        entry.removeClass("entry-template");
+        entry.addClass("entry");
+        entry.data('entry-id', i);
+
+        // Load values
+        entry.find('.excerpt').val(excerpt.excerpt);
+        entry.find('.vulnerable-group-select').val(excerpt.vulnerable_groups);        
+        entry.find('.vulnerable-group-select').selectize();
+        entry.find('.specific-need-group-select').selectize();
+
+        entry.appendTo(entriesContainer);
+        entry.show();
+    }
+}
+
+function refreshExcerpts() {
+    if (refreshing)
+        return;
+    
+    // Make sure an excerpt is selected
+    if (selectedExcerpt < 0) {
+        if (excerpts.length > 0) {
+            selectedExcerpt = 0;
+        } else {
+            addExcerpt("");
+            return;
+        }
+    }
+
+    refreshing = true;
+
+    refreshPageOne();
+    refreshPageTwo();
 
     refreshing = false;
 }
@@ -176,6 +205,8 @@ $(document).ready(function(){
         });
     });
 
+    // Page 1
+
     // Matrix one selection of attribute
     $('#matrix-one .sub-pillar').click(function(){
         var parent = $(this).closest('.pillar');
@@ -247,17 +278,6 @@ $(document).ready(function(){
     // Matrix-two default color
     $("#matrix-two .attribute-block").css("background-color", function(){ return $(this).data('bk-color'); });
 
-    // Reliability and severity selection
-    $('.reliability span').click(function(){
-     $(this).closest('.reliability').find('span').removeClass('active');
-     $(this).addClass('active');
-    });
-
-    $('.severity span').click(function(){
-     $(this).closest('.severity').find('span').removeClass('active');
-     $(this).addClass('active');
-    });
-
     // Add, remove and refresh excerpts
     $("#add-excerpt").unbind().click(function() {
         addExcerpt("");
@@ -277,4 +297,21 @@ $(document).ready(function(){
         refreshExcerpts();
     });
 
+    // Page 2
+
+    // Reliability and severity selection
+    $('.reliability span').click(function(){
+        $(this).closest('.reliability').find('span').removeClass('active');
+        $(this).addClass('active');
+    });
+
+    $('.severity span').click(function(){
+        $(this).closest('.severity').find('span').removeClass('active');
+        $(this).addClass('active');
+    });
+
+    $('.vulnerable-group-select').change(function(){
+        var excerpt = excerpts[parseInt($(this).closest('.entry').data('entry-id'))];
+        excerpt.vulnerable_groups = $(this).val();
+    });
 });
