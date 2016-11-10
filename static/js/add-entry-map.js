@@ -1,5 +1,7 @@
 var locations = {};
 
+var mapSelections = [];
+
 var adminLevels = {};
 var adminLevelNames = {};
 var adminLevelPropNames = {};
@@ -10,26 +12,28 @@ var selectedCountry = "";
 var layer;
 var mapColors = ['#008080','#80d0d0','#FFEB3B'];
 
-var map = L.map('the-map'); //.setView([27.7, 85.3], 6);
-//L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
-L.tileLayer('https://data.humdata.org/crisis-tiles/{z}/{x}/{y}.png').addTo(map);
+var map;
 
-$('#map-modal').on('shown.bs.modal', function() {
-    //console.log("shown");
-    map.invalidateSize();
-    refreshMap();
-});
+function drawMap() {
+    map = L.map('the-map');
+    L.tileLayer('https://data.humdata.org/crisis-tiles/{z}/{x}/{y}.png').addTo(map);
 
-// On country selected, fetch the admin levels data.
-$("#country").on('change', function(e) {
-    var optionSelected = $("option:selected", this);
-    var valueSelected = this.value;
-    if (valueSelected != "") {
-        selectedCountry = valueSelected;
-        refreshAdminLevels();
-        getAdminLevels(valueSelected);
-    }
-});
+    $('#map-modal').on('shown.bs.modal', function() {
+        map.invalidateSize();
+        refreshMap();
+    });
+
+    // On country selected, fetch the admin levels data.
+    $("#country").on('change', function(e) {
+        var optionSelected = $("option:selected", this);
+        var valueSelected = this.value;
+        if (valueSelected != "") {
+            selectedCountry = valueSelected;
+            refreshAdminLevels();
+            getAdminLevels(valueSelected);
+        }
+    });
+}
 
 
 function getAdminLevels(countryCode) {

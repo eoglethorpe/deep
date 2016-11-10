@@ -241,7 +241,7 @@ body {
           border: 3px solid #eee;
           padding: 4px;
           background-color: #eee;
-          height: 64px; }
+          min-height: 64px; }
           body #page-two #entries .entry .geo-location a, body #page-two #entries .entry .affected-group a {
             float: right; }
           body #page-two #entries .entry .geo-location .fa, body #page-two #entries .entry .affected-group .fa {

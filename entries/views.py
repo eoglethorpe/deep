@@ -96,6 +96,7 @@ class AddEntry(View):
         context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
         context["reliabilities"] = Reliability.objects.all().order_by('level')
         context["severities"] = Severity.objects.all().order_by('level')
+        context["affected_groups"] = AffectedGroup.objects.all()
         try:
             context["default_reliability"] = Reliability.objects.get(is_default=True)
             context["default_severity"] = Severity.objects.get(is_default=True)

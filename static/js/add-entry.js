@@ -22,6 +22,135 @@ var excerpts = [
 ];
 */
 
+// map stuffs
+
+function updateLocationSelections() {
+    var container = $('#selected-location-list ul');
+    var items = container.find('li');
+    if(items){
+        items.remove();
+    }
+
+    if(mapSelections.length == 0){
+        $("#empty-text").show();
+    } else{
+        $("#empty-text").hide();
+    }
+
+    for (var i=0; i < mapSelections.length; i++) {
+        var selectionKey = mapSelections[i];
+        element = $('<li><a onclick="unSelect(\''+selectionKey+'\', this)"><i class="fa fa-times"></i></a>'+$('#manual-location-input')[0].selectize.options[selectionKey].text+'</li>');
+        element.appendTo(container);
+    }
+
+    if (currentExcerpt) {
+        currentExcerpt.map_selections = mapSelections;
+        refreshCurrentEntryLists()
+    }
+}
+
+function refreshLocations() {
+    // TODO: Clear all from select-location.
+    //mapSelections = [];
+    for (var key in locations) {
+        var name = locations[key];
+        $('#manual-location-input')[0].selectize.addOption({value: key, text: name});
+        // Add key to mapSelections array on selection and call updateLayer(key).
+    }
+
+    updateLocationSelections();
+}
+
+function unSelect(key, that){
+    mapSelections.splice(mapSelections.indexOf(key), 1);
+    updateLayer(key);
+    $(that).closest('li').remove();
+}
+// ...
+
+var selectedAffectedGroups = [];
+var affectedGroupsChart;
+
+function drawChart() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Name');
+    data.addColumn('string', 'Manager');
+    data.addColumn('string', 'ToolTip');
+
+    // For each orgchart box, provide the name, manager, and tooltip to show.
+    data.addRows(affectedGroups);
+
+    // Create the chart.
+    var chart = new google.visualization.OrgChart(document.getElementById('chart-div'));
+    chart.draw(data, {
+        // nodeClass: 'affected-group',
+        // selectedNodeClass: 'active-affected-group',
+    });
+
+    // Set select listener
+    google.visualization.events.addListener(chart, 'select', function(){
+        var selection = chart.getSelection();
+
+        if (selection.length == 0){
+            if(mouseover_group != -1){
+                selectedAffectedGroups = $.grep(selectedAffectedGroups, function(item){
+                    return item.row != mouseover_group;
+                })
+            }
+            chart.setSelection(selectedAffectedGroups);
+        }
+        else{
+            selectedAffectedGroups.push(selection[0]);
+            chart.setSelection(selectedAffectedGroups);
+        }
+
+        if (currentExcerpt) {
+            currentExcerpt.affected_groups = [];
+            for (var k=0; k<selectedAffectedGroups.length; ++k) {
+                currentExcerpt.affected_groups.push(agRowIdMap[selectedAffectedGroups[k].row]);
+            }
+            refreshCurrentEntryLists();
+        }
+    });
+    google.visualization.events.addListener(chart, 'onmouseover', function(row){
+        mouseover_group = row.row;
+    });
+    google.visualization.events.addListener(chart, 'onmouseout', function(row){
+        mouseover_group = -1;
+    });
+
+    affectedGroupsChart = chart;
+
+    // Set default selections.
+    // chart.setSelection(selected_groups);
+}
+
+
+var currentExcerpt = null;  // Data
+var currentEntry = null;    // Element
+
+function refreshCurrentEntryLists() {
+    // Refresh affected groups list for current excerpt
+    currentEntry.find('.affected-group-list').empty();
+    var text = [];
+    for (var i=0; i<currentExcerpt.affected_groups.length; ++i){
+        var ag = currentExcerpt.affected_groups[i];
+        var title = affectedGroups[agIdRowMap[ag]][0];
+        text.push(title)
+    }
+    currentEntry.find('.affected-group-list').html(text.join(', '));
+
+    // Refresh map list for current excerpt
+    currentEntry.find('.geo-locations-list').empty();
+    text = [];
+    for (var i=0; i<currentExcerpt.map_selections.length; ++i){
+        var ms = currentExcerpt.map_selections[i];
+        var title = ms.split(':')[2];
+        text.push(title)
+    }
+    currentEntry.find('.geo-locations-list').html(text.join(', '));
+}
+
 
 var excerpts = [];
 var selectedExcerpt = -1;
@@ -141,8 +270,36 @@ function refreshPageTwo() {
             attribute.show();
         }
 
+        // Affected groups selections
+        entry.find('.btn-affected').unbind().click(function(excerpt, entry) {
+            return function() {
+                currentExcerpt = excerpt;
+                currentEntry = entry;
+                selectedAffectedGroups = [];
+                for (var k=0; k<excerpt.affected_groups.length; ++k) {
+                    selectedAffectedGroups.push({column: null, row: agIdRowMap[excerpt.affected_groups[k]]});
+                }
+                affectedGroupsChart.setSelection(selectedAffectedGroups);
+            }
+        }(excerpt, entry));
+
+        // Map selections
+        entry.find('.btn-map').unbind().click(function(excerpt, entry) {
+            return function() {
+                currentExcerpt = excerpt;
+                currentEntry = entry;
+                mapSelections = excerpt.map_selections;
+                refreshMap();
+            }
+        }(excerpt, entry));
+
         entry.appendTo(entriesContainer);
         entry.show();
+
+        // Refresh lists as well
+        currentEntry = entry;
+        currentExcerpt = excerpt;
+        refreshCurrentEntryLists();
     }
 
     addTodayButtons();
@@ -176,7 +333,7 @@ function addExcerpt(excerpt) {
     var excerpt = {
         excerpt: excerpt,
         attributes: [],
-        reliability: default_reliability, severity: default_severity,
+        reliability: defaultReliability, severity: defaultSeverity,
         date: null, number: null,
         affected_groups: [], vulnerable_groups: [], specific_needs_groups: [],
         map_selections: []
@@ -226,6 +383,29 @@ function changeLeadPreview(simplified) {
 
 
 $(document).ready(function(){
+
+    google.charts.load('current', {packages:["orgchart"]});
+    google.charts.setOnLoadCallback(drawChart);
+
+    // Map
+    drawMap();
+    $('#country').selectize();
+    $('#manual-location-input').selectize();
+    $("#manual-location-input").change(function(){
+        var key = $("#manual-location-input").val();
+        //mapSelections.push(key);
+        if( !inArray(mapSelections, key) ){
+            container = $('#selected-location-list').find('ul');
+            element = $('<li><a onclick="unSelect(\''+key+'\', this)"><i class="fa fa-times"></i></a>'+$("#manual-location-input option:selected").text()+'</li>');
+            element.appendTo(container);
+            mapSelections.push(key);
+        }
+        updateLayer(key);
+
+        $("#manual-location-input")[0].selectize.clear(true);
+
+    });
+    $("#country").trigger('change');
 
     // Split screen for preview
     $('.split-pane').splitPane();
