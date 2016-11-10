@@ -98,7 +98,7 @@ class AddEntry(View):
         context["severities"] = Severity.objects.all().order_by('level')
         try:
             context["default_reliability"] = Reliability.objects.get(is_default=True)
-            context["default_severity"] = Reliability.objects.get(is_default=True)
+            context["default_severity"] = Severity.objects.get(is_default=True)
         except:
             pass
 

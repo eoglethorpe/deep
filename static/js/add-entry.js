@@ -98,6 +98,7 @@ function refreshPageTwo() {
             // Get each attribute and its pillar, subpillar, sector and subsector
             var attr = excerpt.attributes[j];
             var attribute = $(".attribute-template").clone();
+
             attribute.removeClass('attribute-template');
             attribute.addClass('attribute');
 
@@ -109,18 +110,26 @@ function refreshPageTwo() {
             if (attr.sector) {
                 var sector = sectors[attr.sector];
                 attribute.find('.sector').html(sector.name);
+                
+                var subsector = attribute.find('.sub-sector');
+                var subsectorMenu = subsector.parent().find('.dropdown-menu');
 
-                // Subsector
+                // When adding each subsector, also add click handler
+                for (var ss in sector.subsectors) {
+                    var element = ($('<li><a>' + sector.subsectors[ss] + '</a></li>'));
+                    element.appendTo(subsectorMenu);
+                    element.unbind().click(function(attr, ss, sector, subsector) {
+                        return function() {
+                            subsector.html(sector.subsectors[ss]);
+                            attr.subsector = ss;
+                        }
+                    }(attr, ss, sector, subsector));
+                }
+
                 if (attr.subsector) {
-                    attribute.find('.sub-sector').html(sector.subsectors[attr.subsector]);
+                    subsector.html(sector.subsectors[attr.subsector]);
                 } else {
-                    var subsector = attribute.find('.sub-sector');
-                    subsector.html("[select]");
-                    var subsectorMenu = subsector.parent().find('.dropdown-menu');
-                    ($('<li><a>bla bla</a></li>')).appendTo(subsectorMenu);
-                    ($('<li><a>bleh bla</a></li>')).appendTo(subsectorMenu);
-                    ($('<li><a>blaa bfla</a></li>')).appendTo(subsectorMenu);
-
+                    subsector.html("select subsector");
                 }
             }
             // If there is not sector, hide the div tag containing the sector/subsector

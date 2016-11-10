@@ -52,6 +52,9 @@ class Reliability(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = 'Reliabilities'
+
 
 class Severity(models.Model):
     name = models.CharField(max_length=100)
@@ -60,6 +63,9 @@ class Severity(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = 'Severities'
 
 
 class AffectedGroup(models.Model):

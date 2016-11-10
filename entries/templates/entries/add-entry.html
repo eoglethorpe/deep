@@ -34,15 +34,15 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     var pillars = {
         {% for pillar in pillars_one %}
         {{pillar.pk}}: {
-            name: "{{pillar}}", subpillars: {
-                {% for subpillar in pillar.informationsubpillar_set.all %}{{subpillar.pk}}: "{{subpillar}}",{% endfor %}
+            name: "{{pillar | safe}}", subpillars: {
+                {% for subpillar in pillar.informationsubpillar_set.all %}{{subpillar.pk}}: "{{subpillar | safe}}",{% endfor %}
             }
         },
         {% endfor %}
         {% for pillar in pillars_two %}
         {{pillar.pk}}: {
-            name: "{{pillar}}", subpillars: {
-                {% for subpillar in pillar.informationsubpillar_set.all %}{{subpillar.pk}}: "{{subpillar}}",{% endfor %}
+            name: "{{pillar | safe}}", subpillars: {
+                {% for subpillar in pillar.informationsubpillar_set.all %}{{subpillar.pk}}: "{{subpillar | safe}}",{% endfor %}
             }
         },
         {% endfor %}
@@ -51,8 +51,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     var sectors = {
         {% for sector in sectors %}
         {{sector.pk}}: {
-            name: "{{sector}}", subsectors: {
-                {% for subsector in sector.subsector_set.all %}{{subsector.pk}}: "{{subsector}}",{% endfor %}
+            name: "{{sector | safe}}", subsectors: {
+                {% for subsector in sector.subsector_set.all %}{{subsector.pk}}: "{{subsector | safe}}",{% endfor %}
             }
         },
         {% endfor %}
