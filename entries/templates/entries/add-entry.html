@@ -101,13 +101,13 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
         <div class="split-pane-component" id="right-component">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <select class="form-control" placeholder="Select excerpt" id="select-excerpt">
                             <option>Excerpt 1</option>
                             <option>Excerpt 2</option>
                         </select>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <button class="btn btn-primary" id="add-excerpt"><i class="fa fa-plus"></i>Add excerpt</button>
                         <button class="btn btn-danger" id="delete-excerpt"><i class="fa fa-times"></i>Delete excerpt</button>
                     </div>
@@ -264,7 +264,7 @@ sub-sector
             <span class="pillar"></span> / <span class="sub-pillar"></span>
         </div>
         <div class="col-md-6">
-            <span class="sector"></span> / <a class="sub-sector"></a>
+            <span class="sector"></span> / <span class="dropdown" ><a class="sub-sector" data-toggle="dropdown"></a><ul class="dropdown-menu"></ul></span>
         </div>
     </div>
 </div>
