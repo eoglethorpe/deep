@@ -106,6 +106,75 @@ class AddEntry(View):
         UserProfile.set_last_event(request, context["event"])
         return render(request, "entries/add-entry.html", context)
 
+    @method_decorator(login_required)
+    def post(self, request, event, lead_id=None, id=None):
+        if not id:
+            lead = Lead.objects.get(pk=lead_id)
+
+        excerpts = json.loads(request.POST["excerpts"]);
+        Entry.objects.filter(lead=lead).delete()
+        
+        entry = Entry(lead=lead)
+        entry.save()
+
+        for excerpt in excerpts:
+            information = EntryInformation(entry=entry)
+            information.excerpt = excerpt["excerpt"]
+
+            information.reliability = Reliability.objects.get(pk=int(excerpt["reliability"]))
+            information.severity = Severity.objects.get(pk=int(excerpt["severity"]))
+            if excerpt["number"]:
+                information.number = int(excerpt["number"])
+            if excerpt["date"]:
+                information.date = excerpt["date"]
+            information.save()
+
+            for ag in excerpt["affected_groups"]:
+                information.affected_groups.add(AffectedGroup.objects.get(pk=int(ag)))
+            for vg in excerpt["vulnerable_groups"]:
+                information.vulnerable_groups.add(VulnerableGroup.objects.get(pk=int(vg)))
+            for sg in excerpt["specific_needs_groups"]:
+                information.specific_needs_groups.add(SpecificNeedsGroup.objects.get(pk=int(sg)))
+
+            for area in excerpt["map_selections"]:
+                m = area.split(':')
+                admin_level = AdminLevel.objects.get(
+                    country=Country.objects.get(code=m[0]),
+                    level=int(m[1])+1
+                )
+                try:
+                    if len(m) == 4:
+                        selection = AdminLevelSelection.objects.get(
+                            admin_level=admin_level, pcode=m[3]
+                        )
+                    else:
+                        selection = AdminLevelSelection.objects.get(
+                            admin_level=admin_level, name=m[2]
+                        )
+                except:
+                    if len(m) == 4:
+                        selection = AdminLevelSelection(admin_level=admin_level,
+                                                        name=m[2], pcode=m[3])
+                    else:
+                        selection = AdminLevelSelection(admin_level=admin_level,
+                                                        name=m[2])
+                    selection.save()
+
+                information.map_selections.add(selection)
+
+            for attr in excerpt["attributes"]:
+                ia = InformationAttribute()
+                ia.information = information
+                ia.subpillar = InformationSubpillar.objects.get(pk=int(attr["subpillar"]))
+                if (attr["sector"]):
+                    ia.sector = Sector.objects.get(pk=int(attr["sector"]))
+                if (attr["subsector"]):
+                    ia.subsector = Subsector.objects.get(pk=int(attr["subsector"]))
+                ia.save()
+
+
+        return redirect('entries:entries', event)
+
 
 class DeleteEntry(View):
     @method_decorator(login_required)

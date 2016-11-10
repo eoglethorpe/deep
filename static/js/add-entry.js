@@ -22,6 +22,12 @@ var excerpts = [
 ];
 */
 
+
+var excerpts = [];
+var selectedExcerpt = -1;
+var refreshing = false;
+
+
 // map stuffs
 
 function updateLocationSelections() {
@@ -126,6 +132,7 @@ function drawChart() {
 }
 
 
+// Following variables represent entry for which AffectedGroups or Map buttons were clicked
 var currentExcerpt = null;  // Data
 var currentEntry = null;    // Element
 
@@ -150,11 +157,6 @@ function refreshCurrentEntryLists() {
     }
     currentEntry.find('.geo-locations-list').html(text.join(', '));
 }
-
-
-var excerpts = [];
-var selectedExcerpt = -1;
-var refreshing = false;
 
 function refreshPageOne() {
     // Update selection
@@ -480,6 +482,26 @@ $(document).ready(function(){
         }
     });
 
+    // Drag drop
+    var dropEvent = function(e) {
+        var text = e.originalEvent.dataTransfer.getData('Text');
+        if (excerpts[selectedExcerpt].excerpt.trim().length == 0
+                || excerpts[selectedExcerpt].excerpt == text)
+            excerpts[selectedExcerpt].excerpt = e.originalEvent.dataTransfer.getData('Text');
+        else
+            addExcerpt(e.originalEvent.dataTransfer.getData('Text'));
+
+        $(this).click();
+        refreshExcerpts();
+        return false;
+    };
+
+    $("#matrix-one .sub-pillar").bind('dragover', function(e) {
+        e.originalEvent.preventDefault();
+        return false;
+    });
+    $("#matrix-one .sub-pillar").bind('drop', dropEvent);
+
     // Matrix two selection of attribute
     $('#matrix-two .attribute-block').click(function(){
         if ($(this).hasClass('active')){
@@ -518,6 +540,13 @@ $(document).ready(function(){
     });
     // Matrix-two default color
     $("#matrix-two .attribute-block").css("background-color", function(){ return $(this).data('bk-color'); });
+
+    // Drag drop
+    $("#matrix-two .attribute-block").bind('dragover', function(e) {
+        e.originalEvent.preventDefault();
+        return false;
+    });
+    $("#matrix-two .attribute-block").bind('drop', dropEvent);
 
     // Add, remove and refresh excerpts
     $("#add-excerpt").unbind().click(function() {
@@ -579,5 +608,13 @@ $(document).ready(function(){
     $(document).on('change', '.entry .specific-need-group-select', function(){
         var excerpt = excerpts[parseInt($(this).closest('.entry').data('entry-id'))];
         excerpt.specific_needs_groups = $(this).val();
+    });
+
+
+    // Save and cancel
+
+    $('.save-excerpt').unbind().click(function() {
+        var data = { excerpts: JSON.stringify(excerpts) };
+        redirectPost(window.location.pathname, data, csrf_token);
     });
 });

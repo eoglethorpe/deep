@@ -136,15 +136,6 @@ class Subsector(models.Model):
         return self.name
 
 
-class InformationAttribute(models.Model):
-    subpillar = models.ForeignKey(InformationSubpillar)
-    sector = models.ForeignKey(Sector)
-    subsector = models.ForeignKey(Subsector)
-
-    def __str__(self):
-        return str(self.subpillar) + "/" + str(self.sector) + "/" + str(self.subsector)
-
-
 class Entry(models.Model):
     lead = models.ForeignKey(Lead)
 
@@ -158,11 +149,10 @@ class Entry(models.Model):
 class EntryInformation(models.Model):
     entry = models.ForeignKey(Entry)
     excerpt = models.TextField(blank=True)
-    date = models.DateField()
+    date = models.DateField(blank=True, default=None, null=True)
     reliability = models.ForeignKey(Reliability)
     severity = models.ForeignKey(Severity)
     number = models.IntegerField(blank=True, default=None, null=True)
-    attributes = models.ManyToManyField(InformationAttribute, blank=True)
     vulnerable_groups = models.ManyToManyField(VulnerableGroup, blank=True)
     specific_needs_groups = models.ManyToManyField(SpecificNeedsGroup, blank=True)
     affected_groups = models.ManyToManyField(AffectedGroup, blank=True)
@@ -170,3 +160,13 @@ class EntryInformation(models.Model):
 
     def __str__(self):
         return self.excerpt
+
+
+class InformationAttribute(models.Model):
+    information = models.ForeignKey(EntryInformation)
+    subpillar = models.ForeignKey(InformationSubpillar)
+    sector = models.ForeignKey(Sector, blank=True, null=True, default=None)
+    subsector = models.ForeignKey(Subsector, blank=True, null=True, default=None)
+
+    def __str__(self):
+        return str(self.subpillar) + "/" + str(self.sector) + "/" + str(self.subsector)

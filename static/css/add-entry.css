@@ -98,9 +98,9 @@ body {
         margin-right: 8px; }
       body #page-one .split-pane #right-component .row {
         margin-bottom: 24px; }
-      body #page-one .split-pane #right-component #save-excerpt {
+      body #page-one .split-pane #right-component .save-excerpt {
         float: right; }
-      body #page-one .split-pane #right-component #cancel {
+      body #page-one .split-pane #right-component .cancel {
         float: right; }
       body #page-one .split-pane #right-component #edit-entries-btn {
         float: right; }
