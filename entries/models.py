@@ -145,7 +145,18 @@ class InformationAttribute(models.Model):
         return str(self.subpillar) + "/" + str(self.sector) + "/" + str(self.subsector)
 
 
+class Entry(models.Model):
+    lead = models.ForeignKey(Lead)
+
+    def __str__(self):
+        return str(self.lead)
+
+    class Meta:
+        verbose_name_plural = 'Entries'
+
+
 class EntryInformation(models.Model):
+    entry = models.ForeignKey(Entry)
     excerpt = models.TextField(blank=True)
     date = models.DateField()
     reliability = models.ForeignKey(Reliability)
@@ -156,14 +167,6 @@ class EntryInformation(models.Model):
     specific_needs_groups = models.ManyToManyField(SpecificNeedsGroup, blank=True)
     affected_groups = models.ManyToManyField(AffectedGroup, blank=True)
     map_selections = models.ManyToManyField(AdminLevelSelection, blank=True)
-    
+
     def __str__(self):
         return self.excerpt
-
-
-class Entry(models.Model):
-    lead = models.ForeignKey(Lead)
-    informations = models.ManyToManyField(EntryInformation, blank=True)
-
-    def __str__(self):
-        return str(self.lead)
