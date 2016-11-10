@@ -11,12 +11,14 @@ body{
         font-size: 0.9em;
     }
 
-    .fa{
-        margin-right: 10px;
-    }
     .fa-long-arrow-right{
         margin-right: 0;
         margin-left: 10px;
+    }
+
+    .fa-long-arrow-left{
+        margin-right: 10px;
+        margin-left: 0;
     }
 
     #page-one{
@@ -55,6 +57,10 @@ body{
                         box-sizing: border-box;
                         width: 100%;
                         border: none;
+                        }
+
+                    #lead-simplified-preview{
+                        padding: 24px;
                     }
                 }
             }
@@ -68,11 +74,18 @@ body{
                 margin-left: 3px;
                 padding-top: 24px;
 
+                .btn{
+                    margin-right: 8px;
+                }
                 .row{
                     margin-bottom: 24px;
                 }
-
-
+                #save-excerpt{
+                    float: right;
+                }
+                #cancel{
+                    float: right;
+                }
                 #edit-entries-btn{
                     float: right;
                 }

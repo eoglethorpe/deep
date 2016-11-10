@@ -105,18 +105,20 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
         <div class="split-pane-component" id="right-component">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-5" style="padding-right: 0">
                         <select class="form-control" placeholder="Select excerpt" id="select-excerpt">
                             <option>Excerpt 1</option>
                             <option>Excerpt 2</option>
                         </select>
                     </div>
-                    <div class="col-md-5">
-                        <button class="btn btn-primary" id="add-excerpt"><i class="fa fa-plus"></i>Add excerpt</button>
-                        <button class="btn btn-danger" id="delete-excerpt"><i class="fa fa-times"></i>Delete excerpt</button>
+                    <div class="col-md-3">
+                        <button class="btn btn-primary" id="add-excerpt" data-toggle="tooltip" title="Add Excerpt"><i class="fa fa-plus"></i></button>
+                        <button class="btn btn-danger" id="delete-excerpt" data-toggle="tooltip" title="Delete Excerpt"><i class="fa fa-minus"></i></button>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <button class="btn btn-primary" id="edit-entries-btn">Edit Entries <i class="fa fa-long-arrow-right"></i></button>
+                        <button class="btn btn-danger" id="cancel" data-toggle="tooltip" title="Cancel"><i class="fa fa-times"></i></button>
+                        <button class="btn btn-primary" id="save-excerpt" data-toggle="tooltip" title="Save Excerpt"><i class="fa fa-save"></i></button>
                     </div>
                 </div>
                 <div class="row">
