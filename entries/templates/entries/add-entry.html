@@ -57,6 +57,10 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
         },
         {% endfor %}
     };
+
+    // Reliabilities and severities
+    var default_reliability = "{{default_reliability.pk}}";
+    var default_severity = "{{default_severity.pk}}";
 </script>
 
 {% endblock %}
@@ -201,19 +205,15 @@ sub-sector
         <div class="col-md-1">
             <div class="reliability">
                 <label>Reliability </label><br>
-                <span class="_1"></span>
-                <span class="_2"></span>
-                <span class="_3"></span>
-                <span class="_4"></span>
-                <span class="_5"></span>
+                {% for reliability in reliabilities %}
+                <span data-id="{{reliability.pk}}" class="_{{reliability.level}}"></span>
+                {% endfor %}
             </div>
             <div class="severity">
                 <label>Severity </label><br>
-                <span class="_1"></span>
-                <span class="_2"></span>
-                <span class="_3"></span>
-                <span class="_4"></span>
-                <span class="_5"></span>
+                {% for severity in severities %}
+                <span data-id="{{severity.pk}}" class="_{{severity.level}}"></span>
+                {% endfor %}
             </div>
         </div>
         <div class="col-md-2">

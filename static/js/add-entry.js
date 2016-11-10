@@ -89,6 +89,9 @@ function refreshPageTwo() {
         entry.find('.specific-need-group-select').val(excerpt.specific_needs_groups);
         entry.find('.specific-need-group-select').selectize();
 
+        entry.find('.reliability span[data-id="' + excerpt.reliability + '"]').addClass('active');
+        entry.find('.severity span[data-id="' + excerpt.severity + '"]').addClass('active');
+
         entry.find('.attribute-list').empty();
 
         for (var j=0; j<excerpt.attributes.length; ++j) {
@@ -156,7 +159,8 @@ function addExcerpt(excerpt) {
     var excerpt = {
         excerpt: excerpt,
         attributes: [],
-        reliability: 0, severity: 0, date: null, number: null,
+        reliability: default_reliability, severity: default_severity,
+        date: null, number: null,
         affected_groups: [], vulnerable_groups: [], specific_needs_groups: [],
         map_selections: []
     };
@@ -357,11 +361,17 @@ $(document).ready(function(){
     $(document).on('click', '.entry .reliability span', function(){
         $(this).closest('.reliability').find('span').removeClass('active');
         $(this).addClass('active');
+
+        var excerpt = excerpts[parseInt($(this).closest('.entry').data('entry-id'))];
+        excerpt.reliability = $(this).data("id");
     });
 
     $(document).on('click', '.entry .severity span', function(){
         $(this).closest('.severity').find('span').removeClass('active');
         $(this).addClass('active');
+
+        var excerpt = excerpts[parseInt($(this).closest('.entry').data('entry-id'))];
+        excerpt.severity = $(this).data("id");
     });
 
     // Vulnerable group and specific needs group
