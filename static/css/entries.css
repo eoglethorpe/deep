@@ -1,13 +1,15 @@
 body {
   font-family: 'Lato', sans-serif;
   background-color: #fafafa;
-  color: #414141; }
+  color: #414141;
+  font-size: 13px; }
 
 a, a:hover, a:active, a:visited {
   text-decoration: none; }
 
-a, button, input[type="submit"] {
-  text-transform: uppercase; }
+a, button, input[type="submit"], .btn {
+  text-transform: uppercase;
+  font-size: 13px; }
 
 #error {
   color: #c0392b; }
@@ -58,7 +60,6 @@ body {
   color: #717171; }
 #main #filters {
   margin-bottom: 24px; }
-<<<<<<< HEAD
 #main #entries .entry {
   background-color: #e1e1e1;
   padding: 16px;
@@ -119,33 +120,3 @@ body {
       height: 64px; }
 
 /*# sourceMappingURL=entries.css.map */
-=======
-#main #entries-table tbody tr[role="row"] {
-  cursor: pointer; }
-#main #entries-table tbody .odd, #main #entries-table tbody .odd + tr:not(.even) {
-  background-color: #f0f0f0; }
-#main #entries-table tbody .even, #main #entries-table tbody .even + tr:not(.odd) {
-  background-color: #fff; }
-#main #entries-table tbody .btn-edit .fa {
-  color: #9b59b6; }
-#main #entries-table tbody .btn-delete .fa {
-  color: #e74c3c; }
-#main #entries-table tbody .entry-detail {
-  padding: 10px 32px; }
-  #main #entries-table tbody .entry-detail .fa {
-    margin-right: 10px; }
-  #main #entries-table tbody .entry-detail .row-header {
-    text-align: right; }
-    #main #entries-table tbody .entry-detail .row-header button {
-      margin: 10px; }
-  #main #entries-table tbody .entry-detail .label-container {
-    text-align: right; }
-  #main #entries-table tbody .entry-detail hr {
-    border-top-color: #ddd;
-    margin: 6px; }
-<<<<<<< HEAD
-
-/*# sourceMappingURL=entries.css.map */
-=======
->>>>>>> 2d16f6c68c5a8ab48270d751d8d4769db2c4a206
->>>>>>> e425b2929d50e225ac18182190d0790e228bc92b

@@ -84,7 +84,7 @@ function refreshPageTwo() {
         entry.find('.entry-date').val(excerpt.date);
         entry.find('.entry-number').val(excerpt.number);
 
-        entry.find('.vulnerable-group-select').val(excerpt.vulnerable_groups);        
+        entry.find('.vulnerable-group-select').val(excerpt.vulnerable_groups);
         entry.find('.vulnerable-group-select').selectize();
         entry.find('.specific-need-group-select').val(excerpt.specific_needs_groups);
         entry.find('.specific-need-group-select').selectize();
@@ -95,21 +95,29 @@ function refreshPageTwo() {
             // Get each attribute and its pillar, subpillar, sector and subsector
             var attr = excerpt.attributes[j];
             var attribute = $(".attribute-template").clone();
+            attribute.removeClass('attribute-template');
+            attribute.addClass('attribute');
 
             var pillar = pillars[attr.pillar];
-            attribute.find('.pillar').text(pillar.name);
-            attribute.find('.sub-pillar').text(pillar.subpillars[attr.subpillar]);
+            attribute.find('.pillar').html(pillar.name);
+            attribute.find('.sub-pillar').html(pillar.subpillars[attr.subpillar]);
 
             // Sector
             if (attr.sector) {
                 var sector = sectors[attr.sector];
-                attribute.find('.sector').text(sector.name);
+                attribute.find('.sector').html(sector.name);
 
                 // Subsector
                 if (attr.subsector) {
-                    attribute.find('.sub-sector').text(sector.subsectors[attr.subsector]);
+                    attribute.find('.sub-sector').html(sector.subsectors[attr.subsector]);
                 } else {
-                    attribute.find('.sub-sector').text("Select a subsector");
+                    var subsector = attribute.find('.sub-sector');
+                    subsector.html("[select]");
+                    var subsectorMenu = subsector.parent().find('.dropdown-menu');
+                    ($('<li><a>bla bla</a></li>')).appendTo(subsectorMenu);
+                    ($('<li><a>bleh bla</a></li>')).appendTo(subsectorMenu);
+                    ($('<li><a>blaa bfla</a></li>')).appendTo(subsectorMenu);
+
                 }
             }
             // If there is not sector, hide the div tag containing the sector/subsector
@@ -131,7 +139,7 @@ function refreshPageTwo() {
 function refreshExcerpts() {
     if (refreshing)
         return;
-    
+
     // Make sure an excerpt is selected
     if (selectedExcerpt < 0) {
         if (excerpts.length > 0) {
@@ -352,7 +360,7 @@ $(document).ready(function(){
         var excerpt = excerpts[parseInt($(this).closest('.entry').data('entry-id'))];
         excerpt.number = $(this).val();
     });
-    
+
     // Reliability and severity selection
     $(document).on('click', '.entry .reliability span', function(){
         $(this).closest('.reliability').find('span').removeClass('active');
