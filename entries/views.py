@@ -12,6 +12,7 @@ from entries.models import *
 from entries.strippers import *
 # from . import export_xls, export_docx, export_fields
 from entries.refresh_pcodes import *
+from leads.views import get_simplified_lead
 
 import os
 import json
@@ -68,7 +69,7 @@ class EntriesView(View):
         context["event"] = Event.objects.get(pk=event)
         context["all_events"] = Event.objects.all()
         UserProfile.set_last_event(request, context["event"])
-        return HttpResponse("To be updated") # render(request, "entries/entries.html", context)
+        return render(request, "entries/entries.html", context)
 
 
 class AddEntry(View):
@@ -76,13 +77,103 @@ class AddEntry(View):
     def get(self, request, event, lead_id=None, id=None):
         refresh_pcodes()
 
+        if not id:
+            lead = Lead.objects.get(pk=lead_id)
+
         context = {}
         context["current_page"] = "entries"
         context["event"] = Event.objects.get(pk=event)
         context["dummy_list"] = range(5)
         # context["all_events"] = Event.objects.all()
+
+        context["lead"] = lead
+        get_simplified_lead(lead, context)
+
+        context["pillars_one"] = InformationPillar.objects.filter(contains_sectors=False)
+        context["pillars_two"] = InformationPillar.objects.filter(contains_sectors=True)
+        context["sectors"] = Sector.objects.all()
+        context["vulnerable_groups"] = VulnerableGroup.objects.all()
+        context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
+        context["reliabilities"] = Reliability.objects.all().order_by('level')
+        context["severities"] = Severity.objects.all().order_by('level')
+        context["affected_groups"] = AffectedGroup.objects.all()
+        try:
+            context["default_reliability"] = Reliability.objects.get(is_default=True)
+            context["default_severity"] = Severity.objects.get(is_default=True)
+        except:
+            pass
+
         UserProfile.set_last_event(request, context["event"])
         return render(request, "entries/add-entry.html", context)
+
+    @method_decorator(login_required)
+    def post(self, request, event, lead_id=None, id=None):
+        if not id:
+            lead = Lead.objects.get(pk=lead_id)
+
+        excerpts = json.loads(request.POST["excerpts"]);
+        Entry.objects.filter(lead=lead).delete()
+        
+        entry = Entry(lead=lead)
+        entry.save()
+
+        for excerpt in excerpts:
+            information = EntryInformation(entry=entry)
+            information.excerpt = excerpt["excerpt"]
+
+            information.reliability = Reliability.objects.get(pk=int(excerpt["reliability"]))
+            information.severity = Severity.objects.get(pk=int(excerpt["severity"]))
+            if excerpt["number"]:
+                information.number = int(excerpt["number"])
+            if excerpt["date"]:
+                information.date = excerpt["date"]
+            information.save()
+
+            for ag in excerpt["affected_groups"]:
+                information.affected_groups.add(AffectedGroup.objects.get(pk=int(ag)))
+            for vg in excerpt["vulnerable_groups"]:
+                information.vulnerable_groups.add(VulnerableGroup.objects.get(pk=int(vg)))
+            for sg in excerpt["specific_needs_groups"]:
+                information.specific_needs_groups.add(SpecificNeedsGroup.objects.get(pk=int(sg)))
+
+            for area in excerpt["map_selections"]:
+                m = area.split(':')
+                admin_level = AdminLevel.objects.get(
+                    country=Country.objects.get(code=m[0]),
+                    level=int(m[1])+1
+                )
+                try:
+                    if len(m) == 4:
+                        selection = AdminLevelSelection.objects.get(
+                            admin_level=admin_level, pcode=m[3]
+                        )
+                    else:
+                        selection = AdminLevelSelection.objects.get(
+                            admin_level=admin_level, name=m[2]
+                        )
+                except:
+                    if len(m) == 4:
+                        selection = AdminLevelSelection(admin_level=admin_level,
+                                                        name=m[2], pcode=m[3])
+                    else:
+                        selection = AdminLevelSelection(admin_level=admin_level,
+                                                        name=m[2])
+                    selection.save()
+
+                information.map_selections.add(selection)
+
+            for attr in excerpt["attributes"]:
+                ia = InformationAttribute()
+                ia.information = information
+                ia.subpillar = InformationSubpillar.objects.get(pk=int(attr["subpillar"]))
+                if (attr["sector"]):
+                    ia.sector = Sector.objects.get(pk=int(attr["sector"]))
+                if (attr["subsector"]):
+                    ia.subsector = Subsector.objects.get(pk=int(attr["subsector"]))
+                ia.save()
+
+
+        return redirect('entries:entries', event)
 
 
 class DeleteEntry(View):

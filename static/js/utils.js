@@ -50,11 +50,15 @@ function redirectPost(location, args, csrf_token)
     $('<form action="'+location+'" method="POST">'+form+'</form>').appendTo('body').submit();
 }
 
-$(document).ready(function(){
+function addTodayButtons() {
+    var btns = $(".today-btn");
+    if (btns)
+        btns.remove();
+    
     $('input[type="date"]').each(function() {
         var date = $(this);
         date.css('padding-left', '32px');
-        var today_btn = $('<a><i class="fa fa-circle"></i></a>');
+        var today_btn = $('<a class=".today-btn"><i class="fa fa-circle"></i></a>');
         today_btn.appendTo(date.parent());
         today_btn.css('z-index', '10');
         date.css('position', 'relative');
@@ -63,9 +67,15 @@ $(document).ready(function(){
         today_btn.css('top', date.position().top+9+'px');
         today_btn.css('cursor', 'pointer');
 
-        today_btn.on('click', function(){
-            date[0].valueAsDate = new Date();
-        });
+        today_btn.on('click', function(date) {
+            return function(){
+                date[0].valueAsDate = new Date();
+                date.change();
+            }
+        }(date));
     });
+}
 
+$(document).ready(function(){
+    addTodayButtons();
 });

@@ -179,10 +179,10 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                     {% endfor %}
                     </select>
 
-                    <div style="position: relative";>
+                    <div style="position: relative;">
                         <input class="save-data form-control" id="start-of-field" placeholder="Start of field data collection" type="date" {% if sos and sos.start_data_collection %}value="{{sos.start_data_collection|date:"Y-m-d"}}"{% endif %}>
                     </div>
-                    <div style="position: relative";>
+                    <div style="position: relative;">
                         <input class="save-data form-control" id="end-of-field" placeholder="End of field data collection" type="date" {% if sos and sos.end_data_collection %}value="{{sos.end_data_collection|date:"Y-m-d"}}"{% endif %}>
                     </div>
 

@@ -6,8 +6,32 @@ DEEP | Entries
 {% endblock %}
 
 {% block head %}
-
+<script>
+    var currentEvent = {{event.pk}};
+    var severities = {
+        {% for pt in severities %}
+        "{{pt.0}}":"{{pt.1}}",
+        {% endfor %}
+    };
+    var reliabilities = {
+        {% for pt in reliabilities %}
+        "{{pt.0}}":"{{pt.1}}",
+        {% endfor %}
+    };
+    var problemTimelines = {
+        {% for pt in problem_timelines %}
+        "{{pt.0}}":"{{pt.1}}",
+        {% endfor %}
+    };
+    var statuses = {
+        {% for status in statuses %}
+        "{{status.0}}":"{{status.1}}",
+        {% endfor %}
+    };
+</script>
 <link href="{% static 'css/entries.css' %}" type="text/css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% static 'css/datatables.min.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.bootstrap.min.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/selectize.bootstrap3.css' %}"/>
 <script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
@@ -18,6 +42,34 @@ DEEP | Entries
 {% endblock %}
 
 {% block body %}
+
+
+<div id="date-range-input" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <h3 class="modal-title">Enter date range</h3>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>start date:</label><br>
+                        <input type="date" id="start-date" class="form-control">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>end date:</label><br>
+                        <input type="date" id="end-date" class="form-control">
+                    </div>
+                </div>
+                <div style="margin-top: 24px; text-align: right;">
+                    <button type="button" class="btn btn-default" id="cancel-btn" data-dismiss="modal">CANCEL</button>
+                    <button type="button" class="btn btn-primary" id="ok-btn" style="min-width: 50px; margin-left: 16px;" >OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 {% include 'navbar.html' %}
 
@@ -85,75 +137,29 @@ DEEP | Entries
                 </select>
             </div>
         </div>
-        <div id="entries">
-            <div class="entry">
-                <h2></h2>
-                <div class="information-list">
-                </div>
-            </div>
-        </div>
+        <br>
+        <table id="entries-table" class="table table-bordered" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Created</th>
+                    <th>Information Attributes</th>
+                    <th>Geographical Areas</th>
+                    <th>Sectors</th>
+                    <th>Affected Groups</th>
+                    <th>Vulnerable Groups</th>
+                    <th>Groups with Specific Needs</th>
+                    <th>Lead</th>
+                    <th>Actions</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </section>
 
-<div class="information-template" hidden>
-    <div class="row">
-        <div class="col-md-3">
-            <p class="excerpt" ></p>
-        </div>
-        <div class="col-md-1">
-            <div class="reliability">
-                <label>Reliability </label><br>
-                <span class="_1"></span>
-                <span class="_2"></span>
-                <span class="_3"></span>
-                <span class="_4"></span>
-                <span class="_5"></span>
-            </div>
-            <div class="severity">
-                <label>Severity </label><br>
-                <span class="_1"></span>
-                <span class="_2"></span>
-                <span class="_3"></span>
-                <span class="_4"></span>
-                <span class="_5"></span>
-            </div>
-        </div>
-        <div class="col-md-1">
-            <p><label>Date:</label><br><span class="date"></span></p>
-            <p><label>Number:</label><br><span class="number"></span></p>
-        </div>
-        <div class="col-md-2">
-            <p><label>Vunerable groups selected:</label><br><span class="vulnerable-groups"></span></p>
-            <p><label>Specific need groups selected:</label></br><span class="sepecific-need-groups"></span></p>
-        </div>
-        <div class="col-md-5">
-            <div class="row">
-                <div class="col-md-5">
-                    <div class="affected-group">
-                        <label>Affected groups:</label>
-                        <div class="affected-group-list"></div>
-                    </div>
-                    <div class="geo-location">
-                        <label>Geo locations:</label>
-                        <div class="geo-locations-list"></div>
-                    </div>
-                </div>
-                <div class="col-md-7">
-                    <div class="attribute-list">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="attribute-template" hidden>
-    <div class="row">
-        <div class="col-md-6">
-            <span class="pillar"></span> / <span class="sub-pillar"></span>
-        </div>
-        <div class="col-md-6">
-            <span class="sector"></span> / <span class="sub-sector"></span>
-        </div>
-    </div>
-</div>
+<form id="delete-form" style="visibility:collapse;" method="post" action="{% url 'entries:delete' event=event.pk %}">
+    {% csrf_token %}
+    <input id="delete-id" name="id" type="text">
+</form>
+
 {% endblock %}

@@ -52,6 +52,9 @@ class Reliability(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = 'Reliabilities'
+
 
 class Severity(models.Model):
     name = models.CharField(max_length=100)
@@ -61,6 +64,9 @@ class Severity(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = 'Severities'
+
 
 class AffectedGroup(models.Model):
     name = models.CharField(max_length=150)
@@ -69,12 +75,18 @@ class AffectedGroup(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Affected Groups"
+
 
 class VulnerableGroup(models.Model):
     name = models.CharField(max_length=150)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Vulnerable Groups"
 
 
 class SpecificNeedsGroup(models.Model):
@@ -83,13 +95,22 @@ class SpecificNeedsGroup(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Specific Needs Groups"
+
 
 class InformationPillar(models.Model):
     name = models.CharField(max_length=150)
     contains_sectors = models.BooleanField(default=False)
 
+    background_color = models.CharField(max_length=20, default="#fbe8db")
+    active_background_color = models.CharField(max_length=20, default="#ea7120")
+
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Information Pillars"
 
 
 class InformationSubpillar(models.Model):
@@ -108,40 +129,44 @@ class Sector(models.Model):
 
 
 class Subsector(models.Model):
+    sector = models.ForeignKey(Sector)
     name = models.CharField(max_length=150)
 
     def __str__(self):
         return self.name
 
 
-class InformationAttribute(models.Model):
-    subpillar = models.ForeignKey(InformationSubpillar)
-    sector = models.ForeignKey(Sector)
-    subsector = models.ForeignKey(Subsector)
+class Entry(models.Model):
+    lead = models.ForeignKey(Lead)
 
     def __str__(self):
-        return str(self.subpillar) + "/" + str(self.sector) + "/" + str(self.subsector)
+        return str(self.lead)
+
+    class Meta:
+        verbose_name_plural = 'Entries'
 
 
 class EntryInformation(models.Model):
+    entry = models.ForeignKey(Entry)
     excerpt = models.TextField(blank=True)
-    date = models.DateField()
+    date = models.DateField(blank=True, default=None, null=True)
     reliability = models.ForeignKey(Reliability)
     severity = models.ForeignKey(Severity)
     number = models.IntegerField(blank=True, default=None, null=True)
-    attributes = models.ManyToManyField(InformationAttribute, blank=True)
     vulnerable_groups = models.ManyToManyField(VulnerableGroup, blank=True)
     specific_needs_groups = models.ManyToManyField(SpecificNeedsGroup, blank=True)
     affected_groups = models.ManyToManyField(AffectedGroup, blank=True)
     map_selections = models.ManyToManyField(AdminLevelSelection, blank=True)
-    
+
     def __str__(self):
         return self.excerpt
 
 
-class Entry(models.Model):
-    lead = models.ForeignKey(Lead)
-    informations = models.ManyToManyField(EntryInformation, blank=True)
+class InformationAttribute(models.Model):
+    information = models.ForeignKey(EntryInformation)
+    subpillar = models.ForeignKey(InformationSubpillar)
+    sector = models.ForeignKey(Sector, blank=True, null=True, default=None)
+    subsector = models.ForeignKey(Subsector, blank=True, null=True, default=None)
 
     def __str__(self):
-        return str(self.lead)
+        return str(self.subpillar) + "/" + str(self.sector) + "/" + str(self.subsector)
