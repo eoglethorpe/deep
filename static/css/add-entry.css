@@ -51,11 +51,12 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f0f0f0; }
-  body .fa {
-    margin-right: 10px; }
   body .fa-long-arrow-right {
     margin-right: 0;
     margin-left: 10px; }
+  body .fa-long-arrow-left {
+    margin-right: 10px;
+    margin-left: 0; }
   body #page-one .split-pane {
     height: calc(100vh - 60px - 2px) !important; }
     body #page-one .split-pane .split-pane-divider {
@@ -79,6 +80,8 @@ body {
         box-sizing: border-box;
         width: 100%;
         border: none; }
+      body #page-one .split-pane #left-component #lead-preview-container #lead-simplified-preview {
+        padding: 24px; }
     body #page-one .split-pane #divider {
       left: 40em;
       width: 3px;
@@ -87,8 +90,14 @@ body {
       left: 40em;
       margin-left: 3px;
       padding-top: 24px; }
+      body #page-one .split-pane #right-component .btn {
+        margin-right: 8px; }
       body #page-one .split-pane #right-component .row {
         margin-bottom: 24px; }
+      body #page-one .split-pane #right-component #save-excerpt {
+        float: right; }
+      body #page-one .split-pane #right-component #cancel {
+        float: right; }
       body #page-one .split-pane #right-component #edit-entries-btn {
         float: right; }
       body #page-one .split-pane #right-component #excerpt-text {
