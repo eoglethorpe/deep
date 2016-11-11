@@ -272,5 +272,27 @@ body {
             margin: 0; }
       body #page-two #entries .entry:nth-child(even) {
         background-color: #f0f0f0; }
+  body #chart-div table {
+    border-collapse: separate; }
+  body #chart-div .affected-group {
+    background-color: #f0f0f0;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 1em; }
+  body #chart-div .active-affected-group {
+    background-color: #008080;
+    color: #fff; }
+  body .modal h4 {
+    text-transform: uppercase; }
+  body #map-modal .modal-body {
+    padding: 0; }
+    body #map-modal .modal-body #the-map {
+      height: 60vh; }
+      body #map-modal .modal-body #the-map path {
+        stroke: #717171;
+        stroke-width: 1px;
+        stroke-linejoin: round; }
+  body #map-modal .modal-footer {
+    text-align: left; }
 
 /*# sourceMappingURL=add-entry.css.map */
