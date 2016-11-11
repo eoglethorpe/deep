@@ -651,6 +651,26 @@ $(document).ready(function(){
         excerpt.specific_needs_groups = $(this).val();
     });
 
+    // Apply to all buttons
+    $("#apply-all-affected").unbind().click(function() {
+        for (var i=0; i<excerpts.length; ++i) {
+            var excerpt = excerpts[i];
+            excerpt.affected_groups = [];
+            for (var k=0; k<selectedAffectedGroups.length; ++k) {
+                excerpt.affected_groups.push(agRowIdMap[selectedAffectedGroups[k].row]);
+            }
+        }
+        refreshExcerpts();
+    });
+
+    $("#apply-all-map").unbind().click(function() {
+        for (var i=0; i<excerpts.length; ++i) {
+            var excerpt = excerpts[i];
+            excerpt.map_selections = mapSelections; 
+        }
+        refreshExcerpts();
+    });
+
 
     // Save and cancel
 
