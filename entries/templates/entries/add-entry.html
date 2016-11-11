@@ -105,9 +105,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
             map_selections: [
                 {% for ms in excerpt.map_selections.all %}
                     {% if ms.pcode == "" %}
-                    "{{ms.admin_level.country.code}}:{{ms.admin_level.level}}:{{ms.name}}",
+                    "{{ms.admin_level.country.code}}:{{ms.admin_level.level|add:'-1'}}:{{ms.name}}",
                     {% else %}
-                    "{{ms.admin_level.country.code}}:{{ms.admin_level.level}}:{{ms.name}}:{{ms.pcode}}",
+                    "{{ms.admin_level.country.code}}:{{ms.admin_level.level|add:'-1'}}:{{ms.name}}:{{ms.pcode}}",
                     {% endif %}
                 {% endfor %}
             ],

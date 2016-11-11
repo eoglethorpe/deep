@@ -1,4 +1,4 @@
-var entries;
+var entries = [];
 
 $(document).ready(function(){
 
@@ -11,6 +11,11 @@ $(document).ready(function(){
 
     $.getJSON("/api/v1/entries/?event="+eventId, function(data){
         entries = data;
+
+        entries.sort(function(e1, e2) {
+            return new Date(e2.modified_at) - new Date(e1.modified_at);
+        });
+
         refreshList();
     });
 });

@@ -118,7 +118,7 @@ body {
     #main #entries .entry .information p {
       padding: 8px; }
     #main #entries .entry .information .excerpt {
-      height: 96px; }
+      min-height: 96px; }
     #main #entries .entry .information .geo-location {
       margin-top: 4px; }
     #main #entries .entry .information .geo-location, #main #entries .entry .information .affected-group {
