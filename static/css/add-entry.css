@@ -272,5 +272,17 @@ body {
             margin: 0; }
       body #page-two #entries .entry:nth-child(even) {
         background-color: #f0f0f0; }
+  body #chart-div table {
+    border-collapse: separate; }
+  body #chart-div .affected-group {
+    background-color: #f0f0f0;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 1em; }
+  body #chart-div .active-affected-group {
+    background-color: #008080;
+    color: #fff; }
+  body .modal h4 {
+    text-transform: uppercase; }
 
 /*# sourceMappingURL=add-entry.css.map */

@@ -89,8 +89,8 @@ function drawChart() {
     // Create the chart.
     var chart = new google.visualization.OrgChart(document.getElementById('chart-div'));
     chart.draw(data, {
-        // nodeClass: 'affected-group',
-        // selectedNodeClass: 'active-affected-group',
+         nodeClass: 'affected-group',
+         selectedNodeClass: 'active-affected-group',
     });
 
     // Set select listener
@@ -241,7 +241,7 @@ function refreshPageTwo() {
             if (attr.sector) {
                 var sector = sectors[attr.sector];
                 attribute.find('.sector').html(sector.name);
-                
+
                 var subsector = attribute.find('.sub-sector');
                 var subsectorMenu = subsector.parent().find('.dropdown-menu');
 
