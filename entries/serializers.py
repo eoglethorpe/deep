@@ -5,130 +5,20 @@ from rest_framework import serializers
 from entries.models import *
 from geojson_handler import GeoJsonHandler
 
-"""
+
+class EntryInformationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EntryInformation
+        fields = ('excerpt', 'date', 'reliability', 'severity', 'number',
+                  'vulnerable_groups', 'specific_needs_groups', 'affected_groups',
+                  'map_selections')
+        depth = 1
+
+
 class EntrySerializer(serializers.ModelSerializer):
-    lead_name = serializers.SerializerMethodField()
-    lead_type = serializers.SerializerMethodField()
-    created_by_name = serializers.SerializerMethodField()
-    information_attributes = serializers.SerializerMethodField()
-    countries = serializers.SerializerMethodField()
-    areas = serializers.SerializerMethodField()
-    areas_summary = serializers.SerializerMethodField()
-    vulnerable_groups = serializers.SerializerMethodField()
-    specific_needs_groups = serializers.SerializerMethodField()
-    sectors = serializers.SerializerMethodField()
+    lead_title = serializers.CharField(source='lead.name', read_only=True)
+    excerpts = EntryInformationSerializer(source='entryinformation_set', many=True)
 
     class Meta:
         model = Entry
-        fields = ('id', 'lead', 'lead_name', 'lead_type',
-                  'affected_groups', 'information_attributes',
-                  'vulnerable_groups', 'specific_needs_groups',
-                  'countries', 'areas', 'areas_summary', 'sectors',
-                  'created_at', 'created_by', 'created_by_name')
-
-        # TODO: Automatically set created_by.
-
-    def get_lead_name(self, entry):
-        return entry.lead.name
-
-    def get_lead_type(self, entry):
-        return entry.lead.lead_type
-
-    def get_created_by_name(self, entry):
-        if entry.created_by:
-            return entry.created_by.get_full_name()
-        else:
-            return ""
-
-    def get_information_attributes(self, entry):
-        attributes = []
-        attr_data = AttributeData.objects.filter(entry=entry)
-        for attr in attr_data:
-            attributes.append({
-                'attribute': attr.attribute.name,
-                'excerpt': attr.excerpt,
-                'number': attr.number,
-                'reliability': attr.reliability,
-                'severity': attr.severity,
-            })
-        return attributes
-
-    def get_countries(self, entry):
-        return {s.admin_level.country.pk: s.admin_level.country.name for s in entry.map_selections.all()}
-
-    def get_country_names(self, entry):
-        cs = [s.admin_level.country.name for s in entry.map_selections.all()]
-        return list(set(cs))
-
-    def get_areas_summary(self, entry):
-        summary = self.context['request'].query_params.get('summary')
-        if not summary:
-            return
-        return ", ".join(list(set([s.name for s in entry.map_selections.all()] + self.get_country_names(entry))))
-
-    def get_areas(self, entry):
-        summary = self.context['request'].query_params.get('summary')
-        if summary:
-            return
-        if entry.map_selections.count() == 0:
-            return
-
-        data = {}
-        children_properties = []
-        admin_features = {}
-        for s in entry.map_selections.all():
-            if s.admin_level.name not in data:
-                data[s.admin_level.name] = {"country": s.admin_level.country.pk, "locations": [], "pcodes": []}
-
-            if s.pcode != "":
-                data[s.admin_level.name]["pcodes"].append(s.pcode)
-            else:
-                data[s.admin_level.name]["locations"].append(s.name)
-
-        # Uncomment below all for children of parent as well
-        #     child_admin = AdminLevel.objects.filter(level__gt=s.admin_level.level, country=s.admin_level.country)
-
-        #     if child_admin.count() > 0:
-        #         if child_admin[0].pk not in admin_features:
-        #             admin_features[child_admin[0].pk] = GeoJsonHandler(child_admin[0].geojson.read().decode())
-        #         children_properties.append((child_admin[0], admin_features[child_admin[0].pk].filter_features(s.admin_level.property_name, s.name)))
-
-        # # Get children areas if exist as well
-        # for cp in children_properties:
-        #     features = cp[1]
-        #     if cp[0].name not in data:
-        #         data[cp[0].name] = {"country": cp[0].country.pk, "locations": [], "pcodes": []}
-
-        #     if cp[0].property_pcode != "":
-        #         data[cp[0].name]["pcodes"].extend([f["properties"][cp[0].property_pcode] for f in features])
-        #     else:
-        #         data[cp[0].name]["locations"].extend([f["properties"][cp[0].property_name] for f in features])
-        return data
-
-    def get_vulnerable_groups(self, entry):
-        return [str(v) for v in entry.vulnerable_groups.all()]
-
-    def get_specific_needs_groups(self, entry):
-        return [str(s) for s in entry.specific_needs_groups.all()]
-
-    def get_sectors(self, entry):
-        return [s.title for s in entry.sectors.all()]
-
-
-class CountrySerializer(serializers.ModelSerializer):
-    admin_levels = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Country
-        fields = ('code', 'name', 'admin_levels')
-
-    def get_admin_levels(self, country):
-        levels = {}
-        for level in country.adminlevel_set.all():
-            levels["level"+str(level.level)] = [
-                    level.name, level.property_name,
-                    # str(level.geojson.read(), 'utf-8')
-                    level.geojson.url, level.property_pcode
-                ]
-        return levels
-"""
+        fields = ('id', 'created_at', 'created_by', 'lead', 'lead_title', 'excerpts')

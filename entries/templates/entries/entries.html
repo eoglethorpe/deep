@@ -15,6 +15,10 @@ DEEP | Entries
 <script type="text/javascript" src="{% static 'js/split.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/entries.js' %}"></script>
 
+<script>
+    var eventId = "{{event.pk}}";
+</script>
+
 {% endblock %}
 
 {% block body %}
@@ -52,10 +56,10 @@ DEEP | Entries
             <div class="col-sm-3 col-md-2 col-xs-6">
                 <select id="sectors-filter" placeholder="Sectors">
                     <option value="">Sectors</option>
-                    {% for sector, ss in sectors.items %}
-                    <option value="{{sector.name}}">{{sector.title}}</option>
-                    {% for subsector in ss %}
-                    <option value="{{subsector.name}}">{{subsector.title}}</option>
+                    {% for sector in sectors %}
+                    <option value="{{sector.pk}}">{{sector}}</option>
+                    {% for subsector in sector.subsector_set.all %}
+                    <option value="{{subsector.pk}}">{{sector}}/{{subsector}}</option>
                     {% endfor %}
                     {% endfor %}
                 </select>
