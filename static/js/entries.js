@@ -66,7 +66,7 @@ $(document).ready(function(){
     $('#sectors-filter').change(function() {
         var filterBy = $(this).val();
         filterEntries(filterBy == "", function(info){
-            return info.attributes.filter(function(a){ return a.sector.id == filterBy; }).length > 0;
+            return info.attributes.filter(function(a){ return a.sector != null && a.sector.id == filterBy; }).length > 0;
         });
     });
     $('#vulnerable-groups-filter').change(function() {
