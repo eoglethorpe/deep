@@ -23,7 +23,6 @@ var excerpts = [
 */
 
 
-var excerpts = [];
 var selectedExcerpt = -1;
 var refreshing = false;
 
@@ -658,4 +657,6 @@ $(document).ready(function(){
     $('.cancel').unbind().click(function() {
         window.location.href = cancelUrl;
     });
+
+    refreshExcerpts();
 });
