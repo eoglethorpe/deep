@@ -284,5 +284,15 @@ body {
     color: #fff; }
   body .modal h4 {
     text-transform: uppercase; }
+  body #map-modal .modal-body {
+    padding: 0; }
+    body #map-modal .modal-body #the-map {
+      height: 60vh; }
+      body #map-modal .modal-body #the-map path {
+        stroke: #717171;
+        stroke-width: 1px;
+        stroke-linejoin: round; }
+  body #map-modal .modal-footer {
+    text-align: left; }
 
 /*# sourceMappingURL=add-entry.css.map */
