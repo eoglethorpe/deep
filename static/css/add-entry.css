@@ -262,7 +262,7 @@ body {
             body #page-two #entries .entry .attribute-list .attribute .col-md-6:nth-child(even) {
               background-color: #fafafa; }
         body #page-two #entries .entry .btn-action {
-          width: 100%;
+          width: 32px;
           height: 32px;
           text-align: center;
           padding: 0;
@@ -284,15 +284,40 @@ body {
     color: #fff; }
   body .modal h4 {
     text-transform: uppercase; }
+  body #map-modal #admin-level-buttons {
+    margin-bottom: 16px; }
   body #map-modal .modal-body {
     padding: 0; }
     body #map-modal .modal-body #the-map {
-      height: 60vh; }
+      height: 50vh; }
       body #map-modal .modal-body #the-map path {
         stroke: #717171;
         stroke-width: 1px;
         stroke-linejoin: round; }
   body #map-modal .modal-footer {
     text-align: left; }
+    body #map-modal .modal-footer #selected-location-list {
+      height: 144px;
+      overflow-y: scroll;
+      background-color: #f0f0f0;
+      padding: 10px 16px; }
+      body #map-modal .modal-footer #selected-location-list ul {
+        list-style: none;
+        padding-left: 0; }
+        body #map-modal .modal-footer #selected-location-list ul li {
+          text-indent: -16px;
+          padding-left: 20px; }
+          body #map-modal .modal-footer #selected-location-list ul li a {
+            color: #e78c6c;
+            margin-left: 10px;
+            cursor: pointer; }
+            body #map-modal .modal-footer #selected-location-list ul li a .fa {
+              margin-right: 6px; }
+      body #map-modal .modal-footer #selected-location-list #empty-text {
+        text-align: center;
+        margin-top: 32px;
+        font-size: 1.2em;
+        color: #aaa;
+        text-transform: uppercase; }
 
 /*# sourceMappingURL=add-entry.css.map */

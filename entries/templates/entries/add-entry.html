@@ -193,7 +193,10 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <div id="page-two" hidden>
     <div class="container-fluid">
         <div style="text-align: right">
+            <button class="btn btn-danger cancel" data-toggle="tooltip" title="Cancel"><i class="fa fa-times"></i></button>
+            <button class="btn btn-primary save-excerpt" data-toggle="tooltip" title="Save Excerpt"><i class="fa fa-save"></i></button>
             <button id="back-to-excerpts-btn"  class="btn btn-primary"><i class="fa fa-long-arrow-left"></i>Back to excerpts</button>
+
         </div>
         <div id="entries">
         </div>
@@ -264,11 +267,11 @@ sub-sector
                         <div class="geo-locations-list"></div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div class="attribute-list">
                     </div>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <a class="btn btn-primary btn-action"><i class="fa fa-edit"></i></a>
                     <a class="btn btn-danger btn-action"><i class="fa fa-times"></i></a>
                 </div>
@@ -296,23 +299,31 @@ sub-sector
                 <h4 class="modal-title">Select locations</h4>
             </div>
             <div class="modal-body">
-                <div id="the-map" style="height:500px;"></div>
+                <div id="the-map"></div>
             </div>
             <div class="modal-footer">
                 <div class="row">
-                    <div class="col-md-4">
-                        <!-- Country selection -->
-                        <select name="country" id="country" placeholder="Select a country">
-                            {% for country in event.countries.all %}
-                            <option value="{{country.pk}}">{{country.name}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <!-- Manual location input -->
-                        <select name="manual-location-input" id="manual-location-input" placeholder="Add a location">
-                            <option value="">Add a location</option>
-                        </select>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="admin-level-buttons"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <!-- Country selection -->
+                                <select name="country" id="country" placeholder="Select a country">
+                                    {% for country in event.countries.all %}
+                                    <option value="{{country.pk}}">{{country.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <!-- Manual location input -->
+                                <select name="manual-location-input" id="manual-location-input" placeholder="Add a location">
+                                    <option value="">Add a location</option>
+                                </select>
+                            </div>
+
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <div id="selected-location-list">
@@ -320,12 +331,6 @@ sub-sector
                             <ul>
                             </ul>
                         </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div id="admin-level-buttons"></div>
                     </div>
                 </div>
             </div>
