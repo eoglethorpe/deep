@@ -216,6 +216,8 @@ body {
             background-color: #2b3ad3; }
           body #page-two #entries .entry .reliability ._5 {
             background-color: #232fa8; }
+          body #page-two #entries .entry .reliability ._6 {
+            background-color: #1e2993; }
           body #page-two #entries .entry .reliability .active {
             transform: scale(1.4); }
         body #page-two #entries .entry .severity {
@@ -229,6 +231,8 @@ body {
           body #page-two #entries .entry .severity ._4 {
             background-color: #de2828; }
           body #page-two #entries .entry .severity ._5 {
+            background-color: #cd1f1f; }
+          body #page-two #entries .entry .severity ._6 {
             background-color: #b71c1c; }
           body #page-two #entries .entry .severity .active {
             transform: scale(1.4); }
