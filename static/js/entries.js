@@ -81,6 +81,13 @@ $(document).ready(function(){
             return info.specific_needs_groups.filter(function(s){ return s.name == filterBy; }).length > 0;
         });
     });
+
+    $('#search').on('input paste change drop', function() {
+        var filterBy = $(this).val();
+        filterEntries(filterBy == "", function(info){
+            return info.excerpt.toLowerCase().includes(filterBy.toLowerCase());
+        });
+    });
 });
 
 function refreshList() {
