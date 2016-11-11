@@ -165,7 +165,7 @@ function refreshPageOne() {
     for (var i=0; i<excerpts.length; ++i) {
         var excerpt = excerpts[i];
         var option = $("<option value='" + i + "'></option>");
-        option.text(excerpt.excerpt.length>0?excerpt.excerpt.substr(0, 100):"New excerpt");
+        option.html(excerpt.excerpt.length>0?(excerpt.excerpt.substr(0, 64)+" . . . ."):"New excerpt");
         option.appendTo(sel);
     }
     sel.val(selectedExcerpt);
@@ -241,7 +241,7 @@ function refreshPageTwo() {
             if (attr.sector) {
                 var sector = sectors[attr.sector];
                 attribute.find('.sector').html(sector.name);
-                
+
                 var subsector = attribute.find('.sub-sector');
                 var subsectorMenu = subsector.parent().find('.dropdown-menu');
 
