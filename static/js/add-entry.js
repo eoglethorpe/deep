@@ -89,8 +89,8 @@ function drawChart() {
     // Create the chart.
     var chart = new google.visualization.OrgChart(document.getElementById('chart-div'));
     chart.draw(data, {
-        // nodeClass: 'affected-group',
-        // selectedNodeClass: 'active-affected-group',
+         nodeClass: 'affected-group',
+         selectedNodeClass: 'active-affected-group',
     });
 
     // Set select listener
@@ -162,13 +162,14 @@ function refreshPageOne() {
     // Update selection
     var sel = $("#select-excerpt");
     sel.empty();
+
+    // sel.append($("<option value='' selected disabled>Select excerpt</option>"));
     for (var i=0; i<excerpts.length; ++i) {
         var excerpt = excerpts[i];
         var option = $("<option value='" + i + "'></option>");
         option.html(excerpt.excerpt.length>0?(excerpt.excerpt.substr(0, 64)+" . . . ."):"New excerpt");
         option.appendTo(sel);
     }
-    sel.val(selectedExcerpt);
 
     var excerpt = excerpts[selectedExcerpt];
     if (excerpt) {

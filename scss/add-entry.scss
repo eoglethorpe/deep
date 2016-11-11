@@ -316,5 +316,43 @@ body{
         }
     }
 
+    #chart-div{
+        table{
+            border-collapse: separate;
+        }
+        .affected-group{
+            background-color: #f0f0f0;
+            padding: 4px 10px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .active-affected-group{
+            background-color: $primary-color;
+            color: #fff;
+        }
+    }
 
+    .modal{
+        h4{
+            text-transform: uppercase;
+        }
+    }
+
+        #map-modal{
+            .modal-body{
+                padding: 0;
+
+                #the-map{
+                    height: 60vh;
+                    path {
+                        stroke: #717171;
+                        stroke-width: 1px;
+                        stroke-linejoin: round;
+                    }
+                }
+            }
+            .modal-footer{
+                text-align: left;
+            }
+        }
 }
