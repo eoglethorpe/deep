@@ -26,6 +26,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script>
+    var cancelUrl = "{% url 'entries:entries' event.pk %}";
+
     // Simplified version of the lead.
     var leadSimplified = "{% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %}";
     leadSimplified = leadSimplified.replace(/(?:\r\n|\r|\n)/g, '<br />');
@@ -272,8 +274,8 @@ sub-sector
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <a class="btn btn-primary btn-action"><i class="fa fa-edit"></i></a>
-                    <a class="btn btn-danger btn-action"><i class="fa fa-times"></i></a>
+                    <a class="edit-entry-btn btn btn-primary btn-action"><i class="fa fa-edit"></i></a>
+                    <a class="delete-entry-btn btn btn-danger btn-action"><i class="fa fa-times"></i></a>
                 </div>
             </div>
         </div>

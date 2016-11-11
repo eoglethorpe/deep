@@ -296,6 +296,20 @@ function refreshPageTwo() {
             }
         }(excerpt, entry));
 
+        // Edit and delete buttons
+        entry.find('.edit-entry-btn').unbind().click(function(i) {
+            return function() {
+                selectedExcerpt = i;
+                $('#back-to-excerpts-btn').click();                
+            }
+        }(i));
+        entry.find('.delete-entry-btn').unbind().click(function(i) {
+            return function() {
+                selectedExcerpt = i;
+                deleteExcerpt();
+            }
+        }(i));
+
         entry.appendTo(entriesContainer);
         entry.show();
 
@@ -617,5 +631,8 @@ $(document).ready(function(){
     $('.save-excerpt').unbind().click(function() {
         var data = { excerpts: JSON.stringify(excerpts) };
         redirectPost(window.location.pathname, data, csrf_token);
+    });
+    $('.cancel').unbind().click(function() {
+        window.location.href = cancelUrl;
     });
 });
