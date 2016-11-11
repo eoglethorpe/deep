@@ -171,6 +171,8 @@ function refreshPageOne() {
         option.appendTo(sel);
     }
 
+    sel.val(selectedExcerpt);
+
     var excerpt = excerpts[selectedExcerpt];
     if (excerpt) {
         // Update excerpt text
@@ -246,14 +248,25 @@ function refreshPageTwo() {
                 var subsector = attribute.find('.sub-sector');
                 var subsectorMenu = subsector.parent().find('.dropdown-menu');
 
+                if (attr.subsector) {
+                    var element = ($('<li><a>Clear</a></li>'));
+                    element.appendTo(subsectorMenu);
+                    element.unbind().click(function(attr, ss, sector, subsector) {
+                        return function() {
+                            attr.subsector = null;
+                            refreshPageTwo();
+                        }
+                    }(attr, ss, sector, subsector));
+                }
+
                 // When adding each subsector, also add click handler
                 for (var ss in sector.subsectors) {
                     var element = ($('<li><a>' + sector.subsectors[ss] + '</a></li>'));
                     element.appendTo(subsectorMenu);
                     element.unbind().click(function(attr, ss, sector, subsector) {
                         return function() {
-                            subsector.html(sector.subsectors[ss]);
                             attr.subsector = ss;
+                            refreshPageTwo();
                         }
                     }(attr, ss, sector, subsector));
                 }

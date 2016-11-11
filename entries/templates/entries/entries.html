@@ -90,14 +90,15 @@ DEEP | Entries
             </div>
         </div>
         <div id="entries">
-            <div class="entry">
-                <h2></h2>
-                <div class="information-list">
-                </div>
-            </div>
         </div>
     </div>
 </section>
+
+<div class="entry-template">
+    <h2 class="entry-title"></h2>
+    <div class="information-list">
+    </div>
+</div>
 
 <div class="information-template" hidden>
     <div class="row">
@@ -107,19 +108,15 @@ DEEP | Entries
         <div class="col-md-1">
             <div class="reliability">
                 <label>Reliability </label><br>
-                <span class="_1"></span>
-                <span class="_2"></span>
-                <span class="_3"></span>
-                <span class="_4"></span>
-                <span class="_5"></span>
+                {% for reliability in reliabilities %}
+                <span data-id="{{reliability.pk}}" class="_{{reliability.level}}"></span>
+                {% endfor %}
             </div>
             <div class="severity">
                 <label>Severity </label><br>
-                <span class="_1"></span>
-                <span class="_2"></span>
-                <span class="_3"></span>
-                <span class="_4"></span>
-                <span class="_5"></span>
+                {% for severity in severities %}
+                <span data-id="{{severity.pk}}" class="_{{severity.level}}"></span>
+                {% endfor %}
             </div>
         </div>
         <div class="col-md-1">
@@ -153,10 +150,10 @@ DEEP | Entries
 <div class="attribute-template" hidden>
     <div class="row">
         <div class="col-md-6">
-            <span class="pillar"></span> / <span class="sub-pillar"></span>
+            <span class="pillar"></span> <br> <span class="sub-pillar"></span>
         </div>
         <div class="col-md-6">
-            <span class="sector"></span> / <span class="sub-sector"></span>
+            <span class="sector"></span> <br> <span class="sub-sector"></span>
         </div>
     </div>
 </div>
