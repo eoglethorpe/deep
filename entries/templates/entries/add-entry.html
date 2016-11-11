@@ -79,6 +79,42 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
     // CSRF Token
     var csrf_token = "{% csrf_token %}";
+
+
+    // For editing, pass previous excerpts
+    var excerpts = [
+    {% if entry %}{% for excerpt in entry.entryinformation_set.all %}
+        {
+            excerpt: "{{excerpt.excerpt|escapejs}}",
+            attributes: [
+                {% for attr in excerpt.informationattribute_set.all %}
+                {
+                    pillar: {{attr.subpillar.pillar.pk}}, subpillar: {{attr.subpillar.pk}},
+                    sector: {% if attr.sector %}{{attr.sector.pk}}, subsector: {% if attr.subsector %}{{attr.subsector.pk}}{% else %}null{% endif %}
+                            {% else %}null, subsector: null{% endif %}
+                },
+                {% endfor %}
+            ],
+            reliability: {{excerpt.reliability.pk}},
+            severity: {{excerpt.severity.pk}},
+            date: {% if excerpt.date %}"{{excerpt.date|date:"Y-m-d"}}"{% else %}null{% endif %},
+            number: {% if excerpt.number %}{{excerpt.number}}{% else %}null{% endif %},
+            affected_groups: [ {% for ag in excerpt.affected_groups.all %}{{ag.pk}},{% endfor %} ],
+            vulnerable_groups: [ {% for vg in excerpt.vulnerable_groups.all %}{{vg.pk}},{% endfor %} ],
+            specific_needs_groups: [ {% for sg in excerpt.specific_needs_groups.all %}{{sg.pk}},{% endfor %} ],
+            map_selections: [
+                {% for ms in excerpt.map_selections.all %}
+                    {% if ms.pcode == "" %}
+                    "{{ms.admin_level.country.code}}:{{ms.admin_level.level}}:{{ms.name}}",
+                    {% else %}
+                    "{{ms.admin_level.country.code}}:{{ms.admin_level.level}}:{{ms.name}}:{{ms.pcode}}",
+                    {% endif %}
+                {% endfor %}
+            ],
+
+        },
+    {% endfor %}{% endif %}
+    ];
 </script>
 
 {% endblock %}
