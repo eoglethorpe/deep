@@ -317,4 +317,21 @@ body{
     }
 
 
+        #map-modal{
+            .modal-body{
+                padding: 0;
+
+                #the-map{
+                    height: 60vh;
+                    path {
+                        stroke: #717171;
+                        stroke-width: 1px;
+                        stroke-linejoin: round;
+                    }
+                }
+            }
+            .modal-footer{
+                text-align: left;
+            }
+        }
 }

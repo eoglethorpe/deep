@@ -15,7 +15,7 @@ a, button, input[type="submit"], .btn {
   color: #c0392b; }
 
 nav {
-  background-color: #008080;
+  background-color: teal;
   height: 60px;
   box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
   z-index: 100; }
@@ -129,7 +129,7 @@ body {
             transition: 0.2s all ease-in-out; }
           body #page-one .split-pane #right-component #matrix-one .pillar .active {
             transform: scaleY(1.1), scaleX(1.02);
-            background-color: #008080;
+            background-color: teal;
             color: #fff; }
       body #page-one .split-pane #right-component #matrix-two {
         width: 100%;
@@ -174,7 +174,7 @@ body {
         transition: 0.2s all ease-in-out; }
       body #page-one #pillars .pillar .active {
         transform: scaleY(1.1);
-        background-color: #008080;
+        background-color: teal;
         color: #fff; }
   body #page-two {
     padding-top: 24px; }
@@ -272,5 +272,13 @@ body {
             margin: 0; }
       body #page-two #entries .entry:nth-child(even) {
         background-color: #f0f0f0; }
-
-/*# sourceMappingURL=add-entry.css.map */
+  body #map-modal .modal-body {
+    padding: 0; }
+    body #map-modal .modal-body #the-map {
+      height: 60vh; }
+      body #map-modal .modal-body #the-map path {
+        stroke: #717171;
+        stroke-width: 1px;
+        stroke-linejoin: round; }
+  body #map-modal .modal-footer {
+    text-align: left; }
