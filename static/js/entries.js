@@ -1,3 +1,4 @@
+var entries;
 
 $(document).ready(function(){
 
@@ -9,15 +10,16 @@ $(document).ready(function(){
     $('#specific-needs-groups-filter').selectize();
 
     $.getJSON("/api/v1/entries/?event="+eventId, function(data){
-        refreshList(data);
+        entries = data;
+        refreshList();
     });
 });
 
-function refreshList(data) {
+function refreshList() {
     
     $("#entries").empty();
-    for (var i=0; i<data.length; ++i) {
-        var entry = data[i];
+    for (var i=0; i<entries.length; ++i) {
+        var entry = entries[i];
 
         var entryElement = $(".entry-template").clone();
         entryElement.removeClass("entry-template");
@@ -91,5 +93,18 @@ function refreshList(data) {
             informationElement.appendTo(entryElement.find('.information-list'));
             informationElement.show();
         }
+
+        entryElement.find('.edit-btn').unbind().click(function(entry){
+            return function() {
+                window.location.href = "/" + eventId + "/entries/edit/" + entry.id + "/";
+            }
+        }(entry));
+
+        entryElement.find('.delete-btn').unbind().click(function(entry){
+            return function() {
+                var data = { id: entry.id };
+                redirectPost("/" + eventId + "/entries/delete/", data, csrf_token);
+            }
+        }(entry));
     }
 }

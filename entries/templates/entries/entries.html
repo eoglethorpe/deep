@@ -13,10 +13,12 @@ DEEP | Entries
 <script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/split.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/entries.js' %}"></script>
 
 <script>
     var eventId = "{{event.pk}}";
+    var csrf_token = "{% csrf_token %}";
 </script>
 
 {% endblock %}
