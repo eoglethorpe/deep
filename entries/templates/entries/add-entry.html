@@ -26,6 +26,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script>
+    var cancelUrl = "{% url 'entries:entries' event.pk %}";
+
     // Simplified version of the lead.
     var leadSimplified = "{% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %}";
     leadSimplified = leadSimplified.replace(/(?:\r\n|\r|\n)/g, '<br />');
@@ -77,6 +79,42 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
     // CSRF Token
     var csrf_token = "{% csrf_token %}";
+
+
+    // For editing, pass previous excerpts
+    var excerpts = [
+    {% if entry %}{% for excerpt in entry.entryinformation_set.all %}
+        {
+            excerpt: "{{excerpt.excerpt|escapejs}}",
+            attributes: [
+                {% for attr in excerpt.informationattribute_set.all %}
+                {
+                    pillar: {{attr.subpillar.pillar.pk}}, subpillar: {{attr.subpillar.pk}},
+                    sector: {% if attr.sector %}{{attr.sector.pk}}, subsector: {% if attr.subsector %}{{attr.subsector.pk}}{% else %}null{% endif %}
+                            {% else %}null, subsector: null{% endif %}
+                },
+                {% endfor %}
+            ],
+            reliability: {{excerpt.reliability.pk}},
+            severity: {{excerpt.severity.pk}},
+            date: {% if excerpt.date %}"{{excerpt.date|date:"Y-m-d"}}"{% else %}null{% endif %},
+            number: {% if excerpt.number %}{{excerpt.number}}{% else %}null{% endif %},
+            affected_groups: [ {% for ag in excerpt.affected_groups.all %}{{ag.pk}},{% endfor %} ],
+            vulnerable_groups: [ {% for vg in excerpt.vulnerable_groups.all %}{{vg.pk}},{% endfor %} ],
+            specific_needs_groups: [ {% for sg in excerpt.specific_needs_groups.all %}{{sg.pk}},{% endfor %} ],
+            map_selections: [
+                {% for ms in excerpt.map_selections.all %}
+                    {% if ms.pcode == "" %}
+                    "{{ms.admin_level.country.code}}:{{ms.admin_level.level}}:{{ms.name}}",
+                    {% else %}
+                    "{{ms.admin_level.country.code}}:{{ms.admin_level.level}}:{{ms.name}}:{{ms.pcode}}",
+                    {% endif %}
+                {% endfor %}
+            ],
+
+        },
+    {% endfor %}{% endif %}
+    ];
 </script>
 
 {% endblock %}
@@ -128,13 +166,13 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <button class="btn btn-primary" id="add-excerpt" data-toggle="tooltip" title="Add Excerpt"><i class="fa fa-plus"></i></button>
-                        <button class="btn btn-danger" id="delete-excerpt" data-toggle="tooltip" title="Delete Excerpt"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-primary" id="add-excerpt" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Add Excerpt"><i class="fa fa-plus"></i></button>
+                        <button class="btn btn-danger" id="delete-excerpt" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Delete Excerpt"><i class="fa fa-minus"></i></button>
                     </div>
                     <div class="col-md-4">
                         <button class="btn btn-primary" id="edit-entries-btn">Edit Entries <i class="fa fa-long-arrow-right"></i></button>
-                        <button class="btn btn-danger cancel" data-toggle="tooltip" title="Cancel"><i class="fa fa-times"></i></button>
-                        <button class="btn btn-primary save-excerpt" data-toggle="tooltip" title="Save Excerpt"><i class="fa fa-save"></i></button>
+                        <button class="btn btn-danger cancel" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Cancel"><i class="fa fa-times"></i></button>
+                        <button class="btn btn-primary save-excerpt" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Save Excerpt"><i class="fa fa-save"></i></button>
                     </div>
                 </div>
                 <div class="row">
@@ -193,7 +231,10 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <div id="page-two" hidden>
     <div class="container-fluid">
         <div style="text-align: right">
+            <button class="btn btn-danger cancel" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Cancel"><i class="fa fa-times"></i></button>
+            <button class="btn btn-primary save-excerpt" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Save Excerpt"><i class="fa fa-save"></i></button>
             <button id="back-to-excerpts-btn"  class="btn btn-primary"><i class="fa fa-long-arrow-left"></i>Back to excerpts</button>
+
         </div>
         <div id="entries">
         </div>
@@ -224,13 +265,13 @@ sub-sector
             <div class="reliability">
                 <label>Reliability </label><br>
                 {% for reliability in reliabilities %}
-                <span data-id="{{reliability.pk}}" class="_{{reliability.level}}"></span>
+                <span data-id="{{reliability.pk}}" class="_{{reliability.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{reliability}}"></span>
                 {% endfor %}
             </div>
             <div class="severity">
                 <label>Severity </label><br>
                 {% for severity in severities %}
-                <span data-id="{{severity.pk}}" class="_{{severity.level}}"></span>
+                <span data-id="{{severity.pk}}" class="_{{severity.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{severity}}"></span>
                 {% endfor %}
             </div>
         </div>
@@ -264,13 +305,13 @@ sub-sector
                         <div class="geo-locations-list"></div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div class="attribute-list">
                     </div>
                 </div>
-                <div class="col-md-1">
-                    <a class="btn btn-primary btn-action"><i class="fa fa-edit"></i></a>
-                    <a class="btn btn-danger btn-action"><i class="fa fa-times"></i></a>
+                <div class="col-md-2">
+                    <a class="edit-entry-btn btn btn-primary btn-action"><i class="fa fa-edit"></i></a>
+                    <a class="delete-entry-btn btn btn-danger btn-action"><i class="fa fa-times"></i></a>
                 </div>
             </div>
         </div>
@@ -296,23 +337,31 @@ sub-sector
                 <h4 class="modal-title">Select locations</h4>
             </div>
             <div class="modal-body">
-                <div id="the-map" style="height:500px;"></div>
+                <div id="the-map"></div>
             </div>
             <div class="modal-footer">
                 <div class="row">
-                    <div class="col-md-4">
-                        <!-- Country selection -->
-                        <select name="country" id="country" placeholder="Select a country">
-                            {% for country in event.countries.all %}
-                            <option value="{{country.pk}}">{{country.name}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <!-- Manual location input -->
-                        <select name="manual-location-input" id="manual-location-input" placeholder="Add a location">
-                            <option value="">Add a location</option>
-                        </select>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="admin-level-buttons"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <!-- Country selection -->
+                                <select name="country" id="country" placeholder="Select a country">
+                                    {% for country in event.countries.all %}
+                                    <option value="{{country.pk}}">{{country.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <!-- Manual location input -->
+                                <select name="manual-location-input" id="manual-location-input" placeholder="Add a location">
+                                    <option value="">Add a location</option>
+                                </select>
+                            </div>
+
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <div id="selected-location-list">
@@ -322,11 +371,9 @@ sub-sector
                         </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div id="admin-level-buttons"></div>
-                    </div>
+                <hr>
+                <div style="text-align: right">
+                    <a class="btn btn-info">Apply to all</a>
                 </div>
             </div>
         </div>
@@ -343,8 +390,9 @@ sub-sector
             <div class="modal-body">
                 <div id="chart-div"></div>
             </div>
-            <!--div class="modal-footer">
-            </div-->
+            <div class="modal-footer">
+                <a class="btn btn-info">Apply to all</a>
+            </div
         </div>
     </div>
 </div>

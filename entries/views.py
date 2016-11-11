@@ -68,6 +68,16 @@ class EntriesView(View):
         context["current_page"] = "entries"
         context["event"] = Event.objects.get(pk=event)
         context["all_events"] = Event.objects.all()
+
+        context["pillars_one"] = InformationPillar.objects.filter(contains_sectors=False)
+        context["pillars_two"] = InformationPillar.objects.filter(contains_sectors=True)
+        context["sectors"] = Sector.objects.all()
+        context["vulnerable_groups"] = VulnerableGroup.objects.all()
+        context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
+        context["reliabilities"] = Reliability.objects.all().order_by('level')
+        context["severities"] = Severity.objects.all().order_by('level')
+        context["affected_groups"] = AffectedGroup.objects.all()
+
         UserProfile.set_last_event(request, context["event"])
         return render(request, "entries/entries.html", context)
 
@@ -76,11 +86,18 @@ class AddEntry(View):
     @method_decorator(login_required)
     def get(self, request, event, lead_id=None, id=None):
         refresh_pcodes()
+        context = {}
 
         if not id:
             lead = Lead.objects.get(pk=lead_id)
+            lead_entry = Entry.objects.filter(lead=lead)
+            if lead_entry.count() > 0:
+                return redirect('entries:edit', event, lead_entry[0].pk)
+        else:
+            entry = Entry.objects.get(pk=id)
+            lead = entry.lead
+            context["entry"] = entry
 
-        context = {}
         context["current_page"] = "entries"
         context["event"] = Event.objects.get(pk=event)
         context["dummy_list"] = range(5)
@@ -110,11 +127,15 @@ class AddEntry(View):
     def post(self, request, event, lead_id=None, id=None):
         if not id:
             lead = Lead.objects.get(pk=lead_id)
+        else:
+            entry = Entry.objects.get(pk=id)
+            lead = entry.lead
 
         excerpts = json.loads(request.POST["excerpts"]);
         Entry.objects.filter(lead=lead).delete()
         
         entry = Entry(lead=lead)
+        entry.modified_by = request.user
         entry.save()
 
         for excerpt in excerpts:
@@ -179,6 +200,6 @@ class AddEntry(View):
 class DeleteEntry(View):
     @method_decorator(login_required)
     def post(self, request, event):
-        # entry = Entry.objects.get(pk=request.POST["id"])
-        # entry.delete()
+        entry = Entry.objects.get(pk=request.POST["id"])
+        entry.delete()
         return redirect('entries:entries', event=event)

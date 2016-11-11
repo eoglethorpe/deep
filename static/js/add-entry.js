@@ -23,7 +23,6 @@ var excerpts = [
 */
 
 
-var excerpts = [];
 var selectedExcerpt = -1;
 var refreshing = false;
 
@@ -89,8 +88,8 @@ function drawChart() {
     // Create the chart.
     var chart = new google.visualization.OrgChart(document.getElementById('chart-div'));
     chart.draw(data, {
-        // nodeClass: 'affected-group',
-        // selectedNodeClass: 'active-affected-group',
+         nodeClass: 'affected-group',
+         selectedNodeClass: 'active-affected-group',
     });
 
     // Set select listener
@@ -162,12 +161,25 @@ function refreshPageOne() {
     // Update selection
     var sel = $("#select-excerpt");
     sel.empty();
+
+    // sel.append($("<option value='' selected disabled>Select excerpt</option>"));
     for (var i=0; i<excerpts.length; ++i) {
         var excerpt = excerpts[i];
         var option = $("<option value='" + i + "'></option>");
-        option.text(excerpt.excerpt.length>0?excerpt.excerpt.substr(0, 100):"New excerpt");
+        var temp = excerpt.excerpt;
+        if (excerpt.excerpt.length>0 && excerpt.excerpt.length<=64){
+
+        }
+        else if (excerpt.excerpt.length>64){
+            temp = temp.substr(0,64)+" . . . .";
+        }
+        else {
+            temp= "Add Excerpt";
+        }
+        option.html(temp);
         option.appendTo(sel);
     }
+
     sel.val(selectedExcerpt);
 
     var excerpt = excerpts[selectedExcerpt];
@@ -241,9 +253,20 @@ function refreshPageTwo() {
             if (attr.sector) {
                 var sector = sectors[attr.sector];
                 attribute.find('.sector').html(sector.name);
-                
+
                 var subsector = attribute.find('.sub-sector');
                 var subsectorMenu = subsector.parent().find('.dropdown-menu');
+
+                if (attr.subsector) {
+                    var element = ($('<li><a>Clear</a></li>'));
+                    element.appendTo(subsectorMenu);
+                    element.unbind().click(function(attr, ss, sector, subsector) {
+                        return function() {
+                            attr.subsector = null;
+                            refreshPageTwo();
+                        }
+                    }(attr, ss, sector, subsector));
+                }
 
                 // When adding each subsector, also add click handler
                 for (var ss in sector.subsectors) {
@@ -251,8 +274,8 @@ function refreshPageTwo() {
                     element.appendTo(subsectorMenu);
                     element.unbind().click(function(attr, ss, sector, subsector) {
                         return function() {
-                            subsector.html(sector.subsectors[ss]);
                             attr.subsector = ss;
+                            refreshPageTwo();
                         }
                     }(attr, ss, sector, subsector));
                 }
@@ -294,6 +317,20 @@ function refreshPageTwo() {
                 refreshMap();
             }
         }(excerpt, entry));
+
+        // Edit and delete buttons
+        entry.find('.edit-entry-btn').unbind().click(function(i) {
+            return function() {
+                selectedExcerpt = i;
+                $('#back-to-excerpts-btn').click();
+            }
+        }(i));
+        entry.find('.delete-entry-btn').unbind().click(function(i) {
+            return function() {
+                selectedExcerpt = i;
+                deleteExcerpt();
+            }
+        }(i));
 
         entry.appendTo(entriesContainer);
         entry.show();
@@ -617,4 +654,9 @@ $(document).ready(function(){
         var data = { excerpts: JSON.stringify(excerpts) };
         redirectPost(window.location.pathname, data, csrf_token);
     });
+    $('.cancel').unbind().click(function() {
+        window.location.href = cancelUrl;
+    });
+
+    refreshExcerpts();
 });

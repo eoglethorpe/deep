@@ -13,7 +13,13 @@ DEEP | Entries
 <script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/split.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/entries.js' %}"></script>
+
+<script>
+    var eventId = "{{event.pk}}";
+    var csrf_token = "{% csrf_token %}";
+</script>
 
 {% endblock %}
 
@@ -52,10 +58,10 @@ DEEP | Entries
             <div class="col-sm-3 col-md-2 col-xs-6">
                 <select id="sectors-filter" placeholder="Sectors">
                     <option value="">Sectors</option>
-                    {% for sector, ss in sectors.items %}
-                    <option value="{{sector.name}}">{{sector.title}}</option>
-                    {% for subsector in ss %}
-                    <option value="{{subsector.name}}">{{subsector.title}}</option>
+                    {% for sector in sectors %}
+                    <option value="{{sector.pk}}">{{sector}}</option>
+                    {% for subsector in sector.subsector_set.all %}
+                    <option value="{{subsector.pk}}">{{sector}}/{{subsector}}</option>
                     {% endfor %}
                     {% endfor %}
                 </select>
@@ -86,14 +92,23 @@ DEEP | Entries
             </div>
         </div>
         <div id="entries">
-            <div class="entry">
-                <h2></h2>
-                <div class="information-list">
-                </div>
-            </div>
         </div>
     </div>
 </section>
+
+<div class="entry-template" hidden>
+    <div class="row">
+        <div class="col-md-8">
+            <h2 class="entry-title"></h2>
+        </div>
+        <div class="col-md-4">
+            <a class="fa fa-trash delete-btn btn btn-danger btn-action" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Delete Entry"></a>
+            <a class="fa fa-edit edit-btn btn btn-info btn-action" onmouseover="$(this).tooltip('show')" style="margin-right: 0;" data-toggle="tooltip" data-placement="bottom" title="Edit Entry"></a>
+        </div>
+    </div>
+    <div class="information-list">
+    </div>
+</div>
 
 <div class="information-template" hidden>
     <div class="row">
@@ -103,19 +118,15 @@ DEEP | Entries
         <div class="col-md-1">
             <div class="reliability">
                 <label>Reliability </label><br>
-                <span class="_1"></span>
-                <span class="_2"></span>
-                <span class="_3"></span>
-                <span class="_4"></span>
-                <span class="_5"></span>
+                {% for reliability in reliabilities %}
+                <span data-id="{{reliability.pk}}" class="_{{reliability.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{reliability}}"></span>
+                {% endfor %}
             </div>
             <div class="severity">
                 <label>Severity </label><br>
-                <span class="_1"></span>
-                <span class="_2"></span>
-                <span class="_3"></span>
-                <span class="_4"></span>
-                <span class="_5"></span>
+                {% for severity in severities %}
+                <span data-id="{{severity.pk}}" class="_{{severity.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{severity}}"></span>
+                {% endfor %}
             </div>
         </div>
         <div class="col-md-1">
@@ -149,10 +160,10 @@ DEEP | Entries
 <div class="attribute-template" hidden>
     <div class="row">
         <div class="col-md-6">
-            <span class="pillar"></span> / <span class="sub-pillar"></span>
+            <span class="pillar"></span> <br> <span class="sub-pillar"></span>
         </div>
         <div class="col-md-6">
-            <span class="sector"></span> / <span class="sub-sector"></span>
+            <span class="sector"></span> <br> <span class="sub-sector"></span>
         </div>
     </div>
 </div>

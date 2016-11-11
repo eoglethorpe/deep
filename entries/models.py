@@ -137,6 +137,8 @@ class Subsector(models.Model):
 
 
 class Entry(models.Model):
+    modified_at = models.DateTimeField(auto_now=True)
+    modified_by = models.ForeignKey(User, default=None, null=True, blank=None)
     lead = models.ForeignKey(Lead)
 
     def __str__(self):
