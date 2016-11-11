@@ -167,7 +167,17 @@ function refreshPageOne() {
     for (var i=0; i<excerpts.length; ++i) {
         var excerpt = excerpts[i];
         var option = $("<option value='" + i + "'></option>");
-        option.html(excerpt.excerpt.length>0?(excerpt.excerpt.substr(0, 64)+" . . . ."):"New excerpt");
+        var temp = excerpt.excerpt;
+        if (excerpt.excerpt.length>0 && excerpt.excerpt.length<=64){
+
+        }
+        else if (excerpt.excerpt.length>64){
+            temp = temp.substr(0,64)+" . . . .";
+        }
+        else {
+            temp= "Add Excerpt";
+        }
+        option.html(temp);
         option.appendTo(sel);
     }
 
@@ -313,7 +323,7 @@ function refreshPageTwo() {
         entry.find('.edit-entry-btn').unbind().click(function(i) {
             return function() {
                 selectedExcerpt = i;
-                $('#back-to-excerpts-btn').click();                
+                $('#back-to-excerpts-btn').click();
             }
         }(i));
         entry.find('.delete-entry-btn').unbind().click(function(i) {
