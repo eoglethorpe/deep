@@ -68,6 +68,16 @@ class EntriesView(View):
         context["current_page"] = "entries"
         context["event"] = Event.objects.get(pk=event)
         context["all_events"] = Event.objects.all()
+
+        context["pillars_one"] = InformationPillar.objects.filter(contains_sectors=False)
+        context["pillars_two"] = InformationPillar.objects.filter(contains_sectors=True)
+        context["sectors"] = Sector.objects.all()
+        context["vulnerable_groups"] = VulnerableGroup.objects.all()
+        context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
+        context["reliabilities"] = Reliability.objects.all().order_by('level')
+        context["severities"] = Severity.objects.all().order_by('level')
+        context["affected_groups"] = AffectedGroup.objects.all()
+
         UserProfile.set_last_event(request, context["event"])
         return render(request, "entries/entries.html", context)
 
@@ -115,6 +125,7 @@ class AddEntry(View):
         Entry.objects.filter(lead=lead).delete()
         
         entry = Entry(lead=lead)
+        entry.created_by = request.user
         entry.save()
 
         for excerpt in excerpts:

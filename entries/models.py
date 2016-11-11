@@ -137,6 +137,8 @@ class Subsector(models.Model):
 
 
 class Entry(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, default=None, null=True, blank=None)
     lead = models.ForeignKey(Lead)
 
     def __str__(self):
