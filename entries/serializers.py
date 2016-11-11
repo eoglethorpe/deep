@@ -6,19 +6,28 @@ from entries.models import *
 from geojson_handler import GeoJsonHandler
 
 
+class InformationAttributeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InformationAttribute
+        fields = ('subpillar', 'sector', 'subsector')
+        depth = 2
+
+
 class EntryInformationSerializer(serializers.ModelSerializer):
+    attributes = InformationAttributeSerializer(source='informationattribute_set', many=True)
+
     class Meta:
         model = EntryInformation
         fields = ('excerpt', 'date', 'reliability', 'severity', 'number',
                   'vulnerable_groups', 'specific_needs_groups', 'affected_groups',
-                  'map_selections')
+                  'map_selections', 'attributes')
         depth = 1
 
 
 class EntrySerializer(serializers.ModelSerializer):
     lead_title = serializers.CharField(source='lead.name', read_only=True)
-    excerpts = EntryInformationSerializer(source='entryinformation_set', many=True)
+    informations = EntryInformationSerializer(source='entryinformation_set', many=True)
 
     class Meta:
         model = Entry
-        fields = ('id', 'created_at', 'created_by', 'lead', 'lead_title', 'excerpts')
+        fields = ('id', 'created_at', 'created_by', 'lead', 'lead_title', 'informations')
