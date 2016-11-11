@@ -1,22 +1,85 @@
+var originalEntries = [];
 var entries = [];
 
-$(document).ready(function(){
 
-    $('#date-created-filter').selectize();
-    $('#areas-filter').selectize();
+function filterEntries(clear, filterFunction) {
+    if (clear) {
+        entries = originalEntries;
+        refreshList();
+        return;
+    }
+
+    entries = [];
+    for (var i=0; i < originalEntries.length; ++i) {
+        var entry = $.extend(true, {}, originalEntries[i]);
+        entry.informations = entry.informations.filter(filterFunction);
+
+        if (entry.informations.length > 0)
+            entries.push(entry);
+    }
+    refreshList();
+}
+
+$(document).ready(function(){
+    $('#date-modified-filter').selectize();
+    var areasSelectize = $('#areas-filter').selectize();
     $('#sectors-filter').selectize();
     $('#affected-groups-filter').selectize();
     $('#vulnerable-groups-filter').selectize();
     $('#specific-needs-groups-filter').selectize();
 
     $.getJSON("/api/v1/entries/?event="+eventId, function(data){
+        originalEntries = data;
         entries = data;
+
+        // Get areas options
+        for (var i=0; i<entries.length; ++i) {
+            for (var j=0; j<entries[i].informations.length; ++j) {
+                var info = entries[i].informations[j];
+                for (var k=0; k<info.map_selections.length; ++k) {
+                    var ms = info.map_selections[k];
+                    areasSelectize[0].selectize.addOption({value:ms.name, text:ms.name});
+                }
+            }
+        }
 
         entries.sort(function(e1, e2) {
             return new Date(e2.modified_at) - new Date(e1.modified_at);
         });
 
         refreshList();
+    });
+
+    // Filters
+    $('#areas-filter').change(function() {
+        var filterBy = $(this).val();
+        filterEntries(filterBy == "", function(info){
+            return info.map_selections.filter(function(ms){ return ms.name == filterBy; }).length > 0;
+        });
+    });
+    $('#affected-groups-filter').change(function() {
+        var filterBy = $(this).val();
+        filterEntries(filterBy == "", function(info){
+            return info.affected_groups.filter(function(a){ return a.name == filterBy; }).length > 0;
+        });
+    });
+    $('#sectors-filter').change(function() {
+        var filterBy = $(this).val();
+        filterEntries(filterBy == "", function(info){
+            return info.attributes.filter(function(a){ return a.sector.id == filterBy; }).length > 0;
+        });
+    });
+    $('#vulnerable-groups-filter').change(function() {
+        var filterBy = $(this).val();
+        filterEntries(filterBy == "", function(info){
+            return info.vulnerable_groups.filter(function(v){ return v.name == filterBy; }).length > 0;
+        });
+    });
+    $('#specific-needs-groups-filter').change(function() {
+        var filterBy = $(this).val();
+        filterEntries(filterBy == "", function(info){
+            return info.specific_needs_groups.filter(function(s){ return s.name == filterBy; }).length > 0;
+        });
     });
 });
 
