@@ -100,8 +100,8 @@ DEEP | Entries
             <h2 class="entry-title"></h2>
         </div>
         <div class="col-md-4">
-            <a class="fa fa-edit edit-btn btn btn-info btn-action"></a>
-            <a class="fa fa-trash edit-btn btn btn-danger btn-action"></a>
+            <a class="fa fa-trash delete-btn btn btn-danger btn-action" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Delete Entry"></a>
+            <a class="fa fa-edit edit-btn btn btn-info btn-action" onmouseover="$(this).tooltip('show')" style="margin-right: 0;" data-toggle="tooltip" data-placement="bottom" title="Edit Entry"></a>
         </div>
     </div>
     <div class="information-list">
@@ -117,13 +117,13 @@ DEEP | Entries
             <div class="reliability">
                 <label>Reliability </label><br>
                 {% for reliability in reliabilities %}
-                <span data-id="{{reliability.pk}}" class="_{{reliability.level}}"></span>
+                <span data-id="{{reliability.pk}}" class="_{{reliability.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{reliability}}"></span>
                 {% endfor %}
             </div>
             <div class="severity">
                 <label>Severity </label><br>
                 {% for severity in severities %}
-                <span data-id="{{severity.pk}}" class="_{{severity.level}}"></span>
+                <span data-id="{{severity.pk}}" class="_{{severity.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{severity}}"></span>
                 {% endfor %}
             </div>
         </div>
