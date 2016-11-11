@@ -158,6 +158,7 @@ function refreshCurrentEntryLists() {
 }
 
 function refreshPageOne() {
+    
     // Update selection
     var sel = $("#select-excerpt");
     sel.empty();
@@ -339,6 +340,9 @@ function refreshPageTwo() {
         currentEntry = entry;
         currentExcerpt = excerpt;
         refreshCurrentEntryLists();
+
+        currentEntry = null;
+        currentExcerpt = null;
     }
 
     addTodayButtons();
