@@ -162,13 +162,14 @@ function refreshPageOne() {
     // Update selection
     var sel = $("#select-excerpt");
     sel.empty();
+
+    sel.append($("<option value='' selected disabled>Select excerpt</option>"));
     for (var i=0; i<excerpts.length; ++i) {
         var excerpt = excerpts[i];
         var option = $("<option value='" + i + "'></option>");
         option.text(excerpt.excerpt.length>0?excerpt.excerpt.substr(0, 100):"New excerpt");
         option.appendTo(sel);
     }
-    sel.val(selectedExcerpt);
 
     var excerpt = excerpts[selectedExcerpt];
     if (excerpt) {
