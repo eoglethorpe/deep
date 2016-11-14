@@ -8,26 +8,26 @@ DEEP | Entries
 {% block head %}
 <script>
     var currentEvent = {{event.pk}};
-    var severities = {
-        {% for pt in severities %}
-        "{{pt.0}}":"{{pt.1}}",
-        {% endfor %}
-    };
-    var reliabilities = {
-        {% for pt in reliabilities %}
-        "{{pt.0}}":"{{pt.1}}",
-        {% endfor %}
-    };
-    var problemTimelines = {
-        {% for pt in problem_timelines %}
-        "{{pt.0}}":"{{pt.1}}",
-        {% endfor %}
-    };
-    var statuses = {
-        {% for status in statuses %}
-        "{{status.0}}":"{{status.1}}",
-        {% endfor %}
-    };
+    // var severities = {
+    //     {% for pt in severities %}
+    //     "{{pt.0}}":"{{pt.1}}",
+    //     {% endfor %}
+    // };
+    // var reliabilities = {
+    //     {% for pt in reliabilities %}
+    //     "{{pt.0}}":"{{pt.1}}",
+    //     {% endfor %}
+    // };
+    // var problemTimelines = {
+    //     {% for pt in problem_timelines %}
+    //     "{{pt.0}}":"{{pt.1}}",
+    //     {% endfor %}
+    // };
+    // var statuses = {
+    //     {% for status in statuses %}
+    //     "{{status.0}}":"{{status.1}}",
+    //     {% endfor %}
+    // };
 
     var heirarchy = [];
 </script>

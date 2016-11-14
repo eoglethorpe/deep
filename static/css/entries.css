@@ -134,7 +134,8 @@ nav {
     #main #entries .entry .information .severity .active {
       transform: scale(1.2); }
     #main #entries .entry .information .excerpt {
-      min-height: 96px; }
+      min-height: 96px;
+      white-space: pre-line; }
     #main #entries .entry .information .geo-location {
       margin-top: 4px; }
     #main #entries .entry .information .geo-location, #main #entries .entry .information .affected-group {

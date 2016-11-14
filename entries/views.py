@@ -11,24 +11,26 @@ from leads.models import *
 from entries.models import *
 from entries.strippers import *
 # from . import export_xls, export_docx, export_fields
+from entries.export_entries_docx_temp import export_docx
 from entries.refresh_pcodes import *
 from leads.views import get_simplified_lead
 
 import os
 import json
+import time
 from collections import OrderedDict
 
 
 class ExportView(View):
     @method_decorator(login_required)
     def get(self, request, event):
-        # context = {}
-        # context["current_page"] = "export"
-        # context["event"] = Event.objects.get(pk=event)
-        # context["all_events"] = Event.objects.all()
+        context = {}
+        context["current_page"] = "export"
+        context["event"] = Event.objects.get(pk=event)
+        context["all_events"] = Event.objects.all()
 
-        # UserProfile.set_last_event(request, context["event"])
-        return HttpResponse("To be updated") # render(request, "entries/export.html", context)
+        UserProfile.set_last_event(request, context["event"])
+        return render(request, "entries/export.html", context)
 
 
 class ExportXls(View):
@@ -43,7 +45,7 @@ class ExportXls(View):
 class ExportDocx(View):
     @method_decorator(login_required)
     def get(self, request, event):
-        # order = request.GET.get("order").split(',')
+        order = request.GET.get("order").split(',')
         # order_values = {
         #     "geoarea": "Map Selections",
         #     "affected": "Affected Groups",
@@ -51,14 +53,18 @@ class ExportDocx(View):
         #     # "severity": "Severity",
         #     # "sector": "Sector",
         # }
-        # ord = [order_values[a] for a in order if a in order_values]
+        # order = [order_values[a] for a in order if a in order_values]
 
         # # ord = ["Map Selections", "Affected Groups", "Vulnerable Groups"]
         # response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
         # response['Content-Disposition'] = 'attachment; filename = %s' % export_fields.get_file_name('doc')
         # export_docx.export(ord).save(response)
 
-        return HttpResponse("To be updated") # response
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        response['Content-Disposition'] = 'attachment; filename = DEEP Entries - %s.docx' % time.strftime("%Y-%m-%d")
+        export_docx(order).save(response)
+
+        return response
 
 
 class EntriesView(View):
