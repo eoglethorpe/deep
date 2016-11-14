@@ -75,7 +75,7 @@ $.fn.dataTable.ext.search.push(
 
 $(document).ready(function() {
     var leadsTable = $('#leads-table').DataTable( {
-        "order": [[ 0, "desc" ]], 
+        "order": [[ 0, "desc" ]],
         "bPaginate": false,
         lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
         ajax: {
@@ -98,7 +98,7 @@ $(document).ready(function() {
             { data: "source"},
             { data: null, render: function(data, type, row) { return statuses[data.status]; } },
             { data: null, render: function(data, type, row){
-                return '<a class="btn btn-default btn-action btn-add-entry" href="/'+currentEvent+'/entries/add/'+data.id+'"><i class="fa fa-share"></i></a> <a class="btn btn-default btn-action btn-edit" href="/'+currentEvent+'/leads/edit/'+data.id+'"><i class="fa fa-edit"></i></a>';
+                return '<a class="btn btn-default btn-action btn-add-entry" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Add Entry" href="/'+currentEvent+'/entries/add/'+data.id+'"><i class="fa fa-share"></i></a> <a class="btn btn-default btn-action btn-edit" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Edit Entry" href="/'+currentEvent+'/leads/edit/'+data.id+'"><i class="fa fa-edit"></i></a>';
             }}
         ],
         initComplete: function(){
