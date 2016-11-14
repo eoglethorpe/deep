@@ -5,7 +5,7 @@ body{
     height: 100vh;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+    background-color: #f5f5f5;
 
     label{
         font-size: 0.9em;
@@ -196,8 +196,15 @@ body{
     #page-two{
         padding-top: 24px;
 
+        label{
+            font-size: 0.8em;
+            text-transform: uppercase;
+            color: #969696;
+        }
+
         #entries{
             padding-top: 24px;
+
             h3{
                 margin-top: 0;
                 margin-bottom: 24px;
@@ -206,8 +213,8 @@ body{
             .entry{
                 padding: 24px;
                 padding-bottom: 0;
-                background-color: #fafafa;
-                border-bottom: 1px solid #ddd;
+                background-color: #efefef;
+                border: 1px solid #ddd;
 
 
                 .row:first-child{
@@ -289,12 +296,12 @@ body{
                             cursor: pointer;
                         }
 
-                        .col-md-6{
-                            background-color: #f5f5f5;
-                        }
-                        .col-md-6:nth-child(even){
-                            background-color: #fafafa;
-                        }
+                        // .col-md-6{
+                        //     background-color: #fff;
+                        // }
+                        // .col-md-6:nth-child(even){
+                        //     background-color: #fff;
+                        // }
                     }
                 }
 
@@ -313,7 +320,7 @@ body{
                 }
             }
             .entry:nth-child(even){
-                background-color: #f0f0f0;
+                background-color: #eaeaea;
             }
         }
     }

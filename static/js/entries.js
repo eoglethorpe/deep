@@ -91,7 +91,7 @@ $(document).ready(function(){
 });
 
 function refreshList() {
-    
+
     $("#entries").empty();
     for (var i=0; i<entries.length; ++i) {
         var entry = entries[i];
@@ -101,6 +101,8 @@ function refreshList() {
         entryElement.addClass("entry");
 
         entryElement.find(".entry-title").text(entry.lead_title);
+        entryElement.find(".created-by").text(entry.modified_by);
+        entryElement.find(".created-on").text(new Date(entry.modified_at).toLocaleDateString());
 
         entryElement.appendTo($("#entries"));
         entryElement.show();
@@ -119,7 +121,7 @@ function refreshList() {
 
             informationElement.find('.date').text(information.date);
             informationElement.find('.number').text(information.number);
-            
+
             informationElement.find('.vulnerable-groups').text(
                 information.vulnerable_groups.map(function(vg) {
                     return vg.name;

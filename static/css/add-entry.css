@@ -1,10 +1,9 @@
 body {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   background-color: #fafafa;
-  color: #414141;
-  font-size: 13px; }
+  color: #414141; }
 
-a, a:hover, a:active, a:visited {
+a, a:hover, a:active, a:visited, a:focus {
   text-decoration: none; }
 
 a, button, input[type="submit"], .btn {
@@ -52,7 +51,7 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0;
-  background-color: #f0f0f0; }
+  background-color: #f5f5f5; }
   body label {
     font-size: 0.9em; }
   body .fa-long-arrow-right {
@@ -178,6 +177,10 @@ body {
         color: #fff; }
   body #page-two {
     padding-top: 24px; }
+    body #page-two label {
+      font-size: 0.8em;
+      text-transform: uppercase;
+      color: #969696; }
     body #page-two #entries {
       padding-top: 24px; }
       body #page-two #entries h3 {
@@ -187,8 +190,8 @@ body {
       body #page-two #entries .entry {
         padding: 24px;
         padding-bottom: 0;
-        background-color: #fafafa;
-        border-bottom: 1px solid #ddd; }
+        background-color: #efefef;
+        border: 1px solid #ddd; }
         body #page-two #entries .entry .row:first-child {
           margin-bottom: 8px; }
         body #page-two #entries .entry .severity, body #page-two #entries .entry .reliability {
@@ -260,10 +263,6 @@ body {
             body #page-two #entries .entry .attribute-list .attribute a {
               font-size: 0.9em;
               cursor: pointer; }
-            body #page-two #entries .entry .attribute-list .attribute .col-md-6 {
-              background-color: #f5f5f5; }
-            body #page-two #entries .entry .attribute-list .attribute .col-md-6:nth-child(even) {
-              background-color: #fafafa; }
         body #page-two #entries .entry .btn-action {
           width: 32px;
           height: 32px;
@@ -274,7 +273,7 @@ body {
           body #page-two #entries .entry .btn-action .fa {
             margin: 0; }
       body #page-two #entries .entry:nth-child(even) {
-        background-color: #f0f0f0; }
+        background-color: #eaeaea; }
   body #chart-div table {
     border-collapse: separate; }
   body #chart-div .affected-group {
