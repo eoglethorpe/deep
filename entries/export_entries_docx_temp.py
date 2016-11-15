@@ -55,10 +55,24 @@ def add_excerpt_info(d, info):
     d.add_paragraph("Reliability: {}\nSeverity: {}".format(info.reliability.name, info.severity.name))
 
 
-def export_docx(order):
-    d = docx.Document()
+def set_style(style):
+    style.paragraph_format.space_after = docx.shared.Pt(6)
+    style.paragraph_format.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.LEFT
 
-    # TODO: Sorting
+
+def export_docx(order):
+    d = docx.Document('static/doc_export/template.docx')
+
+    # Set document styles
+    set_style(d.styles["Normal"])
+    set_style(d.styles["Heading 1"])
+    set_style(d.styles["Heading 2"])
+    set_style(d.styles["Heading 3"])
+    set_style(d.styles["Heading 4"])
+    set_style(d.styles["Heading 5"])
+    
+
+    # TODO: Hierarchy and filter
 
     # The leads for which excerpts we displayed
     leads = []
