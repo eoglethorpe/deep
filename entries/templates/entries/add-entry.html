@@ -115,6 +115,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
         },
     {% endfor %}{% endif %}
     ];
+
+    // Default date
+    var defaultDate = {% if lead.published_at %}"{{lead.published_at|date:"Y-m-d"}}"{% else %}null{% endif %};
 </script>
 
 {% endblock %}
