@@ -1,10 +1,13 @@
 import docx
+from docx import RT
+from docx.enum.dml import MSO_THEME_COLOR_INDEX
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 from entries.models import *
 
-# From https://github.com/python-openxml/python-docx/issues/74
+
+# See: https://github.com/python-openxml/python-docx/issues/74#issuecomment-215678765
 def add_hyperlink(paragraph, url, text):
     """
     A function that places a hyperlink within a paragraph object.
@@ -32,9 +35,14 @@ def add_hyperlink(paragraph, url, text):
     # Join all the xml elements together add add the required text to the w:r element
     new_run.append(rPr)
     new_run.text = text
-    hyperlink.append(new_run)
 
+    hyperlink.append(new_run)
     paragraph._p.append(hyperlink)
+
+    r = docx.text.run.Run(new_run, paragraph)
+
+    r.font.color.theme_color = MSO_THEME_COLOR_INDEX.HYPERLINK
+    r.font.underline = True
 
     return hyperlink
 
@@ -88,16 +96,18 @@ def add_line(para):
 
 def add_excerpt_info(d, info):
     # Show the excerpt
-    d.add_paragraph(info.excerpt)
+    ref = d.add_paragraph(info.excerpt)
 
     # Show the reference
 
-    if info.entry.lead.source:
+    source_name = ""
+    if info.entry.lead.source and info.entry.lead.source.name != "":
         source_name = info.entry.lead.source.name
-    else:
+    
+    if source_name == "":
         source_name = "Reference"
 
-    ref = d.add_paragraph("(")
+    ref.add_run(" (")
     if info.entry.lead.url and info.entry.lead.url != "":
         add_hyperlink(ref, info.entry.lead.url, source_name)
     
@@ -115,8 +125,11 @@ def add_excerpt_info(d, info):
     # d.add_paragraph("Reliability: {}\nSeverity: {}".format(info.reliability.name, info.severity.name))
 
     r = ref.add_run()
-    r.add_picture('static/img/doc_export/sev_{}.png'.format(info.severity.level), height=docx.shared.Inches(.18))
-    r.add_picture('static/img/doc_export/rel_{}.png'.format(info.reliability.level), height=docx.shared.Inches(.18))
+    r.add_text(' ')
+    r.add_picture('static/img/doc_export/sev_{}.png'.format(info.severity.level), height=docx.shared.Inches(.17))
+    r.add_text(' ')
+    r.add_picture('static/img/doc_export/rel_{}.png'.format(info.reliability.level), height=docx.shared.Inches(.17))
+    r.add_text(' ')
 
     ref.add_run(")")
 
@@ -162,6 +175,7 @@ def export_docx(order):
                 if not pillar_header_shown:
                     d.add_heading(pillar.name, level=2)
                     d.add_paragraph()
+                    pillar_header_shown = True
                 d.add_heading(subpillar.name, level=3)
                 d.add_paragraph()
 
@@ -189,9 +203,11 @@ def export_docx(order):
                     if not sector_header_shown:
                         d.add_heading(sector.name, level=2)
                         d.add_paragraph()
+                        sector_header_shown = True
                     if not pillar_header_shown:
                         d.add_heading(pillar.name, level=3)
                         d.add_paragraph()
+                        pillar_header_shown = True
                     d.add_heading(subpillar.name+":", level=4)
 
                 for attr in attributes:

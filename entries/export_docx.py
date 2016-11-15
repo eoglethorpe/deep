@@ -55,7 +55,7 @@ def _add_hyperlink(paragraph, url, text):
     r.font.color.theme_color = MSO_THEME_COLOR_INDEX.HYPERLINK
     r.font.underline = True
 
-    return r    
+    return r
 
 
 def _sort(ents, order):
