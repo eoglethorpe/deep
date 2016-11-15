@@ -216,7 +216,7 @@ def export_docx(order):
 
         p.add_run(". {}.".format(lead.name.title()))
         if lead.published_at:
-            p.add_run("{}.".format(lead.published_at.strftime("%m/%d/%Y")))
+            p.add_run(" {}.".format(lead.published_at.strftime("%m/%d/%Y")))
 
         p = d.add_paragraph()
         if lead.url and lead.url != "":
