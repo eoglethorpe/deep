@@ -377,7 +377,7 @@ function addExcerpt(excerpt) {
         excerpt: excerpt,
         attributes: [],
         reliability: defaultReliability, severity: defaultSeverity,
-        date: null, number: null,
+        date: defaultDate, number: null,
         affected_groups: [], vulnerable_groups: [], specific_needs_groups: [],
         map_selections: []
     };
