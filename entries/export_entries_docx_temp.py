@@ -143,7 +143,7 @@ def export_docx(order):
     # TODO: Hierarchy and filter
 
     # The leads for which excerpts we displayed
-    leads = []
+    leads_pk = []
 
     # First the attributes with no sectors
 
@@ -168,7 +168,7 @@ def export_docx(order):
             for attr in attributes:
                 info = attr.information
                 add_excerpt_info(d, info)
-                leads.append(info.entry.lead)
+                leads_pk.append(info.entry.lead.pk)
 
     # Next the attributes containing sectors
     for sector in Sector.objects.all():
@@ -197,7 +197,7 @@ def export_docx(order):
                 for attr in attributes:
                     info = attr.information
                     add_excerpt_info(d, info)
-                    leads.append(info.entry.lead)
+                    leads_pk.append(info.entry.lead.pk)
 
     
     add_line(d.add_paragraph())
@@ -207,6 +207,8 @@ def export_docx(order):
     h1 = d.add_heading("Bibliography", level=1)
     d.add_paragraph()
 
+    leads_pk = list(set(leads_pk))
+    leads = Lead.objects.filter(pk__in=leads_pk)
     for lead in leads:
         p = d.add_paragraph()
         if lead.source:
