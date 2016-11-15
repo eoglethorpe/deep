@@ -1,8 +1,10 @@
 import docx
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
 
 from entries.models import *
 
-# From johanvandegriff @ https://github.com/python-openxml/python-docx/issues/74
+# From https://github.com/python-openxml/python-docx/issues/74
 def add_hyperlink(paragraph, url, text):
     """
     A function that places a hyperlink within a paragraph object.
@@ -37,26 +39,92 @@ def add_hyperlink(paragraph, url, text):
     return hyperlink
 
 
+# From https://github.com/python-openxml/python-docx/issues/105
+def add_line(para):
+    # a very convoluded way to add a horizontal line to the document
+
+    def first_child_found_in(parent, tagnames):
+        """
+        Return the first child of parent with tag in *tagnames*, or None if
+        not found.
+        """
+        for tagname in tagnames:
+            child = parent.find(qn(tagname))
+            if child is not None:
+                return child
+        return None
+
+    def insert_element_before(parent, elm, successors):
+        """
+        Insert *elm* as child of *parent* before any existing child having
+        tag name found in *successors*.
+        """
+        successor = first_child_found_in(parent, successors)
+        if successor is not None:
+            successor.addprevious(elm)
+        else:
+            parent.append(elm)
+        return elm
+
+    p = para._p  # p is the <w:p> XML element
+    pPr = p.get_or_add_pPr()
+    pBdr = OxmlElement('w:pBdr')
+    insert_element_before(pPr, pBdr, successors=(
+        'w:shd', 'w:tabs', 'w:suppressAutoHyphens', 'w:kinsoku', 'w:wordWrap',
+        'w:overflowPunct', 'w:topLinePunct', 'w:autoSpaceDE', 'w:autoSpaceDN',
+        'w:bidi', 'w:adjustRightInd', 'w:snapToGrid', 'w:spacing', 'w:ind',
+        'w:contextualSpacing', 'w:mirrorIndents', 'w:suppressOverlap', 'w:jc',
+        'w:textDirection', 'w:textAlignment', 'w:textboxTightWrap',
+        'w:outlineLvl', 'w:divId', 'w:cnfStyle', 'w:rPr', 'w:sectPr',
+        'w:pPrChange'
+    ))
+    bottom = OxmlElement('w:bottom')
+    bottom.set(qn('w:val'), 'single')
+    bottom.set(qn('w:sz'), '6')
+    bottom.set(qn('w:space'), '1')
+    bottom.set(qn('w:color'), 'auto')
+    pBdr.append(bottom)
+
+
 def add_excerpt_info(d, info):
     # Show the excerpt
     d.add_paragraph(info.excerpt)
+
     # Show the reference
-    ref = d.add_paragraph()
+
+    if info.entry.lead.source:
+        source_name = info.entry.lead.source.name
+    else:
+        source_name = "Reference"
+
+    ref = d.add_paragraph("(")
     if info.entry.lead.url and info.entry.lead.url != "":
-        add_hyperlink(ref, info.entry.lead.url, "Reference")
+        add_hyperlink(ref, info.entry.lead.url, source_name)
     
     elif Attachment.objects.filter(lead=info.entry.lead).count() > 0:
-        add_hyperlink(ref, info.entry.lead.attachment.upload.url, "Reference")
+        add_hyperlink(ref, info.entry.lead.attachment.upload.url, source_name)
+
+    else:
+        ref.add_run("Manual Entry")
 
     # TODO Find out whether to show date of info or lead
     if info.date:
-        ref.add_run(" {}".format(info.date.strftime("%B %d, %Y")))
+        ref.add_run(", {}".format(info.date.strftime("%m/%d/%Y")), )
 
-    d.add_paragraph("Reliability: {}\nSeverity: {}".format(info.reliability.name, info.severity.name))
+
+    # d.add_paragraph("Reliability: {}\nSeverity: {}".format(info.reliability.name, info.severity.name))
+
+    r = ref.add_run()
+    r.add_picture('static/img/doc_export/sev_{}.png'.format(info.severity.level), height=docx.shared.Inches(.18))
+    r.add_picture('static/img/doc_export/rel_{}.png'.format(info.reliability.level), height=docx.shared.Inches(.18))
+
+    ref.add_run(")")
+
+    d.add_paragraph()
 
 
 def set_style(style):
-    style.paragraph_format.space_after = docx.shared.Pt(6)
+    # style.paragraph_format.space_after = docx.shared.Pt(6)
     style.paragraph_format.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.LEFT
 
 
@@ -75,69 +143,84 @@ def export_docx(order):
     # TODO: Hierarchy and filter
 
     # The leads for which excerpts we displayed
-    leads = []
+    leads_pk = []
 
-    # Get each information pillar
-    pillars = InformationPillar.objects.all()
+    # First the attributes with no sectors
+
+    # Get each pillar
+    pillars = InformationPillar.objects.filter(contains_sectors=False)
     for pillar in pillars:
-        h2 = d.add_heading(pillar.name, level=2)
+        pillar_header_shown = False
         
         # Get each subpillar
         subpillars = pillar.informationsubpillar_set.all()
         for subpillar in subpillars:
-            h3 = d.add_heading(subpillar.name, level=3)
+            attributes = InformationAttribute.objects.filter(subpillar=subpillar,
+                                                             sector=None)
 
-            if pillar.contains_sectors:
-                # For each sector
-                for sector in Sector.objects.all():
-                    h4 = d.add_heading(sector.name, level=4)
+            if len(attributes) > 0:
+                if not pillar_header_shown:
+                    d.add_heading(pillar.name, level=2)
+                    d.add_paragraph()
+                d.add_heading(subpillar.name, level=3)
+                d.add_paragraph()
 
-                    attributes = InformationAttribute.objects.filter(subpillar=subpillar,
-                                                                     sector=sector,
-                                                                     subsector=None)
-                    for attr in attributes:
-                        info = attr.information
-                        add_excerpt_info(d, info)
-                        leads.append(info.entry.lead)
+            for attr in attributes:
+                info = attr.information
+                add_excerpt_info(d, info)
+                leads_pk.append(info.entry.lead.pk)
 
-                    # For each subsector
-                    for subsector in sector.subsector_set.all():
-                        h4 = d.add_heading(subsector.name, level=5)
+    # Next the attributes containing sectors
+    for sector in Sector.objects.all():
+        sector_header_shown = False
 
-                        attributes = InformationAttribute.objects.filter(subpillar=subpillar,
-                                                                        sector=sector,
-                                                                        subsector=subsector)
-                        for attr in attributes:
-                            info = attr.information
-                            add_excerpt_info(d, info)
-                            leads.append(info.entry.lead)
-            
-            else:
-                # Get all excerpts belonging to this subpillar
+        # Get each pillar
+        pillars = InformationPillar.objects.filter(contains_sectors=True)
+        for pillar in pillars:
+            pillar_header_shown = False
+
+            # Get each subpillar
+            subpillars = pillar.informationsubpillar_set.all()
+            for subpillar in subpillars:
                 attributes = InformationAttribute.objects.filter(subpillar=subpillar,
-                                                                 sector=None,
-                                                                 subsector=None)
+                                                                 sector=sector)
+
+                if len(attributes) > 0:
+                    if not sector_header_shown:
+                        d.add_heading(sector.name, level=2)
+                        d.add_paragraph()
+                    if not pillar_header_shown:
+                        d.add_heading(pillar.name, level=3)
+                        d.add_paragraph()
+                    d.add_heading(subpillar.name+":", level=4)
+
                 for attr in attributes:
                     info = attr.information
                     add_excerpt_info(d, info)
-                    leads.append(info.entry.lead)
+                    leads_pk.append(info.entry.lead.pk)
 
-    d.add_page_break()
+    
+    add_line(d.add_paragraph())
 
     # Bibliography
+    d.add_paragraph()
     h1 = d.add_heading("Bibliography", level=1)
+    d.add_paragraph()
+
+    leads_pk = list(set(leads_pk))
+    leads = Lead.objects.filter(pk__in=leads_pk)
     for lead in leads:
         p = d.add_paragraph()
         if lead.source:
-            p.add_run(lead.source.name)
+            p.add_run(lead.source.name.title())
         else:
-            p.add_run("Missing source")
+            p.add_run("Missing source".title())
 
-        p.add_run(". {}.".format(lead.name))
+        p.add_run(". {}.".format(lead.name.title()))
         if lead.published_at:
-            p.add_run("{}.".format(lead.published_at.strftime("%B %d, %Y")))
+            p.add_run(" {}.".format(lead.published_at.strftime("%m/%d/%Y")))
 
-        p.add_run("\n")
+        p = d.add_paragraph()
         if lead.url and lead.url != "":
             add_hyperlink(p, lead.url, lead.url)
         
@@ -146,6 +229,8 @@ def export_docx(order):
 
         else:
             p.add_run("Missing url.")
+            
+        d.add_paragraph()
 
     d.add_page_break()
 
