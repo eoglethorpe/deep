@@ -118,6 +118,13 @@ nav{
                     min-height: 64px;
                     padding: 0 4px;
                 }
+                .pillar, .sector{
+                    font-weight: bold;
+                }
+                .sub-pillar, .sub-sector{
+                    color: #717171;
+                    font-size: 0.9em;
+                }
             }
             .information:nth-child(even){
                 background-color: #ededed;
