@@ -239,8 +239,8 @@ body {
           body #page-two #entries .entry .severity .active {
             transform: scale(1.4); }
         body #page-two #entries .entry .excerpt {
-          height: 96px;
-          font-size: 0.9em; }
+          font-size: 0.9em;
+          overflow: hidden; }
         body #page-two #entries .entry .geo-location {
           margin-top: 4px; }
         body #page-two #entries .entry .geo-location, body #page-two #entries .entry .affected-group {
