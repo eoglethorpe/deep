@@ -61,11 +61,11 @@ class WeeklyReportView(View):
         context = {}
         context["country"] = country
         context["event"] = event
-        # context["entries"] = Entry.objects.filter(lead__event=event)
+        context["entries"] = Entry.objects.filter(lead__event=event)
         context["current_page"] = "report"
 
-        # context["reliabilities"] = dict(AttributeData.RELIABILITIES)
-        # context["severities"] = dict(AttributeData.SEVERITIES)
+        context["reliabilities"] = Reliability.objects.all()
+        context["severities"] = Severity.objects.all()
 
         # Get the report if in edit mode, otherwise get the start date of the
         # new weekly report

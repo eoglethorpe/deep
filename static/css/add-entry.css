@@ -272,6 +272,11 @@ body {
           margin-bottom: 10px; }
           body #page-two #entries .entry .btn-action .fa {
             margin: 0; }
+        body #page-two #entries .entry .pillar, body #page-two #entries .entry .sector {
+          font-weight: bold; }
+        body #page-two #entries .entry .sub-pillar, body #page-two #entries .entry .sub-sector {
+          color: #717171;
+          font-size: 0.9em; }
       body #page-two #entries .entry:nth-child(even) {
         background-color: #eaeaea; }
   body #chart-div table {

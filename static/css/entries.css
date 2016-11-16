@@ -144,6 +144,11 @@ nav {
     #main #entries .entry .information .vulnerable-group, #main #entries .entry .information .specific-need-group {
       min-height: 64px;
       padding: 0 4px; }
+    #main #entries .entry .information .pillar, #main #entries .entry .information .sector {
+      font-weight: bold; }
+    #main #entries .entry .information .sub-pillar, #main #entries .entry .information .sub-sector {
+      color: #717171;
+      font-size: 0.9em; }
   #main #entries .entry .information:nth-child(even) {
     background-color: #ededed; }
 

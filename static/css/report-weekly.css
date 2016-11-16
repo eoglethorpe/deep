@@ -76,9 +76,56 @@ body {
     #main #entries h3 {
       padding-left: 32px; }
     #main #entries .entry {
-      padding: 10px 32px; }
+      padding: 10px 32px;
+      padding-top: 0; }
+      #main #entries .entry h4 {
+        color: #008080;
+        font-weight: bold;
+        margin-bottom: 24px; }
       #main #entries .entry .details {
         color: #969696; }
+      #main #entries .entry label {
+        font-size: 0.8em;
+        color: #969696;
+        text-transform: uppercase; }
+      #main #entries .entry .severity, #main #entries .entry .reliability {
+        margin-top: 8px; }
+        #main #entries .entry .severity span, #main #entries .entry .reliability span {
+          width: 10px;
+          height: 16px;
+          background-color: #ccc;
+          display: inline-block; }
+        #main #entries .entry .severity label, #main #entries .entry .reliability label {
+          vertical-align: super;
+          margin-right: 16px; }
+      #main #entries .entry .reliability ._1 {
+        background-color: #aab0ed; }
+      #main #entries .entry .reliability ._2 {
+        background-color: #7f88e5; }
+      #main #entries .entry .reliability ._3 {
+        background-color: #5561dc; }
+      #main #entries .entry .reliability ._4 {
+        background-color: #2b3ad3; }
+      #main #entries .entry .reliability ._5 {
+        background-color: #232fa8; }
+      #main #entries .entry .reliability ._6 {
+        background-color: #1e2993; }
+      #main #entries .entry .reliability .active {
+        transform: scale(1.2); }
+      #main #entries .entry .severity ._1 {
+        background-color: #f2adad; }
+      #main #entries .entry .severity ._2 {
+        background-color: #ec8080; }
+      #main #entries .entry .severity ._3 {
+        background-color: #e55454; }
+      #main #entries .entry .severity ._4 {
+        background-color: #de2828; }
+      #main #entries .entry .severity ._5 {
+        background-color: #cd1f1f; }
+      #main #entries .entry .severity ._6 {
+        background-color: #b71c1c; }
+      #main #entries .entry .severity .active {
+        transform: scale(1.2); }
     #main #entries .title {
       text-transform: uppercase;
       margin-top: 16px;
