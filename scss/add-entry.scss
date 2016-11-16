@@ -262,8 +262,9 @@ body{
                 }
 
                 .excerpt{
-                    height: 96px;
+                    
                     font-size: 0.9em;
+                    overflow: hidden;
                 }
                 .geo-location{
                     margin-top: 4px;
