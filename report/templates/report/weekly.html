@@ -110,46 +110,66 @@ DEEP | Weekly Report
                 <div id="entries">
                     <h3>Entries</h3>
                     <hr>
-                    {% comment %}
                     {% for entry in entries %}
                     <div class="entry">
-                        <h4>Entry #{{forloop.counter}}</h4>
-                        <div id="affected-groups">
-                            <label>Affected groups:</label>
-                            {% for ag in entry.affected_groups.all %}
-                            {{ ag }}
-                            {% if not forloop.last %}, {% endif %}
-                            {% empty %}
-                            [N/A]
-                            {% endfor %}
-                        </div>
-                        <div id="specific-need-groups">
-                            <label>Specific needs groups:</label>
-                            {% for sng in entry.specific_needs_groups.all %}
-                            {{ sng }}
-                            {% if not forloop.last %}, {% endif %}
-                            {% empty %}
-                            [N/A]
-                            {% endfor %}
-                        </div>
-                        <div id="vulnerable-groups">
-                            <label>Vulnerable groups:</label>
-                            {% for vg in entry.vulnerable_groups.all %}
-                            {{ vg }}
-                            {% if not forloop.last %}, {% endif %}
-                            {% empty %}
-                            [N/A]
-                            {% endfor %}
-                        </div>
-
+                        <h4>{{entry.lead.name}}</h4>
                         <div id="excerpts">
-                            <label class="title">Excerpts:</label><br>
-                            {% for data in entry.attributedata_set.all %}
-                            <label>{{data.attribute.name}}</label>
-                            <p>{{data.excerpt}}</p>
-                            <div>
-                                <label>Reliablility:</label><span class="reliability"> {{data.reliability|getfrom:reliabilities}}</span>, <label>Severity:</label><span class="severity"> {{data.severity|getfrom:severities}}</span>
+                            <!-- <label class="title">Excerpts:</label><br> -->
+                            {% for data in entry.entryinformation_set.all %}
+                            <!-- <label>{{data.attribute.name}}</label> -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>{{data.excerpt}}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="affected-groups">
+                                        <label>Affected groups:</label><br>
+                                        {% for ag in data.affected_groups.all %}
+                                        {{ ag }}
+                                        {% if not forloop.last %}, {% endif %}
+                                        {% empty %}
+                                        [N/A]
+                                        {% endfor %}
+                                    </div>
+                                    <div class="specific-need-groups">
+                                        <label>Specific needs groups:</label><br>
+                                        {% for sng in data.specific_needs_groups.all %}
+                                        {{ sng }}
+                                        {% if not forloop.last %}, {% endif %}
+                                        {% empty %}
+                                        [N/A]
+                                        {% endfor %}
+                                    </div>
+                                    <div class="vulnerable-groups">
+                                        <label>Vulnerable groups:</label><br>
+                                        {% for vg in data.vulnerable_groups.all %}
+                                        {{ vg }}
+                                        {% if not forloop.last %}, {% endif %}
+                                        {% empty %}
+                                        [N/A]
+                                        {% endfor %}
+                                    </div>
+                                </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="reliability">
+                                        <label>Reliablility:</label><!--span class="reliability"> {{data.reliability}}</span>, <label>Severity:</label><span class="severity"> {{data.severity}}</span-->
+                                        {% for reliability in reliabilities %}
+                                        <span data-id="{{reliability.pk}}" class="_{{reliability.level}}  {% if data.reliability == reliability %}active{% endif %}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{reliability}}"></span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="severity">
+                                        <label>Severity:</label><!--span class="reliability"> {{data.reliability}}</span>, <label>Severity:</label><span class="severity"> {{data.severity}}</span-->
+                                        {% for severity in severities %}
+                                        <span data-id="{{severity.pk}}" class="_{{severity.level}}  {% if data.severity == severity %}active{% endif %}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{severity}}"></span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
                             {% empty %}
                             <p>[N/A]</p>
                             {% endfor %}
@@ -157,7 +177,6 @@ DEEP | Weekly Report
                     </div>
                     {% if not forloop.last %}<hr>{% endif %}
                     {% endfor %}
-                    {% endcomment %}
 
                 </div>
             </div>
