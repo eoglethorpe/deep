@@ -97,7 +97,7 @@ body {
           display: inline-block; }
         #main #entries .entry .severity label, #main #entries .entry .reliability label {
           vertical-align: super;
-          margin-right: 16px; }
+          margin-right: 10px; }
       #main #entries .entry .reliability ._1 {
         background-color: #aab0ed; }
       #main #entries .entry .reliability ._2 {

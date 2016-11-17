@@ -259,10 +259,12 @@ body {
             margin-bottom: 2px;
             display: block;
             font-size: 0.9em;
-            text-align: center; }
+            text-align: left; }
             body #page-two #entries .entry .attribute-list .attribute a {
               font-size: 0.9em;
               cursor: pointer; }
+        body #page-two #entries .entry .sub-sector-list {
+          list-style: none; }
         body #page-two #entries .entry .btn-action {
           width: 32px;
           height: 32px;

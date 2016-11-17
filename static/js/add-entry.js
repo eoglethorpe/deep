@@ -5,9 +5,9 @@ var excerpts = [
     {
         excerpt: "",
         attributes: [
-            { pillar: pid, subpillar: spid, sector: secid, subsector: ssecid },
-            { pillar: pid, subpillar: spid, sector: secid, subsector: ssecid },
-            { pillar: pid, subpillar: spid, sector: secid, subsector: ssecid },
+            { pillar: pid, subpillar: spid, sector: secid, subsectors: [ssecid,] },
+            { pillar: pid, subpillar: spid, sector: secid, subsectors: [ssecid,] },
+            { pillar: pid, subpillar: spid, sector: secid, subsectors: [ssecid,] },
         ],
         reliability: relid, severity: sevid, date: date, number: number,
         affected_groups: [ agid, agid, ... ],
@@ -256,36 +256,46 @@ function refreshPageTwo() {
                 attribute.find('.sector').html(sector.name);
 
                 var subsector = attribute.find('.sub-sector');
+                var subsectorList = attribute.find('.sub-sector-list');
                 var subsectorMenu = subsector.parent().find('.dropdown-menu');
 
-                if (attr.subsector) {
-                    var element = ($('<li><a>Clear</a></li>'));
-                    element.appendTo(subsectorMenu);
-                    element.unbind().click(function(attr, ss, sector, subsector) {
+                // Show selected subsectors
+                for (var k=0; k<attr.subsectors.length; ++k) {
+                    var element = $('<li>' + sector.subsectors[attr.subsectors[k]] + '</li>');
+
+                    var deleteButton = $('<a href="#" class="fa fa-times"></a>');
+                    deleteButton.prependTo(element);
+                    deleteButton.width('16px');
+
+                    element.appendTo(subsectorList);
+
+                    deleteButton.unbind().click(function(attr, k) {
                         return function() {
-                            attr.subsector = null;
+                            attr.subsectors.splice(k, 1);
                             refreshPageTwo();
                         }
-                    }(attr, ss, sector, subsector));
+                    }(attr, k));
                 }
 
-                // When adding each subsector, also add click handler
+                var hasMenu = false;
+                // Create subsector menu
                 for (var ss in sector.subsectors) {
-                    var element = ($('<li><a>' + sector.subsectors[ss] + '</a></li>'));
-                    element.appendTo(subsectorMenu);
-                    element.unbind().click(function(attr, ss, sector, subsector) {
-                        return function() {
-                            attr.subsector = ss;
-                            refreshPageTwo();
-                        }
-                    }(attr, ss, sector, subsector));
+                    if (!inArray(attr.subsectors, ss)) {
+                        hasMenu = true;
+
+                        var element = ($('<li><a>' + sector.subsectors[ss] + '</a></li>'));
+                        element.appendTo(subsectorMenu);
+                        element.unbind().click(function(attr, ss, sector, subsector) {
+                            return function() {
+                                attr.subsectors.push(ss);
+                                refreshPageTwo();
+                            }
+                        }(attr, ss, sector, subsector));
+                    }
                 }
 
-                if (attr.subsector) {
-                    subsector.html(sector.subsectors[attr.subsector]);
-                } else {
-                    subsector.html("select subsector");
-                }
+                if (hasMenu)
+                    subsector.html("Add subsector");
             }
             // If there is not sector, hide the div tag containing the sector/subsector
             else {
@@ -519,7 +529,7 @@ $(document).ready(function(){
                 excerpts[selectedExcerpt].attributes.push({
                     pillar: $(this).data('pillar-id'),
                     subpillar: $(this).data('subpillar-id'),
-                    sector: null, subsector: null
+                    sector: null, subsectors: []
                 });
             }
         }
@@ -576,7 +586,7 @@ $(document).ready(function(){
                 excerpts[selectedExcerpt].attributes.push({
                     pillar: $(this).data('pillar-id'),
                     subpillar: $(this).data('subpillar-id'),
-                    sector: $(this).data('sector-id'), subsector: null
+                    sector: $(this).data('sector-id'), subsectors: []
                 });
             }
         }

@@ -262,7 +262,6 @@ body{
                 }
 
                 .excerpt{
-                    
                     font-size: 0.9em;
                     overflow: hidden;
                 }
@@ -291,21 +290,16 @@ body{
                         margin-bottom: 2px;
                         display: block;
                         font-size: 0.9em;
-                        text-align: center;
+                        text-align: left;
                         a{
                             font-size: 0.9em;
                             cursor: pointer;
                         }
-
-                        // .col-md-6{
-                        //     background-color: #fff;
-                        // }
-                        // .col-md-6:nth-child(even){
-                        //     background-color: #fff;
-                        // }
                     }
                 }
-
+                .sub-sector-list{
+                    list-style: none;
+                }
                 .btn-action{
                     width: 32px;
                     height: 32px;
