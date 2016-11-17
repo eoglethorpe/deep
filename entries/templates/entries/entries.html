@@ -50,114 +50,135 @@ DEEP | Entries
                     </select>
                 </div>
 
-                <div class="col-sm-3 col-md-2 col-xs-6">
-                    <select id="users-filter" placeholder="Users">
-                        <option value="">Users</option>
-                        {% for u in users %}
-                        <option value="{{u.pk}}">{{u.get_full_name}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-sm-3 col-md-2 col-xs-6">
-                    <select id="areas-filter" placeholder="Areas">
-                        <option value="">Areas</option>
-                        {% for area in areas %}
-                        <option value="{{area}}">{{area}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-sm-3 col-md-2 col-xs-6">
-                    <select id="affected-groups-filter" placeholder="Affected Groups">
-                        <option value="">Affected Groups</option>
-                        {% for group in affected_groups %}
-                        <option value="{{group}}">{{group}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-sm-3 col-md-2 col-xs-6">
-                    <select id="vulnerable-groups-filter" placeholder="Vulnerable groups">
-                        <option value="">Vulnerable groups</option>
-                        {% for vulnerable_group in vulnerable_groups %}
-                        <option value="{{vulnerable_group}}">{{vulnerable_group}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-sm-3 col-md-2 col-xs-6">
-                    <select id="specific-needs-groups-filter" placeholder="Specific Needs Groups">
-                        <option value="">Specific Needs Groups</option>
-                        {% for group in specific_needs_groups %}
-                        <option value="{{group}}">{{group}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-sm-3 col-md-2">
-                    <input id="search" class="form-control" placeholder="Search excerpt">
-                </div>
-            </div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <select id="users-filter" placeholder="Users">
+                                <option value="">Users</option>
+                                {% for u in users %}
+                                <option value="{{u.pk}}">{{u.get_full_name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select id="areas-filter" placeholder="Areas">
+                                <option value="">Areas</option>
+                                {% for area in areas %}
+                                <option value="{{area}}">{{area}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select id="affected-groups-filter" placeholder="Affected Groups">
+                                <option value="">Affected Groups</option>
+                                {% for group in affected_groups %}
+                                <option value="{{group}}">{{group}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select id="vulnerable-groups-filter" placeholder="Vulnerable groups">
+                                <option value="">Vulnerable groups</option>
+                                {% for vulnerable_group in vulnerable_groups %}
+                                <option value="{{vulnerable_group}}">{{vulnerable_group}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select id="specific-needs-groups-filter" placeholder="Specific Needs Groups">
+                                <option value="">Specific Needs Groups</option>
+                                {% for group in specific_needs_groups %}
+                                <option value="{{group}}">{{group}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select id="pillars-filter" placeholder="Pillars">
+                                <option value="">Pillars</option>
+                                {% for pillar in pillars %}
+                                <option value="{{pillar.pk}}">{{pillar}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select id="subpillars-filter" placeholder="Subpillars">
+                                <option value="">Subpillars</option>
+                                {% for subpillar in subpillars %}
+                                <option value="{{subpillar.pk}}">{{subpillar}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select id="sectors-filter" placeholder="Sectors">
+                                <option value="">Sectors</option>
+                                {% for sector in sectors %}
+                                <option value="{{sector.pk}}">{{sector}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select id="subsectors-filter" placeholder="Subsectors">
+                                <option value="">Subsectors</option>
+                                {% for subsector in subsectors %}
+                                <option value="{{subsector.pk}}">{{subsector}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
 
-            <div class="row">
-                <div class="col-sm-3 col-md-2 col-xs-6">
-                    <select id="pillars-filter" placeholder="Pillars">
-                        <option value="">Pillars</option>
-                        {% for pillar in pillars %}
-                        <option value="{{pillar.pk}}">{{pillar}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-sm-3 col-md-2 col-xs-6">
-                    <select id="subpillars-filter" placeholder="Subpillars">
-                        <option value="">Subpillars</option>
-                        {% for subpillar in subpillars %}
-                        <option value="{{subpillar.pk}}">{{subpillar}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-sm-3 col-md-2 col-xs-6">
-                    <select id="sectors-filter" placeholder="Sectors">
-                        <option value="">Sectors</option>
-                        {% for sector in sectors %}
-                        <option value="{{sector.pk}}">{{sector}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-sm-3 col-md-2 col-xs-6">
-                    <select id="subsectors-filter" placeholder="Subsectors">
-                        <option value="">Subsectors</option>
-                        {% for subsector in subsectors %}
-                        <option value="{{subsector.pk}}">{{subsector}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
+                        <!-- Insert new filter here inside following container
+                        <div class="col-md-2">
+                        </div> -->
 
-
-                <div class="col-sm-3 col-md-2 col-xs-6">
-                    <select id="reliabilities-min-filter" class="reliabilities-filter" placeholder="Reliabilities from">
-                        <option value="">Reliabilities from</option>
-                        {% for reliability in reliabilities %}
-                        <option value="{{reliability.level}}">{{reliability}}</option>
-                        {% endfor %}
-                    </select>
-                    <select id="reliabilities-max-filter" class="reliabilities-filter" placeholder="Reliabilities to">
-                        <option value="">Reliabilities to</option>
-                        {% for reliability in reliabilities %}
-                        <option value="{{reliability.level}}">{{reliability}}</option>
-                        {% endfor %}
-                    </select>
+                        <div class="col-md-2">
+                            <input id="search" class="form-control" placeholder="Search excerpt">
+                        </div>
+                    </div>
                 </div>
-
-                <div class="col-sm-3 col-md-2 col-xs-6">
-                    <select id="severities-min-filter" class="severities-filter" placeholder="Severities from">
-                        <option value="">Severities from</option>
-                        {% for severity in severities %}
-                        <option value="{{severity.level}}">{{severity}}</option>
-                        {% endfor %}
-                    </select>
-                    <select id="severities-max-filter" class="severities-filter" placeholder="Severities to">
-                        <option value="">Severities to</option>
-                        {% for severity in severities %}
-                        <option value="{{severity.level}}">{{severity}}</option>
-                        {% endfor %}
-                    </select>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Reliability</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <select id="reliabilities-min-filter" class="reliabilities-filter" placeholder="from">
+                                        <option value="">from</option>
+                                        {% for reliability in reliabilities %}
+                                        <option value="{{reliability.level}}">{{reliability}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <select id="reliabilities-max-filter" class="reliabilities-filter" placeholder="to">
+                                        <option value="">to</option>
+                                        {% for reliability in reliabilities %}
+                                        <option value="{{reliability.level}}">{{reliability}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Severity</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <select id="severities-min-filter" class="severities-filter" placeholder="from">
+                                        <option value="">from</option>
+                                        {% for severity in severities %}
+                                        <option value="{{severity.level}}">{{severity}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <select id="severities-max-filter" class="severities-filter" placeholder="to">
+                                        <option value="">to</option>
+                                        {% for severity in severities %}
+                                        <option value="{{severity.level}}">{{severity}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
