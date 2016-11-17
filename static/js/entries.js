@@ -21,12 +21,20 @@ function filterEntries(clear, filterFunction) {
 }
 
 $(document).ready(function(){
+    $('#users-filter').selectize();
     $('#date-modified-filter').selectize();
     var areasSelectize = $('#areas-filter').selectize();
-    $('#sectors-filter').selectize();
     $('#affected-groups-filter').selectize();
     $('#vulnerable-groups-filter').selectize();
     $('#specific-needs-groups-filter').selectize();
+    $('#pillars-filter').selectize();
+    $('#subpillars-filter').selectize();
+    $('#sectors-filter').selectize();
+    $('#subsectors-filter').selectize();
+    $('#reliabilities-min-filter').selectize();
+    $('#reliabilities-max-filter').selectize();
+    $('#severities-min-filter').selectize();
+    $('#severities-max-filter').selectize();
 
     $.getJSON("/api/v1/entries/?event="+eventId, function(data){
         originalEntries = data;
@@ -51,6 +59,12 @@ $(document).ready(function(){
     });
 
     // Filters
+    $('#users-filter').change(function() {
+        var filterBy = $(this).val();
+        filterEntries(filterBy == "", function(info){
+            return info.modified_by == filterBy;
+        });
+    });
     $('#areas-filter').change(function() {
         var filterBy = $(this).val();
         filterEntries(filterBy == "", function(info){
@@ -61,12 +75,6 @@ $(document).ready(function(){
         var filterBy = $(this).val();
         filterEntries(filterBy == "", function(info){
             return info.affected_groups.filter(function(a){ return a.name == filterBy; }).length > 0;
-        });
-    });
-    $('#sectors-filter').change(function() {
-        var filterBy = $(this).val();
-        filterEntries(filterBy == "", function(info){
-            return info.attributes.filter(function(a){ return a.sector != null && a.sector.id == filterBy; }).length > 0;
         });
     });
     $('#vulnerable-groups-filter').change(function() {
@@ -86,6 +94,50 @@ $(document).ready(function(){
         var filterBy = $(this).val();
         filterEntries(filterBy == "", function(info){
             return info.excerpt.toLowerCase().includes(filterBy.toLowerCase());
+        });
+    });
+
+
+    $('#pillars-filter').change(function() {
+        var filterBy = $(this).val();
+        filterEntries(filterBy == "", function(info){
+            return info.attributes.filter(function(a){ return a.subpillar != null && a.subpillar.pillar.id == filterBy; }).length > 0;
+        });
+    });
+    $('#subpillars-filter').change(function() {
+        var filterBy = $(this).val();
+        filterEntries(filterBy == "", function(info){
+            return info.attributes.filter(function(a){ return a.subpillar != null && a.subpillar.id == filterBy; }).length > 0;
+        });
+    });
+    $('#sectors-filter').change(function() {
+        var filterBy = $(this).val();
+        filterEntries(filterBy == "", function(info){
+            return info.attributes.filter(function(a){ return a.sector != null && a.sector.id == filterBy; }).length > 0;
+        });
+    });
+    $('#subsectors-filter').change(function() {
+        var filterBy = $(this).val();
+        filterEntries(filterBy == "", function(info){
+            return info.attributes.filter(function(a){ return a.subsectors != null && a.subsectors.filter(function(ss){ return ss.id == filterBy }).length > 0; }).length > 0;
+        });
+    });
+
+    $('.reliabilities-filter').change(function() {
+        var minFilterBy = $('#reliabilities-min-filter').val();
+        var maxFilterBy = $('#reliabilities-max-filter').val();
+
+        filterEntries(minFilterBy == "" || maxFilterBy == "", function(info){
+            return info.reliability.level >= minFilterBy && info.reliability.level <= maxFilterBy;
+        });
+    });
+
+    $('.severities-filter').change(function() {
+        var minFilterBy = $('#severities-min-filter').val();
+        var maxFilterBy = $('#severities-max-filter').val();
+
+        filterEntries(minFilterBy == "" || maxFilterBy == "", function(info){
+            return info.severity.level >= minFilterBy && info.severity.level <= maxFilterBy;
         });
     });
 });

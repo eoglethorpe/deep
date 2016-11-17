@@ -211,7 +211,7 @@ body{
                 text-transform: uppercase;
             }
             .entry{
-                padding: 24px;
+                padding: 16px;
                 padding-bottom: 0;
                 background-color: #efefef;
                 border: 1px solid #ddd;
@@ -262,7 +262,6 @@ body{
                 }
 
                 .excerpt{
-                    
                     font-size: 0.9em;
                     overflow: hidden;
                 }
@@ -281,6 +280,9 @@ body{
                     .fa{
                         margin-right: 0;
                     }
+                    img{
+                        width: 16px;
+                    }
                 }
 
                 .attribute-list{
@@ -291,21 +293,16 @@ body{
                         margin-bottom: 2px;
                         display: block;
                         font-size: 0.9em;
-                        text-align: center;
+                        text-align: left;
                         a{
                             font-size: 0.9em;
                             cursor: pointer;
                         }
-
-                        // .col-md-6{
-                        //     background-color: #fff;
-                        // }
-                        // .col-md-6:nth-child(even){
-                        //     background-color: #fff;
-                        // }
                     }
                 }
-
+                .sub-sector-list{
+                    list-style: none;
+                }
                 .btn-action{
                     width: 32px;
                     height: 32px;
@@ -323,9 +320,13 @@ body{
                     font-weight: bold;
                 }
                 .sub-pillar, .sub-sector{
-                    color: #717171;
+                    
                     font-size: 0.9em;
                 }
+                a.sub-sector{
+                    color: $primary-color;
+                }
+
             }
             .entry:nth-child(even){
                 background-color: #eaeaea;
