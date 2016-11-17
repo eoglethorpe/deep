@@ -262,10 +262,13 @@ function refreshPageTwo() {
                 // Show selected subsectors
                 for (var k=0; k<attr.subsectors.length; ++k) {
                     var element = $('<li>' + sector.subsectors[attr.subsectors[k]] + '</li>');
+
+                    var deleteButton = $('<a href="#" class="fa fa-times"></a>');
+                    deleteButton.prependTo(element);
+                    deleteButton.width('16px');
+
                     element.appendTo(subsectorList);
 
-                    var deleteButton = $('<a href="#"><i class="fa fa-times"></i></a>');
-                    deleteButton.appendTo(element);
                     deleteButton.unbind().click(function(attr, k) {
                         return function() {
                             attr.subsectors.splice(k, 1);
@@ -292,7 +295,7 @@ function refreshPageTwo() {
                 }
 
                 if (hasMenu)
-                    subsector.html("select subsector");
+                    subsector.html("Add subsector");
             }
             // If there is not sector, hide the div tag containing the sector/subsector
             else {
