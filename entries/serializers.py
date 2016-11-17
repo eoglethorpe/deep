@@ -9,7 +9,7 @@ from geojson_handler import GeoJsonHandler
 class InformationAttributeSerializer(serializers.ModelSerializer):
     class Meta:
         model = InformationAttribute
-        fields = ('subpillar', 'sector', 'subsector')
+        fields = ('subpillar', 'sector', 'subsectors')
         depth = 2
 
 
