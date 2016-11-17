@@ -168,7 +168,7 @@ class InformationAttribute(models.Model):
     information = models.ForeignKey(EntryInformation)
     subpillar = models.ForeignKey(InformationSubpillar)
     sector = models.ForeignKey(Sector, blank=True, null=True, default=None)
-    subsector = models.ForeignKey(Subsector, blank=True, null=True, default=None)
+    subsectors = models.ManyToManyField(Subsector, blank=True, related_name='subsectors')
 
     def __str__(self):
         return str(self.subpillar) + "/" + str(self.sector) + "/" + str(self.subsector)

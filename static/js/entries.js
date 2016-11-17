@@ -158,8 +158,13 @@ function refreshList() {
                 if (attribute.sector) {
                     attributeElement.find(".sector").text(attribute.sector.name);
 
-                    if (attribute.subsector) {
-                        attributeElement.find(".sub-sector").text(attribute.subsector.name);
+                    if (attribute.subsectors) {
+                        attributeElement.find(".sub-sector").text(
+                            attribute.subsectors.reduce(function(a, b) {
+                                if (a) return a + ", " + b.name;
+                                else return b.name;
+                            }, null)
+                        );
                     }
                 }
 

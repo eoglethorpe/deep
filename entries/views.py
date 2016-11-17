@@ -195,9 +195,11 @@ class AddEntry(View):
                 ia.subpillar = InformationSubpillar.objects.get(pk=int(attr["subpillar"]))
                 if (attr["sector"]):
                     ia.sector = Sector.objects.get(pk=int(attr["sector"]))
-                if (attr["subsector"]):
-                    ia.subsector = Subsector.objects.get(pk=int(attr["subsector"]))
                 ia.save()
+
+                if (attr["subsectors"]):
+                    for subsector in attr["subsectors"]:
+                        ia.subsectors.add(Subsector.objects.get(pk=int(subsector)))
 
 
         return redirect('entries:entries', event)

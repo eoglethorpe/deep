@@ -90,8 +90,12 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 {% for attr in excerpt.informationattribute_set.all %}
                 {
                     pillar: {{attr.subpillar.pillar.pk}}, subpillar: {{attr.subpillar.pk}},
-                    sector: {% if attr.sector %}{{attr.sector.pk}}, subsector: {% if attr.subsector %}{{attr.subsector.pk}}{% else %}null{% endif %}
-                            {% else %}null, subsector: null{% endif %}
+                    sector: {% if attr.sector %}{{attr.sector.pk}},
+                    subsectors:
+                        {% if attr.subsectors %}
+                            [{% for ss in attr.subsectors.all %}{{ss.pk}}, {% endfor %}]
+                        {% else %}null{% endif %}
+                    {% else %}null, subsector: null{% endif %}
                 },
                 {% endfor %}
             ],
@@ -326,7 +330,7 @@ sub-sector
             <span class="pillar"></span> <br> <span class="sub-pillar"></span>
         </div>
         <div class="col-md-6">
-            <span class="sector"></span> <br> <span class="dropdown" ><a class="sub-sector" data-toggle="dropdown"></a><ul class="dropdown-menu"></ul></span>
+            <span class="sector"></span> <br> <span class="dropdown" ><span class='sub-sector-list'></span><a class="sub-sector" data-toggle="dropdown"></a><ul class="dropdown-menu"></ul></span>
         </div>
     </div>
 </div>
