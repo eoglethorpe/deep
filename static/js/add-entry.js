@@ -158,7 +158,7 @@ function refreshCurrentEntryLists() {
 }
 
 function refreshPageOne() {
-    
+
     // Update selection
     var sel = $("#select-excerpt");
     sel.empty();
@@ -353,6 +353,7 @@ function refreshPageTwo() {
     }
 
     addTodayButtons();
+    $('.excerpt').change();
 }
 
 function refreshExcerpts() {
@@ -487,6 +488,7 @@ $(document).ready(function(){
         refreshExcerpts();
         $('#page-one').fadeOut(function(){
             $('#page-two').fadeIn();
+            $('.excerpt').change();
         });
     });
     $('#back-to-excerpts-btn').on('click', function(){
@@ -621,6 +623,10 @@ $(document).ready(function(){
     $(document).on('input paste drop change', '.entry .excerpt', function() {
         var excerpt = excerpts[parseInt($(this).closest('.entry').data('entry-id'))];
         excerpt.excerpt = $(this).val();
+
+        var excerptDom = $(this)[0];
+        excerptDom.style.height = '1px';
+        excerptDom.style.height = (20+excerptDom.scrollHeight)+'px';
     });
     $(document).on('input paste drop change', '.entry .entry-date', function() {
         var excerpt = excerpts[parseInt($(this).closest('.entry').data('entry-id'))];
@@ -673,7 +679,7 @@ $(document).ready(function(){
     $("#apply-all-map").unbind().click(function() {
         for (var i=0; i<excerpts.length; ++i) {
             var excerpt = excerpts[i];
-            excerpt.map_selections = mapSelections; 
+            excerpt.map_selections = mapSelections;
         }
         refreshExcerpts();
     });

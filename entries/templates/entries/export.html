@@ -57,7 +57,7 @@ DEEP | Entries
             </div>
             <div class="col-md-5">
                 <div id="export-btn-wrapper">
-                    <form action="{% url 'entries:exportxls' event=event.pk %}">
+                    <form action="http://23.20.252.122/1/entries/exportxls/">
                         <button type="submit" class="btn btn-primary" ><i class="fa fa-file-excel-o"></i>Export to Excel</button>
                     </form>
                     <form id="export-doc" action="{% url 'entries:exportdocx' event=event.pk %}">
