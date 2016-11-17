@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+DEEP | Entries
+{% endblock %}
+
+{% block head %}
+
+<link href="{% static 'css/crisis-panel.css' %}" type="text/css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/selectize.bootstrap3.css' %}"/>
+<script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/split.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
+
+{% endblock %}
+
+{% block body %}
+
+<section id="header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>Crisis Management</h1>
+            </div>
+            <div class="col-md-4">
+                <a>Back to site</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="body">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div id="add-crisis-board">
+                    <button class="btn btn-primary" id="add-crisis"><i class="fa fa-plus"></i>Add crisis</button>
+                    <input class="form-control" placeholder="Name" id="name-of-crisis"></input>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Disaster type:</label>
+                            <select class="form-control" id="select-disaster-type"></select>
+                            <label>Countries:</label>
+                            <select class="form-control" id="select-countries"></select>
+                        </div>
+                        <div class="col-md-6">
+                            
+                        </div>
+                    </div>
+                    <div class="row" style="padding-bottom: 16px;">
+                        <div class="col-md-6">
+                            <label id="padded-label">Crisis start date:</label>
+                            <input type="date" class="form-control" id="crisis-start-date"></input>
+                        </div>
+                        <div class="col-md-6">
+                            <label id="padded-label">Assigned to:</label>
+                            <select class="form-control" id="assigned-to"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

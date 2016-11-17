@@ -139,7 +139,7 @@ class AddEntry(View):
 
         excerpts = json.loads(request.POST["excerpts"]);
         Entry.objects.filter(lead=lead).delete()
-        
+
         entry = Entry(lead=lead)
         entry.modified_by = request.user
         entry.save()
