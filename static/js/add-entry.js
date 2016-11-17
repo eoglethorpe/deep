@@ -212,6 +212,77 @@ function refreshPageOne() {
     }
 }
 
+function refreshAttributes(entry, excerpt) {
+    entry.find('.attribute-list').empty();
+    for (var j=0; j<excerpt.attributes.length; ++j) {
+        // Get each attribute and its pillar, subpillar, sector and subsector
+        var attr = excerpt.attributes[j];
+        var attribute = $(".attribute-template").clone();
+
+        attribute.removeClass('attribute-template');
+        attribute.addClass('attribute');
+
+        var pillar = pillars[attr.pillar];
+        attribute.find('.pillar').html(pillar.name);
+        attribute.find('.sub-pillar').html(pillar.subpillars[attr.subpillar]);
+
+        // Sector
+        if (attr.sector) {
+            var sector = sectors[attr.sector];
+            attribute.find('.sector').html(sector.name);
+
+            var subsector = attribute.find('.sub-sector');
+            var subsectorList = attribute.find('.sub-sector-list');
+            var subsectorMenu = subsector.parent().find('.dropdown-menu');
+
+            // Show selected subsectors
+            for (var k=0; k<attr.subsectors.length; ++k) {
+                var element = $('<li>' + sector.subsectors[attr.subsectors[k]] + '</li>');
+
+                var deleteButton = $('<a href="#" class="fa fa-times"></a>');
+                deleteButton.prependTo(element);
+                deleteButton.width('16px');
+
+                element.appendTo(subsectorList);
+
+                deleteButton.unbind().click(function(attr, k, entry, excerpt) {
+                    return function() {
+                        attr.subsectors.splice(k, 1);
+                        refreshAttributes(entry, excerpt);
+                    }
+                }(attr, k, entry, excerpt));
+            }
+
+            var hasMenu = false;
+            // Create subsector menu
+            for (var ss in sector.subsectors) {
+                if (!inArray(attr.subsectors, ss)) {
+                    hasMenu = true;
+
+                    var element = ($('<li><a>' + sector.subsectors[ss] + '</a></li>'));
+                    element.appendTo(subsectorMenu);
+                    element.unbind().click(function(attr, ss, sector, subsector, entry, excerpt) {
+                        return function() {
+                            attr.subsectors.push(ss);
+                            refreshAttributes(entry, excerpt);
+                        }
+                    }(attr, ss, sector, subsector, entry, excerpt));
+                }
+            }
+
+            if (hasMenu)
+                subsector.html("Add subsector");
+        }
+        // If there is not sector, hide the div tag containing the sector/subsector
+        else {
+            attribute.find('.sector').closest('div').html("");
+        }
+
+        attribute.appendTo(entry.find('.attribute-list'));
+        attribute.show();
+    }
+}
+
 function refreshPageTwo() {
     var entriesContainer = $("#entries");
     entriesContainer.empty();
@@ -236,75 +307,7 @@ function refreshPageTwo() {
         entry.find('.reliability span[data-id="' + excerpt.reliability + '"]').addClass('active');
         entry.find('.severity span[data-id="' + excerpt.severity + '"]').addClass('active');
 
-        entry.find('.attribute-list').empty();
-
-        for (var j=0; j<excerpt.attributes.length; ++j) {
-            // Get each attribute and its pillar, subpillar, sector and subsector
-            var attr = excerpt.attributes[j];
-            var attribute = $(".attribute-template").clone();
-
-            attribute.removeClass('attribute-template');
-            attribute.addClass('attribute');
-
-            var pillar = pillars[attr.pillar];
-            attribute.find('.pillar').html(pillar.name);
-            attribute.find('.sub-pillar').html(pillar.subpillars[attr.subpillar]);
-
-            // Sector
-            if (attr.sector) {
-                var sector = sectors[attr.sector];
-                attribute.find('.sector').html(sector.name);
-
-                var subsector = attribute.find('.sub-sector');
-                var subsectorList = attribute.find('.sub-sector-list');
-                var subsectorMenu = subsector.parent().find('.dropdown-menu');
-
-                // Show selected subsectors
-                for (var k=0; k<attr.subsectors.length; ++k) {
-                    var element = $('<li>' + sector.subsectors[attr.subsectors[k]] + '</li>');
-
-                    var deleteButton = $('<a href="#" class="fa fa-times"></a>');
-                    deleteButton.prependTo(element);
-                    deleteButton.width('16px');
-
-                    element.appendTo(subsectorList);
-
-                    deleteButton.unbind().click(function(attr, k) {
-                        return function() {
-                            attr.subsectors.splice(k, 1);
-                            refreshPageTwo();
-                        }
-                    }(attr, k));
-                }
-
-                var hasMenu = false;
-                // Create subsector menu
-                for (var ss in sector.subsectors) {
-                    if (!inArray(attr.subsectors, ss)) {
-                        hasMenu = true;
-
-                        var element = ($('<li><a>' + sector.subsectors[ss] + '</a></li>'));
-                        element.appendTo(subsectorMenu);
-                        element.unbind().click(function(attr, ss, sector, subsector) {
-                            return function() {
-                                attr.subsectors.push(ss);
-                                refreshPageTwo();
-                            }
-                        }(attr, ss, sector, subsector));
-                    }
-                }
-
-                if (hasMenu)
-                    subsector.html("Add subsector");
-            }
-            // If there is not sector, hide the div tag containing the sector/subsector
-            else {
-                attribute.find('.sector').closest('div').html("");
-            }
-
-            attribute.appendTo(entry.find('.attribute-list'));
-            attribute.show();
-        }
+        refreshAttributes(entry, excerpt);
 
         // Affected groups selections
         entry.find('.btn-affected').unbind().click(function(excerpt, entry) {

@@ -292,11 +292,11 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
             <div class="row">
                 <div class="col-md-5">
                     <div class="affected-group">
-                        <label>Affected groups:</label><a class="btn-affected btn btn-primary btn-sm" data-toggle="modal" data-target="#affected-groups-modal"><i class="fa fa-line-chart"></i></a>
+                        <label>Affected groups:</label><a class="btn-affected btn btn-primary btn-sm" data-toggle="modal" data-target="#affected-groups-modal"><img src="{% static 'img/organigram.png' %}"></a>
                         <div class="affected-group-list"></div>
                     </div>
                     <div class="geo-location">
-                        <label>Geo locations:</label><a class="btn-map btn btn-primary btn-sm" data-toggle="modal" data-target="#map-modal"><i class="fa fa-map"></i></a>
+                        <label>Geo locations:</label><a class="btn-map btn btn-primary btn-sm" data-toggle="modal" data-target="#map-modal"><img src="{% static 'img/mapicon.png' %}"></a>
                         <div class="geo-locations-list"></div>
                     </div>
                 </div>
@@ -368,7 +368,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 </div>
                 <hr>
                 <div style="text-align: right">
-                    <a class="btn btn-info" id="apply-all-map">Apply to all</a>
+                    <a class="btn btn-warning" id="apply-all-map">Apply to all</a>
+                    <a class="btn btn-info" id="apply-next-map">Apply to next</a>
+                    <a class="btn btn-primary" id="apply-current-map">Apply to current</a>
                 </div>
             </div>
         </div>
@@ -386,7 +388,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 <div id="chart-div"></div>
             </div>
             <div class="modal-footer">
-                <a class="btn btn-info apply-all-btn" id="apply-all-affected">Apply to all</a>
+                <a class="btn btn-warning apply-all-btn" id="apply-all-affected">Apply to all</a>
+                <a class="btn btn-info" id="apply-next-affected">Apply to next</a>
+                <a class="btn btn-primary" id="apply-current-affected">Apply to current</a>
             </div
         </div>
     </div>
