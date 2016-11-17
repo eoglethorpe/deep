@@ -75,9 +75,11 @@ class EntriesView(View):
         context["event"] = Event.objects.get(pk=event)
         context["all_events"] = Event.objects.all()
 
-        context["pillars_one"] = InformationPillar.objects.filter(contains_sectors=False)
-        context["pillars_two"] = InformationPillar.objects.filter(contains_sectors=True)
+        context["users"] = User.objects.exclude(first_name="", last_name="")
+        context["pillars"] = InformationPillar.objects.all()
+        context["subpillars"] = InformationSubpillar.objects.all()
         context["sectors"] = Sector.objects.all()
+        context["subsectors"] = Subsector.objects.all()
         context["vulnerable_groups"] = VulnerableGroup.objects.all()
         context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
         context["reliabilities"] = Reliability.objects.all().order_by('level')

@@ -80,8 +80,6 @@ class LeadsView(View):
 
     @method_decorator(login_required)
     def post(self, request, event):
-        print(request.POST)
-        print(request.FILES)
         return redirect('leads:leads', event)
 
 
