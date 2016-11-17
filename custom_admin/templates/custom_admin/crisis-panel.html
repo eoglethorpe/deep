@@ -37,7 +37,6 @@ DEEP | Entries
         <div class="row">
             <div class="col-md-4">
                 <div id="add-crisis-board">
-                    <button class="btn btn-primary" id="add-crisis"><i class="fa fa-plus"></i>Add crisis</button>
                     <input class="form-control" placeholder="Name" id="name-of-crisis"></input>
                     <div class="row">
                         <div class="col-md-6">
@@ -47,10 +46,14 @@ DEEP | Entries
                             <select class="form-control" id="select-countries"></select>
                         </div>
                         <div class="col-md-6">
-                            
+                            <div id="selected-location-list">
+                                <p id="empty-text" hidden>No location added!</p>
+                                <ul>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    <div class="row" style="padding-bottom: 16px;">
+                    <div class="row">
                         <div class="col-md-6">
                             <label id="padded-label">Crisis start date:</label>
                             <input type="date" class="form-control" id="crisis-start-date"></input>
@@ -60,10 +63,71 @@ DEEP | Entries
                             <select class="form-control" id="assigned-to"></select>
                         </div>
                     </div>
+                    <div style="text-align: right;">
+                        <button class="btn btn-primary" id="add-crisis"><i class="fa fa-plus"></i>Add crisis</button>
+                    </div>
                 </div>
             </div>
             <div class="col-md-8">
-
+                <div id="active-crisis-map">
+                    Map<br>Shit<br>Goes<br>Here
+                </div>
+            </div>
+        </div>
+        <div class="row" id="filters">
+            <div class="col-sm-12">
+                <label>Apply filter:</label>
+            </div>
+            <div class="col-sm-3 col-md-2 col-xs-6">
+                <select class="form-control" id="assigned-to-filter" placeholder="Assigned to">
+                    <option value="">Assigned to</option>
+                </select>
+            </div>
+            <div class="col-sm-3 col-md-2 col-xs-6">
+                <select id="date-created-filter" class="form-control" placeholder="Date Created">
+                    <option value="">Date Created</option>
+                    <option value="today">Today</option>
+                    <option value="yesterday">Yesterday</option>
+                    <option value="last-seven-days">Last 7 days</option>
+                    <option value="this-week">This week</option>
+                    <option value="last-thirty-days">Last 30 days</option>
+                    <option value="this-month">This month</option>
+                    <option value="range">Range</option>
+                </select>
+            </div>
+            <div class="col-sm-3 col-md-2 col-xs-6">
+                <select id="date-published-filter" class="form-control" placeholder="Date Published">
+                    <option value="">Date Published</option>
+                    <option value="today">Today</option>
+                    <option value="yesterday">Yesterday</option>
+                    <option value="last-seven-days">Last 7 days</option>
+                    <option value="this-week">This week</option>
+                    <option value="last-thirty-days">Last 30 days</option>
+                    <option value="this-month">This month</option>
+                    <option value="range">Range</option>
+                </select>
+            </div>
+            <div class="col-sm-3 col-md-2 col-xs-6">
+                <select id="confidentiality-filter" class="form-control" placeholder="Confidentiality">
+                    <option value="">Confidentiality</option>
+                    <option value="Unprotected">Unprotected</option>
+                    <option value="Protected">Protected</option>
+                    <option value="Restricted">Restricted</option>
+                    <option value="Confidential">Confidential</option>
+                </select>
+            </div>
+            <div class="col-sm-3 col-md-2 col-xs-6">
+                <select id="status-filter" class="form-control" placeholder="Status">
+                    <option value="">Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Processed">Processed</option>
+                </select>
+            </div>
+        </div>
+        <h3>Timeline of humanitarian crisis per country</h3>
+        <div class="row">
+            <div class="col-md-12">
+                
             </div>
         </div>
     </div>
