@@ -188,7 +188,7 @@ body {
         margin-bottom: 24px;
         text-transform: uppercase; }
       body #page-two #entries .entry {
-        padding: 24px;
+        padding: 16px;
         padding-bottom: 0;
         background-color: #efefef;
         border: 1px solid #ddd; }
@@ -252,6 +252,8 @@ body {
             float: right; }
           body #page-two #entries .entry .geo-location .fa, body #page-two #entries .entry .affected-group .fa {
             margin-right: 0; }
+          body #page-two #entries .entry .geo-location img, body #page-two #entries .entry .affected-group img {
+            width: 16px; }
         body #page-two #entries .entry .attribute-list {
           display: flex;
           flex-direction: column; }
@@ -277,8 +279,9 @@ body {
         body #page-two #entries .entry .pillar, body #page-two #entries .entry .sector {
           font-weight: bold; }
         body #page-two #entries .entry .sub-pillar, body #page-two #entries .entry .sub-sector {
-          color: #717171;
           font-size: 0.9em; }
+        body #page-two #entries .entry a.sub-sector {
+          color: #008080; }
       body #page-two #entries .entry:nth-child(even) {
         background-color: #eaeaea; }
   body #chart-div table {

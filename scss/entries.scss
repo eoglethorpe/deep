@@ -26,6 +26,10 @@ nav{
     }
     #filters{
         margin-bottom: 24px;
+
+        #reliability-filter-container, #severity-filter-container{
+            margin-top: -26px;
+        }
     }
     #entries{
 
@@ -59,7 +63,7 @@ nav{
                 margin-left: 16px;
             }
             .information{
-                background-color: #dcdcdc;
+                background-color: #eaeaea;
                 margin: 2px;
                 padding: 16px;
 
@@ -81,7 +85,7 @@ nav{
                         margin-right: 16px;
                     }
                 }
-                $reliability-base: #1A237E;
+                $reliability-base: #1A2386;
                 .reliability{
                     ._1{ background-color: lighten($reliability-base, 50%); }
                     ._2{ background-color: lighten($reliability-base, 40%); }
@@ -122,12 +126,12 @@ nav{
                     font-weight: bold;
                 }
                 .sub-pillar, .sub-sector{
-                    color: #717171;
+
                     font-size: 0.9em;
                 }
             }
             .information:nth-child(even){
-                background-color: #ededed;
+                background-color: #f0f0f0;
             }
         }
     }

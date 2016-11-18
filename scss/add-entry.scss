@@ -211,7 +211,7 @@ body{
                 text-transform: uppercase;
             }
             .entry{
-                padding: 24px;
+                padding: 16px;
                 padding-bottom: 0;
                 background-color: #efefef;
                 border: 1px solid #ddd;
@@ -280,6 +280,9 @@ body{
                     .fa{
                         margin-right: 0;
                     }
+                    img{
+                        width: 16px;
+                    }
                 }
 
                 .attribute-list{
@@ -317,9 +320,13 @@ body{
                     font-weight: bold;
                 }
                 .sub-pillar, .sub-sector{
-                    color: #717171;
+                    
                     font-size: 0.9em;
                 }
+                a.sub-sector{
+                    color: $primary-color;
+                }
+
             }
             .entry:nth-child(even){
                 background-color: #eaeaea;

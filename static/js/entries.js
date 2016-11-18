@@ -21,12 +21,21 @@ function filterEntries(clear, filterFunction) {
 }
 
 $(document).ready(function(){
+    $('#sources-filter').selectize();
+    $('#users-filter').selectize();
     $('#date-modified-filter').selectize();
     var areasSelectize = $('#areas-filter').selectize();
-    $('#sectors-filter').selectize();
     $('#affected-groups-filter').selectize();
     $('#vulnerable-groups-filter').selectize();
     $('#specific-needs-groups-filter').selectize();
+    $('#pillars-filter').selectize();
+    $('#subpillars-filter').selectize();
+    $('#sectors-filter').selectize();
+    $('#subsectors-filter').selectize();
+    $('#reliabilities-min-filter').selectize();
+    $('#reliabilities-max-filter').selectize();
+    $('#severities-min-filter').selectize();
+    $('#severities-max-filter').selectize();
 
     $.getJSON("/api/v1/entries/?event="+eventId, function(data){
         originalEntries = data;
@@ -51,6 +60,25 @@ $(document).ready(function(){
     });
 
     // Filters
+
+    $('#lead-title-search').on('input paste change drop', function() {
+        var filterBy = $(this).val();
+        filterEntries(filterBy == "", function(info){
+            return info.lead_title.toLowerCase().includes(filterBy.toLowerCase());
+        });
+    });
+    $('#sources-filter').change(function() {
+        var filterBy = $(this).val();
+        filterEntries(filterBy == "", function(info){
+            return info.lead_source == filterBy;
+        });
+    });
+    $('#users-filter').change(function() {
+        var filterBy = $(this).val();
+        filterEntries(filterBy == "", function(info){
+            return info.modified_by == filterBy;
+        });
+    });
     $('#areas-filter').change(function() {
         var filterBy = $(this).val();
         filterEntries(filterBy == "", function(info){
@@ -61,12 +89,6 @@ $(document).ready(function(){
         var filterBy = $(this).val();
         filterEntries(filterBy == "", function(info){
             return info.affected_groups.filter(function(a){ return a.name == filterBy; }).length > 0;
-        });
-    });
-    $('#sectors-filter').change(function() {
-        var filterBy = $(this).val();
-        filterEntries(filterBy == "", function(info){
-            return info.attributes.filter(function(a){ return a.sector != null && a.sector.id == filterBy; }).length > 0;
         });
     });
     $('#vulnerable-groups-filter').change(function() {
@@ -88,6 +110,50 @@ $(document).ready(function(){
             return info.excerpt.toLowerCase().includes(filterBy.toLowerCase());
         });
     });
+
+
+    $('#pillars-filter').change(function() {
+        var filterBy = $(this).val();
+        filterEntries(filterBy == "", function(info){
+            return info.attributes.filter(function(a){ return a.subpillar != null && a.subpillar.pillar.id == filterBy; }).length > 0;
+        });
+    });
+    $('#subpillars-filter').change(function() {
+        var filterBy = $(this).val();
+        filterEntries(filterBy == "", function(info){
+            return info.attributes.filter(function(a){ return a.subpillar != null && a.subpillar.id == filterBy; }).length > 0;
+        });
+    });
+    $('#sectors-filter').change(function() {
+        var filterBy = $(this).val();
+        filterEntries(filterBy == "", function(info){
+            return info.attributes.filter(function(a){ return a.sector != null && a.sector.id == filterBy; }).length > 0;
+        });
+    });
+    $('#subsectors-filter').change(function() {
+        var filterBy = $(this).val();
+        filterEntries(filterBy == "", function(info){
+            return info.attributes.filter(function(a){ return a.subsectors != null && a.subsectors.filter(function(ss){ return ss.id == filterBy }).length > 0; }).length > 0;
+        });
+    });
+
+    $('.reliabilities-filter').change(function() {
+        var minFilterBy = $('#reliabilities-min-filter').val();
+        var maxFilterBy = $('#reliabilities-max-filter').val();
+
+        filterEntries(minFilterBy == "" || maxFilterBy == "", function(info){
+            return info.reliability.level >= minFilterBy && info.reliability.level <= maxFilterBy;
+        });
+    });
+
+    $('.severities-filter').change(function() {
+        var minFilterBy = $('#severities-min-filter').val();
+        var maxFilterBy = $('#severities-max-filter').val();
+
+        filterEntries(minFilterBy == "" || maxFilterBy == "", function(info){
+            return info.severity.level >= minFilterBy && info.severity.level <= maxFilterBy;
+        });
+    });
 });
 
 function refreshList() {
@@ -102,7 +168,7 @@ function refreshList() {
 
         entryElement.find(".entry-title").text(entry.lead_title);
         entryElement.find(".created-by").text(entry.modified_by);
-        entryElement.find(".created-on").text(new Date(entry.modified_at).toLocaleDateString());
+        entryElement.find(".created-on").text(formatDate(new Date(entry.modified_at)));
 
         entryElement.appendTo($("#entries"));
         entryElement.show();
@@ -189,4 +255,29 @@ function refreshList() {
             }
         }(entry));
     }
+}
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [day, month, year].join('-');
+}
+
+function formatTime(time) {
+    var d = new Date(time),
+        hr = '' + (d.getHours() + 1),
+        min = '' + d.getMinutes(),
+        sec = d.getSeconds();
+
+    if (hr.length < 2) hr = '0' + hr;
+    if (min.length < 2) min = '0' + min;
+    if (sec.length < 2) sec = '0' + sec;
+
+    return [hr, min].join(':') + "<span hidden>"+sec+"</span>";
 }

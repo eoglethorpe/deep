@@ -241,74 +241,62 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
             <button class="btn btn-danger cancel" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Cancel"><i class="fa fa-times"></i></button>
             <button class="btn btn-primary save-excerpt" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Save Excerpt"><i class="fa fa-save"></i></button>
             <button id="back-to-excerpts-btn"  class="btn btn-primary"><i class="fa fa-long-arrow-left"></i>Back to excerpts</button>
-
         </div>
         <div id="entries">
         </div>
     </div>
 </div>
 
-<!--
-entry-template -> excerpt
-vulnerable-group-select
-specific-need-group-select
-specific-needs-group-list
-geo-locations-list
-attribute-list
-
-attribute-template -> attribute
-pillar
-sub-pillar
-sector
-sub-sector
- -->
-
 <div class="entry-template" hidden>
     <div class="row">
         <div class="col-md-2">
             <textarea class="form-control excerpt" ></textarea>
         </div>
-        <div class="col-md-1">
-            <div class="reliability">
-                <label>Reliability </label><br>
-                {% for reliability in reliabilities %}
-                <span data-id="{{reliability.pk}}" class="_{{reliability.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{reliability}}"></span>
-                {% endfor %}
+        <div class="col-md-5">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="reliability">
+                        <label>Reliability </label><br>
+                        {% for reliability in reliabilities %}
+                        <span data-id="{{reliability.pk}}" class="_{{reliability.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{reliability}}"></span>
+                        {% endfor %}
+                    </div>
+                    <div class="severity">
+                        <label>Severity </label><br>
+                        {% for severity in severities %}
+                        <span data-id="{{severity.pk}}" class="_{{severity.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{severity}}"></span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div style="position: relative;">
+                        <input type="date" class="entry-date form-control form-group" placeholder="Date">
+                    </div>
+                    <input type="number" step="1" min="0" class="entry-number form-control form-group" placeholder="Number">
+                </div>
+                <div class="col-md-5">
+                    <select class="vulnerable-group-select" class="form-control form-group" placeholder="Select vulnerable group" multiple>
+                        {% for vg in vulnerable_groups %}
+                        <option value="{{vg.pk}}">{{vg}}</option>
+                        {% endfor %}
+                    </select>
+                    <select class="specific-need-group-select" class="form-control form-group" placeholder="Select specific need group" multiple>
+                        {% for sg in specific_needs_groups %}
+                        <option value="{{sg.pk}}">{{sg}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
-            <div class="severity">
-                <label>Severity </label><br>
-                {% for severity in severities %}
-                <span data-id="{{severity.pk}}" class="_{{severity.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{severity}}"></span>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div style="position: relative;">
-                <input type="date" class="entry-date form-control form-group" placeholder="Date">
-            </div>
-            <input type="number" step="1" min="0" class="entry-number form-control form-group" placeholder="Number">
-        </div>
-        <div class="col-md-2">
-            <select class="vulnerable-group-select" class="form-control form-group" placeholder="Select vulnerable group" multiple>
-                {% for vg in vulnerable_groups %}
-                <option value="{{vg.pk}}">{{vg}}</option>
-                {% endfor %}
-            </select>
-            <select class="specific-need-group-select" class="form-control form-group" placeholder="Select specific need group" multiple>
-                {% for sg in specific_needs_groups %}
-                <option value="{{sg.pk}}">{{sg}}</option>
-                {% endfor %}
-            </select>
         </div>
         <div class="col-md-5">
             <div class="row">
                 <div class="col-md-5">
                     <div class="affected-group">
-                        <label>Affected groups:</label><a class="btn-affected btn btn-primary btn-sm" data-toggle="modal" data-target="#affected-groups-modal"><i class="fa fa-line-chart"></i></a>
+                        <label>Affected groups:</label><a class="btn-affected btn btn-primary btn-sm" data-toggle="modal" data-target="#affected-groups-modal"><img src="{% static 'img/organigram.png' %}"></a>
                         <div class="affected-group-list"></div>
                     </div>
                     <div class="geo-location">
-                        <label>Geo locations:</label><a class="btn-map btn btn-primary btn-sm" data-toggle="modal" data-target="#map-modal"><i class="fa fa-map"></i></a>
+                        <label>Geo locations:</label><a class="btn-map btn btn-primary btn-sm" data-toggle="modal" data-target="#map-modal"><img src="{% static 'img/mapicon.png' %}"></a>
                         <div class="geo-locations-list"></div>
                     </div>
                 </div>
@@ -330,7 +318,7 @@ sub-sector
             <span class="pillar"></span> <br> <span class="sub-pillar"></span>
         </div>
         <div class="col-md-6">
-            <span class="sector"></span> <br> <span class="dropdown" ><span class='sub-sector-list'></span><a class="sub-sector" data-toggle="dropdown"></a><ul class="dropdown-menu"></ul></span>
+            <span class="sector"></span> <br> <span class="dropdown" ><span class='sub-sector-list'></span><a class="sub-sector" data-toggle="dropdown"></a><ul class="dropdown-menu pull-right"></ul></span>
         </div>
     </div>
 </div>
@@ -380,7 +368,9 @@ sub-sector
                 </div>
                 <hr>
                 <div style="text-align: right">
-                    <a class="btn btn-info" id="apply-all-map">Apply to all</a>
+                    <a class="btn btn-warning" id="apply-all-map">Apply to all</a>
+                    <a class="btn btn-info" id="apply-next-map">Apply to next</a>
+                    <a class="btn btn-primary" id="apply-current-map">Apply to current</a>
                 </div>
             </div>
         </div>
@@ -398,7 +388,9 @@ sub-sector
                 <div id="chart-div"></div>
             </div>
             <div class="modal-footer">
-                <a class="btn btn-info apply-all-btn" id="apply-all-affected">Apply to all</a>
+                <a class="btn btn-warning apply-all-btn" id="apply-all-affected">Apply to all</a>
+                <a class="btn btn-info" id="apply-next-affected">Apply to next</a>
+                <a class="btn btn-primary" id="apply-current-affected">Apply to current</a>
             </div
         </div>
     </div>
