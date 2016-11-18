@@ -21,6 +21,7 @@ function filterEntries(clear, filterFunction) {
 }
 
 $(document).ready(function(){
+    $('#sources-filter').selectize();
     $('#users-filter').selectize();
     $('#date-modified-filter').selectize();
     var areasSelectize = $('#areas-filter').selectize();
@@ -59,6 +60,19 @@ $(document).ready(function(){
     });
 
     // Filters
+
+    $('#lead-title-search').on('input paste change drop', function() {
+        var filterBy = $(this).val();
+        filterEntries(filterBy == "", function(info){
+            return info.lead_title.toLowerCase().includes(filterBy.toLowerCase());
+        });
+    });
+    $('#sources-filter').change(function() {
+        var filterBy = $(this).val();
+        filterEntries(filterBy == "", function(info){
+            return info.lead_source == filterBy;
+        });
+    });
     $('#users-filter').change(function() {
         var filterBy = $(this).val();
         filterEntries(filterBy == "", function(info){
@@ -154,7 +168,7 @@ function refreshList() {
 
         entryElement.find(".entry-title").text(entry.lead_title);
         entryElement.find(".created-by").text(entry.modified_by);
-        entryElement.find(".created-on").text(new Date(entry.modified_at).toLocaleDateString());
+        entryElement.find(".created-on").text(formatDate(new Date(entry.modified_at)));
 
         entryElement.appendTo($("#entries"));
         entryElement.show();
@@ -241,4 +255,29 @@ function refreshList() {
             }
         }(entry));
     }
+}
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [day, month, year].join('-');
+}
+
+function formatTime(time) {
+    var d = new Date(time),
+        hr = '' + (d.getHours() + 1),
+        min = '' + d.getMinutes(),
+        sec = d.getSeconds();
+
+    if (hr.length < 2) hr = '0' + hr;
+    if (min.length < 2) min = '0' + min;
+    if (sec.length < 2) sec = '0' + sec;
+
+    return [hr, min].join(':') + "<span hidden>"+sec+"</span>";
 }

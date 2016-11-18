@@ -85,6 +85,7 @@ class EntriesView(View):
         context["reliabilities"] = Reliability.objects.all().order_by('level')
         context["severities"] = Severity.objects.all().order_by('level')
         context["affected_groups"] = AffectedGroup.objects.all()
+        context["sources"] = Source.objects.all()
 
         UserProfile.set_last_event(request, context["event"])
         return render(request, "entries/entries.html", context)
@@ -140,9 +141,14 @@ class AddEntry(View):
             lead = entry.lead
 
         excerpts = json.loads(request.POST["excerpts"]);
-        Entry.objects.filter(lead=lead).delete()
 
-        entry = Entry(lead=lead)
+        lead_entries = Entry.objects.filter(lead=lead)
+        if lead_entries.count() > 0:
+            entry = lead_entries[0]
+            entry.entryinformation_set.all().delete()
+        else:
+            entry = Entry(lead=lead)
+            
         entry.modified_by = request.user
         entry.save()
 
