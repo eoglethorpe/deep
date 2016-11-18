@@ -49,9 +49,11 @@ DEEP | Entries
                         <option value="range">Range</option>
                     </select>
                 </div>
-
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <div class="row">
+                        <div class="col-md-2">
+                            <input id="search" class="form-control" placeholder="Search excerpt">
+                        </div>
                         <div class="col-md-2">
                             <input id="lead-title-search" class="form-control" placeholder="Lead title">
                         </div>
@@ -140,53 +142,43 @@ DEEP | Entries
                         <div class="col-md-2">
                         </div> -->
 
-                        <div class="col-md-2">
-                            <input id="search" class="form-control" placeholder="Search excerpt">
-                        </div>
+
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <div class="row">
                         <div class="col-md-6">
-                            <label>Reliability</label>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <select id="reliabilities-min-filter" class="reliabilities-filter" placeholder="from">
-                                        <option value="">from</option>
-                                        {% for reliability in reliabilities %}
-                                        <option value="{{reliability.level}}">{{reliability}}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <select id="reliabilities-max-filter" class="reliabilities-filter" placeholder="to">
-                                        <option value="">to</option>
-                                        {% for reliability in reliabilities %}
-                                        <option value="{{reliability.level}}">{{reliability}}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
+                            <div id="reliability-filter-container">
+                                <label>Reliability</label>
+                                <select id="reliabilities-min-filter" class="reliabilities-filter" placeholder="from">
+                                    <option value="">from</option>
+                                    {% for reliability in reliabilities %}
+                                    <option value="{{reliability.level}}">{{reliability}}</option>
+                                    {% endfor %}
+                                </select>
+                                <select id="reliabilities-max-filter" class="reliabilities-filter" placeholder="to">
+                                    <option value="">to</option>
+                                    {% for reliability in reliabilities %}
+                                    <option value="{{reliability.level}}">{{reliability}}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label>Severity</label>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <select id="severities-min-filter" class="severities-filter" placeholder="from">
-                                        <option value="">from</option>
-                                        {% for severity in severities %}
-                                        <option value="{{severity.level}}">{{severity}}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <select id="severities-max-filter" class="severities-filter" placeholder="to">
-                                        <option value="">to</option>
-                                        {% for severity in severities %}
-                                        <option value="{{severity.level}}">{{severity}}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
+                            <div id="severity-filter-container">
+                                <label>Severity</label>
+                                <select id="severities-min-filter" class="severities-filter" placeholder="from">
+                                    <option value="">from</option>
+                                    {% for severity in severities %}
+                                    <option value="{{severity.level}}">{{severity}}</option>
+                                    {% endfor %}
+                                </select>
+                                <select id="severities-max-filter" class="severities-filter" placeholder="to">
+                                    <option value="">to</option>
+                                    {% for severity in severities %}
+                                    <option value="{{severity.level}}">{{severity}}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                         </div>
                     </div>
