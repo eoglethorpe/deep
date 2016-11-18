@@ -66,6 +66,8 @@ nav {
   color: #717171; }
 #main #filters {
   margin-bottom: 24px; }
+  #main #filters #reliability-filter-container, #main #filters #severity-filter-container {
+    margin-top: -26px; }
 #main #entries .entry {
   background-color: #f5f5f5;
   color: #414141;
@@ -88,7 +90,7 @@ nav {
     margin-bottom: 8px;
     margin-left: 16px; }
   #main #entries .entry .information {
-    background-color: #dcdcdc;
+    background-color: #eaeaea;
     margin: 2px;
     padding: 16px; }
     #main #entries .entry .information label {
@@ -106,17 +108,17 @@ nav {
         vertical-align: super;
         margin-right: 16px; }
     #main #entries .entry .information .reliability ._1 {
-      background-color: #aab0ed; }
+      background-color: #afb5f0; }
     #main #entries .entry .information .reliability ._2 {
-      background-color: #7f88e5; }
+      background-color: #858de7; }
     #main #entries .entry .information .reliability ._3 {
-      background-color: #5561dc; }
+      background-color: #5a65df; }
     #main #entries .entry .information .reliability ._4 {
-      background-color: #2b3ad3; }
+      background-color: #2f3dd7; }
     #main #entries .entry .information .reliability ._5 {
-      background-color: #232fa8; }
+      background-color: #222eb1; }
     #main #entries .entry .information .reliability ._6 {
-      background-color: #1e2993; }
+      background-color: #1e299b; }
     #main #entries .entry .information .reliability .active {
       transform: scale(1.2); }
     #main #entries .entry .information .severity ._1 {
@@ -149,6 +151,6 @@ nav {
     #main #entries .entry .information .sub-pillar, #main #entries .entry .information .sub-sector {
       font-size: 0.9em; }
   #main #entries .entry .information:nth-child(even) {
-    background-color: #ededed; }
+    background-color: #f0f0f0; }
 
 /*# sourceMappingURL=entries.css.map */
