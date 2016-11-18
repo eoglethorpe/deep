@@ -148,6 +148,7 @@ class AddEntry(View):
             entry.entryinformation_set.all().delete()
         else:
             entry = Entry(lead=lead)
+            
         entry.modified_by = request.user
         entry.save()
 

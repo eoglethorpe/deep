@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'leads',
     'entries',
     'report',
+    'custom_admin',
 ]
 
 MIDDLEWARE_CLASSES = [

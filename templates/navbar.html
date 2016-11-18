@@ -53,6 +53,7 @@
                     <ul class="dropdown-menu">
                         {% if request.user.is_superuser %}
                         <li><a href="/admin"><i class="fa fa-user-secret"></i>Admin panel</a></li>
+                        <li><a href="{% url 'custom_admin:crisis_panel' %}"><i class="fa fa-wrench"></i>Crisis Panel</a></li>
                         {% endif %}
                         <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a></li>
                     </ul>
