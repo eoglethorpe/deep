@@ -19,15 +19,20 @@ body {
   body #header {
     background-color: #008080;
     color: #fff;
-    height: 72px;
+    height: 60px;
+    padding: 24px;
     text-transform: uppercase; }
+    body #header h1 {
+      margin: 0; }
     body #header a {
       color: #fff;
       float: right;
-      padding-top: 36px;
-      font-size: 1.2em; }
+      font-size: 1.1em; }
   body #body {
     padding-top: 32px; }
+    body #body h3 {
+      margin-top: 0;
+      text-transform: uppercase; }
     body #body #add-crisis-board {
       padding: 24px;
       background-color: #fff;
@@ -71,5 +76,15 @@ body {
     body #body #filters {
       margin-bottom: 24px;
       margin-top: 24px; }
+    body #body #timeline-table {
+      width: 100%;
+      border-spacing: 4px;
+      border-collapse: separate; }
+      body #body #timeline-table td {
+        padding: 6px;
+        text-align: center;
+        background-color: #fff; }
+      body #body #timeline-table .active {
+        background-color: #f4b083; }
 
 /*# sourceMappingURL=crisis-panel.css.map */

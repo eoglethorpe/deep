@@ -8,18 +8,27 @@ body{
     #header{
         background-color: $primary-color;
         color: #fff;
-        height: 72px;
+        height: 60px;
+        padding: 24px;
         text-transform: uppercase;
+
+        h1{
+            margin: 0;
+        }
 
         a{
             color: #fff;
             float: right;
-            padding-top: 36px;
-            font-size: 1.2em;
+            font-size: 1.1em;
         }
     }
     #body{
         padding-top: 32px;
+
+        h3{
+            margin-top: 0;
+            text-transform: uppercase;
+        }
 
         #add-crisis-board{
             padding: 24px;
@@ -83,6 +92,22 @@ body{
         #filters{
             margin-bottom: 24px;
             margin-top: 24px;
+        }
+        #timeline-table{
+            width: 100%;
+            border-spacing: 4px;
+            border-collapse: separate;
+
+            td{
+                padding: 6px;
+                text-align: center;
+                background-color: #fff;
+            }
+
+            .active{
+                background-color: #f4b083;
+            }
+
         }
     }
 

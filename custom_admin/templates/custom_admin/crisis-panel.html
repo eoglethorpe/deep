@@ -14,6 +14,13 @@ DEEP | Entries
 <script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/split.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/dashboard.js' %}"></script>
+
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
+<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+
+<link rel="stylesheet" href="{% static 'css/leaflet.label.css' %}" >
+<script src="{% static 'js/leaflet.label.js' %}"></script>
 
 {% endblock %}
 
@@ -26,17 +33,17 @@ DEEP | Entries
                 <h1>Crisis Management</h1>
             </div>
             <div class="col-md-4">
-                <a>Back to site</a>
+                <a href="{% url 'login' %}">Back to site</a>
             </div>
         </div>
     </div>
 </section>
-
 <section id="body">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
                 <div id="add-crisis-board">
+                    <h3>Add new crisis</h3>
                     <input class="form-control" placeholder="Name" id="name-of-crisis"></input>
                     <div class="row">
                         <div class="col-md-6">
@@ -67,10 +74,11 @@ DEEP | Entries
                         <button class="btn btn-primary" id="add-crisis"><i class="fa fa-plus"></i>Add crisis</button>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-8">
+            </div> -->
+            <div class="col-md-12">
                 <div id="active-crisis-map">
-                    Map<br>Shit<br>Goes<br>Here
+                    <h3>Active crises in DEEP</h3>
+                    <div id="the-map" style="height:480px;"></div>
                 </div>
             </div>
         </div>
@@ -79,8 +87,8 @@ DEEP | Entries
                 <label>Apply filter:</label>
             </div>
             <div class="col-sm-3 col-md-2 col-xs-6">
-                <select class="form-control" id="assigned-to-filter" placeholder="Assigned to">
-                    <option value="">Assigned to</option>
+                <select class="form-control" id="country" placeholder="Country">
+                    <option value="">Country</option>
                 </select>
             </div>
             <div class="col-sm-3 col-md-2 col-xs-6">
@@ -96,38 +104,111 @@ DEEP | Entries
                 </select>
             </div>
             <div class="col-sm-3 col-md-2 col-xs-6">
-                <select id="date-published-filter" class="form-control" placeholder="Date Published">
-                    <option value="">Date Published</option>
-                    <option value="today">Today</option>
-                    <option value="yesterday">Yesterday</option>
-                    <option value="last-seven-days">Last 7 days</option>
-                    <option value="this-week">This week</option>
-                    <option value="last-thirty-days">Last 30 days</option>
-                    <option value="this-month">This month</option>
-                    <option value="range">Range</option>
-                </select>
-            </div>
-            <div class="col-sm-3 col-md-2 col-xs-6">
-                <select id="confidentiality-filter" class="form-control" placeholder="Confidentiality">
-                    <option value="">Confidentiality</option>
-                    <option value="Unprotected">Unprotected</option>
-                    <option value="Protected">Protected</option>
-                    <option value="Restricted">Restricted</option>
-                    <option value="Confidential">Confidential</option>
-                </select>
-            </div>
-            <div class="col-sm-3 col-md-2 col-xs-6">
-                <select id="status-filter" class="form-control" placeholder="Status">
-                    <option value="">Status</option>
-                    <option value="Pending">Pending</option>
-                    <option value="Processed">Processed</option>
+                <select id="disaster-type" class="form-control" placeholder="Disaster Type">
+                    <option value="">Disaster Type</option>
                 </select>
             </div>
         </div>
         <h3>Timeline of humanitarian crisis per country</h3>
         <div class="row">
             <div class="col-md-12">
-                
+                <table id="timeline-table">
+                    <thead>
+                        <td></td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                        <td class="week-id">W1</td>
+                    </thead>
+                    <tbody>
+                        <tr class="country-data">
+                            <td class="country-name">Nepal</td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report active"></td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report active"></td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report"></td>
+                        </tr>
+                        <tr class="country-data">
+                            <td class="country-name">Nepal</td>
+                            <td class="weekly-report active"></td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report active"></td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report"></td>
+                        </tr>
+                        <tr class="country-data">
+                            <td class="country-name">Nepal</td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report active"></td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report active"></td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report"></td>
+                        </tr>
+                        <tr class="country-data">
+                            <td class="country-name">Nepal</td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report active"></td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report"></td>
+                        </tr>
+                        <tr class="country-data">
+                            <td class="country-name">Nepal</td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report active"></td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report active"></td>
+                            <td class="weekly-report"></td>
+                        </tr>
+                        <tr class="country-data">
+                            <td class="country-name">Nepal</td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report active"></td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report"></td>
+                        </tr>
+                        <tr class="country-data">
+                            <td class="country-name">Nepal</td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report active"></td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report"></td>
+                            <td class="weekly-report"></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
