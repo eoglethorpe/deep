@@ -178,12 +178,19 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                     <option value="{{dc.pk}}" {% if sos and dc in sos.data_collection_technique.all %}selected{% endif %}>{{dc}}</option>
                     {% endfor %}
                     </select>
-
-                    <div style="position: relative;">
-                        <input class="save-data form-control" id="start-of-field" placeholder="Start of field data collection" type="date" {% if sos and sos.start_data_collection %}value="{{sos.start_data_collection|date:"Y-m-d"}}"{% endif %}>
-                    </div>
-                    <div style="position: relative;">
-                        <input class="save-data form-control" id="end-of-field" placeholder="End of field data collection" type="date" {% if sos and sos.end_data_collection %}value="{{sos.end_data_collection|date:"Y-m-d"}}"{% endif %}>
+                    <div class="row" style="padding-top: 8px;">
+                        <div class="col-md-6">
+                            <label>Start date of data collection: </label>
+                            <div style="position: relative;">
+                                <input class="save-data form-control" id="start-of-field" placeholder="Start of field data collection" type="date" {% if sos and sos.start_data_collection %}value="{{sos.start_data_collection|date:"Y-m-d"}}"{% endif %}>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>End date of data collection: </label>
+                            <div style="position: relative;">
+                                <input class="save-data form-control" id="end-of-field" placeholder="End of field data collection" type="date" {% if sos and sos.end_data_collection %}value="{{sos.end_data_collection|date:"Y-m-d"}}"{% endif %}>
+                            </div>
+                        </div>
                     </div>
 
                     <select class="save-data selectize-control" id="sampling-type" placeholder="Sampling type">
