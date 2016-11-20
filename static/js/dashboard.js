@@ -1,11 +1,11 @@
 function style(feature) {
     return {
-        fillColor: getColor(feature.properties.density),
+        fillColor: '#ecf0f1', // getColor(feature.properties.density),
         weight: 2,
         opacity: 1,
-        color: 'white',
+        color: '#2980b9',
         dashArray: '3',
-        fillOpacity: 0.7
+        fillOpacity: 0.9
     };
 }
 
