@@ -150,8 +150,15 @@ class DashboardView(View):
             UserProfile.set_last_event(request, None)
         context["all_events"] = Event.objects.all()
 
-        context["weekly_reports"] = []
+        # Filter options in dashboard
+        context["disaster_types"] = DisasterType.objects.all()
         context["countries"] = Country.objects.all()
+
+        # Get active crises
+        context["active_events"] = Event.objects.filter(end_date=None)
+
+        # Get weekly reports for timeline
+        context["weekly_reports"] = []
 
         weekly_reports = WeeklyReport.objects.all()
         if weekly_reports.count() > 0:
