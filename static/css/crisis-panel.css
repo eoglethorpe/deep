@@ -33,8 +33,18 @@ body {
         color: #eee; }
   body main #crisis-list {
     background-color: #fff;
-    height: calc(100vh - 70px); }
+    height: calc(100vh - 100px);
+    margin-top: 24px;
+    overflow-y: scroll; }
     body main #crisis-list .crisis {
-      padding: 10px 24px; }
+      padding: 16px 24px;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer; }
+    body main #crisis-list .active {
+      background-color: #008080;
+      color: #fff; }
+  body main #crisis-detail {
+    height: calc(100vh - 100px);
+    margin-top: 24px; }
 
 /*# sourceMappingURL=crisis-panel.css.map */
