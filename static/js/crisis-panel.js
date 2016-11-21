@@ -1,23 +1,27 @@
-function style(feature) {
-    return {
-        fillColor: getColor(feature.properties.density),
-        weight: 2,
-        opacity: 1,
-        color: 'white',
-        dashArray: '3',
-        fillOpacity: 0.7
-    };
-}
 
 $(document).ready(function(){
-    // var map = L.map('the-map').setView([41.87, 12.6], 2);
-    //
-    // $.getJSON('/static/files/countries.geo.json', function(data) {
-    //     var layer = L.geoJson(data, {style: style}).addTo(map);
-    // });
 
+    var disasterTypeSelectize = $("#disaster-type").selectize();
+    var countriesSelectize = $("#countries").selectize();
+    var assignedToSelectize = $("#assigned-to").selectize();
 
-    $('.crisis').on('click', function(){
+    $('.crisis').on('click', function() {
+        var pk = $(this).data("crisis-pk");
+        var crisis = crises[pk];
+
+        $("#crisis-detail").find("h2").text("Edit crisis");
+
+        // Change form values for active crisis
+        $("#crisis-pk").val(pk);
+
+        $("#crisis-name").val(crisis.name);
+        disasterTypeSelectize[0].selectize.setValue(crisis.disaster_type);
+        countriesSelectize[0].selectize.setValue(crisis.countries);
+        assignedToSelectize[0].selectize.setValue(crisis.assigned_to);
+
+        $("#crisis-start-date").val(crisis.start_date);
+        $("#crisis-end-date").val(crisis.end_date);
+
         $('.active').removeClass('active');
         $(this).addClass('active');
     });

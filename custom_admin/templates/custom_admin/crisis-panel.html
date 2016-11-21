@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-DEEP | Entries
+DEEP | Crisis Manager
 {% endblock %}
 
 {% block head %}
@@ -16,11 +16,24 @@ DEEP | Entries
 <script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/crisis-panel.js' %}"></script>
 
+
+<script>
+    var crises = {
+        {% for event in events %}
+        "{{event.pk}}": {
+            name: "{{event.name}}", countries: [{% for country in event.countries.all %}"{{country.pk}}",{%endfor%}],
+            start_date: "{{event.start_date|date:'Y-m-d'}}", end_date: "{{event.end_date|date:'Y-m-d'}}",
+            disaster_type: "{{event.disaster_type.pk}}", assigned_to: "{{event.assigned_to.pk}}"
+        },
+        {% endfor %}
+    };
+</script>
+
 {% endblock %}
 
 {% block body %}
 <header>
-    <a href="{% url 'dashboard' %}"><i class="fa fa-long-arrow-left"></i>Back to DEEP</a>
+    <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to DEEP</a>
     <h1>Crisis Manager</h1>
 </header>
 <main>
@@ -28,57 +41,75 @@ DEEP | Entries
         <div class="row">
             <div class="col-md-4">
                 <div id="crisis-list">
-                    <div class="crisis">Crisis #1</div>
-                    <div class="crisis">Hurricane Matthew</div>
-                    <div class="crisis active">Zombies in Nepal</div>
-                    <div class="crisis">Alien Attack</div>
-                    <div class="crisis">Purple shirted eye stabber</div>
-                    <div class="crisis">Crisis #6</div>
-                    <div class="crisis">Crisis #7</div>
+                    {% for event in events %}
+                    <div class="crisis" data-crisis-pk="{{event.pk}}">{{event.name}}</div>
+                    {% endfor %}
                 </div>
             </div>
             <div class="col-md-5">
                 <div id="crisis-detail">
-                    <h2> Crisis #1 </h2>
-                    <div class = "form-group">
-                        <label>Name</label>
-                        <input type = 'text' placeholder="Enter crisis name" class = "form-control">
+                    <form method="post" action="{% url 'custom_admin:crisis_panel' %}">
+                    {%csrf_token%}
+                    <h2> Add new crisis </h2>
+                    <input type="hidden" name="crisis-pk" id="crisis-pk" value="new">
+                    <div class="form-group">
+                        <label> Name </label>
+                        <input name="crisis-name" type="text" class="form-control" id="crisis-name" placeholder="Enter crisis name">
                     </div>
-                    <div class = "form-group">
-                        <label> Disaster Type</label>
-                        <select class = "form-control"> </select>
+                    <div class="form-group">
+                        <label> Disaster Type </label>
+                        <select name="disaster-type" class="form-control" id="disaster-type" placeholder="Select disaster type">
+                            <option value="">Select disaster type</option>
+                            {% for disaster_type in disaster_types %}
+                            <option value="{{disaster_type.pk}}">{{disaster_type.name}}</option>
+                            {% endfor %}
+                        </select>
                     </div>
-                    <div class = "form-group">
-                        <label> Country</label>
-                        <select class = "form-control"> </select>
+                    <div class="form-group">
+                        <label> Countries </label>
+                        <select name="countries" class="form-control" id="countries" placeholder="Select countries" multiple>
+                            <option value="">Select countries</option>
+                            {% for country in countries %}
+                            <option value="{{country.pk}}">{{country.name}}</option>
+                            {% endfor %}
+                        </select>
                     </div>
-                    <div class = "form-group">
+                    <div class="form-group">
 
                         <div class="row">
                             <div class="col-md-6">
                                 <label id="padded-label">Start date:</label>
                                 <div style="position: relative;">
-                                    <input type="date" class="form-control" id="crisis-start-date"></input>
+                                    <input name="crisis-start-date" type="date" class="form-control" id="crisis-start-date"></input>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <label id="padded-label">End date:</label>
                                 <div style="position: relative;">
-                                    <input type="date" class="form-control" id="crisis-start-date"></input>
+                                    <input name="crisis-end-date" type="date" class="form-control" id="crisis-start-date"></input>
                                 </div>
                             </div>
 
                         </div>
 
                     </div>
-                    <div class = "form-group">
+                    <div class="form-group">
                         <label> Assigned To</label>
-                        <select class = "form-control"> </select>
+                        <select name="assigned-to" class="form-control" id="assigned-to" placeholder="Assigned to">
+                            <option value="">Assigned to</option>
+                            {% for u in users %}
+                            {% if u.first_name != "" %}
+                            <option value="{{u.pk}}">{{u.get_full_name}}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
                     </div>
                     <div class = "form-group" style = 'text-align: right'>
-                        <button class = 'btn btn-danger'> <i class = 'fa fa-trash'> </i> Delete </button>
-                        <button class = 'btn btn-primary'> <i class = 'fa fa-save'> </i> Save </button>
+                        <button class='btn btn-danger' name="delete"> <i class='fa fa-trash'> </i> Delete </button>
+                        <button class='btn btn-primary' name="save"> <i class='fa fa-save'> </i> Save </button>
                     </div>
+
+                    </form>
 
                 </div>
             </div>

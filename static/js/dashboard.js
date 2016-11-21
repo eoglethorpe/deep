@@ -58,6 +58,7 @@ function loadTimetable() {
     table.find('thead').find('tr').empty();
     table.find('tbody').empty();
 
+    $("<td></td>").appendTo(table.find('thead').find('tr'));
     // Week headers
     for (var i=0; i<weekly_reports.length; ++i) {
         var range = formatDate(weekly_reports[i].start_date) + " to " + formatDate(weekly_reports[i].end_date);
