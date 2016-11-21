@@ -1,24 +1,18 @@
-function updateLocationSelections() {
-    var container = $('#selected-location-list ul');
-    var items = container.find('li');
-    if(items){
-        items.remove();
-    }
-
-    if(mapSelections.length == 0){
-        $("#empty-text").show();
-    } else{
-        $("#empty-text").hide();
-    }
-
-    for (var i=0; i < mapSelections.length; i++) {
-        var selectionKey = mapSelections[i];
-        element = $('<li><a onclick="unSelect(\''+selectionKey+'\', this)"><i class="fa fa-times"></i></a>'+$('#manual-location-input')[0].selectize.options[selectionKey].text+'</li>');
-        element.appendTo(container);
-    }
-
-    if (currentExcerpt) {
-        currentExcerpt.map_selections = mapSelections;
-        refreshCurrentEntryLists()
-    }
+function style(feature) {
+    return {
+        fillColor: getColor(feature.properties.density),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
 }
+
+$(document).ready(function(){
+    var map = L.map('the-map').setView([41.87, 12.6], 2);
+
+    $.getJSON('/static/files/countries.geo.json', function(data) {
+        var layer = L.geoJson(data, {style: style}).addTo(map);
+    });
+});

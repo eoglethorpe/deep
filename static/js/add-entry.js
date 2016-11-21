@@ -132,6 +132,7 @@ function drawChart() {
 
 
 // Following variables represent entry for which AffectedGroups or Map buttons were clicked
+var currentExcerptId = -1;  // Id
 var currentExcerpt = null;  // Data
 var currentEntry = null;    // Element
 
@@ -310,8 +311,9 @@ function refreshPageTwo() {
         refreshAttributes(entry, excerpt);
 
         // Affected groups selections
-        entry.find('.btn-affected').unbind().click(function(excerpt, entry) {
+        entry.find('.btn-affected').unbind().click(function(excerpt, entry, i) {
             return function() {
+                currentExcerptId = i;
                 currentExcerpt = excerpt;
                 currentEntry = entry;
                 selectedAffectedGroups = [];
@@ -320,17 +322,18 @@ function refreshPageTwo() {
                 }
                 affectedGroupsChart.setSelection(selectedAffectedGroups);
             }
-        }(excerpt, entry));
+        }(excerpt, entry, i));
 
         // Map selections
-        entry.find('.btn-map').unbind().click(function(excerpt, entry) {
+        entry.find('.btn-map').unbind().click(function(excerpt, entry, i) {
             return function() {
+                currentExcerptId = i;
                 currentExcerpt = excerpt;
                 currentEntry = entry;
                 mapSelections = excerpt.map_selections;
                 refreshMap();
             }
-        }(excerpt, entry));
+        }(excerpt, entry, i));
 
         // Edit and delete buttons
         entry.find('.edit-entry-btn').unbind().click(function(i) {
@@ -350,10 +353,12 @@ function refreshPageTwo() {
         entry.show();
 
         // Refresh lists as well
+        currentExcerptId = i;
         currentEntry = entry;
         currentExcerpt = excerpt;
         refreshCurrentEntryLists();
 
+        currentExcerptId = -1;
         currentEntry = null;
         currentExcerpt = null;
     }
@@ -681,11 +686,32 @@ $(document).ready(function(){
         }
         refreshExcerpts();
     });
+    $("#apply-next-affected").unbind().click(function() {
+        if (currentExcerptId < 0)
+            return;
+        for (var i=currentExcerptId; i<excerpts.length; ++i) {
+            var excerpt = excerpts[i];
+            excerpt.affected_groups = [];
+            for (var k=0; k<selectedAffectedGroups.length; ++k) {
+                excerpt.affected_groups.push(agRowIdMap[selectedAffectedGroups[k].row]);
+            }
+        }
+        refreshExcerpts();
+    });
 
     $("#apply-all-map").unbind().click(function() {
         for (var i=0; i<excerpts.length; ++i) {
             var excerpt = excerpts[i];
-            excerpt.map_selections = mapSelections;
+            excerpt.map_selections = mapSelections.slice();
+        }
+        refreshExcerpts();
+    });
+    $("#apply-next-map").unbind().click(function() {
+        if (currentExcerptId < 0)
+            return;
+        for (var i=currentExcerptId; i<excerpts.length; ++i) {
+            var excerpt = excerpts[i];
+            excerpt.map_selections = mapSelections.slice();
         }
         refreshExcerpts();
     });
