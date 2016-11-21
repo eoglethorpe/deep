@@ -10,9 +10,15 @@ function style(feature) {
 }
 
 $(document).ready(function(){
-    var map = L.map('the-map').setView([41.87, 12.6], 2);
+    // var map = L.map('the-map').setView([41.87, 12.6], 2);
+    //
+    // $.getJSON('/static/files/countries.geo.json', function(data) {
+    //     var layer = L.geoJson(data, {style: style}).addTo(map);
+    // });
 
-    $.getJSON('/static/files/countries.geo.json', function(data) {
-        var layer = L.geoJson(data, {style: style}).addTo(map);
+
+    $('.crisis').on('click', function(){
+        $('.active').removeClass('active');
+        $(this).addClass('active');
     });
 });

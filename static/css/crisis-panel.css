@@ -14,77 +14,37 @@ a, button, input[type="submit"], .btn {
   color: #c0392b; }
 
 body {
-  padding: 0;
-  background-color: #f5f5f5; }
-  body #header {
+  background-color: #f0f0f0; }
+  body header {
     background-color: #008080;
     color: #fff;
-    height: 60px;
     padding: 24px;
-    text-transform: uppercase; }
-    body #header h1 {
+    height: 60px; }
+    body header h1 {
+      text-transform: uppercase;
+      font-size: 1.5em;
       margin: 0; }
-    body #header a {
+    body header a {
       color: #fff;
-      float: right;
-      font-size: 1.1em; }
-  body #body {
-    padding-top: 32px; }
-    body #body h3 {
-      margin-top: 0;
-      text-transform: uppercase; }
-    body #body #add-crisis-board {
-      padding: 24px;
-      background-color: #fff;
-      box-shadow: 2px 0 5px 3px rgba(0, 0, 0, 0.2); }
-      body #body #add-crisis-board #add-crisis .fa {
-        padding-right: 4px; }
-      body #body #add-crisis-board #name-of-crisis {
-        margin-top: 16px;
-        margin-bottom: 16px; }
-      body #body #add-crisis-board select {
-        margin-bottom: 16px; }
-      body #body #add-crisis-board #padded-label {
-        padding-top: 8px; }
-      body #body #add-crisis-board #selected-location-list {
-        height: 144px;
-        overflow-y: scroll;
-        background-color: #f0f0f0;
-        padding: 10px 16px; }
-        body #body #add-crisis-board #selected-location-list ul {
-          list-style: none;
-          padding-left: 0; }
-          body #body #add-crisis-board #selected-location-list ul li {
-            text-indent: -16px;
-            padding-left: 20px; }
-            body #body #add-crisis-board #selected-location-list ul li a {
-              color: #e78c6c;
-              margin-left: 10px;
-              cursor: pointer; }
-              body #body #add-crisis-board #selected-location-list ul li a .fa {
-                margin-right: 6px; }
-        body #body #add-crisis-board #selected-location-list #empty-text {
-          text-align: center;
-          margin-top: 32px;
-          font-size: 1.2em;
-          color: #aaa;
-          text-transform: uppercase; }
-    body #body #active-crisis-map {
-      padding: 24px;
-      background-color: #fff;
-      box-shadow: 2px 0 5px 3px rgba(0, 0, 0, 0.2); }
-    body #body #filters {
-      margin-bottom: 24px;
-      margin-top: 24px; }
-    body #body #timeline-table {
-      width: 100%;
-      border-spacing: 4px;
-      border-collapse: separate; }
-      body #body #timeline-table td {
-        padding: 6px;
-        text-align: center;
-        background-color: #fff; }
-      body #body #timeline-table .active {
-        background-color: #f4b083; }
+      float: right; }
+      body header a i {
+        margin-right: 10px; }
+      body header a:hover {
+        color: #eee; }
+  body main #crisis-list {
+    background-color: #fff;
+    height: calc(100vh - 100px);
+    margin-top: 24px;
+    overflow-y: scroll; }
+    body main #crisis-list .crisis {
+      padding: 16px 24px;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer; }
+    body main #crisis-list .active {
+      background-color: #008080;
+      color: #fff; }
+  body main #crisis-detail {
+    height: calc(100vh - 100px);
+    margin-top: 24px; }
 
 /*# sourceMappingURL=crisis-panel.css.map */

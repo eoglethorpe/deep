@@ -14,204 +14,76 @@ DEEP | Entries
 <script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/split.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/dashboard.js' %}"></script>
-
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
-<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
-
-<link rel="stylesheet" href="{% static 'css/leaflet.label.css' %}" >
-<script src="{% static 'js/leaflet.label.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/crisis-panel.js' %}"></script>
 
 {% endblock %}
 
 {% block body %}
-
-<section id="header">
+<header>
+    <a href="{% url 'dashboard' %}"><i class="fa fa-long-arrow-left"></i>Back to DEEP</a>
+    <h1>Crisis Manager</h1>
+</header>
+<main>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8">
-                <h1>Crisis Management</h1>
-            </div>
             <div class="col-md-4">
-                <a href="{% url 'login' %}">Back to site</a>
-            </div>
-        </div>
-    </div>
-</section>
-<section id="body">
-    <div class="container-fluid">
-        <div class="row">
-            <!-- <div class="col-md-4">
-                <div id="add-crisis-board">
-                    <h3>Add new crisis</h3>
-                    <input class="form-control" placeholder="Name" id="name-of-crisis"></input>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Disaster type:</label>
-                            <select class="form-control" id="select-disaster-type"></select>
-                            <label>Countries:</label>
-                            <select class="form-control" id="select-countries"></select>
-                        </div>
-                        <div class="col-md-6">
-                            <div id="selected-location-list">
-                                <p id="empty-text" hidden>No location added!</p>
-                                <ul>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label id="padded-label">Crisis start date:</label>
-                            <input type="date" class="form-control" id="crisis-start-date"></input>
-                        </div>
-                        <div class="col-md-6">
-                            <label id="padded-label">Assigned to:</label>
-                            <select class="form-control" id="assigned-to"></select>
-                        </div>
-                    </div>
-                    <div style="text-align: right;">
-                        <button class="btn btn-primary" id="add-crisis"><i class="fa fa-plus"></i>Add crisis</button>
-                    </div>
-                </div>
-            </div> -->
-            <div class="col-md-12">
-                <div id="active-crisis-map">
-                    <h3>Active crises in DEEP</h3>
-                    <div id="the-map" style="height:480px;"></div>
+                <div id="crisis-list">
+                    <div class="crisis">Crisis #1</div>
+                    <div class="crisis">Hurricane Matthew</div>
+                    <div class="crisis active">Zombies in Nepal</div>
+                    <div class="crisis">Alien Attack</div>
+                    <div class="crisis">Purple shirted eye stabber</div>
+                    <div class="crisis">Crisis #6</div>
+                    <div class="crisis">Crisis #7</div>
                 </div>
             </div>
-        </div>
-        <div class="row" id="filters">
-            <div class="col-sm-12">
-                <label>Apply filter:</label>
-            </div>
-            <div class="col-sm-3 col-md-2 col-xs-6">
-                <select class="form-control" id="country" placeholder="Country">
-                    <option value="">Country</option>
-                </select>
-            </div>
-            <div class="col-sm-3 col-md-2 col-xs-6">
-                <select id="date-created-filter" class="form-control" placeholder="Date Created">
-                    <option value="">Date Created</option>
-                    <option value="today">Today</option>
-                    <option value="yesterday">Yesterday</option>
-                    <option value="last-seven-days">Last 7 days</option>
-                    <option value="this-week">This week</option>
-                    <option value="last-thirty-days">Last 30 days</option>
-                    <option value="this-month">This month</option>
-                    <option value="range">Range</option>
-                </select>
-            </div>
-            <div class="col-sm-3 col-md-2 col-xs-6">
-                <select id="disaster-type" class="form-control" placeholder="Disaster Type">
-                    <option value="">Disaster Type</option>
-                </select>
-            </div>
-        </div>
-        <h3>Timeline of humanitarian crisis per country</h3>
-        <div class="row">
-            <div class="col-md-12">
-                <table id="timeline-table">
-                    <thead>
-                        <td></td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                        <td class="week-id">W1</td>
-                    </thead>
-                    <tbody>
-                        <tr class="country-data">
-                            <td class="country-name">Nepal</td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report active"></td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report active"></td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report"></td>
-                        </tr>
-                        <tr class="country-data">
-                            <td class="country-name">Nepal</td>
-                            <td class="weekly-report active"></td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report active"></td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report"></td>
-                        </tr>
-                        <tr class="country-data">
-                            <td class="country-name">Nepal</td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report active"></td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report active"></td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report"></td>
-                        </tr>
-                        <tr class="country-data">
-                            <td class="country-name">Nepal</td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report active"></td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report"></td>
-                        </tr>
-                        <tr class="country-data">
-                            <td class="country-name">Nepal</td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report active"></td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report active"></td>
-                            <td class="weekly-report"></td>
-                        </tr>
-                        <tr class="country-data">
-                            <td class="country-name">Nepal</td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report active"></td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report"></td>
-                        </tr>
-                        <tr class="country-data">
-                            <td class="country-name">Nepal</td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report active"></td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report"></td>
-                            <td class="weekly-report"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</section>
+            <div class="col-md-5">
+                <div id="crisis-detail">
+                    <h2> Crisis #1 </h2>
+                    <div class = "form-group">
+                        <label>Name</label>
+                        <input type = 'text' placeholder="Enter crisis name" class = "form-control">
+                    </div>
+                    <div class = "form-group">
+                        <label> Disaster Type</label>
+                        <select class = "form-control"> </select>
+                    </div>
+                    <div class = "form-group">
+                        <label> Country</label>
+                        <select class = "form-control"> </select>
+                    </div>
+                    <div class = "form-group">
 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label id="padded-label">Start date:</label>
+                                <div style="position: relative;">
+                                    <input type="date" class="form-control" id="crisis-start-date"></input>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label id="padded-label">End date:</label>
+                                <div style="position: relative;">
+                                    <input type="date" class="form-control" id="crisis-start-date"></input>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class = "form-group">
+                        <label> Assigned To</label>
+                        <select class = "form-control"> </select>
+                    </div>
+                    <div class = "form-group" style = 'text-align: right'>
+                        <button class = 'btn btn-danger'> <i class = 'fa fa-trash'> </i> Delete </button>
+                        <button class = 'btn btn-primary'> <i class = 'fa fa-save'> </i> Save </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
 {% endblock %}
