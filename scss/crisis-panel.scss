@@ -8,6 +8,7 @@ body{
         color: #fff;
         padding: 24px;
         height: 60px;
+        box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
 
         h1{
             text-transform: uppercase;
@@ -47,6 +48,10 @@ body{
         #crisis-detail{
             height: calc(100vh - 100px);
             margin-top: 24px;
+
+            h2{
+                margin-bottom: 32px;
+            }
         }
     }
 }
