@@ -80,7 +80,7 @@ class WeeklyReport(models.Model):
     last_edtied_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "Week at " + self.start_date
+        return "Week at " + str(self.start_date)
 
     class Meta:
         ordering = [ '-start_date' ]

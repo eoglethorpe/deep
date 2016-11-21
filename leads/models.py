@@ -23,6 +23,8 @@ class Event(models.Model):
 
     name = models.CharField(max_length=100)
     countries = models.ManyToManyField(Country, blank=True)
+    disaster_type = models.ForeignKey('report.DisasterType', null=True, blank=True, default=None)
+    assigned_to = models.ForeignKey(User, null=True, blank=True, default=None)
 
     def __str__(self):
         return self.name
