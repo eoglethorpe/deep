@@ -253,7 +253,8 @@ body {
           body #page-two #entries .entry .geo-location .fa, body #page-two #entries .entry .affected-group .fa {
             margin-right: 0; }
           body #page-two #entries .entry .geo-location img, body #page-two #entries .entry .affected-group img {
-            width: 24px; }
+            width: 24px;
+            height: 24px; }
         body #page-two #entries .entry .attribute-list {
           display: flex;
           flex-direction: column; }
