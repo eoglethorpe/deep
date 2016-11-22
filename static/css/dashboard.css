@@ -92,8 +92,18 @@ body {
         padding: 6px;
         text-align: center;
         background-color: #fff; }
+      body #body #timeline-table .week-id {
+        background-color: #bdc3c7;
+        font-weight: bold; }
+      body #body #timeline-table .first-td {
+        background-color: #bdc3c7;
+        font-weight: bold; }
       body #body #timeline-table .active {
-        background-color: #f4b083; }
+        background-color: #ef5350; }
+      body #body #timeline-table .country-name {
+        color: #FAFAFA;
+        font-weight: bold;
+        background-color: #008080; }
   body #add-crisis-board {
     padding: 24px;
     background-color: #fff;
