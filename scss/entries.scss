@@ -24,15 +24,21 @@ nav{
     label{
         color: #717171;
     }
+
     #filters{
+        margin-top: 10px;
         margin-bottom: 24px;
 
+        label{
+            text-transform: uppercase;
+            font-size: 0.8em;
+        }
         #reliability-filter-container, #severity-filter-container{
             margin-top: -26px;
         }
     }
-    #entries{
 
+    #entries{
         .entry{
             //background-color: darken($background-color, 10%);
 
