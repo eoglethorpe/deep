@@ -70,20 +70,26 @@ body {
   #main #entries {
     height: calc(100vh - 60px - 128px - 64px) !important;
     background-color: #fff;
+    box-shadow: 2px 5px 5px 3px rgba(0, 0, 0, 0.2);
     overflow-y: scroll; }
     #main #entries h3 {
       padding-left: 32px; }
     #main #entries .entry {
-      padding: 10px 32px;
-      padding-top: 0; }
-      #main #entries .entry h4 {
-        color: #008080;
-        font-weight: bold;
-        margin-bottom: 24px; }
-      #main #entries .entry .details {
-        color: #969696; }
+      padding: 24px;
+      background-color: #fafafa; }
+      #main #entries .entry:nth-child(odd) {
+        background-color: #fff; }
+      #main #entries .entry header {
+        height: auto;
+        margin-bottom: 16px; }
+        #main #entries .entry header h4 {
+          color: #008080;
+          font-weight: bold; }
+        #main #entries .entry header label {
+          margin-right: 10px; }
       #main #entries .entry label {
         font-size: 0.8em;
+        margin-right: 10px;
         color: #969696;
         text-transform: uppercase; }
       #main #entries .entry .severity, #main #entries .entry .reliability {
@@ -93,9 +99,6 @@ body {
           height: 16px;
           background-color: #ccc;
           display: inline-block; }
-        #main #entries .entry .severity label, #main #entries .entry .reliability label {
-          vertical-align: super;
-          margin-right: 10px; }
       #main #entries .entry .reliability ._1 {
         background-color: #aab0ed; }
       #main #entries .entry .reliability ._2 {
@@ -142,6 +145,7 @@ body {
   #main #report-content {
     height: calc(100vh - 60px - 128px - 64px) !important;
     background-color: #fff;
+    box-shadow: 2px 5px 5px 3px rgba(0, 0, 0, 0.2);
     overflow-y: scroll; }
     #main #report-content section {
       padding: 16px; }

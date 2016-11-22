@@ -15,44 +15,45 @@ DEEP | Weekly Report
 <script src="{% static 'js/utils.js' %}"></script>
 
 <script>
-    {% if report %}
-    var data = JSON.parse("{{report.data|escapejs}}");
-    {% else %}
-    var data = {};
-    {% endif %}
+var eventId = "{{event.pk}}";
+var csrf_token = "{% csrf_token %}";
+{% if report %}
+var data = JSON.parse("{{report.data|escapejs}}");
+{% else %}
+var data = {};
+{% endif %}
 
-    if (!data["disaster_type"])
-        data["disaster_type"] = null;
-    if (!data["status"])
-        data["status"] = null;
+if (!data["disaster_type"])
+    data["disaster_type"] = null;
+if (!data["status"])
+    data["status"] = null;
 
-    if (!data["events"] || data["events"].length==0)
-        data["events"] = [{"value":null, "start_date":null, "end_date":null, "category":null}];
+if (!data["events"] || data["events"].length==0)
+    data["events"] = [{"value":null, "start_date":null, "end_date":null, "category":null}];
 
-    if (!data["human"])
-        data["human"] = { "number": {}, "source": {}, "comment": {} };
+if (!data["human"])
+    data["human"] = { "number": {}, "source": {}, "comment": {} };
 
-    if (!data["people"])
-        data["people"] = {
-            "total": {}, "moderate": {}, "severe": {}, "planned": {},
-            "total-source": {}, "moderate-source": {}, "severe-source": {}, "planned-source": {},
-            "total-comment": {}, "moderate-comment": {}, "severe-comment": {}, "planned-comment": {},
-        };
-    if (!data["ipc"])
-        data["ipc"] = {"a":null, "b":null, "c":null, "d":null, "e":null, "f":null, "g":null};
-    if (!data["access"])
-        data["access"] = {};
-    if (!data["access-pin"])
-        data["access-pin"] = { "number": {}, "source": {}, "comment": {} };
+if (!data["people"])
+    data["people"] = {
+        "total": {}, "moderate": {}, "severe": {}, "planned": {},
+        "total-source": {}, "moderate-source": {}, "severe-source": {}, "planned-source": {},
+        "total-comment": {}, "moderate-comment": {}, "severe-comment": {}, "planned-comment": {},
+    };
+if (!data["ipc"])
+    data["ipc"] = {"a":null, "b":null, "c":null, "d":null, "e":null, "f":null, "g":null};
+if (!data["access"])
+    data["access"] = {};
+if (!data["access-pin"])
+    data["access-pin"] = { "number": {}, "source": {}, "comment": {} };
 
-    var csrf_token = "{% csrf_token %}";
+var csrf_token = "{% csrf_token %}";
 
-    {% if start_date %}
-    var start_date = "{{start_date|date:'d-M-Y'}}";
-    {% else %}
-    var start_date = "{{report.date|date:'d-M-Y'}}";
-    {% endif %}
-
+{% if start_date %}
+var start_date = "{{start_date|date:'d-M-Y'}}";
+{% else %}
+var start_date = "{{report.date|date:'d-M-Y'}}";
+{% endif %}
 </script>
 {% endblock %}
 
@@ -70,7 +71,6 @@ DEEP | Weekly Report
                 <div class="col-md-4">
                     <button class="btn btn-primary btn-save" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Save Report" id="save-btn"><i class="fa fa-save"></i> Save</button>
                     <button class="btn btn-danger btn-cancel btn-default" id="cancel-btn"><i class="fa fa-times"></i> Cancel</button>
-
                 </div>
             </div>
             <div id="filters">
@@ -112,41 +112,6 @@ DEEP | Weekly Report
                     <h3>Entries</h3>
                 </div>
                 <div id="entries">
-                    {% for entry in entries %}
-                    <div class="entry">
-                        <h4>{{entry.lead.name}}</h4>
-                        <div id="excerpts">
-                            <!-- <label class="title">Excerpts:</label><br> -->
-                            {% for data in entry.entryinformation_set.all %}
-                            <!-- <label>{{data.attribute.name}}</label> -->
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <p>{{data.excerpt}}</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="reliability">
-                                        <label>Reliablility:</label><br>
-                                        {% for reliability in reliabilities %}
-                                        <span data-id="{{reliability.pk}}" class="_{{reliability.level}}  {% if data.reliability == reliability %}active{% endif %}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{reliability}}"></span>
-                                        {% endfor %}
-                                    </div>
-                                    <div class="severity">
-                                        <label>Severity:</label><br>
-                                        {% for severity in severities %}
-                                        <span data-id="{{severity.pk}}" class="_{{severity.level}}  {% if data.severity == severity %}active{% endif %}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{severity}}"></span>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            {% empty %}
-                            <p>[N/A]</p>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    {% if not forloop.last %}<hr>{% endif %}
-                    {% endfor %}
-
                 </div>
             </div>
             <div class="col-md-8">
@@ -379,4 +344,5 @@ DEEP | Weekly Report
         </div>
     </div>
 </section>
+{% include 'report/weekly-entry-templates.html' %}
 {% endblock %}

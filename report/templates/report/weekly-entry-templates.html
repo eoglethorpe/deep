@@ -1,27 +1,34 @@
-<div class="entry">
-    <h4></h4>
-    <div id="information-list">
+<div class="entry-template" hidden>
+    <header>
+        <h4></h4>
+        <div><label>Source:</label><a class="source" href="#"></a></div>
+    </header>
+    <div class="information-list">
     </div>
 </div>
 
-<div class="information-template">
+<div class="information-template" hidden>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <p class="excerpt"></p>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
+            <div>
+                <label>Date:</label><date>2016-12-12</date>
+            </div>
             <div class="reliability">
-                <label>Reliablility:</label>
+                <label>Reliablility:</label><br>
                 {% for reliability in reliabilities %}
                 <span data-id="{{reliability.pk}}" class="_{{reliability.level}}  {% if data.reliability == reliability %}active{% endif %}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{reliability}}"></span>
                 {% endfor %}
             </div>
             <div class="severity">
-                <label>Severity:</label>
+                <label>Severity:</label><br>
                 {% for severity in severities %}
                 <span data-id="{{severity.pk}}" class="_{{severity.level}}  {% if data.severity == severity %}active{% endif %}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{severity}}"></span>
                 {% endfor %}
             </div>
+
         </div>
     </div>
 </div>

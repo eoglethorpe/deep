@@ -1,3 +1,6 @@
+var originalEntries = [];
+var entries = [];
+
 
 function addEventTimeline(data, add_btn) {
     var container = $('#event-timeline-container');
@@ -36,21 +39,56 @@ function addEventTimeline(data, add_btn) {
     }
 
     addTodayButtons();
+}
 
+function renderEntries(){
+    var entryContainer = $('#entries');
+    for(var i=0; i<entries.length; i++){
+        var entry = $('.entry-template').clone();
+        entry.removeClass('entry-template');
+        entry.addClass('entry');
+        entry.find('h4').text(entries[i].lead_title);
+        var informationContainer = entry.find('.information-list');
+
+        for(var j=0; j<entries[i].informations.length; j++){
+            var information = $('.information-template').clone();
+            information.removeClass('information-template');
+            information.addClass('information');
+            information.find('.excerpt').text(entries[i].informations[j].excerpt);
+            information.appendTo(informationContainer);
+            information.show();
+            if(j != (entries[i].informations.length-1)){
+                $('<hr>').appendTo(informationContainer);
+            }
+        }
+
+        entry.appendTo(entryContainer);
+        entry.show();
+    }
 }
 
 $(document).ready(function(){
-    // $('.entry').on('click', function(){
-    //     if($(this).data('expanded')|false == true){
-    //         $(this).find('.details').slideUp();
-    //         $(this).data('expanded', false);
-    //     } else{
-    //         $(this).find('.details').slideDown();
-    //         $(this).data('expanded', true);
-    //     }
-    // });
+    $.getJSON("/api/v1/entries/?event="+eventId, function(data){
+        originalEntries = data;
+        entries = data;
 
-    //$('#navigator').width($('#report-content').innerWidth())
+        // Get areas options
+        for (var i=0; i<entries.length; ++i) {
+            for (var j=0; j<entries[i].informations.length; ++j) {
+                var info = entries[i].informations[j];
+                for (var k=0; k<info.map_selections.length; ++k) {
+                    var ms = info.map_selections[k];
+                    //areasSelectize[0].selectize.addOption({value:ms.name, text:ms.name});
+                }
+            }
+        }
+
+        entries.sort(function(e1, e2) {
+            return new Date(e2.modified_at) - new Date(e1.modified_at);
+        });
+
+        renderEntries();
+    });
 
     $("#save-btn").click(function() {
         getInputData();

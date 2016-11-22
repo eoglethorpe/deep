@@ -35,26 +35,37 @@ body{
     #entries{
         height: calc(100vh - #{$navbar-height} - 128px - 64px)!important;
         background-color: #fff;
-        //box-shadow: 2px 0 5px 3px rgba( 0, 0, 0, 0.2);
+        box-shadow: 2px 5px 5px 3px rgba( 0, 0, 0, 0.2);
         overflow-y: scroll;
+
         h3{
             padding-left: 32px;
         }
 
         .entry{
-            padding: 10px 32px;
-            padding-top: 0;
+            padding: 24px;
+            background-color: #fafafa;
 
-            h4{
-                color: $primary-color;
-                font-weight: bold;
-                margin-bottom: 24px;
+            &:nth-child(odd){
+                background-color: #fff;
             }
-            .details{
-                color: #969696;
+
+            header{
+                height: auto;
+                margin-bottom: 16px;
+
+                h4{
+                    color: $primary-color;
+                    font-weight: bold;
+                }
+                label{
+                    margin-right: 10px;
+                }
             }
+
             label{
                 font-size: 0.8em;
+                margin-right: 10px;
                 color: #969696;
                 text-transform: uppercase;
             }
@@ -67,8 +78,6 @@ body{
                     display: inline-block;
                 }
                 label{
-                    vertical-align: super;
-                    margin-right: 10px;
                 }
             }
 
@@ -121,8 +130,9 @@ body{
     #report-content{
         height: calc(100vh - #{$navbar-height} - 128px - 64px)!important;
         background-color: #fff;
-        //box-shadow: 2px 0 5px 3px rgba(0, 0, 0, 0.2);
+        box-shadow: 2px 5px 5px 3px rgba(0, 0, 0, 0.2);
         overflow-y: scroll;
+
         section{
             padding: 16px;
             h3{
