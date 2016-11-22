@@ -43,14 +43,15 @@ DEEP | Crisis Manager
         <div class="row">
             <div class="col-md-4">
                 <div id="crisis-list">
-                    <button class="btn btn-primary" onclick="addNewCrisis()">Add new crisis</button>
-                    
+                    <button class="btn btn-primary" onclick="addNewCrisis()" style="float: right; margin-top: 16px; margin-right: 16px;"><i class="fa fa-plus" style="padding-right: 8px;"></i>Add new crisis</button>
+                    <h3 style="padding-left: 16px; text-transform: uppercase;">Crisis List</h3>
+                    <hr>
                     {% for event in events %}
                     <div class="crisis {% if event.pk == selected_event %}active{% endif %}" data-crisis-pk="{{event.pk}}">{{event.name}}</div>
                     {% endfor %}
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-5 col-md-offset-1">
                 <div id="crisis-detail">
                     <form method="post" action="{% url 'custom_admin:crisis_panel' %}">
                     {%csrf_token%}
