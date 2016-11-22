@@ -11,9 +11,10 @@ body{
 }
 
 #main{
-    padding-top: 24px;
+    padding-top: 16px;
+
     header{
-        height: 140px;
+        height: 128px;
         h2{
             margin-top: 0;
             margin-bottom: 32px;
@@ -24,18 +25,17 @@ body{
             margin-right: 8px;
         }
         #filters{
-            margin-bottom: 24px;
-
             label{
                 margin-top: 8px;
+                text-transform: uppercase;
             }
         }
     }
 
     #entries{
-        height: calc(100vh - 250px)!important;
+        height: calc(100vh - #{$navbar-height} - 128px - 64px)!important;
         background-color: #fff;
-        box-shadow: 2px 0 5px 3px rgba( 0, 0, 0, 0.2);
+        //box-shadow: 2px 0 5px 3px rgba( 0, 0, 0, 0.2);
         overflow-y: scroll;
         h3{
             padding-left: 32px;
@@ -100,35 +100,31 @@ body{
             margin-bottom: 10px;
         }
     }
-
-    #report-content{
-        height: calc(100vh - 250px)!important;
-        background-color: #fff;
-        box-shadow: 2px 0 5px 3px rgba(0, 0, 0, 0.2);
-        overflow-y: scroll;
-        position: relative;
-
-        #navigator{
-            position: fixed;
-            z-index: 100;
-            background-color: #fff;
-            overflow: hidden;
-            padding-top: 16px;
-            a{
-                display: inline-block;
-                padding: 10px 24px;
-            }
-            hr{
-                margin-bottom: 0px;
-            }
+    #entries-header-container{
+        h3{
+            margin: 0;
+            text-transform: uppercase;
+            font-size: 1.2em;
         }
-
-
+    }
+    #entries-header-container, #navigator{
+        padding: 16px;
+        background-color: #fafafa;
+        height: 48px;
+    }
+    #navigator{
+        a{
+            display: inline-block;
+            padding: 0 24px;
+        }
+    }
+    #report-content{
+        height: calc(100vh - #{$navbar-height} - 128px - 64px)!important;
+        background-color: #fff;
+        //box-shadow: 2px 0 5px 3px rgba(0, 0, 0, 0.2);
+        overflow-y: scroll;
         section{
             padding: 24px;
-            padding-top: 72px;
-            margin-bottom: -64px;
-
 
             h3{
                 margin-bottom: 24px;

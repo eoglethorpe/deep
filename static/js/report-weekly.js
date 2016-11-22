@@ -50,7 +50,7 @@ $(document).ready(function(){
     //     }
     // });
 
-    $('#navigator').width($('#report-content').innerWidth())
+    //$('#navigator').width($('#report-content').innerWidth())
 
     $("#save-btn").click(function() {
         getInputData();
@@ -215,6 +215,6 @@ function getInputData() {
 }
 
 
-$(window).on('resize', function(e) {
-    $('#navigator').width($('#report-content').innerWidth())
-});
+// $(window).on('resize', function(e) {
+//     $('#navigator').width($('#report-content').innerWidth())
+// });

@@ -1,0 +1,27 @@
+<div class="entry">
+    <h4></h4>
+    <div id="information-list">
+    </div>
+</div>
+
+<div class="information-template">
+    <div class="row">
+        <div class="col-md-6">
+            <p class="excerpt"></p>
+        </div>
+        <div class="col-md-6">
+            <div class="reliability">
+                <label>Reliablility:</label>
+                {% for reliability in reliabilities %}
+                <span data-id="{{reliability.pk}}" class="_{{reliability.level}}  {% if data.reliability == reliability %}active{% endif %}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{reliability}}"></span>
+                {% endfor %}
+            </div>
+            <div class="severity">
+                <label>Severity:</label>
+                {% for severity in severities %}
+                <span data-id="{{severity.pk}}" class="_{{severity.level}}  {% if data.severity == severity %}active{% endif %}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{severity}}"></span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
