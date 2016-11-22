@@ -69,9 +69,24 @@ body{
                 text-align: center;
                 background-color: #fff;
             }
+            .week-id {
+                background-color: #bdc3c7;
+                font-weight: bold;
+            }
+
+            .first-td {
+                background-color: #bdc3c7;
+                font-weight: bold;
+            }
 
             .active{
-                background-color: #f4b083;
+                background-color: #ef5350;
+            }
+
+            .country-name{
+                color: #FAFAFA;
+                font-weight: bold;
+                background-color: #008080;
             }
         }
     }
