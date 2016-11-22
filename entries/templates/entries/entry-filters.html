@@ -72,38 +72,44 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-md-2">
-                <select id="pillars-filter" placeholder="Pillar">
-                    <option value="">Pillar</option>
+            <div class="col-md-4">
+                <select id="pillars-filter" placeholder="Pillars and subpillars" multiple>
+                    <option value="">Pillars and subpillars</option>
                     {% for pillar in pillars %}
                     <option value="{{pillar.pk}}">{{pillar}}</option>
+                    {% for subpillar in pillar.informationsubpillar_set.all %}
+                    <option value="{{pillar.pk}}/{{subpillar.pk}}">{{pillar}} / {{subpillar}}</option>
+                    {% endfor %}
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-md-2">
-                <select id="subpillars-filter" placeholder="Subpillar">
+            <!--div class="col-md-2">
+                <select id="subpillars-filter" placeholder="Subpillar" multiple>
                     <option value="">Subpillar</option>
                     {% for subpillar in subpillars %}
-                    <option value="{{subpillar.pk}}">{{subpillar}}</option>
+                    <option value="{{subpillar.pk}}" data-pillar-id="{{subpillar.pillar.id}}">{{subpillar}}</option>
                     {% endfor %}
                 </select>
-            </div>
-            <div class="col-md-2">
-                <select id="sectors-filter" placeholder="Sector">
-                    <option value="">Sector</option>
+            </div-->
+            <div class="col-md-4">
+                <select id="sectors-filter" placeholder="Sectors and subsectors" multiple>
+                    <option value="">Sectors and subsectors</option>
                     {% for sector in sectors %}
                     <option value="{{sector.pk}}">{{sector}}</option>
+                    {% for subsector in sector.subsector_set.all %}
+                    <option value="{{sector.pk}}/{{subsector.pk}}">{{sector}} / {{subsector}}</option>
+                    {% endfor %}
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-md-2">
-                <select id="subsectors-filter" placeholder="Subsector">
+            <!--div class="col-md-2">
+                <select id="subsectors-filter" placeholder="Subsector" multiple>
                     <option value="">Subsector</option>
                     {% for subsector in subsectors %}
                     <option value="{{subsector.pk}}">{{subsector}}</option>
                     {% endfor %}
                 </select>
-            </div>
+            </div-->
         </div>
     </div>
     <div class="col-md-2">

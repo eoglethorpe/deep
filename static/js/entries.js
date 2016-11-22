@@ -1,23 +1,36 @@
 var originalEntries = [];
 var entries = [];
 
+var filters = {
 
-function filterEntries(clear, filterFunction) {
-    if (clear) {
-        entries = originalEntries;
-        refreshList();
-        return;
-    }
+};
 
+
+function filterEntries() {
     entries = [];
-    for (var i=0; i < originalEntries.length; ++i) {
+    for (var i=0; i<originalEntries.length; ++i) {
         var entry = $.extend(true, {}, originalEntries[i]);
-        entry.informations = entry.informations.filter(filterFunction);
+        
+        for (var filter in filters) {
+            if (filters[filter]) {
+                entry.informations = entry.informations.filter(filters[filter]);
+            }
+        }
 
         if (entry.informations.length > 0)
             entries.push(entry);
     }
     refreshList();
+}
+
+
+function addFilter(filterFor, clear, filterFunction) {
+    if (clear)
+        filters[filterFor] = null;
+    else
+        filters[filterFor] = filterFunction;
+
+    filterEntries();
 }
 
 $(document).ready(function(){
@@ -29,7 +42,7 @@ $(document).ready(function(){
     $('#vulnerable-groups-filter').selectize();
     $('#specific-needs-groups-filter').selectize();
     $('#pillars-filter').selectize();
-    $('#subpillars-filter').selectize();
+    var subpillarsSelectize = $('#subpillars-filter').selectize();
     $('#sectors-filter').selectize();
     $('#subsectors-filter').selectize();
     $('#reliabilities-min-filter').selectize();
@@ -63,50 +76,50 @@ $(document).ready(function(){
 
     $('#lead-title-search').on('input paste change drop', function() {
         var filterBy = $(this).val();
-        filterEntries(filterBy == "", function(info){
+        addFilter('lead-title', filterBy == "", function(info){
             return info.lead_title.toLowerCase().includes(filterBy.toLowerCase());
         });
     });
     $('#sources-filter').change(function() {
         var filterBy = $(this).val();
-        filterEntries(filterBy == "", function(info){
+        addFilter('source', filterBy == "", function(info){
             return info.lead_source == filterBy;
         });
     });
     $('#users-filter').change(function() {
         var filterBy = $(this).val();
-        filterEntries(filterBy == "", function(info){
+        addFilter('users', filterBy == "", function(info){
             return info.modified_by == filterBy;
         });
     });
     $('#areas-filter').change(function() {
         var filterBy = $(this).val();
-        filterEntries(filterBy == "", function(info){
+        addFilter('areas', filterBy == "", function(info){
             return info.map_selections.filter(function(ms){ return ms.name == filterBy; }).length > 0;
         });
     });
     $('#affected-groups-filter').change(function() {
         var filterBy = $(this).val();
-        filterEntries(filterBy == "", function(info){
+        addFilter('affected-groups', filterBy == "", function(info){
             return info.affected_groups.filter(function(a){ return a.name == filterBy; }).length > 0;
         });
     });
     $('#vulnerable-groups-filter').change(function() {
         var filterBy = $(this).val();
-        filterEntries(filterBy == "", function(info){
+        addFilter('vulnerable-groups', filterBy == "", function(info){
             return info.vulnerable_groups.filter(function(v){ return v.name == filterBy; }).length > 0;
         });
     });
     $('#specific-needs-groups-filter').change(function() {
         var filterBy = $(this).val();
-        filterEntries(filterBy == "", function(info){
+        addFilter('specific-needs-groups', filterBy == "", function(info){
             return info.specific_needs_groups.filter(function(s){ return s.name == filterBy; }).length > 0;
         });
     });
 
     $('#search').on('input paste change drop', function() {
         var filterBy = $(this).val();
-        filterEntries(filterBy == "", function(info){
+        addFilter('excerpt', filterBy == "", function(info){
             return info.excerpt.toLowerCase().includes(filterBy.toLowerCase());
         });
     });
@@ -114,34 +127,107 @@ $(document).ready(function(){
 
     $('#pillars-filter').change(function() {
         var filterBy = $(this).val();
-        filterEntries(filterBy == "", function(info){
-            return info.attributes.filter(function(a){ return a.subpillar != null && a.subpillar.pillar.id == filterBy; }).length > 0;
-        });
+
+        if (filterBy == null)
+            addFilter('pillar', true, null);
+        else {
+
+            // Separate the pillar and subpillar ids to filter by
+            var pillarFilters = filterBy.map(function(a) {
+                var strings = a.split("/");
+                return parseInt(strings[0]);
+            });
+
+            var subpillarFilters = filterBy.map(function(a) {
+                var strings = a.split("/");
+                if (strings.length == 2) {
+                    a = strings[0];
+                    return parseInt(strings[1]);
+                }
+                else
+                    return null;
+            });
+
+            // Filter accordingly
+            addFilter("pillar", filterBy == null, function(info) {
+                return info.attributes.filter(function(a) {
+                    
+                    if (a.subpillar == null)
+                        return false;
+                    
+                    var index = pillarFilters.indexOf(a.subpillar.pillar.id);
+                    if (index < 0)
+                        return false;
+
+                    if (subpillarFilters[index] == null || subpillarFilters[index] == a.subpillar.id)
+                        return true;
+
+                    return false;
+
+                }).length > 0;
+            });
+        }
     });
-    $('#subpillars-filter').change(function() {
-        var filterBy = $(this).val();
-        filterEntries(filterBy == "", function(info){
-            return info.attributes.filter(function(a){ return a.subpillar != null && a.subpillar.id == filterBy; }).length > 0;
-        });
-    });
+
     $('#sectors-filter').change(function() {
         var filterBy = $(this).val();
-        filterEntries(filterBy == "", function(info){
-            return info.attributes.filter(function(a){ return a.sector != null && a.sector.id == filterBy; }).length > 0;
-        });
+
+        if (filterBy == null)
+            addFilter('sector', true, null);
+        else {
+
+            // Separate the sector and subsector ids to filter by
+            var sectorFilters = filterBy.map(function(a) {
+                var strings = a.split("/");
+                return parseInt(strings[0]);
+            });
+
+            var subsectorFilters = filterBy.map(function(a) {
+                var strings = a.split("/");
+                if (strings.length == 2) {
+                    a = strings[0];
+                    return parseInt(strings[1]);
+                }
+                else
+                    return null;
+            });
+
+            // Filter accordingly
+            addFilter("sector", filterBy == null, function(info) {
+                return info.attributes.filter(function(a) {
+                    
+                    if (a.sector == null)
+                        return false;
+                    
+                    var index = sectorFilters.indexOf(a.sector.id);
+                    if (index < 0)
+                        return false;
+
+                    if (a.subsectors.length == 0) {
+                        if (subsectorFilters[index] == null)
+                            return true;
+                        else
+                            return false;
+                    }
+
+                    if (subsectorFilters[index] == null || a.subsectors.filter(function(ss) {
+                        return ss.id == subsectorFilters[index]; 
+                    }).length > 0)
+                        return true;
+
+                    return false;
+
+                }).length > 0;
+            });
+        }
     });
-    $('#subsectors-filter').change(function() {
-        var filterBy = $(this).val();
-        filterEntries(filterBy == "", function(info){
-            return info.attributes.filter(function(a){ return a.subsectors != null && a.subsectors.filter(function(ss){ return ss.id == filterBy }).length > 0; }).length > 0;
-        });
-    });
+
 
     $('.reliabilities-filter').change(function() {
         var minFilterBy = $('#reliabilities-min-filter').val();
         var maxFilterBy = $('#reliabilities-max-filter').val();
 
-        filterEntries(minFilterBy == "" || maxFilterBy == "", function(info){
+        addFilter('reliabilities', minFilterBy == "" || maxFilterBy == "", function(info){
             return info.reliability.level >= minFilterBy && info.reliability.level <= maxFilterBy;
         });
     });
@@ -150,7 +236,7 @@ $(document).ready(function(){
         var minFilterBy = $('#severities-min-filter').val();
         var maxFilterBy = $('#severities-max-filter').val();
 
-        filterEntries(minFilterBy == "" || maxFilterBy == "", function(info){
+        addFilter('severities', minFilterBy == "" || maxFilterBy == "", function(info){
             return info.severity.level >= minFilterBy && info.severity.level <= maxFilterBy;
         });
     });

@@ -54,6 +54,7 @@ class Reliability(models.Model):
 
     class Meta:
         verbose_name_plural = 'Reliabilities'
+        ordering = ['level']
 
 
 class Severity(models.Model):
@@ -66,6 +67,7 @@ class Severity(models.Model):
 
     class Meta:
         verbose_name_plural = 'Severities'
+        ordering = ['level']
 
 
 class AffectedGroup(models.Model):
