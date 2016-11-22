@@ -54,9 +54,9 @@ body {
     margin-right: 10px; }
 
 #main {
-  padding-top: 24px; }
+  padding-top: 16px; }
   #main header {
-    height: 140px; }
+    height: 128px; }
     #main header h2 {
       margin-top: 0;
       margin-bottom: 32px;
@@ -64,12 +64,11 @@ body {
     #main header button {
       float: right;
       margin-right: 8px; }
-    #main header #filters {
-      margin-bottom: 24px; }
-      #main header #filters label {
-        margin-top: 8px; }
+    #main header #filters label {
+      margin-top: 8px;
+      text-transform: uppercase; }
   #main #entries {
-    height: calc(100vh - 250px) !important;
+    height: calc(100vh - {}) !important;
     background-color: #fff;
     box-shadow: 2px 0 5px 3px rgba(0, 0, 0, 0.2);
     overflow-y: scroll; }

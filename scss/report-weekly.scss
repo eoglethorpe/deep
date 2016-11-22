@@ -11,9 +11,10 @@ body{
 }
 
 #main{
-    padding-top: 24px;
+    padding-top: 16px;
+
     header{
-        height: 140px;
+        height: 128px;
         h2{
             margin-top: 0;
             margin-bottom: 32px;
@@ -24,16 +25,15 @@ body{
             margin-right: 8px;
         }
         #filters{
-            margin-bottom: 24px;
-
             label{
                 margin-top: 8px;
+                text-transform: uppercase;
             }
         }
     }
 
     #entries{
-        height: calc(100vh - 250px)!important;
+        height: calc(100vh - {})!important;
         background-color: #fff;
         box-shadow: 2px 0 5px 3px rgba( 0, 0, 0, 0.2);
         overflow-y: scroll;
