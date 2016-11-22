@@ -54,9 +54,9 @@ body {
     margin-right: 10px; }
 
 #main {
-  padding-top: 16px; }
+  padding-top: 10px; }
   #main header {
-    height: 128px; }
+    height: 176px; }
     #main header h2 {
       margin-top: 0;
       margin-bottom: 32px;
@@ -65,10 +65,12 @@ body {
       float: right;
       margin-right: 8px; }
     #main header #filters label {
-      margin-top: 8px;
-      text-transform: uppercase; }
+      text-transform: uppercase;
+      font-size: 0.8em; }
+    #main header #filters #reliability-filter-container, #main header #filters #severity-filter-container {
+      margin-top: -26px; }
   #main #entries {
-    height: calc(100vh - 60px - 128px - 64px) !important;
+    height: calc(100vh - 60px - 176px - 64px) !important;
     background-color: #fff;
     box-shadow: 2px 5px 5px 3px rgba(0, 0, 0, 0.2);
     overflow-y: scroll; }
@@ -141,9 +143,14 @@ body {
     height: 48px; }
   #main #navigator a {
     display: inline-block;
-    padding: 0 24px; }
+    padding: 0 24px;
+    padding-bottom: 8px;
+    cursor: pointer; }
+  #main #navigator .active {
+    border-bottom: 2px solid #008080; }
   #main #report-content {
-    height: calc(100vh - 60px - 128px - 64px) !important;
+    height: calc(100vh - 60px - 176px - 64px) !important;
+    padding: 24px;
     background-color: #fff;
     box-shadow: 2px 5px 5px 3px rgba(0, 0, 0, 0.2);
     overflow-y: scroll; }

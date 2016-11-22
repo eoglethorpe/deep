@@ -41,7 +41,7 @@ function addEventTimeline(data, add_btn) {
 function renderEntries(){
     var entryContainer = $('#entries');
     entryContainer.empty();
-    
+
     for(var i=0; i<entries.length; i++){
         var entry = $('.entry-template').clone();
         entry.removeClass('entry-template');
@@ -57,13 +57,13 @@ function renderEntries(){
             var information = $('.information-template').clone();
             information.removeClass('information-template');
             information.addClass('information');
-            
+
             information.find('.excerpt').text(entries[i].informations[j].excerpt);
             if (entries[i].informations[j].date)
                 information.find('date').text(formatDate(new Date(entries[i].informations[j].date)));
             else
                 information.find('date').text("N/A");
-                
+
             information.appendTo(informationContainer);
             information.show();
             if(j != (entries[i].informations.length-1)){
@@ -90,6 +90,15 @@ $(document).ready(function(){
     $('#disaster-type-select').selectize();
     $('#status-select').selectize();
     $('.access-select').selectize();
+
+    $('#navigator').on('click', 'a', function(){
+        var that = $('#navigator .active');
+        $(that.data('target')).hide();
+        that.removeClass('active');
+
+        $($(this).data('target')).show();
+        $(this).addClass('active');
+    })
 });
 
 function setInputData() {

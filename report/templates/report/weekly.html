@@ -88,10 +88,10 @@ var start_date = "{{report.date|date:'d-M-Y'}}";
             </div>
             <div class="col-md-8">
                 <div id="navigator">
-                    <a href="#key-events">Key events</a>
-                    <a href="#humanitarian-profile">Humanitarian profile</a>
-                    <a href="#people-in-need">People in need</a>
-                    <a href="#humanitarian-access">Humanitarian access</a>
+                    <a data-target="#key-events" class="active">Key events</a>
+                    <a data-target="#humanitarian-profile">Humanitarian profile</a>
+                    <a data-target="#people-in-need">People in need</a>
+                    <a data-target="#humanitarian-access">Humanitarian access</a>
                 </div>
                 <div id="report-content">
                     <section id="key-events">
@@ -155,7 +155,7 @@ var start_date = "{{report.date|date:'d-M-Y'}}";
                             <br>
                         </div>
                     </section>
-                    <section id="humanitarian-profile">
+                    <section id="humanitarian-profile" hidden>
                         <h3>Humanitarian Profile</h3>
                         {% for field in human_profile_fields %}
 
@@ -178,7 +178,7 @@ var start_date = "{{report.date|date:'d-M-Y'}}";
                         {% endfor %}
                         {% endfor %}
                     </section>
-                    <section id="people-in-need">
+                    <section id="people-in-need" hidden>
                         <h3>People in need</h3>
                         {% for field in people_in_need_fields %}
                         <div class="row toplevel">
@@ -274,7 +274,7 @@ var start_date = "{{report.date|date:'d-M-Y'}}";
                             </div>
                         </div>
                     </section>
-                    <section id="humanitarian-access">
+                    <section id="humanitarian-access" hidden>
                         <h3>Humanitarian access</h3>
                         <div class="row">
                             <div class="col-md-7">
