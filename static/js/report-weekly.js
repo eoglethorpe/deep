@@ -20,18 +20,22 @@ function addEventTimeline(data, add_btn) {
     var set_remove_btn = !(add_btn | false);
 
     if(set_remove_btn){
-        event_timeline.find('button').text('-');
+        event_timeline.find('button').text('Remove');
         event_timeline.find('button').removeClass('btn-primary');
         event_timeline.find('button').addClass('btn-danger');
+
         event_timeline.find('button').on('click', function(){
             $(this).closest('.event-timeline').remove();
         })
     } else {
-        event_timeline.find('button').text('+');
+        event_timeline.find('button').text('Add');
         event_timeline.find('button').removeClass('btn-danger');
         event_timeline.find('button').addClass('btn-primary');
+
         event_timeline.find('button').on('click', addEventTimeline);
     }
+
+    addTodayButtons();
 
 }
 

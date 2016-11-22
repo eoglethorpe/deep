@@ -54,11 +54,11 @@ function addTodayButtons() {
     var btns = $(".today-btn");
     if (btns)
         btns.remove();
-    
+
     $('input[type="date"]').each(function() {
         var date = $(this);
         date.css('padding-left', '32px');
-        var today_btn = $('<a class=".today-btn"><i class="fa fa-circle"></i></a>');
+        var today_btn = $('<a class="today-btn"><i class="fa fa-circle"></i></a>');
         today_btn.appendTo(date.parent());
         today_btn.css('z-index', '10');
         date.css('position', 'relative');
