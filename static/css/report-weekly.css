@@ -144,19 +144,18 @@ body {
     background-color: #fff;
     overflow-y: scroll; }
     #main #report-content section {
-      padding: 24px; }
+      padding: 16px; }
       #main #report-content section h3 {
-        margin-bottom: 24px; }
+        margin: 0;
+        margin-bottom: 16px; }
       #main #report-content section .title {
         text-transform: uppercase;
         margin-top: 10px;
         margin-bottom: 16px; }
-    #main #report-content #key-events {
-      margin-top: 64px; }
-      #main #report-content #key-events .event-timeline {
+    #main #report-content #key-events .event-timeline {
+      margin-bottom: 16px; }
+      #main #report-content #key-events .event-timeline .row:first-child {
         margin-bottom: 16px; }
-        #main #report-content #key-events .event-timeline .row:first-child {
-          margin-bottom: 16px; }
     #main #report-content #humanitarian-profile .row {
       margin-bottom: 10px; }
     #main #report-content #humanitarian-profile .sub {
