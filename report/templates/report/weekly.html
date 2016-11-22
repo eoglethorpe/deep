@@ -68,8 +68,8 @@ DEEP | Weekly Report
                     </h2>
                 </div>
                 <div class="col-md-4">
-                    <button class="btn btn-danger btn-save btn-default" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Save Report" id="save-btn"><i class="fa fa-save"></i> Save</button>
-                    <button class="btn btn-primary btn-cancel btn-default" id="cancel-btn"><i class="fa fa-times"></i> Cancel</button>
+                    <button class="btn btn-primary btn-save" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Save Report" id="save-btn"><i class="fa fa-save"></i> Save</button>
+                    <button class="btn btn-danger btn-cancel btn-default" id="cancel-btn"><i class="fa fa-times"></i> Cancel</button>
 
                 </div>
             </div>
@@ -108,9 +108,10 @@ DEEP | Weekly Report
         </header>
         <div class="row">
             <div class="col-md-4">
-                <div id="entries">
+                <div id="entries-header-container">
                     <h3>Entries</h3>
-                    <hr>
+                </div>
+                <div id="entries">
                     {% for entry in entries %}
                     <div class="entry">
                         <h4>{{entry.lead.name}}</h4>
@@ -123,47 +124,14 @@ DEEP | Weekly Report
                                     <p>{{data.excerpt}}</p>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="affected-groups">
-                                        <label>Affected groups:</label><br>
-                                        {% for ag in data.affected_groups.all %}
-                                        {{ ag }}
-                                        {% if not forloop.last %}, {% endif %}
-                                        {% empty %}
-                                        [N/A]
-                                        {% endfor %}
-                                    </div>
-                                    <div class="specific-need-groups">
-                                        <label>Specific needs groups:</label><br>
-                                        {% for sng in data.specific_needs_groups.all %}
-                                        {{ sng }}
-                                        {% if not forloop.last %}, {% endif %}
-                                        {% empty %}
-                                        [N/A]
-                                        {% endfor %}
-                                    </div>
-                                    <div class="vulnerable-groups">
-                                        <label>Vulnerable groups:</label><br>
-                                        {% for vg in data.vulnerable_groups.all %}
-                                        {{ vg }}
-                                        {% if not forloop.last %}, {% endif %}
-                                        {% empty %}
-                                        [N/A]
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
                                     <div class="reliability">
-                                        <label>Reliablility:</label><!--span class="reliability"> {{data.reliability}}</span>, <label>Severity:</label><span class="severity"> {{data.severity}}</span-->
+                                        <label>Reliablility:</label><br>
                                         {% for reliability in reliabilities %}
                                         <span data-id="{{reliability.pk}}" class="_{{reliability.level}}  {% if data.reliability == reliability %}active{% endif %}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{reliability}}"></span>
                                         {% endfor %}
                                     </div>
-                                </div>
-                                <div class="col-md-6">
                                     <div class="severity">
-                                        <label>Severity:</label><!--span class="reliability"> {{data.reliability}}</span>, <label>Severity:</label><span class="severity"> {{data.severity}}</span-->
+                                        <label>Severity:</label><br>
                                         {% for severity in severities %}
                                         <span data-id="{{severity.pk}}" class="_{{severity.level}}  {% if data.severity == severity %}active{% endif %}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{severity}}"></span>
                                         {% endfor %}
@@ -182,14 +150,13 @@ DEEP | Weekly Report
                 </div>
             </div>
             <div class="col-md-8">
+                <div id="navigator">
+                    <a href="#key-events">Key events</a>
+                    <a href="#humanitarian-profile">Humanitarian profile</a>
+                    <a href="#people-in-need">People in need</a>
+                    <a href="#humanitarian-access">Humanitarian access</a>
+                </div>
                 <div id="report-content">
-                    <div id="navigator">
-                        <a href="#key-events">Key events</a>
-                        <a href="#humanitarian-profile">Humanitarian profile</a>
-                        <a href="#people-in-need">People in need</a>
-                        <a href="#humanitarian-access">Humanitarian access</a>
-                        <hr>
-                    </div>
                     <section id="key-events">
                         <h3>Key Events</h3>
                         <div class="row">
