@@ -47,15 +47,98 @@ nav {
     padding-bottom: 8px;
     color: #414141; }
 
-#main {
-  padding-top: 16px; }
-  #main h2 {
-    line-height: 1.5; }
-    #main h2 strong {
-      text-transform: uppercase;
-      display: block; }
-  #main a {
-    margin-top: 50px;
-    padding: 10px 24px; }
+body {
+  padding: 0;
+  background-color: #f5f5f5; }
+  body #header {
+    background-color: #008080;
+    color: #fff;
+    height: 60px;
+    padding: 24px;
+    text-transform: uppercase; }
+    body #header h1 {
+      margin: 0; }
+    body #header a {
+      color: #fff;
+      float: right;
+      font-size: 1.1em; }
+  body #body {
+    padding-top: 32px; }
+    body #body h3 {
+      margin-top: 0;
+      text-transform: uppercase; }
+    body #body .leaflet-container {
+      background: #2980b9; }
+    body #body #active-crisis-map #map-text-wrapper {
+      background-color: #fff;
+      width: 256px;
+      margin-left: 48px;
+      margin-top: 10px;
+      text-align: center;
+      border-radius: 3px;
+      box-shadow: 0 2px 7px 2px rgba(0, 0, 0, 0.3); }
+      body #body #active-crisis-map #map-text-wrapper h3 {
+        padding: 8px;
+        color: #2980b9;
+        font-weight: bold; }
+    body #body #filters {
+      margin-bottom: 24px;
+      margin-top: 24px; }
+    body #body #timeline-table {
+      width: 100%;
+      border-spacing: 4px;
+      border-collapse: separate; }
+      body #body #timeline-table td {
+        padding: 6px;
+        text-align: center;
+        background-color: #fff; }
+      body #body #timeline-table .week-id {
+        background-color: #bdc3c7;
+        font-weight: bold; }
+      body #body #timeline-table .first-td {
+        background-color: #bdc3c7;
+        font-weight: bold; }
+      body #body #timeline-table .active {
+        background-color: #ef5350; }
+      body #body #timeline-table .country-name {
+        color: #FAFAFA;
+        font-weight: bold;
+        background-color: #008080; }
+  body #add-crisis-board {
+    padding: 24px;
+    background-color: #fff;
+    box-shadow: 2px 0 5px 3px rgba(0, 0, 0, 0.2); }
+    body #add-crisis-board #add-crisis .fa {
+      padding-right: 4px; }
+    body #add-crisis-board #name-of-crisis {
+      margin-top: 16px;
+      margin-bottom: 16px; }
+    body #add-crisis-board select {
+      margin-bottom: 16px; }
+    body #add-crisis-board #padded-label {
+      padding-top: 8px; }
+    body #add-crisis-board #selected-location-list {
+      height: 144px;
+      overflow-y: scroll;
+      background-color: #f0f0f0;
+      padding: 10px 16px; }
+      body #add-crisis-board #selected-location-list ul {
+        list-style: none;
+        padding-left: 0; }
+        body #add-crisis-board #selected-location-list ul li {
+          text-indent: -16px;
+          padding-left: 20px; }
+          body #add-crisis-board #selected-location-list ul li a {
+            color: #e78c6c;
+            margin-left: 10px;
+            cursor: pointer; }
+            body #add-crisis-board #selected-location-list ul li a .fa {
+              margin-right: 6px; }
+      body #add-crisis-board #selected-location-list #empty-text {
+        text-align: center;
+        margin-top: 32px;
+        font-size: 1.2em;
+        color: #aaa;
+        text-transform: uppercase; }
 
 /*# sourceMappingURL=dashboard.css.map */

@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-DEEP | Entries
+DEEP | Crisis Manager
 {% endblock %}
 
 {% block head %}
@@ -14,123 +14,111 @@ DEEP | Entries
 <script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/split.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/crisis-panel.js' %}"></script>
+
+
+<script>
+    var crises = {
+        {% for event in events %}
+        "{{event.pk}}": {
+            name: "{{event.name}}", countries: [{% for country in event.countries.all %}"{{country.pk}}",{%endfor%}],
+            start_date: "{{event.start_date|date:'Y-m-d'}}", end_date: "{{event.end_date|date:'Y-m-d'}}",
+            disaster_type: "{{event.disaster_type.pk}}", assigned_to: "{{event.assigned_to.pk}}"
+        },
+        {% endfor %}
+    };
+</script>
 
 {% endblock %}
 
 {% block body %}
-
-<section id="header">
+<header>
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-8">
-                <h1>Crisis Management</h1>
-            </div>
-            <div class="col-md-4">
-                <a>Back to site</a>
-            </div>
-        </div>
+        <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to DEEP</a>
+        <h1>Crisis Manager</h1>
     </div>
-</section>
-
-<section id="body">
+</header>
+<main>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
-                <div id="add-crisis-board">
-                    <input class="form-control" placeholder="Name" id="name-of-crisis"></input>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Disaster type:</label>
-                            <select class="form-control" id="select-disaster-type"></select>
-                            <label>Countries:</label>
-                            <select class="form-control" id="select-countries"></select>
-                        </div>
-                        <div class="col-md-6">
-                            <div id="selected-location-list">
-                                <p id="empty-text" hidden>No location added!</p>
-                                <ul>
-                                </ul>
+                <div id="crisis-list">
+                    <button class="btn btn-primary" onclick="addNewCrisis()" style="float: right; margin-top: 16px; margin-right: 16px;"><i class="fa fa-plus" style="padding-right: 8px;"></i>Add new crisis</button>
+                    <h3 style="padding-left: 16px; text-transform: uppercase;">Crisis List</h3>
+                    <hr>
+                    {% for event in events %}
+                    <div class="crisis {% if event.pk == selected_event %}active{% endif %}" data-crisis-pk="{{event.pk}}">{{event.name}}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-5 col-md-offset-1">
+                <div id="crisis-detail">
+                    <form method="post" action="{% url 'custom_admin:crisis_panel' %}">
+                    {%csrf_token%}
+                    <h2> Add new crisis </h2>
+                    <input type="hidden" name="crisis-pk" id="crisis-pk" value="new">
+                    <div class="form-group">
+                        <label> Name </label>
+                        <input name="crisis-name" type="text" class="form-control" id="crisis-name" placeholder="Enter crisis name" required>
+                    </div>
+                    <div class="form-group">
+                        <label> Disaster Type </label>
+                        <select name="disaster-type" class="form-control" id="disaster-type" placeholder="Select disaster type">
+                            <option value="">Select disaster type</option>
+                            {% for disaster_type in disaster_types %}
+                            <option value="{{disaster_type.pk}}">{{disaster_type.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label> Countries </label>
+                        <select name="countries" class="form-control" id="countries" placeholder="Select countries" multiple>
+                            <option value="">Select countries</option>
+                            {% for country in countries %}
+                            <option value="{{country.pk}}">{{country.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label id="padded-label">Start date:</label>
+                                <div style="position: relative;">
+                                    <input name="crisis-start-date" type="date" class="form-control" id="crisis-start-date" required>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label id="padded-label">Crisis start date:</label>
-                            <input type="date" class="form-control" id="crisis-start-date"></input>
-                        </div>
-                        <div class="col-md-6">
-                            <label id="padded-label">Assigned to:</label>
-                            <select class="form-control" id="assigned-to"></select>
-                        </div>
-                    </div>
-                    <div style="text-align: right;">
-                        <button class="btn btn-primary" id="add-crisis"><i class="fa fa-plus"></i>Add crisis</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div id="active-crisis-map">
-                    Map<br>Shit<br>Goes<br>Here
-                </div>
-            </div>
-        </div>
-        <div class="row" id="filters">
-            <div class="col-sm-12">
-                <label>Apply filter:</label>
-            </div>
-            <div class="col-sm-3 col-md-2 col-xs-6">
-                <select class="form-control" id="assigned-to-filter" placeholder="Assigned to">
-                    <option value="">Assigned to</option>
-                </select>
-            </div>
-            <div class="col-sm-3 col-md-2 col-xs-6">
-                <select id="date-created-filter" class="form-control" placeholder="Date Created">
-                    <option value="">Date Created</option>
-                    <option value="today">Today</option>
-                    <option value="yesterday">Yesterday</option>
-                    <option value="last-seven-days">Last 7 days</option>
-                    <option value="this-week">This week</option>
-                    <option value="last-thirty-days">Last 30 days</option>
-                    <option value="this-month">This month</option>
-                    <option value="range">Range</option>
-                </select>
-            </div>
-            <div class="col-sm-3 col-md-2 col-xs-6">
-                <select id="date-published-filter" class="form-control" placeholder="Date Published">
-                    <option value="">Date Published</option>
-                    <option value="today">Today</option>
-                    <option value="yesterday">Yesterday</option>
-                    <option value="last-seven-days">Last 7 days</option>
-                    <option value="this-week">This week</option>
-                    <option value="last-thirty-days">Last 30 days</option>
-                    <option value="this-month">This month</option>
-                    <option value="range">Range</option>
-                </select>
-            </div>
-            <div class="col-sm-3 col-md-2 col-xs-6">
-                <select id="confidentiality-filter" class="form-control" placeholder="Confidentiality">
-                    <option value="">Confidentiality</option>
-                    <option value="Unprotected">Unprotected</option>
-                    <option value="Protected">Protected</option>
-                    <option value="Restricted">Restricted</option>
-                    <option value="Confidential">Confidential</option>
-                </select>
-            </div>
-            <div class="col-sm-3 col-md-2 col-xs-6">
-                <select id="status-filter" class="form-control" placeholder="Status">
-                    <option value="">Status</option>
-                    <option value="Pending">Pending</option>
-                    <option value="Processed">Processed</option>
-                </select>
-            </div>
-        </div>
-        <h3>Timeline of humanitarian crisis per country</h3>
-        <div class="row">
-            <div class="col-md-12">
-                
-            </div>
-        </div>
-    </div>
-</section>
+                            <div class="col-md-6">
+                                <label id="padded-label">End date:</label>
+                                <div style="position: relative;">
+                                    <input name="crisis-end-date" type="date" class="form-control" id="crisis-start-date">
+                                </div>
+                            </div>
 
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label> Assigned To</label>
+                        <select name="assigned-to" class="form-control" id="assigned-to" placeholder="Assigned to">
+                            <option value="">Assigned to</option>
+                            {% for u in users %}
+                            {% if u.first_name != "" %}
+                            <option value="{{u.pk}}">{{u.get_full_name}}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class = "form-group" style = 'text-align: right'>
+                        <button class='btn btn-danger' name="delete" id="delete-btn" onclick="return confirm('Are you sure?');" hidden> <i class='fa fa-trash'> </i> Delete </button>
+                        <button class='btn btn-primary' name="save"> <i class='fa fa-save'> </i> Save </button>
+                    </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
 {% endblock %}

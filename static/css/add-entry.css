@@ -14,7 +14,7 @@ a, button, input[type="submit"], .btn {
   color: #c0392b; }
 
 nav {
-  background-color: #008080;
+  background-color: teal;
   height: 60px;
   box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
   z-index: 100; }
@@ -128,7 +128,7 @@ body {
             transition: 0.2s all ease-in-out; }
           body #page-one .split-pane #right-component #matrix-one .pillar .active {
             transform: scaleY(1.1), scaleX(1.02);
-            background-color: #008080;
+            background-color: teal;
             color: #fff; }
       body #page-one .split-pane #right-component #matrix-two {
         width: 100%;
@@ -173,7 +173,7 @@ body {
         transition: 0.2s all ease-in-out; }
       body #page-one #pillars .pillar .active {
         transform: scaleY(1.1);
-        background-color: #008080;
+        background-color: teal;
         color: #fff; }
   body #page-two {
     padding-top: 24px; }
@@ -253,7 +253,8 @@ body {
           body #page-two #entries .entry .geo-location .fa, body #page-two #entries .entry .affected-group .fa {
             margin-right: 0; }
           body #page-two #entries .entry .geo-location img, body #page-two #entries .entry .affected-group img {
-            width: 16px; }
+            width: 24px;
+            height: 24px; }
         body #page-two #entries .entry .attribute-list {
           display: flex;
           flex-direction: column; }
@@ -281,7 +282,7 @@ body {
         body #page-two #entries .entry .sub-pillar, body #page-two #entries .entry .sub-sector {
           font-size: 0.9em; }
         body #page-two #entries .entry a.sub-sector {
-          color: #008080; }
+          color: teal; }
       body #page-two #entries .entry:nth-child(even) {
         background-color: #eaeaea; }
   body #chart-div table {
@@ -292,7 +293,7 @@ body {
     cursor: pointer;
     font-size: 1em; }
   body #chart-div .active-affected-group {
-    background-color: #008080;
+    background-color: teal;
     color: #fff; }
   body .modal h4 {
     text-transform: uppercase; }
@@ -331,5 +332,3 @@ body {
         font-size: 1.2em;
         color: #aaa;
         text-transform: uppercase; }
-
-/*# sourceMappingURL=add-entry.css.map */

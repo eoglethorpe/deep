@@ -65,7 +65,11 @@ nav {
 #main label {
   color: #717171; }
 #main #filters {
+  margin-top: 10px;
   margin-bottom: 24px; }
+  #main #filters label {
+    text-transform: uppercase;
+    font-size: 0.8em; }
   #main #filters #reliability-filter-container, #main #filters #severity-filter-container {
     margin-top: -26px; }
 #main #entries .entry {

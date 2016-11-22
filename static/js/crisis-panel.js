@@ -1,24 +1,54 @@
-function updateLocationSelections() {
-    var container = $('#selected-location-list ul');
-    var items = container.find('li');
-    if(items){
-        items.remove();
-    }
+var disasterTypeSelectize;
+var countriesSelectize;
+var assignedToSelectize;
 
-    if(mapSelections.length == 0){
-        $("#empty-text").show();
-    } else{
-        $("#empty-text").hide();
-    }
+$(document).ready(function(){
 
-    for (var i=0; i < mapSelections.length; i++) {
-        var selectionKey = mapSelections[i];
-        element = $('<li><a onclick="unSelect(\''+selectionKey+'\', this)"><i class="fa fa-times"></i></a>'+$('#manual-location-input')[0].selectize.options[selectionKey].text+'</li>');
-        element.appendTo(container);
-    }
+    disasterTypeSelectize = $("#disaster-type").selectize();
+    countriesSelectize = $("#countries").selectize();
+    assignedToSelectize = $("#assigned-to").selectize();
 
-    if (currentExcerpt) {
-        currentExcerpt.map_selections = mapSelections;
-        refreshCurrentEntryLists()
-    }
+    $('.crisis').on('click', function() {
+        var pk = $(this).data("crisis-pk");
+        var crisis = crises[pk];
+
+        $("#crisis-detail").find("h2").text("Edit crisis");
+
+        // Change form values for active crisis
+        $("#crisis-pk").val(pk);
+
+        $("#crisis-name").val(crisis.name);
+        disasterTypeSelectize[0].selectize.setValue(crisis.disaster_type);
+        countriesSelectize[0].selectize.setValue(crisis.countries);
+        assignedToSelectize[0].selectize.setValue(crisis.assigned_to);
+
+        $("#crisis-start-date").val(crisis.start_date);
+        $("#crisis-end-date").val(crisis.end_date);
+
+        $("#delete-btn").show();
+
+        $('.active').removeClass('active');
+        $(this).addClass('active');
+    });
+
+    $('.crisis.active').click();
+});
+
+function addNewCrisis() {
+    $("#crisis-detail").find("h2").text("Add new crisis");
+
+    // Change form values for active crisis
+    $("#crisis-pk").val("new");
+
+    $("#crisis-name").val("");
+    disasterTypeSelectize[0].selectize.setValue("");
+    countriesSelectize[0].selectize.setValue("");
+    assignedToSelectize[0].selectize.setValue("");
+
+    $("#crisis-start-date").val("");
+    $("#crisis-end-date").val("");
+
+    $("#delete-btn").hide();
+
+    $('.active').removeClass('active');
 }

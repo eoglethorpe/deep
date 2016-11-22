@@ -7,13 +7,53 @@ DEEP | Dashboard
 
 {% block head %}
 <link href="{% static 'css/dashboard.css' %}" type="text/css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/selectize.bootstrap3.css' %}"/>
+<script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/split.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/dashboard.js' %}"></script>
+
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
+<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+
+<link rel="stylesheet" href="{% static 'css/leaflet.label.css' %}" >
+<script src="{% static 'js/leaflet.label.js' %}"></script>
+
+<script>
+    var active_crises = [
+        {% for crisis in active_events %}{
+            name: "{{crisis.name}}", start_date: "{{crisis.start_date|date:'Y-m-d'}}",
+            countries: [
+                {% for country in crisis.countries.all %}{ code: "{{country.code}}", name: "{{country.name}}" },{% endfor %}
+            ],
+        }{% endfor %}
+    ];
+
+    var weekly_reports = [
+        {% for report in weekly_reports %}
+        {
+            start_date: new Date("{{ report.0|date:'Y-m-d' }}"), end_date: new Date("{{ report.1|date:'Y-m-d' }}"),
+            countries: [{% for country in report.2 %} "{{country.code}}", {% endfor %}]
+        },
+        {% endfor %}
+    ]
+
+    var countries = {
+        {% for country in countries %}
+        "{{country.code}}" : "{{country.name}}"
+        {% endfor %}
+    };
+</script>
+
 {% endblock %}
 
 {% block body %}
 
 {% include 'navbar.html' %}
 
-<section id="main">
+<!-- <section id="main">
     <div class="container-fluid">
         <div class="jumbotron">
             <h2>Welcome to <strong>Data Entry &amp; Extraction Platform</strong></h2>
@@ -25,6 +65,130 @@ DEEP | Dashboard
             <a class="btn btn-primary" target="_blank" href="https://chrome.google.com/webstore/detail/deep-create-lead/eolekcokhpndiemngdnnicfmgehdgplp/">Download chrome extension</a>
         </div>
     </div>
-</section>
+</section> -->
 
+<section id="body">
+    <div class="container-fluid">
+        <div class="row" style="margin-bottom: 24px;">
+            <div class="col-md-2">
+                <h3>Active crises</h3>
+            </div>
+            <!--div class="col-md-10">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#add-crisis-board" style="margin-top: -4px;"><i class="fa fa-plus" style="padding-right: 4px;"></i>Add new crisis</button>
+            </div-->
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="active-crisis-map">
+                    <!-- <h3>Active crises</h3> -->
+                    <div id="the-map" style="height:480px;"><!--div id="map-text-wrapper"><h3>Active crisis</h3></div--></div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="filters">
+            <div class="col-sm-12">
+                <label>Apply filter:</label>
+            </div>
+            <div class="col-sm-3 col-md-2 col-xs-6">
+                <select id="country-filter" placeholder="Country">
+                    <option value="">Country</option>
+                    {% for country in countries %}
+                    <option value="{{country.pk}}">{{country.name}}<option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-3 col-md-2 col-xs-6">
+                <select id="date-created-filter" placeholder="Date Created">
+                    <option value="">Date Created</option>
+                    <option value="today">Today</option>
+                    <option value="yesterday">Yesterday</option>
+                    <option value="last-seven-days">Last 7 days</option>
+                    <option value="this-week">This week</option>
+                    <option value="last-thirty-days">Last 30 days</option>
+                    <option value="this-month">This month</option>
+                    <option value="range">Range</option>
+                </select>
+            </div>
+            <div class="col-sm-3 col-md-2 col-xs-6">
+                <select id="disaster-type-filter" placeholder="Disaster Type">
+                    <option value="">Disaster Type</option>
+                    {% for disaster_type in disaster_types %}
+                    <option value="{{disaster_type.pk}}">{{disaster_type.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <h3>Timeline of humanitarian crisis per country</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <table id="timeline-table">
+                    <thead>
+                        <tr>
+                            {% comment %}{% for weekly_report in weekly_reports %}
+                            <td class="week-id" data-toggle="tooltip" title="{{weekly_report.0|date:"d-m-Y"}} to {{weekly_report.1|date:"d-m-Y"}}">W{{forloop.counter}}</td>
+                            {% endfor %}{% endcomment %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% comment %}{% for country in countries %}
+                        <tr class="country-data">
+                            <td class="country-name">{{country.name}}</td>
+                            {% for weekly_report in weekly_reports %}
+                            <td class="weekly-report {% if country in weekly_report.2 %}active{% endif %}"></td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}{% endcomment %}
+                    </tbody>
+                </table>
+
+                <div style='height:150px'></div> <!--TODO: Remove this and improve bottom margin from css-->
+            </div>
+        </div>
+    </div>
+</section>
+<!--div class="modal fade" id="add-crisis-board" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3 class="modal-title">Add new crisis</h3>
+        </div>
+        <div class="modal-body">
+            <input class="form-control" placeholder="Name" id="name-of-crisis"></input>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Disaster type:</label>
+                    <select class="form-control" id="select-disaster-type"></select>
+                    <label>Countries:</label>
+                    <select class="form-control" id="select-countries"></select>
+                </div>
+                <div class="col-md-6">
+                    <div id="selected-location-list">
+                        <p id="empty-text" hidden>No location added!</p>
+                        <ul>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label id="padded-label">Crisis start date:</label>
+                    <div style="position: relative;">
+                        <input type="date" class="form-control" id="crisis-start-date"></input>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label id="padded-label">Assigned to:</label>
+                    <select class="form-control" id="assigned-to"></select>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <button class="btn btn-primary" id="add-crisis"><i class="fa fa-plus"></i>Add crisis</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times" style="padding-right: 4px;"></i>Cancel</button>
+            </div>
+        </div>
+      </div>
+
+    </div>
+  </div-->
 {% endblock %}

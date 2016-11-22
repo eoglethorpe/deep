@@ -10,49 +10,56 @@ DEEP | Weekly Report
 <link href="{% static 'css/report-weekly.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/selectize.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
+<script src="{% static 'js/entries-filter.js' %}"></script>
 <script src="{% static 'js/report-weekly.js' %}"></script>
 <script src="{% static 'js/selectize.js' %}"></script>
 <script src="{% static 'js/utils.js' %}"></script>
 
 <script>
-    {% if report %}
-    var data = JSON.parse("{{report.data|escapejs}}");
-    {% else %}
-    var data = {};
-    {% endif %}
 
-    if (!data["disaster_type"])
-        data["disaster_type"] = null;
-    if (!data["status"])
-        data["status"] = null;
+var eventId = "{{event.pk}}";
+var csrf_token = "{% csrf_token %}";
+{% if report %}
+var data = JSON.parse("{{report.data|escapejs}}");
+{% else %}
+var data = {};
+{% endif %}
 
-    if (!data["events"] || data["events"].length==0)
-        data["events"] = [{"value":null, "start_date":null, "end_date":null, "category":null}];
+if (!data["disaster_type"])
+    data["disaster_type"] = null;
+if (!data["status"])
+    data["status"] = null;
 
-    if (!data["human"])
-        data["human"] = { "number": {}, "source": {}, "comment": {} };
+if (!data["events"] || data["events"].length==0)
+    data["events"] = [{"value":null, "start_date":null, "end_date":null, "category":null}];
 
-    if (!data["people"])
-        data["people"] = {
-            "total": {}, "moderate": {}, "severe": {}, "planned": {},
-            "total-source": {}, "moderate-source": {}, "severe-source": {}, "planned-source": {},
-            "total-comment": {}, "moderate-comment": {}, "severe-comment": {}, "planned-comment": {},
-        };
-    if (!data["ipc"])
-        data["ipc"] = {"a":null, "b":null, "c":null, "d":null, "e":null, "f":null, "g":null};
-    if (!data["access"])
-        data["access"] = {};
-    if (!data["access-pin"])
-        data["access-pin"] = { "number": {}, "source": {}, "comment": {} };
+if (!data["human"])
+    data["human"] = { "number": {}, "source": {}, "comment": {} };
 
-    var csrf_token = "{% csrf_token %}";
+if (!data["people"])
+    data["people"] = {
+        "total": {}, "moderate": {}, "severe": {}, "planned": {},
+        "total-source": {}, "moderate-source": {}, "severe-source": {}, "planned-source": {},
+        "total-comment": {}, "moderate-comment": {}, "severe-comment": {}, "planned-comment": {},
+    };
+if (!data["ipc"])
+    data["ipc"] = {"a":null, "b":null, "c":null, "d":null, "e":null, "f":null, "g":null};
+if (!data["access"])
+    data["access"] = {};
+if (!data["access-pin"])
+    data["access-pin"] = { "number": {}, "source": {}, "comment": {} };
 
-    {% if start_date %}
-    var start_date = "{{start_date|date:'d-M-Y'}}";
-    {% else %}
-    var start_date = "{{report.date|date:'d-M-Y'}}";
-    {% endif %}
+var csrf_token = "{% csrf_token %}";
 
+{% if start_date %}
+var start_date = "{{start_date|date:'d-M-Y'}}";
+{% else %}
+var start_date = "{{report.date|date:'d-M-Y'}}";
+{% endif %}
+
+var appearing_pillars = {
+    {% for field, pillars in appearing_pillars.items %}{{field}}: [{% for pillar in pillars %}"{{pillar.pk}}", {% endfor %}], {% endfor %}
+};
 </script>
 {% endblock %}
 
@@ -68,127 +75,30 @@ DEEP | Weekly Report
                     </h2>
                 </div>
                 <div class="col-md-4">
-                    <button class="btn btn-cancel btn-default" id="cancel-btn"><i class="fa fa-times"></i> Cancel</button>
-                    <button class="btn btn-save btn-default" id="save-btn"><i class="fa fa-save"></i> Save</button>
+                    <button class="btn btn-primary btn-save" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Save Report" id="save-btn"><i class="fa fa-save"></i> Save</button>
+                    <button class="btn btn-danger btn-cancel btn-default" id="cancel-btn"><i class="fa fa-times"></i> Cancel</button>
                 </div>
             </div>
             <div id="filters">
-                <div class="row">
-                    <div class="col-md-1">
-                        <label>Apply filters:</label>
-                    </div>
-                    <div class="col-md-2">
-                        <select class="filter">
-                            <option>Option #1</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <select class="filter">
-                            <option>Option #1</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <select class="filter">
-                            <option>Option #1</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <select class="filter">
-                            <option>Option #1</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <select class="filter">
-                            <option>Option #1</option>
-                        </select>
-                    </div>
-                </div>
+                {% include 'entries/entry-filters.html' %}
             </div>
         </header>
         <div class="row">
             <div class="col-md-4">
-                <div id="entries">
+                <div id="entries-header-container">
                     <h3>Entries</h3>
-                    <hr>
-                    {% for entry in entries %}
-                    <div class="entry">
-                        <h4>{{entry.lead.name}}</h4>
-                        <div id="excerpts">
-                            <!-- <label class="title">Excerpts:</label><br> -->
-                            {% for data in entry.entryinformation_set.all %}
-                            <!-- <label>{{data.attribute.name}}</label> -->
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <p>{{data.excerpt}}</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="affected-groups">
-                                        <label>Affected groups:</label><br>
-                                        {% for ag in data.affected_groups.all %}
-                                        {{ ag }}
-                                        {% if not forloop.last %}, {% endif %}
-                                        {% empty %}
-                                        [N/A]
-                                        {% endfor %}
-                                    </div>
-                                    <div class="specific-need-groups">
-                                        <label>Specific needs groups:</label><br>
-                                        {% for sng in data.specific_needs_groups.all %}
-                                        {{ sng }}
-                                        {% if not forloop.last %}, {% endif %}
-                                        {% empty %}
-                                        [N/A]
-                                        {% endfor %}
-                                    </div>
-                                    <div class="vulnerable-groups">
-                                        <label>Vulnerable groups:</label><br>
-                                        {% for vg in data.vulnerable_groups.all %}
-                                        {{ vg }}
-                                        {% if not forloop.last %}, {% endif %}
-                                        {% empty %}
-                                        [N/A]
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="reliability">
-                                        <label>Reliablility:</label><!--span class="reliability"> {{data.reliability}}</span>, <label>Severity:</label><span class="severity"> {{data.severity}}</span-->
-                                        {% for reliability in reliabilities %}
-                                        <span data-id="{{reliability.pk}}" class="_{{reliability.level}}  {% if data.reliability == reliability %}active{% endif %}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{reliability}}"></span>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="severity">
-                                        <label>Severity:</label><!--span class="reliability"> {{data.reliability}}</span>, <label>Severity:</label><span class="severity"> {{data.severity}}</span-->
-                                        {% for severity in severities %}
-                                        <span data-id="{{severity.pk}}" class="_{{severity.level}}  {% if data.severity == severity %}active{% endif %}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{severity}}"></span>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            {% empty %}
-                            <p>[N/A]</p>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    {% if not forloop.last %}<hr>{% endif %}
-                    {% endfor %}
-
+                </div>
+                <div id="entries">
                 </div>
             </div>
             <div class="col-md-8">
+                <div id="navigator">
+                    <a data-target="#key-events" class="active">Key events</a>
+                    <a data-target="#humanitarian-profile" data-pillar-tag="HPR">Humanitarian profile</a>
+                    <a data-target="#people-in-need" data-pillar-tag="PIN">People in need</a>
+                    <a data-target="#humanitarian-access" data-pillar-tag="HAC">Humanitarian access</a>
+                </div>
                 <div id="report-content">
-                    <div id="navigator">
-                        <a href="#key-events">Key events</a>
-                        <a href="#humanitarian-profile">Humanitarian profile</a>
-                        <a href="#people-in-need">People in need</a>
-                        <a href="#humanitarian-access">Humanitarian access</a>
-                        <hr>
-                    </div>
                     <section id="key-events">
                         <h3>Key Events</h3>
                         <div class="row">
@@ -225,7 +135,7 @@ DEEP | Weekly Report
                                     <input class="form-control event-value">
                                 </div>
                                 <div class="col-md-3">
-                                    <button class="btn btn-default">+</button>
+                                    <button class="btn btn-default" >Add</button>
                                 </div>
                             </div>
                             <div class="row">
@@ -250,7 +160,7 @@ DEEP | Weekly Report
                             <br>
                         </div>
                     </section>
-                    <section id="humanitarian-profile">
+                    <section id="humanitarian-profile" hidden>
                         <h3>Humanitarian Profile</h3>
                         {% for field in human_profile_fields %}
 
@@ -273,7 +183,7 @@ DEEP | Weekly Report
                         {% endfor %}
                         {% endfor %}
                     </section>
-                    <section id="people-in-need">
+                    <section id="people-in-need" hidden>
                         <h3>People in need</h3>
                         {% for field in people_in_need_fields %}
                         <div class="row toplevel">
@@ -369,7 +279,7 @@ DEEP | Weekly Report
                             </div>
                         </div>
                     </section>
-                    <section id="humanitarian-access">
+                    <section id="humanitarian-access" hidden>
                         <h3>Humanitarian access</h3>
                         <div class="row">
                             <div class="col-md-7">
@@ -411,4 +321,5 @@ DEEP | Weekly Report
         </div>
     </div>
 </section>
+{% include 'report/weekly-entry-templates.html' %}
 {% endblock %}

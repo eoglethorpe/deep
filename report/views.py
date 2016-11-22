@@ -38,7 +38,7 @@ class ReportDashboardView(View):
         context["weekly_reports"] = weekly_reports
 
         dt = datetime.now()
-        context["new_week_date"] = dt - timedelta(days=1)       # starting from monday
+        context["new_week_date"] = dt - timedelta(days=dt.weekday())       # starting from monday
         if weekly_reports.count() > 0 and \
                 weekly_reports.last().start_date >= context["new_week_date"].date():
             context["new_week_date"] = None
@@ -64,8 +64,18 @@ class WeeklyReportView(View):
         context["entries"] = Entry.objects.filter(lead__event=event)
         context["current_page"] = "report"
 
-        context["reliabilities"] = Reliability.objects.all()
-        context["severities"] = Severity.objects.all()
+
+        context["users"] = User.objects.exclude(first_name="", last_name="")
+        context["pillars"] = InformationPillar.objects.all()
+        context["subpillars"] = InformationSubpillar.objects.all()
+        context["sectors"] = Sector.objects.all()
+        context["subsectors"] = Subsector.objects.all()
+        context["vulnerable_groups"] = VulnerableGroup.objects.all()
+        context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
+        context["reliabilities"] = Reliability.objects.all().order_by('level')
+        context["severities"] = Severity.objects.all().order_by('level')
+        context["affected_groups"] = AffectedGroup.objects.all()
+        context["sources"] = Source.objects.all()
 
         # Get the report if in edit mode, otherwise get the start date of the
         # new weekly report
@@ -87,6 +97,10 @@ class WeeklyReportView(View):
             PeopleInNeedField.objects.filter(parent__isnull=True)
         context["human_access_fields"] = HumanAccessField.objects.all()
         context["human_access_pin_fields"] = HumanAccessPinField.objects.all()
+
+        context["appearing_pillars"] = {}
+        for field in InformationPillar.APPEAR_IN:
+            context["appearing_pillars"][field[0]] = InformationPillar.objects.filter(appear_in=field[0])
 
         return render(request, "report/weekly.html", context)
 

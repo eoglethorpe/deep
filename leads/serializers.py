@@ -50,15 +50,13 @@ class LeadSerializer(serializers.ModelSerializer):
                   'url', 'website', 'created_at', 'created_by', 'attachment',
                   'assigned_to_name', 'created_by_name', 'event', 'lead_type')
 
-        # TODO: Automatically set created_by.
-
     def get_attachment(self, lead):
         try:
             a = lead.attachment
             return [
-                    os.path.basename(a.upload.name),
-                    a.upload.url
-                    ]
+                os.path.basename(a.upload.name),
+                a.upload.url
+            ]
         except:
             return None
 

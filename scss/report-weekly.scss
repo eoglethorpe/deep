@@ -11,9 +11,12 @@ body{
 }
 
 #main{
-    padding-top: 24px;
+    padding-top: 10px;
+    $header-height: 176px;
+
     header{
-        height: 140px;
+        height: $header-height;
+
         h2{
             margin-top: 0;
             margin-bottom: 32px;
@@ -24,37 +27,52 @@ body{
             margin-right: 8px;
         }
         #filters{
-            margin-bottom: 24px;
 
             label{
-                margin-top: 8px;
+                text-transform: uppercase;
+                font-size: 0.8em;
+            }
+            #reliability-filter-container, #severity-filter-container{
+                margin-top: -26px;
             }
         }
     }
 
     #entries{
-        height: calc(100vh - 250px)!important;
+        height: calc(100vh - #{$navbar-height} - #{$header-height} - 64px)!important;
         background-color: #fff;
-        box-shadow: 2px 0 5px 3px rgba( 0, 0, 0, 0.2);
+        box-shadow: 2px 5px 5px 3px rgba( 0, 0, 0, 0.2);
         overflow-y: scroll;
+
         h3{
             padding-left: 32px;
         }
 
-        .entry{
-            padding: 10px 32px;
-            padding-top: 0;
 
-            h4{
-                color: $primary-color;
-                font-weight: bold;
-                margin-bottom: 24px;
+        .entry{
+            padding: 24px;
+            background-color: #fafafa;
+
+            &:nth-child(odd){
+                background-color: #fff;
             }
-            .details{
-                color: #969696;
+
+            header{
+                height: auto;
+                margin-bottom: 16px;
+
+                h4{
+                    color: $primary-color;
+                    font-weight: bold;
+                }
+                label{
+                    margin-right: 10px;
+                }
             }
+
             label{
                 font-size: 0.8em;
+                margin-right: 10px;
                 color: #969696;
                 text-transform: uppercase;
             }
@@ -67,8 +85,6 @@ body{
                     display: inline-block;
                 }
                 label{
-                    vertical-align: super;
-                    margin-right: 10px;
                 }
             }
 
@@ -100,40 +116,42 @@ body{
             margin-bottom: 10px;
         }
     }
-
-    #report-content{
-        height: calc(100vh - 250px)!important;
-        background-color: #fff;
-        box-shadow: 2px 0 5px 3px rgba(0, 0, 0, 0.2);
-        overflow-y: scroll;
-        position: relative;
-
-        #navigator{
-            position: fixed;
-            z-index: 100;
-            background-color: #fff;
-            overflow: hidden;
-            padding-top: 16px;
-            a{
-                display: inline-block;
-                padding: 10px 24px;
-            }
-            hr{
-                margin-bottom: 0px;
-            }
+    #entries-header-container{
+        h3{
+            margin: 0;
+            text-transform: uppercase;
+            font-size: 1.2em;
         }
-
+    }
+    #entries-header-container, #navigator{
+        padding: 16px;
+        background-color: #fafafa;
+        height: 48px;
+    }
+    #navigator{
+        a{
+            display: inline-block;
+            padding: 0 24px;
+            padding-bottom: 8px;
+            cursor: pointer;
+        }
+        .active{
+            border-bottom: 2px solid $primary-color;
+        }
+    }
+    #report-content{
+        height: calc(100vh - #{$navbar-height} - #{$header-height} - 64px)!important;
+        padding: 24px;
+        background-color: #fff;
+        box-shadow: 2px 5px 5px 3px rgba(0, 0, 0, 0.2);
+        overflow-y: scroll;
 
         section{
-            padding: 24px;
-            padding-top: 72px;
-            margin-bottom: -64px;
-
-
+            padding: 16px;
             h3{
-                margin-bottom: 24px;
+                margin: 0;
+                margin-bottom: 16px;
             }
-
             .title{
                 text-transform: uppercase;
                 margin-top: 10px;
@@ -143,7 +161,6 @@ body{
         }
 
         #key-events{
-            margin-top: 64px;
             .event-timeline{
                 margin-bottom: 16px;
 

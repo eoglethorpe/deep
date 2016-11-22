@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
 
+from datetime import datetime 
+
 
 class Country(models.Model):
     code = models.CharField(max_length=5, primary_key=True)
@@ -23,6 +25,11 @@ class Event(models.Model):
 
     name = models.CharField(max_length=100)
     countries = models.ManyToManyField(Country, blank=True)
+    disaster_type = models.ForeignKey('report.DisasterType', null=True, blank=True, default=None)
+    assigned_to = models.ForeignKey(User, null=True, blank=True, default=None)
+
+    start_date = models.DateField(default=datetime(2016, 1, 1))
+    end_date = models.DateField(null=True, blank=True, default=None)
 
     def __str__(self):
         return self.name

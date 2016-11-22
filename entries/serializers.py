@@ -31,13 +31,21 @@ class EntryInformationSerializer(serializers.ModelSerializer):
 
 class EntrySerializer(serializers.ModelSerializer):
     lead_title = serializers.CharField(source='lead.name', read_only=True)
+    lead_source_name = serializers.CharField(source='lead.source.name', read_only=True)
     informations = EntryInformationSerializer(source='entryinformation_set', many=True)
     modified_by = serializers.SerializerMethodField()
+    lead_url = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Entry
-        fields = ('id', 'modified_at', 'modified_by', 'lead', 'lead_title', 'informations')
+        fields = ('id', 'modified_at', 'modified_by', 'lead', 'lead_title', 'lead_url', 'lead_source_name', 'informations')
 
     def get_modified_by(self, entry):
-        print(entry.modified_by)
         return entry.modified_by.get_full_name()
+
+    def get_lead_url(self, entry):
+        if entry.lead.url and entry.lead.url != "":
+            return entry.lead.url
+        elif Attachment.objects.count() > 0:
+            return entry.lead.attachment.upload.url
+        return None

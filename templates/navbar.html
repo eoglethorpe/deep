@@ -9,6 +9,7 @@
                 {% else %}
                 <a href="{% url 'dashboard' %}?last_event=1"><img src="{% static 'img/deep-logo-white.png' %}"></a>
                 {% endif %}
+
             </div>
 
             <div class="col-sm-1">
@@ -45,10 +46,10 @@
                 {% endif %}
             </div>
 
-            <div class="col-sm-2">
-                <span class="dropdown menu-item" id="user-menu">
+            <div class="col-sm-2" style="text-align: right;">
+                <span class="dropdown menu-item pull-right" id="user-menu">
                     <button class="dropdown-toggle" type="button" data-toggle="dropdown">
-                        <i class="fa fa-user"></i>{{ user.first_name }}<span class="caret"></span>
+                        <i class="fa fa-user"></i>{{ user.first_name }}<span class="caret" style="margin-right: 0"></span>
                     </button>
                     <ul class="dropdown-menu">
                         {% if request.user.is_superuser %}

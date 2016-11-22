@@ -77,10 +77,10 @@ class WeeklyReport(models.Model):
     country = models.ForeignKey(Country)
 
     last_edited_by = models.ForeignKey(User)
-    last_edtied_at = models.DateTimeField(auto_now=True)
+    last_edited_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "Week at " + self.start_date
+        return "Week at " + str(self.start_date)
 
     class Meta:
         ordering = [ '-start_date' ]

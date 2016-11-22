@@ -11,6 +11,9 @@ from django.utils.decorators import method_decorator
 
 from users.models import *
 from leads.models import *
+from report.models import *
+
+from datetime import datetime, timedelta
 
 
 class RegisterView(View):
@@ -126,7 +129,7 @@ class LoginView(View):
 class DashboardView(View):
     """ Dashboard view
 
-    Display the home page, once logged, in with various information
+    Display the home page, once logged in, with various information
     summary along with links to Leads, Entries and Reports pages.
     """
 
@@ -146,6 +149,40 @@ class DashboardView(View):
         else:
             UserProfile.set_last_event(request, None)
         context["all_events"] = Event.objects.all()
+
+        # Filter options in dashboard
+        context["disaster_types"] = DisasterType.objects.all()
+        context["countries"] = Country.objects.all()
+
+        # Get active crises
+        context["active_events"] = Event.objects.filter(end_date=None)
+
+        # Get weekly reports for timeline
+        context["weekly_reports"] = []
+
+        weekly_reports = WeeklyReport.objects.all()
+        if weekly_reports.count() > 0:
+            # Get total number of weeks
+            first_report = weekly_reports[weekly_reports.count() - 1]
+            last_report = weekly_reports[0]
+
+            monday2 = last_report.start_date - timedelta(days=last_report.start_date.weekday())
+            monday1 = first_report.start_date - timedelta(days=first_report.start_date.weekday())
+            weeks = max(int((monday2 - monday1).days/7 + 1), 16)
+
+            # For each week, store its date and the countries whose reports exist on that day
+            for i in range(weeks):
+                date = last_report.start_date + timedelta(days=7*i)
+
+                countries = []
+                c_reports = {}
+                context["weekly_reports"].append([date, date+timedelta(days=6), countries, c_reports])
+
+                reports = WeeklyReport.objects.filter(start_date=date)
+                for report in reports:
+                    c_reports[report.country] = report
+                    countries.append(report.country)
+
         return render(request, "users/dashboard.html", context)
 
 
