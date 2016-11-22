@@ -68,8 +68,9 @@ DEEP | Weekly Report
                     </h2>
                 </div>
                 <div class="col-md-4">
-                    <button class="btn btn-cancel btn-default" id="cancel-btn"><i class="fa fa-times"></i> Cancel</button>
-                    <button class="btn btn-save btn-default" id="save-btn"><i class="fa fa-save"></i> Save</button>
+                    <button class="btn btn-danger btn-save btn-default" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Save Report" id="save-btn"><i class="fa fa-save"></i> Save</button>
+                    <button class="btn btn-primary btn-cancel btn-default" id="cancel-btn"><i class="fa fa-times"></i> Cancel</button>
+
                 </div>
             </div>
             <div id="filters">
@@ -225,7 +226,7 @@ DEEP | Weekly Report
                                     <input class="form-control event-value">
                                 </div>
                                 <div class="col-md-3">
-                                    <button class="btn btn-default">+</button>
+                                    <button class="btn btn-default" >Add</button>
                                 </div>
                             </div>
                             <div class="row">
