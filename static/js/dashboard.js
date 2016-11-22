@@ -41,7 +41,14 @@ $(document).ready(function(){
 
     // Show the map
     var map = L.map('the-map').setView([41.87, 12.6], 2);
+    map.scrollWheelZoom.disable();
+
+    // Toggle scroll-zoom by clicking on and outside map
+    map.on('focus', function() { map.scrollWheelZoom.enable(); });
+    map.on('blur', function() { map.scrollWheelZoom.disable(); });
+
     // Load countries geojson in the map
+    
     $.getJSON('/static/files/countries.geo.json', function(data) {
         var layer = L.geoJson(data, {
             style: styleMapFeature,
@@ -83,31 +90,4 @@ function loadTimetable() {
                 td.addClass('active');
         }
     }
-}
-
-
-// TODO: Send these to utils.js
-function formatDate(date) {
-    var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [day, month, year].join('-');
-}
-
-function formatTime(time) {
-    var d = new Date(time),
-        hr = '' + (d.getHours() + 1),
-        min = '' + d.getMinutes(),
-        sec = d.getSeconds();
-
-    if (hr.length < 2) hr = '0' + hr;
-    if (min.length < 2) min = '0' + min;
-    if (sec.length < 2) sec = '0' + sec;
-
-    return [hr, min].join(':') + "<span hidden>"+sec+"</span>";
 }

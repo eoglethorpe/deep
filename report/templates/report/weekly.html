@@ -10,6 +10,7 @@ DEEP | Weekly Report
 <link href="{% static 'css/report-weekly.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/selectize.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
+<script src="{% static 'js/entries-filter.js' %}"></script>
 <script src="{% static 'js/report-weekly.js' %}"></script>
 <script src="{% static 'js/selectize.js' %}"></script>
 <script src="{% static 'js/utils.js' %}"></script>
@@ -74,36 +75,7 @@ var start_date = "{{report.date|date:'d-M-Y'}}";
                 </div>
             </div>
             <div id="filters">
-                <div class="row">
-                    <div class="col-md-1">
-                        <label>Apply filters:</label>
-                    </div>
-                    <div class="col-md-2">
-                        <select class="filter">
-                            <option>Option #1</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <select class="filter">
-                            <option>Option #1</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <select class="filter">
-                            <option>Option #1</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <select class="filter">
-                            <option>Option #1</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <select class="filter">
-                            <option>Option #1</option>
-                        </select>
-                    </div>
-                </div>
+                {% include 'entries/entry-filters.html' %}
             </div>
         </header>
         <div class="row">
