@@ -1,6 +1,6 @@
 <div>
     {% for sector in sectors %}
-    <img src="{{sector.icon.url}}" style="height:32px;"> {{sector}} <br>
+    {% if sector.icon %}<img src="{{sector.icon.url}}" style="height:32px;"> {% endif %} {{sector}} <br>
     {% endfor %}
 </div>
 
