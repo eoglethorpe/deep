@@ -1,5 +1,5 @@
 function styleMapFeature(feature) {
-    var active = feature.properties.name in active_countries;
+    var active = feature.properties.iso_a2 in active_countries;
 
     return {
         fillColor: active?'#d35400':'#ecf0f1',
@@ -12,11 +12,15 @@ function styleMapFeature(feature) {
 }
 
 function onEachMapFeature(feature, layer) {
-    var active = feature.properties.name in active_countries;
-
+    var active = feature.properties.iso_a2 in active_countries;
     if (active) {
         layer.bindLabel(feature.properties.name);
     }
+
+    layer.on('click', function() {
+        if (feature.properties.iso_a2 in crises_per_country)
+            loadTimetableForCountry(feature.properties.iso_a2);
+    });
 }
 
 var active_countries = {};
@@ -32,7 +36,7 @@ $(document).ready(function(){
     for (var i=0; i<active_crises.length; ++i) {
         var crisis = active_crises[i];
         for (var j=0; j<crisis.countries.length; ++j) {
-            var country = crisis.countries[j].name;
+            var country = crisis.countries[j].code;
             if (!active_countries[country])
                 active_countries[country] = []
             active_countries[country].push(crisis) ;
@@ -58,6 +62,10 @@ $(document).ready(function(){
 
     // Load the weekly report timetable
     loadTimetable();
+
+    $("#back-btn").click(function() {
+        loadTimetable();
+    });
 });
 
 function loadTimetable() {
@@ -81,6 +89,12 @@ function loadTimetable() {
         var td = $("<td class='country-name'>" + countries[countryCode] + "</td>");
         td.appendTo(tr);
 
+        td.unbind().click(function(countryCode) {
+            return function() {
+                loadTimetableForCountry(countryCode);
+            }
+        }(countryCode));
+
         // Country reports
         for (var i=0; i<weekly_reports.length; ++i) {
             var td = $("<td class='weekly-report'></td>");
@@ -90,4 +104,47 @@ function loadTimetable() {
                 td.addClass('active');
         }
     }
+
+    $("#back-btn").hide();
+}
+
+function loadTimetableForCountry(countryCode) {
+    var table = $("#timeline-table");
+    table.find('thead').find('tr').empty();
+    table.find('tbody').empty();
+
+    $("<td class='first-td'>" + countries[countryCode] + "</td>").appendTo(table.find('thead').find('tr'));
+    // Week headers
+    for (var i=0; i<weekly_reports.length; ++i) {
+        var range = formatDate(weekly_reports[i].start_date) + " to " + formatDate(weekly_reports[i].end_date);
+        var td = $("<td class='week-id' data-toggle='tooltip' title='" + range + "'>W" + (i+1) + "</td>");
+        td.appendTo(table.find('thead').find('tr'));
+    }
+
+    // Crisis headers
+    var crises = crises_per_country[countryCode];
+    for (var crisisPk in crises) {
+        var tr = $("<tr class='country-data'></tr>");
+        tr.appendTo(table.find('tbody'));
+
+        var td = $("<td class='country-name'>" + crises[crisisPk] + "</td>");
+        td.appendTo(tr);
+
+        // Crisis reports
+        for (var i=0; i<weekly_reports.length; ++i) {
+            var td = $("<td class='weekly-report'></td>");
+            td.appendTo(tr);
+
+            for (var j=0; j<weekly_reports[i].countries.length; ++j) {
+                if (weekly_reports[i].countries[j] == countryCode) {
+                    if (weekly_reports[i].crises[j] == crisisPk) {
+                        td.addClass('active');
+                    }
+                }
+            }
+        }
+    }
+
+
+    $("#back-btn").show();
 }

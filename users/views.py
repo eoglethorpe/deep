@@ -159,6 +159,7 @@ class DashboardView(View):
 
         # Get weekly reports for timeline
         context["weekly_reports"] = []
+        context["crises_per_country"] = {}
 
         weekly_reports = WeeklyReport.objects.all()
         if weekly_reports.count() > 0:
@@ -175,13 +176,18 @@ class DashboardView(View):
                 date = last_report.start_date + timedelta(days=7*i)
 
                 countries = []
-                c_reports = {}
-                context["weekly_reports"].append([date, date+timedelta(days=6), countries, c_reports])
+                crises = []
+                context["weekly_reports"].append([date, date+timedelta(days=6), countries, crises])
 
                 reports = WeeklyReport.objects.filter(start_date=date)
                 for report in reports:
-                    c_reports[report.country] = report
                     countries.append(report.country)
+                    crises.append(report.event)
+
+                    if report.country not in context["crises_per_country"]:
+                        context["crises_per_country"][report.country] = []
+                    if report.event not in context["crises_per_country"][report.country]:
+                        context["crises_per_country"][report.country].append(report.event)
 
         return render(request, "users/dashboard.html", context)
 

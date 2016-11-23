@@ -28,21 +28,28 @@ DEEP | Dashboard
             countries: [
                 {% for country in crisis.countries.all %}{ code: "{{country.code}}", name: "{{country.name}}" },{% endfor %}
             ],
-        }{% endfor %}
+        },{% endfor %}
     ];
 
     var weekly_reports = [
         {% for report in weekly_reports %}
         {
             start_date: new Date("{{ report.0|date:'Y-m-d' }}"), end_date: new Date("{{ report.1|date:'Y-m-d' }}"),
-            countries: [{% for country in report.2 %} "{{country.code}}", {% endfor %}]
+            countries: [{% for country in report.2 %} "{{country.code}}", {% endfor %}],
+            crises: [{% for crisis in report.3 %} "{{crisis.pk}}", {% endfor %}],
         },
         {% endfor %}
     ]
 
     var countries = {
         {% for country in countries %}
-        "{{country.code}}" : "{{country.name}}"
+        "{{country.code}}": "{{country.name}}",
+        {% endfor %}
+    };
+
+    var crises_per_country = {
+        {% for country, crises in crises_per_country.items %}
+        "{{country.code}}": { {% for crisis in crises %} "{{crisis.pk}}" : "{{crisis.name}}", {% endfor %} }, 
         {% endfor %}
     };
 </script>
@@ -110,6 +117,7 @@ DEEP | Dashboard
         </div>
         <div>
             <h3>Timeline of humanitarian crisis per country</h3>
+            <div id="back-btn" hidden> <i class="fa fa-arrow-left"></i> Back</div>
             <div class="row">
                 <div class="col-md-12">
                     <table id="timeline-table">

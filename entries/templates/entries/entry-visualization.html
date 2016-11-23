@@ -1,3 +1,9 @@
+<div>
+    {% for sector in sectors %}
+    <img src="{{sector.icon.url}}" style="height:32px;"> {{sector}} <br>
+    {% endfor %}
+</div>
+
 <div class="row"  style="margin-bottom: 36px;">
     <div class="col-md-3">
         <h3>Sectors</h3>
