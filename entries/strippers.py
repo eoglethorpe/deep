@@ -63,7 +63,11 @@ class HtmlStripper:
 
         summary = Document(self.doc).summary()
         title = Document(self.doc).short_title()
-        return "<h1>" + title + "</h1>" + summary
+        html = "<h1>" + title + "</h1>" + summary
+
+        regex = re.compile('\n*', flags=re.IGNORECASE)
+        html = regex.sub('', html)
+        return html
 
 
 class PdfStripper:
