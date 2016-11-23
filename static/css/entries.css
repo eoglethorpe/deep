@@ -73,7 +73,7 @@ nav {
   #main #filters #reliability-filter-container, #main #filters #severity-filter-container {
     margin-top: -26px; }
 #main #toggle-panel {
-  text-align: right;
+  text-align: left;
   margin-bottom: 16px; }
   #main #toggle-panel a {
     margin-left: 16px;
@@ -86,6 +86,8 @@ nav {
   background-color: #fff;
   padding: 24px;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  #main #visualizations h3 {
+    text-transform: uppercase; }
 #main #entries .entry {
   background-color: #f5f5f5;
   color: #414141;

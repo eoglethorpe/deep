@@ -38,7 +38,7 @@ nav{
         }
     }
     #toggle-panel{
-        text-align: right;
+        text-align: left;
         margin-bottom: 16px;
         a{
             margin-left: 16px;
@@ -54,6 +54,10 @@ nav{
         background-color: #fff;
         padding: 24px;
         box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3);
+
+        h3{
+            text-transform: uppercase;
+        }
     }
     #entries{
         .entry{
