@@ -14,7 +14,7 @@ a, button, input[type="submit"], .btn {
   color: #c0392b; }
 
 nav {
-  background-color: teal;
+  background-color: #008080;
   height: 60px;
   box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
   z-index: 100; }
@@ -128,7 +128,7 @@ body {
             transition: 0.2s all ease-in-out; }
           body #page-one .split-pane #right-component #matrix-one .pillar .active {
             transform: scaleY(1.1), scaleX(1.02);
-            background-color: teal;
+            background-color: #008080;
             color: #fff; }
       body #page-one .split-pane #right-component #matrix-two {
         width: 100%;
@@ -173,7 +173,7 @@ body {
         transition: 0.2s all ease-in-out; }
       body #page-one #pillars .pillar .active {
         transform: scaleY(1.1);
-        background-color: teal;
+        background-color: #008080;
         color: #fff; }
   body #page-two {
     padding-top: 24px; }
@@ -181,6 +181,11 @@ body {
       font-size: 0.8em;
       text-transform: uppercase;
       color: #969696; }
+    body #page-two .btn-affected, body #page-two .btn-map {
+      transition: 0.2s all ease-in-out;
+      cursor: pointer; }
+      body #page-two .btn-affected:hover, body #page-two .btn-map:hover {
+        transform: scale(1.3); }
     body #page-two #entries {
       padding-top: 24px; }
       body #page-two #entries h3 {
@@ -282,7 +287,7 @@ body {
         body #page-two #entries .entry .sub-pillar, body #page-two #entries .entry .sub-sector {
           font-size: 0.9em; }
         body #page-two #entries .entry a.sub-sector {
-          color: teal; }
+          color: #008080; }
       body #page-two #entries .entry:nth-child(even) {
         background-color: #eaeaea; }
   body #chart-div table {
@@ -293,7 +298,7 @@ body {
     cursor: pointer;
     font-size: 1em; }
   body #chart-div .active-affected-group {
-    background-color: teal;
+    background-color: #008080;
     color: #fff; }
   body .modal h4 {
     text-transform: uppercase; }
@@ -332,3 +337,5 @@ body {
         font-size: 1.2em;
         color: #aaa;
         text-transform: uppercase; }
+
+/*# sourceMappingURL=add-entry.css.map */
