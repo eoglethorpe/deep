@@ -5,6 +5,8 @@ var filters = {
 
 };
 
+var pillarsFilterSelectize;
+
 
 function filterEntries() {
     entries = [];
@@ -41,8 +43,8 @@ function initEntryFilters() {
     $('#affected-groups-filter').selectize();
     $('#vulnerable-groups-filter').selectize();
     $('#specific-needs-groups-filter').selectize();
-    $('#pillars-filter').selectize();
-    var subpillarsSelectize = $('#subpillars-filter').selectize();
+    pillarsFilterSelectize = $('#pillars-filter').selectize();
+    $('#subpillars-filter').selectize();
     $('#sectors-filter').selectize();
     $('#subsectors-filter').selectize();
     $('#reliabilities-min-filter').selectize();

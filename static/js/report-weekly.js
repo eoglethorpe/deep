@@ -98,6 +98,13 @@ $(document).ready(function(){
 
         $($(this).data('target')).show();
         $(this).addClass('active');
+
+        var tag = $(this).data("pillar-tag");
+        if (tag) {
+            pillarsFilterSelectize[0].selectize.setValue(appearing_pillars[tag]);
+        } else {
+            pillarsFilterSelectize[0].selectize.setValue(null);
+        }
     })
 });
 

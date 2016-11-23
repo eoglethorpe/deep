@@ -108,6 +108,19 @@ class InformationPillar(models.Model):
     background_color = models.CharField(max_length=20, default="#fbe8db")
     active_background_color = models.CharField(max_length=20, default="#ea7120")
 
+    PEOPLE_IN_NEED = "PIN"
+    HUMANITARIAN_ACCESS = "HAC"
+    HUMANITARIAN_PROFILE = "HPR"
+
+    APPEAR_IN = (
+        (PEOPLE_IN_NEED, "People in need"),
+        (HUMANITARIAN_ACCESS, "Humanitarian access"),
+        (HUMANITARIAN_PROFILE, "Humanitarian profile"),
+    )
+
+    appear_in = models.CharField(max_length=3, choices=APPEAR_IN,
+                                 blank=True, null=True, default=None)
+
     def __str__(self):
         return self.name
 
