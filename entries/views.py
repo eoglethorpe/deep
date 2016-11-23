@@ -201,11 +201,11 @@ class AddEntry(View):
                 ia = InformationAttribute()
                 ia.information = information
                 ia.subpillar = InformationSubpillar.objects.get(pk=int(attr["subpillar"]))
-                if (attr["sector"]):
+                if attr["sector"]:
                     ia.sector = Sector.objects.get(pk=int(attr["sector"]))
                 ia.save()
 
-                if (attr["subsectors"]):
+                if "subsectors" in attr and attr["subsectors"]:
                     for subsector in attr["subsectors"]:
                         ia.subsectors.add(Subsector.objects.get(pk=int(subsector)))
 

@@ -168,7 +168,7 @@ class DashboardView(View):
 
             monday2 = last_report.start_date - timedelta(days=last_report.start_date.weekday())
             monday1 = first_report.start_date - timedelta(days=first_report.start_date.weekday())
-            weeks = max(int((monday2 - monday1).days/7 + 1), 15)
+            weeks = max(int((monday2 - monday1).days/7 + 1), 16)
 
             # For each week, store its date and the countries whose reports exist on that day
             for i in range(weeks):

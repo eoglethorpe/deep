@@ -36,21 +36,48 @@ function addEventTimeline(data, add_btn) {
     }
 
     addTodayButtons();
+}
 
+function renderEntries(){
+    var entryContainer = $('#entries');
+    entryContainer.empty();
+
+    for(var i=0; i<entries.length; i++){
+        var entry = $('.entry-template').clone();
+        entry.removeClass('entry-template');
+        entry.addClass('entry');
+        entry.find('h4').text(entries[i].lead_title);
+        entry.find('.source').text(entries[i].lead_source_name);
+        if (entries[i].lead_url)
+            entry.find('.source').prop('href', entries[i].lead_url);
+
+        var informationContainer = entry.find('.information-list');
+
+        for(var j=0; j<entries[i].informations.length; j++){
+            var information = $('.information-template').clone();
+            information.removeClass('information-template');
+            information.addClass('information');
+
+            information.find('.excerpt').text(entries[i].informations[j].excerpt);
+            if (entries[i].informations[j].date)
+                information.find('date').text(formatDate(new Date(entries[i].informations[j].date)));
+            else
+                information.find('date').text("N/A");
+
+            information.appendTo(informationContainer);
+            information.show();
+            if(j != (entries[i].informations.length-1)){
+                $('<hr>').appendTo(informationContainer);
+            }
+        }
+
+        entry.appendTo(entryContainer);
+        entry.show();
+    }
 }
 
 $(document).ready(function(){
-    // $('.entry').on('click', function(){
-    //     if($(this).data('expanded')|false == true){
-    //         $(this).find('.details').slideUp();
-    //         $(this).data('expanded', false);
-    //     } else{
-    //         $(this).find('.details').slideDown();
-    //         $(this).data('expanded', true);
-    //     }
-    // });
-
-    $('#navigator').width($('#report-content').innerWidth())
+    initEntryFilters();
 
     $("#save-btn").click(function() {
         getInputData();
@@ -60,10 +87,25 @@ $(document).ready(function(){
 
     setInputData();
 
-    $('.filter').selectize();
     $('#disaster-type-select').selectize();
     $('#status-select').selectize();
     $('.access-select').selectize();
+
+    $('#navigator').on('click', 'a', function(){
+        var that = $('#navigator .active');
+        $(that.data('target')).hide();
+        that.removeClass('active');
+
+        $($(this).data('target')).show();
+        $(this).addClass('active');
+
+        var tag = $(this).data("pillar-tag");
+        if (tag) {
+            pillarsFilterSelectize[0].selectize.setValue(appearing_pillars[tag]);
+        } else {
+            pillarsFilterSelectize[0].selectize.setValue(null);
+        }
+    })
 });
 
 function setInputData() {
@@ -215,6 +257,6 @@ function getInputData() {
 }
 
 
-$(window).on('resize', function(e) {
-    $('#navigator').width($('#report-content').innerWidth())
-});
+// $(window).on('resize', function(e) {
+//     $('#navigator').width($('#report-content').innerWidth())
+// });
