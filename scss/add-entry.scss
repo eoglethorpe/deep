@@ -201,7 +201,13 @@ body{
             text-transform: uppercase;
             color: #969696;
         }
-
+        .btn-affected, .btn-map {
+            transition: 0.2s all ease-in-out;
+            cursor: pointer;
+            &:hover{
+                transform: scale(1.3);
+            }
+        }
         #entries{
             padding-top: 24px;
 
