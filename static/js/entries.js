@@ -1,6 +1,16 @@
-
 $(document).ready(function() {
     initEntryFilters();
+
+    $('#toggle-panel').on('click', 'a', function(){
+        var current = $('#toggle-panel .active');
+        current.removeClass('active');
+        var that = $(this);
+        $(current.data('target')).fadeOut(function(){
+
+            $(that.data('target')).fadeIn();
+            that.addClass('active');
+        });
+    });
 });
 
 function renderEntries() {

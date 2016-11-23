@@ -35,10 +35,14 @@ DEEP | Entries
         <div id="filters">
             {% include 'entries/entry-filters.html' %}
         </div>
-        <div id="visualtions">
+        <div id="toggle-panel">
+            <a href="#" data-target="#visualizations" class="fa fa-th active"></a>
+            <a href="#" data-target="#entries" class="fa fa-list"></a>
+        </div>
+        <div id="visualizations">
             {% include 'entries/entry-visualization.html' %}
         </div>
-        <div id="entries">
+        <div id="entries" hidden>
         </div>
     </div>
 </section>
