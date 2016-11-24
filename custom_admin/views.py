@@ -63,7 +63,7 @@ class CrisisPanelView(View):
             event.save()
 
             event.countries.clear()
-            if request.POST["countries"]:
+            if "countries" in request.POST and request.POST["countries"]:
                 for country in request.POST.getlist("countries"):
                     event.countries.add(Country.objects.get(pk=country))
 

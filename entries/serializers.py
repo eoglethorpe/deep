@@ -46,6 +46,6 @@ class EntrySerializer(serializers.ModelSerializer):
     def get_lead_url(self, entry):
         if entry.lead.url and entry.lead.url != "":
             return entry.lead.url
-        elif Attachment.objects.count() > 0:
+        elif Attachment.objects.filter(lead=entry.lead).count() > 0:
             return entry.lead.attachment.upload.url
         return None

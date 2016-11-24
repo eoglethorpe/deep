@@ -138,9 +138,15 @@ class InformationSubpillar(models.Model):
 
 class Sector(models.Model):
     name = models.CharField(max_length=150)
+    icon = models.FileField(upload_to="sector-icons/", null=True, blank=True, default=None)
 
     def __str__(self):
         return self.name
+
+
+@receiver(pre_delete, sender=Sector)
+def _sector_delete(sender, instance, **kwargs):
+    instance.icon.delete(False)
 
 
 class Subsector(models.Model):

@@ -158,11 +158,18 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 
 <script>
 
+var url;
+{% if lead %}
+url = "{% url 'leads:edit' event=event.pk id=lead.pk %}";
+{% else %}
+url = "{% url 'leads:add' event=event.pk %}";
+{% endif %}
+
 Dropzone.options.attachmentDropzone = {
     {% if lead %}
-    url: "{% url 'leads:edit' event=event.pk id=lead.pk %}",
+    url: url,
     {% else %}
-    url: "{% url 'leads:add' event=event.pk %}",
+    url: url,
     {% endif %}
     autoProcessQueue: false,
     uploadMultiple: false,

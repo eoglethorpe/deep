@@ -47,43 +47,37 @@ nav {
     padding-bottom: 8px;
     color: #414141; }
 
+nav {
+  top: 0;
+  position: fixed;
+  width: 100%;
+  z-index: 1001; }
+
 body {
+  margin-top: 60px;
   padding: 0;
   background-color: #f5f5f5; }
-  body #header {
-    background-color: #008080;
-    color: #fff;
-    height: 60px;
-    padding: 24px;
-    text-transform: uppercase; }
-    body #header h1 {
-      margin: 0; }
-    body #header a {
-      color: #fff;
-      float: right;
-      font-size: 1.1em; }
+  body #map-section h2 {
+    display: inline-block;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    margin: 24px 16px 16px 16px; }
+  body #map-section #the-map {
+    background: transparent;
+    height: 480px; }
   body #body {
-    padding-top: 32px; }
-    body #body h3 {
-      margin-top: 0;
-      text-transform: uppercase; }
-    body #body .leaflet-container {
-      background: #2980b9; }
-    body #body #active-crisis-map #map-text-wrapper {
-      background-color: #fff;
-      width: 256px;
-      margin-left: 48px;
-      margin-top: 10px;
-      text-align: center;
-      border-radius: 3px;
-      box-shadow: 0 2px 7px 2px rgba(0, 0, 0, 0.3); }
-      body #body #active-crisis-map #map-text-wrapper h3 {
-        padding: 8px;
-        color: #2980b9;
-        font-weight: bold; }
+    box-shadow: 0 -2px 5px 1px rgba(0, 0, 0, 0.3);
+    min-height: 50vh; }
     body #body #filters {
-      margin-bottom: 24px;
-      margin-top: 24px; }
+      padding: 16px 0; }
+    body #body label {
+      color: #969696;
+      font-size: 0.8em;
+      text-transform: uppercase;
+      vertical-align: sub; }
+    body #body h3 {
+      font-size: 1.2em;
+      text-transform: uppercase; }
     body #body #timeline-table {
       width: 100%;
       border-spacing: 4px;

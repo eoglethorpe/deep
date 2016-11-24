@@ -9,6 +9,8 @@ from pdfminer.pdfinterp import PDFResourceManager, process_pdf
 from pdfminer.converter import HTMLConverter, TextConverter
 from pdfminer.layout import LAParams
 
+import re
+
 
 class StripError(Exception):
     def __init__(self, *args, **kwargs):
@@ -61,7 +63,11 @@ class HtmlStripper:
 
         summary = Document(self.doc).summary()
         title = Document(self.doc).short_title()
-        return "<h1>" + title + "</h1>" + summary
+        html = "<h1>" + title + "</h1>" + summary
+
+        regex = re.compile('\n*', flags=re.IGNORECASE)
+        html = regex.sub('', html)
+        return html
 
 
 class PdfStripper:
@@ -89,4 +95,18 @@ class PdfStripper:
         outfp.seek(0)
         content = outfp.read()
         outfp.close()
-        return HtmlStripper(content).simplify()
+        
+        html = HtmlStripper(content).simplify()
+
+        # Try removing extra lines
+        # regex = re.compile('\<br\s*\\/?>', flags=re.IGNORECASE)
+        # html = regex.sub('', html)
+
+        # regex = re.compile('\<span\>\s*\<\/span\>', flags=re.IGNORECASE)
+        # html = regex.sub('', html)
+        # regex = re.compile('\<span\s*\\/?>', flags=re.IGNORECASE)
+        # html = regex.sub('', html)
+
+        regex = re.compile('\n*', flags=re.IGNORECASE)
+        html = regex.sub('', html)
+        return html

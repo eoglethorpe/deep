@@ -46,7 +46,7 @@
                         <div class="col-md-3">
                             <select id="select-event">
                                 {% for e in country.event_set.all %}
-                                <option value="{{e.pk}}">{{e}}</option>
+                                <option value="{{e.pk}}" {% if event == e %}selected{% endif %}>{{e}}</option>
                                 {% endfor %}
                             </select>
                         </div>

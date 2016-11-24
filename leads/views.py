@@ -8,6 +8,7 @@ from django.utils.decorators import method_decorator
 
 from datetime import datetime
 import json
+import os
 
 from users.models import *
 from leads.models import *
@@ -50,7 +51,8 @@ def get_simplified_lead(lead, context):
                     HtmlStripper(attachment.upload.read()).simplify()
             else:
                 context["lead_simplified"] = attachment.upload.read()
-    except:
+    except Exception as e:
+        print(e)
         # print("Error while simplifying")
         pass
 

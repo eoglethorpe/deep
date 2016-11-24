@@ -86,6 +86,7 @@ class WeeklyReport(models.Model):
         ordering = [ '-start_date' ]
         verbose_name_plural = "Weekly Reports"
 
+
 class DisasterType(models.Model):
     name = models.CharField(max_length=200)
     parent = models.ForeignKey('DisasterType', null=True, blank=True, default=None)
