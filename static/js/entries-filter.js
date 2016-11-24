@@ -84,38 +84,38 @@ function initEntryFilters() {
     });
     $('#sources-filter').change(function() {
         var filterBy = $(this).val();
-        addFilter('source', filterBy == "", function(info){
-            return info.lead_source == filterBy;
+        addFilter('source', filterBy == null, function(info){
+            return filterBy.indexOf(info.lead_source) >= 0;
         });
     });
     $('#users-filter').change(function() {
         var filterBy = $(this).val();
-        addFilter('users', filterBy == "", function(info){
-            return info.modified_by == filterBy;
+        addFilter('users', filterBy == null, function(info){
+            return filterBy.indexOf(info.modified_by) >= 0;
         });
     });
     $('#areas-filter').change(function() {
         var filterBy = $(this).val();
-        addFilter('areas', filterBy == "", function(info){
-            return info.map_selections.filter(function(ms){ return ms.name == filterBy; }).length > 0;
+        addFilter('areas', filterBy == null, function(info){
+            return info.map_selections.filter(function(ms){ return filterBy.indexOf(ms.name) >= 0; }).length > 0;
         });
     });
     $('#affected-groups-filter').change(function() {
         var filterBy = $(this).val();
-        addFilter('affected-groups', filterBy == "", function(info){
-            return info.affected_groups.filter(function(a){ return a.name == filterBy; }).length > 0;
+        addFilter('affected-groups', filterBy == null, function(info){
+            return info.affected_groups.filter(function(a){ return filterBy.indexOf(a.name) >= 0; }).length > 0;
         });
     });
     $('#vulnerable-groups-filter').change(function() {
         var filterBy = $(this).val();
-        addFilter('vulnerable-groups', filterBy == "", function(info){
-            return info.vulnerable_groups.filter(function(v){ return v.name == filterBy; }).length > 0;
+        addFilter('vulnerable-groups', filterBy == null, function(info){
+            return info.vulnerable_groups.filter(function(v){ return filterBy,indexOf(v.name) >= 0; }).length > 0;
         });
     });
     $('#specific-needs-groups-filter').change(function() {
         var filterBy = $(this).val();
-        addFilter('specific-needs-groups', filterBy == "", function(info){
-            return info.specific_needs_groups.filter(function(s){ return s.name == filterBy; }).length > 0;
+        addFilter('specific-needs-groups', filterBy == null, function(info){
+            return info.specific_needs_groups.filter(function(s){ return filterBy.indexOf(s.name) >= 0; }).length > 0;
         });
     });
 
