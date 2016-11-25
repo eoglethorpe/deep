@@ -32,6 +32,7 @@ function renderSectors(){
 
     sectorList.each(function(){
         var severitiesContainer = $(this).find('.severities');
+        severitiesContainer.empty();
         var that = $(this);
         var sector = $.grep(sectors, function(n, i){
             return n.id == that.data('id');
