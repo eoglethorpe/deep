@@ -14,6 +14,9 @@ $(document).ready(function() {
 });
 
 function renderEntries() {
+    renderSectors();
+
+
 
     $("#entries").empty();
     for (var i=0; i<entries.length; ++i) {
