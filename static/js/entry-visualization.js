@@ -1,4 +1,11 @@
 function renderSectors(){
+    // reset all sector severity values
+    for(var i=0; i<sectors.length; i++){
+        for(var j=0; j<sectors[i].severities.length; j++){
+            sectors[i].severities[j].value = 0;
+        }
+    }
+
     for(var i=0; i<entries.length; i++){
         var entry = entries[i];
         for(var j=0; j<entry.informations.length; j++){
