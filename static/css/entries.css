@@ -101,7 +101,10 @@ nav {
       font-weight: bold; }
     #main #visualizations #sector-visualization .sector .severity {
       height: 10px;
-      display: inline-block; }
+      display: inline-block;
+      cursor: pointer; }
+      #main #visualizations #sector-visualization .sector .severity:hover {
+        box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.8); }
     #main #visualizations #sector-visualization .sector .severity-1 {
       background-color: #fbd4d4; }
     #main #visualizations #sector-visualization .sector .severity-2 {

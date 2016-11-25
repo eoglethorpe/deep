@@ -78,6 +78,11 @@ nav{
                 .severity{
                     height: 10px;
                     display: inline-block;
+                    cursor: pointer;
+
+                    &:hover{
+                        box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.8);
+                    }
                 }
                 .severity-1{background-color: lighten($severity-base, 50%);}
                 .severity-2{background-color: lighten($severity-base, 40%);}
