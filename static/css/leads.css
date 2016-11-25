@@ -57,12 +57,11 @@ nav {
   text-transform: uppercase;
   color: #008080;
   font-size: 1.5em;
-  margin-bottom: 24px;
   clear: both; }
 #main #leads-block label {
   color: #717171; }
 #main #leads-block #filters {
-  margin-bottom: 24px; }
+  margin-top: 24px; }
 #main #leads-block #leads-table tbody tr[role="row"] {
   cursor: pointer; }
 #main #leads-block #leads-table tbody .odd, #main #leads-block #leads-table tbody .odd + tr:not(.even) {

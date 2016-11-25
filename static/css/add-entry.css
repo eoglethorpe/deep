@@ -249,9 +249,8 @@ body {
         body #page-two #entries .entry .geo-location {
           margin-top: 4px; }
         body #page-two #entries .entry .geo-location, body #page-two #entries .entry .affected-group {
-          border: 3px solid #eee;
+          color: #f00;
           padding: 4px;
-          background-color: #eee;
           min-height: 64px; }
           body #page-two #entries .entry .geo-location a, body #page-two #entries .entry .affected-group a {
             float: right; }
