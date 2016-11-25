@@ -1,15 +1,16 @@
-<div>
-    {% for sector in sectors %}
-    {% if sector.icon %}<img src="{{sector.icon.url}}" style="height:32px;"> {% endif %} {{sector}} <br>
-    {% endfor %}
-</div>
-
 <div class="row"  style="margin-bottom: 36px;">
-    <div class="col-md-3">
-        <h3>Sectors</h3>
-        <div id="sector-bar"></div>
+    <div class="col-md-5">
+        <div id="sector-visualization">
+            {% for sector in sectors %}
+            <div class="sector" data-id="{{sector.pk}}">
+            {% if sector.icon %}<img src="{{sector.icon.url}}" > {% endif %}
+                <div class="name">{{sector}}</div>
+                <div class="severities"></div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-    <div class="col-md-9" style="padding-left: 2px;">
+    <!-- <div class="col-md-7" style="padding-left: 2px;">
         <div class="row">
             <div class="col-md-4">
                 <h3>Donut</h3>
@@ -26,5 +27,5 @@
                 <div id="the-map"></div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>

@@ -88,6 +88,32 @@ nav {
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
   #main #visualizations h3 {
     text-transform: uppercase; }
+  #main #visualizations #sector-visualization .sector {
+    padding: 10px;
+    min-height: 56px;
+    margin-bottom: 10px; }
+    #main #visualizations #sector-visualization .sector img {
+      width: 48px;
+      float: left;
+      margin-right: 16px; }
+    #main #visualizations #sector-visualization .sector .name {
+      text-transform: uppercase;
+      font-weight: bold; }
+    #main #visualizations #sector-visualization .sector .severity {
+      height: 10px;
+      display: inline-block; }
+    #main #visualizations #sector-visualization .sector .severity-1 {
+      background-color: #fbd4d4; }
+    #main #visualizations #sector-visualization .sector .severity-2 {
+      background-color: #f7a5a5; }
+    #main #visualizations #sector-visualization .sector .severity-3 {
+      background-color: #f47575; }
+    #main #visualizations #sector-visualization .sector .severity-4 {
+      background-color: #f04646; }
+    #main #visualizations #sector-visualization .sector .severity-5 {
+      background-color: #ec1717; }
+    #main #visualizations #sector-visualization .sector .severity-6 {
+      background-color: #c01010; }
 #main #entries .entry {
   background-color: #f5f5f5;
   color: #414141;
@@ -142,17 +168,17 @@ nav {
     #main #entries .entry .information .reliability .active {
       transform: scale(1.2); }
     #main #entries .entry .information .severity ._1 {
-      background-color: #f2adad; }
+      background-color: #f7a5a5; }
     #main #entries .entry .information .severity ._2 {
-      background-color: #ec8080; }
+      background-color: #f47575; }
     #main #entries .entry .information .severity ._3 {
-      background-color: #e55454; }
+      background-color: #f04646; }
     #main #entries .entry .information .severity ._4 {
-      background-color: #de2828; }
+      background-color: #ec1717; }
     #main #entries .entry .information .severity ._5 {
-      background-color: #cd1f1f; }
+      background-color: #d81212; }
     #main #entries .entry .information .severity ._6 {
-      background-color: #b71c1c; }
+      background-color: #c01010; }
     #main #entries .entry .information .severity .active {
       transform: scale(1.2); }
     #main #entries .entry .information .excerpt {
