@@ -15,9 +15,15 @@ var mapSelections = [];
 
 function loadMap() {
     $("#country").selectize();
-    
+
     map = L.map('the-map');
     L.tileLayer('https://data.humdata.org/crisis-tiles/{z}/{x}/{y}.png').addTo(map);
+
+    map.scrollWheelZoom.disable();
+
+    // Toggle scroll-zoom by clicking on and outside map
+    map.on('focus', function() { map.scrollWheelZoom.enable(); });
+    map.on('blur', function() { map.scrollWheelZoom.disable(); });
 
     // On country selected, fetch the admin levels data.
     $("#country").on('change', function(e) {

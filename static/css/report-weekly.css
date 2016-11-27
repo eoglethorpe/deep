@@ -87,6 +87,8 @@ body {
           font-weight: bold; }
         #main #entries .entry header label {
           margin-right: 10px; }
+      #main #entries .entry .excerpt {
+        margin-top: 10px; }
       #main #entries .entry label {
         font-size: 0.8em;
         margin-right: 10px;
