@@ -3,9 +3,11 @@
         <div id="sector-visualization">
             {% for sector in sectors %}
             <div class="sector" data-id="{{sector.pk}}">
-            {% if sector.icon %}<img src="{{sector.icon.url}}" > {% endif %}
-                <div class="name">{{sector}}</div>
-                <div class="severities"></div>
+                <span class="name">{{sector}}</span>
+                {% if sector.icon %}
+                <img src="{{sector.icon.url}}" >
+                {% endif %}
+                <span class="severities"></span>
             </div>
             {% endfor %}
         </div>
