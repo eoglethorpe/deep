@@ -46,7 +46,7 @@ function renderSectors(){
         })[0];
         for(var i=0; i<sector.severities.length; i++){
             severity = sector.severities[i];
-            $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*200)+'px;" data-toggle="tooltip" title="'+severity.value+'"></span>').appendTo(severitiesContainer);
+            $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*256)+'px;" data-toggle="tooltip" title="'+severity.value+'"></span>').appendTo(severitiesContainer);
         }
     })
 }
