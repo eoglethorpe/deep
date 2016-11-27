@@ -49,12 +49,52 @@ function renderSectors(){
             $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*200)+'px;" data-toggle="tooltip" title="'+severity.value+'"></span>').appendTo(severitiesContainer);
         }
     })
+
+    drawPieChart();
+}
+
+function drawPieChart(){
+    $("#pies-container").empty();
+
+    for (var i=0; i<6; ++i){
+        var arc = $('<path/>');
+        arc.addClass('severity-'+(i+1));
+        arc.attr("d", describeArc(120, 120, 80, 360/6*i, 360/6*(i+1)));
+
+        $('<title>'+i+'</title>').appendTo(arc);
+
+        arc.appendTo($('#pies-container'));
+    }
+    $("#pie-chart-container").html($("#pie-chart-container").html());
+}
+
+function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+    var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
+
+    return {
+        x: centerX + (radius * Math.cos(angleInRadians)),
+        y: centerY + (radius * Math.sin(angleInRadians))
+    };
+}
+
+function describeArc(x, y, radius, startAngle, endAngle){
+    var start = polarToCartesian(x, y, radius, endAngle);
+    var end = polarToCartesian(x, y, radius, startAngle);
+
+    var largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+
+    var d = [
+        "M", start.x, start.y,
+        "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y
+    ].join(" ");
+
+    return d;
 }
 
 
 $(document).ready(function(){
 
-
+    drawPieChart();
 //     var sectorData = [];
 //     sectorData.push(['Sectors', 'No problem', 'Minor problem', 'Situation of concern', 'Situation of major concern', 'Severe conditions', 'Critical situation', { role: 'annotation' } ]);
 //
@@ -67,6 +107,8 @@ $(document).ready(function(){
 //             ['Commute',  2],
 //             ['Watch TV', 2],
 //             ['Sleep',    7]
+
+
 //         ]);
 //
 //         var options = {

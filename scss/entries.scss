@@ -92,6 +92,33 @@ nav{
                 .severity-6{background-color: lighten($severity-base, 0%);}
             }
         }
+        #pie-chart-container {
+            svg{
+                width: 240px;
+                height: 240px;
+                background: transparent;
+                border-radius: 50%;
+            }
+
+            path {
+                cursor: pointer;
+                fill: transparent;
+                stroke-width: 64;
+                transition: all 0.2s ease-in-out;
+
+                &:hover{
+                    stroke-width: 70;
+                    stroke-linecap: butt;
+                }
+            }
+
+            .severity-1{stroke: lighten($severity-base, 50%);}
+            .severity-2{stroke: lighten($severity-base, 40%);}
+            .severity-3{stroke: lighten($severity-base, 30%);}
+            .severity-4{stroke: lighten($severity-base, 20%);}
+            .severity-5{stroke: lighten($severity-base, 10%);}
+            .severity-6{stroke: lighten($severity-base, 0%);}
+        }
     }
     #entries{
         .entry{
