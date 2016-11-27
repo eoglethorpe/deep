@@ -131,6 +131,15 @@ nav{
             .severity-5{stroke: lighten($severity-base, 10%);}
             .severity-6{stroke: lighten($severity-base, 0%);}
         }
+
+        #the-map {
+            height: 50vh;
+            path {
+                stroke: #717171;
+                stroke-width: 1px;
+                stroke-linejoin: round;
+            }
+        }
     }
     #entries{
         .entry{

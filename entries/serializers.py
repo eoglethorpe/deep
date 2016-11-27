@@ -13,12 +13,25 @@ class InformationAttributeSerializer(serializers.ModelSerializer):
         depth = 2
 
 
+class MapSelectionSerializer(serializers.ModelSerializer):
+    keyword = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = AdminLevelSelection
+        fields = ('id', 'name', 'pcode', 'admin_level', 'keyword')
+
+    def get_keyword(self, ms):
+        #"{{ms.admin_level.country.code}}:{{ms.admin_level.level|add:'-1'}}:{{ms.name}}"
+        return str(ms.admin_level.country.code) + ":" + str(ms.admin_level.level - 1) + ":" + str(ms.name)
+
+
 class EntryInformationSerializer(serializers.ModelSerializer):
     attributes = InformationAttributeSerializer(source='informationattribute_set', many=True)
     modified_by = serializers.CharField(source='entry.modified_by.pk', read_only=True)
     modified_at = serializers.DateTimeField(source='entry.modified_at', read_only=True)
     lead_source = serializers.CharField(source='entry.lead.source.pk', read_only=True)
     lead_title = serializers.CharField(source='entry.lead.name', read_only=True)
+    map_selections = MapSelectionSerializer(many=True)
 
     class Meta:
         model = EntryInformation

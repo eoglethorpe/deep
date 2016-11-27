@@ -12,13 +12,27 @@
             {% endfor %}
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-3">
+        <div id="pie-chart-container">
+            <svg id="pies-container">
+            </svg>
+        </div>
+    </div>
+    <div class="col-md-5">
         <div class="row">
-            <div id="pie-chart-container" class="col-md-4">
-                <svg id="pies-container">
-                </svg>
+            <div class="col-md-6">
+                <!-- Country selection -->
+                <select name="country" id="country" placeholder="Select a country">
+                    {% for country in event.countries.all %}
+                    <option value="{{country.pk}}">{{country.name}}</option>
+                    {% endfor %}
+                </select>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-6">
+                <div id="admin-level-buttons"></div>
+            </div>
+            <div class="col-md-12">
+                <div id="the-map"></div>
             </div>
         </div>
     </div>

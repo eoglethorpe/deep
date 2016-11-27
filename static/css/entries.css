@@ -104,22 +104,28 @@ nav {
       text-transform: uppercase;
       width: 100px;
       display: inline-block;
-<<<<<<< HEAD
-      cursor: pointer; }
-      #main #visualizations #sector-visualization .sector .severity:hover {
-        box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.8); }
-    #main #visualizations #sector-visualization .sector .severity-1 {
-      background-color: #fbd4d4; }
-    #main #visualizations #sector-visualization .sector .severity-2 {
-      background-color: #f7a5a5; }
-    #main #visualizations #sector-visualization .sector .severity-3 {
-      background-color: #f47575; }
-    #main #visualizations #sector-visualization .sector .severity-4 {
-      background-color: #f04646; }
-    #main #visualizations #sector-visualization .sector .severity-5 {
-      background-color: #ec1717; }
-    #main #visualizations #sector-visualization .sector .severity-6 {
-      background-color: #c01010; }
+      text-align: right;
+      vertical-align: super; }
+    #main #visualizations #sector-visualization .sector .severities {
+      display: inline-block; }
+      #main #visualizations #sector-visualization .sector .severities .severity {
+        height: 32px;
+        display: inline-block;
+        cursor: pointer; }
+        #main #visualizations #sector-visualization .sector .severities .severity:hover {
+          box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.8); }
+      #main #visualizations #sector-visualization .sector .severities .severity-1 {
+        background-color: #fbd4d4; }
+      #main #visualizations #sector-visualization .sector .severities .severity-2 {
+        background-color: #f7a5a5; }
+      #main #visualizations #sector-visualization .sector .severities .severity-3 {
+        background-color: #f47575; }
+      #main #visualizations #sector-visualization .sector .severities .severity-4 {
+        background-color: #f04646; }
+      #main #visualizations #sector-visualization .sector .severities .severity-5 {
+        background-color: #ec1717; }
+      #main #visualizations #sector-visualization .sector .severities .severity-6 {
+        background-color: #c01010; }
   #main #visualizations #pie-chart-container svg {
     width: 240px;
     height: 240px;
@@ -145,30 +151,12 @@ nav {
     stroke: #ec1717; }
   #main #visualizations #pie-chart-container .severity-6 {
     stroke: #c01010; }
-=======
-      text-align: right;
-      vertical-align: super; }
-    #main #visualizations #sector-visualization .sector .severities {
-      display: inline-block; }
-      #main #visualizations #sector-visualization .sector .severities .severity {
-        height: 32px;
-        display: inline-block;
-        cursor: pointer; }
-        #main #visualizations #sector-visualization .sector .severities .severity:hover {
-          box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.8); }
-      #main #visualizations #sector-visualization .sector .severities .severity-1 {
-        background-color: #fbd4d4; }
-      #main #visualizations #sector-visualization .sector .severities .severity-2 {
-        background-color: #f7a5a5; }
-      #main #visualizations #sector-visualization .sector .severities .severity-3 {
-        background-color: #f47575; }
-      #main #visualizations #sector-visualization .sector .severities .severity-4 {
-        background-color: #f04646; }
-      #main #visualizations #sector-visualization .sector .severities .severity-5 {
-        background-color: #ec1717; }
-      #main #visualizations #sector-visualization .sector .severities .severity-6 {
-        background-color: #c01010; }
->>>>>>> a63cb9efa9076afb98e4f16b79d826480a0ab33d
+  #main #visualizations #the-map {
+    height: 50vh; }
+    #main #visualizations #the-map path {
+      stroke: #717171;
+      stroke-width: 1px;
+      stroke-linejoin: round; }
 #main #entries .entry {
   background-color: #f5f5f5;
   color: #414141;
