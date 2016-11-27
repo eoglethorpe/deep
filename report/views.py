@@ -85,7 +85,6 @@ class WeeklyReportView(View):
             start_date = datetime.strptime(request.GET["start_date"], '%d-%b-%Y')
             context["start_date"] = start_date
 
-
         # Get field values
         context["disaster_types"] = DisasterType.objects.all()
         context["report_statuses"] = ReportStatus.objects.all()

@@ -42,7 +42,7 @@ function renderEntries() {
             informationElement.find('.reliability').find('span[data-id=' + information.reliability.id + ']').addClass('active');
             informationElement.find('.severity').find('span[data-id=' + information.severity.id + ']').addClass('active');
 
-            informationElement.find('.date').text(information.date);
+            informationElement.find('.date').text(information.date?formatDate(information.date):"");
             informationElement.find('.number').text(information.number);
 
             informationElement.find('.vulnerable-groups').text(
