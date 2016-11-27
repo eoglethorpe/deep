@@ -16,12 +16,27 @@ DEEP | Entries
 <script type="text/javascript" src="{% static 'js/split.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/entries-filter.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/entries.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/entry-visualization.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/entries.js' %}"></script>
 
 <script>
     var eventId = "{{event.pk}}";
     var csrf_token = "{% csrf_token %}";
+
+    var sectors = [
+        {% for sector in sectors %}
+        {
+            id: {{ sector.pk }},
+            iconUrl: "{% if sector.icon %}{{sector.icon.url}}{% endif %}",
+            name: "{{ sector }}",
+            severities: [
+                {% for severity in severities %}
+                { id: {{severity.level}}, value: 0 },
+                {% endfor %}
+            ]
+        },
+        {% endfor %}
+    ];
 </script>
 
 {% endblock %}
@@ -35,6 +50,7 @@ DEEP | Entries
         <div id="filters">
             {% include 'entries/entry-filters.html' %}
         </div>
+        <button class="btn btn-default btn-sm" id="clear-filter-btn" style="float: right">Clear filters</button>
         <div id="toggle-panel">
             <a href="#" data-target="#visualizations" class="fa fa-th active"></a>
             <a href="#" data-target="#entries" class="fa fa-list"></a>

@@ -75,8 +75,8 @@ var appearing_pillars = {
                     </h2>
                 </div>
                 <div class="col-md-4">
-                    <button class="btn btn-primary btn-save" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Save Report" id="save-btn"><i class="fa fa-save"></i> Save</button>
-                    <button class="btn btn-danger btn-cancel btn-default" id="cancel-btn"><i class="fa fa-times"></i> Cancel</button>
+                    <button class="btn btn-primary btn-save" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Save Report" id="save-btn"><i class="fa fa-save"></i></button>
+                    <button class="btn btn-danger btn-cancel btn-default" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Cancel" id="cancel-btn"><i class="fa fa-times"></i></button>
                 </div>
             </div>
             <div id="filters">
@@ -140,15 +140,15 @@ var appearing_pillars = {
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label>start date:</label>
+                                    <label>Start Date:</label>
                                     <input type="date" class="form-control start-date">
                                 </div>
                                 <div class="col-md-3">
-                                    <label>end date:</label>
+                                    <label>End Date:</label>
                                     <input type="date" class="form-control end-date">
                                 </div>
                                 <div class="col-md-3">
-                                    <label></label>
+                                    <label>Category:</label>
                                     <select class="category-select" placeholder="Select Category">
                                         <option>--Select category--</option>
                                     {% for category in category_timelines %}

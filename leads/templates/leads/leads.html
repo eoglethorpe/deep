@@ -55,11 +55,6 @@ DEEP | Leads
     <div class="container-fluid">
 
         <div class="block" id="leads-block">
-            <div class="row">
-                <div class="col-md-3">
-                    <h2><a class="btn btn-primary btn-xl" href="{% url 'leads:add' event=event.pk %}" style="margin-top:16px;"><i class="fa fa-plus-square" style=" margin-right: 10px; font-size:1.2em"></i>Add Lead</a></h2>
-                </div>
-            </div>
             <div class="row" id="filters">
                 <div class="col-sm-12">
                     <label>Apply filter:</label>
@@ -108,6 +103,11 @@ DEEP | Leads
                         <option value="Pending">Pending</option>
                         <option value="Processed">Processed</option>
                     </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <h2><a class="btn btn-primary btn-xl" href="{% url 'leads:add' event=event.pk %}" ><i class="fa fa-plus-square" style=" margin-right: 10px; font-size:1.2em"></i>Add Lead</a></h2>
                 </div>
             </div>
             <table id="leads-table" class="table  table-bordered" cellspacing="0" width="100%">
