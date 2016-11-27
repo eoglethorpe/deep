@@ -165,6 +165,9 @@ nav{
                 stroke-width: 1px;
                 stroke-linejoin: round;
             }
+            .leaflet-top{
+                z-index: 1!important;
+            }
         }
     }
     #entries{
