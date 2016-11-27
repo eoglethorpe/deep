@@ -8,27 +8,26 @@
 </div>
 
 <div class="information-template" hidden>
+    <p class="excerpt"></p>
     <div class="row">
-        <div class="col-md-7">
-            <p class="excerpt"></p>
-        </div>
-        <div class="col-md-5">
+        <div class="col-md-6">
             <div>
                 <label>Date:</label><date></date>
             </div>
+        </div>
+        <div class="col-md-3">
             <div class="reliability">
-                <label>Reliablility:</label><br>
                 {% for reliability in reliabilities %}
                 <span data-id="{{reliability.pk}}" class="_{{reliability.level}}  {% if data.reliability == reliability %}active{% endif %}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{reliability}}"></span>
                 {% endfor %}
             </div>
+        </div>
+        <div class="col-md-3">
             <div class="severity">
-                <label>Severity:</label><br>
                 {% for severity in severities %}
                 <span data-id="{{severity.pk}}" class="_{{severity.level}}  {% if data.severity == severity %}active{% endif %}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{severity}}"></span>
                 {% endfor %}
             </div>
-
         </div>
     </div>
 </div>
