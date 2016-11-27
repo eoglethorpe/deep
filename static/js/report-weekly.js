@@ -47,7 +47,7 @@ function renderEntries(){
         entry.removeClass('entry-template');
         entry.addClass('entry');
         entry.find('h4').text(entries[i].lead_title);
-        entry.find('.source').text(entries[i].lead_source_name? entries[i].lead_source_name: 'N/A');
+        entry.find('.source').text(entries[i].lead_source_name!=null? entries[i].lead_source_name: 'Not specified');
         if (entries[i].lead_url)
             entry.find('.source').prop('href', entries[i].lead_url);
 
