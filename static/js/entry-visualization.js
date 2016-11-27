@@ -1,9 +1,13 @@
+
 function renderSectors(){
     // reset all sector severity values
     for(var i=0; i<sectors.length; i++){
         for(var j=0; j<sectors[i].severities.length; j++){
             sectors[i].severities[j].value = 0;
         }
+    }
+    for (var i=0; i<severities.length; i++) {
+        severities[i].value = 0;
     }
 
     for(var i=0; i<entries.length; i++){
@@ -21,6 +25,10 @@ function renderSectors(){
                         return n.id == information.severity.level;
                     })[0];
                     severity.value++;
+
+                    $.grep(severities, function(n, i) {
+                        return n.id == information.severity.level;
+                    })[0].value++;
                 }
             }
         }
@@ -54,16 +62,27 @@ function renderSectors(){
 }
 
 function drawPieChart(){
+    var totalSeverity = 0;
+    for (var i=0; i<severities.length; i++) {
+        totalSeverity += severities[i].value;
+    }
+
     $("#pies-container").empty();
 
-    for (var i=0; i<6; ++i){
+    var startAngle = 0;
+    for (var i=0; i<severities.length; i++){
+        var endAngle = startAngle + severities[i].value/totalSeverity*360;
+        if (endAngle - startAngle >= 360)
+            endAngle -= 1;
+
         var arc = $('<path/>');
         arc.addClass('severity-'+(i+1));
-        arc.attr("d", describeArc(120, 120, 80, 360/6*i, 360/6*(i+1)));
+        arc.attr("d", describeArc(120, 120, 80, startAngle, endAngle));
 
-        $('<title>'+i+'</title>').appendTo(arc);
+        $('<title>'+severities[i].value+'</title>').appendTo(arc);
 
         arc.appendTo($('#pies-container'));
+        startAngle = endAngle;
     }
     $("#pie-chart-container").html($("#pie-chart-container").html());
 }
@@ -93,8 +112,6 @@ function describeArc(x, y, radius, startAngle, endAngle){
 
 
 $(document).ready(function(){
-
-    drawPieChart();
 //     var sectorData = [];
 //     sectorData.push(['Sectors', 'No problem', 'Minor problem', 'Situation of concern', 'Situation of major concern', 'Severe conditions', 'Critical situation', { role: 'annotation' } ]);
 //

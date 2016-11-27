@@ -37,6 +37,12 @@ DEEP | Entries
         },
         {% endfor %}
     ];
+
+    var severities = [
+        {% for severity in severities %}
+        { id: {{severity.level}}, value: 0 },
+        {% endfor %}
+    ];
 </script>
 
 {% endblock %}
