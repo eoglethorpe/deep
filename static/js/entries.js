@@ -10,11 +10,12 @@ $(document).ready(function() {
             $(that.data('target')).fadeIn();
         });
     });
+
+    loadMap();
 });
 
 function renderEntries() {
     renderSectors();
-
 
 
     $("#entries").empty();
