@@ -1,13 +1,25 @@
 <div class="row"  style="margin-bottom: 36px;">
-    <div class="col-md-5">
+    <div class="col-md-4">
         <div id="sector-visualization">
             {% for sector in sectors %}
             <div class="sector" data-id="{{sector.pk}}">
-            {% if sector.icon %}<img src="{{sector.icon.url}}" > {% endif %}
-                <div class="name">{{sector}}</div>
-                <div class="severities"></div>
+                <span class="name">{{sector}}</span>
+                {% if sector.icon %}
+                <img src="{{sector.icon.url}}" >
+                {% endif %}
+                <span class="severities"></span>
             </div>
             {% endfor %}
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="row">
+            <div id="pie-chart-container" class="col-md-4">
+                <svg id="pies-container">
+                </svg>
+            </div>
+            <div class="col-md-8">
+            </div>
         </div>
     </div>
     <!-- <div class="col-md-7" style="padding-left: 2px;">

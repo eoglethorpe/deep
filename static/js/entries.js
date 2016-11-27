@@ -4,11 +4,10 @@ $(document).ready(function() {
     $('#toggle-panel').on('click', 'a', function(){
         var current = $('#toggle-panel .active');
         current.removeClass('active');
+        $(this).addClass('active');
         var that = $(this);
         $(current.data('target')).fadeOut(function(){
-
             $(that.data('target')).fadeIn();
-            that.addClass('active');
         });
     });
 });
@@ -45,7 +44,7 @@ function renderEntries() {
             informationElement.find('.reliability').find('span[data-id=' + information.reliability.id + ']').addClass('active');
             informationElement.find('.severity').find('span[data-id=' + information.severity.id + ']').addClass('active');
 
-            informationElement.find('.date').text(information.date);
+            informationElement.find('.date').text(information.date?formatDate(information.date):"");
             informationElement.find('.number').text(information.number);
 
             informationElement.find('.vulnerable-groups').text(

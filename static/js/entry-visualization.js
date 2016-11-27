@@ -1,9 +1,13 @@
+
 function renderSectors(){
     // reset all sector severity values
     for(var i=0; i<sectors.length; i++){
         for(var j=0; j<sectors[i].severities.length; j++){
             sectors[i].severities[j].value = 0;
         }
+    }
+    for (var i=0; i<severities.length; i++) {
+        severities[i].value = 0;
     }
 
     for(var i=0; i<entries.length; i++){
@@ -21,6 +25,10 @@ function renderSectors(){
                         return n.id == information.severity.level;
                     })[0];
                     severity.value++;
+
+                    $.grep(severities, function(n, i) {
+                        return n.id == information.severity.level;
+                    })[0].value++;
                 }
             }
         }
@@ -46,15 +54,64 @@ function renderSectors(){
         })[0];
         for(var i=0; i<sector.severities.length; i++){
             severity = sector.severities[i];
-            $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*200)+'px;" data-toggle="tooltip" title="'+severity.value+'"></span>').appendTo(severitiesContainer);
+            $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*256)+'px;" data-toggle="tooltip" title="'+severity.value+'"></span>').appendTo(severitiesContainer);
         }
     })
+
+    drawPieChart();
+}
+
+function drawPieChart(){
+    var totalSeverity = 0;
+    for (var i=0; i<severities.length; i++) {
+        totalSeverity += severities[i].value;
+    }
+
+    $("#pies-container").empty();
+
+    var startAngle = 0;
+    for (var i=0; i<severities.length; i++){
+        var endAngle = startAngle + severities[i].value/totalSeverity*360;
+        if (endAngle - startAngle >= 360)
+            endAngle -= 1;
+
+        var arc = $('<path/>');
+        arc.addClass('severity-'+(i+1));
+        arc.attr("d", describeArc(120, 120, 80, startAngle, endAngle));
+
+        $('<title>'+severities[i].value+'</title>').appendTo(arc);
+
+        arc.appendTo($('#pies-container'));
+        startAngle = endAngle;
+    }
+    $("#pie-chart-container").html($("#pie-chart-container").html());
+}
+
+function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+    var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
+
+    return {
+        x: centerX + (radius * Math.cos(angleInRadians)),
+        y: centerY + (radius * Math.sin(angleInRadians))
+    };
+}
+
+function describeArc(x, y, radius, startAngle, endAngle){
+    var start = polarToCartesian(x, y, radius, endAngle);
+    var end = polarToCartesian(x, y, radius, startAngle);
+
+    var largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+
+    var d = [
+        "M", start.x, start.y,
+        "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y
+    ].join(" ");
+
+    return d;
 }
 
 
 $(document).ready(function(){
-
-
 //     var sectorData = [];
 //     sectorData.push(['Sectors', 'No problem', 'Minor problem', 'Situation of concern', 'Situation of major concern', 'Severe conditions', 'Critical situation', { role: 'annotation' } ]);
 //
@@ -67,6 +124,8 @@ $(document).ready(function(){
 //             ['Commute',  2],
 //             ['Watch TV', 2],
 //             ['Sleep',    7]
+
+
 //         ]);
 //
 //         var options = {

@@ -93,7 +93,7 @@ $(document).ready(function() {
             },
             { data: "assigned_to_name" },
             { data: "name" , width: "40%"},
-            { data: "published_at" },
+            { data: null, render: function(data, type, row) { if (data.published_at) return formatDate(data.published_at); else return ""; } },
             { data: null, render: function(data, type, row) { return confidentialities[data.confidentiality]; } },
             { data: "source"},
             { data: null, render: function(data, type, row) { return statuses[data.status]; } },
