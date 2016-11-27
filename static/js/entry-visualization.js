@@ -54,7 +54,7 @@ function renderSectors(){
         })[0];
         for(var i=0; i<sector.severities.length; i++){
             severity = sector.severities[i];
-            $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*256)+'px;" data-toggle="tooltip" title="'+severity.value+'"></span>').appendTo(severitiesContainer);
+            $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*256)+'px;" data-toggle="tooltip" title="'+severity.name+' - '+severity.value+'"></span>').appendTo(severitiesContainer);
         }
     })
 
@@ -79,7 +79,7 @@ function drawPieChart(){
         arc.addClass('severity-'+(i+1));
         arc.attr("d", describeArc(120, 120, 80, startAngle, endAngle));
 
-        $('<title>'+severities[i].value+'</title>').appendTo(arc);
+        $('<title>' + severities[i].name + ' - ' + severities[i].value+'</title>').appendTo(arc);
 
         arc.appendTo($('#pies-container'));
         startAngle = endAngle;
