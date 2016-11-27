@@ -152,8 +152,7 @@ nav {
   #main #visualizations #pie-chart-container .severity-6 {
     stroke: #c01010; }
   #main #visualizations #the-map {
-    height: 50vh;
-    margin-top: 16px; }
+    height: 50vh; }
     #main #visualizations #the-map path {
       stroke: #717171;
       stroke-width: 1px;
