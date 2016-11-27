@@ -85,7 +85,7 @@ function drawPieChart(){
         arc.appendTo($('#pies-container'));
         startAngle = endAngle;
     }
-    $("#pie-chart-container").html($("#pie-chart-container").html());
+    $("#pie-wrapper").html($("#pie-wrapper").html());
 }
 
 function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
