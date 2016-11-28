@@ -47,7 +47,7 @@ function renderVisualizations() {
         for(var j=0; j<entry.informations.length; j++){
             var information = entry.informations[j];
             var attributes = information.attributes;
-            
+
             // Sector-severity
             for(var n=0; n<attributes.length; n++){
                 var attribute = attributes[n];
@@ -139,7 +139,7 @@ function renderAttrs(id, attrs) {
         })[0];
         for(var i=0; i<attr.severities.length; i++){
             severity = attr.severities[i];
-            $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*256)+'px;" data-toggle="tooltip" title="'+severity.name+' - '+severity.value+'"></span>').appendTo(severitiesContainer);
+            $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*200)+'px;" data-toggle="tooltip" title="'+severity.name+' - '+severity.value+'"></span>').appendTo(severitiesContainer);
         }
     })
 }
@@ -206,10 +206,9 @@ var endPosition = null;
 var timelineCanvas = null;
 var canvasTracking = false;
 
-function renderTimeline(){
-    var context = timelineCanvas.getContext("2d");
-    context.clearRect(0, 0, timelineCanvas.width, timelineCanvas.height);
+var timelinePoints = [];
 
+function renderTimeline(){
     var minDate = new Date();
     var maxDate = new Date(0);
 
@@ -237,12 +236,7 @@ function renderTimeline(){
             }
         }
     }
-
-    context.lineWidth = 1;
-    context.imageSmoothingEnabled = true;
-
-    context.beginPath();
-    context.moveTo(0, timelineCanvas.height);
+    timelinePoints = [];
 
     var timeGap = maxDate.getTime() - minDate.getTime();
     entryDates.sort(function(a, b){
@@ -260,18 +254,29 @@ function renderTimeline(){
     maxEntries += 5;
 
     for(var i=0; i<entryDates.length; i++){
-        points.push(timelineCanvas.width*((entryDates[i].date.getTime()-minDate.getTime())/timeGap));
-        points.push(timelineCanvas.height*((maxEntries-entryDates[i].entriesCount)/maxEntries));
+        timelinePoints.push(timelineCanvas.width*((entryDates[i].date.getTime()-minDate.getTime())/timeGap));
+        timelinePoints.push(timelineCanvas.height*((maxEntries-entryDates[i].entriesCount)/maxEntries));
     }
+    rerenderTimeline();
+}
 
-    if (points.length > 1) {
-        context.moveTo(points[0], points[1]);
-        context.curve(points);
+function rerenderTimeline() {
+    var context = timelineCanvas.getContext("2d");
+    context.clearRect(0, 0, timelineCanvas.width, timelineCanvas.height);
+
+    context.lineWidth = 1;
+    context.imageSmoothingEnabled = true;
+
+    context.beginPath();
+    context.moveTo(0, timelineCanvas.height);
+    if (timelinePoints.length > 1) {
+        context.moveTo(timelinePoints[0], timelinePoints[1]);
+        context.curve(timelinePoints);
         context.stroke();
     }
-
     if(isSelected || canvasTracking){
-        context.globalAlpha = 0.5;
+        //context.globalAlpha = 0.5;
+        context.fillStyle = "rgba(0, 128, 128, 0.5)";
         context.fillRect(startPosition.x, 0, endPosition.x-startPosition.x, timelineCanvas.height);
         context.stroke();
     }
@@ -280,7 +285,7 @@ function renderTimeline(){
 function resizeCanvas() {
     timelineCanvas.width = $("#entry-timeline-container").innerWidth();
     timelineCanvas.height = $("#entry-timeline-container").innerHeight();
-    renderTimeline();
+    rerenderTimeline();
 }
 
 $(document).ready(function() {
@@ -311,13 +316,13 @@ $(document).ready(function() {
         if(startPosition != endPosition){
             isSelected = true;
         }
-        renderTimeline();
+        rerenderTimeline();
     }
     timelineCanvas.onmousemove = function(e){
         if(canvasTracking){
             var mousePos = getMousePos(e);
             endPosition = {x: mousePos.x, y: mousePos.y};
-            renderTimeline();
+            rerenderTimeline();
         }
     }
 });
