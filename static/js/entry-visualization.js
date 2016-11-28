@@ -175,3 +175,15 @@ function renderTimeline(){
 
     //context.lineTo(canvas.width, canvas.height);
 }
+
+function resizeCanvas() {
+    var canvas = document.getElementById("entry-timeline");
+    canvas.width = $("#entry-timeline-container").innerWidth();
+    canvas.height = $("#entry-timeline-container").innerHeight();
+    renderTimeline();
+}
+
+$(document).ready(function() {
+    window.addEventListener('resize', resizeCanvas, false);
+    resizeCanvas();
+});
