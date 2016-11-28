@@ -11,6 +11,7 @@ var mapColors = ['#008080','#80d0d0','#FFEB3B'];
 var map;
 
 var mapSelections = [];
+var mapNumEntries = [];
 
 
 function loadMap() {
@@ -41,12 +42,21 @@ function loadMap() {
 
 function reloadMap() {
     mapSelections = [];
+    mapNumEntries = [];
+
     for (var i=0; i<entries.length; i++) {
         for (var j=0; j<entries[i].informations.length; j++) {
             var info = entries[i].informations[j];
             for (var k=0; k<info.map_selections.length; k++) {
                 var ms = info.map_selections[k];
-                mapSelections.push(ms.keyword);
+
+                var index = mapSelections.indexOf(ms.keyword);
+                if (index >= 0)
+                    mapNumEntries[index]++;
+                else {
+                    mapSelections.push(ms.keyword);
+                    mapNumEntries.push(1);
+                }                
             }
         }
     }
@@ -113,8 +123,10 @@ function onEachMapFeature(feature, layer) {
     var color2 = mapColors[1];  // mouse-hover color
     var color3 = mapColors[2];    // selection-color;
 
+    var index = mapSelections.indexOf(selectionName);
+
     layer.setStyle({
-        fillColor: (mapSelections.indexOf(selectionName) == -1)?color1:color3,
+        fillColor: (index < 0)?color1:color3,
         fillOpacity:'0.55',
         opacity: 1,
     });
@@ -130,25 +142,10 @@ function onEachMapFeature(feature, layer) {
         });
     });
 
-    // layer.on('click', function() {
-
-    //     var index = mapSelections.indexOf(selectionName);
-    //     if (index == -1) {
-    //         mapSelections.push(selectionName);
-    //     }
-    //     else {
-    //         mapSelections.splice(index, 1);
-    //     }
-
-    //     //console.log(mapSelections);
-
-    //     this.setStyle({
-    //         fillColor: (index == -1) ? color3 : color1
-    //     });
-    //     updateLocationSelections();
-    // });
-
-    layer.bindLabel(name);
+    if (index < 0)
+        layer.bindLabel(name);
+    else
+        layer.bindLabel(name + " - " + mapNumEntries[index]);
 }
 
 
@@ -196,29 +193,6 @@ function refreshAdminLevels() {
 
         }
     }
-
-    // for (var k in adminLevels) {
-    //     for (var i in adminLevels[k]) {
-    //         if (adminLevels[k][i] != null) {
-    //             var features = adminLevels[k][i]["features"];
-    //             for (var j in features) {
-    //                 if ("properties" in features[j]) {
-    //                     var properties = features[j]["properties"];
-    //                     var propName = adminLevelPropNames[k][i];
-    //                     var propPcode = adminLevelPropPcodes[k][i];
-
-    //                     var name = properties[propName];
-    //                     var selectionName = k +":"+ i +":"+ name;
-
-    //                     if (propPcode != "" && properties[propPcode] != "")
-    //                         selectionName += ":" + properties[propPcode]
-
-    //                     // locations[selectionName] = name;
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
 
     refreshMap();
 }
