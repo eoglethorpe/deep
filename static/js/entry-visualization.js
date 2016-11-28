@@ -43,7 +43,6 @@ function renderSectors(){
         }
     }
     var maxSeverity = Math.max(...totalSeverity);
-    //console.log(maxSeverity);
 
     sectorList.each(function(){
         var severitiesContainer = $(this).find('.severities');
@@ -117,10 +116,17 @@ function isSameDay(d1, d2){
     return d1.getYear() == d2.getYear() && d1.getMonth() == d2.getMonth() && d1.getDay() == d2.getDay();
 }
 
-function renderTimeline(){
+var isSelected = false;
+var selectStart = null;
+var selectEnd = null;
+var startPosition = null;
+var endPosition = null;
+var timelineCanvas = null;
+var canvasTracking = false;
 
-    var canvas = document.getElementById("entry-timeline");
-    var context = canvas.getContext("2d");
+function renderTimeline(){
+    var context = timelineCanvas.getContext("2d");
+    context.clearRect(0, 0, timelineCanvas.width, timelineCanvas.height);
 
     var minDate = new Date();
     var maxDate = new Date(0);
@@ -154,7 +160,7 @@ function renderTimeline(){
     context.imageSmoothingEnabled = true;
 
     context.beginPath();
-    context.moveTo(0, canvas.height);
+    context.moveTo(0, timelineCanvas.height);
 
     var timeGap = maxDate.getTime() - minDate.getTime();
     entryDates.sort(function(a, b){
@@ -172,29 +178,64 @@ function renderTimeline(){
     maxEntries += 5;
 
     for(var i=0; i<entryDates.length; i++){
-        points.push(canvas.width*((entryDates[i].date.getTime()-minDate.getTime())/timeGap));
-        points.push(canvas.height*((maxEntries-entryDates[i].entriesCount)/maxEntries));
+        points.push(timelineCanvas.width*((entryDates[i].date.getTime()-minDate.getTime())/timeGap));
+        points.push(timelineCanvas.height*((maxEntries-entryDates[i].entriesCount)/maxEntries));
     }
-    //points.push(canvas.width); points.push(canvas.height);
 
-    // context.lineTo(canvas.width, canvas.height);
     if (points.length > 1) {
         context.moveTo(points[0], points[1]);
         context.curve(points);
         context.stroke();
     }
 
-    //context.lineTo(canvas.width, canvas.height);
+    if(isSelected || canvasTracking){
+        context.globalAlpha = 0.5;
+        context.fillRect(startPosition.x, 0, endPosition.x-startPosition.x, timelineCanvas.height);
+        context.stroke();
+    }
 }
 
 function resizeCanvas() {
-    var canvas = document.getElementById("entry-timeline");
-    canvas.width = $("#entry-timeline-container").innerWidth();
-    canvas.height = $("#entry-timeline-container").innerHeight();
+    timelineCanvas.width = $("#entry-timeline-container").innerWidth();
+    timelineCanvas.height = $("#entry-timeline-container").innerHeight();
     renderTimeline();
 }
 
 $(document).ready(function() {
+    timelineCanvas = document.getElementById("entry-timeline");
     window.addEventListener('resize', resizeCanvas, false);
     resizeCanvas();
+
+    function getMousePos(evt) {
+        var rect = timelineCanvas.getBoundingClientRect();
+        return {
+            x: (evt.clientX - rect.left) / (rect.right - rect.left) * timelineCanvas.width,
+            y: (evt.clientY - rect.top) / (rect.bottom - rect.top) * timelineCanvas.height
+        };
+    }
+
+    timelineCanvas.onmousedown = function(e){
+        isSelected = false;
+        var mousePos = getMousePos(e);
+        startPosition = {x: mousePos.x, y: mousePos.y};
+        endPosition = {x: mousePos.x, y: mousePos.y};
+        canvasTracking = true;
+    }
+    timelineCanvas.onmouseup = function(e){
+        var mousePos = getMousePos(e);
+        endPosition = {x: mousePos.x, y: mousePos.y};
+        canvasTracking = false;
+
+        if(startPosition != endPosition){
+            isSelected = true;
+        }
+        renderTimeline();
+    }
+    timelineCanvas.onmousemove = function(e){
+        if(canvasTracking){
+            var mousePos = getMousePos(e);
+            endPosition = {x: mousePos.x, y: mousePos.y};
+            renderTimeline();
+        }
+    }
 });
