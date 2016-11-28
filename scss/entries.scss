@@ -58,7 +58,7 @@ nav{
     $severity-base: #c01010;
     #visualizations{
         background-color: #fff;
-        //box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3);
 
         h3{
             text-transform: uppercase;
@@ -120,6 +120,12 @@ nav{
             bottom: 24px;
             left: 96px;
             border-radius: 3px;
+
+            #admin-level-buttons{
+                button{
+                    margin: 4px!important;
+                }
+            }
         }
         #pie-wrapper {
             width: 260px;
@@ -161,12 +167,13 @@ nav{
             height: 80vh;
 
             #map-shadow-overlay{
+                pointer-events:none;
                 position: absolute;
                 top: 0;
                 left: 0;
                 width: 100%;
                 height: 100%;
-                z-index: 1000;
+                z-index: 999;
                 box-shadow: inset 10px 0 10px -8px rgba(0, 0, 0, 0.5);
             }
             path {
