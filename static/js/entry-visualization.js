@@ -162,9 +162,17 @@ function renderTimeline(){
     });
 
     var points = [];
+
+    var maxEntries = 10;
+    for(var i=0; i<entryDates.length; i++){
+        if(maxEntries < entryDates[i].entriesCount){
+            maxEntries = entryDates[i].entriesCount;
+        }
+    }
+
     for(var i=0; i<entryDates.length; i++){
         points.push(canvas.width*((entryDates[i].date.getTime()-minDate.getTime())/timeGap));
-        points.push(canvas.height*((10-entryDates[i].entriesCount)/10));
+        points.push(canvas.height*((maxEntries-entryDates[i].entriesCount)/maxEntries));
     }
     points.push(canvas.width); points.push(canvas.height);
     console.log(entryDates);
