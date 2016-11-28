@@ -60,6 +60,7 @@ function renderSectors(){
 
     drawPieChart();
     reloadMap();
+    renderTimeline();
 }
 
 function drawPieChart(){
@@ -110,4 +111,62 @@ function describeArc(x, y, radius, startAngle, endAngle){
     ].join(" ");
 
     return d;
+}
+
+function isSameDay(d1, d2){
+    return d1.getYear() == d2.getYear() && d1.getMonth() == d2.getMonth() && d1.getDay() == d2.getDay();
+}
+
+function renderTimeline(){
+
+    var canvas = document.getElementById("entry-timeline");
+    var context = canvas.getContext("2d");
+
+    var minDate = new Date('November 20, 2016');
+    var maxDate = new Date('December 1, 2016');
+
+    var entryDates = [];
+
+    for(var i=0; i<entries.length; i++){
+        for(var j=0; j<entries[i].informations.length; j++){
+            var entryDate = new Date(entries[i].informations[j].modified_at);
+            var dateExists = false;
+            for(var n=0; n<entryDates.length; n++){
+                // if(entryDate < minDate){
+                //     minDate = entryDate;
+                // }
+                // if(entryDate > maxDate){
+                //     maxDate = entryDate;
+                // }
+                if(isSameDay(entryDates[n].date, entryDate)){
+                    ++entryDates[n].entriesCount;
+                    dateExists = true;
+                    break;
+                }
+            }
+            if(!dateExists){
+                entryDates.push({date: entryDate, entriesCount: 1});
+            }
+        }
+    }
+
+    context.lineWidth = 1;
+    context.imageSmoothingEnabled = true;
+
+    context.beginPath();
+    context.moveTo(0, canvas.height);
+
+    var timeGap = maxDate.getTime() - minDate.getTime();
+    entryDates.sort(function(a, b){
+        return a.date.getTime()-b.date.getTime();
+    });
+
+
+    for(var i=0; i<entryDates.length; i++){
+        context.lineTo(canvas.width*((entryDates[i].date.getTime()-minDate.getTime())/timeGap), canvas.height*((10-entryDates[i].entriesCount)/10))
+    }
+    context.lineTo(canvas.width, canvas.height);
+    context.stroke();
+
+    //context.lineTo(canvas.width, canvas.height);
 }

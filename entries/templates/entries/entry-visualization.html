@@ -1,4 +1,4 @@
-<div class="row"  style="margin-bottom: 36px;">
+<div class="row" >
     <div class="col-md-4" style="padding-right: 0">
         <div id="sector-visualization">
             <h3>Sectors</h3>
@@ -14,7 +14,9 @@
         </div>
     </div>
     <div class="col-md-8" style="padding-left: 0">
-        <div id="the-map"></div>
+        <div id="the-map">
+            <div id="map-shadow-overlay"></div>
+        </div>
         <div id="pie-wrapper">
             <svg id="pies-container">
             </svg>
@@ -34,22 +36,7 @@
             </div>
         </div>
     </div>
-    <!-- <div class="col-md-7" style="padding-left: 2px;">
-        <div class="row">
-            <div class="col-md-4">
-                <h3>Donut</h3>
-                <div id="donut-chart"></div>
-            </div>
-            <div class="col-md-8">
-                <h3>Time thingy</h3>
-                <div id="time-bar"></div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <h3>Map</h3>
-                <div id="the-map"></div>
-            </div>
-        </div>
-    </div> -->
+</div>
+<div id="entry-timeline-container">
+    <canvas id="entry-timeline"></canvas>
 </div>
