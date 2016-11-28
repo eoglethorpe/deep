@@ -1,40 +1,101 @@
 
-function renderSectors(){
-    // reset all sector severity values
-    for(var i=0; i<sectors.length; i++){
-        for(var j=0; j<sectors[i].severities.length; j++){
-            sectors[i].severities[j].value = 0;
+function resetSeverities(attrs) {
+    for(var i=0; i<attrs.length; i++){
+        for(var j=0; j<attrs[i].severities.length; j++){
+            attrs[i].severities[j].value = 0;
         }
     }
+}
+function recalculateSeverity(information, info_attrs, attrs) {
+    var asdfg = $.grep(attrs, function(n, i) {
+        var x = $.grep(info_attrs, function(n1, i1) {
+            return n1.id == n.id;
+        });
+        return x.length > 0;
+    });
+    for (var k=0; k<asdfg.length; ++k) {
+        var a = asdfg[k];
+        $.grep(a.severities, function(n, i) {
+            return n.id == information.severity.level;
+        })[0].value++;
+    }
+}
+function recalculateSeverity2(information, attrId, attrs) {
+    var asdfg = $.grep(attrs, function(n, i) {
+        return n.id == attrId;
+    })[0];
+    $.grep(asdfg.severities, function(n, i) {
+        return n.id == information.severity.level;
+    })[0].value++;
+}
+
+function renderVisualizations() {
+    // Reset values
+    resetSeverities(sectors);
+    resetSeverities(vulnerable_groups);
+    resetSeverities(specific_needs_groups);
+    resetSeverities(sources);
+    resetSeverities(affected_groups);
+
     for (var i=0; i<severities.length; i++) {
         severities[i].value = 0;
     }
 
+    // Recalculate values
     for(var i=0; i<entries.length; i++){
         var entry = entries[i];
         for(var j=0; j<entry.informations.length; j++){
             var information = entry.informations[j];
             var attributes = information.attributes;
+            
+            // Sector-severity
             for(var n=0; n<attributes.length; n++){
                 var attribute = attributes[n];
                 if(attribute.sector != null){
-                    var sector = $.grep(sectors, function(n, i){
-                        return n.id == attribute.sector.id;
-                    })[0];
-                    var severity = $.grep(sector.severities, function(n, i){
-                        return n.id == information.severity.level;
-                    })[0];
-                    severity.value++;
-
-                    $.grep(severities, function(n, i) {
-                        return n.id == information.severity.level;
-                    })[0].value++;
+                    recalculateSeverity2(information, attribute.sector.id, sectors);
                 }
             }
+
+            // Vulnerable group-severity
+            if (information.vulnerable_groups.length > 0) {
+                recalculateSeverity(information, information.vulnerable_groups, vulnerable_groups);
+            }
+
+            // Specific needs group-severity
+            if (information.specific_needs_groups.length > 0) {
+                recalculateSeverity(information, information.specific_needs_groups, specific_needs_groups);
+            }
+
+            // Source-severity
+            if (information.lead_source) {
+                recalculateSeverity2(information, information.lead_source, sources);
+            }
+
+            // Affected group-severity
+            if (information.affected_groups.length > 0) {
+                recalculateSeverity(information, information.affected_groups, affected_groups);
+            }
+
+            // Total severity
+            $.grep(severities, function(n, i) {
+                return n.id == information.severity.level;
+            })[0].value++;
         }
     }
 
-    var sectorList = $('#sector-visualization').find('.sector');
+    renderSectors();
+    renderAttrs("vulnerable-groups-visualization", vulnerable_groups);
+    renderAttrs("specific-needs-groups-visualization", specific_needs_groups);
+    renderAttrs("sources-visualization", sources);
+    renderAttrs("affected-groups-visualization", affected_groups);
+    drawPieChart();
+    reloadMap();
+    renderTimeline();
+}
+
+function renderSectors(){
+
+    var sectorList = $('#sectors-visualization').find('.attr');
     var totalSeverity = [];
     for(var i=0; i<sectors.length; i++){
         totalSeverity.push(0)
@@ -56,10 +117,31 @@ function renderSectors(){
             $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*256)+'px;" data-toggle="tooltip" title="'+severity.name+' - '+severity.value+'"></span>').appendTo(severitiesContainer);
         }
     })
+}
 
-    drawPieChart();
-    reloadMap();
-    renderTimeline();
+function renderAttrs(id, attrs) {
+    var attrList = $('#'+id).find('.attr');
+    var totalSeverity = [];
+    for(var i=0; i<attrs.length; i++){
+        totalSeverity.push(0)
+        for(var j=0; j<attrs[i].severities.length; j++){
+            totalSeverity[i] += attrs[i].severities[j].value;
+        }
+    }
+    var maxSeverity = Math.max(...totalSeverity);
+
+    attrList.each(function(){
+        var severitiesContainer = $(this).find('.severities');
+        severitiesContainer.empty();
+        var that = $(this);
+        var attr = $.grep(attrs, function(n, i){
+            return n.id == that.data('id');
+        })[0];
+        for(var i=0; i<attr.severities.length; i++){
+            severity = attr.severities[i];
+            $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*256)+'px;" data-toggle="tooltip" title="'+severity.name+' - '+severity.value+'"></span>').appendTo(severitiesContainer);
+        }
+    })
 }
 
 function drawPieChart(){
