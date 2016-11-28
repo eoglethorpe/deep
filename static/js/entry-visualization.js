@@ -122,8 +122,8 @@ function renderTimeline(){
     var canvas = document.getElementById("entry-timeline");
     var context = canvas.getContext("2d");
 
-    var minDate = new Date('November 20, 2016');
-    var maxDate = new Date('December 1, 2016');
+    var minDate = new Date();
+    var maxDate = new Date(0);
 
     var entryDates = [];
 
@@ -132,12 +132,12 @@ function renderTimeline(){
             var entryDate = new Date(entries[i].informations[j].modified_at);
             var dateExists = false;
             for(var n=0; n<entryDates.length; n++){
-                // if(entryDate < minDate){
-                //     minDate = entryDate;
-                // }
-                // if(entryDate > maxDate){
-                //     maxDate = entryDate;
-                // }
+                if(entryDate < minDate){
+                    minDate = entryDate;
+                }
+                if(entryDate > maxDate){
+                    maxDate = entryDate;
+                }
                 if(isSameDay(entryDates[n].date, entryDate)){
                     ++entryDates[n].entriesCount;
                     dateExists = true;
@@ -162,10 +162,20 @@ function renderTimeline(){
     });
 
     var points = [];
+
+    var maxEntries = 10;
+    for(var i=0; i<entryDates.length; i++){
+        if(maxEntries < entryDates[i].entriesCount){
+            maxEntries = entryDates[i].entriesCount;
+        }
+    }
+
     for(var i=0; i<entryDates.length; i++){
         points.push(canvas.width*((entryDates[i].date.getTime()-minDate.getTime())/timeGap));
-        points.push(canvas.height*((10-entryDates[i].entriesCount)/10));
+        points.push(canvas.height*((maxEntries-entryDates[i].entriesCount)/maxEntries));
     }
+    points.push(canvas.width); points.push(canvas.height);
+    console.log(entryDates);
     // context.lineTo(canvas.width, canvas.height);
     if (points.length > 1) {
         context.moveTo(points[0], points[1]);
