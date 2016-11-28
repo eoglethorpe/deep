@@ -91,45 +91,46 @@ nav {
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
   #main #visualizations h3 {
     text-transform: uppercase; }
-  #main #visualizations #sector-visualization {
-    background-color: #f0f0f0;
+  #main #visualizations #sectors-visualization {
     height: 80vh;
-    min-width: 500px;
+    min-width: 500px; }
+    #main #visualizations #sectors-visualization img {
+      width: 32px;
+      margin-right: 10px;
+      display: inline-block;
+      margin-top: -24px; }
+  #main #visualizations .attr-visualization {
+    background-color: #f0f0f0;
     padding: 24px; }
-    #main #visualizations #sector-visualization .sector {
+    #main #visualizations .attr-visualization .attr {
       min-height: 32px;
       padding: 4px; }
-      #main #visualizations #sector-visualization .sector img {
-        width: 32px;
+      #main #visualizations .attr-visualization .attr .name {
         margin-right: 10px;
-        margin-left: 10px;
-        display: inline-block;
-        margin-top: -24px; }
-      #main #visualizations #sector-visualization .sector .name {
         text-transform: uppercase;
         width: 100px;
         display: inline-block;
         text-align: right;
         vertical-align: super; }
-      #main #visualizations #sector-visualization .sector .severities {
+      #main #visualizations .attr-visualization .attr .severities {
         display: inline-block; }
-        #main #visualizations #sector-visualization .sector .severities .severity {
+        #main #visualizations .attr-visualization .attr .severities .severity {
           height: 32px;
           display: inline-block;
           cursor: pointer; }
-          #main #visualizations #sector-visualization .sector .severities .severity:hover {
+          #main #visualizations .attr-visualization .attr .severities .severity:hover {
             box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.8); }
-        #main #visualizations #sector-visualization .sector .severities .severity-1 {
+        #main #visualizations .attr-visualization .attr .severities .severity-1 {
           background-color: #fbd4d4; }
-        #main #visualizations #sector-visualization .sector .severities .severity-2 {
+        #main #visualizations .attr-visualization .attr .severities .severity-2 {
           background-color: #f7a5a5; }
-        #main #visualizations #sector-visualization .sector .severities .severity-3 {
+        #main #visualizations .attr-visualization .attr .severities .severity-3 {
           background-color: #f47575; }
-        #main #visualizations #sector-visualization .sector .severities .severity-4 {
+        #main #visualizations .attr-visualization .attr .severities .severity-4 {
           background-color: #f04646; }
-        #main #visualizations #sector-visualization .sector .severities .severity-5 {
+        #main #visualizations .attr-visualization .attr .severities .severity-5 {
           background-color: #ec1717; }
-        #main #visualizations #sector-visualization .sector .severities .severity-6 {
+        #main #visualizations .attr-visualization .attr .severities .severity-6 {
           background-color: #c01010; }
   #main #visualizations #map-controls {
     padding: 8px;
