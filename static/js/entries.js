@@ -15,7 +15,7 @@ $(document).ready(function() {
 });
 
 function renderEntries() {
-    renderSectors();
+    renderVisualizations();
 
 
     $("#entries").empty();

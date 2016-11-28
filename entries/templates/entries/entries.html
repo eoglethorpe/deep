@@ -45,6 +45,58 @@ DEEP | Entries
         {% endfor %}
     ];
 
+    var vulnerable_groups = [
+        {% for vg in vulnerable_groups %}
+        {
+            id: {{vg.id}}, name: "{{vg}}", 
+            severities: [
+                {% for severity in severities %}
+                { id: {{severity.level}}, value: 0, name: "{{severity}}" },
+                {% endfor %}
+            ]
+        },
+        {% endfor %}
+    ];
+
+    var specific_needs_groups = [
+        {% for sg in specific_needs_groups %}
+        {
+            id: {{sg.id}}, name: "{{sg}}",
+            severities: [
+                {% for severity in severities %}
+                { id: {{severity.level}}, value: 0, name: "{{severity}}" },
+                {% endfor %}
+            ]
+        },
+        {% endfor %}
+    ];
+
+    var sources = [
+        {% for source in sources %}
+        {
+            id: {{source.id}}, name: "{{source}}",
+            severities: [
+                {% for severity in severities %}
+                { id: {{severity.level}}, value: 0, name: "{{severity}}" },
+                {% endfor %}
+            ]
+        },
+        {% endfor %}
+    ];
+
+    var affected_groups = [
+        {% for ag in affected_groups %}
+        {
+            id: {{ag.id}}, name: "{{ag}}",
+            severities: [
+                {% for severity in severities %}
+                { id: {{severity.level}}, value: 0, name: "{{severity}}" },
+                {% endfor %}
+            ]
+        },
+        {% endfor %}
+    ];
+
     var severities = [
         {% for severity in severities %}
         { id: {{severity.level}}, value: 0, name: "{{severity}}" },
