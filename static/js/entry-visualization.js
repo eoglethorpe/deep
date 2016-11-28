@@ -161,12 +161,17 @@ function renderTimeline(){
         return a.date.getTime()-b.date.getTime();
     });
 
-
+    var points = [];
     for(var i=0; i<entryDates.length; i++){
-        context.lineTo(canvas.width*((entryDates[i].date.getTime()-minDate.getTime())/timeGap), canvas.height*((10-entryDates[i].entriesCount)/10))
+        points.push(canvas.width*((entryDates[i].date.getTime()-minDate.getTime())/timeGap));
+        points.push(canvas.height*((10-entryDates[i].entriesCount)/10));
     }
-    context.lineTo(canvas.width, canvas.height);
-    context.stroke();
+    // context.lineTo(canvas.width, canvas.height);
+    if (points.length > 1) {
+        context.moveTo(points[0], points[1]);
+        context.curve(points);
+        context.stroke();
+    }
 
     //context.lineTo(canvas.width, canvas.height);
 }
