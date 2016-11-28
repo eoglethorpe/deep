@@ -182,6 +182,7 @@ nav {
     position: relative;
     height: 80vh; }
     #main #visualizations #the-map #map-shadow-overlay {
+      pointer-events: none;
       position: absolute;
       top: 0;
       left: 0;
