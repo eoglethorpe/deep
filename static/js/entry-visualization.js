@@ -80,7 +80,8 @@ function drawPieChart(){
         arc.addClass('severity-'+(i+1));
         arc.attr("d", describeArc(120, 120, 80, startAngle, endAngle));
 
-        $('<title>' + severities[i].name + ' - ' + severities[i].value+'</title>').appendTo(arc);
+        var percentage = (severities[i].value/totalSeverity*100);
+        $('<title>' + severities[i].name + ' - ' + Math.round(percentage) + '%</title>').appendTo(arc);
 
         arc.appendTo($('#pies-container'));
         startAngle = endAngle;
