@@ -65,7 +65,6 @@ nav{
             text-transform: uppercase;
         }
         #sector-visualization{
-            background-color: #f0f0f0;
             height: 80vh;
             min-width: 500px;
             padding: 24px;
@@ -111,14 +110,19 @@ nav{
             }
         }
         #map-controls{
-            padding: 10px;
+            padding: 6px;
             width: 50%;
             box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
             background-color: rgba(255, 255, 255, 0.77);
             position: absolute;
-            top: 10px;
+            bottom: 24px;
             left: 96px;
             border-radius: 3px;
+            z-index: 10px;
+
+            select {
+                margin-bottom: 0;
+            }
         }
         #pie-wrapper {
             width: 288px;
@@ -159,6 +163,7 @@ nav{
         }
         #the-map {
             position: relative;
+            box-shadow: -2px 0 5px 1px rgba(0,0,0,0.3);
             height: 80vh;
             path {
                 stroke: #717171;
@@ -166,6 +171,9 @@ nav{
                 stroke-linejoin: round;
             }
             .leaflet-top{
+                top:auto;
+                left: 24px;
+                bottom: 24px!important;
                 z-index: 1!important;
             }
         }

@@ -92,7 +92,6 @@ nav {
   #main #visualizations h3 {
     text-transform: uppercase; }
   #main #visualizations #sector-visualization {
-    background-color: #f0f0f0;
     height: 80vh;
     min-width: 500px;
     padding: 24px; }
@@ -132,14 +131,17 @@ nav {
         #main #visualizations #sector-visualization .sector .severities .severity-6 {
           background-color: #c01010; }
   #main #visualizations #map-controls {
-    padding: 10px;
+    padding: 6px;
     width: 50%;
     box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
     background-color: rgba(255, 255, 255, 0.77);
     position: absolute;
-    top: 10px;
+    bottom: 24px;
     left: 96px;
-    border-radius: 3px; }
+    border-radius: 3px;
+    z-index: 10px; }
+    #main #visualizations #map-controls select {
+      margin-bottom: 0; }
   #main #visualizations #pie-wrapper {
     width: 288px;
     height: 288px;
@@ -177,12 +179,16 @@ nav {
       stroke: #c01010; }
   #main #visualizations #the-map {
     position: relative;
+    box-shadow: -2px 0 5px 1px rgba(0, 0, 0, 0.3);
     height: 80vh; }
     #main #visualizations #the-map path {
       stroke: #717171;
       stroke-width: 1px;
       stroke-linejoin: round; }
     #main #visualizations #the-map .leaflet-top {
+      top: auto;
+      left: 24px;
+      bottom: 24px !important;
       z-index: 1 !important; }
 #main #entries .entry {
   background-color: #f5f5f5;
