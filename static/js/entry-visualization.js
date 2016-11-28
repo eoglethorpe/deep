@@ -250,12 +250,13 @@ function renderTimeline(){
             maxEntries = entryDates[i].entriesCount;
         }
     }
+    maxEntries += 5;
 
     for(var i=0; i<entryDates.length; i++){
         points.push(canvas.width*((entryDates[i].date.getTime()-minDate.getTime())/timeGap));
         points.push(canvas.height*((maxEntries-entryDates[i].entriesCount)/maxEntries));
     }
-    points.push(canvas.width); points.push(canvas.height);
+
     // context.lineTo(canvas.width, canvas.height);
     if (points.length > 1) {
         context.moveTo(points[0], points[1]);
