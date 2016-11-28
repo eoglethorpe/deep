@@ -87,8 +87,7 @@ nav {
     color: #008080;
     transform: scale(1.41); }
 #main #visualizations {
-  background-color: #fff;
-  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  background-color: #fff; }
   #main #visualizations h3 {
     text-transform: uppercase; }
   #main #visualizations #sector-visualization {
@@ -132,20 +131,21 @@ nav {
         #main #visualizations #sector-visualization .sector .severities .severity-6 {
           background-color: #c01010; }
   #main #visualizations #map-controls {
-    padding: 10px;
-    width: 50%;
+    padding: 8px;
+    width: 80%;
+    height: 50px;
     box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
-    background-color: rgba(255, 255, 255, 0.77);
+    background-color: rgba(255, 255, 255, 0.88);
     position: absolute;
-    top: 10px;
+    bottom: 24px;
     left: 96px;
     border-radius: 3px; }
   #main #visualizations #pie-wrapper {
-    width: 288px;
-    height: 288px;
-    padding: 24px;
+    width: 260px;
+    height: 260px;
+    padding: 10px;
     box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
-    background-color: rgba(255, 255, 255, 0.77);
+    background-color: rgba(255, 255, 255, 0.88);
     position: absolute;
     top: 10px;
     right: 24px;
@@ -178,19 +178,29 @@ nav {
   #main #visualizations #the-map {
     position: relative;
     height: 80vh; }
+    #main #visualizations #the-map #map-shadow-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+      box-shadow: inset 10px 0 10px -8px rgba(0, 0, 0, 0.5); }
     #main #visualizations #the-map path {
       stroke: #717171;
       stroke-width: 1px;
       stroke-linejoin: round; }
     #main #visualizations #the-map .leaflet-top {
-      z-index: 1 !important; }
+      z-index: 1;
+      top: auto;
+      bottom: 24px;
+      left: 24px; }
   #main #visualizations #entry-timeline-container {
     height: 20vh;
-    margin-bottom: 32px; }
-    #main #visualizations #entry-timeline-container #entry-timeline {
-      width: 100%;
-      height: 100%;
-      background-color: #ccc; }
+    margin-bottom: 32px #entry-timeline;
+      margin-bottom-width: 100%;
+      margin-bottom-height: 100%;
+      margin-bottom-background-color: #ccc; }
 #main #entries .entry {
   background-color: #f5f5f5;
   color: #414141;

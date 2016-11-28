@@ -55,6 +55,7 @@ nav {
     margin: 10px 16px; }
 #main #leads-block h2 {
   text-transform: uppercase;
+  margin-bottom: -24px;
   color: #008080;
   font-size: 1.5em;
   clear: both; }
