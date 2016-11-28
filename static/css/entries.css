@@ -87,7 +87,8 @@ nav {
     color: #008080;
     transform: scale(1.41); }
 #main #visualizations {
-  background-color: #fff; }
+  background-color: #fff;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
   #main #visualizations h3 {
     text-transform: uppercase; }
   #main #visualizations #sector-visualization {
@@ -140,6 +141,8 @@ nav {
     bottom: 24px;
     left: 96px;
     border-radius: 3px; }
+    #main #visualizations #map-controls #admin-level-buttons button {
+      margin: 4px !important; }
   #main #visualizations #pie-wrapper {
     width: 260px;
     height: 260px;

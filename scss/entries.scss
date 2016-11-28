@@ -58,7 +58,7 @@ nav{
     $severity-base: #c01010;
     #visualizations{
         background-color: #fff;
-        //box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3);
 
         h3{
             text-transform: uppercase;
@@ -120,6 +120,12 @@ nav{
             bottom: 24px;
             left: 96px;
             border-radius: 3px;
+
+            #admin-level-buttons{
+                button{
+                    margin: 4px!important;
+                }
+            }
         }
         #pie-wrapper {
             width: 260px;
