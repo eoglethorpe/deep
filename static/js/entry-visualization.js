@@ -152,6 +152,9 @@ function drawPieChart(){
 
     $("#pies-container").empty();
 
+    if (totalSeverity == 0)
+        return;
+
     var startAngle = 0;
     for (var i=0; i<severities.length; i++){
         var endAngle = startAngle + severities[i].value/totalSeverity*360;
@@ -260,6 +263,11 @@ function processTimeline(){
     }
 
     timeGap = maxDate.getTime() - minDate.getTime();
+    if (timeGap/1000/3600/24 < 10) {
+        maxDate = new Date(minDate.getTime() + 10*24*3600*1000);
+        timeGap = maxDate.getTime() - minDate.getTime();
+    }
+
     entryDates.sort(function(a, b){
         return a.date.getTime()-b.date.getTime();
     });
