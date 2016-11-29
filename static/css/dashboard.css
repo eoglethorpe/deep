@@ -78,6 +78,10 @@ body {
     body #body h3 {
       font-size: 1.2em;
       text-transform: uppercase; }
+    body #body #back-btn {
+      margin-left: 4px; }
+      body #body #back-btn .fa {
+        margin-right: 10px; }
     body #body #timeline-table {
       width: 100%;
       border-spacing: 4px;
