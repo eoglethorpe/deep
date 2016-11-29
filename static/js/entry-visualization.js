@@ -114,7 +114,7 @@ function renderSectors(){
         })[0];
         for(var i=0; i<sector.severities.length; i++){
             severity = sector.severities[i];
-            $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*256)+'px;" data-toggle="tooltip" title="'+severity.name+' - '+severity.value+'"></span>').appendTo(severitiesContainer);
+            $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*256)+'px;" data-toggle="tooltip" onmouseover="$(this).tooltip(\'show\')" title="'+severity.name+' - '+severity.value+'"></span>').appendTo(severitiesContainer);
         }
     })
 }
@@ -139,7 +139,7 @@ function renderAttrs(id, attrs) {
         })[0];
         for(var i=0; i<attr.severities.length; i++){
             severity = attr.severities[i];
-            $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*256)+'px;" data-toggle="tooltip" title="'+severity.name+' - '+severity.value+'"></span>').appendTo(severitiesContainer);
+            $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*256)+'px;" data-toggle="tooltip" onmouseover="$(this).tooltip(\'show\')" title="'+severity.name+' - '+severity.value+'"></span>').appendTo(severitiesContainer);
         }
     })
 }
@@ -158,17 +158,27 @@ function drawPieChart(){
         if (endAngle - startAngle >= 360)
             endAngle -= 1;
 
-        var arc = $('<path/>');
+        var percentage = (severities[i].value/totalSeverity*100);
+        var arc = $('<path data-toggle="tooltip" title="' + severities[i].name + ' - ' + Math.round(percentage) + '%" onmouseover="showTooltip(this);"/>');
         arc.addClass('severity-'+(i+1));
         arc.attr("d", describeArc(120, 120, 80, startAngle, endAngle));
 
-        var percentage = (severities[i].value/totalSeverity*100);
-        $('<title>' + severities[i].name + ' - ' + Math.round(percentage) + '%</title>').appendTo(arc);
+        // $('<title>' + severities[i].name + ' - ' + Math.round(percentage) + '%</title>').appendTo(arc);
+
+        arc.mouseover(function() {
+        });
 
         arc.appendTo($('#pies-container'));
         startAngle = endAngle;
     }
     $("#pie-wrapper").html($("#pie-wrapper").html());
+}
+
+function showTooltip(me) {
+    $(me).tooltip({
+        'container': 'body',
+        'placement': 'bottom'
+    });
 }
 
 function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
