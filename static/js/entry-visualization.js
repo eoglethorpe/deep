@@ -90,7 +90,7 @@ function renderVisualizations() {
     renderAttrs("affected-groups-visualization", affected_groups);
     drawPieChart();
     reloadMap();
-    renderTimeline();
+    processTimeline();
 }
 
 function renderSectors(){
@@ -195,7 +195,7 @@ function describeArc(x, y, radius, startAngle, endAngle){
 }
 
 function isSameDay(d1, d2){
-    return d1.getYear() == d2.getYear() && d1.getMonth() == d2.getMonth() && d1.getDay() == d2.getDay();
+    return d1.getYear() == d2.getYear() && d1.getMonth() == d2.getMonth() && d1.getDate() == d2.getDate();
 }
 
 var isSelected = false;
@@ -205,93 +205,139 @@ var startPosition = null;
 var endPosition = null;
 var timelineCanvas = null;
 var canvasTracking = false;
+var timeGap = 0;
+var minDate = new Date();
+var maxDate = new Date(0);
 
-var timelinePoints = [];
+var entryDates = [];
+var xs = [], ys = [];
+var maxEntries = 0;
 
-function renderTimeline(){
-    var minDate = new Date();
-    var maxDate = new Date(0);
-
-    var entryDates = [];
+function processTimeline(){
+    entryDates = [];
+    minDate = new Date();
+    maxDate = new Date(0);
 
     for(var i=0; i<entries.length; i++){
-        for(var j=0; j<entries[i].informations.length; j++){
-            var entryDate = new Date(entries[i].informations[j].modified_at);
+        var information = entries[i].informations;
+        for(var j=0; j<information.length; j++){
+            var entryDate;
+            if (entries[i].informations[j].date)
+                entryDate = new Date(entries[i].informations[j].date);
+            else
+                entryDate = new Date(entries[i].informations[j].modified_at);
+
             var dateExists = false;
+            if(entryDate < minDate){
+                minDate = entryDate;
+            }
+            if(entryDate > maxDate){
+                maxDate = entryDate;
+            }
             for(var n=0; n<entryDates.length; n++){
-                if(entryDate < minDate){
-                    minDate = entryDate;
-                }
-                if(entryDate > maxDate){
-                    maxDate = entryDate;
-                }
                 if(isSameDay(entryDates[n].date, entryDate)){
+                    ++entryDates[n].severities[information[j].severity.level];
                     ++entryDates[n].entriesCount;
                     dateExists = true;
                     break;
                 }
             }
             if(!dateExists){
-                entryDates.push({date: entryDate, entriesCount: 1});
+                entryDates.push({date: entryDate, severities: $.extend(true, {}, dateSeveritiesTemplate), entriesCount: 1});
+                ++entryDates[n].severities[information[j].severity.level];
             }
         }
     }
-    timelinePoints = [];
 
-    var timeGap = maxDate.getTime() - minDate.getTime();
+    timeGap = maxDate.getTime() - minDate.getTime();
     entryDates.sort(function(a, b){
         return a.date.getTime()-b.date.getTime();
     });
 
-    var points = [];
-
-    var maxEntries = 10;
+    maxEntries = 10;
     for(var i=0; i<entryDates.length; i++){
         if(maxEntries < entryDates[i].entriesCount){
             maxEntries = entryDates[i].entriesCount;
         }
     }
     maxEntries += 5;
-
-    for(var i=0; i<entryDates.length; i++){
-        timelinePoints.push(timelineCanvas.width*((entryDates[i].date.getTime()-minDate.getTime())/timeGap));
-        timelinePoints.push(timelineCanvas.height*((maxEntries-entryDates[i].entriesCount)/maxEntries));
-    }
-    rerenderTimeline();
+    renderTimeline();
 }
 
-function rerenderTimeline() {
+
+
+function renderTimeline(){
+
+    // for(var i=0; i<entryDates.length; i++){
+    //     timelinePoints.push(timelineCanvas.width*((entryDates[i].date.getTime()-minDate.getTime())/timeGap));
+    //     timelinePoints.push(timelineCanvas.height*((maxEntries-entryDates[i].entriesCount)/maxEntries));
+    // }
+    //renderTimeline();
     var context = timelineCanvas.getContext("2d");
+    //context.beginPath();
     context.clearRect(0, 0, timelineCanvas.width, timelineCanvas.height);
+
+    if (entryDates.length == 0)
+        return;
 
     context.lineWidth = 1;
     context.imageSmoothingEnabled = true;
 
-    context.beginPath();
-    context.moveTo(0, timelineCanvas.height);
-    if (timelinePoints.length > 1) {
-        context.moveTo(timelinePoints[0], timelinePoints[1]);
-        context.curve(timelinePoints);
-        context.stroke();
+    var severityColors = ['#c60000', '#d11111', '#df2222', '#e53333', '#f14444', '#ff5555'];
+
+    context.moveTo(0, 0);
+    for(var i=0; i<entryDates.length; i++){
+        var x = timelineCanvas.width*((entryDates[i].date.getTime()-minDate.getTime())/timeGap)*0.9+timelineCanvas.width*0.05;
+        var y = timelineCanvas.height*0.9;
+        for(var j=0; j<severities.length; j++){
+            var currentHeight = (timelineCanvas.height*entryDates[i].severities[severities[j].id]/maxEntries);
+            context.fillStyle = severityColors[severities[j].id];
+            context.fillRect(x-10, y-currentHeight, 20, currentHeight);
+            y -= currentHeight;
+        }
     }
+    //context.stroke();
+    var yOffset = timelineCanvas.height*0.9+1
+    context.beginPath();
+    context.moveTo(0, yOffset);
+    context.lineTo(timelineCanvas.width, yOffset);
+
+    context.stroke();
+    context.beginPath();
+    for(var j=0; j<=10; j++){
+        var date = new Date(minDate.getTime()+j*(timeGap/9));
+        var x = (j*timelineCanvas.width/9)*0.9+timelineCanvas.width*0.05;
+        context.fillStyle = '#000';
+        var labelWidth = context.measureText(formatDate(date)).width;
+        context.moveTo(x, yOffset);
+        context.lineTo(x, yOffset+10);
+        context.fillText(formatDate(date), x-labelWidth/2, timelineCanvas.height-6);
+    }
+    context.stroke();
+
     if(isSelected || canvasTracking){
         //context.globalAlpha = 0.5;
         context.fillStyle = "rgba(0, 128, 128, 0.5)";
-        context.fillRect(startPosition.x, 0, endPosition.x-startPosition.x, timelineCanvas.height);
-        context.stroke();
+        context.fillRect(startPosition.x, 0, endPosition.x-startPosition.x, timelineCanvas.height*0.9);
+        //context.stroke();
     }
+    //context.transform(1, 0, 0, -1, 0, timelineCanvas.height)
 }
 
 function resizeCanvas() {
     timelineCanvas.width = $("#entry-timeline-container").innerWidth();
     timelineCanvas.height = $("#entry-timeline-container").innerHeight();
-    rerenderTimeline();
+    isSelected = false;
+    renderTimeline();
 }
 
 $(document).ready(function() {
     timelineCanvas = document.getElementById("entry-timeline");
+
     window.addEventListener('resize', resizeCanvas, false);
     resizeCanvas();
+
+
 
     function getMousePos(evt) {
         var rect = timelineCanvas.getBoundingClientRect();
@@ -316,13 +362,13 @@ $(document).ready(function() {
         if(startPosition != endPosition){
             isSelected = true;
         }
-        rerenderTimeline();
+        renderTimeline();
     }
     timelineCanvas.onmousemove = function(e){
         if(canvasTracking){
             var mousePos = getMousePos(e);
             endPosition = {x: mousePos.x, y: mousePos.y};
-            rerenderTimeline();
+            renderTimeline();
         }
     }
 });

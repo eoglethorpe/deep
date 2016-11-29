@@ -48,7 +48,7 @@ DEEP | Entries
     var vulnerable_groups = [
         {% for vg in vulnerable_groups %}
         {
-            id: {{vg.id}}, name: "{{vg}}", 
+            id: {{vg.id}}, name: "{{vg}}",
             severities: [
                 {% for severity in severities %}
                 { id: {{severity.level}}, value: 0, name: "{{severity}}" },
@@ -99,9 +99,14 @@ DEEP | Entries
 
     var severities = [
         {% for severity in severities %}
-        { id: {{severity.level}}, value: 0, name: "{{severity}}" },
+        { id: "{{severity.level}}", value: 0, name: "{{severity}}" },
         {% endfor %}
     ];
+    var dateSeveritiesTemplate = {
+        {% for severity in severities %}
+        {{severity.level}}: 0,
+        {% endfor %}
+    };
 </script>
 
 {% endblock %}
