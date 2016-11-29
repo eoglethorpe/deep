@@ -90,14 +90,17 @@ nav {
   background-color: #fff;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
   #main #visualizations h3 {
-    text-transform: uppercase; }
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 32px;
+    font-size: 1.2em; }
   #main #visualizations #sectors-visualization {
-    height: 80vh; }
+    height: 70vh; }
     #main #visualizations #sectors-visualization img {
-      width: 32px;
+      width: 24px;
       margin-right: 10px;
       display: inline-block;
-      margin-top: -24px; }
+      margin-top: -20px; }
   #main #visualizations .attr-visualization {
     background-color: #f0f0f0;
     padding: 24px; }
@@ -109,12 +112,13 @@ nav {
         text-transform: uppercase;
         width: 100px;
         display: inline-block;
+        vertical-align: super;
         text-align: right;
-        vertical-align: super; }
+        font-size: 0.8em; }
       #main #visualizations .attr-visualization .attr .severities {
         display: inline-block; }
         #main #visualizations .attr-visualization .attr .severities .severity {
-          height: 32px;
+          height: 24px;
           display: inline-block;
           cursor: pointer; }
           #main #visualizations .attr-visualization .attr .severities .severity:hover {
@@ -131,6 +135,17 @@ nav {
           background-color: #ec1717; }
         #main #visualizations .attr-visualization .attr .severities .severity-6 {
           background-color: #c01010; }
+  #main #visualizations #attr-visualization-container {
+    background-color: #f0f0f0;
+    margin-top: 24px; }
+    #main #visualizations #attr-visualization-container .severity {
+      height: 16px; }
+    #main #visualizations #attr-visualization-container .col-md-3:not(:last-child) {
+      padding-right: 0; }
+    #main #visualizations #attr-visualization-container .col-md-3:not(:first-child) {
+      padding-left: 0; }
+    #main #visualizations #attr-visualization-container .attr-visualization {
+      border-right: 1px solid rgba(0, 0, 0, 0.1); }
   #main #visualizations #map-controls {
     padding: 8px;
     width: 80%;
@@ -180,7 +195,7 @@ nav {
       stroke: #c01010; }
   #main #visualizations #the-map {
     position: relative;
-    height: 80vh; }
+    height: 70vh; }
     #main #visualizations #the-map #map-shadow-overlay {
       pointer-events: none;
       position: absolute;
@@ -200,7 +215,7 @@ nav {
       bottom: 24px;
       left: 24px; }
   #main #visualizations #entry-timeline-container {
-    height: 20vh;
+    height: 30vh;
     cursor: crosshair; }
     #main #visualizations #entry-timeline-container #entry-timeline {
       width: 100%;
