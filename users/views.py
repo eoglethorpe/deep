@@ -164,8 +164,8 @@ class DashboardView(View):
         weekly_reports = WeeklyReport.objects.all()
         if weekly_reports.count() > 0:
             # Get total number of weeks
-            first_report = weekly_reports[weekly_reports.count() - 1]
-            last_report = weekly_reports[0]
+            first_report = weekly_reports.last()
+            last_report = weekly_reports.first()
 
             monday2 = last_report.start_date - timedelta(days=last_report.start_date.weekday())
             monday1 = first_report.start_date - timedelta(days=first_report.start_date.weekday())
@@ -173,7 +173,7 @@ class DashboardView(View):
 
             # For each week, store its date and the countries whose reports exist on that day
             for i in range(weeks):
-                date = last_report.start_date + timedelta(days=7*i)
+                date = first_report.start_date + timedelta(days=7*i)
 
                 countries = []
                 crises = []
