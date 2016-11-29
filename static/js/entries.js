@@ -17,7 +17,6 @@ $(document).ready(function() {
 function renderEntries() {
     renderVisualizations();
 
-
     $("#entries").empty();
     for (var i=0; i<entries.length; ++i) {
         var entry = entries[i];

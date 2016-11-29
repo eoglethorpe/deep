@@ -5,7 +5,16 @@ var filters = {
 
 };
 
-var pillarsFilterSelectize;
+var selectizes = [];
+
+function clearFilters() {
+    filters = {};
+    $('input').val('');
+    for (var i=0; i<selectizes.length; ++i) {
+        selectizes[i][0].selectize.setValue(null);
+    }
+    filterEntries();
+}
 
 
 function filterEntries() {
@@ -36,21 +45,23 @@ function addFilter(filterFor, clear, filterFunction) {
 }
 
 function initEntryFilters() {
-    $('#sources-filter').selectize();
-    $('#users-filter').selectize();
-    $('#date-modified-filter').selectize();
+    selectizes = [];
+    selectizes.push($('#sources-filter').selectize());
+    selectizes.push($('#users-filter').selectize());
+    selectizes.push($('#date-modified-filter').selectize());
     var areasSelectize = $('#areas-filter').selectize();
-    $('#affected-groups-filter').selectize();
-    $('#vulnerable-groups-filter').selectize();
-    $('#specific-needs-groups-filter').selectize();
-    pillarsFilterSelectize = $('#pillars-filter').selectize();
-    $('#subpillars-filter').selectize();
-    $('#sectors-filter').selectize();
-    $('#subsectors-filter').selectize();
-    $('#reliabilities-min-filter').selectize();
-    $('#reliabilities-max-filter').selectize();
-    $('#severities-min-filter').selectize();
-    $('#severities-max-filter').selectize();
+    selectizes.push(areasSelectize);
+    selectizes.push($('#affected-groups-filter').selectize());
+    selectizes.push($('#vulnerable-groups-filter').selectize());
+    selectizes.push($('#specific-needs-groups-filter').selectize());
+    selectizes.push($('#pillars-filter').selectize());
+    // selectizes.push($('#subpillars-filter').selectize());
+    selectizes.push($('#sectors-filter').selectize());
+    // selectizes.push($('#subsectors-filter').selectize());
+    selectizes.push($('#reliabilities-min-filter').selectize());
+    selectizes.push($('#reliabilities-max-filter').selectize());
+    selectizes.push($('#severities-min-filter').selectize());
+    selectizes.push($('#severities-max-filter').selectize());
 
     $.getJSON("/api/v1/entries/?event="+eventId, function(data){
         originalEntries = data;
