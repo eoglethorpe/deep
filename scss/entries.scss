@@ -65,7 +65,7 @@ nav{
         }
         #sectors-visualization{
             height: 80vh;
-            min-width: 500px;
+            //min-width: 500px;
 
             img{
                 width: 32px;
@@ -193,11 +193,12 @@ nav{
         }
         #entry-timeline-container{
             height: 20vh;
-            margin-bottom: 32px;
+            cursor: crosshair;
+            
             #entry-timeline{
                 width: 100%;
                 height: 100%;
-                background-color: #ccc;
+                background-color: #fff;
             }
         }
     }
