@@ -49,7 +49,7 @@ DEEP | Dashboard
 
     var crises_per_country = {
         {% for country, crises in crises_per_country.items %}
-        "{{country.code}}": { {% for crisis in crises %} "{{crisis.pk}}" : "{{crisis.name}}", {% endfor %} }, 
+        "{{country.code}}": { {% for crisis in crises %} "{{crisis.pk}}" : "{{crisis.name}}", {% endfor %} },
         {% endfor %}
     };
 </script>
@@ -117,7 +117,6 @@ DEEP | Dashboard
         </div>
         <div>
             <h3>Timeline of humanitarian crisis per country</h3>
-            <div id="back-btn" hidden> <i class="fa fa-arrow-left"></i> Back</div>
             <div class="row">
                 <div class="col-md-12">
                     <table id="timeline-table">
@@ -139,6 +138,7 @@ DEEP | Dashboard
                             {% endfor %}{% endcomment %}
                         </tbody>
                     </table>
+                    <a id="back-btn" class="btn btn-primary" hidden> <i class="fa fa-long-arrow-left"></i>Back</a>
                 </div>
             </div>
         </div>

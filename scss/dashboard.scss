@@ -44,10 +44,17 @@ body{
             text-transform: uppercase;
         }
 
+        #back-btn{
+            margin-left: 4px;
+            .fa{
+                margin-right: 10px;
+            }
+        }
         #timeline-table{
             width: 100%;
             border-spacing: 4px;
             border-collapse: separate;
+
 
             td{
                 padding: 6px;
