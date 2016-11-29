@@ -97,11 +97,13 @@ body {
         background-color: #bdc3c7;
         font-weight: bold; }
       body #body #timeline-table .active {
-        background-color: #ef5350; }
+        background-color: #ef5350;
+        cursor: pointer; }
       body #body #timeline-table .country-name {
         color: #FAFAFA;
         font-weight: bold;
-        background-color: #008080; }
+        background-color: #008080;
+        cursor: pointer; }
   body #add-crisis-board {
     padding: 24px;
     background-color: #fff;

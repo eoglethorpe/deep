@@ -71,11 +71,13 @@ body{
             }
             .active{
                 background-color: #ef5350;
+                cursor: pointer;
             }
             .country-name{
                 color: #FAFAFA;
                 font-weight: bold;
                 background-color: #008080;
+                cursor: pointer;
             }
         }
     }
