@@ -171,7 +171,7 @@ def export_docx(order, event):
         for subpillar in subpillars:
             attributes = InformationAttribute.objects.filter(subpillar=subpillar,
                                                              sector=None,
-                                                             entry__lead__event__pk=event)
+                                                             information__entry__lead__event__pk=event)
 
             if len(attributes) > 0:
                 if not pillar_header_shown:
@@ -202,7 +202,7 @@ def export_docx(order, event):
             for subpillar in subpillars:
                 attributes = InformationAttribute.objects.filter(subpillar=subpillar,
                                                                  sector=sector,
-                                                                 entry__lead__event__pk=event)
+                                                                 information__entry__lead__event__pk=event)
 
                 if len(attributes) > 0:
                     if not sector_header_shown:
