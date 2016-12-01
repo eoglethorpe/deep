@@ -201,11 +201,19 @@ def _extractFromHTMLTag(parsedHTML):
     return None
 
 
+def _extractSource(parsedHTML):
+    sources = parsedHTML.findAll('span', class_=re.compile('field-source'))
+    if len(sources) > 0:
+        return sources[0].text.strip()
+    return None
+
+
 def extractArticlePublishedDate(articleLink, html = None):
 
     # print("Extracting date from " + articleLink)
 
     articleDate = None
+    source = None
 
     try:
         articleDate = _extractFromURL(articleLink)
@@ -225,17 +233,17 @@ def extractArticlePublishedDate(articleLink, html = None):
         if possibleDate is None:
             possibleDate = _extractFromHTMLTag(parsedHTML)
 
-
         articleDate = possibleDate
+        source = _extractSource(parsedHTML)
 
     except Exception as e:
         pass
         # print("Exception in extractArticlePublishedDate for " + articleLink)
         # print(e.message, e.args)
 
-    return articleDate
+    return articleDate, source
 
 
 if __name__ == '__main__':
-    d = extractArticlePublishedDate("http://techcrunch.com/2015/11/30/atlassian-share-price/")
-    print(d)
+    d, s = extractArticlePublishedDate("http://reliefweb.int/report/bangladesh/bangladesh-rohingya-refugees-trapped-limbo")
+    print(d, s)

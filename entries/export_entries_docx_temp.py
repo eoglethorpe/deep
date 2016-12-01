@@ -97,6 +97,7 @@ def add_line(para):
 def add_excerpt_info(d, info):
     # Show the excerpt
     ref = d.add_paragraph(info.excerpt)
+    ref.paragraph_format.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.JUSTIFY
 
     # Show the reference
 
@@ -141,7 +142,7 @@ def set_style(style):
     style.paragraph_format.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.LEFT
 
 
-def export_docx(order):
+def export_docx(order, event):
     d = docx.Document('static/doc_export/template.docx')
 
     # Set document styles
@@ -169,7 +170,8 @@ def export_docx(order):
         subpillars = pillar.informationsubpillar_set.all()
         for subpillar in subpillars:
             attributes = InformationAttribute.objects.filter(subpillar=subpillar,
-                                                             sector=None)
+                                                             sector=None,
+                                                             entry__lead__event__pk=event)
 
             if len(attributes) > 0:
                 if not pillar_header_shown:
@@ -185,6 +187,8 @@ def export_docx(order):
                 leads_pk.append(info.entry.lead.pk)
 
     # Next the attributes containing sectors
+
+    # Get each sector
     for sector in Sector.objects.all():
         sector_header_shown = False
 
@@ -197,7 +201,8 @@ def export_docx(order):
             subpillars = pillar.informationsubpillar_set.all()
             for subpillar in subpillars:
                 attributes = InformationAttribute.objects.filter(subpillar=subpillar,
-                                                                 sector=sector)
+                                                                 sector=sector,
+                                                                 entry__lead__event__pk=event)
 
                 if len(attributes) > 0:
                     if not sector_header_shown:
