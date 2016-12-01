@@ -8,6 +8,7 @@ from django.utils.decorators import method_decorator
 import requests
 import json
 
+from leads.models import *
 from entries.models import *
 
 import date_extractor
@@ -42,9 +43,12 @@ class LoadCountries(View):
 class DateExtractorView(View):
     def get(self, request):
         link = request.GET['link']
-        date = date_extractor.extractArticlePublishedDate(link)
+
+        # Also get the date and check if lead already exists for this link
+        date, source = date_extractor.extractArticlePublishedDate(link)
         if not date:
             date = ""
         else:
             date = date.strftime("%Y-%m-%d")
-        return JsonResponse({'date': date})
+        exists = Lead.objects.filter(url=link)
+        return JsonResponse({'date': date, 'source': source, 'lead_exists': exists.count()>0})

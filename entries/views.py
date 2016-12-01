@@ -62,7 +62,7 @@ class ExportDocx(View):
 
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
         response['Content-Disposition'] = 'attachment; filename = DEEP Entries-%s.docx' % time.strftime("%Y-%m-%d")
-        export_docx(order).save(response)
+        export_docx(order, int(event)).save(response)
 
         return response
 
