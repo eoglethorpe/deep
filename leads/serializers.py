@@ -13,7 +13,7 @@ from geojson_handler import GeoJsonHandler
 class SourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Source
-        fields = ('source',)
+        fields = ('id', 'name',)
 
 
 class CountrySerializer(serializers.ModelSerializer):
@@ -32,7 +32,7 @@ class CountrySerializer(serializers.ModelSerializer):
                     level.geojson.url, level.property_pcode
                 ]
         return levels
-        
+
 
 class LeadSerializer(serializers.ModelSerializer):
     """ Lead serializer used by the REST api
@@ -41,7 +41,7 @@ class LeadSerializer(serializers.ModelSerializer):
     attachment = serializers.SerializerMethodField()
     assigned_to_name = serializers.SerializerMethodField()
     created_by_name = serializers.SerializerMethodField()
-    source = serializers.CharField(source='source.name', read_only=True)
+    source = serializers.CharField(source='source_name', read_only=True)
 
     class Meta:
         model = Lead

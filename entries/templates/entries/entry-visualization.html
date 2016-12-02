@@ -13,7 +13,7 @@
             {% endfor %}
         </div>
     </div>
-    <div class="col-md-8" style="padding-left: 0">
+    <div class="col-md-8" style="padding-left: 0;">
         <div id="the-map">
             <div id="map-shadow-overlay"></div>
         </div>
@@ -21,19 +21,15 @@
             <svg id="pies-container">
             </svg>
         </div>
+        <div id="country-select-wrapper">
+            <select name="country" id="country" placeholder="Select a country">
+                {% for country in event.countries.all %}
+                <option value="{{country.pk}}">{{country.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
         <div id="map-controls">
-            <div class="row">
-                <div class="col-md-5">
-                    <select name="country" id="country" placeholder="Select a country">
-                        {% for country in event.countries.all %}
-                        <option value="{{country.pk}}">{{country.name}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-md-7">
-                    <div id="admin-level-buttons"></div>
-                </div>
-            </div>
+            <div id="admin-level-buttons"></div>
         </div>
     </div>
 </div>
@@ -68,7 +64,7 @@
             <div id="sources-visualization"  class="attr-visualization">
                 <h3>Sources</h3>
                 {% for source in sources %}
-                <div class="attr" data-id="{{source.pk}}">
+                <div class="attr" data-id="{{source}}">
                     <span class="name">{{source}}</span>
                     <span class="severities"></span>
                 </div>

@@ -46,7 +46,6 @@ function addFilter(filterFor, clear, filterFunction) {
 
 function initEntryFilters() {
     selectizes = [];
-    selectizes.push($('#sources-filter').selectize());
     selectizes.push($('#users-filter').selectize());
     selectizes.push($('#date-modified-filter').selectize());
     var areasSelectize = $('#areas-filter').selectize();
@@ -93,10 +92,11 @@ function initEntryFilters() {
             return info.lead_title.toLowerCase().includes(filterBy.toLowerCase());
         });
     });
-    $('#sources-filter').change(function() {
+    $('#sources-filter').on('input paste change drop', function() {
         var filterBy = $(this).val();
-        addFilter('source', filterBy == null, function(info){
-            return filterBy.indexOf(info.lead_source) >= 0;
+        addFilter('source', filterBy == "", function(info){
+            if (info.lead_source)
+                return info.lead_source.toLowerCase().includes(filterBy.toLowerCase());
         });
     });
     $('#users-filter').change(function() {

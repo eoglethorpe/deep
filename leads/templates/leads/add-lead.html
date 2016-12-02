@@ -45,12 +45,13 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                                 <label>Source:</label>
                             </div>
                             <div class="col-md-9">
-                                <select id="source" name="source" placeholder="Select source type">
+                                <!--select id="source" name="source" placeholder="Select source type">
                                     <option value="">Select source type</option>
                                     {% for s in sources %}
                                     <option value="{{s.pk}}" {% if lead and lead.source == s %} selected {% endif %}>{{s}}</option>
                                     {% endfor %}
-                                </select>
+                                </select-->
+                                <input type="text" class="form-control" name="source" placeholder="Enter source" {% if lead %}value="{{lead.source_name}}"{% endif %}>
                             </div>
                         </div>
                         <div class="row">
