@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
     var sosTable = $('#sos-table').DataTable({
-        "order": [[ 0, "desc" ]], 
+        "order": [[ 0, "desc" ]],
         "bPaginate": false,
         ajax: {
             type: "GET",
@@ -13,7 +13,7 @@ $(document).ready(function(){
             {
                 data: null,
                 render: function (data, type, row ) {
-                    return formatDate(data.created_at) + "<br>" + formatTime(data.created_at) + "<br>" + data.created_by_name;
+                    return "<span hidden>"+data.created_at+"</span> "+formatDate(data.created_at) + "<br>" + formatTime(data.created_at) + "<br>" + data.created_by_name;
                 }
             },
             { data :"title", width: '13%' },
