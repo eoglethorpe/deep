@@ -25,12 +25,13 @@
                 <input id="lead-title-search" class="form-control" placeholder="Lead title">
             </div>
             <div class="col-md-2">
-                <select id="sources-filter" placeholder="Source" multiple>
+                <!--select id="sources-filter" placeholder="Source" multiple>
                     <option value="">Source</option>
                     {% for s in sources %}
                     <option value="{{s.pk}}">{{s}}</option>
                     {% endfor %}
-                </select>
+                </select-->
+                <input id="sources-filter" class="form-control" placeholder="Source">
             </div>
             <div class="col-md-2">
                 <select id="users-filter" placeholder="User" multiple>

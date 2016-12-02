@@ -74,7 +74,7 @@ DEEP | Entries
     var sources = [
         {% for source in sources %}
         {
-            id: {{source.id}}, name: "{{source}}",
+            id: "{{source}}", name: "{{source}}",
             severities: [
                 {% for severity in severities %}
                 { id: {{severity.level}}, value: 0, name: "{{severity}}" },
