@@ -29,7 +29,7 @@ class EntryInformationSerializer(serializers.ModelSerializer):
     attributes = InformationAttributeSerializer(source='informationattribute_set', many=True)
     modified_by = serializers.CharField(source='entry.modified_by.pk', read_only=True)
     modified_at = serializers.DateTimeField(source='entry.modified_at', read_only=True)
-    lead_source = serializers.CharField(source='entry.lead.source.pk', read_only=True)
+    lead_source = serializers.CharField(source='entry.lead.source_name', read_only=True)
     lead_title = serializers.CharField(source='entry.lead.name', read_only=True)
     map_selections = MapSelectionSerializer(many=True)
 
@@ -44,7 +44,7 @@ class EntryInformationSerializer(serializers.ModelSerializer):
 
 class EntrySerializer(serializers.ModelSerializer):
     lead_title = serializers.CharField(source='lead.name', read_only=True)
-    lead_source_name = serializers.CharField(source='lead.source.name', read_only=True)
+    lead_source_name = serializers.CharField(source='lead.source_name', read_only=True)
     informations = EntryInformationSerializer(source='entryinformation_set', many=True)
     modified_by = serializers.SerializerMethodField()
     lead_url = serializers.SerializerMethodField(read_only=True)

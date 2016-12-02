@@ -252,9 +252,9 @@ class AddLead(View):
         lead.event = Event.objects.get(pk=event)
 
         if "source" in request.POST and request.POST["source"] != "":
-            lead.source = Source.objects.get(pk=request.POST["source"])
+            lead.source_name = request.POST["source"]
         else:
-            lead.source = None
+            lead.source_name = None
 
         lead.confidentiality = request.POST["confidentiality"]
 

@@ -102,8 +102,8 @@ def add_excerpt_info(d, info):
     # Show the reference
 
     source_name = ""
-    if info.entry.lead.source and info.entry.lead.source.name != "":
-        source_name = info.entry.lead.source.name
+    if info.entry.lead.source_name and info.entry.lead.source_name != "":
+        source_name = info.entry.lead.source_name
     
     if source_name == "":
         source_name = "Reference"
@@ -232,8 +232,8 @@ def export_docx(order, event):
     leads = Lead.objects.filter(pk__in=leads_pk)
     for lead in leads:
         p = d.add_paragraph()
-        if lead.source:
-            p.add_run(lead.source.name.title())
+        if lead.source_name and lead.source_name != "":
+            p.add_run(lead.source_name.title())
         else:
             p.add_run("Missing source".title())
 

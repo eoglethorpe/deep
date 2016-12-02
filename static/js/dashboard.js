@@ -1,5 +1,6 @@
 function styleMapFeature(feature) {
-    var active = feature.properties.iso_a2 in active_countries;
+    var active = feature.properties.iso_a2 in active_countries
+        || feature.properties.iso_a3 in active_countries;
 
     return {
         fillColor: active?'#d35400':'#ecf0f1',
@@ -12,7 +13,8 @@ function styleMapFeature(feature) {
 }
 
 function onEachMapFeature(feature, layer) {
-    var active = feature.properties.iso_a2 in active_countries;
+    var active = feature.properties.iso_a2 in active_countries
+        || feature.properties.iso_a3 in active_countries;
     if (active) {
         layer.bindLabel(feature.properties.name);
     }
@@ -20,6 +22,8 @@ function onEachMapFeature(feature, layer) {
     layer.on('click', function() {
         if (feature.properties.iso_a2 in crises_per_country)
             loadTimetableForCountry(feature.properties.iso_a2);
+        else if (feature.properties.iso_a3 in crises_per_country)
+            loadTimetableForCountry(feature.properties.iso_a3);
     });
 }
 

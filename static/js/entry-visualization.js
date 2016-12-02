@@ -13,20 +13,24 @@ function recalculateSeverity(information, info_attrs, attrs) {
         });
         return x.length > 0;
     });
-    for (var k=0; k<asdfg.length; ++k) {
-        var a = asdfg[k];
-        $.grep(a.severities, function(n, i) {
-            return n.id == information.severity.level;
-        })[0].value++;
+    if (asdfg) {
+        for (var k=0; k<asdfg.length; ++k) {
+            var a = asdfg[k];
+            $.grep(a.severities, function(n, i) {
+                return n.id == information.severity.level;
+            })[0].value++;
+        }
     }
 }
 function recalculateSeverity2(information, attrId, attrs) {
     var asdfg = $.grep(attrs, function(n, i) {
         return n.id == attrId;
     })[0];
-    $.grep(asdfg.severities, function(n, i) {
-        return n.id == information.severity.level;
-    })[0].value++;
+    if (asdfg) {
+        $.grep(asdfg.severities, function(n, i) {
+            return n.id == information.severity.level;
+        })[0].value++;
+    }
 }
 
 function renderVisualizations() {

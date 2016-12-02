@@ -92,6 +92,8 @@ class Lead(models.Model):
     name = models.CharField(max_length=250)
     event = models.ForeignKey(Event, default=None, null=True)
     source = models.ForeignKey(Source, null=True, blank=True)
+    source_name = models.CharField(max_length=250, default=None,
+                                   null=True, blank=True)
     assigned_to = models.ForeignKey(User, null=True, blank=True,
                                     related_name='assigned_leads')
     published_at = models.DateField(null=True, blank=True)

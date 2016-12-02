@@ -41,7 +41,7 @@ class LeadSerializer(serializers.ModelSerializer):
     attachment = serializers.SerializerMethodField()
     assigned_to_name = serializers.SerializerMethodField()
     created_by_name = serializers.SerializerMethodField()
-    source = serializers.CharField(source='source.name', read_only=True)
+    source = serializers.CharField(source='source_name', read_only=True)
 
     class Meta:
         model = Lead
