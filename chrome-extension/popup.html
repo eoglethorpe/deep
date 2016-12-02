@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="selectize.bootstrap3.css">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <link href='https://fonts.googleapis.com/css?family=Lato:400,300' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
     <script src="jquery.min.js"></script>
     <script src="popup.js"></script>
     <script src="jquery.form.js"></script>
@@ -20,112 +20,114 @@
             <div class="double-bounce1"></div>
             <div class="double-bounce2"></div>
         </div>
-        <div class="app-info hidden">
+        <div class="app-info " hidden>
             <img class="logo" src="deep-logo.png">
             <div>Data Entry and Extraction Platform</div>
         </div>
-        <div class="msg msg-error hidden" id="error-msg">
+        <div class="msg msg-error " id="error-msg" hidden>
             Oops! Something has gone wrong<br>Can't reach out the server at the moment, please try again later.
         </div>
-        <div class="msg msg-error hidden" id="no-login-msg">
+        <div class="msg msg-error " id="no-login-msg" hidden>
             You are not logged in to the DEEP<br>Please <a id="login">login</a> first to use the extension.
         </div>
-        <div class="msg msg-success hidden" id="submit-success-msg">
+        <div class="msg msg-success " id="submit-success-msg" hidden>
             Cheers! Sucessfully submitted
         </div>
-        <div class="msg msg-error hidden" id="submit-fail-msg">
+        <div class="msg msg-error " id="submit-fail-msg" hidden>
             Oh nose! Something seems to be broken, please try again later.
         </div>
-        <div class="msg hidden" id="login-msg">
+        <div class="msg " id="login-msg" hidden>
             Welcome to the DEEP.
         </div>
     </div>
-    <div class="form-wrapper hidden" id="lead-form-wrapper">
-        <div class="title">DEEP: Create Lead</div>
-        <div class="row">
-            <div class="col-xs-3 label-container">
-                <label>Event:</label>
+    <div class="container-fluid">
+        <div id="lead-form-wrapper" hidden>
+            <div class="title">DEEP: Create Lead</div>
+            <div id="lead-exists-msg" hidden>A lead form this URL already exists.</div>
+            <div class="row" style="margin-top: 24px;">
+                <div class="col-xs-3 label-container">
+                    <label>Event:</label>
+                </div>
+                <div class="col-xs-9">
+                    <select id="events">
+                    </select>
+                </div>
             </div>
-            <div class="col-xs-9">
-                <select id="events">
-                </select>
-            </div>
+
+            <form id="leads-form" method="post">
+                <div class="row">
+                    <div class="col-xs-3 label-container">
+                        <label>Name:</label>
+                    </div>
+                    <div class="col-xs-9">
+                        <input id="name" class="form-control" type="text" name="name" placeholder="Enter a descriptive name"  required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 label-container">
+                        <label>Source:</label>
+                    </div>
+                    <div class="col-xs-9">
+                        <select id="source" name="source" class="form-control" placeholder="Select source type">
+                            <option value="">Select source type</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 label-container">
+                        <label>Confidentiality:</label>
+                    </div>
+                    <div class="col-xs-9">
+                        <select id="confidentiality" name="confidentiality" class="form-control">
+                            <option value="UNP">Unprotected</option>
+                            <option value="PRO">Protected</option>
+                            <option value="RES">Restricted</option>
+                            <option value="CON">Confidential</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 label-container">
+                        <label>Assigned to:</label>
+                    </div>
+                    <div class="col-xs-9">
+                        <select id="user-select" name="assigned-to" class="form-control" placeholder="Select user">
+                            <option value="">Select user</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 label-container">
+                        <label>Publication date:</label>
+                    </div>
+                    <div class="col-xs-9">
+                        <input type="date" class="form-control" name="publish-date" id="publish-date" placeholder="YYYY-MM-DD" >
+                    </div>
+                </div>
+                <div class="row" id="url-row">
+                    <div class="col-xs-3 label-container">
+                        <label>URL</label>
+                    </div>
+                    <div class="col-xs-9">
+                        <input id="url" type="text" class="form-control" name="url" placeholder="Enter url">
+                    </div>
+                </div>
+                <div class="row" id="website-row">
+                    <div class="col-xs-3 label-container">
+                        <label>Website</label>
+                    </div>
+                    <div class="col-xs-9">
+                        <input id="website" type="text" name="website" class="form-control"  placeholder="Enter website">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 action">
+                        <input type="submit" name="redirect-url" value="Submit and Add Entry" id="submit-and-add-entry-btn">
+                        <input type="submit" id="submit-btn">
+                    </div>
+                </div>
+            </form>
         </div>
-
-        <form id="leads-form" method="post">
-            <div class="row">
-                <div class="col-xs-3 label-container">
-                    <label>Name:</label>
-                </div>
-                <div class="col-xs-9">
-                    <input id="name" class="form-control" type="text" name="name" placeholder="Enter a descriptive name"  required>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-3 label-container">
-                    <label>Source:</label>
-                </div>
-                <div class="col-xs-9">
-                    <select id="source" name="source" class="form-control" placeholder="Select source type">
-                        <option value="">Select source type</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-3 label-container">
-                    <label>Confidentiality:</label>
-                </div>
-                <div class="col-xs-9">
-                    <select id="confidentiality" name="confidentiality" class="form-control">
-                        <option value="UNP">Unprotected</option>
-                        <option value="PRO">Protected</option>
-                        <option value="RES">Restricted</option>
-                        <option value="CON">Confidential</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-3 label-container">
-                    <label>Assigned to:</label>
-                </div>
-                <div class="col-xs-9">
-                    <select id="user-select" name="assigned-to" class="form-control" placeholder="Select user">
-                        <option value="">Select user</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-3 label-container">
-                    <label>Publication date:</label>
-                </div>
-                <div class="col-xs-9">
-                    <input type="date" class="form-control" name="publish-date" id="publish-date" placeholder="YYYY-MM-DD" >
-                </div>
-            </div>
-            <div class="row" id="url-row">
-                <div class="col-xs-3 label-container">
-                    <label>URL</label>
-                </div>
-                <div class="col-xs-9">
-                    <input id="url" type="text" class="form-control" name="url" placeholder="Enter url">
-                </div>
-            </div>
-            <div class="row" id="website-row">
-                <div class="col-xs-3 label-container">
-                    <label>Website</label>
-                </div>
-                <div class="col-xs-9">
-                    <input id="website" type="text" name="website" class="form-control"  placeholder="Enter website">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 action">
-                    <input type="submit" class="btn btn-default">
-                    <input type="submit" name="redirect-url" class="btn btn-default" value="Submit and Add Entry">
-                </div>
-            </div>
-
-        </form>
     </div>
 </body>
 

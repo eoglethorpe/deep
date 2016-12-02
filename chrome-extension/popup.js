@@ -3,8 +3,8 @@
 
 // example of serverAddress http://52.87.160.69
 // don't add the trailing /
-//var serverAddress = 'http://localhost:8000';
-var serverAddress = 'http://54.83.82.134';
+var serverAddress = 'http://localhost:8000';
+//var serverAddress = 'http://54.83.82.134';
 
 var currentEvent = 0;
 var currentUser = -1;
@@ -41,6 +41,12 @@ function getCurrentTabUrl(callback) {
             url: serverAddress + '/date/?link='+tab.url,
             success: function(response){
                 $('#publish-date').val(response.date);
+                if(response.lead_exists){
+                    $('#lead-exists-msg').show();
+                } else{
+                    $('#lead-exists-msg').hide();
+                }
+                //console.log(response);
             }
         });
 
@@ -79,10 +85,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
         setSaveLoadHandlers();
     });
-
-    // getCurrentTabTitle(function(title){
-    //     document.getElementById('name').value = title;
-    // });
 });
 
 
@@ -118,10 +120,10 @@ $(document).ready(function(){
                 if(response.status == "logged-in"){
                     $("#loading-animation").hide();
                     $("#extras-wrapper").hide();
-                    $(".form-wrapper").removeClass('hidden');
+                    $("#lead-form-wrapper").show();
                     currentEvent = response.last_event;
                     currentUser = response.user_id;
-                    console.log(currentEvent);
+                    //console.log(response);
 
                     if (inputs["user-select"])
                         currentUser = inputs["user-select"];
@@ -152,17 +154,17 @@ $(document).ready(function(){
                     var submitOptions = {
                         url: serverAddress + '/' + currentEvent + '/leads/add/',
                         beforeSubmit: function(data, form, options){
-                            $(".form-wrapper").addClass('hidden');
+                            $("#lead-form-wrapper").hide();
                             $("#extras-wrapper").show();
                             $(".app-info").hide();
                             $("#loading-animation").show();
                             options["url"] = serverAddress + '/' + currentEvent + '/leads/add/';
                         },
                         success: function(response) {
+                            //$("#lead-form-wrapper").hide();
                             $("#loading-animation").hide();
-                            $(".app-info").removeClass('hidden');
                             $(".app-info").show();
-                            $("#submit-success-msg").removeClass('hidden');
+                            $("#submit-success-msg").show();
 
                             if (toString.call(response) === '[object Object]') {
                                 var newURL = response;
@@ -171,25 +173,25 @@ $(document).ready(function(){
                         },
                         error: function(response){
                             $("#loading-animation").hide();
-                            $(".app-info").removeClass('hidden');
+                            //$(".app-info").show();
                             $(".app-info").show();
-                            $("#submit-fail-msg").removeClass('hidden');
+                            $("#submit-fail-msg").show();
                         }
                     };
 
                     $('#leads-form').ajaxForm(submitOptions);
                 } else {
                     $("#loading-animation").hide();
-                    $(".app-info").removeClass('hidden');
-                    $("#no-login-msg").removeClass('hidden');
+                    $(".app-info").show();
+                    $("#no-login-msg").show();
                 }
             }
 
         },
         error: function(response){
             $("#loading-animation").hide();
-            $(".app-info").removeClass('hidden');
-            $("#error-msg").removeClass('hidden');
+            $(".app-info").show();
+            $("#error-msg").show();
         },
     });
 
@@ -229,8 +231,8 @@ $(document).ready(function(){
             success: function(response){
                 if(response) {
                     for(i = 0; i < response.length; i++){
-                        $('#source').append('<option value="'+response[i].source+'"'
-                            + ((inputs.source == response[i].source)?' selected':'') + '>'+response[i].source+'</option>');
+                        $('#source').append('<option value="'+response[i].id+'"'
+                            + ((inputs.id == response[i].id)?' selected':'') + '>'+response[i].name+'</option>');
                     }
                     $('#source').selectize();
                 }
