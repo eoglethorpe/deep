@@ -147,17 +147,27 @@ nav {
     #main #visualizations #attr-visualization-container .attr-visualization {
       border-right: 1px solid rgba(0, 0, 0, 0.1); }
   #main #visualizations #map-controls {
+    text-align: center;
     padding: 8px;
-    width: 80%;
-    height: 50px;
+    max-width: 80%;
     box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
     background-color: rgba(255, 255, 255, 0.88);
     position: absolute;
+    left: 10%;
     bottom: 24px;
-    left: 96px;
     border-radius: 3px; }
     #main #visualizations #map-controls #admin-level-buttons button {
       margin: 4px !important; }
+  #main #visualizations #country-select-wrapper {
+    width: 260px;
+    height: 56px;
+    padding: 10px;
+    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
+    background-color: rgba(255, 255, 255, 0.88);
+    position: absolute;
+    top: 10px;
+    left: 24px;
+    border-radius: 3px; }
   #main #visualizations #pie-wrapper {
     width: 260px;
     height: 260px;

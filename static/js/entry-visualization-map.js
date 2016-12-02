@@ -56,7 +56,7 @@ function reloadMap() {
                 else {
                     mapSelections.push(ms.keyword);
                     mapNumEntries.push(1);
-                }                
+                }
             }
         }
     }
@@ -181,7 +181,7 @@ function refreshMap() {
 
 function refreshAdminLevels() {
     $("#admin-level-buttons").empty();
-
+    var totalWidth = 0;
     if (selectedCountry in adminLevels) {
         for (var i=0; i<adminLevelNames[selectedCountry].length; ++i) {
             var btn = $("<button id='btn-lvl-" + i + "' class='btn btn-default btn-xs'>" + adminLevelNames[selectedCountry][i] + "</button>");
@@ -190,8 +190,10 @@ function refreshAdminLevels() {
                 refreshMap();
             }}(i));
             $("#admin-level-buttons").append(btn);
-
+            totalWidth += $("#btn-lvl-"+i).width();
         }
+        $("#map-controls").width(totalWidth+72);
+        $("#map-controls").css("left",($("#the-map").width()-$("#map-controls").width())/2);
     }
 
     refreshMap();
