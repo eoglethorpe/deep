@@ -3,7 +3,7 @@
 
   "name": "DEEP: Create Lead",
   "description": "Submit a lead from current tab to DEEP",
-  "version": "1.5",
+  "version": "1.0",
 
   "browser_action": {
     "default_icon": "deep-logo.png",
