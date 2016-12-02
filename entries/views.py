@@ -85,7 +85,11 @@ class EntriesView(View):
         context["reliabilities"] = Reliability.objects.all().order_by('level')
         context["severities"] = Severity.objects.all().order_by('level')
         context["affected_groups"] = AffectedGroup.objects.all()
-        context["sources"] = Source.objects.all()
+        context["sources"] = []
+
+        for lead in Lead.objects.filter(event=event):
+            if lead.source_name not in context["sources"]:
+                context["sources"].append(lead.source_name)
 
         UserProfile.set_last_event(request, context["event"])
         return render(request, "entries/entries.html", context)
