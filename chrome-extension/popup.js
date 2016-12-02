@@ -18,10 +18,24 @@ var tabId;
 
 var inputs = {};
 
+var currentTabUrl = null;
+
+
+function loadName() {
+    if (currentTabUrl && currentPage) {
+        var loc = document.createElement('a');
+        loc.href = currentTabUrl;
+        var doc = (new DOMParser).parseFromString(currentPage, 'text/html');
+        article = new Readability(loc, doc).parse();
+        if (article != null)
+            $('#name').val(article.title);
+    }
+}
 
 chrome.tabs.executeScript(null, {file: "contentscript.js"});
 chrome.runtime.onMessage.addListener( function(request, sender) {
     currentPage = '<html>'+request.data+'</html>';
+    loadName();
 });
 
 function getCurrentTabUrl(callback) {
@@ -46,17 +60,14 @@ function getCurrentTabUrl(callback) {
                 } else{
                     $('#lead-exists-msg').hide();
                 }
+                if(response.source != null){
+                    $('#source').val(response.source);
+                }
                 //console.log(response);
             }
         });
-
-        var loc = document.createElement('a');
-        loc.href = tab.url;
-        var doc = (new DOMParser).parseFromString(currentPage, 'text/html');
-        article = new Readability(loc, doc).parse();
-        if (article != null)
-            $('#name').val(article.title);
-
+        currentTabUrl = tab.url;
+        loadName();
         callback(url);
     });
 }
@@ -79,12 +90,6 @@ function extractDomain(url) {
 
 
 document.addEventListener('DOMContentLoaded', function(){
-    getCurrentTabUrl(function(url){
-        document.getElementById('url').value = url;
-        document.getElementById('website').value = extractDomain(url);
-
-        setSaveLoadHandlers();
-    });
 });
 
 
@@ -111,6 +116,12 @@ $(document).ready(function(){
         date[0].valueAsDate = new Date();
     });
 
+    getCurrentTabUrl(function(url){
+        document.getElementById('url').value = url;
+        document.getElementById('website').value = extractDomain(url);
+
+        setSaveLoadHandlers();
+    });
 
     $.ajax({
         type: 'GET',
@@ -225,22 +236,22 @@ $(document).ready(function(){
             },
         });
 
-        $.ajax({
-            type: 'GET',
-            url: serverAddress + '/api/v1/sources/',
-            success: function(response){
-                if(response) {
-                    for(i = 0; i < response.length; i++){
-                        $('#source').append('<option value="'+response[i].id+'"'
-                            + ((inputs.id == response[i].id)?' selected':'') + '>'+response[i].name+'</option>');
-                    }
-                    $('#source').selectize();
-                }
-            },
-            error: function(response){
-                console.log(response);
-            },
-        });
+        // $.ajax({
+        //     type: 'GET',
+        //     url: serverAddress + '/api/v1/sources/',
+        //     success: function(response){
+        //         if(response) {
+        //             for(i = 0; i < response.length; i++){
+        //                 $('#source').append('<option value="'+response[i].id+'"'
+        //                     + ((inputs.id == response[i].id)?' selected':'') + '>'+response[i].name+'</option>');
+        //             }
+        //             $('#source').selectize();
+        //         }
+        //     },
+        //     error: function(response){
+        //         console.log(response);
+        //     },
+        // });
 
         $('#confidentiality').selectize();
     }
