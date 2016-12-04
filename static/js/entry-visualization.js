@@ -235,14 +235,14 @@ function processTimeline(){
     minDate = new Date();
     maxDate = new Date(0);
 
-    for(var i=0; i<entries.length; i++){
-        var information = entries[i].informations;
+    for(var i=0; i<entriesTimeline.length; i++){
+        var information = entriesTimeline[i].informations;
         for(var j=0; j<information.length; j++){
             var entryDate;
-            if (entries[i].informations[j].date)
-                entryDate = new Date(entries[i].informations[j].date);
+            if (entriesTimeline[i].informations[j].date)
+                entryDate = new Date(entriesTimeline[i].informations[j].date);
             else
-                entryDate = new Date(entries[i].informations[j].modified_at);
+                entryDate = new Date(entriesTimeline[i].informations[j].modified_at);
 
             var dateExists = false;
             if(entryDate < minDate){
@@ -381,9 +381,9 @@ $(document).ready(function() {
         endPosition = {x: mousePos.x, y: mousePos.y};
         canvasTracking = false;
 
-        if(startPosition != endPosition){
-            isSelected = true;
-        }
+        isSelected = (startPosition.x != endPosition.x);
+
+        filterByTimeline();
         renderTimeline();
     }
     timelineCanvas.onmousemove = function(e){
