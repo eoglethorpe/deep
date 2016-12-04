@@ -22,7 +22,7 @@ function filterEntries() {
     entries = [];
     for (var i=0; i<originalEntries.length; ++i) {
         var entry = $.extend(true, {}, originalEntries[i]);
-        
+
         for (var filter in filters) {
             if (filters[filter]) {
                 entry.informations = entry.informations.filter(filters[filter]);
@@ -48,7 +48,7 @@ function addFilter(filterFor, clear, filterFunction) {
 function initEntryFilters() {
     selectizes = [];
     selectizes.push($('#users-filter').selectize());
-    selectizes.push($('#date-modified-filter').selectize());
+    selectizes.push($('#date-published-filter').selectize());
     var areasSelectize = $('#areas-filter').selectize();
     selectizes.push(areasSelectize);
     selectizes.push($('#affected-groups-filter').selectize());
@@ -166,10 +166,10 @@ function initEntryFilters() {
             // Filter accordingly
             addFilter("pillar", filterBy == null, function(info) {
                 return info.attributes.filter(function(a) {
-                    
+
                     if (a.subpillar == null)
                         return false;
-                    
+
                     var index = pillarFilters.indexOf(a.subpillar.pillar.id);
                     if (index < 0)
                         return false;
@@ -210,10 +210,10 @@ function initEntryFilters() {
             // Filter accordingly
             addFilter("sector", filterBy == null, function(info) {
                 return info.attributes.filter(function(a) {
-                    
+
                     if (a.sector == null)
                         return false;
-                    
+
                     var index = sectorFilters.indexOf(a.sector.id);
                     if (index < 0)
                         return false;
@@ -224,7 +224,7 @@ function initEntryFilters() {
                     }
 
                     if (subsectorFilters[index] == null || a.subsectors.filter(function(ss) {
-                        return ss.id == subsectorFilters[index]; 
+                        return ss.id == subsectorFilters[index];
                     }).length > 0)
                         return true;
 

@@ -42,7 +42,19 @@ function renderEntries(){
     var entryContainer = $('#entries');
     entryContainer.empty();
 
+    var sevenDaysLater = false;
+
     for(var i=0; i<entries.length; i++){
+        if (!sevenDaysLater &&
+                (new Date().getTime() - new Date(entries[i].modified_at).getTime())/(1000*60*60*24) > 7)
+        {
+            sevenDaysLater = true;
+            if (i != 0) {
+                var separator = $('<hr style="border-color: #f00;">');
+                separator.appendTo(entryContainer);
+            }
+        }
+
         var entry = $('.entry-template').clone();
         entry.removeClass('entry-template');
         entry.addClass('entry');
