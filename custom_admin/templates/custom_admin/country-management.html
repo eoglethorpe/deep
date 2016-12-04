@@ -12,6 +12,12 @@ DEEP | Country Management Panel
 <link rel="stylesheet" type="text/css" href="{% static 'css/selectize.bootstrap3.css' %}"/>
 <script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/country-management.js' %}"></script>
+
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
+<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+
+<link rel="stylesheet" href="{% static 'css/leaflet.label.css' %}" >
 
 {% endblock %}
 
@@ -39,16 +45,27 @@ DEEP | Country Management Panel
             <div id="country-detail">
                 <h2>Country Details</h2>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label> Name </label>
-                            <input name="country-name" type="text" class="form-control" id="country-name" placeholder="Enter country name" required>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label> Code </label>
+                                    <input name="country-code" type="text" class="form-control" id="country-code" placeholder="Enter country code" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label> Name </label>
+                                    <input name="country-name" type="text" class="form-control" id="country-name" placeholder="Enter country name" required>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label> Code </label>
-                            <input name="country-code" type="text" class="form-control" id="country-code" placeholder="Enter country code" required>
+                    <div class="col-md-8">
+                        <div id="the-map">
+                            <div id="map-shadow-overlay"></div>
                         </div>
                     </div>
                 </div>
