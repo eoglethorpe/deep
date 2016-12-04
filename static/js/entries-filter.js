@@ -6,6 +6,7 @@ var filters = {
 };
 
 var selectizes = [];
+var pillarsFilterSelectize; // Required in report-weekly tab filtering
 
 function clearFilters() {
     filters = {};
@@ -53,7 +54,8 @@ function initEntryFilters() {
     selectizes.push($('#affected-groups-filter').selectize());
     selectizes.push($('#vulnerable-groups-filter').selectize());
     selectizes.push($('#specific-needs-groups-filter').selectize());
-    selectizes.push($('#pillars-filter').selectize());
+    pillarsFilterSelectize = $('#pillars-filter').selectize();
+    selectizes.push(pillarsFilterSelectize);
     // selectizes.push($('#subpillars-filter').selectize());
     selectizes.push($('#sectors-filter').selectize());
     // selectizes.push($('#subsectors-filter').selectize());

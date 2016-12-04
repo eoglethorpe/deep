@@ -64,6 +64,9 @@ function renderEntries(){
             else
                 information.find('date').text("N/A");
 
+            information.find(".reliability").find('._'+entries[i].informations[j].reliability.level).addClass('active');
+            information.find(".severity").find('._'+entries[i].informations[j].severity.level).addClass('active');
+
             information.appendTo(informationContainer);
             information.show();
             if(j != (entries[i].informations.length-1)){
