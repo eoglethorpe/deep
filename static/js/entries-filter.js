@@ -1,9 +1,11 @@
 var originalEntries = [];
 var entries = [];
+var entriesTimeline = [];       // Entries to display on timeline: includes even those filtered out by timeline filter
 
 var filters = {
 
 };
+var timelineFilter = null;
 
 var selectizes = [];
 var pillarsFilterSelectize; // Required in report-weekly tab filtering
@@ -20,17 +22,28 @@ function clearFilters() {
 
 function filterEntries() {
     entries = [];
+    entriesTimeline = [];
     for (var i=0; i<originalEntries.length; ++i) {
         var entry = $.extend(true, {}, originalEntries[i]);
+        var entryTimeline = $.extend(true, {}, originalEntries[i]);
 
         for (var filter in filters) {
             if (filters[filter]) {
                 entry.informations = entry.informations.filter(filters[filter]);
+                entryTimeline.informations = entryTimeline.informations.filter(filters[filter]);
             }
         }
 
-        if (entry.informations.length > 0)
+        if (timelineFilter) {
+            entry.informations = entry.informations.filter(timelineFilter);
+        }
+
+        if (entry.informations.length > 0) {
             entries.push(entry);
+        }
+        if (entryTimeline.informations.length > 0) {
+            entriesTimeline.push(entryTimeline);
+        }
     }
     renderEntries();
 }
@@ -65,8 +78,12 @@ function initEntryFilters() {
     selectizes.push($('#severities-max-filter').selectize());
 
     $.getJSON("/api/v1/entries/?event="+eventId, function(data){
+        data.sort(function(e1, e2) {
+            return new Date(e2.modified_at) - new Date(e1.modified_at);
+        });
         originalEntries = data;
         entries = data;
+        entriesTimeline = data;
 
         // Get areas options
         for (var i=0; i<entries.length; ++i) {
@@ -78,10 +95,6 @@ function initEntryFilters() {
                 }
             }
         }
-
-        entries.sort(function(e1, e2) {
-            return new Date(e2.modified_at) - new Date(e1.modified_at);
-        });
 
         renderEntries();
     });
@@ -253,4 +266,26 @@ function initEntryFilters() {
             return info.severity.level >= minFilterBy && info.severity.level <= maxFilterBy;
         });
     });
+}
+
+function filterByTimeline() {
+    if (isSelected) {
+        var w = timelineCanvas.width * 0.9;
+        var dateStart = (startPosition.x - timelineCanvas.width*0.05) * (maxDate.getTime() - minDate.getTime()) / w;
+        dateStart = new Date(dateStart + minDate.getTime());
+        
+        var dateEnd = (endPosition.x - timelineCanvas.width*0.05) * (maxDate.getTime() - minDate.getTime()) / w;
+        dateEnd = new Date(dateEnd + minDate.getTime());
+
+        timelineFilter = function(info) {
+            if (info.date)
+                return new Date(info.date) >= dateStart && new Date(info.date) <= dateEnd;
+            else
+                return new Date(info.modified_at) >= dateStart && new Date(info.modified_at) <= dateEnd;
+        }
+        filterEntries();
+    } else {
+        timelineFilter = null;
+        filterEntries();
+    }
 }
