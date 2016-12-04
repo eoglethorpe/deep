@@ -23,7 +23,7 @@ class CrisisPanelView(View):
         context["users"] = User.objects.all()
 
         if "selected" in request.GET:
-            context["selected_event"] = int(request.GET["selected"]) 
+            context["selected_event"] = int(request.GET["selected"])
 
         return render(request, "custom_admin/crisis-panel.html", context)
 
@@ -44,12 +44,12 @@ class CrisisPanelView(View):
                 event.disaster_type = DisasterType.objects.get(pk=int(request.POST["disaster-type"]))
             else:
                 event.disaster_type = None
-            
+
             if request.POST["crisis-start-date"] and request.POST["crisis-start-date"] != "":
                 event.start_date = request.POST["crisis-start-date"]
             else:
                 event.start_date = None
-            
+
             if request.POST["crisis-end-date"] and request.POST["crisis-end-date"] != "":
                 event.end_date = request.POST["crisis-end-date"]
             else:
@@ -68,9 +68,21 @@ class CrisisPanelView(View):
                     event.countries.add(Country.objects.get(pk=country))
 
             response["Location"] += "?selected="+str(event.pk)
-        
+
         elif "delete" in request.POST:
             if pk != "new":
                 Event.objects.get(pk=int(pk)).delete()
 
         return response
+
+
+class CountryManagementView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        context = {}
+        context["current_page"] = "country-management"
+        context["events"] = Event.objects.all()
+
+        context["countries"] = Country.objects.all()
+
+        return render(request, "custom_admin/country-management.html", context)

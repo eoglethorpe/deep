@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+DEEP | Country Management Panel
+{% endblock %}
+
+{% block head %}
+
+<link href="{% static 'css/country-management.css' %}" type="text/css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/selectize.bootstrap3.css' %}"/>
+<script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
+
+{% endblock %}
+
+{% block body %}
+
+<header>
+    <div class="container-fluid">
+        <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to DEEP</a>
+        <h1>Country Management Panel</h1>
+    </div>
+</header>
+<main>
+    <div class="container-fluid">
+        <div class="col-md-4">
+            <div id="country-list">
+                <button class="btn btn-primary" onclick="addNewCountry()" style="float: right; margin-top: 16px; margin-right: 16px;"><i class="fa fa-plus" style="padding-right: 8px;"></i>Add new country</button>
+                <h3 style="padding-left: 16px; text-transform: uppercase;">Country List</h3>
+                <hr>
+                {% for country in countries %}
+                <div class="country">{{country.name}}</div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-8 ">
+            <div id="country-detail">
+                <h2>Country Details</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label> Name </label>
+                            <input name="country-name" type="text" class="form-control" id="country-name" placeholder="Enter country name" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label> Code </label>
+                            <input name="country-code" type="text" class="form-control" id="country-code" placeholder="Enter country code" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Admin Levels</h3>
+                    </div>
+                </div>
+                <div class="admin-level-details" class="row">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label> Admin Level </label>
+                                <input name="admin-level" type="text" class="form-control" id="admin-level" placeholder="Enter admin level" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label> Admin Level Name</label>
+                                <input name="admin-level-name" type="text" class="form-control" id="admin-level-name" placeholder="Enter admin level name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label> Property Name </label>
+                                <input name="property-name" type="text" class="form-control" id="property-name" placeholder="Enter property name">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label> Property pCode </label>
+                                <input name="property-pcode" type="text" class="form-control" id="property-pcode" placeholder="Enter property pcode">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 16px; margin-botton: 16px;">
+                        <div class="col-md-2">
+                            <button id="add-new-geojson" class="btn btn-default"><i class="fa fa-plus" style="padding-right: 8px;"></i>Add new GeoJson</button>
+                        </div>
+                        <div class="col-md-8"  style="font-size:1.2em; margin-top: 8px;">
+                            <label style="margin-bottom: 0;">Current:</label> <small>Name of geoJson</small>
+                        </div>
+                        <div class="col-md-2" style="text-align: right;">
+                            <button class="btn btn-danger delete-admin-level" style="margin-left:-16px;"><i class="fa fa-times" style="padding-right: 8px;"></i>Delete</button>
+                        </div>
+                    </div>
+                </div>
+                <button id="add-new-admin-level" class="btn btn-primary" onclick="addNewAdminLevel()"><i class="fa fa-plus" style="padding-right: 8px;"></i>Add new admin level</button>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
