@@ -11,6 +11,8 @@ var timelineFilter = null;
 var selectizes = [];
 var pillarsFilterSelectize; // Required in report-weekly tab filtering
 
+var previousPublishedDateFilterSelection;
+
 function clearFilters() {
     filters = {};
     $('input').val('');
@@ -62,7 +64,8 @@ function addFilter(filterFor, clear, filterFunction) {
 function initEntryFilters() {
     selectizes = [];
     selectizes.push($('#users-filter').selectize());
-    selectizes.push($('#date-published-filter').selectize());
+    var publishedDateSelectize = $('#date-published-filter').selectize();
+    selectizes.push(publishedDateSelectize);
     var areasSelectize = $('#areas-filter').selectize();
     selectizes.push(areasSelectize);
     selectizes.push($('#affected-groups-filter').selectize());
@@ -113,10 +116,32 @@ function initEntryFilters() {
         addFilter('source', filterBy == "", function(info){
             if (info.lead_source)
                 return info.lead_source.toLowerCase().includes(filterBy.toLowerCase());
+            return false;
         });
     });
     $('#date-published-filter').change(function() {
-        
+        var filterBy = $(this).val();
+        if (filterBy == 'range') {
+            $('#date-range-input').modal();
+            $('#date-range-input #ok-btn').unbind().click(function(){
+                var startDate = new Date($('#date-range-input #start-date').val());
+                var endDate = new Date($('#date-range-input #end-date').val());
+                addFilter('published-at', !startDate || !endDate, function(info) {
+                    var date = new Date(info.lead_published_at);
+                    return dateInRange(date, startDate, endDate);
+                });
+            });
+            $('#date-range-input #cancel-btn').unbind().click(function(){
+                publishedDateSelectize[0].selectize.setValue(previousPublishedDateFilterSelection);
+            });
+        } else {
+            addFilter('published-at', filterBy == "" || filterBy == null, function(info) {
+                if (info.lead_published_at)
+                    return filterDate(filterBy, new Date(info.lead_published_at));
+                return false;
+            });
+            previousPublishedDateFilterSelection = filterBy;
+        }
     });
     $('#users-filter').change(function() {
         var filterBy = $(this).val();
