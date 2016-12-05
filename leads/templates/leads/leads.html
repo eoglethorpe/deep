@@ -6,15 +6,17 @@ DEEP | Leads
 {% endblock %}
 
 {% block head %}
-<script>
-    var currentEvent = {{event.pk}};
-    var postUrl = "{% url 'leads:add' event.pk %}";
-</script>
 <link href="{% static 'css/leads.css' %}" type="text/css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% static 'css/datatables.min.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.bootstrap.min.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/selectize.bootstrap3.css' %}"/>
+
+<script>
+    var currentEvent = {{event.pk}};
+    var postUrl = "{% url 'leads:add' event.pk %}";
+</script>
+
 <script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/leads.js' %}"></script>
@@ -25,7 +27,6 @@ DEEP | Leads
 
 <div id="date-range-input" class="modal fade" role="dialog">
     <div class="modal-dialog">
-        <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-body">
                 <h3 class="modal-title">Enter date range</h3>
@@ -41,8 +42,8 @@ DEEP | Leads
                     </div>
                 </div>
                 <div style="margin-top: 24px; text-align: right;">
-                    <button type="button" class="btn btn-default" id="cancel-btn" data-dismiss="modal">CANCEL</button>
-                    <button type="button" class="btn btn-primary" id="ok-btn" style="min-width: 50px; margin-left: 16px;" >OK</button>
+                    <button type="button" class="btn btn-default" id="cancel-btn" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="ok-btn" style="min-width: 50px; margin-left: 16px;" >Ok</button>
                 </div>
             </div>
         </div>
@@ -54,9 +55,9 @@ DEEP | Leads
 <section id="main">
     <div class="container-fluid">
 
-        <div class="block" id="leads-block">
-            <div class="row" id="filters">
-                <div class="col-sm-12">
+        <div id="filters">
+            <div class="row">
+                <div class="col-sm-1">
                     <label>Apply filter:</label>
                 </div>
                 <div class="col-sm-3 col-md-2 col-xs-6">
@@ -105,26 +106,22 @@ DEEP | Leads
                     </select>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <h2><a class="btn btn-primary btn-xl" href="{% url 'leads:add' event=event.pk %}" ><i class="fa fa-plus-square" style=" margin-right: 10px; font-size:1.2em"></i>Add Lead</a></h2>
-                </div>
-            </div>
-            <table id="leads-table" class="table  table-bordered" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th>Created</th>
-                        <th>Assigned</th>
-                        <th>Name</th>
-                        <th>Published</th>
-                        <th>Confidentiality</th>
-                        <th>Source</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-            </table>
         </div>
+        <a class="btn btn-primary" id="add-lead-btn" href="{% url 'leads:add' event=event.pk %}" ><i class="fa fa-plus-square" style=" margin-right: 10px; font-size:1.2em"></i>Add Lead</a>
+        <table id="leads-table" class="table  table-bordered" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Created</th>
+                    <th>Assigned</th>
+                    <th>Name</th>
+                    <th>Published</th>
+                    <th>Confidentiality</th>
+                    <th>Source</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </section>
 
@@ -147,11 +144,6 @@ DEEP | Leads
                 <div class="row">
                     <div class="col-sm-3 input-label"><label>Source</label></div>
                     <div class="col-sm-9">
-                        <!--select id="source" name="source" placeholder="Select source type">
-                            {% for s in sources %}
-                            <option value="{{s.pk}}">{{s}}</option>
-                            {% endfor %}
-                        </select-->
                         <input id="source" name="source" placeholder="Select source type">
                     </div>
                 </div>
