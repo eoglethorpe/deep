@@ -1,7 +1,16 @@
-@import 'base';
+@import 'common/base';
 
 body{
     background-color: #f0f0f0;
+
+    label{
+        text-transform: uppercase;
+        color: #969696;
+        font-size: 0.9em;
+    }
+    h2{
+        text-transform: uppercase;
+    }
 
     header{
         background-color: $primary-color;

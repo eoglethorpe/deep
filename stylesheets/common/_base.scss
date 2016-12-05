@@ -1,0 +1,42 @@
+@import "utils";
+@import "dimensions";
+@import "colors";
+
+body{
+    font-family: 'Source Sans Pro', sans-serif;
+    background-color: $body-background-color;
+    color: $text-color;
+    font-size: $text-size-md;
+    line-height: $line-height;
+
+    h1, h2, h3{
+        font-weight: 400;
+    }
+    h1{
+        font-size: $text-size-sl;
+    }
+    h2{
+        font-size: $text-size-xl;
+    }
+    h3{
+        font-size: $text-size-lg;
+    }
+    a, a:hover, a:active, a:visited, a:focus{
+        text-decoration: none;
+    }
+    a, button, input[type="submit"], input[type="button"], .btn, .btn:focus, button:focus{
+        text-transform: uppercase;
+        font-size: $text-size-sm;
+        outline: none!important;
+    }
+    .btn, .btn:hover, .btn:visited, .btn:focus{
+        border: none;
+        border-radius: 3px;
+        transition: 0.2s all ease-in-out;
+    }
+    label{
+        color: $label-color;
+        text-transform: uppercase;
+        font-size: $text-size-xs;
+    }
+}

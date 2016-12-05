@@ -1,3 +1,4 @@
+
 var originalEntries = [];
 var entries = [];
 var entriesTimeline = [];       // Entries to display on timeline: includes even those filtered out by timeline filter
@@ -9,6 +10,8 @@ var timelineFilter = null;
 
 var selectizes = [];
 var pillarsFilterSelectize; // Required in report-weekly tab filtering
+
+var previousPublishedDateFilterSelection;
 
 function clearFilters() {
     filters = {};
@@ -61,7 +64,8 @@ function addFilter(filterFor, clear, filterFunction) {
 function initEntryFilters() {
     selectizes = [];
     selectizes.push($('#users-filter').selectize());
-    selectizes.push($('#date-published-filter').selectize());
+    var publishedDateSelectize = $('#date-published-filter').selectize();
+    selectizes.push(publishedDateSelectize);
     var areasSelectize = $('#areas-filter').selectize();
     selectizes.push(areasSelectize);
     selectizes.push($('#affected-groups-filter').selectize());
@@ -112,7 +116,32 @@ function initEntryFilters() {
         addFilter('source', filterBy == "", function(info){
             if (info.lead_source)
                 return info.lead_source.toLowerCase().includes(filterBy.toLowerCase());
+            return false;
         });
+    });
+    $('#date-published-filter').change(function() {
+        var filterBy = $(this).val();
+        if (filterBy == 'range') {
+            $('#date-range-input').modal();
+            $('#date-range-input #ok-btn').unbind().click(function(){
+                var startDate = new Date($('#date-range-input #start-date').val());
+                var endDate = new Date($('#date-range-input #end-date').val());
+                addFilter('published-at', !startDate || !endDate, function(info) {
+                    var date = new Date(info.lead_published_at);
+                    return dateInRange(date, startDate, endDate);
+                });
+            });
+            $('#date-range-input #cancel-btn').unbind().click(function(){
+                publishedDateSelectize[0].selectize.setValue(previousPublishedDateFilterSelection);
+            });
+        } else {
+            addFilter('published-at', filterBy == "" || filterBy == null, function(info) {
+                if (info.lead_published_at)
+                    return filterDate(filterBy, new Date(info.lead_published_at));
+                return false;
+            });
+            previousPublishedDateFilterSelection = filterBy;
+        }
     });
     $('#users-filter').change(function() {
         var filterBy = $(this).val();
@@ -287,5 +316,44 @@ function filterByTimeline() {
     } else {
         timelineFilter = null;
         filterEntries();
+    }
+}
+
+
+// Checks if the date is in given range
+function dateInRange(date, min, max){
+    date.setHours(0, 0, 0, 0);
+    min.setHours(0, 0, 0, 0);
+    max.setHours(0, 0, 0, 0);
+    return (date >= min && date <= max);
+}
+
+function filterDate(filter, date){
+    dateStr = date.toDateString();
+    switch(filter){
+        case "today":
+            return (new Date()).toDateString() == dateStr;
+        case "yesterday":
+            yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            return yesterday.toDateString() == dateStr;
+        case "last-seven-days":
+            min = new Date();
+            min.setDate(min.getDate() - 7);
+            return dateInRange(date, min, (new Date));
+        case "this-week":
+            min = new Date();
+            min.setDate(min.getDate() - min.getDay());
+            return dateInRange(date, min, (new Date));
+        case "last-thirty-days":
+            min = new Date();
+            min.setDate(min.getDate() - 30);
+            return dateInRange(date, min, (new Date));
+        case "this-month":
+            min = new Date();
+            min.setDate(1);
+            return dateInRange(date, min, (new Date));
+        default:
+            return true;
     }
 }

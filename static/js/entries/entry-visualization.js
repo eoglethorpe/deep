@@ -305,7 +305,9 @@ function renderTimeline(){
     context.lineWidth = 1;
     context.imageSmoothingEnabled = true;
 
-    var severityColors = ['#c60000', '#d11111', '#df2222', '#e53333', '#f14444', '#ff5555'];
+    var severityColors = {
+        1: '#fbd4d4', 2: '#f7a5a5', 3: '#f47575', 4: '#f04646', 5: '#ec1717', 6: '#c01010'
+    };
 
     context.moveTo(0, 0);
     for(var i=0; i<entryDates.length; i++){
@@ -321,6 +323,8 @@ function renderTimeline(){
     //context.stroke();
     var yOffset = timelineCanvas.height*0.9+1
     context.beginPath();
+    context.fillStyle = '#414141';
+    context.lineWidth = 0.1;
     context.moveTo(0, yOffset);
     context.lineTo(timelineCanvas.width, yOffset);
 
@@ -329,11 +333,10 @@ function renderTimeline(){
     for(var j=0; j<=10; j++){
         var date = new Date(minDate.getTime()+j*(timeGap/9));
         var x = (j*timelineCanvas.width/9)*0.9+timelineCanvas.width*0.05;
-        context.fillStyle = '#000';
         var labelWidth = context.measureText(formatDate(date)).width;
         context.moveTo(x, yOffset);
-        context.lineTo(x, yOffset+10);
-        context.fillText(formatDate(date), x-labelWidth/2, timelineCanvas.height-6);
+        //context.lineTo(x, yOffset+10);
+        context.fillText(formatDate(date), x-labelWidth/2, timelineCanvas.height-3);
     }
     context.stroke();
 

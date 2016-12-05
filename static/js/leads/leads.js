@@ -1,3 +1,4 @@
+
 var statuses = {"PEN": "Pending", "PRO": "Processed", "DEL": "Deleted"};
 var confidentialities = {"UNP": "Unprotected", "PRO": "Protected", "RES": "Restricted", "CON": "Confidential", "PUB": "Unprotected"};
 
@@ -11,7 +12,7 @@ var last_date_filter = "#date-created-filter";
 
 var droppedFiles;
 
-// Checks if the date is in give range
+// Checks if the date is in given range
 function dateInRange(date, min, max){
     date.setHours(0, 0, 0, 0);
     min.setHours(0, 0, 0, 0);
@@ -21,7 +22,7 @@ function dateInRange(date, min, max){
 
 function filterDate(filter, date){
     dateStr = date.toDateString();
-    switch( filter ){
+    switch(filter){
         case "today":
             return (new Date()).toDateString() == dateStr;
         case "yesterday":
@@ -51,7 +52,7 @@ function filterDate(filter, date){
 
 // Inject the custom search into Data Tables
 $.fn.dataTable.ext.search.push(
-    function( settings, data, dataIndex ) {
+    function(settings, data, dataIndex) {
         var filter = $("#date-created-filter").val();
         date = new Date(data[0].substr(0, 10));
         if(filter == 'range'){
@@ -62,7 +63,7 @@ $.fn.dataTable.ext.search.push(
 );
 
 $.fn.dataTable.ext.search.push(
-    function( settings, data, dataIndex ) {
+    function(settings, data, dataIndex) {
         var filter = $("#date-published-filter").val();
         date = new Date(data[3]);
         if(filter == 'range'){
@@ -203,14 +204,14 @@ $(document).ready(function() {
         var tr = $(this);
         var row = leadsTable.row( tr );
 
-        if ( row.child.isShown() ) {
+        if (row.child.isShown()) {
             // This row is already open - close it
             row.child.hide();
             tr.removeClass('shown');
         }
         else {
             // Open this row
-            row.child( format(row.data()) ).show();
+            row.child(format(row.data())).show();
             tr.addClass('shown');
         }
     } );
@@ -233,7 +234,7 @@ $(document).ready(function() {
     }
 
 
-    function format ( data ) {
+    function format (data) {
         if (data.published_at == null)
             data.published_at = "n/a";
         if (data.source == null)

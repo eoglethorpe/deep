@@ -1,99 +1,127 @@
 body {
   font-family: 'Source Sans Pro', sans-serif;
-  background-color: #fafafa;
-  color: #414141; }
-
-a, a:hover, a:active, a:visited, a:focus {
-  text-decoration: none; }
-
-a, button, input[type="submit"], .btn {
-  text-transform: uppercase;
-  font-size: 13px; }
-
-#error {
-  color: #c0392b; }
+  background-color: #f5f5f5;
+  color: #414141;
+  font-size: 14px;
+  line-height: 1.5; }
+  body h1, body h2, body h3 {
+    font-weight: 400; }
+  body h1 {
+    font-size: 18px; }
+  body h2 {
+    font-size: 16px; }
+  body h3 {
+    font-size: 15px; }
+  body a, body a:hover, body a:active, body a:visited, body a:focus {
+    text-decoration: none; }
+  body a, body button, body input[type="submit"], body input[type="button"], body .btn, body .btn:focus, body button:focus {
+    text-transform: uppercase;
+    font-size: 13px;
+    outline: none !important; }
+  body .btn, body .btn:hover, body .btn:visited, body .btn:focus {
+    border: none;
+    border-radius: 3px;
+    transition: 0.2s all ease-in-out; }
+  body label {
+    color: #767676;
+    text-transform: uppercase;
+    font-size: 12px; }
 
 nav {
-  background-color: #008080;
-  height: 60px;
-  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
-  z-index: 100; }
-  nav .fa {
-    margin-right: 10px; }
-  nav .caret {
-    margin-left: 10px; }
+  background-color: #004d4d;
+  height: 56px;
+  z-index: 1010;
+  line-height: 1;
+  text-align: center;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
   nav img {
-    width: 100px;
-    margin-top: 14px; }
+    height: 40px;
+    margin-top: 10px; }
   nav a, nav a:visited {
-    color: #fff; }
-  nav a:hover, nav a:active, nav button:hover, nav button:active {
-    color: #eee; }
-  nav .menu-item {
-    height: 60px;
-    vertical-align: middle;
-    padding: calc(30px - 10px);
     display: inline-block; }
-  nav .active {
-    background-color: #004d4d; }
-  nav button {
+  nav .menu-item {
+    height: 56px;
+    padding: 21px;
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7);
+    transition: 0.2s all ease-in-out; }
+    nav .menu-item.active {
+      border-bottom: 2px solid #fff;
+      color: #fff;
+      font-weight: 600; }
+  nav a:hover, nav a:active, nav button:hover, nav button:active {
+    color: #fff; }
+  nav button, nav button:visited {
     background-color: transparent;
     border: none;
-    color: #fff; }
-  nav #event-menu {
-    margin-right: 24px; }
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 400;
+    font-size: 14px; }
+    nav button .fa, nav button:visited .fa {
+      margin-right: 10px; }
+    nav button .caret, nav button:visited .caret {
+      margin-left: 10px; }
   nav .dropdown ul li a {
     padding-top: 8px;
-    padding-bottom: 8px;
-    color: #414141; }
+    padding-bottom: 8px; }
+    nav .dropdown ul li a .fa {
+      margin-right: 10px; }
 
-#main #action-block {
-  text-align: right; }
-  #main #action-block .fa {
-    margin-right: 10px; }
-  #main #action-block a {
-    margin: 10px 16px; }
-#main #leads-block h2 {
-  text-transform: uppercase;
-  margin-bottom: -24px;
-  color: #008080;
-  font-size: 1.5em;
-  clear: both; }
-#main #leads-block label {
-  color: #717171; }
-#main #leads-block #filters {
+#main #filters {
   margin-top: 24px; }
-#main #leads-block #leads-table tbody tr[role="row"] {
-  cursor: pointer; }
-#main #leads-block #leads-table tbody .odd, #main #leads-block #leads-table tbody .odd + tr:not(.even) {
-  background-color: #f0f0f0; }
-#main #leads-block #leads-table tbody .even, #main #leads-block #leads-table tbody .even + tr:not(.odd) {
-  background-color: #fff; }
-#main #leads-block #leads-table tbody .row-detail {
-  padding: 10px 24px; }
-  #main #leads-block #leads-table tbody .row-detail .fa {
-    margin-right: 10px; }
-  #main #leads-block #leads-table tbody .row-detail .extra {
-    margin-bottom: 16px; }
-    #main #leads-block #leads-table tbody .row-detail .extra span {
-      margin-right: 24px; }
-  #main #leads-block #leads-table tbody .row-detail label {
-    color: #969696;
-    margin-right: 10px; }
-  #main #leads-block #leads-table tbody .row-detail .lead-content {
-    white-space: pre-wrap; }
-  #main #leads-block #leads-table tbody .row-detail button {
-    margin-right: 10px; }
-  #main #leads-block #leads-table tbody .row-detail .lead-content a {
-    text-transform: none; }
-#main #leads-block #leads-table tbody .btn-add-entry .fa {
-  color: #8e44ad; }
-#main #leads-block #leads-table tbody .btn-edit .fa {
-  color: #d35400; }
-#main #leads-block #leads-table tbody .btn-mark-processed .fa {
-  color: #27ae60; }
-#main #leads-block #leads-table tbody .btn-delete .fa {
-  color: #e74c3c; }
+  #main #filters label {
+    vertical-align: sub; }
+#main #add-lead-btn {
+  margin-bottom: -40px;
+  box-shadow: 0 6px 15px -5px #000; }
+  #main #add-lead-btn:active {
+    box-shadow: 0 6px 10px -5px #000; }
+#main #leads-table {
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  #main #leads-table thead {
+    background-color: #fff; }
+  #main #leads-table tbody tr[role="row"] {
+    cursor: pointer; }
+  #main #leads-table tbody .odd, #main #leads-table tbody .odd + tr:not(.even) {
+    background-color: #f0f0f0; }
+  #main #leads-table tbody .even, #main #leads-table tbody .even + tr:not(.odd) {
+    background-color: #fafafa; }
+  #main #leads-table tbody .btn-action {
+    margin: 2px;
+    box-shadow: 0 3px 10px -3px rgba(0, 0, 0, 0.5); }
+    #main #leads-table tbody .btn-action:active {
+      box-shadow: 0 3px 6px -3px rgba(0, 0, 0, 0.5); }
+  #main #leads-table tbody .row-detail {
+    padding: 10px 24px; }
+    #main #leads-table tbody .row-detail .fa {
+      margin-right: 10px; }
+    #main #leads-table tbody .row-detail .extra {
+      margin-bottom: 16px; }
+      #main #leads-table tbody .row-detail .extra span {
+        margin-right: 24px; }
+    #main #leads-table tbody .row-detail label {
+      color: #969696;
+      margin-right: 10px;
+      width: 100px; }
+    #main #leads-table tbody .row-detail .lead-content {
+      white-space: pre-wrap; }
+    #main #leads-table tbody .row-detail button {
+      margin: 4px;
+      box-shadow: 0 3px 10px -3px rgba(0, 0, 0, 0.5); }
+      #main #leads-table tbody .row-detail button:active {
+        box-shadow: 0 3px 6px -3px rgba(0, 0, 0, 0.5); }
+    #main #leads-table tbody .row-detail .lead-content a {
+      text-transform: none; }
+  #main #leads-table tbody .btn-add-entry .fa {
+    color: #8e44ad; }
+  #main #leads-table tbody .btn-edit .fa {
+    color: #d35400; }
+  #main #leads-table tbody .btn-mark-processed .fa {
+    color: #27ae60; }
+  #main #leads-table tbody .btn-delete .fa {
+    color: #e74c3c; }
 
 #drag-overlay {
   background-color: rgba(0, 0, 0, 0.5);

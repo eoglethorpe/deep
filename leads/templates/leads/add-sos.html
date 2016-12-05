@@ -12,16 +12,16 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
 <link href="{% static 'css/split-pane.css' %}" type="text/css" rel="stylesheet">
 
 
-<script src="{% static 'js/selectize.js' %}"></script>
-<script src="{% static 'js/split-pane.js' %}"></script>
-<script src="{% static 'js/utils.js' %}"></script>
+<script src="{% static 'js/common/selectize.js' %}"></script>
+<script src="{% static 'js/common/split-pane.js' %}"></script>
+<script src="{% static 'js/common/utils.js' %}"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
 <link rel="stylesheet" href="{% static 'css/leaflet.label.css' %}" >
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
-<script src="{% static 'js/leaflet.label.js' %}"></script>
-<script src="{% static 'js/utils.js' %}"></script>
+<script src="{% static 'js/common/leaflet.label.js' %}"></script>
+<script src="{% static 'js/common/utils.js' %}"></script>
 
 <style>
 
@@ -278,6 +278,6 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
     </div>
 </div>
 
-<script src="{% static 'js/add-sos.js' %}"></script>
-<script src="{% static 'js/add-sos-map.js' %}"></script>
+<script src="{% static 'js/sos/add-sos.js' %}"></script>
+<script src="{% static 'js/sos/add-sos-map.js' %}"></script>
 {% endblock %}

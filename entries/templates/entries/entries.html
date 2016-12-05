@@ -10,21 +10,20 @@ DEEP | Entries
 <link href="{% static 'css/entries.css' %}" type="text/css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/selectize.bootstrap3.css' %}"/>
-<script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/split.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/curve.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/entries-filter.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/entry-visualization-map.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/entry-visualization.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/entries.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/common/datatables.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/common/selectize.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/common/split.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/common/utils.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/entries/entries-filter.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/entries/entry-visualization-map.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/entries/entry-visualization.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/entries/entries.js' %}"></script>
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 
 <link rel="stylesheet" href="{% static 'css/leaflet.label.css' %}" >
-<script src="{% static 'js/leaflet.label.js' %}"></script>
+<script src="{% static 'js/common/leaflet.label.js' %}"></script>
 
 <script>
     var eventId = "{{event.pk}}";
