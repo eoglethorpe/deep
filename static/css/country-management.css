@@ -57,6 +57,8 @@ body {
   body main #country-detail {
     height: calc(100vh - 120px);
     margin-top: 40px; }
+    body main #country-detail #the-map {
+      height: 400px; }
     body main #country-detail h3 {
       margin-top: 32px;
       margin-bottom: 24px; }
