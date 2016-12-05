@@ -1,4 +1,4 @@
-@import 'base';
+@import 'common/base';
 
 body{
     background-color: #f0f0f0;
@@ -9,12 +9,6 @@ body{
         font-size: 0.9em;
     }
     h2{
-        text-transform: uppercase;
-    }
-    h3{
-        text-transform: uppercase;
-    }
-    h4{
         text-transform: uppercase;
     }
 
@@ -42,14 +36,15 @@ body{
             }
         }
     }
+
     main{
-        #country-list{
+        #crisis-list{
             background-color: #fff;
             height: calc(100vh - 100px);
             margin-top: 24px;
             overflow-y: scroll;
 
-            .country{
+            .crisis{
                 padding: 16px 24px;
                 border-bottom: 1px solid #f0f0f0;
                 cursor: pointer;
@@ -59,32 +54,13 @@ body{
                 color: #fff;
             }
         }
-        #country-detail{
+        #crisis-detail{
             height: calc(100vh - 120px);
             margin-top: 40px;
 
-            #the-map{
-                height: 400px;
-            }
-
-            h3{
-                margin-top: 32px;
-                margin-bottom: 24px;
-            }
-            .admin-level-details{
-                background: #fafafa;
-                padding: 16px;
-                margin-bottom: 8px;
-            }
-            #add-new-admin-level-div{
-                background: #fafafa;
-                padding: 16px;
-                margin-bottom: 8px;
-            }
-            #add-new-admin-level{
-                margin-top: 16px;
+            h2{
+                margin-bottom: 32px;
             }
         }
     }
-
 }

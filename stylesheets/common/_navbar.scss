@@ -1,0 +1,62 @@
+nav{
+    background-color: darken($primary-color, 10%);
+    height: $navbar-height;
+    z-index: 1010;
+    line-height: 1;
+    text-align: center;
+    @include shadow();
+
+    img{
+        height: $navbar-height - 16px;
+        margin-top: 8px + 2px;  // 2px to fix logo's bottom padding
+    }
+    a, a:visited{
+        display: inline-block;
+    }
+
+    .menu-item{
+        height: $navbar-height;
+        padding: (($navbar-height - $text-size-md)/2);
+        vertical-align: middle;
+        font-size: $text-size-md;
+        font-weight: $font-weight-normal;
+        color: rgba(255, 255, 255, 0.7);
+        transition: 0.2s all ease-in-out;
+
+        &.active{
+            border-bottom: 2px solid #fff;
+            color: #fff;
+            font-weight: $font-weight-bold;
+        }
+    }
+    a:hover, a:active, button:hover, button:active{
+        color: #fff;
+    }
+    button, button:visited{
+        background-color: transparent;
+        border: none;
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: $font-weight-normal;
+        font-size: $text-size-md;
+
+        .fa{
+            margin-right: 10px;
+        }
+        .caret{
+            margin-left: 10px;
+        }
+    }
+    .dropdown{
+        ul{
+            li{
+                a{
+                    padding-top: 8px;
+                    padding-bottom: 8px;
+                    .fa{
+                        margin-right: 10px;
+                    }
+                }
+            }
+        }
+    }
+}

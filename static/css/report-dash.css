@@ -1,51 +1,73 @@
 body {
   font-family: 'Source Sans Pro', sans-serif;
-  background-color: #fafafa;
-  color: #414141; }
-
-a, a:hover, a:active, a:visited, a:focus {
-  text-decoration: none; }
-
-a, button, input[type="submit"], .btn {
-  text-transform: uppercase;
-  font-size: 13px; }
-
-#error {
-  color: #c0392b; }
+  background-color: #f5f5f5;
+  color: #414141;
+  font-size: 14px;
+  line-height: 1.5; }
+  body h1, body h2, body h3 {
+    font-weight: 400; }
+  body h1 {
+    font-size: 18px; }
+  body h2 {
+    font-size: 16px; }
+  body h3 {
+    font-size: 15px; }
+  body a, body a:hover, body a:active, body a:visited, body a:focus {
+    text-decoration: none; }
+  body a, body button, body input[type="submit"], body input[type="button"], body .btn, body .btn:focus, body button:focus {
+    text-transform: uppercase;
+    font-size: 13px;
+    outline: none !important; }
+  body .btn, body .btn:hover, body .btn:visited, body .btn:focus {
+    border: none;
+    border-radius: 3px;
+    transition: 0.2s all ease-in-out; }
+  body label {
+    color: #767676;
+    text-transform: uppercase;
+    font-size: 12px; }
 
 nav {
-  background-color: #008080;
-  height: 60px;
-  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
-  z-index: 100; }
-  nav .fa {
-    margin-right: 10px; }
-  nav .caret {
-    margin-left: 10px; }
+  background-color: #004d4d;
+  height: 56px;
+  z-index: 1010;
+  line-height: 1;
+  text-align: center;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
   nav img {
-    width: 100px;
-    margin-top: 14px; }
+    height: 40px;
+    margin-top: 10px; }
   nav a, nav a:visited {
-    color: #fff; }
-  nav a:hover, nav a:active, nav button:hover, nav button:active {
-    color: #eee; }
-  nav .menu-item {
-    height: 60px;
-    vertical-align: middle;
-    padding: calc(30px - 10px);
     display: inline-block; }
-  nav .active {
-    background-color: #004d4d; }
-  nav button {
+  nav .menu-item {
+    height: 56px;
+    padding: 21px;
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7);
+    transition: 0.2s all ease-in-out; }
+    nav .menu-item.active {
+      border-bottom: 2px solid #fff;
+      color: #fff;
+      font-weight: 600; }
+  nav a:hover, nav a:active, nav button:hover, nav button:active {
+    color: #fff; }
+  nav button, nav button:visited {
     background-color: transparent;
     border: none;
-    color: #fff; }
-  nav #event-menu {
-    margin-right: 24px; }
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 400;
+    font-size: 14px; }
+    nav button .fa, nav button:visited .fa {
+      margin-right: 10px; }
+    nav button .caret, nav button:visited .caret {
+      margin-left: 10px; }
   nav .dropdown ul li a {
     padding-top: 8px;
-    padding-bottom: 8px;
-    color: #414141; }
+    padding-bottom: 8px; }
+    nav .dropdown ul li a .fa {
+      margin-right: 10px; }
 
 body {
   background-color: #f0f0f0; }

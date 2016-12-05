@@ -1,7 +1,7 @@
-@import 'base';
+@import 'common/base';
 
 #main{
-    padding-top: 200px;
+    padding-top: 100px;
     background-color: #414141;
     background-image: url('../img/bg.jpg');
     background-position: center center;
@@ -27,7 +27,7 @@
 
         form{
             input{
-                margin-top: 24px;
+                margin-top: 16px;
             }
         }
     }

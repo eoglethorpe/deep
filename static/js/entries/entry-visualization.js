@@ -323,6 +323,8 @@ function renderTimeline(){
     //context.stroke();
     var yOffset = timelineCanvas.height*0.9+1
     context.beginPath();
+    context.fillStyle = '#414141';
+    context.lineWidth = 0.1;
     context.moveTo(0, yOffset);
     context.lineTo(timelineCanvas.width, yOffset);
 
@@ -331,11 +333,10 @@ function renderTimeline(){
     for(var j=0; j<=10; j++){
         var date = new Date(minDate.getTime()+j*(timeGap/9));
         var x = (j*timelineCanvas.width/9)*0.9+timelineCanvas.width*0.05;
-        context.fillStyle = '#000';
         var labelWidth = context.measureText(formatDate(date)).width;
         context.moveTo(x, yOffset);
-        context.lineTo(x, yOffset+10);
-        context.fillText(formatDate(date), x-labelWidth/2, timelineCanvas.height-6);
+        //context.lineTo(x, yOffset+10);
+        context.fillText(formatDate(date), x-labelWidth/2, timelineCanvas.height-3);
     }
     context.stroke();
 
