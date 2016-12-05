@@ -31,6 +31,7 @@ class EntryInformationSerializer(serializers.ModelSerializer):
     modified_at = serializers.DateTimeField(source='entry.modified_at', read_only=True)
     lead_source = serializers.CharField(source='entry.lead.source_name', read_only=True)
     lead_title = serializers.CharField(source='entry.lead.name', read_only=True)
+    lead_published_at = serializers.CharField(source='entry.lead.published_at', read_only=True)
     map_selections = MapSelectionSerializer(many=True)
 
     class Meta:
@@ -38,7 +39,7 @@ class EntryInformationSerializer(serializers.ModelSerializer):
         fields = ('excerpt', 'date', 'reliability', 'severity', 'number',
                   'vulnerable_groups', 'specific_needs_groups', 'affected_groups',
                   'map_selections', 'attributes', 'modified_by', 'modified_at',
-                  'lead_source', 'lead_title')
+                  'lead_source', 'lead_title', 'lead_published_at')
         depth = 1
 
 

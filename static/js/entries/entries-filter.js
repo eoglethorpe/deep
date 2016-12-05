@@ -1,3 +1,4 @@
+
 var originalEntries = [];
 var entries = [];
 var entriesTimeline = [];       // Entries to display on timeline: includes even those filtered out by timeline filter
@@ -113,6 +114,9 @@ function initEntryFilters() {
             if (info.lead_source)
                 return info.lead_source.toLowerCase().includes(filterBy.toLowerCase());
         });
+    });
+    $('#date-published-filter').change(function() {
+        
     });
     $('#users-filter').change(function() {
         var filterBy = $(this).val();
@@ -287,5 +291,44 @@ function filterByTimeline() {
     } else {
         timelineFilter = null;
         filterEntries();
+    }
+}
+
+
+// Checks if the date is in given range
+function dateInRange(date, min, max){
+    date.setHours(0, 0, 0, 0);
+    min.setHours(0, 0, 0, 0);
+    max.setHours(0, 0, 0, 0);
+    return (date >= min && date <= max);
+}
+
+function filterDate(filter, date){
+    dateStr = date.toDateString();
+    switch(filter){
+        case "today":
+            return (new Date()).toDateString() == dateStr;
+        case "yesterday":
+            yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            return yesterday.toDateString() == dateStr;
+        case "last-seven-days":
+            min = new Date();
+            min.setDate(min.getDate() - 7);
+            return dateInRange(date, min, (new Date));
+        case "this-week":
+            min = new Date();
+            min.setDate(min.getDate() - min.getDay());
+            return dateInRange(date, min, (new Date));
+        case "last-thirty-days":
+            min = new Date();
+            min.setDate(min.getDate() - 30);
+            return dateInRange(date, min, (new Date));
+        case "this-month":
+            min = new Date();
+            min.setDate(1);
+            return dateInRange(date, min, (new Date));
+        default:
+            return true;
     }
 }
