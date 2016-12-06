@@ -423,17 +423,10 @@ function deleteExcerpt() {
 
 
 function styleText(text) {
-    // for (var i=0; i<excerpts.length; ++i) {
-    //     var excerpt = excerpts[i].excerpt;
-    //     var index = text.indexOf(excerpt);
-
-    //     if (excerpt.trim().length == 0 || index < 0)
-    //         continue;
-
-    //     text = text.substring(0, index) +
-    //         "<span style='background-color:#f00;'>" + excerpt + "</span>" +
-    //         text.substring(index + excerpt.length);
-    // }
+    for (var i=0; i<excerpts.length; ++i) {
+        var excerpt = excerpts[i].excerpt;
+        text = highlighter.highlightHtml(text, excerpt, 'style="background-color:#ccc;"');
+    }
 
     return "<div>" + text + "</div>";
 }
