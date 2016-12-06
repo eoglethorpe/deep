@@ -34,7 +34,12 @@ body{
             }
         }
     }
+    #last-seven-days-btn{
+        font-weight: bold;
+        text-align: right;
+        padding-left: 72px;
 
+    }
     #entries{
         height: calc(100vh - #{$navbar-height} - #{$header-height} - 64px)!important;
         background-color: #fff;
@@ -53,6 +58,7 @@ body{
             &:nth-child(odd){
                 background-color: #fff;
             }
+
 
             header{
                 height: auto;

@@ -11,7 +11,7 @@
             <h3>Sectors</h3>
             {% for sector in sectors %}
             <div class="attr" data-id="{{sector.pk}}">
-                <span class="name">{{sector}}</span>
+                <label class="name">{{sector}}</label>
                 {% if sector.icon %}
                 <img src="{{sector.icon.url}}" >
                 {% endif %}
@@ -40,14 +40,14 @@
         </div>
     </div>
 </div>
-<div id="attr-visualization-container">
+<div id="attr-visualizations-container">
     <div class="row">
         <div class="col-md-3">
             <div id="vulnerable-groups-visualization" class="attr-visualization">
-                <h3>Vulnerable groups</h3>
+                <h3>Demographic groups</h3>
                 {% for vg in vulnerable_groups %}
                 <div class="attr" data-id="{{vg.pk}}">
-                    <span class="name">{{vg}}</span>
+                    <label class="name">{{vg}}</label>
                     <span class="severities"></span>
                 </div>
                 {% endfor %}
@@ -58,7 +58,7 @@
                 <h3>Specific needs groups</h3>
                 {% for sg in specific_needs_groups %}
                 <div class="attr" data-id="{{sg.pk}}">
-                    <span class="name">{{sg}}</span>
+                    <label class="name">{{sg}}</label>
                     <span class="severities"></span>
                 </div>
                 {% endfor %}
@@ -69,7 +69,7 @@
                 <h3>Sources</h3>
                 {% for source in sources %}
                 <div class="attr" data-id="{{source}}">
-                    <span class="name">{{source}}</span>
+                    <label class="name">{{source}}</label>
                     <span class="severities"></span>
                 </div>
                 {% endfor %}
@@ -80,7 +80,7 @@
                 <h3>Affected groups</h3>
                 {% for ag in affected_groups %}
                 <div class="attr" data-id="{{ag.pk}}">
-                    <span class="name">{{ag}}</span>
+                    <label class="name">{{ag}}</label>
                     <span class="severities"></span>
                 </div>
                 {% endfor %}
