@@ -26,7 +26,6 @@ body{
     }
     a, button, input[type="submit"], input[type="button"], .btn, .btn:focus, button:focus{
         text-transform: uppercase;
-        font-size: $text-size-sm;
         outline: none!important;
     }
     .btn, .btn:hover, .btn:visited, .btn:focus{

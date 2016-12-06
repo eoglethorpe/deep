@@ -118,7 +118,7 @@ function renderSectors(){
         })[0];
         for(var i=0; i<sector.severities.length; i++){
             severity = sector.severities[i];
-            $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*256)+'px;" data-toggle="tooltip" onmouseover="$(this).tooltip(\'show\')" title="'+severity.name+' - '+severity.value+'"></span>').appendTo(severitiesContainer);
+            $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*240)+'px;" data-toggle="tooltip" onmouseover="$(this).tooltip(\'show\')" title="'+severity.name+' - '+severity.value+'"></span>').appendTo(severitiesContainer);
         }
     })
 }
@@ -143,7 +143,7 @@ function renderAttrs(id, attrs) {
         })[0];
         for(var i=0; i<attr.severities.length; i++){
             severity = attr.severities[i];
-            $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*256)+'px;" data-toggle="tooltip" onmouseover="$(this).tooltip(\'show\')" title="'+severity.name+' - '+severity.value+'"></span>').appendTo(severitiesContainer);
+            $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*192)+'px;" data-toggle="tooltip" onmouseover="$(this).tooltip(\'show\')" title="'+severity.name+' - '+severity.value+'"></span>').appendTo(severitiesContainer);
         }
     })
 }

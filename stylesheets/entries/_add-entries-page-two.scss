@@ -1,0 +1,135 @@
+#page-two{
+    padding-top: 24px;
+
+    .btn{
+        @include btn-shadow-sm();
+    }
+    .btn-affected, .btn-map {
+        cursor: pointer;
+        @include btn-shadow-sm();
+    }
+    #entries{
+        margin-top: 24px;
+        @include shadow();
+
+        h3{
+            margin-top: 0;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+        }
+        .entry{
+            padding: 16px;
+            padding-bottom: 0;
+            background-color: #fff;
+
+            .severity, .reliability{
+                cursor: pointer;
+
+                span{
+                    width: 10px;
+                    height: 16px;
+                    margin: 1px;
+                    background-color: #ccc;
+                    display: inline-block;
+                    cursor: pointer;
+                }
+                label{
+                    vertical-align: super;
+                    margin-right: 16px;
+                }
+
+            }
+            $reliability-base: #1A237E;
+            .reliability{
+                cursor: pointer;
+                ._1{ background-color: lighten($reliability-base, 50%); }
+                ._2{ background-color: lighten($reliability-base, 40%); }
+                ._3{ background-color: lighten($reliability-base, 30%);  }
+                ._4{ background-color: lighten($reliability-base, 20%); }
+                ._5{ background-color: lighten($reliability-base, 10%); }
+                ._6{ background-color: lighten($reliability-base, 5%); }
+                .active{ transform: scale(1.4); }
+            }
+            $severity-base: #B71C1C;
+            .severity{
+                cursor: pointer;
+                ._1{ background-color: lighten($severity-base, 40%); }
+                ._2{ background-color: lighten($severity-base, 30%); }
+                ._3{ background-color: lighten($severity-base, 20%);  }
+                ._4{ background-color: lighten($severity-base, 10%); }
+                ._5{ background-color: lighten($severity-base, 5%); }
+                ._6{ background-color: lighten($severity-base, 0%); }
+                .active{ transform: scale(1.4); }
+            }
+            .excerpt{
+                font-size: 0.9em;
+                overflow: hidden;
+                margin-bottom: 16px;
+            }
+            .geo-location{
+                margin-top: 4px;
+                font-weight: bold;
+            }
+            .affected-group{
+                color: #e74c3c;
+            }
+            .geo-location, .affected-group{
+                padding: 4px;
+                min-height: 64px;
+
+                a{
+                    float: right;
+                }
+                .fa{
+                    margin-right: 0;
+                }
+                img{
+                    width: 24px;
+                    height: 24px;
+                }
+            }
+            .attribute-list{
+                display: flex;
+                flex-direction: column;
+
+                .attribute{
+                    margin-bottom: 2px;
+                    display: block;
+                    font-size: 0.9em;
+                    text-align: left;
+                    a{
+                        font-size: 0.9em;
+                        cursor: pointer;
+                    }
+                }
+            }
+            .sub-sector-list{
+                list-style: none;
+            }
+            .btn-action{
+                width: 32px;
+                height: 32px;
+                text-align: center;
+                padding: 0;
+                padding-top: 4px;
+                margin-bottom: 10px;
+
+                .fa{
+                    margin: 0;
+                }
+            }
+            .pillar, .sector{
+                font-weight: bold;
+            }
+            .sub-pillar, .sub-sector{
+                font-size: 0.9em;
+            }
+            a.sub-sector{
+                color: $primary-color;
+            }
+        }
+        .entry:nth-child(even){
+            background-color: #f5f5f5;
+        }
+    }
+}

@@ -1,0 +1,172 @@
+#page-one{
+    .split-pane{
+        height: calc(100vh - #{$navbar-height} - 2px)!important;
+
+        .split-pane-divider{
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+        #left-component{
+            width: 40em;
+            box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.3);
+            background-color: #fff;
+            overflow-x: hidden;
+            .fa{
+                margin-right: 0;
+            }
+            #lead-options-container{
+
+                padding: 8px;
+                width: 100%;
+                margin-bottom: 4px;
+                height: 48px;
+                background-color: #f0f0f0;
+
+                #zoom-buttons{
+                    text-align: right;
+
+                    button{
+                        @include btn-shadow-lg();
+                    }
+                    .fa{
+                        font-size: 1.2em;
+                    }
+                }
+            }
+            #lead-preview-container{
+                #lead-preview{
+                    height: calc(100vh - #{$navbar-height} - 56px);
+                    box-sizing: border-box;
+                    border: none;
+                }
+                iframe{
+                    width: 100%;
+                }
+                #lead-simplified-preview{
+                    padding: 16px;
+                }
+            }
+        }
+        #divider{
+            left: 40em;
+            width: 3px;
+            background-color: transparent;
+        }
+        #right-component{
+            left: 40em;
+            margin-left: 3px;
+            padding-top: 24px;
+
+            .btn{
+                margin-right: 8px;
+                @include btn-shadow-sm();
+            }
+            .row{
+                margin-bottom: 24px;
+            }
+            .save-excerpt{
+                float: right;
+            }
+            .cancel{
+                float: right;
+            }
+            #edit-entries-btn{
+                float: right;
+            }
+            #excerpt-text{
+                height: 96px;
+            }
+            #matrix-one{
+                display: flex;
+                flex-direction: column;
+
+                .pillar{
+                    margin-top: 4px;
+                    margin-bottom: 4px;
+                    -webkit-user-select: none;
+
+                    .pillar-header{
+                        display: inline-block;
+                        padding: 8px 10px;
+                        margin-right: 2px;
+                        background-color: #fff;
+                        text-align: center;
+                        width: 192px;
+                    }
+                    .sub-pillar{
+                        display: inline-block;
+                        padding: 8px 10px;
+                        margin-right: 2px;
+                        cursor: pointer;
+                        background-color: #ddd;
+                        transition: 0.2s all ease-in-out;
+                    }
+                    .active{
+                        transform: scaleY(1.1), scaleX(1.02);
+                        background-color: $primary-color;
+                        color: #fff;
+                    }
+                }
+            }
+            #matrix-two{
+                width: 100%;
+                border-spacing: 4px;
+                border-collapse: separate;
+
+                td{
+                    padding: 6px;
+                    text-align: center;
+                }
+                .sector {
+                    width: 7%;
+                }
+                .pillar-header {
+                    background-color: #f7caac;
+                }
+                .subpillar {
+                    background-color: lighten(#f7caac, 5%);
+                }
+                .attribute-block {
+                    cursor: pointer;
+                }
+
+            }
+
+        }
+    }
+    #edit-entries-btn{
+        float: right;
+    }
+    #excerpt-text{
+        height: 96px;
+    }
+    #pillars{
+        display: flex;
+        flex-direction: column;
+
+        .pillar{
+            margin-top: 4px;
+            margin-bottom: 4px;
+            -webkit-user-select: none;
+
+            .pillar-header{
+                display: inline-block;
+                padding: 24px;
+                margin-right: 2px;
+                background-color: #ccc;
+            }
+            .sub-pillar{
+                display: inline-block;
+                padding: 24px;
+                margin-right: 2px;
+                cursor: pointer;
+                background-color: #eee;
+                transition: 0.2s all ease-in-out;
+            }
+            .active{
+                transform: scaleY(1.1);
+                background-color: $primary-color;
+                color: #fff;
+            }
+        }
+    }
+}

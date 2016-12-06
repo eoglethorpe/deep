@@ -1,6 +1,6 @@
 body {
   font-family: 'Source Sans Pro', sans-serif;
-  background-color: #f5f5f5;
+  background-color: #f0f0f0;
   color: #414141;
   font-size: 14px;
   line-height: 1.5; }
@@ -16,7 +16,6 @@ body {
     text-decoration: none; }
   body a, body button, body input[type="submit"], body input[type="button"], body .btn, body .btn:focus, body button:focus {
     text-transform: uppercase;
-    font-size: 13px;
     outline: none !important; }
   body .btn, body .btn:hover, body .btn:visited, body .btn:focus {
     border: none;
@@ -75,9 +74,9 @@ nav {
     vertical-align: sub; }
 #main #add-lead-btn {
   margin-bottom: -40px;
-  box-shadow: 0 6px 15px -5px #000; }
+  box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
   #main #add-lead-btn:active {
-    box-shadow: 0 6px 10px -5px #000; }
+    box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
 #main #leads-table {
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
   #main #leads-table thead {
@@ -90,9 +89,9 @@ nav {
     background-color: #fafafa; }
   #main #leads-table tbody .btn-action {
     margin: 2px;
-    box-shadow: 0 3px 10px -3px rgba(0, 0, 0, 0.5); }
+    box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
     #main #leads-table tbody .btn-action:active {
-      box-shadow: 0 3px 6px -3px rgba(0, 0, 0, 0.5); }
+      box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
   #main #leads-table tbody .row-detail {
     padding: 10px 24px; }
     #main #leads-table tbody .row-detail .fa {
@@ -109,9 +108,9 @@ nav {
       white-space: pre-wrap; }
     #main #leads-table tbody .row-detail button {
       margin: 4px;
-      box-shadow: 0 3px 10px -3px rgba(0, 0, 0, 0.5); }
+      box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
       #main #leads-table tbody .row-detail button:active {
-        box-shadow: 0 3px 6px -3px rgba(0, 0, 0, 0.5); }
+        box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
     #main #leads-table tbody .row-detail .lead-content a {
       text-transform: none; }
   #main #leads-table tbody .btn-add-entry .fa {
