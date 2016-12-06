@@ -2,6 +2,7 @@ $(document).ready(function() {
     loadMap();
 
     $('#country-list .country').click(function() {
+        $('#country-detail-inputs h2').text('Edit country details');
 
         // Get the country
         var code = $(this).data('country-code');
@@ -47,6 +48,7 @@ $(document).ready(function() {
 });
 
 function addNewCountry() {
+    $('#country-detail-inputs h2').text('Add new country');
     $('.active').removeClass('active');
     $('#country-code').val(null);
     $('#country-name').val(null);
