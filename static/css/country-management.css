@@ -72,6 +72,15 @@ body {
     margin-top: 40px; }
     body main #country-detail #the-map {
       height: 400px; }
+      body main #country-detail #the-map path {
+        stroke: #717171;
+        stroke-width: 1px;
+        stroke-linejoin: round; }
+      body main #country-detail #the-map .leaflet-top {
+        z-index: 1;
+        top: auto;
+        bottom: 24px;
+        left: 24px; }
     body main #country-detail h3 {
       margin-top: 32px;
       margin-bottom: 24px; }

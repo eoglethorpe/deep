@@ -65,6 +65,18 @@ body{
 
             #the-map{
                 height: 400px;
+
+                path {
+                    stroke: #717171;
+                    stroke-width: 1px;
+                    stroke-linejoin: round;
+                }
+                .leaflet-top{
+                    z-index: 1;
+                    top: auto;
+                    bottom: 24px;
+                    left: 24px;
+                }
             }
 
             h3{
