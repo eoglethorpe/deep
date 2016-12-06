@@ -46,7 +46,7 @@ function renderEntries(){
 
     for(var i=0; i<entries.length; i++){
         if (!sevenDaysLater &&
-                (new Date().getTime() - new Date(entries[i].modified_at).getTime())/(1000*60*60*24) > 7)
+                !filterDate('last-seven-days', new Date(entries[i].modified_at)))
         {
             sevenDaysLater = true;
             if (i != 0) {
@@ -94,6 +94,19 @@ function renderEntries(){
 $(document).ready(function(){
     initEntryFilters();
 
+    // One extra filter on last sevendays
+    $('#last-seven-days-btn').click(function() {
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+            addFilter('last-seven-days', true, null);
+        } else {
+            $(this).addClass('active');
+            addFilter('last-seven-days', false, function(info) {
+                return filterDate('last-seven-days', new Date(info.modified_at));
+            });
+        }
+    });
+
     $("#save-btn").click(function() {
         getInputData();
         var d = { "data": JSON.stringify(data), "start_date": start_date };
@@ -114,6 +127,7 @@ $(document).ready(function(){
         $($(this).data('target')).show();
         $(this).addClass('active');
 
+        // Filter pillars based on tabs
         var tag = $(this).data("pillar-tag");
         if (tag) {
             pillarsFilterSelectize[0].selectize.setValue(appearing_pillars[tag]);

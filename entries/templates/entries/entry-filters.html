@@ -58,8 +58,8 @@
                 </select>
             </div>
             <div class="col-md-2">
-                <select id="vulnerable-groups-filter" placeholder="Vulnerable group" multiple>
-                    <option value="">Vulnerable group</option>
+                <select id="vulnerable-groups-filter" placeholder="Demographic group" multiple>
+                    <option value="">Demographic group</option>
                     {% for vulnerable_group in vulnerable_groups %}
                     <option value="{{vulnerable_group}}">{{vulnerable_group}}</option>
                     {% endfor %}
@@ -147,6 +147,36 @@
                         <option value="{{severity.level}}">{{severity}}</option>
                         {% endfor %}
                     </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="date-range-input" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <h3 class="modal-title">Enter date range</h3>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>start date:</label><br>
+                        <div style="position: relative;">
+                            <input type="date" id="start-date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>end date:</label><br>
+                        <div style="position: relative;">
+                            <input type="date" id="end-date" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 24px; text-align: right;">
+                    <button type="button" class="btn btn-default" id="cancel-btn" data-dismiss="modal">CANCEL</button>
+                    <button type="button" class="btn btn-primary" id="ok-btn" style="min-width: 50px; margin-left: 16px;" data-dismiss="modal">OK</button>
                 </div>
             </div>
         </div>

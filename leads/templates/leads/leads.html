@@ -17,10 +17,10 @@ DEEP | Leads
     var postUrl = "{% url 'leads:add' event.pk %}";
 </script>
 
-<script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/selectize.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/leads.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/common/datatables.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/common/selectize.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/common/utils.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/leads/leads.js' %}"></script>
 {% endblock %}
 
 {% block body %}

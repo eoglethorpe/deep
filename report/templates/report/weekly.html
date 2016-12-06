@@ -10,10 +10,10 @@ DEEP | Weekly Report
 <link href="{% static 'css/report-weekly.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/selectize.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
-<script src="{% static 'js/entries-filter.js' %}"></script>
-<script src="{% static 'js/report-weekly.js' %}"></script>
-<script src="{% static 'js/selectize.js' %}"></script>
-<script src="{% static 'js/utils.js' %}"></script>
+<script src="{% static 'js/entries/entries-filter.js' %}"></script>
+<script src="{% static 'js/common/selectize.js' %}"></script>
+<script src="{% static 'js/common/utils.js' %}"></script>
+<script src="{% static 'js/report/report-weekly.js' %}"></script>
 
 <script>
 
@@ -86,7 +86,7 @@ var appearing_pillars = {
         <div class="row">
             <div class="col-md-4">
                 <div id="entries-header-container">
-                    <h3>Entries</h3>
+                    <h3>Entries <a id="last-seven-days-btn" href="#">Show entries for last 7 days only</a> </h3>
                 </div>
                 <div id="entries">
                 </div>

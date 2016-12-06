@@ -88,6 +88,10 @@ body {
       font-size: 0.8em; }
     #main header #filters #reliability-filter-container, #main header #filters #severity-filter-container {
       margin-top: -26px; }
+  #main #last-seven-days-btn {
+    font-weight: bold;
+    text-align: right;
+    padding-left: 72px; }
   #main #entries {
     height: calc(100vh - 56px - 176px - 64px) !important;
     background-color: #fff;

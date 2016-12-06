@@ -14,7 +14,8 @@ class UserProfile(models.Model):
 
     user = models.OneToOneField(User, primary_key=True)
     organization = models.CharField(max_length=150)
-    last_event = models.ForeignKey(Event, default=None, null=True, blank=True)
+    last_event = models.ForeignKey(Event, default=None, null=True, blank=True,
+                                   on_delete=models.SET_NULL)
 
     def __str__(self):
         return str(self.user)
