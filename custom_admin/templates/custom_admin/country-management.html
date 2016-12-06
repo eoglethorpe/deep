@@ -13,6 +13,7 @@ DEEP | Country Management Panel
 <script type="text/javascript" src="{% static 'js/common/selectize.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/common/utils.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/custom-admin/country-management.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/custom-admin/country-management-map.js' %}"></script>
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
@@ -84,8 +85,9 @@ DEEP | Country Management Panel
                     </div>
                     <div class="col-md-8">
                         <div id="the-map">
-                            <div id="map-shadow-overlay"></div>
+                            {% comment %}<div id="map-shadow-overlay"></div>{% endcomment %}
                         </div>
+                        <div id="admin-level-buttons"></div>
                     </div>
                 </div>
                 <div class="row">

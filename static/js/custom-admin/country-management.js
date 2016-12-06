@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var mymap = L.map('the-map').setView([51.505, -0.09], 13);
+    loadMap();
 
     $('#country-list .country').click(function() {
 
@@ -24,7 +24,6 @@ $(document).ready(function() {
             adminLevelView.find('.property-name').val(adminLevel.property_name);
             adminLevelView.find('.property-pcode').val(adminLevel.property_pcode);
 
-            // adminLevelView.find('.geojson-name').html('<a href="' + adminLevel.geojson + '">' + adminLevel.geojson + '</a>');
             if (adminLevel.geojson) {
                 adminLevelView.find('.geojson-old').html('<b>Previous: </b><a href="' + adminLevel.geojson + '">' + adminLevel.geojson + '</a>');
             }
@@ -33,6 +32,8 @@ $(document).ready(function() {
         // Set active state
         $('.active').removeClass('active');
         $(this).addClass('active');
+
+        loadCountryInMap(code);
     });
 
     $('#add-new-admin-level').click(function() {

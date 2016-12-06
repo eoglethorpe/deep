@@ -91,14 +91,6 @@ class CountryManagementView(View):
 
     @method_decorator(login_required)
     def post(self, request):
-        '''
-        <QueryDict: {'geojson-selected': ['false', 'false', 'false', 'false'], 'country-code': ['NP'],
-        'property-pcode': ['', '', '', ''], 'save': [''], 'admin-level': ['1', '2', '3', ''],
-        'admin-level-pk': ['1', '2', '3', 'new'], 'delete-admin-level': ['0', '0', '0', '0'],
-        'country-name': ['Nepal'], 'admin-level-name': ['Development Region', 'Zone', 'District', ''],
-        'geojson': ['', '', '', ''], 'property-name': ['name:en', 'name:en', 'name:en', '']}>
-        '''
-
         response = redirect('custom_admin:country_management')
 
         if 'save' in request.POST:
