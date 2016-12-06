@@ -6,6 +6,7 @@
     }
     .btn-affected, .btn-map {
         cursor: pointer;
+        border-radius: 50%;
         @include btn-shadow-sm();
     }
     #entries{

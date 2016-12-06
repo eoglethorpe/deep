@@ -209,6 +209,7 @@ body {
         box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
     body #page-two .btn-affected, body #page-two .btn-map {
       cursor: pointer;
+      border-radius: 50%;
       box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
       body #page-two .btn-affected:active, body #page-two .btn-map:active {
         box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
