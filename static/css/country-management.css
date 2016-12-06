@@ -26,73 +26,132 @@ body {
     text-transform: uppercase;
     font-size: 12px; }
 
-body {
-  background-color: #f0f0f0; }
-  body label {
-    text-transform: uppercase;
-    color: #969696;
-    font-size: 0.9em; }
-  body h2 {
-    text-transform: uppercase; }
-  body h3 {
-    text-transform: uppercase; }
-  body h4 {
-    text-transform: uppercase; }
-  body header {
-    background-color: #008080;
+body h1, body h2, body h3, body h4 {
+  text-transform: uppercase;
+  margin: 0;
+  vertical-align: middle; }
+body header {
+  background-color: #004d4d;
+  color: #fff;
+  height: 56px;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  body header h1 {
+    padding-top: 19px; }
+  body header a {
     color: #fff;
-    padding: 24px;
-    height: 60px;
-    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3); }
-    body header h1 {
-      text-transform: uppercase;
-      font-size: 1.5em;
-      margin: 0; }
-    body header a {
-      color: #fff;
-      float: right; }
-      body header a i {
+    padding-top: 21px;
+    float: right; }
+    body header a i {
+      margin-right: 10px; }
+    body header a:hover {
+      color: #eee; }
+body main #country-list {
+  margin-top: 24px;
+  padding: 16px; }
+  body main #country-list h2 {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 24px;
+    margin-top: 8px; }
+  body main #country-list button {
+    float: right;
+    box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
+    body main #country-list button:active {
+      box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
+    body main #country-list button i {
+      margin-right: 10px; }
+  body main #country-list .country {
+    margin-left: -16px;
+    margin-right: -16px;
+    padding: 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    cursor: pointer; }
+  body main #country-list .active {
+    background-color: #008080;
+    color: #fff; }
+body main #country-detail {
+  background-color: #fff;
+  height: calc(100vh - 56px);
+  padding: 24px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  body main #country-detail h2 {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 32px;
+    margin-top: 10px; }
+  body main #country-detail #the-map {
+    height: 400px; }
+    body main #country-detail #the-map path {
+      stroke: #717171;
+      stroke-width: 1px;
+      stroke-linejoin: round; }
+  body main #country-detail #contry-detail-inputs {
+    margin-bottom: 100px; }
+  body main #country-detail #save-btn, body main #country-detail #delete-btn {
+    margin-right: 16px;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+    body main #country-detail #save-btn:active, body main #country-detail #delete-btn:active {
+      box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+    body main #country-detail #save-btn .fa, body main #country-detail #delete-btn .fa {
+      margin-right: 10px; }
+  body main #country-detail #admin-level-buttons {
+    padding: 4px 0; }
+  body main #country-detail h3 {
+    margin-top: -10px;
+    margin-bottom: 16px; }
+  body main #country-detail .admin-level-details {
+    background-color: #f0f0f0;
+    padding: 16px 24px;
+    margin-left: -24px;
+    margin-right: -24px; }
+    body main #country-detail .admin-level-details:nth-child(even) {
+      background: #fafafa; }
+    body main #country-detail .admin-level-details .file-input {
+      width: 0.1px;
+      height: 0.1px;
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      z-index: -1; }
+    body main #country-detail .admin-level-details .file-input + label {
+      margin-left: 10px;
+      margin-right: 10px;
+      padding: 6px 24px;
+      background-color: #fff;
+      font-size: 1em;
+      border-radius: 3px;
+      display: inline-block;
+      cursor: pointer;
+      box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+      body main #country-detail .admin-level-details .file-input + label:active {
+        box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+      body main #country-detail .admin-level-details .file-input + label i {
         margin-right: 10px; }
-      body header a:hover {
-        color: #eee; }
-  body main #country-list {
-    background-color: #fff;
-    height: calc(100vh - 100px);
-    margin-top: 24px;
-    overflow-y: scroll; }
-    body main #country-list .country {
-      padding: 16px 24px;
-      border-bottom: 1px solid #f0f0f0;
-      cursor: pointer; }
-    body main #country-list .active {
-      background-color: #008080;
-      color: #fff; }
-  body main #country-detail {
-    height: calc(100vh - 120px);
-    margin-top: 40px; }
-    body main #country-detail #the-map {
-      height: 400px; }
-      body main #country-detail #the-map path {
-        stroke: #717171;
-        stroke-width: 1px;
-        stroke-linejoin: round; }
-      body main #country-detail #the-map .leaflet-top {
-        z-index: 1;
-        top: auto;
-        bottom: 24px;
-        left: 24px; }
-    body main #country-detail h3 {
-      margin-top: 32px;
-      margin-bottom: 24px; }
-    body main #country-detail .admin-level-details {
-      background: #fafafa;
-      padding: 16px;
-      margin-bottom: 8px; }
-    body main #country-detail #add-new-admin-level-div {
-      background: #fafafa;
-      padding: 16px;
-      margin-bottom: 8px; }
-    body main #country-detail #add-new-admin-level {
-      margin-top: 16px; }
+    body main #country-detail .admin-level-details .geojson-current {
+      display: inline-block; }
+    body main #country-detail .admin-level-details .delete-admin-level {
+      float: right;
+      cursor: pointer;
+      font-size: 15px;
+      color: #e74c3c;
+      padding-top: 16px; }
+      body main #country-detail .admin-level-details .delete-admin-level input {
+        margin-right: 10px;
+        margin-top: 0;
+        vertical-align: middle;
+        border: none;
+        box-shadow: none; }
+      body main #country-detail .admin-level-details .delete-admin-level span {
+        display: inline-block; }
+  body main #country-detail #add-new-admin-level {
+    margin-top: 16px;
+    box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+    body main #country-detail #add-new-admin-level:active {
+      box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+    body main #country-detail #add-new-admin-level i {
+      margin-right: 10px; }
 
 /*# sourceMappingURL=country-management.css.map */
