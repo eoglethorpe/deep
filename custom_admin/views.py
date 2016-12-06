@@ -82,7 +82,91 @@ class CountryManagementView(View):
         context = {}
         context["current_page"] = "country-management"
         context["events"] = Event.objects.all()
-
         context["countries"] = Country.objects.all()
 
+        if "selected" in request.GET:
+            context["selected_country"] = request.GET["selected"]
+
         return render(request, "custom_admin/country-management.html", context)
+
+    @method_decorator(login_required)
+    def post(self, request):
+        '''
+        <QueryDict: {'geojson-selected': ['false', 'false', 'false', 'false'], 'country-code': ['NP'],
+        'property-pcode': ['', '', '', ''], 'save': [''], 'admin-level': ['1', '2', '3', ''],
+        'admin-level-pk': ['1', '2', '3', 'new'], 'delete-admin-level': ['0', '0', '0', '0'],
+        'country-name': ['Nepal'], 'admin-level-name': ['Development Region', 'Zone', 'District', ''],
+        'geojson': ['', '', '', ''], 'property-name': ['name:en', 'name:en', 'name:en', '']}>
+        '''
+
+        response = redirect('custom_admin:country_management')
+
+        if 'save' in request.POST:
+            code = request.POST['country-code']
+            try:
+                country = Country.objects.get(code=code)
+            except:
+                country = Country(code=code)
+
+            country.name = request.POST['country-name']
+            country.save()
+
+            admin_level_pks = request.POST.getlist('admin-level-pk')
+            admin_levels = request.POST.getlist('admin-level')
+            admin_level_names = request.POST.getlist('admin-level-name')
+            property_names = request.POST.getlist('property-name')
+            property_pcodes = request.POST.getlist('property-pcode')
+            geojsons = request.FILES.getlist('geojson')
+            geojsons_selected = request.POST.getlist('geojson-selected')
+            
+            # Deletion are checkboxes and need to be handled differently
+            # See html comment for more info
+            temp = request.POST.getlist('delete-admin-level')
+            delete_admin_levels = []
+            t = 0
+            while t < len(temp):
+                if temp[t] == '0':
+                    delete_admin_levels.append(False)
+                else:
+                    t += 1
+                    delete_admin_levels.append(True)
+                t += 1
+
+            # Post each admin level
+            geojson_file = 0
+            for i, pk in enumerate(admin_level_pks):
+
+                to_delete = delete_admin_levels[i] or admin_levels[i] == '' \
+                    or admin_level_names[i] == '' or property_names[i] == ''
+
+                if pk == "new":
+                    admin_level = AdminLevel()
+                    if to_delete or geojsons_selected[i] == 'false':
+                        continue
+                else:
+                    admin_level = AdminLevel.objects.get(pk=int(pk))
+                    if to_delete:
+                        admin_level.delete()
+                        continue
+
+                admin_level.country = country
+                admin_level.level = int(admin_levels[i])
+                admin_level.name = admin_level_names[i]
+                admin_level.property_name = property_names[i]
+                admin_level.property_pcode = property_pcodes[i]
+                
+                if geojsons_selected[i] == 'true':
+                    admin_level.geojson = geojsons[geojson_file]
+                    geojson_file += 1
+                admin_level.save()
+            
+
+            response["Location"] += "?selected="+str(country.pk)
+
+        elif 'delete' in request.POST:
+            try:
+                country = Country.objects.get(code=request.POST['country-code']).delete()
+            except:
+                pass
+        
+        return response
