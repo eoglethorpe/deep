@@ -49,107 +49,95 @@ DEEP | Country Management Panel
 </header>
 <main>
     <div class="container-fluid">
-        <div class="col-md-4">
+        <div class="col-md-3 ">
             <div id="country-list">
-                <button class="btn btn-primary" style="float: right; margin-top: 16px; margin-right: 16px;" onclick="addNewCountry();"><i class="fa fa-plus" style="padding-right: 8px;"></i>Add new country</button>
-                <h3 style="padding-left: 16px; text-transform: uppercase;">Country List</h3>
-                <hr>
+                <button class="btn btn-primary" onclick="addNewCountry();"><i class="fa fa-plus"></i>Add new country</button>
+                <h2>Countries</h2>
                 {% for country in countries %}
-                <div class="country{% if selected_country == country.pk %} active{% endif %}" data-country-code="{{country.code}}">{{country.name}}</div>
+                <div class="country {% if selected_country == country.pk %}active{% endif %}" data-country-code="{{country.code}}">{{country.name}}</div>
                 {% endfor %}
             </div>
         </div>
-        <div class="col-md-8 ">
+        <div class="col-md-9">
             <div id="country-detail">
-                <h2>Country Details</h2>
                 <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label> Code </label>
-                                    <input name="country-code" type="text" class="form-control" id="country-code" placeholder="Enter country code" required>
-                                </div>
+                        <div id="country-detail-inputs">
+                            <h2>Add new country</h2>
+                            <div class="form-group">
+                                <label>Country code</label>
+                                <input name="country-code" type="text" class="form-control" id="country-code" placeholder="Enter country code" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input name="country-name" type="text" class="form-control" id="country-name" placeholder="Enter country name" required>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label> Name </label>
-                                    <input name="country-name" type="text" class="form-control" id="country-name" placeholder="Enter country name" required>
-                                </div>
-                            </div>
-                        </div>
+                        <button id="save-btn" name="save" class="btn btn-info"><i class="fa fa-save"></i>Save changes</button>
+                        <button id="delete-btn" name="delete" class="btn btn-danger" onclick="return confirm('Are you sure?');"><i class="fa fa-trash"></i>Delete country</button>
                     </div>
                     <div class="col-md-8">
                         <div id="the-map">
-                            {% comment %}<div id="map-shadow-overlay"></div>{% endcomment %}
                         </div>
                         <div id="admin-level-buttons"></div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3>Admin Levels</h3>
-                    </div>
-                </div>
-                <div id="admin-levels-container">
 
                 </div>
+                <h3>Admin Levels</h3>
+                <div id="admin-levels-container"></div>
+                <button id="add-new-admin-level" class="btn btn-primary" type="button"><i class="fa fa-plus"></i>Add new admin level</button>
 
-                <button id="add-new-admin-level" class="btn btn-primary" type="button"><i class="fa fa-plus" style="padding-right: 8px;"></i>Add new admin level</button>
 
-                <button id="save-btn" name="save" class="btn btn-primary">Save</button>
-                <button id="delete-btn" name="delete" class="btn btn-danger" onclick="return confirm('Are you sure?');">Delete</button>
                 </form>
             </div>
         </div>
     </div>
 </main>
 
-
 <div class="admin-level-details-template" hidden>
     <div class="row">
         <input name="admin-level-pk" class="admin-level-pk" value="new" type="hidden">
         <div class="col-md-3">
             <div class="form-group">
-                <label> Admin Level </label>
+                <label>Admin level</label>
                 <input name="admin-level" type="number" min="1" step="1" class="form-control admin-level" placeholder="Enter admin level">
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
-                <label> Admin Level Name</label>
+                <label>Admin level name</label>
                 <input name="admin-level-name" type="text" class="form-control admin-level-name" placeholder="Enter admin level name">
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
-                <label> Property Name </label>
+                <label>Property name</label>
                 <input name="property-name" type="text" class="form-control property-name" placeholder="Enter property name">
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
-                <label> Property pCode </label>
+                <label>Property pcode</label>
                 <input name="property-pcode" type="text" class="form-control property-pcode" placeholder="Enter property pcode">
             </div>
         </div>
     </div>
-    <div class="row" style="margin-top: 16px; margin-botton: 16px;">
+    <div class="row">
         <div class="col-md-10">
             <label> GeoJSON file </label>
-            <input name="geojson" type="file" class="geojson form-control">
-            <span class='geojson-old'></span> <input type="hidden" name="geojson-selected" class="geojson-selected" value="false">
+            <input id="geojson-file-input" name="geojson" type="file" class="geojson file-input">
+            <label for="geojson-file-input"><i class="fa fa-upload"></i>Choose a file</label>
+            <p class="geojson-current"></p>
+            <p class="geojson-old"></p> <input type="hidden" name="geojson-selected" class="geojson-selected" value="false">
         </div>
-        <div class="col-md-2" style="text-align: right;">
+        <div class="col-md-2">
             {% comment %}
                 Note that by putting a hidden input followed by checkbox input, we will get only the hidden value (0)
                 if checkbox was not checked and both the checkbox and hidden values (1, 0) if it was.
             {% endcomment %}
-            <label><input name="delete-admin-level" type="checkbox" class"delete-admin-level form-control" value="1">Delete</label>
+            <label class="delete-admin-level"><input name="delete-admin-level" type="checkbox" class"delete-admin-level form-control" value="1"><span>Delete</span></label>
             <input name="delete-admin-level" type="hidden" value="0">
         </div>
     </div>
