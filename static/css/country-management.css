@@ -47,11 +47,13 @@ body header {
       color: #eee; }
 body main #country-list {
   margin-top: 24px;
-  padding: 16px; }
+  padding: 16px;
+  height: calc(100vh - 56px - 32px);
+  overflow-y: auto; }
   body main #country-list h2 {
     font-weight: bold;
     font-size: 18px;
-    margin-bottom: 24px;
+    margin-bottom: 32px;
     margin-top: 8px; }
   body main #country-list button {
     float: right;
@@ -87,8 +89,8 @@ body main #country-detail {
       stroke: #717171;
       stroke-width: 1px;
       stroke-linejoin: round; }
-  body main #country-detail #contry-detail-inputs {
-    margin-bottom: 100px; }
+  body main #country-detail #country-detail-inputs {
+    margin-bottom: 72px; }
   body main #country-detail #save-btn, body main #country-detail #delete-btn {
     margin-right: 16px;
     margin-bottom: 10px;

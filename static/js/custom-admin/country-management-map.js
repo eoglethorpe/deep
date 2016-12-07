@@ -27,6 +27,9 @@ function loadMap() {
 
 function loadCountryInMap(code) {
     // On country selected, fetch the admin levels data.
+    if (layer)
+        layer.clearLayers();
+        
     selectedCountry = code;
     refreshAdminLevels();
     getAdminLevels(code);

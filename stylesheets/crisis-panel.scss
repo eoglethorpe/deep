@@ -1,28 +1,19 @@
 @import 'common/base';
 
 body{
-    background-color: #f0f0f0;
-
-    label{
+    h1, h2, h3, h4{
         text-transform: uppercase;
-        color: #969696;
-        font-size: 0.9em;
+        margin: 0;
+        vertical-align: middle;
     }
-    h2{
-        text-transform: uppercase;
-    }
-
     header{
-        background-color: $primary-color;
+        background-color: darken($primary-color, 10%);
         color: #fff;
-        padding: 24px;
-        height: 60px;
-        box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
+        height: $navbar-height;
+        @include shadow();
 
         h1{
-            text-transform: uppercase;
-            font-size: 1.5em;
-            margin: 0;
+            padding-top: ($navbar-height - $text-size-sl)/2;
         }
         a{
             color: #fff;
@@ -38,15 +29,32 @@ body{
     }
 
     main{
+        h2{
+            font-weight: $font-weight-bold;
+            font-size: $text-size-sl;
+        }
         #crisis-list{
-            background-color: #fff;
-            height: calc(100vh - 100px);
             margin-top: 24px;
-            overflow-y: scroll;
+            padding: 24px;
+            height: calc(100vh - #{$navbar-height} - 32px);
+            overflow-y: auto;
 
+            h2{
+                padding-top: 8px;
+            }
+            #add-new-crisis-btn{
+                float: right;
+                @include btn-shadow-lg();
+
+                i{
+                    margin-right: 10px;
+                }
+            }
             .crisis{
                 padding: 16px 24px;
-                border-bottom: 1px solid #f0f0f0;
+                margin-left: -24px;
+                margin-right: -24px;
+                border-top: 1px solid rgba(0, 0, 0, 0.05);
                 cursor: pointer;
             }
             .active{
@@ -55,11 +63,33 @@ body{
             }
         }
         #crisis-detail{
-            height: calc(100vh - 120px);
-            margin-top: 40px;
+            padding: 32px;
+            height: calc(100vh - #{$navbar-height} - 5px);
+            overflow-y: auto;
+            //border-radius: 10px;
+            background-color: #fff;
+            @include shadow();
 
             h2{
+                margin: 0;
                 margin-bottom: 32px;
+            }
+            .form-control{
+                margin-bottom: 16px;
+            }
+            #action-buttons{
+                text-align: right;
+                margin-top: 48px;
+
+                button{
+                    width: 120px;
+                    margin-left: 16px;
+                    @include btn-shadow-sm();
+
+                    i{
+                        margin-right: 10px;
+                    }
+                }
             }
         }
     }

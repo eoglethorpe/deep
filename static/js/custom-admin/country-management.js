@@ -26,7 +26,7 @@ $(document).ready(function() {
             adminLevelView.find('.property-pcode').val(adminLevel.property_pcode);
 
             if (adminLevel.geojson) {
-                adminLevelView.find('.geojson-old').html('<label>Previous: </label><a href="' + adminLevel.geojson + '">' + adminLevel.geojson + '</a>');
+                adminLevelView.find('.geojson-old').html('<b>Current: </b><a href="' + adminLevel.geojson + '">' + adminLevel.geojson + '</a>');
             }
         }
 
