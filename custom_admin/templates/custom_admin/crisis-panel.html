@@ -40,17 +40,17 @@ DEEP | Crisis Manager
 <main>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3 col-md-offset-1">
                 <div id="crisis-list">
-                    <button class="btn btn-primary" onclick="addNewCrisis()" style="float: right; margin-top: 16px; margin-right: 16px;"><i class="fa fa-plus" style="padding-right: 8px;"></i>Add new crisis</button>
-                    <h3 style="padding-left: 16px; text-transform: uppercase;">Crisis List</h3>
+                    <button id="add-new-crisis-btn" class="btn btn-primary" onclick="addNewCrisis()" ><i class="fa fa-plus"></i>Add new crisis</button>
+                    <h2>Crisis List</h3>
                     <hr>
                     {% for event in events %}
                     <div class="crisis {% if event.pk == selected_event %}active{% endif %}" data-crisis-pk="{{event.pk}}">{{event.name}}</div>
                     {% endfor %}
                 </div>
             </div>
-            <div class="col-md-5 col-md-offset-1">
+            <div class="col-md-6">
                 <div id="crisis-detail">
                     <form method="post" action="{% url 'custom_admin:crisis_panel' %}">
                     {%csrf_token%}
@@ -92,9 +92,7 @@ DEEP | Crisis Manager
                                     <input name="crisis-end-date" type="date" class="form-control" id="crisis-start-date">
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
                     <div class="form-group">
                         <label> Assigned To</label>
@@ -107,7 +105,7 @@ DEEP | Crisis Manager
                             {% endfor %}
                         </select>
                     </div>
-                    <div class = "form-group" style = 'text-align: right'>
+                    <div class = "form-group" id="action-buttons">
                         <button class='btn btn-danger' name="delete" id="delete-btn" onclick="return confirm('Are you sure?');" hidden> <i class='fa fa-trash'> </i> Delete </button>
                         <button class='btn btn-primary' name="save"> <i class='fa fa-save'> </i> Save </button>
                     </div>

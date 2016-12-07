@@ -26,47 +26,71 @@ body {
     text-transform: uppercase;
     font-size: 12px; }
 
-body {
-  background-color: #f0f0f0; }
-  body label {
-    text-transform: uppercase;
-    color: #969696;
-    font-size: 0.9em; }
-  body h2 {
-    text-transform: uppercase; }
-  body header {
-    background-color: #008080;
+body h1, body h2, body h3, body h4 {
+  text-transform: uppercase;
+  margin: 0;
+  vertical-align: middle; }
+body header {
+  background-color: #004d4d;
+  color: #fff;
+  height: 56px;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  body header h1 {
+    padding-top: 19px; }
+  body header a {
     color: #fff;
-    padding: 24px;
-    height: 60px;
-    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3); }
-    body header h1 {
-      text-transform: uppercase;
-      font-size: 1.5em;
-      margin: 0; }
-    body header a {
-      color: #fff;
-      float: right; }
-      body header a i {
+    float: right; }
+    body header a i {
+      margin-right: 10px; }
+    body header a:hover {
+      color: #eee; }
+body main h2 {
+  font-weight: 600;
+  font-size: 18px; }
+body main #crisis-list {
+  margin-top: 24px;
+  padding: 24px;
+  height: calc(100vh - 56px - 32px);
+  overflow-y: auto; }
+  body main #crisis-list h2 {
+    padding-top: 8px; }
+  body main #crisis-list #add-new-crisis-btn {
+    float: right;
+    box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
+    body main #crisis-list #add-new-crisis-btn:active {
+      box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
+    body main #crisis-list #add-new-crisis-btn i {
+      margin-right: 10px; }
+  body main #crisis-list .crisis {
+    padding: 16px 24px;
+    margin-left: -24px;
+    margin-right: -24px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    cursor: pointer; }
+  body main #crisis-list .active {
+    background-color: #008080;
+    color: #fff; }
+body main #crisis-detail {
+  padding: 32px;
+  height: calc(100vh - 56px - 5px);
+  overflow-y: auto;
+  background-color: #fff;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  body main #crisis-detail h2 {
+    margin: 0;
+    margin-bottom: 32px; }
+  body main #crisis-detail .form-control {
+    margin-bottom: 16px; }
+  body main #crisis-detail #action-buttons {
+    text-align: right;
+    margin-top: 48px; }
+    body main #crisis-detail #action-buttons button {
+      width: 120px;
+      margin-left: 16px;
+      box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+      body main #crisis-detail #action-buttons button:active {
+        box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+      body main #crisis-detail #action-buttons button i {
         margin-right: 10px; }
-      body header a:hover {
-        color: #eee; }
-  body main #crisis-list {
-    background-color: #fff;
-    height: calc(100vh - 100px);
-    margin-top: 24px;
-    overflow-y: scroll; }
-    body main #crisis-list .crisis {
-      padding: 16px 24px;
-      border-bottom: 1px solid #f0f0f0;
-      cursor: pointer; }
-    body main #crisis-list .active {
-      background-color: #008080;
-      color: #fff; }
-  body main #crisis-detail {
-    height: calc(100vh - 120px);
-    margin-top: 40px; }
-    body main #crisis-detail h2 {
-      margin-bottom: 32px; }
 
 /*# sourceMappingURL=crisis-panel.css.map */
