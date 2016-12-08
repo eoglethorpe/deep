@@ -84,6 +84,23 @@ body{
                     stroke-linejoin: round;
                 }
             }
+            #map-controls{
+                text-align: center;
+                padding: 8px;
+                max-width: 80%;
+                box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
+                background-color: rgba(255, 255, 255, 0.88);
+                position: absolute;
+                left: 10%;
+                bottom: 24px;
+                border-radius: 3px;
+
+                #admin-level-buttons{
+                    button{
+                        margin: 4px!important;
+                    }
+                }
+            }
             #country-detail-inputs{
                 margin-bottom: 72px;
             }
@@ -95,9 +112,6 @@ body{
                 .fa{
                     margin-right: 10px;
                 }
-            }
-            #admin-level-buttons{
-                padding: 4px 0;
             }
             h3{
                 margin-top: -10px;
