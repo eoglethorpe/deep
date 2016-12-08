@@ -116,9 +116,11 @@ function renderSectors(){
         var sector = $.grep(sectors, function(n, i){
             return n.id == that.data('id');
         })[0];
-        for(var i=0; i<sector.severities.length; i++){
-            severity = sector.severities[i];
-            $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*240)+'px;" data-toggle="tooltip" onmouseover="$(this).tooltip(\'show\')" title="'+severity.name+' - '+severity.value+'"></span>').appendTo(severitiesContainer);
+        if (sector) {
+            for(var i=0; i<sector.severities.length; i++){
+                severity = sector.severities[i];
+                $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*240)+'px;" data-toggle="tooltip" onmouseover="$(this).tooltip(\'show\')" title="'+severity.name+' - '+severity.value+'"></span>').appendTo(severitiesContainer);
+            }
         }
     })
 }
@@ -141,9 +143,11 @@ function renderAttrs(id, attrs) {
         var attr = $.grep(attrs, function(n, i){
             return n.id == that.data('id');
         })[0];
-        for(var i=0; i<attr.severities.length; i++){
-            severity = attr.severities[i];
-            $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*192)+'px;" data-toggle="tooltip" onmouseover="$(this).tooltip(\'show\')" title="'+severity.name+' - '+severity.value+'"></span>').appendTo(severitiesContainer);
+        if (attr) {
+            for(var i=0; i<attr.severities.length; i++){
+                severity = attr.severities[i];
+                $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*192)+'px;" data-toggle="tooltip" onmouseover="$(this).tooltip(\'show\')" title="'+severity.name+' - '+severity.value+'"></span>').appendTo(severitiesContainer);
+            }
         }
     })
 }
