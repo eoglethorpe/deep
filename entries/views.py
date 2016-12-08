@@ -29,6 +29,17 @@ class ExportView(View):
         context["event"] = Event.objects.get(pk=event)
         context["all_events"] = Event.objects.all()
 
+        context["users"] = User.objects.exclude(first_name="", last_name="")
+        context["pillars"] = InformationPillar.objects.all()
+        context["subpillars"] = InformationSubpillar.objects.all()
+        context["sectors"] = Sector.objects.all()
+        context["subsectors"] = Subsector.objects.all()
+        context["vulnerable_groups"] = VulnerableGroup.objects.all()
+        context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
+        context["reliabilities"] = Reliability.objects.all().order_by('level')
+        context["severities"] = Severity.objects.all().order_by('level')
+        context["affected_groups"] = AffectedGroup.objects.all()
+
         UserProfile.set_last_event(request, context["event"])
         return render(request, "entries/export.html", context)
 
@@ -46,23 +57,20 @@ class ExportDocx(View):
     @method_decorator(login_required)
     def get(self, request, event):
         order = request.GET.get("order").split(',')
-        # order_values = {
-        #     "geoarea": "Map Selections",
-        #     "affected": "Affected Groups",
-        #     # "reliability": "Reliability",
-        #     # "severity": "Severity",
-        #     # "sector": "Sector",
-        # }
-        # order = [order_values[a] for a in order if a in order_values]
-
-        # # ord = ["Map Selections", "Affected Groups", "Vulnerable Groups"]
-        # response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-        # response['Content-Disposition'] = 'attachment; filename = %s' % export_fields.get_file_name('doc')
-        # export_docx.export(ord).save(response)
 
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
         response['Content-Disposition'] = 'attachment; filename = DEEP Entries-%s.docx' % time.strftime("%Y-%m-%d")
         export_docx(order, int(event)).save(response)
+
+        return response
+
+    @method_decorator(login_required)
+    def post(self, request, event):
+        order = request.POST.get("order").split(',')
+
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        response['Content-Disposition'] = 'attachment; filename = DEEP Entries-%s.docx' % time.strftime("%Y-%m-%d")
+        export_docx(order, int(event), json.loads(request.POST["informations"])).save(response)
 
         return response
 

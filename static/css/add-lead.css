@@ -121,8 +121,7 @@ form .row {
 .dz-message {
   display: block;
   font-size: 1.5em;
-  color: #aaa;
-  vertical-align: middle; }
+  color: #aaa; }
 
 .dropzone.dz-drag-hover {
   border: none !important; }
