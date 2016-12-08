@@ -33,8 +33,16 @@ DEEP | Entries
 </script>
 <link href="{% static 'css/jquery-ui.min.css' %}" type="text/css" rel="stylesheet">
 <link href="{% static 'css/export.css' %}" type="text/css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/selectize.bootstrap3.css' %}"/>
+<script type="text/javascript" src="{% static 'js/common/selectize.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/common/jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/entries/entries-filter.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/entries/export.js' %}"></script>
+
+<script>
+    var eventId = "{{event.pk}}";
+</script>
 
 {% endblock %}
 
@@ -45,6 +53,9 @@ DEEP | Entries
     <div class="container">
         <div class="row">
             <h2>Entries</h2>
+            <div id="filters">
+                {% include 'entries/entry-filters.html' %}
+            </div>
             <div class="col-md-7">
                 <h4>Hierarchy<small> (drag to rearrange)</small></h4>
                 <ul id="sortable">
@@ -58,7 +69,8 @@ DEEP | Entries
                     <form action="http://23.20.252.122/1/entries/exportxls/">
                         <button type="submit" class="btn btn-primary" ><i class="fa fa-file-excel-o"></i>Export to Excel</button>
                     </form>
-                    <form id="export-doc" action="{% url 'entries:exportdocx' event=event.pk %}">
+                    <form id="export-doc" action="{% url 'entries:exportdocx' event=event.pk %}" method="post">
+                        {% csrf_token %}
                         <button type="submit" class="btn btn-info" ><i class="fa fa-file-word-o"></i>Export to Word</button>
                     </form>
                 </div>

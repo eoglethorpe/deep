@@ -142,7 +142,7 @@ def set_style(style):
     style.paragraph_format.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.LEFT
 
 
-def export_docx(order, event):
+def export_docx(order, event, informations=None):
     d = docx.Document('static/doc_export/template.docx')
 
     # Set document styles
@@ -172,6 +172,8 @@ def export_docx(order, event):
             attributes = InformationAttribute.objects.filter(subpillar=subpillar,
                                                              sector=None,
                                                              information__entry__lead__event__pk=event)
+            if informations:
+                attributes = attributes.filter(information__pk__in=informations)
 
             if len(attributes) > 0:
                 if not pillar_header_shown:
@@ -203,6 +205,8 @@ def export_docx(order, event):
                 attributes = InformationAttribute.objects.filter(subpillar=subpillar,
                                                                  sector=sector,
                                                                  information__entry__lead__event__pk=event)
+                if informations:
+                    attributes = attributes.filter(information__pk__in=informations)
 
                 if len(attributes) > 0:
                     if not sector_header_shown:

@@ -36,7 +36,7 @@ class EntryInformationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EntryInformation
-        fields = ('excerpt', 'date', 'reliability', 'severity', 'number',
+        fields = ('id', 'excerpt', 'date', 'reliability', 'severity', 'number',
                   'vulnerable_groups', 'specific_needs_groups', 'affected_groups',
                   'map_selections', 'attributes', 'modified_by', 'modified_at',
                   'lead_source', 'lead_title', 'lead_published_at')
