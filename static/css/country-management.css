@@ -89,6 +89,18 @@ body main #country-detail {
       stroke: #717171;
       stroke-width: 1px;
       stroke-linejoin: round; }
+  body main #country-detail #map-controls {
+    text-align: center;
+    padding: 8px;
+    max-width: 80%;
+    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
+    background-color: rgba(255, 255, 255, 0.88);
+    position: absolute;
+    left: 10%;
+    bottom: 24px;
+    border-radius: 3px; }
+    body main #country-detail #map-controls #admin-level-buttons button {
+      margin: 4px !important; }
   body main #country-detail #country-detail-inputs {
     margin-bottom: 72px; }
   body main #country-detail #save-btn, body main #country-detail #delete-btn {
@@ -99,8 +111,6 @@ body main #country-detail {
       box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
     body main #country-detail #save-btn .fa, body main #country-detail #delete-btn .fa {
       margin-right: 10px; }
-  body main #country-detail #admin-level-buttons {
-    padding: 4px 0; }
   body main #country-detail h3 {
     margin-top: -10px;
     margin-bottom: 16px; }

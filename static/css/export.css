@@ -68,27 +68,67 @@ nav {
     nav .dropdown ul li a .fa {
       margin-right: 10px; }
 
-#main h2 {
+#main hr {
+  border: 1px solid rgba(0, 0, 0, 0.05); }
+#main h1, #main h2, #main h3, #main h4 {
   text-transform: uppercase;
-  font-size: 1.5em;
+  vertical-align: middle;
+  margin: 0; }
+#main h1 {
   color: #008080;
-  margin-bottom: 32px; }
-#main h4 {
-  margin-top: 0;
-  margin-bottom: 16px; }
-#main #sortable {
-  padding: 0; }
-  #main #sortable li {
-    list-style: none;
-    padding: 8px 16px;
-    margin: 10px 0; }
-#main #export-btn-wrapper {
-  margin-top: 72px;
-  padding: 24px;
-  text-align: center; }
-  #main #export-btn-wrapper form {
-    margin-top: 10px; }
-#main .fa {
+  margin-top: 24px;
+  margin-bottom: 24px; }
+#main h2 {
+  font-weight: 600;
+  margin-bottom: 24px; }
+#main h3 {
+  font-size: 14px;
+  margin-bottom: 10px; }
+#main #export-entries #export-entries-doc, #main #export-entries #export-entries-excel {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 24px; }
+#main #export-entries #export-entries-doc-form {
+  float: right; }
+  #main #export-entries #export-entries-doc-form button {
+    min-width: 160px;
+    box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
+    #main #export-entries #export-entries-doc-form button:active {
+      box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
+  #main #export-entries #export-entries-doc-form .fa {
+    margin-right: 10px; }
+#main #export-entries #export-entries-excel-form button {
+  min-width: 160px;
+  box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
+  #main #export-entries #export-entries-excel-form button:active {
+    box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
+#main #export-entries #export-entries-excel-form .fa {
   margin-right: 10px; }
+#main .form-group {
+  height: 32px; }
+#main ul {
+  list-style: none;
+  padding-left: 0; }
+  #main ul li {
+    padding: 10px 32px;
+    margin-bottom: 10px;
+    border: none;
+    background-color: #fff;
+    font-weight: bold;
+    color: #767676;
+    box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+    #main ul li:active {
+      box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+#main #sos-export {
+  margin-top: 48px; }
+  #main #sos-export #sos-export-excel {
+    padding: 24px;
+    border: 1px solid rgba(0, 0, 0, 0.1); }
+    #main #sos-export #sos-export-excel #export-sos-excel-btn {
+      box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7);
+      min-width: 160px; }
+      #main #sos-export #sos-export-excel #export-sos-excel-btn:active {
+        box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
+      #main #sos-export #sos-export-excel #export-sos-excel-btn i {
+        margin-right: 10px; }
 
 /*# sourceMappingURL=export.css.map */
