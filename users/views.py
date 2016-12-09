@@ -185,11 +185,13 @@ class DashboardView(View):
                 for report in reports:
                     countries.append(report.country)
                     crises.append(report.event)
+                    
 
-                    if report.country not in context["crises_per_country"]:
-                        context["crises_per_country"][report.country] = []
-                    if report.event not in context["crises_per_country"][report.country]:
-                        context["crises_per_country"][report.country].append(report.event)
+        # Get event for each country
+        for country in context["countries"]:
+            context["crises_per_country"][country] = []
+            for crisis in Event.objects.filter(countries__pk=country.pk):
+                context["crises_per_country"][country].append(crisis)
 
         return render(request, "users/dashboard.html", context)
 
