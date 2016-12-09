@@ -156,6 +156,8 @@ class DashboardView(View):
 
         # Get active crises
         context["active_events"] = Event.objects.filter(end_date=None)
+        context["leads"] = Lead.objects.all()
+        context["informations"] = EntryInformation.objects.all()
 
         # Get weekly reports for timeline
         context["weekly_reports"] = []
