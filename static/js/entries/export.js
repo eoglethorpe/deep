@@ -14,7 +14,7 @@ $(document).ready(function(){
     heirarchy = $( "#sortable" ).sortable("toArray");
 
 
-    $('#export-doc').submit(function () {
+    $('#export-entries-doc-form').submit(function () {
         $("<input>").attr({
             'type': 'hidden',
             'name': 'order',
