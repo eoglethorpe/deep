@@ -39,7 +39,8 @@ body header {
     padding-top: 19px; }
   body header a {
     color: #fff;
-    float: right; }
+    float: right;
+    padding-top: 21px; }
     body header a i {
       margin-right: 10px; }
     body header a:hover {
@@ -85,12 +86,12 @@ body main #crisis-detail {
     text-align: right;
     margin-top: 48px; }
     body main #crisis-detail #action-buttons button {
-      width: 120px;
       margin-left: 16px;
       box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
       body main #crisis-detail #action-buttons button:active {
         box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
       body main #crisis-detail #action-buttons button i {
-        margin-right: 10px; }
+        margin-right: 10px;
+        margin-left: 10px; }
 
 /*# sourceMappingURL=crisis-panel.css.map */
