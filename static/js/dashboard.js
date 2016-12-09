@@ -56,7 +56,7 @@ $(document).ready(function(){
     map.on('blur', function() { map.scrollWheelZoom.disable(); });
 
     // Load countries geojson in the map
-    
+
     $.getJSON('/static/files/countries.geo.json', function(data) {
         var layer = L.geoJson(data, {
             style: styleMapFeature,
@@ -73,82 +73,94 @@ $(document).ready(function(){
 });
 
 function loadTimetable() {
-    var table = $("#timeline-table");
-    table.find('thead').find('tr').empty();
-    table.find('tbody').empty();
+    $('#timeline-table-container').slideUp('fast', function(){
+        var table = $("#timeline-table");
+        table.removeClass('country-details');
+        table.find('thead').find('tr').empty();
+        table.find('tbody').empty();
 
-    $("<td class='first-td'>Countries</td>").appendTo(table.find('thead').find('tr'));
-    // Week headers
-    for (var i=0; i<weekly_reports.length; ++i) {
-        var range = formatDate(weekly_reports[i].start_date) + " to " + formatDate(weekly_reports[i].end_date);
-        var td = $("<td class='week-id' data-toggle='tooltip' title='" + range + "'>W" + (i+1) + "</td>");
-        td.appendTo(table.find('thead').find('tr'));
-    }
-
-    // Country rows
-    for (var countryCode in countries) {
-        var tr = $("<tr class='country-data'></tr>");
-        tr.appendTo(table.find('tbody'));
-
-        var td = $("<td class='country-name'>" + countries[countryCode] + "</td>");
-        td.appendTo(tr);
-
-        td.unbind().click(function(countryCode) {
-            return function() {
-                loadTimetableForCountry(countryCode);
-            }
-        }(countryCode));
-
-        // Country reports
+        $("<td class='first-td'>Countries</td>").appendTo(table.find('thead').find('tr'));
+        // Week headers
         for (var i=0; i<weekly_reports.length; ++i) {
-            var td = $("<td class='weekly-report'></td>");
+            var range = formatDate(weekly_reports[i].start_date) + " to " + formatDate(weekly_reports[i].end_date);
+            var td = $("<td class='week-id' data-toggle='tooltip' title='" + range + "'>W" + (i+1) + "</td>");
+            td.appendTo(table.find('thead').find('tr'));
+        }
+
+        // Country rows
+        for (var countryCode in countries) {
+            var tr = $("<tr class='country-data'></tr>");
+            tr.appendTo(table.find('tbody'));
+
+            var td = $("<td class='country-name'>" + countries[countryCode] + "</td>");
             td.appendTo(tr);
 
-            if (weekly_reports[i].countries.indexOf(countryCode) >= 0)
-                td.addClass('active');
-        }
-    }
+            td.unbind().click(function(countryCode) {
+                return function() {
+                    loadTimetableForCountry(countryCode);
+                }
+            }(countryCode));
 
-    $("#back-btn").hide();
+            // Country reports
+            for (var i=0; i<weekly_reports.length; ++i) {
+                var td = $("<td class='weekly-report'></td>");
+                td.appendTo(tr);
+
+                if (weekly_reports[i].countries.indexOf(countryCode) >= 0){
+                    td.addClass('active');
+                    td.html('<i class="fa fa-check-circle"></i>');
+                }
+            }
+        }
+        $("#back-btn").hide();
+
+        $('#timeline-table-container').slideDown();
+    });
+
 }
 
 function loadTimetableForCountry(countryCode) {
-    var table = $("#timeline-table");
-    table.find('thead').find('tr').empty();
-    table.find('tbody').empty();
+    $('#timeline-table-container').slideUp('fast', function(){
+        var table = $("#timeline-table");
+        table.addClass('country-details')
+        table.find('thead').find('tr').empty();
+        table.find('tbody').empty();
 
-    $("<td class='first-td'>" + countries[countryCode] + "</td>").appendTo(table.find('thead').find('tr'));
-    // Week headers
-    for (var i=0; i<weekly_reports.length; ++i) {
-        var range = formatDate(weekly_reports[i].start_date) + " to " + formatDate(weekly_reports[i].end_date);
-        var td = $("<td class='week-id' data-toggle='tooltip' title='" + range + "'>W" + (i+1) + "</td>");
-        td.appendTo(table.find('thead').find('tr'));
-    }
-
-    // Crisis headers
-    var crises = crises_per_country[countryCode];
-    for (var crisisPk in crises) {
-        var tr = $("<tr class='country-data'></tr>");
-        tr.appendTo(table.find('tbody'));
-
-        var td = $("<td class='country-name'>" + crises[crisisPk] + "</td>");
-        td.appendTo(tr);
-
-        // Crisis reports
+        $("<td class='first-td'>" + countries[countryCode] + "</td>").appendTo(table.find('thead').find('tr'));
+        // Week headers
         for (var i=0; i<weekly_reports.length; ++i) {
-            var td = $("<td class='weekly-report'></td>");
+            var range = formatDate(weekly_reports[i].start_date) + " to " + formatDate(weekly_reports[i].end_date);
+            var td = $("<td class='week-id' data-toggle='tooltip' title='" + range + "'>W" + (i+1) + "</td>");
+            td.appendTo(table.find('thead').find('tr'));
+        }
+
+        // Crisis headers
+        var crises = crises_per_country[countryCode];
+        for (var crisisPk in crises) {
+            var tr = $("<tr class='country-data'></tr>");
+            tr.appendTo(table.find('tbody'));
+
+            var td = $("<td class='country-name'>" + crises[crisisPk] + "</td>");
             td.appendTo(tr);
 
-            for (var j=0; j<weekly_reports[i].countries.length; ++j) {
-                if (weekly_reports[i].countries[j] == countryCode) {
-                    if (weekly_reports[i].crises[j] == crisisPk) {
-                        td.addClass('active');
+            // Crisis reports
+            for (var i=0; i<weekly_reports.length; ++i) {
+                var td = $("<td class='weekly-report'></td>");
+                td.appendTo(tr);
+
+                for (var j=0; j<weekly_reports[i].countries.length; ++j) {
+                    if (weekly_reports[i].countries[j] == countryCode) {
+                        if (weekly_reports[i].crises[j] == crisisPk) {
+                            td.addClass('active');
+                            td.html('<i class="fa fa-check-circle"></i>');
+                        }
                     }
                 }
             }
         }
-    }
+        $("#back-btn").show();
 
+        $('#timeline-table-container').slideDown();
+    });
 
-    $("#back-btn").show();
 }
