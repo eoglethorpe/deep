@@ -60,6 +60,11 @@ class CrisisPanelView(View):
             else:
                 event.assigned_to = None
 
+            if request.POST["glide-number"] and request.POST["glide-number"] != "":
+                event.glide_number = request.POST["glide-number"]
+            else:
+                event.glide_number = None
+
             event.save()
 
             event.countries.clear()

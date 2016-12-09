@@ -22,7 +22,8 @@ DEEP | Crisis Manager
         "{{event.pk}}": {
             name: "{{event.name}}", countries: [{% for country in event.countries.all %}"{{country.pk}}",{%endfor%}],
             start_date: "{{event.start_date|date:'Y-m-d'}}", end_date: "{{event.end_date|date:'Y-m-d'}}",
-            disaster_type: "{{event.disaster_type.pk}}", assigned_to: "{{event.assigned_to.pk}}"
+            disaster_type: "{{event.disaster_type.pk}}", assigned_to: "{{event.assigned_to.pk}}",
+            glide_number: "{{event.glide_number}}",
         },
         {% endfor %}
     };
