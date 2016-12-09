@@ -56,7 +56,8 @@ class ExportXls(View):
 class ExportDocx(View):
     @method_decorator(login_required)
     def get(self, request, event):
-        order = request.GET.get("order").split(',')
+        # order = request.GET.get("order").split(',')
+        order = []
 
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
         response['Content-Disposition'] = 'attachment; filename = DEEP Entries-%s.docx' % time.strftime("%Y-%m-%d")
@@ -66,7 +67,8 @@ class ExportDocx(View):
 
     @method_decorator(login_required)
     def post(self, request, event):
-        order = request.POST.get("order").split(',')
+        # order = request.POST.get("order").split(',')
+        order = []
 
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
         response['Content-Disposition'] = 'attachment; filename = DEEP Entries-%s.docx' % time.strftime("%Y-%m-%d")
