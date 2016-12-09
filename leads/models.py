@@ -26,7 +26,12 @@ class Event(models.Model):
     name = models.CharField(max_length=100)
     countries = models.ManyToManyField(Country, blank=True)
     disaster_type = models.ForeignKey('report.DisasterType', null=True, blank=True, default=None)
-    assigned_to = models.ForeignKey(User, null=True, blank=True, default=None)
+
+    # TO DELETE
+    assigned_to = models.ForeignKey(User, null=True, blank=True, default=None, related_name="event_donot_use", verbose_name="DO NOT USE")
+
+    assignee = models.ManyToManyField(User, blank=True)
+
 
     glide_number = models.CharField(max_length=100, null=True, blank=True, default=None)
 

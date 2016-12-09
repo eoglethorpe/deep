@@ -189,8 +189,11 @@ class InformationAttribute(models.Model):
     information = models.ForeignKey(EntryInformation)
     subpillar = models.ForeignKey(InformationSubpillar)
     sector = models.ForeignKey(Sector, blank=True, null=True, default=None)
-    subsector = models.ForeignKey(Subsector, blank=True, null=True, default=None, related_name='subsector')
-    subsectors = models.ManyToManyField(Subsector, blank=True, related_name='subsectors')
+
+    # TO DELETE
+    subsector = models.ForeignKey(Subsector, blank=True, null=True, default=None, related_name='informationattribute_donot_use', verbose_name='DO NOT USE')
+
+    subsectors = models.ManyToManyField(Subsector, blank=True)
 
     def __str__(self):
         return str(self.subpillar) + "/" + str(self.sector) + "/" + str(self.subsector)
