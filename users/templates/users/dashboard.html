@@ -37,6 +37,7 @@ DEEP | Dashboard
             start_date: new Date("{{ report.0|date:'Y-m-d' }}"), end_date: new Date("{{ report.1|date:'Y-m-d' }}"),
             countries: [{% for country in report.2 %} "{{country.code}}", {% endfor %}],
             crises: [{% for crisis in report.3 %} "{{crisis.pk}}", {% endfor %}],
+            report_ids: [{% for report_id in report.4 %} "{{report_id}}", {% endfor %}],
         },
         {% endfor %}
     ]

@@ -179,12 +179,14 @@ class DashboardView(View):
 
                 countries = []
                 crises = []
-                context["weekly_reports"].append([date, date+timedelta(days=6), countries, crises])
+                report_ids = []
+                context["weekly_reports"].append([date, date+timedelta(days=6), countries, crises, report_ids])
 
                 reports = WeeklyReport.objects.filter(start_date=date)
                 for report in reports:
                     countries.append(report.country)
                     crises.append(report.event)
+                    report_ids.append(report.pk)
                     
 
         # Get event for each country

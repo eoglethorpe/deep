@@ -106,9 +106,15 @@ function loadTimetable() {
                 var td = $("<td class='weekly-report'></td>");
                 td.appendTo(tr);
 
-                if (weekly_reports[i].countries.indexOf(countryCode) >= 0){
+                var index = weekly_reports[i].countries.indexOf(countryCode);
+                if (index >= 0){
                     td.addClass('active');
                     td.html('<i class="fa fa-check-circle"></i>');
+                    td.click(function(countryCode, eventId, reportId) {
+                        return function(){
+                           window.location.href = '/report/weekly/edit/' + countryCode + '/' + eventId + '/' + reportId;
+                        }
+                    }(countryCode, weekly_reports[i].crises[index], weekly_reports[i].report_ids[index]));
                 }
             }
         }
@@ -153,6 +159,13 @@ function loadTimetableForCountry(countryCode) {
                         if (weekly_reports[i].crises[j] == crisisPk) {
                             td.addClass('active');
                             td.html('<i class="fa fa-check-circle"></i>');
+
+                            td.click(function(countryCode, eventId, reportId) {
+                                return function(){
+                                    window.location.href = '/report/weekly/edit/' + countryCode + '/' + eventId + '/' + reportId;
+                                }
+                            }(countryCode, crisisPk, weekly_reports[i].report_ids[j]));
+
                         }
                     }
                 }
