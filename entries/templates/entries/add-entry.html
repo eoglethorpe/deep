@@ -276,7 +276,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     <input type="number" step="1" min="0" class="entry-number form-control form-group" placeholder="Number">
                 </div>
                 <div class="col-md-5">
-                    <select class="vulnerable-group-select" class="form-control form-group" placeholder="Select vulnerable group" multiple>
+                    <select class="vulnerable-group-select" class="form-control form-group" placeholder="Select demographic group" multiple>
                         {% for vg in vulnerable_groups %}
                         <option value="{{vg.pk}}">{{vg}}</option>
                         {% endfor %}
@@ -306,8 +306,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <a class="edit-entry-btn btn btn-primary btn-action"><i class="fa fa-edit"></i></a>
-                    <a class="delete-entry-btn btn btn-danger btn-action"><i class="fa fa-times"></i></a>
+                    <a class="edit-entry-btn btn btn-primary btn-action" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Edit Attributes"><i class="fa fa-edit"></i></a>
+                    <a class="delete-entry-btn btn btn-danger btn-action" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Delete Entry"><i class="fa fa-times"></i></a>
                 </div>
             </div>
         </div>

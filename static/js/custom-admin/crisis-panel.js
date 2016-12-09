@@ -25,6 +25,8 @@ $(document).ready(function(){
         $("#crisis-start-date").val(crisis.start_date);
         $("#crisis-end-date").val(crisis.end_date);
 
+        $('#glide-number').val(crisis.glide_number);
+
         $("#delete-btn").show();
 
         $('.active').removeClass('active');

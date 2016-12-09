@@ -28,6 +28,8 @@ class Event(models.Model):
     disaster_type = models.ForeignKey('report.DisasterType', null=True, blank=True, default=None)
     assigned_to = models.ForeignKey(User, null=True, blank=True, default=None)
 
+    glide_number = models.CharField(max_length=100, null=True, blank=True, default=None)
+
     start_date = models.DateField(default=datetime(2016, 1, 1))
     end_date = models.DateField(null=True, blank=True, default=None)
 
