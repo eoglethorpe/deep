@@ -18,6 +18,7 @@ body{
         a{
             color: #fff;
             float: right;
+            padding-top: ($navbar-height - $text-size-md)/2;
             i{
                 margin-right: 10px;
             }
@@ -81,13 +82,14 @@ body{
                 text-align: right;
                 margin-top: 48px;
 
+
                 button{
-                    width: 120px;
                     margin-left: 16px;
                     @include btn-shadow-sm();
 
                     i{
                         margin-right: 10px;
+                        margin-left: 10px;
                     }
                 }
             }

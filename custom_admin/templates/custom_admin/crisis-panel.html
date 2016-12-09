@@ -70,6 +70,10 @@ DEEP | Crisis Manager
                         </select>
                     </div>
                     <div class="form-group">
+                        <label> Glide Number </label>
+                        <input name="glide-number" type="text" class="form-control" id="glide-number" placeholder="Enter Glide Number" required>
+                    </div>
+                    <div class="form-group">
                         <label> Countries </label>
                         <select name="countries" class="form-control" id="countries" placeholder="Select countries" multiple>
                             <option value="">Select countries</option>
@@ -106,8 +110,8 @@ DEEP | Crisis Manager
                         </select>
                     </div>
                     <div class = "form-group" id="action-buttons">
-                        <button class='btn btn-danger' name="delete" id="delete-btn" onclick="return confirm('Are you sure?');" hidden> <i class='fa fa-trash'> </i> Delete </button>
-                        <button class='btn btn-primary' name="save"> <i class='fa fa-save'> </i> Save </button>
+                        <button class='btn btn-danger' name="delete" id="delete-btn" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Delete" onclick="return confirm('Are you sure?');" hidden> <i class='fa fa-trash'> </i></button>
+                        <button class='btn btn-primary' name="save" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Save" > <i class='fa fa-save'> </i></button>
                     </div>
 
                     </form>
