@@ -55,17 +55,17 @@ class CrisisPanelView(View):
             else:
                 event.end_date = None
 
-            if request.POST["assigned-to"] and request.POST["assigned-to"] != "":
-                event.assigned_to = User.objects.get(pk=int(request.POST["assigned-to"]))
-            else:
-                event.assigned_to = None
-
             if request.POST["glide-number"] and request.POST["glide-number"] != "":
                 event.glide_number = request.POST["glide-number"]
             else:
                 event.glide_number = None
 
             event.save()
+
+            event.assignee.clear()            
+            if "assigned-to" in request.POST and request.POST["assigned-to"]:
+                for assigned_to in request.POST.getlist("assigned-to"):
+                    event.assignee.add(User.objects.get(pk=int(assigned_to)))
 
             event.countries.clear()
             if "countries" in request.POST and request.POST["countries"]:
