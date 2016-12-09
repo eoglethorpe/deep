@@ -1,17 +1,54 @@
 #visualizations{
-    background-color: #f5f5f5;
-    @include shadow();
 
-    h3{
-        text-transform: uppercase;
-        margin-top: 0;
-        margin-bottom: 32px;
-        font-size: 1.2em;
-        text-align: center;
+    .visualization-block{
+        background-color: #fff;
+        margin-bottom: 24px;
+        @include shadow();
+
+        h3{
+            margin: 0;
+            padding: 16px 16px 26px 16px;
+            text-transform: uppercase;
+        }
     }
 
+    #entry-timeline-wrapper{
+        padding-bottom: 16px;
+
+        #entry-count{
+            position: absolute;
+            right: 32px;
+            top: 10px;
+            font-size: $text-size-md;
+        }
+    }
+    #severity-legend{
+        padding-bottom: 10px;
+
+        .severity{
+            display: inline-block;
+            height: 16px;
+            width: 24px;
+            margin-left: 24px;
+            cursor: pointer;
+
+            &:hover{
+                box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.8);
+            }
+        }
+        .severity-1{background-color: lighten($severity-base, 50%);}
+        .severity-2{background-color: lighten($severity-base, 40%);}
+        .severity-3{background-color: lighten($severity-base, 30%);}
+        .severity-4{background-color: lighten($severity-base, 20%);}
+        .severity-5{background-color: lighten($severity-base, 10%);}
+        .severity-6{background-color: lighten($severity-base, 0%);}
+        label{
+            font-size: $text-size-md;
+            margin-left: 10px;
+            vertical-align: super;
+        }
+    }
     #sectors-visualization{
-        background-color: #fff;
         height: 540px;
         overflow-y: auto;
 
@@ -23,13 +60,13 @@
     }
 
     .attr-visualization{
-        background-color: #fafafa;
-        padding: 24px;
+        padding-bottom: 16px;
 
         .attr{
             padding: 6px;
 
             label{
+                padding-left: 10px;
                 margin-right: 8px;
                 width: 112px;
                 vertical-align: middle;
@@ -57,6 +94,7 @@
                 .severity-5{background-color: lighten($severity-base, 10%);}
                 .severity-6{background-color: lighten($severity-base, 0%);}
             }
+
         }
     }
 
@@ -64,31 +102,18 @@
         .severity{
             height: 16px;
         }
-        .col-md-3{
-            &:not(:last-child){
-                padding-right: 0;
-            }
-            &:not(:first-child){
-                padding-left: 0;
-            }
-        }
-        .attr-visualization{
-            border-right: 1px solid rgba(0, 0, 0, 0.1);
-            height: 620px;
-            overflow-y: auto;
-        }
     }
 
     #map-controls{
         text-align: center;
         padding: 8px;
         max-width: 80%;
-        box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
         background-color: rgba(255, 255, 255, 0.88);
         position: absolute;
         left: 10%;
-        bottom: 24px;
+        bottom: 48px;
         border-radius: 3px;
+        @include shadow();
 
         #admin-level-buttons{
             button{
@@ -98,40 +123,41 @@
     }
     #country-select-wrapper{
         width: 260px;
-        height: 56px;
-        padding: 10px;
-        box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
-        background-color: rgba(255, 255, 255, 0.88);
         position: absolute;
-        top: 10px;
-        left: 24px;
-        border-radius: 3px;
+        top: 24px;
+        left: 48px;
+
+        .selectize-input{
+            @include shadow();
+        }
     }
     #pie-wrapper {
-        width: 260px;
-        height: 260px;
-        padding: 10px;
+        width: 256px;
+        height: 256px;
+
         box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
         background-color: rgba(255, 255, 255, 0.88);
         position: absolute;
-        top: 10px;
-        right: 24px;
+        top: 24px;
+        right: 48px;
         border-radius: 3px;
 
         svg{
-            width: 240px;
-            height: 240px;
+            margin-left: 24px;
+            margin-top: -16px;
+            width: 208px;
+            height: 208px;
             background: transparent;
             border-radius: 50%;
         }
         path {
             cursor: pointer;
             fill: transparent;
-            stroke-width: 64;
+            stroke-width: 56;
             transition: all 0.2s ease-in-out;
 
             &:hover{
-                stroke-width: 70;
+                stroke-width: 64;
                 stroke-linecap: butt;
             }
         }
@@ -170,7 +196,6 @@
     }
     #entry-header{
         padding: 16px 24px;
-        background-color: #fafafa;
         h3{
             text-transform: uppercase;
             margin: 0;
@@ -183,7 +208,6 @@
         #entry-timeline{
             width: 100%;
             height: 100%;
-            background-color: #fafafa;
         }
     }
 }

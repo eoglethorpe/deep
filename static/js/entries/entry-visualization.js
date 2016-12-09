@@ -35,6 +35,8 @@ function recalculateSeverity2(information, attrId, attrs) {
 
 function renderVisualizations() {
     // Reset values
+
+
     resetSeverities(sectors);
     resetSeverities(vulnerable_groups);
     resetSeverities(specific_needs_groups);
@@ -45,7 +47,9 @@ function renderVisualizations() {
         severities[i].value = 0;
     }
 
-    // Recalculate values
+    // Recalculate values]
+    var infomrationCount = 0
+
     for(var i=0; i<entries.length; i++){
         var entry = entries[i];
         for(var j=0; j<entry.informations.length; j++){
@@ -84,8 +88,12 @@ function renderVisualizations() {
             $.grep(severities, function(n, i) {
                 return n.id == information.severity.level;
             })[0].value++;
+
+            ++infomrationCount;
         }
     }
+
+    $('#entry-count').text('Number of entries: ' + infomrationCount);
 
     renderSectors();
     renderAttrs("vulnerable-groups-visualization", vulnerable_groups);
@@ -172,7 +180,7 @@ function drawPieChart(){
         var percentage = (severities[i].value/totalSeverity*100);
         var arc = $('<path data-toggle="tooltip" title="' + severities[i].name + ' - ' + Math.round(percentage) + '%" onmouseover="showTooltip(this);"/>');
         arc.addClass('severity-'+(i+1));
-        arc.attr("d", describeArc(120, 120, 80, startAngle, endAngle));
+        arc.attr("d", describeArc(104, 104, 64, startAngle, endAngle));
 
         // $('<title>' + severities[i].name + ' - ' + Math.round(percentage) + '%</title>').appendTo(arc);
 
@@ -293,14 +301,7 @@ function processTimeline(){
 
 
 function renderTimeline(){
-
-    // for(var i=0; i<entryDates.length; i++){
-    //     timelinePoints.push(timelineCanvas.width*((entryDates[i].date.getTime()-minDate.getTime())/timeGap));
-    //     timelinePoints.push(timelineCanvas.height*((maxEntries-entryDates[i].entriesCount)/maxEntries));
-    // }
-    //renderTimeline();
     var context = timelineCanvas.getContext("2d");
-    //context.beginPath();
     context.clearRect(0, 0, timelineCanvas.width, timelineCanvas.height);
 
     if (entryDates.length == 0)
@@ -314,13 +315,16 @@ function renderTimeline(){
     };
 
     context.moveTo(0, 0);
+    var timelineWidth = Math.max(3, Math.min(20, 208*(1/(timeGap/1000/3600/24))));
+
+
     for(var i=0; i<entryDates.length; i++){
         var x = timelineCanvas.width*((entryDates[i].date.getTime()-minDate.getTime())/timeGap)*0.9+timelineCanvas.width*0.05;
         var y = timelineCanvas.height*0.9;
         for(var j=0; j<severities.length; j++){
             var currentHeight = (timelineCanvas.height*entryDates[i].severities[severities[j].id]/maxEntries);
             context.fillStyle = severityColors[severities[j].id];
-            context.fillRect(x-10, y-currentHeight, 20, currentHeight);
+            context.fillRect(x-timelineWidth/2, y-currentHeight, timelineWidth, currentHeight);
             y -= currentHeight;
         }
     }

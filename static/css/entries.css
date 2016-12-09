@@ -109,157 +109,176 @@ nav {
   #main #toggle-panel .active {
     color: #008080;
     transform: scale(1.41); }
-#main #visualizations {
-  background-color: #f5f5f5;
+#main #visualizations .visualization-block {
+  background-color: #fff;
+  margin-bottom: 24px;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-  #main #visualizations h3 {
-    text-transform: uppercase;
-    margin-top: 0;
-    margin-bottom: 32px;
-    font-size: 1.2em;
-    text-align: center; }
-  #main #visualizations #sectors-visualization {
-    background-color: #fff;
-    height: 540px;
-    overflow-y: auto; }
-    #main #visualizations #sectors-visualization img {
+  #main #visualizations .visualization-block h3 {
+    margin: 0;
+    padding: 16px 16px 26px 16px;
+    text-transform: uppercase; }
+#main #visualizations #entry-timeline-wrapper {
+  padding-bottom: 16px; }
+  #main #visualizations #entry-timeline-wrapper #entry-count {
+    position: absolute;
+    right: 32px;
+    top: 10px;
+    font-size: 14px; }
+#main #visualizations #severity-legend {
+  padding-bottom: 10px; }
+  #main #visualizations #severity-legend .severity {
+    display: inline-block;
+    height: 16px;
+    width: 24px;
+    margin-left: 24px;
+    cursor: pointer; }
+    #main #visualizations #severity-legend .severity:hover {
+      box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.8); }
+  #main #visualizations #severity-legend .severity-1 {
+    background-color: #fbd4d4; }
+  #main #visualizations #severity-legend .severity-2 {
+    background-color: #f7a5a5; }
+  #main #visualizations #severity-legend .severity-3 {
+    background-color: #f47575; }
+  #main #visualizations #severity-legend .severity-4 {
+    background-color: #f04646; }
+  #main #visualizations #severity-legend .severity-5 {
+    background-color: #ec1717; }
+  #main #visualizations #severity-legend .severity-6 {
+    background-color: #c01010; }
+  #main #visualizations #severity-legend label {
+    font-size: 14px;
+    margin-left: 10px;
+    vertical-align: super; }
+#main #visualizations #sectors-visualization {
+  height: 540px;
+  overflow-y: auto; }
+  #main #visualizations #sectors-visualization img {
+    height: 24px;
+    margin-right: 10px;
+    display: inline-block; }
+#main #visualizations .attr-visualization {
+  padding-bottom: 16px; }
+  #main #visualizations .attr-visualization .attr {
+    padding: 6px; }
+    #main #visualizations .attr-visualization .attr label {
+      padding-left: 10px;
+      margin-right: 8px;
+      width: 112px;
+      vertical-align: middle;
+      text-align: right;
+      line-height: 1; }
+    #main #visualizations .attr-visualization .attr .severities {
+      display: inline-block;
       height: 24px;
-      margin-right: 10px;
-      display: inline-block; }
-  #main #visualizations .attr-visualization {
-    background-color: #fafafa;
-    padding: 24px; }
-    #main #visualizations .attr-visualization .attr {
-      padding: 6px; }
-      #main #visualizations .attr-visualization .attr label {
-        margin-right: 8px;
-        width: 112px;
-        vertical-align: middle;
-        text-align: right;
-        line-height: 1; }
-      #main #visualizations .attr-visualization .attr .severities {
+      vertical-align: middle; }
+      #main #visualizations .attr-visualization .attr .severities .severity {
         display: inline-block;
         height: 24px;
-        vertical-align: middle; }
-        #main #visualizations .attr-visualization .attr .severities .severity {
-          display: inline-block;
-          height: 24px;
-          cursor: pointer; }
-          #main #visualizations .attr-visualization .attr .severities .severity:hover {
-            box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.8); }
-        #main #visualizations .attr-visualization .attr .severities .severity-1 {
-          background-color: #fbd4d4; }
-        #main #visualizations .attr-visualization .attr .severities .severity-2 {
-          background-color: #f7a5a5; }
-        #main #visualizations .attr-visualization .attr .severities .severity-3 {
-          background-color: #f47575; }
-        #main #visualizations .attr-visualization .attr .severities .severity-4 {
-          background-color: #f04646; }
-        #main #visualizations .attr-visualization .attr .severities .severity-5 {
-          background-color: #ec1717; }
-        #main #visualizations .attr-visualization .attr .severities .severity-6 {
-          background-color: #c01010; }
-  #main #visualizations #attr-visualizations-container .severity {
-    height: 16px; }
-  #main #visualizations #attr-visualizations-container .col-md-3:not(:last-child) {
-    padding-right: 0; }
-  #main #visualizations #attr-visualizations-container .col-md-3:not(:first-child) {
-    padding-left: 0; }
-  #main #visualizations #attr-visualizations-container .attr-visualization {
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
-    height: 620px;
-    overflow-y: auto; }
-  #main #visualizations #map-controls {
-    text-align: center;
-    padding: 8px;
-    max-width: 80%;
-    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
-    background-color: rgba(255, 255, 255, 0.88);
-    position: absolute;
-    left: 10%;
-    bottom: 24px;
-    border-radius: 3px; }
-    #main #visualizations #map-controls #admin-level-buttons button {
-      margin: 4px !important; }
-  #main #visualizations #country-select-wrapper {
-    width: 260px;
-    height: 56px;
-    padding: 10px;
-    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
-    background-color: rgba(255, 255, 255, 0.88);
-    position: absolute;
-    top: 10px;
-    left: 24px;
-    border-radius: 3px; }
-  #main #visualizations #pie-wrapper {
-    width: 260px;
-    height: 260px;
-    padding: 10px;
-    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
-    background-color: rgba(255, 255, 255, 0.88);
-    position: absolute;
-    top: 10px;
-    right: 24px;
-    border-radius: 3px; }
-    #main #visualizations #pie-wrapper svg {
-      width: 240px;
-      height: 240px;
-      background: transparent;
-      border-radius: 50%; }
-    #main #visualizations #pie-wrapper path {
-      cursor: pointer;
-      fill: transparent;
+        cursor: pointer; }
+        #main #visualizations .attr-visualization .attr .severities .severity:hover {
+          box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.8); }
+      #main #visualizations .attr-visualization .attr .severities .severity-1 {
+        background-color: #fbd4d4; }
+      #main #visualizations .attr-visualization .attr .severities .severity-2 {
+        background-color: #f7a5a5; }
+      #main #visualizations .attr-visualization .attr .severities .severity-3 {
+        background-color: #f47575; }
+      #main #visualizations .attr-visualization .attr .severities .severity-4 {
+        background-color: #f04646; }
+      #main #visualizations .attr-visualization .attr .severities .severity-5 {
+        background-color: #ec1717; }
+      #main #visualizations .attr-visualization .attr .severities .severity-6 {
+        background-color: #c01010; }
+#main #visualizations #attr-visualizations-container .severity {
+  height: 16px; }
+#main #visualizations #map-controls {
+  text-align: center;
+  padding: 8px;
+  max-width: 80%;
+  background-color: rgba(255, 255, 255, 0.88);
+  position: absolute;
+  left: 10%;
+  bottom: 48px;
+  border-radius: 3px;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  #main #visualizations #map-controls #admin-level-buttons button {
+    margin: 4px !important; }
+#main #visualizations #country-select-wrapper {
+  width: 260px;
+  position: absolute;
+  top: 24px;
+  left: 48px; }
+  #main #visualizations #country-select-wrapper .selectize-input {
+    box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+#main #visualizations #pie-wrapper {
+  width: 256px;
+  height: 256px;
+  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
+  background-color: rgba(255, 255, 255, 0.88);
+  position: absolute;
+  top: 24px;
+  right: 48px;
+  border-radius: 3px; }
+  #main #visualizations #pie-wrapper svg {
+    margin-left: 24px;
+    margin-top: -16px;
+    width: 208px;
+    height: 208px;
+    background: transparent;
+    border-radius: 50%; }
+  #main #visualizations #pie-wrapper path {
+    cursor: pointer;
+    fill: transparent;
+    stroke-width: 56;
+    transition: all 0.2s ease-in-out; }
+    #main #visualizations #pie-wrapper path:hover {
       stroke-width: 64;
-      transition: all 0.2s ease-in-out; }
-      #main #visualizations #pie-wrapper path:hover {
-        stroke-width: 70;
-        stroke-linecap: butt; }
-    #main #visualizations #pie-wrapper .severity-1 {
-      stroke: #fbd4d4; }
-    #main #visualizations #pie-wrapper .severity-2 {
-      stroke: #f7a5a5; }
-    #main #visualizations #pie-wrapper .severity-3 {
-      stroke: #f47575; }
-    #main #visualizations #pie-wrapper .severity-4 {
-      stroke: #f04646; }
-    #main #visualizations #pie-wrapper .severity-5 {
-      stroke: #ec1717; }
-    #main #visualizations #pie-wrapper .severity-6 {
-      stroke: #c01010; }
-  #main #visualizations #the-map {
-    position: relative;
-    height: 540px; }
-    #main #visualizations #the-map #map-shadow-overlay {
-      pointer-events: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 999;
-      box-shadow: inset 10px 0 15px -8px rgba(0, 0, 0, 0.5); }
-    #main #visualizations #the-map path {
-      stroke: #717171;
-      stroke-width: 1px;
-      stroke-linejoin: round; }
-    #main #visualizations #the-map .leaflet-top {
-      z-index: 1;
-      top: auto;
-      bottom: 24px;
-      left: 24px; }
-  #main #visualizations #entry-header {
-    padding: 16px 24px;
-    background-color: #fafafa; }
-    #main #visualizations #entry-header h3 {
-      text-transform: uppercase;
-      margin: 0; }
-  #main #visualizations #entry-timeline-container {
-    height: 160px;
-    cursor: crosshair; }
-    #main #visualizations #entry-timeline-container #entry-timeline {
-      width: 100%;
-      height: 100%;
-      background-color: #fafafa; }
+      stroke-linecap: butt; }
+  #main #visualizations #pie-wrapper .severity-1 {
+    stroke: #fbd4d4; }
+  #main #visualizations #pie-wrapper .severity-2 {
+    stroke: #f7a5a5; }
+  #main #visualizations #pie-wrapper .severity-3 {
+    stroke: #f47575; }
+  #main #visualizations #pie-wrapper .severity-4 {
+    stroke: #f04646; }
+  #main #visualizations #pie-wrapper .severity-5 {
+    stroke: #ec1717; }
+  #main #visualizations #pie-wrapper .severity-6 {
+    stroke: #c01010; }
+#main #visualizations #the-map {
+  position: relative;
+  height: 540px; }
+  #main #visualizations #the-map #map-shadow-overlay {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    box-shadow: inset 10px 0 15px -8px rgba(0, 0, 0, 0.5); }
+  #main #visualizations #the-map path {
+    stroke: #717171;
+    stroke-width: 1px;
+    stroke-linejoin: round; }
+  #main #visualizations #the-map .leaflet-top {
+    z-index: 1;
+    top: auto;
+    bottom: 24px;
+    left: 24px; }
+#main #visualizations #entry-header {
+  padding: 16px 24px; }
+  #main #visualizations #entry-header h3 {
+    text-transform: uppercase;
+    margin: 0; }
+#main #visualizations #entry-timeline-container {
+  height: 160px;
+  cursor: crosshair; }
+  #main #visualizations #entry-timeline-container #entry-timeline {
+    width: 100%;
+    height: 100%; }
 #main #entries .entry {
   background-color: #fff;
   color: #414141;
