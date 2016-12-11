@@ -1,1 +1,19 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+DEEP | 404 Error
+{% endblock %}
+
+{% block head %}
+<link href="{% static 'css/404.css' %}" type="text/css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+<h1>
+    <a href="{% url 'login' %}">error: 404</a>
+</h1>
+<p><a href="{% url 'login' %}">lost in the <span>deep</span> ?</a></p>
+
+{% endblock %}
