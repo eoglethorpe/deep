@@ -87,27 +87,27 @@ body {
     background: transparent;
     height: 480px; }
   body #map-section #overview {
-    padding: 48px 0;
+    padding-top: 32px;
     height: 480px; }
     body #map-section #overview h1 {
       margin: 0;
       text-transform: uppercase;
       margin-bottom: 24px;
       color: #008080;
-      width: 150px;
-      text-align: right; }
+      margin-left: 166px; }
     body #map-section #overview div {
       margin-bottom: 16px; }
     body #map-section #overview label {
       margin-left: 16px;
       color: #414141;
-      font-size: 1.5em;
-      font-weight: 300; }
+      font-size: 16px;
+      font-weight: 300;
+      vertical-align: super; }
     body #map-section #overview .number {
       display: inline-block;
-      width: 150px;
+      width: 156px;
       text-align: right;
-      font-size: 4em;
+      font-size: 3.2em;
       color: #767676; }
   body #body {
     box-shadow: 0 -2px 5px 1px rgba(0, 0, 0, 0.3);

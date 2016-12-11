@@ -35,8 +35,6 @@ function recalculateSeverity2(information, attrId, attrs) {
 
 function renderVisualizations() {
     // Reset values
-
-
     resetSeverities(sectors);
     resetSeverities(vulnerable_groups);
     resetSeverities(specific_needs_groups);
@@ -279,8 +277,8 @@ function processTimeline(){
     }
 
     timeGap = maxDate.getTime() - minDate.getTime();
-    if (timeGap/1000/3600/24 < 10) {
-        maxDate = new Date(minDate.getTime() + 10*24*3600*1000);
+    if (timeGap/1000/3600/24 < 100) {
+        maxDate = new Date(minDate.getTime() + 100*24*3600*1000);
         timeGap = maxDate.getTime() - minDate.getTime();
     }
 
@@ -315,7 +313,7 @@ function renderTimeline(){
     };
 
     context.moveTo(0, 0);
-    var timelineWidth = Math.max(3, Math.min(20, 208*(1/(timeGap/1000/3600/24))));
+    var timelineWidth = Math.max(3, Math.min(20, 1024*(1/(timeGap/1000/3600/24))));
 
 
     for(var i=0; i<entryDates.length; i++){
