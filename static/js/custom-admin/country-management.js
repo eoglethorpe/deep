@@ -47,7 +47,10 @@ $(document).ready(function() {
         addNewCountry();
 });
 
+var adminLevelId = 0;
+
 function addNewCountry() {
+    adminLevelId++;
     $('#country-detail-inputs h2').text('Add new country');
     $('.active').removeClass('active');
     $('#country-code').val(null);
@@ -69,5 +72,9 @@ function addNewAdminLevel() {
         adminLevelView.find('.geojson-current').text($(this).val());
     });
 
+    adminLevelView.find('.geojson').attr('id', 'geojson-file-input-'+adminLevelId);
+    adminLevelView.find('.geojson-label').attr('for', 'geojson-file-input-'+adminLevelId);
+
+    adminLevelId++;
     return adminLevelView;
 }

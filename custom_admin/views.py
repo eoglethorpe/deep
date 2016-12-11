@@ -60,6 +60,11 @@ class CrisisPanelView(View):
             else:
                 event.glide_number = None
 
+            if request.POST["spillover"] and request.POST["spillover"] != "":
+                event.spill_over = Event.objects.get(pk=int(request.POST["spillover"]))
+            else:
+                event.spill_over = None
+
             event.save()
 
             event.assignee.clear()            
@@ -138,7 +143,7 @@ class CountryManagementView(View):
 
                 if pk == "new":
                     admin_level = AdminLevel()
-                    if to_delete or geojsons_selected[i] == 'false':
+                    if to_delete:
                         continue
                 else:
                     admin_level = AdminLevel.objects.get(pk=int(pk))

@@ -1,12 +1,14 @@
 var disasterTypeSelectize;
 var countriesSelectize;
 var assignedToSelectize;
+var spilloverSelectize;
 
 $(document).ready(function(){
 
     disasterTypeSelectize = $("#disaster-type").selectize();
     countriesSelectize = $("#countries").selectize();
     assignedToSelectize = $("#assigned-to").selectize();
+    spilloverSelectize = $("#spillover").selectize();
 
     $('.crisis').on('click', function() {
         var pk = $(this).data("crisis-pk");
@@ -21,6 +23,7 @@ $(document).ready(function(){
         disasterTypeSelectize[0].selectize.setValue(crisis.disaster_type);
         countriesSelectize[0].selectize.setValue(crisis.countries);
         assignedToSelectize[0].selectize.setValue(crisis.assigned_to);
+        spilloverSelectize[0].selectize.setValue(crisis.spillover);
 
         $("#crisis-start-date").val(crisis.start_date);
         $("#crisis-end-date").val(crisis.end_date);
@@ -46,6 +49,7 @@ function addNewCrisis() {
     disasterTypeSelectize[0].selectize.setValue("");
     countriesSelectize[0].selectize.setValue("");
     assignedToSelectize[0].selectize.setValue("");
+    spilloverSelectize[0].selectize.setValue("");
 
     $("#crisis-start-date").val("");
     $("#crisis-end-date").val("");
