@@ -27,6 +27,7 @@ DEEP | Crisis Manager
                 {% for assigned_to in event.assignee.all %}"{{assigned_to.pk}}", {% endfor %}
             ],
             glide_number: "{{event.glide_number}}",
+            spillover: {% if event.spill_over %}"{{event.pk}}"{% else %}null{% endif %},
         },
         {% endfor %}
     };
@@ -103,13 +104,22 @@ DEEP | Crisis Manager
                         </div>
                     </div>
                     <div class="form-group">
-                        <label> Assigned To</label>
+                        <label> Assigned To </label>
                         <select name="assigned-to" class="form-control" id="assigned-to" placeholder="Assigned to" multiple>
                             <option value="">Assigned to</option>
                             {% for u in users %}
                             {% if u.first_name != "" %}
                             <option value="{{u.pk}}">{{u.get_full_name}}</option>
                             {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label> Spillover Effect </label>
+                        <select name="spillover" class="form-control" id="spillover" placeholder="Spillover effect">
+                            <option value="">Spillover</option>
+                            {% for e in events %}
+                            <option value="{{e.pk}}">{{e.name}}</option>
                             {% endfor %}
                         </select>
                     </div>

@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-DEEP | Country Management Panel
+DEEP | Country Panel
 {% endblock %}
 
 {% block head %}
@@ -29,7 +29,7 @@ DEEP | Country Management Panel
             admin_levels: [
                 {% for admin_level in country.adminlevel_set.all %}
                 { id: '{{admin_level.pk}}', level: '{{admin_level.level}}', name: '{{admin_level.name}}', property_name: '{{admin_level.property_name}}',
-                  property_pcode: '{{admin_level.property_pcode}}', geojson: '{{admin_level.geojson.url}}' },
+                  property_pcode: '{{admin_level.property_pcode}}', geojson: '{% if admin_level.geojson %}{{admin_level.geojson.url}}{% endif %}' },
                 {% endfor %}
             ]
         },
@@ -44,7 +44,7 @@ DEEP | Country Management Panel
 <header>
     <div class="container-fluid">
         <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to DEEP</a>
-        <h1>Country Management Panel</h1>
+        <h1>Country Panel</h1>
     </div>
 </header>
 <main>
@@ -104,7 +104,7 @@ DEEP | Country Management Panel
         <div class="col-md-3">
             <div class="form-group">
                 <label>Admin level</label>
-                <input name="admin-level" type="number" min="1" step="1" class="form-control admin-level" placeholder="Enter admin level">
+                <input name="admin-level" type="number" min="0" step="1" class="form-control admin-level" placeholder="Enter admin level">
             </div>
         </div>
         <div class="col-md-3">
@@ -130,7 +130,7 @@ DEEP | Country Management Panel
         <div class="col-md-10">
             <label> GeoJSON file </label>
             <input id="geojson-file-input" name="geojson" type="file" class="geojson file-input">
-            <label for="geojson-file-input"><i class="fa fa-upload"></i>Choose a file</label>
+            <label for="geojson-file-input" class="geojson-label"><i class="fa fa-upload"></i>Choose a file</label>
             <p class="geojson-current"></p>
             <p class="geojson-old"></p> <input type="hidden" name="geojson-selected" class="geojson-selected" value="false">
         </div>

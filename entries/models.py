@@ -14,7 +14,7 @@ class AdminLevel(models.Model):
     name = models.CharField(max_length=70)
     property_name = models.CharField(max_length=70)
     property_pcode = models.CharField(max_length=50, default="", blank=True)
-    geojson = models.FileField(upload_to='adminlevels/')
+    geojson = models.FileField(upload_to='adminlevels/', default=None, blank=True, null=True)
 
     def __str__(self):
         return self.name + ", " + str(self.country)
