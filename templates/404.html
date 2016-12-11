@@ -12,8 +12,8 @@ DEEP | 404 Error
 {% block body %}
 
 <h1>
-    error: 404
+    <a href="{% url 'login' %}">error: 404</a>
 </h1>
-<p>lost in the <a href="{% url 'login' %}">deep</a> ?</p>
+<p><a href="{% url 'login' %}">lost in the <span>deep</span> ?</a></p>
 
 {% endblock %}

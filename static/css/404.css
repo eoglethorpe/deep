@@ -45,13 +45,13 @@ body {
   body p {
     font-size: 3em;
     color: rgba(255, 255, 255, 0.8); }
-    body p a {
-      font-weight: bold;
+    body p span {
       text-transform: uppercase; }
-      body p a:hover {
-        color: #008080; }
   body a {
     color: inherit;
-    text-decoration: none !important; }
+    text-decoration: none !important;
+    text-transform: none; }
+    body a:hover {
+      color: #008080; }
 
 /*# sourceMappingURL=404.css.map */
