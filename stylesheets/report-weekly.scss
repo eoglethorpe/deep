@@ -8,48 +8,48 @@ body{
 }
 
 #main{
-    padding-top: 10px;
     $header-height: 176px;
 
     header{
         height: $header-height;
 
-        h2{
-            margin-top: 0;
-            margin-bottom: 32px;
+        h1{
             text-transform: uppercase;
+            font-weight: $font-weight-bold;
+            span{
+                font-weight: $font-weight-normal;
+            }
         }
         button{
             float: right;
-            margin-right: 8px;
+            margin-right: 16px;
+            margin-top: 16px;
+            @include btn-shadow-lg();
+
+            .fa{
+                margin-right: 10px;
+            }
         }
         #filters{
+            margin-top: 10px;
 
-            label{
-                text-transform: uppercase;
-                font-size: 0.8em;
-            }
             #reliability-filter-container, #severity-filter-container{
                 margin-top: -26px;
             }
         }
     }
     #last-seven-days-btn{
-        font-weight: bold;
-        text-align: right;
-        padding-left: 72px;
-
+        float: right;
     }
     #entries{
-        height: calc(100vh - #{$navbar-height} - #{$header-height} - 64px)!important;
+        height: calc(100vh - #{$navbar-height} - #{$header-height} - 48px)!important;
         background-color: #fff;
-        box-shadow: 2px 5px 5px 3px rgba( 0, 0, 0, 0.2);
         overflow-y: scroll;
+        @include shadow();
 
         h3{
             padding-left: 32px;
         }
-
 
         .entry{
             padding: 24px;
@@ -59,14 +59,12 @@ body{
                 background-color: #fff;
             }
 
-
             header{
                 height: auto;
                 margin-bottom: 16px;
 
                 h4{
                     color: $primary-color;
-                    font-weight: bold;
                 }
                 label{
                     margin-right: 10px;
@@ -76,9 +74,7 @@ body{
                 margin-top: 10px;
             }
             label{
-                font-size: 0.8em;
                 margin-right: 10px;
-                color: #969696;
                 text-transform: uppercase;
             }
             .severity, .reliability{
@@ -88,8 +84,6 @@ body{
                     height: 16px;
                     background-color: #ccc;
                     display: inline-block;
-                }
-                label{
                 }
             }
 
@@ -145,11 +139,11 @@ body{
         }
     }
     #report-content{
-        height: calc(100vh - #{$navbar-height} - #{$header-height} - 64px)!important;
+        height: calc(100vh - #{$navbar-height} - #{$header-height} - 48px)!important;
         padding: 24px;
         background-color: #fff;
-        box-shadow: 2px 5px 5px 3px rgba(0, 0, 0, 0.2);
         overflow-y: scroll;
+        @include shadow();
 
         section{
             padding: 16px;

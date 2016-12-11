@@ -72,140 +72,139 @@ body {
   background-color: #f0f0f0;
   min-height: 100vh; }
 
-#main {
-  padding-top: 10px; }
-  #main header {
-    height: 176px; }
-    #main header h2 {
-      margin-top: 0;
-      margin-bottom: 32px;
-      text-transform: uppercase; }
-    #main header button {
-      float: right;
-      margin-right: 8px; }
-    #main header #filters label {
-      text-transform: uppercase;
-      font-size: 0.8em; }
+#main header {
+  height: 176px; }
+  #main header h1 {
+    text-transform: uppercase;
+    font-weight: 600; }
+    #main header h1 span {
+      font-weight: 400; }
+  #main header button {
+    float: right;
+    margin-right: 16px;
+    margin-top: 16px;
+    box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
+    #main header button:active {
+      box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
+    #main header button .fa {
+      margin-right: 10px; }
+  #main header #filters {
+    margin-top: 10px; }
     #main header #filters #reliability-filter-container, #main header #filters #severity-filter-container {
       margin-top: -26px; }
-  #main #last-seven-days-btn {
-    font-weight: bold;
-    text-align: right;
-    padding-left: 72px; }
-  #main #entries {
-    height: calc(100vh - 56px - 176px - 64px) !important;
-    background-color: #fff;
-    box-shadow: 2px 5px 5px 3px rgba(0, 0, 0, 0.2);
-    overflow-y: scroll; }
-    #main #entries h3 {
-      padding-left: 32px; }
-    #main #entries .entry {
-      padding: 24px;
-      background-color: #fafafa; }
-      #main #entries .entry:nth-child(odd) {
-        background-color: #fff; }
-      #main #entries .entry header {
-        height: auto;
-        margin-bottom: 16px; }
-        #main #entries .entry header h4 {
-          color: #008080;
-          font-weight: bold; }
-        #main #entries .entry header label {
-          margin-right: 10px; }
-      #main #entries .entry .excerpt {
-        margin-top: 10px; }
-      #main #entries .entry label {
-        font-size: 0.8em;
-        margin-right: 10px;
-        color: #969696;
-        text-transform: uppercase; }
-      #main #entries .entry .severity, #main #entries .entry .reliability {
-        margin-top: 8px; }
-        #main #entries .entry .severity span, #main #entries .entry .reliability span {
-          width: 10px;
-          height: 16px;
-          background-color: #ccc;
-          display: inline-block; }
-      #main #entries .entry .reliability ._1 {
-        background-color: #aab0ed; }
-      #main #entries .entry .reliability ._2 {
-        background-color: #7f88e5; }
-      #main #entries .entry .reliability ._3 {
-        background-color: #5561dc; }
-      #main #entries .entry .reliability ._4 {
-        background-color: #2b3ad3; }
-      #main #entries .entry .reliability ._5 {
-        background-color: #232fa8; }
-      #main #entries .entry .reliability ._6 {
-        background-color: #1e2993; }
-      #main #entries .entry .reliability .active {
-        transform: scale(1.2); }
-      #main #entries .entry .severity ._1 {
-        background-color: #f2adad; }
-      #main #entries .entry .severity ._2 {
-        background-color: #ec8080; }
-      #main #entries .entry .severity ._3 {
-        background-color: #e55454; }
-      #main #entries .entry .severity ._4 {
-        background-color: #de2828; }
-      #main #entries .entry .severity ._5 {
-        background-color: #cd1f1f; }
-      #main #entries .entry .severity ._6 {
-        background-color: #b71c1c; }
-      #main #entries .entry .severity .active {
-        transform: scale(1.2); }
-    #main #entries .title {
-      text-transform: uppercase;
-      margin-top: 16px;
-      margin-bottom: 10px; }
-  #main #entries-header-container h3 {
-    margin: 0;
-    text-transform: uppercase;
-    font-size: 1.2em; }
-  #main #entries-header-container, #main #navigator {
-    padding: 16px;
-    background-color: #fafafa;
-    height: 48px; }
-  #main #navigator a {
-    display: inline-block;
-    padding: 0 24px;
-    padding-bottom: 8px;
-    cursor: pointer; }
-  #main #navigator .active {
-    border-bottom: 2px solid #008080; }
-  #main #report-content {
-    height: calc(100vh - 56px - 176px - 64px) !important;
+#main #last-seven-days-btn {
+  float: right; }
+#main #entries {
+  height: calc(100vh - 56px - 176px - 48px) !important;
+  background-color: #fff;
+  overflow-y: scroll;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  #main #entries h3 {
+    padding-left: 32px; }
+  #main #entries .entry {
     padding: 24px;
-    background-color: #fff;
-    box-shadow: 2px 5px 5px 3px rgba(0, 0, 0, 0.2);
-    overflow-y: scroll; }
-    #main #report-content section {
-      padding: 16px; }
-      #main #report-content section h3 {
-        margin: 0;
-        margin-bottom: 16px; }
-      #main #report-content section .title {
-        text-transform: uppercase;
-        margin-top: 10px;
-        margin-bottom: 16px; }
-    #main #report-content #key-events .event-timeline {
+    background-color: #fafafa; }
+    #main #entries .entry:nth-child(odd) {
+      background-color: #fff; }
+    #main #entries .entry header {
+      height: auto;
       margin-bottom: 16px; }
-      #main #report-content #key-events .event-timeline .row:first-child {
-        margin-bottom: 16px; }
-    #main #report-content #humanitarian-profile .row {
-      margin-bottom: 10px; }
-    #main #report-content #humanitarian-profile .sub {
+      #main #entries .entry header h4 {
+        color: #008080; }
+      #main #entries .entry header label {
+        margin-right: 10px; }
+    #main #entries .entry .excerpt {
+      margin-top: 10px; }
+    #main #entries .entry label {
+      margin-right: 10px;
+      text-transform: uppercase; }
+    #main #entries .entry .severity, #main #entries .entry .reliability {
+      margin-top: 8px; }
+      #main #entries .entry .severity span, #main #entries .entry .reliability span {
+        width: 10px;
+        height: 16px;
+        background-color: #ccc;
+        display: inline-block; }
+    #main #entries .entry .reliability ._1 {
+      background-color: #aab0ed; }
+    #main #entries .entry .reliability ._2 {
+      background-color: #7f88e5; }
+    #main #entries .entry .reliability ._3 {
+      background-color: #5561dc; }
+    #main #entries .entry .reliability ._4 {
+      background-color: #2b3ad3; }
+    #main #entries .entry .reliability ._5 {
+      background-color: #232fa8; }
+    #main #entries .entry .reliability ._6 {
+      background-color: #1e2993; }
+    #main #entries .entry .reliability .active {
+      transform: scale(1.2); }
+    #main #entries .entry .severity ._1 {
+      background-color: #f2adad; }
+    #main #entries .entry .severity ._2 {
+      background-color: #ec8080; }
+    #main #entries .entry .severity ._3 {
+      background-color: #e55454; }
+    #main #entries .entry .severity ._4 {
+      background-color: #de2828; }
+    #main #entries .entry .severity ._5 {
+      background-color: #cd1f1f; }
+    #main #entries .entry .severity ._6 {
+      background-color: #b71c1c; }
+    #main #entries .entry .severity .active {
+      transform: scale(1.2); }
+  #main #entries .title {
+    text-transform: uppercase;
+    margin-top: 16px;
+    margin-bottom: 10px; }
+#main #entries-header-container h3 {
+  margin: 0;
+  text-transform: uppercase;
+  font-size: 1.2em; }
+#main #entries-header-container, #main #navigator {
+  padding: 16px;
+  background-color: #fafafa;
+  height: 48px; }
+#main #navigator a {
+  display: inline-block;
+  padding: 0 24px;
+  padding-bottom: 8px;
+  cursor: pointer; }
+#main #navigator .active {
+  border-bottom: 2px solid #008080; }
+#main #report-content {
+  height: calc(100vh - 56px - 176px - 48px) !important;
+  padding: 24px;
+  background-color: #fff;
+  overflow-y: scroll;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  #main #report-content section {
+    padding: 16px; }
+    #main #report-content section h3 {
+      margin: 0;
+      margin-bottom: 16px; }
+    #main #report-content section .title {
+      text-transform: uppercase;
+      margin-top: 10px;
+      margin-bottom: 16px; }
+  #main #report-content #key-events .event-timeline {
+    margin-bottom: 16px; }
+    #main #report-content #key-events .event-timeline .row:first-child {
+      margin-bottom: 16px; }
+  #main #report-content #humanitarian-profile .row {
+    margin-bottom: 10px; }
+  #main #report-content #humanitarian-profile .sub {
+    margin-left: 24px; }
+  #main #report-content #people-in-need .toplevel {
+    padding-bottom: 20px;
+    padding-left: 16px; }
+    #main #report-content #people-in-need .toplevel .sub {
       margin-left: 24px; }
-    #main #report-content #people-in-need .toplevel {
-      padding-bottom: 20px;
-      padding-left: 16px; }
-      #main #report-content #people-in-need .toplevel .sub {
-        margin-left: 24px; }
-    #main #report-content #people-in-need .row {
-      margin-bottom: 10px; }
-    #main #report-content #humanitarian-access {
-      text-transform: none; }
-      #main #report-content #humanitarian-access .right-pane {
-        padding-left: 48px; }
+  #main #report-content #people-in-need .row {
+    margin-bottom: 10px; }
+  #main #report-content #humanitarian-access {
+    text-transform: none; }
+    #main #report-content #humanitarian-access .right-pane {
+      padding-left: 48px; }
 
 /*# sourceMappingURL=report-weekly.css.map */
