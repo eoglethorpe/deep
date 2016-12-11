@@ -1,0 +1,41 @@
+@import 'common/base';
+
+body {
+    background-color: #414141;
+    background-image: url('../img/bg.jpg');
+    background-position: center center;
+    background-size: cover;
+    background-blend-mode: soft-light;
+    
+    display: flex;
+    min-height: 100vh;
+    min-width: 100vw;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    h1 {
+        color: #fff;
+        font-size: 7em;
+        font-weight: 300;
+    }
+
+    p {
+        font-size: 3em;
+        color: rgba(255, 255, 255, 0.8);
+
+        a {
+            font-weight: bold;
+            text-transform: uppercase;
+
+            &:hover {
+                color: $primary-color;
+            }
+        }
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none!important;
+    }
+}
