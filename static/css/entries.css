@@ -150,6 +150,8 @@ nav {
     font-size: 14px;
     margin-left: 10px;
     vertical-align: super; }
+  #main #visualizations #severity-legend p {
+    margin-bottom: 6px; }
 #main #visualizations #sectors-visualization {
   height: 540px;
   overflow-y: auto; }

@@ -13,12 +13,11 @@
 {% include 'navbar.html' %}
 <section id="main">
     <div class="container-fluid">
-        <h2>Report Dash</h2>
+        <h1>Report Dashboard</h1>
         <div class="row">
             <div class="col-md-3">
                 <div id="country-list">
-                    <h3>Countries</h3>
-                    <hr>
+                    <h2>Countries</h2>
                     <hr>
                     {% for c in countries %}
                     <a href="{% url 'report:dashboard' %}?country={{c.pk}}">
@@ -40,30 +39,30 @@
                 {% if country %}
                 <div id="report-list">
                     <header>
-                        <div class="col-md-9">
-                            <h3>{{country.name}}</h3>
-                        </div>
-                        <div class="col-md-3">
-                            <select id="select-event">
-                                {% for e in country.event_set.all %}
-                                <option value="{{e.pk}}" {% if event == e %}selected{% endif %}>{{e}}</option>
-                                {% endfor %}
-                            </select>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h2>{{country.name}}</h2>
+                            </div>
+                            <div class="col-md-4">
+                                <select id="select-event">
+                                    {% for e in country.event_set.all %}
+                                    <option value="{{e.pk}}" {% if event == e %}selected{% endif %}>{{e}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
                         </div>
                     </header>
                     <hr>
-                    
                     <div class="reports">
                         <div class="row">
                             <div class="col-md-6">
                                 <div id="weekly-report-list">
-
                                     {% if new_week_date %}
                                     <div class="weekly-report">
-                                        <button class="btn btn-default" onclick="location.href='{% url 'report:weekly' country.pk event.pk %}?start_date={{new_week_date|date:"d-M-Y"}}';"><i class="fa fa-edit"></i></button>
-                                        <h5>Week #{{weekly_report_count|add:1}}</h5>
-                                        <p>Status</p>
-                                        <p>{{new_week_date|date:"d M Y"}}</p>
+                                        <button class="btn btn-primary" onclick="location.href='{% url 'report:weekly' country.pk event.pk %}?start_date={{new_week_date|date:"d-M-Y"}}';"><i class="fa fa-edit"></i></button>
+                                        <h4>Week #{{weekly_report_count|add:1}}</h4>
+                                        <!-- <label>Status</label> -->
+                                        <date>{{new_week_date|date:"d M Y"}}</date>
                                     </div>
                                     {% endif %}
 
@@ -72,10 +71,10 @@
                                     <hr>
                                     {% endif %}
                                     <div class="weekly-report">
-                                        <button class="btn btn-default" onclick="location.href='{% url 'report:weekly' country.pk event.pk report.pk %}';"><i class="fa fa-edit"></i></button>
-                                        <h5>Week #{{forloop.revcounter}}</h5>
-                                        <p>Status</p>
-                                        <p>{{report.start_date|date:"d M Y"}}</p>
+                                        <button class="btn btn-primary" onclick="location.href='{% url 'report:weekly' country.pk event.pk report.pk %}';"><i class="fa fa-edit"></i></button>
+                                        <h4>Week #{{forloop.revcounter}}</h4>
+                                        <!-- <label>Status</label> -->
+                                        <date>{{report.start_date|date:"d M Y"}}</date>
                                     </div>
                                     {% endfor %}
                                 </div>
@@ -84,10 +83,9 @@
                                 <div id="monthly-report-list">
                                     <div class="monthly-report">
                                         <h4>Month #4</h4>
-                                        <p>This report is awesome, but is it?</p>
                                         <p>Partially Completed</p>
-                                        <button class="btn btn-edit btn-default"><i class="fa fa-edit"></i>Edit</button>
-                                        <button class="btn btn-export btn-default"><i class="fa fa-external-link"></i>Export</button>
+                                        <button class="btn btn-edit btn-primary"><i class="fa fa-edit"></i>Edit</button>
+                                        <button class="btn btn-export btn-info"><i class="fa fa-external-link"></i>Export</button>
                                     </div>
                                 </div>
                             </div>
