@@ -24,18 +24,18 @@ body {
         font-size: 3em;
         color: rgba(255, 255, 255, 0.8);
 
-        a {
-            font-weight: bold;
+        span {
             text-transform: uppercase;
-
-            &:hover {
-                color: $primary-color;
-            }
         }
     }
 
     a {
         color: inherit;
         text-decoration: none!important;
+        text-transform: none;
+
+        &:hover {
+            color: $primary-color;
+        }
     }
 }
