@@ -277,8 +277,8 @@ function processTimeline(){
     }
 
     timeGap = maxDate.getTime() - minDate.getTime();
-    if (timeGap/1000/3600/24 < 100) {
-        maxDate = new Date(minDate.getTime() + 100*24*3600*1000);
+    if (timeGap/1000/3600/24 < 10) {
+        maxDate = new Date(minDate.getTime() + 10*24*3600*1000);
         timeGap = maxDate.getTime() - minDate.getTime();
     }
 
