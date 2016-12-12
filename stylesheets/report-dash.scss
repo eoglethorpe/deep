@@ -1,86 +1,88 @@
 @import 'common/base';
 @import 'common/navbar';
 
-body{
-    background-color: #f0f0f0;
-}
-
 #main{
-    h2{
-        margin-bottom: 32px;
-        margin-top: 32px;
+    h1, h2, h3, h4{
+        margin: 0;
         text-transform: uppercase;
     }
+    h1{
+        font-weight: bold;
+        margin-bottom: 32px;
+        margin-top: 24px;
+    }
+
     #country-list{
         background-color: #fff;
-        box-shadow: 2px 0 5px 3px rgba(0, 0, 0, 0.2);
+        @include shadow();
 
-        h3{
-            margin-top: 0;
-            margin-bottom: 0;
-            padding: 24px;
-        }
-        h4{
-            text-transform: uppercase;
-            padding-top: 24px;
-            padding-left: 24px;
+        h2{
+            padding: 16px 32px;
         }
         hr{
             margin: 0;
         }
-
         .country{
             padding: 16px 32px;
             cursor: pointer;
+            transition: 0.2s all ease-in-out;
+
             .event{
-                color: #969696;
+                color: $label-color;
             }
         }
         .country:hover{
-            background-color: rgba(0,0,0,0.1);
-            .event{
-                    color: #717171;
-            }
-
+            background-color: rgba(0, 0, 0, 0.1);
         }
         .active{
             border-right: 3px solid $primary-color;
-
             background-color: #f0f0f0;
         }
     }
 
     #report-list{
         background-color: #fff;
-        box-shadow: 2px 0 5px 3px rgba(0, 0, 0, 0.2);
+        @include shadow();
 
         header{
-            padding: 24px;
-            background-color: #fff;
-            color: #008080;
-
-            h3{
-                margin-top: 0;
-                padding-bottom: 0;
-                display: inline-block;
+            .selectize-input{
+                margin-top: 16px;
+                margin-left: -24px;
             }
+        }
+        h2{
+            padding: 24px;
+            color: $primary-color;
+        }
+        hr{
+            margin: 0;
         }
         .reports{
             #weekly-report-list{
                 .weekly-report{
-                    padding: 10px 24px;
-
+                    padding: 24px;
+                    h4{
+                        margin-bottom: 10px;
+                    }
+                    date{
+                        font-weight: $font-weight-bold;
+                        color: $label-color;
+                    }
                     button{
                         float: right;
-                        margin-right: 16px;
-                        margin-top: 16px;
+                        margin-right: 24px;
+                        @include btn-shadow-sm();
                     }
                 }
             }
             #monthly-report-list{
                 .monthly-report{
-                    padding: 10px 24px;
+                    padding: 24px;
 
+                    button{
+                        margin-right: 10px;
+                        @include btn-shadow-sm();
+                    }
                     .fa{
                         margin-right: 10px;
                     }

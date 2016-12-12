@@ -68,57 +68,62 @@ nav {
     nav .dropdown ul li a .fa {
       margin-right: 10px; }
 
-body {
-  background-color: #f0f0f0; }
-
-#main h2 {
-  margin-bottom: 32px;
-  margin-top: 32px;
+#main h1, #main h2, #main h3, #main h4 {
+  margin: 0;
   text-transform: uppercase; }
+#main h1 {
+  font-weight: bold;
+  margin-bottom: 32px;
+  margin-top: 24px; }
 #main #country-list {
   background-color: #fff;
-  box-shadow: 2px 0 5px 3px rgba(0, 0, 0, 0.2); }
-  #main #country-list h3 {
-    margin-top: 0;
-    margin-bottom: 0;
-    padding: 24px; }
-  #main #country-list h4 {
-    text-transform: uppercase;
-    padding-top: 24px;
-    padding-left: 24px; }
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  #main #country-list h2 {
+    padding: 16px 32px; }
   #main #country-list hr {
     margin: 0; }
   #main #country-list .country {
     padding: 16px 32px;
-    cursor: pointer; }
+    cursor: pointer;
+    transition: 0.2s all ease-in-out; }
     #main #country-list .country .event {
-      color: #969696; }
+      color: #767676; }
   #main #country-list .country:hover {
     background-color: rgba(0, 0, 0, 0.1); }
-    #main #country-list .country:hover .event {
-      color: #717171; }
   #main #country-list .active {
     border-right: 3px solid #008080;
     background-color: #f0f0f0; }
 #main #report-list {
   background-color: #fff;
-  box-shadow: 2px 0 5px 3px rgba(0, 0, 0, 0.2); }
-  #main #report-list header {
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  #main #report-list header .selectize-input {
+    margin-top: 16px;
+    margin-left: -24px; }
+  #main #report-list h2 {
     padding: 24px;
-    background-color: #fff;
     color: #008080; }
-    #main #report-list header h3 {
-      margin-top: 0;
-      padding-bottom: 0;
-      display: inline-block; }
+  #main #report-list hr {
+    margin: 0; }
   #main #report-list .reports #weekly-report-list .weekly-report {
-    padding: 10px 24px; }
+    padding: 24px; }
+    #main #report-list .reports #weekly-report-list .weekly-report h4 {
+      margin-bottom: 10px; }
+    #main #report-list .reports #weekly-report-list .weekly-report date {
+      font-weight: 600;
+      color: #767676; }
     #main #report-list .reports #weekly-report-list .weekly-report button {
       float: right;
-      margin-right: 16px;
-      margin-top: 16px; }
+      margin-right: 24px;
+      box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+      #main #report-list .reports #weekly-report-list .weekly-report button:active {
+        box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
   #main #report-list .reports #monthly-report-list .monthly-report {
-    padding: 10px 24px; }
+    padding: 24px; }
+    #main #report-list .reports #monthly-report-list .monthly-report button {
+      margin-right: 10px;
+      box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+      #main #report-list .reports #monthly-report-list .monthly-report button:active {
+        box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
     #main #report-list .reports #monthly-report-list .monthly-report .fa {
       margin-right: 10px; }
 

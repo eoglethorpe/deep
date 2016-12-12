@@ -25,17 +25,15 @@ body{
             height: 480px;
         }
         #overview{
-            padding: 48px 0;
+            padding-top: 32px;
             height: 480px;
-            //box-shadow: inset 0 -8px 5px -5px rgba(0, 0, 0, 0.3);
 
             h1{
                 margin: 0;
                 text-transform: uppercase;
                 margin-bottom: 24px;
                 color: $primary-color;
-                width: 150px;
-                text-align: right;
+                margin-left: 166px;
             }
             div{
                 margin-bottom: 16px;
@@ -43,14 +41,15 @@ body{
             label{
                 margin-left: 16px;
                 color: $text-color;
-                font-size: 1.5em;
+                font-size: $text-size-xl;
                 font-weight: $font-weight-thin;
+                vertical-align: super;
             }
             .number{
                 display: inline-block;
-                width: 150px;
+                width: 156px;
                 text-align: right;
-                font-size: 4em;
+                font-size: 3.2em;
                 color: $label-color;
             }
 
