@@ -65,7 +65,7 @@ DEEP | Export
                         <header>
                             <h2>Excel Export</h2>
                         </header>
-                        <form id="export-entries-excel-form" action="http://23.20.252.122/1/entries/exportxls/">
+                        <form id="export-entries-excel-form" action="{% url 'entries:exportxls' event=event.pk %}">
                             <button type="submit" class="btn btn-primary" ><i class="fa fa-file-excel-o"></i>Export</button>
                         </form>
                     </div>

@@ -11,7 +11,8 @@ from leads.models import *
 from entries.models import *
 from entries.strippers import *
 # from . import export_xls, export_docx, export_fields
-from entries.export_entries_docx_temp import export_docx
+from entries.export_entries_docx import export_docx
+from entries.export_entries_xls import export_xls
 from entries.refresh_pcodes import *
 from leads.views import get_simplified_lead
 
@@ -47,10 +48,7 @@ class ExportView(View):
 class ExportXls(View):
     @method_decorator(login_required)
     def get(self, request, event):
-        # response = HttpResponse(content = export_xls.export(), content_type='application/vnd.ms-excel')
-        # response['Content-Disposition'] = 'attachment; filename = %s' % export_fields.get_file_name('xls')
-
-        return HttpResponse("To be updated") # response
+        return export_xls('DEEP Entries-%s' % time.strftime("%Y-%m-%d"), int(event))
 
 
 class ExportDocx(View):
