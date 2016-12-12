@@ -15,7 +15,7 @@ class ExcelWriter:
     def get_http_response(self, title):
         vwb = save_virtual_workbook(self.wb)
         response = HttpResponse(content=vwb, content_type='application/vnd.ms-excel')
-        response['Content-Disposition'] = 'attachment; filename = %s' % (title+".xls")
+        response['Content-Disposition'] = 'attachment; filename = %s' % (title+".xlsx")
         return response
 
     def auto_fit_cells_in_row(self, row_id, ws=None):
