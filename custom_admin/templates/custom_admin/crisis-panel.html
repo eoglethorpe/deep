@@ -27,7 +27,7 @@ DEEP | Crisis Manager
                 {% for assigned_to in event.assignee.all %}"{{assigned_to.pk}}", {% endfor %}
             ],
             glide_number: "{{event.glide_number}}",
-            spillover: {% if event.spill_over %}"{{event.pk}}"{% else %}null{% endif %},
+            spillover: {% if event.spill_over %}"{{event.spill_over.pk}}"{% else %}null{% endif %},
         },
         {% endfor %}
     };
