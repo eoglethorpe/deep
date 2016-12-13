@@ -44,7 +44,7 @@ body{
     #entries{
         height: calc(100vh - #{$navbar-height} - #{$header-height} - 48px)!important;
         background-color: #fff;
-        overflow-y: scroll;
+        overflow-y: auto;
         @include shadow();
 
         h3{
@@ -75,7 +75,6 @@ body{
             }
             label{
                 margin-right: 10px;
-                text-transform: uppercase;
             }
             .severity, .reliability{
                 margin-top: 8px;
@@ -108,12 +107,6 @@ body{
                 .active{ transform: scale(1.2); }
             }
         }
-
-        .title{
-            text-transform: uppercase;
-            margin-top: 16px;
-            margin-bottom: 10px;
-        }
     }
     #entries-header-container{
         h3{
@@ -140,23 +133,20 @@ body{
     }
     #report-content{
         height: calc(100vh - #{$navbar-height} - #{$header-height} - 48px)!important;
-        padding: 24px;
+        //padding: 24px;
         background-color: #fff;
-        overflow-y: scroll;
+        overflow-y: auto;
         @include shadow();
 
+        h5{
+            text-transform: uppercase;
+        }
         section{
             padding: 16px;
             h3{
                 margin: 0;
                 margin-bottom: 16px;
             }
-            .title{
-                text-transform: uppercase;
-                margin-top: 10px;
-                margin-bottom: 16px;
-            }
-
         }
 
         #key-events{
@@ -167,13 +157,28 @@ body{
                     margin-bottom: 16px;
                 }
             }
+            button{
+                @include btn-shadow-sm();
+            }
         }
 
         #humanitarian-profile{
+            #humanitarian-profile-field-error{
+                color: #e74c3c;
+                text-align: center;
+            }
+            .row-group{
+                margin-left: -16px;
+                margin-right: -16px;
+                padding: 10px 16px 2px 16px;;
+
+                &:nth-child(even){
+                    background-color: #f0f0f0;
+                }
+            }
             .row{
                 margin-bottom: 10px;
             }
-
             .sub{
                 margin-left: 24px;
             }
@@ -182,7 +187,7 @@ body{
         #people-in-need{
             .toplevel{
                 padding-bottom: 20px;
-                padding-left: 16px;
+                //padding-left: 16px;
 
                 .sub{
                     margin-left: 24px;
@@ -197,6 +202,9 @@ body{
 
             .right-pane{
                 padding-left: 48px;
+            }
+            label{
+
             }
         }
 

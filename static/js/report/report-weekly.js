@@ -50,7 +50,7 @@ function renderEntries(){
         {
             sevenDaysLater = true;
             if (i != 0) {
-                var separator = $('<hr style="border-color: #f00;">');
+                var separator = $('<hr style="border-color: #c0392b;">');
                 separator.appendTo(entryContainer);
             }
         }
@@ -99,13 +99,13 @@ $(document).ready(function(){
         if ($(this).hasClass('active')) {
             $(this).removeClass('active');
             addFilter('last-seven-days', true, null);
-            $(this).text('Show all entries')
+            $(this).text('Show entries from last 7 days')
         } else {
             $(this).addClass('active');
             addFilter('last-seven-days', false, function(info) {
                 return filterDate('last-seven-days', new Date(info.modified_at));
             });
-            $(this).text('Show entries from last 7 days')
+            $(this).text('Show all entries')
         }
     });
 

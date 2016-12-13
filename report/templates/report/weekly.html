@@ -99,7 +99,6 @@ var appearing_pillars = {
                 </div>
                 <div id="report-content">
                     <section id="key-events">
-                        <!--<h3>Key Events</h3>-->
                         <div class="row">
                             <div class="col-md-6">
                                 <label>Select type of disaster:</label>
@@ -123,7 +122,7 @@ var appearing_pillars = {
                         <br>
                         <div class="row">
                             <div class="col-md-12">
-                                <h4>Events for timeline:</h4>
+                                <label>Events for timeline:</label>
                                 <div id="event-timeline-container">
                                 </div>
                             </div>
@@ -160,38 +159,34 @@ var appearing_pillars = {
                         </div>
                     </section>
                     <section id="humanitarian-profile" hidden>
-                        <!--<h3>Humanitarian Profile</h3>-->
+                        <p id="humanitarian-profile-field-error" hidden>Value of <strong>bla bla</strong> should be greater than or equal to than that of <strong>bla blu</strong>!</p>
                         {% for field in human_profile_fields %}
+                        <div class="row-group">
+                            <div class="row">
+                                <div class="col-md-6"><label>{{field.name}}</label></div>
+                                <div class="col-md-2"><input class="human-number form-control" data-human-pk="{{field.pk}}" placeholder="Number of person"></div>
+                                <div class="col-md-2"><input class="human-source form-control" data-human-pk="{{field.pk}}" placeholder="Source/Date"></div>
+                                <div class="col-md-2"><input class="human-comment form-control" data-human-pk="{{field.pk}}" placeholder="Comment"></div>
+                            </div>
 
-                        <div class="row">
-                            <div class="col-md-6"><label>{{field.name}}</label></div>
-                            <div class="col-md-2"><input class="human-number form-control" data-human-pk="{{field.pk}}" placeholder="Number of person"></div>
-                            <div class="col-md-2"><input class="human-source form-control" data-human-pk="{{field.pk}}" placeholder="Source/Date"></div>
-                            <div class="col-md-2"><input class="human-comment form-control" data-human-pk="{{field.pk}}" placeholder="Comment"></div>
+                            {% for subfield in field.humanprofilefield_set.all %}
+
+                            <div class="row">
+                                <div class="col-md-6"><label  class="sub">{{subfield.name}}</label></div>
+                                <div class="col-md-2"><input class="human-number form-control" data-human-pk="{{subfield.pk}}" placeholder="Number of person"></div>
+                                <div class="col-md-2"><input class="human-source form-control" data-human-pk="{{subfield.pk}}" placeholder="Source/Date"></div>
+                                <div class="col-md-2"><input class="human-comment form-control" data-human-pk="{{subfield.pk}}" placeholder="Comment"></div>
+                            </div>
+
+                            {% endfor %}
                         </div>
-
-                        {% for subfield in field.humanprofilefield_set.all %}
-
-                        <div class="row">
-                            <div class="col-md-6"><label  class="sub">{{subfield.name}}</label></div>
-                            <div class="col-md-2"><input class="human-number form-control" data-human-pk="{{subfield.pk}}" placeholder="Number of person"></div>
-                            <div class="col-md-2"><input class="human-source form-control" data-human-pk="{{subfield.pk}}" placeholder="Source/Date"></div>
-                            <div class="col-md-2"><input class="human-comment form-control" data-human-pk="{{subfield.pk}}" placeholder="Comment"></div>
-                        </div>
-
-                        {% endfor %}
                         {% endfor %}
                     </section>
                     <section id="people-in-need" hidden>
-                        <!--<h3>People in need</h3>-->
                         {% for field in people_in_need_fields %}
                         <div class="row toplevel">
                             <div class="col-md-4">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>{{field.name}}</label>
-                                    </div>
-                                </div>
+                                <label>{{field.name}}</label>
                             </div>
                             <div class="col-md-8">
                                 <div class="row">
@@ -279,7 +274,6 @@ var appearing_pillars = {
                         </div>
                     </section>
                     <section id="humanitarian-access" hidden>
-                        <!--<h3>Humanitarian access</h3>-->
                         <div class="row">
                             <div class="col-md-7">
                                 {% for field in human_access_fields %}
@@ -304,12 +298,21 @@ var appearing_pillars = {
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-5"><input class="form-control access-pin-number" data-access-pin-pk="{{field.pk}}" placeholder="Number"></div>
-                                        <div class="col-md-7"><input class="form-control access-pin-source" data-access-pin-pk="{{field.pk}}" placeholder="Source/Date"></div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <input class="form-control access-pin-number" data-access-pin-pk="{{field.pk}}" placeholder="Number">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="form-group">
+                                                <input class="form-control access-pin-source" data-access-pin-pk="{{field.pk}}" placeholder="Source/Date">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12"><input class="form-control access-pin-comment" data-access-pin-pk="{{field.pk}}" placeholder="Comment"></div>
+                                    <div class="form-group">
+                                        <input class="form-control access-pin-comment" data-access-pin-pk="{{field.pk}}" placeholder="Comment">
                                     </div>
+
                                 </div>
                                 {% endfor %}
                             </div>

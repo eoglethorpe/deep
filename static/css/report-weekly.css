@@ -97,7 +97,7 @@ body {
 #main #entries {
   height: calc(100vh - 56px - 176px - 48px) !important;
   background-color: #fff;
-  overflow-y: scroll;
+  overflow-y: auto;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
   #main #entries h3 {
     padding-left: 32px; }
@@ -116,8 +116,7 @@ body {
     #main #entries .entry .excerpt {
       margin-top: 10px; }
     #main #entries .entry label {
-      margin-right: 10px;
-      text-transform: uppercase; }
+      margin-right: 10px; }
     #main #entries .entry .severity, #main #entries .entry .reliability {
       margin-top: 8px; }
       #main #entries .entry .severity span, #main #entries .entry .reliability span {
@@ -153,10 +152,6 @@ body {
       background-color: #b71c1c; }
     #main #entries .entry .severity .active {
       transform: scale(1.2); }
-  #main #entries .title {
-    text-transform: uppercase;
-    margin-top: 16px;
-    margin-bottom: 10px; }
 #main #entries-header-container h3 {
   margin: 0;
   text-transform: uppercase;
@@ -174,30 +169,39 @@ body {
   border-bottom: 2px solid #008080; }
 #main #report-content {
   height: calc(100vh - 56px - 176px - 48px) !important;
-  padding: 24px;
   background-color: #fff;
-  overflow-y: scroll;
+  overflow-y: auto;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  #main #report-content h5 {
+    text-transform: uppercase; }
   #main #report-content section {
     padding: 16px; }
     #main #report-content section h3 {
       margin: 0;
       margin-bottom: 16px; }
-    #main #report-content section .title {
-      text-transform: uppercase;
-      margin-top: 10px;
-      margin-bottom: 16px; }
   #main #report-content #key-events .event-timeline {
     margin-bottom: 16px; }
     #main #report-content #key-events .event-timeline .row:first-child {
       margin-bottom: 16px; }
+  #main #report-content #key-events button {
+    box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+    #main #report-content #key-events button:active {
+      box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+  #main #report-content #humanitarian-profile #humanitarian-profile-field-error {
+    color: #e74c3c;
+    text-align: center; }
+  #main #report-content #humanitarian-profile .row-group {
+    margin-left: -16px;
+    margin-right: -16px;
+    padding: 10px 16px 2px 16px; }
+    #main #report-content #humanitarian-profile .row-group:nth-child(even) {
+      background-color: #f0f0f0; }
   #main #report-content #humanitarian-profile .row {
     margin-bottom: 10px; }
   #main #report-content #humanitarian-profile .sub {
     margin-left: 24px; }
   #main #report-content #people-in-need .toplevel {
-    padding-bottom: 20px;
-    padding-left: 16px; }
+    padding-bottom: 20px; }
     #main #report-content #people-in-need .toplevel .sub {
       margin-left: 24px; }
   #main #report-content #people-in-need .row {
