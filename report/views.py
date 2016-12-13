@@ -64,7 +64,6 @@ class WeeklyReportView(View):
         context["entries"] = Entry.objects.filter(lead__event=event)
         context["current_page"] = "report"
 
-
         context["users"] = User.objects.exclude(first_name="", last_name="")
         context["pillars"] = InformationPillar.objects.all()
         context["subpillars"] = InformationSubpillar.objects.all()
@@ -92,6 +91,8 @@ class WeeklyReportView(View):
 
         context["human_profile_fields"] = \
             HumanProfileField.objects.filter(parent__isnull=True)
+        context["human_profile_field_rules"] = \
+            HumanProfileFieldRule.objects.all()
         context["people_in_need_fields"] = \
             PeopleInNeedField.objects.filter(parent__isnull=True)
         context["human_access_fields"] = HumanAccessField.objects.all()

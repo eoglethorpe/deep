@@ -25,6 +25,7 @@ MONTHS = (
 class HumanProfileField(models.Model):
     name = models.CharField(max_length=100)
     parent = models.ForeignKey('HumanProfileField', default=None, null=True, blank=True)
+    ordering = models.IntegerField(default=1)
 
     def __str__(self):
         if self.parent:
@@ -33,6 +34,23 @@ class HumanProfileField(models.Model):
 
     class Meta:
         verbose_name_plural = "Humanitarian Profile Fields"
+        ordering = ['ordering',]
+
+
+class HumanProfileFieldRule(models.Model):
+
+    COMPARISIONS = (
+        ('<', 'Less than or equal to parent'),
+        ('+', 'Sum equal to parent'),
+        ('+<', 'Sum equal to or less than parent'),
+    )
+
+    parent_field = models.ForeignKey(HumanProfileField)
+    children = models.ManyToManyField(HumanProfileField, 'rule_children')
+    comparision = models.CharField(max_length=5, choices=COMPARISIONS)
+
+    def __str__(self):
+        return self.parent_field.name
 
 
 class PeopleInNeedField(models.Model):

@@ -60,6 +60,16 @@ var start_date = "{{report.date|date:'d-M-Y'}}";
 var appearing_pillars = {
     {% for field, pillars in appearing_pillars.items %}{{field}}: [{% for pillar in pillars %}"{{pillar.pk}}", {% endfor %}], {% endfor %}
 };
+
+var human_profile_field_rules = [
+    {% for rule in human_profile_field_rules %}
+    {
+        parent: '{{rule.parent_field.pk}}',
+        children: [{% for child in rule.children.all %}'{{child.pk}}', {% endfor %}],
+        comparision: '{{rule.comparision|safe}}'
+    },
+    {% endfor %}
+];
 </script>
 {% endblock %}
 
