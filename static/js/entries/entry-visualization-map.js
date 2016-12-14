@@ -12,6 +12,7 @@ var map;
 
 var mapSelections = [];
 var mapNumEntries = [];
+var maxNumEntries = 0;
 
 
 function loadMap() {
@@ -43,6 +44,7 @@ function loadMap() {
 function reloadMap() {
     mapSelections = [];
     mapNumEntries = [];
+    maxNumEntries = 1;
 
     for (var i=0; i<entries.length; i++) {
         for (var j=0; j<entries[i].informations.length; j++) {
@@ -51,8 +53,11 @@ function reloadMap() {
                 var ms = info.map_selections[k];
 
                 var index = mapSelections.indexOf(ms.keyword);
-                if (index >= 0)
+                if (index >= 0) {
                     mapNumEntries[index]++;
+                    if (mapNumEntries[index] > maxNumEntries)
+                        maxNumEntries = mapNumEntries[index];
+                }
                 else {
                     mapSelections.push(ms.keyword);
                     mapNumEntries.push(1);
@@ -125,20 +130,25 @@ function onEachMapFeature(feature, layer) {
 
     var index = mapSelections.indexOf(selectionName);
 
+    var opacity = 0.95;
+    if (index >= 0) {
+        opacity = (5+mapNumEntries[index])/(5+maxNumEntries);
+    }
+
     layer.setStyle({
         fillColor: (index < 0)?color1:color3,
-        fillOpacity:'0.55',
+        fillOpacity: opacity,
         opacity: 1,
     });
 
     layer.on('mouseover', function() {
         this.setStyle({
-            fillOpacity:'0.15'
+            fillOpacity: 0.15
         });
     });
     layer.on('mouseout', function() {
         this.setStyle({
-            fillOpacity:'0.55'
+            fillOpacity: opacity
         });
     });
 
