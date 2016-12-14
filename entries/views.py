@@ -96,7 +96,9 @@ class EntriesView(View):
         context["sources"] = []
 
         for lead in Lead.objects.filter(event=event):
-            if lead.source_name not in context["sources"] and Entry.objects.filter(lead=lead).count() > 0:
+            if lead.source_name and \
+                    lead.source_name not in context["sources"] and \
+                    Entry.objects.filter(lead=lead).count() > 0:
                 context["sources"].append(lead.source_name)
 
         UserProfile.set_last_event(request, context["event"])

@@ -112,11 +112,16 @@ nav {
 #main #visualizations .visualization-block {
   background-color: #fff;
   margin-bottom: 24px;
+  position: relative;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
   #main #visualizations .visualization-block h3 {
     margin: 0;
     padding: 16px 16px 26px 16px;
     text-transform: uppercase; }
+  #main #visualizations .visualization-block .sort-buttons {
+    position: absolute;
+    right: 16px;
+    top: 16px; }
 #main #visualizations #entry-timeline-wrapper {
   padding-bottom: 16px; }
   #main #visualizations #entry-timeline-wrapper #entry-count {
