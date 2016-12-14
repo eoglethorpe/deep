@@ -34,7 +34,7 @@ class HumanProfileField(models.Model):
 
     class Meta:
         verbose_name_plural = "Humanitarian Profile Fields"
-        ordering = ['ordering',]
+        ordering = ['parent__id', 'ordering',]
 
 
 class HumanProfileFieldRule(models.Model):
@@ -42,7 +42,7 @@ class HumanProfileFieldRule(models.Model):
     COMPARISIONS = (
         ('<', 'Less than or equal to parent'),
         ('+', 'Sum equal to parent'),
-        ('+<', 'Sum equal to or less than parent'),
+        ('+<', 'Sum less than or equal to parent'),
     )
 
     parent_field = models.ForeignKey(HumanProfileField)

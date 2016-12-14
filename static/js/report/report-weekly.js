@@ -327,18 +327,18 @@ function checkRules() {
                     if (children[j] > parent)
                         break;
                 }
-                if (j == children.length) {
-                    errors += childrenTitles.join(', ') + ' should be less than or equal to ' + parentTitle + '! <br>';
+                if (j != children.length) {
+                    errors += '<strong>' + childrenTitles.join(', ') + '</strong> should be less than or equal to <strong>' + parentTitle + '</strong> ! <br>';
                 }
             }
             else if (rule.comparision == '+<') {
                 if (childrenSum > parent) {
-                    errors += 'Sum of ' + childrenTitles.join(', ') + ' should be less than or equal to ' + parentTitle + '! <br>';
+                    errors += 'Sum of <strong>' + childrenTitles.join(', ') + '</strong> should be less than or equal to <strong>' + parentTitle + '</strong> ! <br>';
                 }
             }
             else if (rule.comparision == '+') {
                 if (childrenSum != parent) {
-                    errors += 'Sum of ' + childrenTitles.join(', ') + ' should be equal to ' + parentTitle + '! <br>';
+                    errors += 'Sum of <strong>' + childrenTitles.join(', ') + '</strong> should be equal to <strong>' + parentTitle + '</strong> ! <br>';
                 }
             }
         }
