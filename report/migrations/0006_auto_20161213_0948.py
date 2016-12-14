@@ -9,7 +9,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('report', '0005_humanprofilefield_sum_to'),
+        ('report', '0004_auto_20161213_0753'),
     ]
 
     operations = [
@@ -20,10 +20,10 @@ class Migration(migrations.Migration):
                 ('comparision', models.CharField(choices=[('<', 'Less than parent'), ('+', 'Sum equal to parent'), ('+<', 'Sum equal to or less than parent')], max_length=5)),
             ],
         ),
-        migrations.RemoveField(
-            model_name='humanprofilefield',
-            name='sum_to',
-        ),
+        # migrations.RemoveField(
+        #     model_name='humanprofilefield',
+        #     name='sum_to',
+        # ),
         migrations.AddField(
             model_name='humanprofilefieldrule',
             name='children',
