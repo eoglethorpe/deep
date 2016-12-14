@@ -10,27 +10,36 @@ DEEP | Sign in
 {% endblock %}
 
 {% block body %}
-<section id="main">
+<div id="background"></div>
+<main>
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <div id="wrapper">
-                    <h2>Sign in</h2>
-                    <p>Welcome to <strong>Data Entry &amp; Extraction Platform</strong></p>
-
+                    <header>
+                        <img src="{% static 'img/deep-logo-header.png' %}">
+                    </header>
                     <form method="post">
                         {% csrf_token %}
                         {% if error %}
                             <div id="error">{{ error }}</div>
                         {% endif %}
-                        <input class="form-control" type="text" placeholder="Email" name="email" {% if email %}value="{{email}}"{% endif %} required>
-                        <input class="form-control" type="password" placeholder="Password" name="password" required>
-                        <input type="submit" class="btn btn-primary" value="Sign in">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input class="form-control" type="text" placeholder="Email" name="email" {% if email %}value="{{email}}"{% endif %} required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input class="form-control" type="password" placeholder="Password" name="password" required>
+                        </div>
+                        <div class="action">
+                            <input type="submit" class="btn btn-primary" value="Sign in">
+                        </div>
                     </form>
                     <p>Sign in to get started or <a href="/register">Register</a></p>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</main>
 {% endblock %}
