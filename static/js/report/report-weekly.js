@@ -84,6 +84,18 @@ function renderEntries(){
             if(j != (entries[i].informations.length-1)){
                 $('<hr>').appendTo(informationContainer);
             }
+
+            // Make date draggable
+            information.find('date').css('cursor', 'pointer');
+            information.find('date').attr('draggable', 'true');
+            information.find('date').on('dragover', function(e){
+                e.preventDefault();
+            });
+            information.find('date').on('dragstart', function(i, j) {
+                return function(e){
+                    e.originalEvent.dataTransfer.setData('Text', i+':'+j);
+                }
+            }(i, j));
         }
 
         entry.appendTo(entryContainer);
@@ -118,12 +130,15 @@ $(document).ready(function(){
     // Rule checking
     checkRules();
 
+    // Set fields data
     setInputData();
 
+    // Selectize fields
     $('#disaster-type-select').selectize();
     $('#status-select').selectize();
     $('.access-select').selectize();
 
+    // Tab navigation
     $('#navigator').on('click', 'a', function(){
         var that = $('#navigator .active');
         $(that.data('target')).hide();
@@ -139,7 +154,29 @@ $(document).ready(function(){
         } else {
             pillarsFilterSelectize[0].selectize.setValue(null);
         }
-    })
+    });
+
+    // Make source/date fields droppable
+    $('.source-droppable').on('drop', function(e) {
+        var data=e.originalEvent.dataTransfer.getData("Text");
+        var ids = data.split(':');
+        if (ids.length != 2)
+            return;
+
+        var i = +ids[0];
+        var j = +ids[1];
+        if (isNaN(i) || isNaN(j))
+            return;
+
+        e.preventDefault();
+        var text = entries[i].lead_source_name != null ? entries[i].lead_source_name : 'N/A';
+        text += ' / ';
+        if (entries[i].informations[j].date)
+            text += formatDate(new Date(entries[i].informations[j].date));
+        else
+            text += 'N/A';
+        $(this).val(text);
+    });
 });
 
 function setInputData() {
