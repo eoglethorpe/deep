@@ -12,7 +12,11 @@ var map;
 
 var mapSelections = [];
 var mapNumEntries = [];
+<<<<<<< HEAD
 var totalEntries = 0;
+=======
+var maxNumEntries = 0;
+>>>>>>> 4047333c3db322feb2db735cd51c10e68facaf22
 
 
 function loadMap() {
@@ -44,7 +48,11 @@ function loadMap() {
 function reloadMap() {
     mapSelections = [];
     mapNumEntries = [];
+<<<<<<< HEAD
     totalEntries = 0;
+=======
+    maxNumEntries = 1;
+>>>>>>> 4047333c3db322feb2db735cd51c10e68facaf22
 
     for (var i=0; i<entries.length; i++) {
         for (var j=0; j<entries[i].informations.length; j++) {
@@ -53,8 +61,11 @@ function reloadMap() {
                 var ms = info.map_selections[k];
 
                 var index = mapSelections.indexOf(ms.keyword);
-                if (index >= 0)
+                if (index >= 0) {
                     mapNumEntries[index]++;
+                    if (mapNumEntries[index] > maxNumEntries)
+                        maxNumEntries = mapNumEntries[index];
+                }
                 else {
                     mapSelections.push(ms.keyword);
                     mapNumEntries.push(1);
@@ -130,7 +141,11 @@ function onEachMapFeature(feature, layer) {
 
     var opacity = 0.95;
     if (index >= 0) {
+<<<<<<< HEAD
         opacity = (5+mapNumEntries[index])/(5+totalEntries);
+=======
+        opacity = (5+mapNumEntries[index])/(5+maxNumEntries);
+>>>>>>> 4047333c3db322feb2db735cd51c10e68facaf22
     }
 
     layer.setStyle({
