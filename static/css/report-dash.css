@@ -96,9 +96,10 @@ nav {
 #main #report-list {
   background-color: #fff;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-  #main #report-list header .selectize-input {
-    margin-top: 16px;
-    margin-left: -24px; }
+  #main #report-list header {
+    padding-right: 24px; }
+    #main #report-list header .selectize-input {
+      margin-top: 16px; }
   #main #report-list h2 {
     padding: 24px;
     color: #008080; }

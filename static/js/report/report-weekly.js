@@ -50,7 +50,7 @@ function renderEntries(){
         {
             sevenDaysLater = true;
             if (i != 0) {
-                var separator = $('<hr style="border-color: #c0392b;">');
+                var separator = $('<hr style="border-color: #c0392b; margin: 0">');
                 separator.appendTo(entryContainer);
             }
         }

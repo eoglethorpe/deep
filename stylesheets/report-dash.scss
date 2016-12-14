@@ -45,9 +45,9 @@
         @include shadow();
 
         header{
+            padding-right: 24px;
             .selectize-input{
                 margin-top: 16px;
-                margin-left: -24px;
             }
         }
         h2{

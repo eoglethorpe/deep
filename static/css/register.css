@@ -26,25 +26,59 @@ body {
     text-transform: uppercase;
     font-size: 12px; }
 
-#main {
-  padding-top: 100px;
-  background-color: #414141;
+#background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-color: #212121;
   background-image: url("../img/bg.jpg");
   background-position: center center;
   background-size: cover;
   background-blend-mode: soft-light;
-  min-height: 100vh; }
-  #main #wrapper {
-    padding: 24px;
-    background-color: rgba(255, 255, 255, 0.6); }
-    #main #wrapper p {
-      color: #fff; }
-      #main #wrapper p strong {
-        text-transform: uppercase;
-        font-weight: 700; }
-    #main #wrapper p:last-child {
+  filter: blur(7px); }
+
+main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; }
+  main #wrapper {
+    padding: 16px 32px;
+    background-color: #f0f0f0;
+    border: 3px solid #ccc;
+    border-radius: 5px; }
+    main #wrapper header {
       text-align: center; }
-    #main #wrapper form input {
-      margin-top: 16px; }
+    main #wrapper h1 {
+      margin: 0;
+      text-transform: uppercase; }
+    main #wrapper img {
+      display: inline-block;
+      width: 240px;
+      margin-right: 16px; }
+    main #wrapper p:last-child {
+      margin-top: -24px; }
+    main #wrapper form {
+      margin-top: 32px; }
+      main #wrapper form label {
+        width: 100px;
+        margin-right: 10px;
+        vertical-align: middle; }
+      main #wrapper form input[type="text"], main #wrapper form input[type="password"] {
+        width: calc(100% - 113px);
+        display: inline-block; }
+      main #wrapper form .action {
+        text-align: right; }
+        main #wrapper form .action input {
+          min-width: 100px;
+          box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
+          main #wrapper form .action input:active {
+            box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
+      main #wrapper form .form-group:not(:last-child) {
+        margin-bottom: 24px; }
 
 /*# sourceMappingURL=register.css.map */
