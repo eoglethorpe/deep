@@ -148,6 +148,7 @@ function onEachMapFeature(feature, layer) {
         });
     });
     layer.on('mouseout', function() {
+        this.setStyle({
             fillOpacity:0.60
         });
     });

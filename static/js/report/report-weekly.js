@@ -170,6 +170,8 @@ $(document).ready(function(){
 
         e.preventDefault();
         var text = entries[i].lead_source_name != null ? entries[i].lead_source_name : 'N/A';
+        if (entries[i].lead_url)
+            text += ' (' + entries[i].lead_url + ')'
         text += ' / ';
         if (entries[i].informations[j].date)
             text += formatDate(new Date(entries[i].informations[j].date));
