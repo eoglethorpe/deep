@@ -115,6 +115,9 @@ $(document).ready(function(){
         redirectPost(window.location.pathname, d, csrf_token);
     });
 
+    // Rule checking
+    checkRules();
+
     setInputData();
 
     $('#disaster-type-select').selectize();
@@ -291,3 +294,59 @@ function getInputData() {
 // $(window).on('resize', function(e) {
 //     $('#navigator').width($('#report-content').innerWidth())
 // });
+
+
+function checkRules() {
+    $('.human-number').on('paste change input', function(){
+        var errors = "";
+        for (var i=0; i<human_profile_field_rules.length; i++) {
+            var rule = human_profile_field_rules[i];
+
+            var parent = +$('.human-number[data-human-pk="' + rule.parent + '"]').val();
+            if (!parent || isNaN(parent))
+                continue;
+            var parentTitle = $('.human-number[data-human-pk="' + rule.parent + '"]').parent('div').parent('div').find('label').text();
+
+            var childrenSum = 0;
+            var children = [];
+            var childrenTitles = [];
+
+            for (var j=0; j<rule.children.length; j++) {
+                var child = +$('.human-number[data-human-pk="' + rule.children[j] + '"]').val();
+                if (child && !isNaN(child)) {
+                    childrenSum += parseInt(child);
+                    children.push(child);
+                }
+
+                var childTitle = $('.human-number[data-human-pk="' + rule.children[j] + '"]').parent('div').parent('div').find('label').text();
+                childrenTitles.push(childTitle);
+            }
+
+            if (rule.comparision == '<') { 
+                for (var j=0; j<children.length; j++) {
+                    if (children[j] > parent)
+                        break;
+                }
+                if (j == children.length) {
+                    errors += childrenTitles.join(', ') + ' should be less than or equal to ' + parentTitle + '! <br>';
+                }
+            }
+            else if (rule.comparision == '+<') {
+                if (childrenSum > parent) {
+                    errors += 'Sum of ' + childrenTitles.join(', ') + ' should be less than or equal to ' + parentTitle + '! <br>';
+                }
+            }
+            else if (rule.comparision == '+') {
+                if (childrenSum != parent) {
+                    errors += 'Sum of ' + childrenTitles.join(', ') + ' should be equal to ' + parentTitle + '! <br>';
+                }
+            }
+        }
+
+        $('#humanitarian-profile-field-error').html(errors);
+        if (errors != '')
+            $('#humanitarian-profile-field-error').show();
+        else
+            $('#humanitarian-profile-field-error').hide();
+    });
+}
