@@ -137,7 +137,7 @@ function onEachMapFeature(feature, layer) {
 
     layer.setStyle({
         fillColor: (index < 0)?color1:color3,
-        fillOpacity: opacity,
+        fillOpacity: (index < 0)?0.60:opacity,
         opacity: 1,
     });
 
@@ -148,7 +148,7 @@ function onEachMapFeature(feature, layer) {
     });
     layer.on('mouseout', function() {
         this.setStyle({
-            fillOpacity: opacity
+            fillOpacity: (index < 0)?0.60:opacity
         });
     });
 
