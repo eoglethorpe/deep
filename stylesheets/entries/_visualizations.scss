@@ -3,12 +3,19 @@
     .visualization-block{
         background-color: #fff;
         margin-bottom: 24px;
+        position: relative;
         @include shadow();
 
         h3{
             margin: 0;
             padding: 16px 16px 26px 16px;
             text-transform: uppercase;
+        }
+
+        .sort-buttons {
+            position: absolute;
+            right: 16px;
+            top: 16px;
         }
     }
 
