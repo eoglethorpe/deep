@@ -25,15 +25,22 @@
     <div class="col-md-4">
         <div id="sectors-visualization" class="attr-visualization visualization-block">
             <h3>Sectors</h3>
-            {% for sector in sectors %}
-            <div class="attr" data-id="{{sector.pk}}">
-                <label class="name">{{sector}}</label>
-                {% if sector.icon %}
-                <img src="{{sector.icon.url}}" >
-                {% endif %}
-                <span class="severities"></span>
+            <div class="sort-buttons">
+                <button class="sort-alpha" data-toggle="tooltip" title="Sort alphabetically" onclick="sortAlpha(sectors, 'sectors-visualization');"><i class="fa-sort-alpha-asc"></i></button>
+                <button class="sort-ascending" data-toggle="tooltip" title="Sort by entries in ascending" onclick="sortAsc(sectors, 'sectors-visualization');"><i class="fa fa-sort-numeric-asc"></i></button>
+                <button class="sort-descending" data-toggle="tooltip" title="Sort by entries in descending" onclick="sortDesc(sectors, 'sectors-visualization');"><i class="fa fa-sort-numeric-desc"></i></button>
             </div>
+            <div class="attr-container">
+            {% for sector in sectors %}
+                <div class="attr" data-id="{{sector.pk}}">
+                    <label class="name">{{sector}}</label>
+                    {% if sector.icon %}
+                    <img src="{{sector.icon.url}}" >
+                    {% endif %}
+                    <span class="severities"></span>
+                </div>
             {% endfor %}
+            </div>
         </div>
     </div>
     <div class="col-md-8">
@@ -61,47 +68,75 @@
 <div id="attr-visualizations-container">
     <div class="row">
         <div class="col-md-3">
+            <div id="affected-groups-visualization"  class="visualization-block attr-visualization">
+                <h3>Affected groups</h3>
+                <div class="sort-buttons">
+                    <button class="sort-alpha" data-toggle="tooltip" title="Sort alphabetically" onclick="sortAlpha(affected_groups, 'affected-groups-visualization');"><i class="fa-sort-alpha-asc"></i></button>
+                    <button class="sort-ascending" data-toggle="tooltip" title="Sort by entries in ascending" onclick="sortAsc(affected_groups, 'affected-groups-visualization');"><i class="fa fa-sort-numeric-asc"></i></button>
+                    <button class="sort-descending" data-toggle="tooltip" title="Sort by entries in descending" onclick="sortDesc(affected_groups, 'affected-groups-visualization');"><i class="fa fa-sort-numeric-desc"></i></button>
+                </div>
+                <div class="attr-container">
+                    {% for ag in affected_groups %}
+                    <div class="attr" data-id="{{ag.pk}}">
+                        <label class="name">{{ag}}</label>
+                        <span class="severities"></span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
             <div id="vulnerable-groups-visualization" class="visualization-block attr-visualization">
                 <h3>Demographic groups</h3>
-                {% for vg in vulnerable_groups %}
-                <div class="attr" data-id="{{vg.pk}}">
-                    <label class="name">{{vg}}</label>
-                    <span class="severities"></span>
+                <div class="sort-buttons">
+                    <button class="sort-alpha" data-toggle="tooltip" title="Sort alphabetically" onclick="sortAlpha(vulnerable_groups, 'vulnerable-groups-visualization');"><i class="fa-sort-alpha-asc"></i></button>
+                    <button class="sort-ascending" data-toggle="tooltip" title="Sort by entries in ascending" onclick="sortAsc(vulnerable_groups, 'vulnerable-groups-visualization');"><i class="fa fa-sort-numeric-asc"></i></button>
+                    <button class="sort-descending" data-toggle="tooltip" title="Sort by entries in descending" onclick="sortDesc(vulnerable_groups, 'vulnerable-groups-visualization');"><i class="fa fa-sort-numeric-desc"></i></button>
                 </div>
-                {% endfor %}
+                <div class="attr-container">
+                    {% for vg in vulnerable_groups %}
+                    <div class="attr" data-id="{{vg.pk}}">
+                        <label class="name">{{vg}}</label>
+                        <span class="severities"></span>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
         <div class="col-md-3">
             <div id="specific-needs-groups-visualization"  class="visualization-block attr-visualization">
                 <h3>Specific needs groups</h3>
-                {% for sg in specific_needs_groups %}
-                <div class="attr" data-id="{{sg.pk}}">
-                    <label class="name">{{sg}}</label>
-                    <span class="severities"></span>
+                <div class="sort-buttons">
+                    <button class="sort-alpha" data-toggle="tooltip" title="Sort alphabetically" onclick="sortAlpha(specific_needs_groups, 'specific-needs-groups-visualization');"><i class="fa-sort-alpha-asc"></i></button>
+                    <button class="sort-ascending" data-toggle="tooltip" title="Sort by entries in ascending" onclick="sortAsc(specific_needs_groups, 'specific-needs-groups-visualization');"><i class="fa fa-sort-numeric-asc"></i></button>
+                    <button class="sort-descending" data-toggle="tooltip" title="Sort by entries in descending" onclick="sortDesc(specific_needs_groups, 'specific-needs-groups-visualization');"><i class="fa fa-sort-numeric-desc"></i></button>
                 </div>
-                {% endfor %}
+                <div class="attr-container">
+                    {% for sg in specific_needs_groups %}
+                    <div class="attr" data-id="{{sg.pk}}">
+                        <label class="name">{{sg}}</label>
+                        <span class="severities"></span>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
         <div class="col-md-3">
             <div id="sources-visualization"  class="visualization-block attr-visualization">
                 <h3>Sources</h3>
-                {% for source in sources %}
-                <div class="attr" data-id="{{source}}">
-                    <label class="name">{{source}}</label>
-                    <span class="severities"></span>
+                <div class="sort-buttons">
+                    <button class="sort-alpha" data-toggle="tooltip" title="Sort alphabetically" onclick="sortAlpha(sources, 'sources-visualization');"><i class="fa-sort-alpha-asc"></i></button>
+                    <button class="sort-ascending" data-toggle="tooltip" title="Sort by entries in ascending" onclick="sortAsc(sources, 'sources-visualization');"><i class="fa fa-sort-numeric-asc"></i></button>
+                    <button class="sort-descending" data-toggle="tooltip" title="Sort by entries in descending" onclick="sortDesc(sources, 'sources-visualization');"><i class="fa fa-sort-numeric-desc"></i></button>
                 </div>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div id="affected-groups-visualization"  class="visualization-block attr-visualization">
-                <h3>Affected groups</h3>
-                {% for ag in affected_groups %}
-                <div class="attr" data-id="{{ag.pk}}">
-                    <label class="name">{{ag}}</label>
-                    <span class="severities"></span>
+                <div class="attr-container">
+                    {% for source in sources %}
+                    <div class="attr" data-id="{{source}}">
+                        <label class="name">{{source}}</label>
+                        <span class="severities"></span>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
         </div>
     </div>

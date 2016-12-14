@@ -403,3 +403,68 @@ $(document).ready(function() {
         }
     }
 });
+
+
+// Sorting stuffs
+
+function sortAlpha(attributes, divId) {
+    var names = {};
+    for (var i=0; i<attributes.length; i++) {
+        names[attributes[i].id] = attributes[i].name;
+    }
+
+    var elements = $('#'+divId).find('.attr');
+    elements.sort(function(a, b){
+        var name1 = names[$(a).data('id')];
+        var name2 = names[$(b).data('id')];
+        return (name1 == name2 ? 0 : +(name1 > name2) || -1);
+    });
+
+    $('#'+divId).find('.attr-container').html(elements);
+
+    renderVisualizations();
+}
+
+function sortAsc(attributes, divId) {
+    var totalEntries = {};
+
+    for (var i=0; i<attributes.length; i++) {
+        totalEntries[attributes[i].id] = 0;    
+        for (var j=0; j<attributes[i].severities.length; j++) {
+            totalEntries[attributes[i].id] += attributes[i].severities[j].value;
+        }
+    }
+
+    var elements = $('#'+divId).find('.attr');
+    elements.sort(function(a, b){
+        var e1 = totalEntries[$(a).data('id')];
+        var e2 = totalEntries[$(b).data('id')];
+        return e1 - e2;
+    });
+
+    $('#'+divId).find('.attr-container').html(elements);
+
+    renderVisualizations();
+}
+
+function sortDesc(attributes, divId) {
+    var totalEntries = {};
+
+    for (var i=0; i<attributes.length; i++) {
+        totalEntries[attributes[i].id] = 0;    
+        for (var j=0; j<attributes[i].severities.length; j++) {
+            totalEntries[attributes[i].id] += attributes[i].severities[j].value;
+        }
+    }
+
+    var elements = $('#'+divId).find('.attr');
+    elements.sort(function(a, b){
+        var e1 = totalEntries[$(a).data('id')];
+        var e2 = totalEntries[$(b).data('id')];
+        return e2 - e1;
+    });
+
+    $('#'+divId).find('.attr-container').html(elements);
+
+    renderVisualizations();
+}
