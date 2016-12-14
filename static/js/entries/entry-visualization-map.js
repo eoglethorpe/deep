@@ -132,7 +132,7 @@ function onEachMapFeature(feature, layer) {
 
     var opacity = 0.95;
     if (index >= 0) {
-        opacity = (5+mapNumEntries[index])/(5+maxNumEntries);
+        opacity = (30+mapNumEntries[index])/(30+maxNumEntries);
     }
 
     layer.setStyle({
