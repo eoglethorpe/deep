@@ -38,6 +38,9 @@ nav {
     margin-top: 10px; }
   nav a, nav a:visited {
     display: inline-block; }
+  nav #event-menu {
+    display: inline-block;
+    padding: 21px; }
   nav .menu-item {
     height: 56px;
     padding: 21px;
