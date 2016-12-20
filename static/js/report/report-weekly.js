@@ -179,6 +179,8 @@ $(document).ready(function(){
             text += 'N/A';
         $(this).val(text);
     });
+
+    
 });
 
 function setInputData() {

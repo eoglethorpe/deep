@@ -1,3 +1,6 @@
+
+var mapLoaded = false;
+
 $(document).ready(function() {
     initEntryFilters();
 
@@ -7,11 +10,23 @@ $(document).ready(function() {
         $(this).addClass('active');
         var that = $(this);
         $(current.data('target')).fadeOut(function(){
-            $(that.data('target')).fadeIn();
+            $(that.data('target')).fadeIn(function() {
+
+                if (that.data('target') == '#visualizations') {
+                    // Fix a little bug on admin level buttons when they
+                    // are loaded while not on visualization tab.
+                    if (!mapLoaded) {
+                        loadMap();
+                    }
+                    // A similar bug for timeline
+                    resizeCanvas();
+                    renderVisualizations();
+                }
+            });
         });
     });
 
-    loadMap();
+    // loadMap();
 });
 
 function renderEntries() {
