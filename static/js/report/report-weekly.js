@@ -179,6 +179,8 @@ $(document).ready(function(){
             text += 'N/A';
         $(this).val(text);
     });
+
+    
 });
 
 function setInputData() {
@@ -361,7 +363,7 @@ function checkRules() {
                 childrenTitles.push(childTitle);
             }
 
-            if (rule.comparision == '<') { 
+            if (rule.comparision == '<') {
                 for (var j=0; j<children.length; j++) {
                     if (children[j] > parent)
                         break;
