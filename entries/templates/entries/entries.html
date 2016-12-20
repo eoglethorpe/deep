@@ -121,13 +121,13 @@ DEEP | Entries
         </div>
         <button class="btn btn-default btn-sm" id="clear-filter-btn" style="float: right" onclick="clearFilters();">Clear filters</button>
         <div id="toggle-panel">
-            <a href="#" data-target="#visualizations" class="fa fa-th active"></a>
-            <a href="#" data-target="#entries" class="fa fa-list"></a>
+            <a href="#" data-target="#visualizations" class="fa fa-th"></a>
+            <a href="#" data-target="#entries" class="fa fa-list active"></a>
         </div>
-        <div id="visualizations">
+        <div id="visualizations" hidden>
             {% include 'entries/entry-visualization.html' %}
         </div>
-        <div id="entries" hidden>
+        <div id="entries">
         </div>
     </div>
 </section>

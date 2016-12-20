@@ -352,6 +352,7 @@ function renderTimeline(){
         context.fillRect(startPosition.x, 0, endPosition.x-startPosition.x, timelineCanvas.height*0.9);
         //context.stroke();
     }
+
     //context.transform(1, 0, 0, -1, 0, timelineCanvas.height)
 }
 

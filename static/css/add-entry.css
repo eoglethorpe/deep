@@ -38,6 +38,9 @@ nav {
     margin-top: 10px; }
   nav a, nav a:visited {
     display: inline-block; }
+  nav #event-menu {
+    display: inline-block;
+    padding: 21px; }
   nav .menu-item {
     height: 56px;
     padding: 21px;
@@ -269,9 +272,10 @@ body {
           body #page-two #entries .entry .severity .active {
             transform: scale(1.4); }
         body #page-two #entries .entry .excerpt {
-          font-size: 0.9em;
           overflow: hidden;
-          margin-bottom: 16px; }
+          margin-bottom: 16px;
+          resize: none;
+          resize: vertical; }
         body #page-two #entries .entry .geo-location {
           margin-top: 4px;
           font-weight: bold; }
