@@ -18,7 +18,7 @@
             </div>
 
             {# Event menu #}
-            <div class="col-sm-8">
+            <div class="col-sm-7">
                 <span class="dropdown menu-item" id="event-menu">
                     {% if all_events %}
                     <button class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-location-arrow"></i>{% if event %} {{event}} {% else %} Select an event {% endif %}<span class="caret"></span></button>
@@ -46,7 +46,7 @@
                 {% endif %}
             </div>
 
-            <div class="col-sm-2" style="text-align: right;">
+            <div class="col-sm-3" style="text-align: right;">
                 {# Chrome extension download #}
                 <a class="menu-item" style="padding-left: 0; padding-right: 0; color: #fff;" target="_blank" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Download Chrome Extension" href="https://chrome.google.com/webstore/detail/deep-create-lead/ggplhkhciodfdkkonmhgniaopboeoopi"><i class="fa fa-chrome fa-spin" style="margin-right: 0"></i></a>
 
