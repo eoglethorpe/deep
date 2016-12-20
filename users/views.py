@@ -13,7 +13,7 @@ from users.models import *
 from leads.models import *
 from report.models import *
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 
 class RegisterView(View):
@@ -170,19 +170,23 @@ class DashboardView(View):
             last_report = weekly_reports.first()
 
             monday2 = last_report.start_date - timedelta(days=last_report.start_date.weekday())
-            monday1 = first_report.start_date - timedelta(days=first_report.start_date.weekday())
-            weeks = max(int((monday2 - monday1).days/7 + 1), 16)
+            # monday1 = first_report.start_date - timedelta(days=first_report.start_date.weekday())
+            # Actually use first monday of the year
+            day4 = date(first_report.start_date.year, 1, 4)
+            monday1 = day4 - timedelta(days=day4.weekday())
+
+            weeks = max(int((monday2 - monday1).days/7 + 1), 14) + 2
 
             # For each week, store its date and the countries whose reports exist on that day
             for i in range(weeks):
-                date = first_report.start_date + timedelta(days=7*i)
+                dt = monday1 + timedelta(days=7*i)
 
                 countries = []
                 crises = []
                 report_ids = []
-                context["weekly_reports"].append([date, date+timedelta(days=6), countries, crises, report_ids])
+                context["weekly_reports"].append([dt, dt+timedelta(days=6), countries, crises, report_ids])
 
-                reports = WeeklyReport.objects.filter(start_date=date)
+                reports = WeeklyReport.objects.filter(start_date=dt)
                 for report in reports:
                     countries.append(report.country)
                     crises.append(report.event)

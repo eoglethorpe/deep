@@ -71,6 +71,7 @@ body{
         }
 
         #back-btn{
+            position: absolute;
             margin-top: 24px;
             @include btn-shadow-lg();
 
@@ -78,56 +79,61 @@ body{
                 margin-right: 10px;
             }
         }
-        #timeline-table{
+        #timeline-table-container {
             width: 100%;
-            border-collapse: separate;
-            @include shadow();
+            overflow-x: scroll;
 
-            thead{
-                td{
-                    color: $primary-color;
-                    border-bottom: 1px solid $primary-color;
-                    text-transform: uppercase;
-                    background-color: #fff;
-                }
-            }
+            #timeline-table{
+                border-collapse: separate;
+                @include shadow();
 
-            td{
-                padding: 16px;
-                text-align: center;
-
-                &:not(:last-child){
-                    //border-right: 2px solid rgba(0, 0, 0, 0.1);
-                }
-            }
-            tr{
-                background-color: #f0f0f0;
-                &:nth-child(even){
-                    background-color: #fafafa;
-                }
-                &:not(:last-child){
+                thead{
                     td{
-                        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                        color: $primary-color;
+                        border-bottom: 1px solid $primary-color;
+                        text-transform: uppercase;
+                        background-color: #fff;
                     }
                 }
-            }
-            .week-id {
-                //background-color: #bdc3c7;
-                //font-weight: bold;
-            }
+                .overlay-td{
+                    width: 176px;
+                    position: absolute;
+                    box-shadow: 5px 0 10px -5px rgba(0,0,0,0.3);
+                    overflow: hidden;
 
-            .active{
-                background-color: $primary-color;
-                margin: 10px;
-                cursor: pointer;
-                color: #fff;
-                transform: scale(0.98);
-                .fa{
-                    transform: scale(2);
+                    & + td{
+                        padding-left: 192px;
+                    }
                 }
-            }
-            .country-name{
-                cursor: pointer;
+                td{
+                    padding: 16px;
+                    text-align: center;
+                    height: 56px;
+                }
+                tr{
+                    background-color: #f8f8f8;
+                    &:nth-child(even){
+                        background-color: #fafafa;
+                    }
+                    &:not(:last-child){
+                        td{
+                            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                        }
+                    }
+                }
+                .active{
+                    background-color: $primary-color;
+                    margin: 10px;
+                    cursor: pointer;
+                    color: #fff;
+                    transform: scale(0.98);
+                    .fa{
+                        transform: scale(2);
+                    }
+                }
+                .country-name{
+                    cursor: pointer;
+                }
             }
         }
     }
