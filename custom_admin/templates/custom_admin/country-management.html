@@ -59,40 +59,108 @@ DEEP | Country Panel
             </div>
         </div>
         <div class="col-md-9">
-            <div id="country-detail">
-                <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="row">
-                    <div class="col-md-4">
-                        <div id="country-detail-inputs">
-                            <h2>Add new country</h2>
-                            <div class="form-group">
-                                <label>Country code</label>
-                                <input name="country-code" type="text" class="form-control" id="country-code" placeholder="Enter country code" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input name="country-name" type="text" class="form-control" id="country-name" placeholder="Enter country name" required>
-                            </div>
-                        </div>
-                        <button id="save-btn" name="save" class="btn btn-info"><i class="fa fa-save"></i>Save changes</button>
-                        <button id="delete-btn" name="delete" class="btn btn-danger" onclick="return confirm('Are you sure?');"><i class="fa fa-trash"></i>Delete country</button>
-                    </div>
-                    <div class="col-md-8" style="position: relative;">
-                        <div id="the-map">
-                        </div>
-                        <div id="map-controls">
-                            <div id="admin-level-buttons"></div>
-                        </div>
-                    </div>
-
+            <div id="wrapper">
+                <div id="navigator">
+                    <a data-target="#country-detail" class="nav-active">General</a>
+                    <a data-target="#key-figures">Key figures</a>
+                    <a data-target="#population-data">Population Data</a>
+                    <a data-target="#seasonal-calendar">Seasonal calendar</a>
                 </div>
-                <h3>Admin Levels</h3>
-                <div id="admin-levels-container"></div>
-                <button id="add-new-admin-level" class="btn btn-primary" type="button"><i class="fa fa-plus"></i>Add new admin level</button>
+                <div id="content-wrapper">
+                    <div id="country-detail">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div id="country-detail-inputs">
+                                        <h2>Add new country</h2>
+                                        <div class="form-group">
+                                            <label>Country code</label>
+                                            <input name="country-code" type="text" class="form-control" id="country-code" placeholder="Enter country code" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input name="country-name" type="text" class="form-control" id="country-name" placeholder="Enter country name" required>
+                                        </div>
+                                    </div>
+                                    <button id="save-btn" name="save" class="btn btn-info"><i class="fa fa-save"></i>Save changes</button>
+                                    <button id="delete-btn" name="delete" class="btn btn-danger" onclick="return confirm('Are you sure?');"><i class="fa fa-trash"></i>Delete country</button>
+                                </div>
+                                <div class="col-md-8" style="position: relative;">
+                                    <div id="the-map">
+                                    </div>
+                                    <div id="map-controls">
+                                        <div id="admin-level-buttons"></div>
+                                    </div>
+                                </div>
 
-
-                </form>
+                            </div>
+                            <h3>Admin Levels</h3>
+                            <div id="admin-levels-container"></div>
+                            <button id="add-new-admin-level" class="btn btn-primary" type="button"><i class="fa fa-plus"></i>Add new admin level</button>
+                        </form>
+                    </div>
+                    <div id="key-figures" hidden>
+                        <div class="key-figure">
+                            <h2>Human development index</h2>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Index</label>
+                                    <input type="text" class="form-control" placeholder="Index">
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Rank</label>
+                                    <input type="text" class="form-control" placeholder="Rank">
+                                </div>
+                                <div class="col-md-4">
+                                    <label>GEO Score</label>
+                                    <input type="text" class="form-control" placeholder="GEO Score">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="key-figure">
+                            <h2>Under five mortality rate</h2>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>U5M</label>
+                                    <input type="text" class="form-control" placeholder="U5M">
+                                </div>
+                                <div class="col-md-4">
+                                    <label>GEO Score</label>
+                                    <input type="text" class="form-control" placeholder="GEO Score">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="key-figure">
+                            <h2>Uprooted people</h2>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Percentage of uprooted people</label>
+                                    <input type="text" class="form-control" placeholder="Percentage of uprooted people">
+                                </div>
+                                <div class="col-md-4">
+                                    <label>GEO Score</label>
+                                    <input type="text" class="form-control" placeholder="GEO Score">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="key-figure">
+                            <h2>Inform final-score</h2>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Inform final-score</label>
+                                    <input type="text" class="form-control" placeholder="Inform final-score">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="population-data" hidden>
+                        <h1>Population Data</h1>
+                    </div>
+                    <div id="seasonal-calendar" hidden>
+                        <h1>Seasonal-Calender</h1>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
