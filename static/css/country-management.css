@@ -71,99 +71,137 @@ body main #country-list {
   body main #country-list .active {
     background-color: #008080;
     color: #fff; }
-body main #country-detail {
-  background-color: #fff;
-  height: calc(100vh - 56px);
-  padding: 24px;
-  overflow-y: scroll;
-  overflow-x: hidden;
+body main #wrapper {
+  padding: 0;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-  body main #country-detail h2 {
-    font-weight: bold;
-    font-size: 18px;
-    margin-bottom: 32px;
-    margin-top: 10px; }
-  body main #country-detail #the-map {
-    height: 400px; }
-    body main #country-detail #the-map path {
-      stroke: #717171;
-      stroke-width: 1px;
-      stroke-linejoin: round; }
-  body main #country-detail #map-controls {
-    text-align: center;
-    padding: 8px;
-    max-width: 80%;
-    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
-    background-color: rgba(255, 255, 255, 0.88);
-    position: absolute;
-    left: 10%;
-    bottom: 24px;
-    border-radius: 3px; }
-    body main #country-detail #map-controls #admin-level-buttons button {
-      margin: 4px !important; }
-  body main #country-detail #country-detail-inputs {
-    margin-bottom: 72px; }
-  body main #country-detail #save-btn, body main #country-detail #delete-btn {
-    margin-right: 16px;
-    margin-bottom: 10px;
-    box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-    body main #country-detail #save-btn:active, body main #country-detail #delete-btn:active {
-      box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-    body main #country-detail #save-btn .fa, body main #country-detail #delete-btn .fa {
-      margin-right: 10px; }
-  body main #country-detail h3 {
-    margin-top: -10px;
-    margin-bottom: 16px; }
-  body main #country-detail .admin-level-details {
-    background-color: #f0f0f0;
-    padding: 16px 24px;
-    margin-left: -24px;
-    margin-right: -24px; }
-    body main #country-detail .admin-level-details:nth-child(even) {
-      background: #fafafa; }
-    body main #country-detail .admin-level-details .file-input {
-      width: 0.1px;
-      height: 0.1px;
-      opacity: 0;
-      overflow: hidden;
-      position: absolute;
-      z-index: -1; }
-    body main #country-detail .admin-level-details .file-input + label {
-      margin-left: 10px;
-      margin-right: 10px;
-      padding: 6px 24px;
-      background-color: #fff;
-      font-size: 1em;
-      border-radius: 3px;
+  body main #wrapper #navigator {
+    padding: 16px;
+    background-color: #fafafa;
+    height: 48px; }
+    body main #wrapper #navigator a {
       display: inline-block;
-      cursor: pointer;
+      padding: 0 24px;
+      padding-bottom: 8px;
+      cursor: pointer; }
+    body main #wrapper #navigator .nav-active {
+      border-bottom: 2px solid #008080; }
+  body main #wrapper #content-wrapper #country-detail {
+    background-color: #fff;
+    height: calc(100vh - 56px - 48px);
+    padding: 24px;
+    overflow-y: scroll;
+    overflow-x: hidden; }
+    body main #wrapper #content-wrapper #country-detail h2 {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 32px;
+      margin-top: 10px; }
+    body main #wrapper #content-wrapper #country-detail #the-map {
+      height: 400px; }
+      body main #wrapper #content-wrapper #country-detail #the-map path {
+        stroke: #717171;
+        stroke-width: 1px;
+        stroke-linejoin: round; }
+    body main #wrapper #content-wrapper #country-detail #map-controls {
+      text-align: center;
+      padding: 8px;
+      max-width: 80%;
+      box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
+      background-color: rgba(255, 255, 255, 0.88);
+      position: absolute;
+      left: 10%;
+      bottom: 24px;
+      border-radius: 3px; }
+      body main #wrapper #content-wrapper #country-detail #map-controls #admin-level-buttons button {
+        margin: 4px !important; }
+    body main #wrapper #content-wrapper #country-detail #country-detail-inputs {
+      margin-bottom: 72px; }
+    body main #wrapper #content-wrapper #country-detail #save-btn, body main #wrapper #content-wrapper #country-detail #delete-btn {
+      margin-right: 16px;
+      margin-bottom: 10px;
       box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-      body main #country-detail .admin-level-details .file-input + label:active {
+      body main #wrapper #content-wrapper #country-detail #save-btn:active, body main #wrapper #content-wrapper #country-detail #delete-btn:active {
         box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-      body main #country-detail .admin-level-details .file-input + label i {
+      body main #wrapper #content-wrapper #country-detail #save-btn .fa, body main #wrapper #content-wrapper #country-detail #delete-btn .fa {
         margin-right: 10px; }
-    body main #country-detail .admin-level-details .geojson-current {
-      display: inline-block; }
-    body main #country-detail .admin-level-details .delete-admin-level {
-      float: right;
-      cursor: pointer;
-      font-size: 15px;
-      color: #e74c3c;
-      padding-top: 16px; }
-      body main #country-detail .admin-level-details .delete-admin-level input {
+    body main #wrapper #content-wrapper #country-detail h3 {
+      margin-top: -10px;
+      margin-bottom: 16px; }
+    body main #wrapper #content-wrapper #country-detail .admin-level-details {
+      background-color: #f0f0f0;
+      padding: 16px 24px;
+      margin-left: -24px;
+      margin-right: -24px; }
+      body main #wrapper #content-wrapper #country-detail .admin-level-details:nth-child(even) {
+        background: #fafafa; }
+      body main #wrapper #content-wrapper #country-detail .admin-level-details .file-input {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1; }
+      body main #wrapper #content-wrapper #country-detail .admin-level-details .file-input + label {
+        margin-left: 10px;
         margin-right: 10px;
-        margin-top: 0;
-        vertical-align: middle;
-        border: none;
-        box-shadow: none; }
-      body main #country-detail .admin-level-details .delete-admin-level span {
+        padding: 6px 24px;
+        background-color: #fff;
+        font-size: 1em;
+        border-radius: 3px;
+        display: inline-block;
+        cursor: pointer;
+        box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+        body main #wrapper #content-wrapper #country-detail .admin-level-details .file-input + label:active {
+          box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+        body main #wrapper #content-wrapper #country-detail .admin-level-details .file-input + label i {
+          margin-right: 10px; }
+      body main #wrapper #content-wrapper #country-detail .admin-level-details .geojson-current {
         display: inline-block; }
-  body main #country-detail #add-new-admin-level {
-    margin-top: 16px;
-    box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-    body main #country-detail #add-new-admin-level:active {
-      box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-    body main #country-detail #add-new-admin-level i {
-      margin-right: 10px; }
+      body main #wrapper #content-wrapper #country-detail .admin-level-details .delete-admin-level {
+        float: right;
+        cursor: pointer;
+        font-size: 15px;
+        color: #e74c3c;
+        padding-top: 16px; }
+        body main #wrapper #content-wrapper #country-detail .admin-level-details .delete-admin-level input {
+          margin-right: 10px;
+          margin-top: 0;
+          vertical-align: middle;
+          border: none;
+          box-shadow: none; }
+        body main #wrapper #content-wrapper #country-detail .admin-level-details .delete-admin-level span {
+          display: inline-block; }
+    body main #wrapper #content-wrapper #country-detail #add-new-admin-level {
+      margin-top: 16px;
+      box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+      body main #wrapper #content-wrapper #country-detail #add-new-admin-level:active {
+        box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+      body main #wrapper #content-wrapper #country-detail #add-new-admin-level i {
+        margin-right: 10px; }
+  body main #wrapper #content-wrapper #key-figures {
+    background-color: #fff;
+    height: calc(100vh - 56px - 48px);
+    padding: 24px;
+    overflow-y: scroll;
+    overflow-x: hidden; }
+    body main #wrapper #content-wrapper #key-figures .key-figure {
+      margin-bottom: 48px; }
+      body main #wrapper #content-wrapper #key-figures .key-figure h2 {
+        font-weight: bold;
+        font-size: 18px;
+        margin-top: 10px;
+        margin-bottom: 8px; }
+  body main #wrapper #content-wrapper #population-data {
+    background-color: #fff;
+    height: calc(100vh - 56px - 48px);
+    padding: 24px;
+    overflow-y: scroll;
+    overflow-x: hidden; }
+  body main #wrapper #content-wrapper #seasonal-calendar {
+    background-color: #fff;
+    height: calc(100vh - 56px - 48px);
+    padding: 24px;
+    overflow-y: scroll;
+    overflow-x: hidden; }
 
 /*# sourceMappingURL=country-management.css.map */
