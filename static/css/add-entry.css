@@ -272,9 +272,10 @@ body {
           body #page-two #entries .entry .severity .active {
             transform: scale(1.4); }
         body #page-two #entries .entry .excerpt {
-          font-size: 0.9em;
           overflow: hidden;
-          margin-bottom: 16px; }
+          margin-bottom: 16px;
+          resize: none;
+          resize: vertical; }
         body #page-two #entries .entry .geo-location {
           margin-top: 4px;
           font-weight: bold; }
