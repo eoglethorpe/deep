@@ -38,7 +38,6 @@
                     vertical-align: super;
                     margin-right: 16px;
                 }
-
             }
             $reliability-base: #1A237E;
             .reliability{
@@ -63,9 +62,10 @@
                 .active{ transform: scale(1.4); }
             }
             .excerpt{
-                font-size: 0.9em;
                 overflow: hidden;
                 margin-bottom: 16px;
+                resize: none;
+                resize: vertical;
             }
             .geo-location{
                 margin-top: 4px;
