@@ -207,6 +207,20 @@ body{
 
             }
         }
+        #weekly-severity-score{
+            .score-0{
+                background-color: rgba(231,76,60 ,0.2);
+            }
+            .score-1{
+                background-color: rgba(231,76,60 ,0.5);
+            }
+            .score-2{
+                background-color: rgba(231,76,60 ,0.75);
+            }
+            .score-3{
+                background-color: rgba(231,76,60 ,1);
+            }
+        }
 
     }
 }

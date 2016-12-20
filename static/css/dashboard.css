@@ -123,40 +123,51 @@ body {
       text-transform: uppercase;
       margin: 16px 0; }
     body #body #back-btn {
+      position: absolute;
       margin-top: 24px;
       box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
       body #body #back-btn:active {
         box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
       body #body #back-btn .fa {
         margin-right: 10px; }
-    body #body #timeline-table {
+    body #body #timeline-table-container {
       width: 100%;
-      border-collapse: separate;
-      box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-      body #body #timeline-table thead td {
-        color: #008080;
-        border-bottom: 1px solid #008080;
-        text-transform: uppercase;
-        background-color: #fff; }
-      body #body #timeline-table td {
-        padding: 16px;
-        text-align: center; }
-      body #body #timeline-table tr {
-        background-color: #f0f0f0; }
-        body #body #timeline-table tr:nth-child(even) {
-          background-color: #fafafa; }
-        body #body #timeline-table tr:not(:last-child) td {
-          border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
-      body #body #timeline-table .active {
-        background-color: #008080;
-        margin: 10px;
-        cursor: pointer;
-        color: #fff;
-        transform: scale(0.98); }
-        body #body #timeline-table .active .fa {
-          transform: scale(2); }
-      body #body #timeline-table .country-name {
-        cursor: pointer; }
+      overflow-x: scroll; }
+      body #body #timeline-table-container #timeline-table {
+        border-collapse: separate;
+        box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+        body #body #timeline-table-container #timeline-table thead td {
+          color: #008080;
+          border-bottom: 1px solid #008080;
+          text-transform: uppercase;
+          background-color: #fff; }
+        body #body #timeline-table-container #timeline-table .overlay-td {
+          width: 176px;
+          position: absolute;
+          box-shadow: 5px 0 10px -5px rgba(0, 0, 0, 0.3);
+          overflow: hidden; }
+          body #body #timeline-table-container #timeline-table .overlay-td + td {
+            padding-left: 192px; }
+        body #body #timeline-table-container #timeline-table td {
+          padding: 16px;
+          text-align: center;
+          height: 56px; }
+        body #body #timeline-table-container #timeline-table tr {
+          background-color: #f8f8f8; }
+          body #body #timeline-table-container #timeline-table tr:nth-child(even) {
+            background-color: #fafafa; }
+          body #body #timeline-table-container #timeline-table tr:not(:last-child) td {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+        body #body #timeline-table-container #timeline-table .active {
+          background-color: #008080;
+          margin: 10px;
+          cursor: pointer;
+          color: #fff;
+          transform: scale(0.98); }
+          body #body #timeline-table-container #timeline-table .active .fa {
+            transform: scale(2); }
+        body #body #timeline-table-container #timeline-table .country-name {
+          cursor: pointer; }
   body .country-details thead td:first-child {
     font-weight: 600; }
 
