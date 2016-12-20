@@ -180,7 +180,9 @@ $(document).ready(function(){
         $(this).val(text);
     });
 
-    
+    calculateSeverityScores();
+    $('#report-content input').on('change paste drop input', calculateSeverityScores);
+    $('.access-select').change(calculateSeverityScores);
 });
 
 function setInputData() {
@@ -250,6 +252,10 @@ function setInputData() {
         $(".access-pin-source[data-access-pin-pk='" + pk + "']").val(data["access-pin"]["source"][pk]);
     for (var pk in data["access-pin"]["comment"])
         $(".access-pin-comment[data-access-pin-pk='" + pk + "']").val(data["access-pin"]["comment"][pk]);
+
+    // Severity score
+    $('#final-score').val(data["final-severity-score"].score);
+    $('#final-score-comment').val(data["final-severity-score"].comment);
 }
 
 function getInputData() {
@@ -348,6 +354,14 @@ function getInputData() {
     $(".access-pin-comment").each(function() {
         data["access-pin"]["number"][$(this).data("access-pin-pk")] = $(this).val();
     });
+
+    // Severity score
+    $("#final-score").each(function() {
+        data["final-severity-score"].score= $(this).val();
+    });
+    $("#final-score-comment").each(function() {
+        data["final-severity-score"].comment= $(this).val();
+    });
 }
 
 
@@ -409,4 +423,115 @@ function checkRules() {
         else
             $('#humanitarian-profile-field-error').hide();
     });
+}
+
+
+function calculateSeverityScores() {
+
+    // Percentage of the population in need or recently affected 
+    var totalPopulation = + $('.human-profile-total').val();
+    var pinOrAffected;
+
+    if ($('.people-in-need-total').val() != '') {
+        pinOrAffected = + $('.people-in-need-total').val();
+    }
+
+    if (!pinOrAffected || isNaN(pinOrAffected)) {
+        pinOrAffected = + $('.human-profile-total-affected').val();
+    }
+
+    var pinPercentage = pinOrAffected / totalPopulation * 100;
+    
+    var pinScore = 0;
+    if (!isNaN(pinPercentage)) {
+        if (pinPercentage >= 1)
+            pinScore = 1;
+        if (pinPercentage >= 3)
+            pinScore = 2;
+        if (pinPercentage >= 10)
+            pinScore = 3;
+        $('#pin-percentage').val(pinPercentage+'%');
+    }
+    $('#pin-percentage-score').val(pinScore);
+
+    // Level of access to the affected population
+    var levelOfAccess = 0;
+    $('.access-select').each(function(){
+        if ($(this).val() == "Yes")
+            levelOfAccess++;
+    });
+
+    var accessScore = 0;
+    if (levelOfAccess >= 2)
+        accessScore = 1;
+    if (levelOfAccess >= 4)
+        accessScore = 2;
+    if (levelOfAccess >= 6)
+        accessScore = 3;
+
+    $('#level-of-access').val(levelOfAccess);
+    $('#level-of-access-score').val(accessScore);
+
+    // Under-five mortality rate
+    var under5MortalityRate = 0;
+    var mortalityScore = 0;
+    if (under5MortalityRate >= 19)
+        mortalityScore = 1;
+    if (under5MortalityRate >= 55)
+        mortalityScore = 2;
+    if (under5MortalityRate >= 90)
+        mortalityScore = 3;
+
+    $('#mortality-rate').val(under5MortalityRate);
+    $('#mortality-rate-score').val(mortalityScore);
+
+    // HDI
+    var hdi = 0;
+    var hdiRank = "Low";
+    var hdiScore = 3;
+    if (hdi >= 0.55) {
+        hdiScore = 2;
+        hdiRank = "Medium";
+    }
+    if (hdi >= 0.7) {
+        hdiScore = 1;
+        hdiRank = "High";
+    }
+    if (hdi >= 0.801) {
+        hdiScore = 0;
+        hdiRank = "Very High";
+    }
+
+    $('#hdi').val(hdi);
+    $('#hdi-rank').val(hdiRank);
+    $('#hdi-score').val(hdiScore);
+
+    // Number of uprooted people
+    var uprootedPeople = 0;
+    var uprootedPercentage = 0;
+    var uprootedScore = 0;
+    if (uprootedPercentage >= 1)
+        uprootedScore = 1;
+    if (uprootedPercentage >= 3)
+        uprootedScore = 2;
+    if (uprootedPercentage >= 10)
+        uprootedScore = 3;
+
+    $('#uprooted-people').val(uprootedPeople);
+    $('#uprooted-percentage').val(uprootedPercentage);
+    $('#uprooted-score').val(uprootedScore);
+
+    var scores = [
+        pinScore, accessScore, mortalityScore,
+        hdiScore, uprootedScore  
+    ];
+    $('#calculated-score').val(findMedian(scores));
+
+    $('#pin-percentage-score').attr('class', 'form-control score score-'+pinScore);
+    $('#level-of-access-score').attr('class', 'form-control score score-'+accessScore);
+    $('#mortality-rate-score').attr('class', 'form-control score score-'+mortalityScore);
+    $('#hdi-score').attr('class', 'form-control score score-'+hdiScore);
+    $('#uprooted-score').attr('class', 'form-control score score-'+uprootedScore);
+
+    $('#final-score').attr('class', 'form-control score score-'+$('#final-score').val());
 }

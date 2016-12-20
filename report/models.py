@@ -27,6 +27,9 @@ class HumanProfileField(models.Model):
     parent = models.ForeignKey('HumanProfileField', default=None, null=True, blank=True)
     ordering = models.IntegerField(default=1)
 
+    total_field = models.BooleanField(default=False)
+    total_affected_field = models.BooleanField(default=False)
+
     def __str__(self):
         if self.parent:
             return self.name + " [" + self.parent.name + "]"
@@ -56,6 +59,8 @@ class HumanProfileFieldRule(models.Model):
 class PeopleInNeedField(models.Model):
     name = models.CharField(max_length=100)
     parent = models.ForeignKey('PeopleInNeedField', default=None, null=True, blank=True)
+
+    total_field = models.BooleanField(default=False)
 
     def __str__(self):
         if self.parent:
