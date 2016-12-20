@@ -201,22 +201,30 @@ function setInputData() {
     // People in need data
     for (var pk in data["people"]["total"])
         $(".people-total[data-people-pk='" + pk + "']").val(data["people"]["total"][pk]);
+    for (var pk in data["people"]["at-risk"])
+        $(".people-at-risk[data-people-pk='" + pk + "']").val(data["people"]["at-risk"][pk]);
     for (var pk in data["people"]["moderate"])
         $(".people-moderate[data-people-pk='" + pk + "']").val(data["people"]["moderate"][pk]);
     for (var pk in data["people"]["severe"])
         $(".people-severe[data-people-pk='" + pk + "']").val(data["people"]["severe"][pk]);
     for (var pk in data["people"]["planned"])
         $(".people-planned[data-people-pk='" + pk + "']").val(data["people"]["planned"][pk]);
+
     for (var pk in data["people"]["total-source"])
         $(".people-total-source[data-people-pk='" + pk + "']").val(data["people"]["total-source"][pk]);
+    for (var pk in data["people"]["at-risk-source"])
+        $(".people-at-risk-source[data-people-pk='" + pk + "']").val(data["people"]["at-risk-source"][pk]);
     for (var pk in data["people"]["moderate-source"])
         $(".people-moderate-source[data-people-pk='" + pk + "']").val(data["people"]["moderate-source"][pk]);
     for (var pk in data["people"]["severe-source"])
         $(".people-severe-source[data-people-pk='" + pk + "']").val(data["people"]["severe-source"][pk]);
     for (var pk in data["people"]["planned-source"])
         $(".people-planned-source[data-people-pk='" + pk + "']").val(data["people"]["planned-source"][pk]);
+
     for (var pk in data["people"]["total-comment"])
         $(".people-total-comment[data-people-pk='" + pk + "']").val(data["people"]["total-comment"][pk]);
+    for (var pk in data["people"]["at-risk-comment"])
+        $(".people-at-risk-comment[data-people-pk='" + pk + "']").val(data["people"]["at-risk-comment"][pk]);
     for (var pk in data["people"]["moderate-comment"])
         $(".people-moderate-comment[data-people-pk='" + pk + "']").val(data["people"]["moderate-comment"][pk]);
     for (var pk in data["people"]["severe"])
@@ -273,6 +281,9 @@ function getInputData() {
     $(".people-total").each(function() {
         data["people"]["total"][$(this).data("people-pk")] = $(this).val();
     });
+    $(".people-at-risk").each(function() {
+        data["people"]["at-risk"][$(this).data("people-pk")] = $(this).val();
+    });
     $(".people-moderate").each(function() {
         data["people"]["moderate"][$(this).data("people-pk")] = $(this).val();
     });
@@ -282,8 +293,12 @@ function getInputData() {
     $(".people-planned").each(function() {
         data["people"]["planned"][$(this).data("people-pk")] = $(this).val();
     });
+
     $(".people-total-source").each(function() {
         data["people"]["total-source"][$(this).data("people-pk")] = $(this).val();
+    });
+    $(".people-at-risk-source").each(function() {
+        data["people"]["at-risk-source"][$(this).data("people-pk")] = $(this).val();
     });
     $(".people-moderate-source").each(function() {
         data["people"]["moderate-source"][$(this).data("people-pk")] = $(this).val();
@@ -294,8 +309,12 @@ function getInputData() {
     $(".people-planned-source").each(function() {
         data["people"]["planned-source"][$(this).data("people-pk")] = $(this).val();
     });
+
     $(".people-total-comment").each(function() {
         data["people"]["total-comment"][$(this).data("people-pk")] = $(this).val();
+    });
+    $(".people-at-risk-comment").each(function() {
+        data["people"]["at-risk-comment"][$(this).data("people-pk")] = $(this).val();
     });
     $(".people-moderate-comment").each(function() {
         data["people"]["moderate-comment"][$(this).data("people-pk")] = $(this).val();
@@ -361,7 +380,7 @@ function checkRules() {
                 childrenTitles.push(childTitle);
             }
 
-            if (rule.comparision == '<') { 
+            if (rule.comparision == '<') {
                 for (var j=0; j<children.length; j++) {
                     if (children[j] > parent)
                         break;
