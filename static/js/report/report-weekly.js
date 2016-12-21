@@ -180,9 +180,9 @@ $(document).ready(function(){
         $(this).val(text);
     });
 
-    calculateSeverityScores();
-    $('#report-content input').on('change paste drop input', calculateSeverityScores);
-    $('.access-select').change(calculateSeverityScores);
+    autoCalculateScores();
+    $('#report-content input').on('change paste drop input', autoCalculateScores);
+    $('.access-select').change(autoCalculateScores);
 });
 
 function setInputData() {
@@ -426,7 +426,53 @@ function checkRules() {
 }
 
 
-function calculateSeverityScores() {
+function autoCalculateScores() {
+
+    // PIN
+    var maxTotalPin, maxAtRiskPin, maxModeratePin, maxSeverePin, maxPlannedPin;
+    $('.total-subfield').each(function() {
+        var v = +$(this).val();
+        if (!isNaN(v)) {
+            if (!maxTotalPin || maxTotalPin < v)
+                maxTotalPin = v;
+        }
+    });
+    $('.people-total-calculated').val(maxTotalPin);
+    $('.total-at-risk-subfield').each(function() {
+        var v = +$(this).val();
+        if (!isNaN(v)) {
+            if (!maxAtRiskPin || maxAtRiskPin < v)
+                maxAtRiskPin = v;
+        }
+    });
+    $('.people-at-risk-calculated').val(maxAtRiskPin);
+    $('.total-moderate-subfield').each(function() {
+        var v = +$(this).val();
+        if (!isNaN(v)) {
+            if (!maxModeratePin || maxModeratePin < v)
+                maxModeratePin = v;
+        }
+    });
+    $('.people-moderate-calculated').val(maxModeratePin);
+    $('.total-severe-subfield').each(function() {
+        var v = +$(this).val();
+        if (!isNaN(v)) {
+            if (!maxSeverePin || maxSeverePin < v)
+                maxSeverePin = v;
+        }
+    });
+    $('.people-severe-calculated').val(maxSeverePin);
+    $('.total-planned-subfield').each(function() {
+        var v = +$(this).val();
+        if (!isNaN(v)) {
+            if (!maxPlannedPin || maxPlannedPin < v)
+                maxPlannedPin = v;
+        }
+    });
+    $('.people-planned-calculated').val(maxPlannedPin);
+
+
+    // Severity scores
 
     // Percentage of the population in need or recently affected 
     var totalPopulation = + $('.human-profile-total').val();
