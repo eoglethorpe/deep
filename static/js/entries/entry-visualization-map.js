@@ -13,6 +13,7 @@ var map;
 var mapSelections = [];
 var mapNumEntries = [];
 var maxNumEntries = 0;
+var totalNumEntries = 0;
 
 
 function loadMap() {
@@ -45,10 +46,13 @@ function reloadMap() {
     mapSelections = [];
     mapNumEntries = [];
     maxNumEntries = 1;
+    totalNumEntries = 0;
 
     for (var i=0; i<entries.length; i++) {
         for (var j=0; j<entries[i].informations.length; j++) {
             var info = entries[i].informations[j];
+            totalNumEntries++;
+
             for (var k=0; k<info.map_selections.length; k++) {
                 var ms = info.map_selections[k];
 
@@ -155,8 +159,10 @@ function onEachMapFeature(feature, layer) {
 
     if (index < 0)
         layer.bindLabel(name);
-    else
-        layer.bindLabel(name + " - " + mapNumEntries[index]);
+    else {
+        var p = Math.round(mapNumEntries[index]/totalNumEntries*100);
+        layer.bindLabel(name + " - " + mapNumEntries[index] + " (" + p + "%)");
+    }
 }
 
 
