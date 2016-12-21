@@ -216,10 +216,13 @@ body {
   #main #report-content #weekly-severity-score .score-0 {
     background-color: rgba(231, 76, 60, 0.2); }
   #main #report-content #weekly-severity-score .score-1 {
+    color: rgba(0, 0, 0, 0.6);
     background-color: rgba(231, 76, 60, 0.5); }
   #main #report-content #weekly-severity-score .score-2 {
+    color: rgba(255, 255, 255, 0.8);
     background-color: rgba(231, 76, 60, 0.75); }
   #main #report-content #weekly-severity-score .score-3 {
+    color: white;
     background-color: #e74c3c; }
 
 /*# sourceMappingURL=report-weekly.css.map */

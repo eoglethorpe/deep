@@ -523,9 +523,10 @@ function calculateSeverityScores() {
 
     var scores = [
         pinScore, accessScore, mortalityScore,
-        hdiScore, uprootedScore  
+        hdiScore, uprootedScore 
     ];
-    $('#calculated-score').val(findMedian(scores));
+    var calculatedScore = Math.min(Math.round(findMedian(scores)), 3);
+    $('#calculated-score').val(calculatedScore);
 
     $('#pin-percentage-score').attr('class', 'form-control score score-'+pinScore);
     $('#level-of-access-score').attr('class', 'form-control score score-'+accessScore);
@@ -533,5 +534,6 @@ function calculateSeverityScores() {
     $('#hdi-score').attr('class', 'form-control score score-'+hdiScore);
     $('#uprooted-score').attr('class', 'form-control score score-'+uprootedScore);
 
+    $('#calculated-score').attr('class', 'form-control score score-'+calculatedScore);
     $('#final-score').attr('class', 'form-control score score-'+$('#final-score').val());
 }

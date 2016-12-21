@@ -357,11 +357,11 @@ var human_profile_field_rules = [
                             <div class="row">
                                 <div class="col-md-3">
                                     <label>Final Severity Score</label>
-                                    <input id="final-score" class="form-control score" >
+                                    <input id="final-score" class="form-control score" type="number" min="0" max="3" step="1">
                                 </div>
                                 <div class="col-md-6">
                                     <label>Comment</label>
-                                    <input id="final-score-comment" class="form-control" placeholder="Comment" >
+                                    <input id="final-score-comment" class="form-control" placeholder="Comment">
                                 </div>
                             </div>
                         </div>
@@ -377,11 +377,11 @@ var human_profile_field_rules = [
                             <div class="row">
                                 <div class="col-md-3">
                                     <label>% of popn in need or recently affected </label>
-                                    <input id="pin-percentage" class="form-control">
+                                    <input id="pin-percentage" class="form-control" readonly>
                                 </div>
                                 <div class="col-md-3">
                                     <label> Score</label>
-                                    <input id="pin-percentage-score" class="form-control score" >
+                                    <input id="pin-percentage-score" class="form-control score" readonly>
                                 </div>
                             </div>
                         </div>
@@ -389,11 +389,11 @@ var human_profile_field_rules = [
                             <div class="row">
                                 <div class="col-md-3">
                                     <label>Humanitarian Access</label>
-                                    <input id="level-of-access" class="form-control" placeholder="Number (0-9)">
+                                    <input id="level-of-access" class="form-control" placeholder="Number (0-9)" readonly>
                                 </div>
                                 <div class="col-md-3">
                                     <label> Score</label>
-                                    <input id="level-of-access-score" class="form-control score" >
+                                    <input id="level-of-access-score" class="form-control score" readonly>
                                 </div>
                             </div>
                         </div>
@@ -401,11 +401,11 @@ var human_profile_field_rules = [
                             <div class="row">
                                 <div class="col-md-3">
                                     <label>Under 5 Mortality Rate</label>
-                                    <input id="mortality-rate" class="form-control" placeholder="Number">
+                                    <input id="mortality-rate" class="form-control" placeholder="Number" readonly>
                                 </div>
                                 <div class="col-md-3">
                                     <label> Score</label>
-                                    <input id="mortality-rate-score" class="form-control score" >
+                                    <input id="mortality-rate-score" class="form-control score" readonly>
                                 </div>
                             </div>
                         </div>
@@ -413,15 +413,15 @@ var human_profile_field_rules = [
                             <div class="row">
                                 <div class="col-md-3">
                                     <label>Human Development Index</label>
-                                    <input id="hdi" class="form-control" placeholder="Number">
+                                    <input id="hdi" class="form-control" placeholder="Number" readonly>
                                 </div>
                                 <div class="col-md-3">
                                     <label> HDI Rank</label>
-                                    <input id="hdi-rank" class="form-control" placeholder="HDI Rank">
+                                    <input id="hdi-rank" class="form-control" placeholder="HDI Rank" readonly>
                                 </div>.
                                 <div class="col-md-3">
                                     <label> Score</label>
-                                    <input id="hdi-score" class="form-control score" >
+                                    <input id="hdi-score" class="form-control score" readonly>
                                 </div>
                             </div>
                         </div>
@@ -429,15 +429,15 @@ var human_profile_field_rules = [
                             <div class="row">
                                 <div class="col-md-3">
                                     <label>Uprooted People</label>
-                                    <input id="uprooted-people" class="form-control" placeholder="Number">
+                                    <input id="uprooted-people" class="form-control" placeholder="Number" readonly>
                                 </div>
                                 <div class="col-md-3">
                                     <label> % of total population</label>
-                                    <input id="uprooted-percentage" class="form-control" placeholder="% of total population">
+                                    <input id="uprooted-percentage" class="form-control" placeholder="% of total population" readonly>
                                 </div>
                                 <div class="col-md-3">
                                     <label> Score</label>
-                                    <input id="uprooted-score" class="form-control score" >
+                                    <input id="uprooted-score" class="form-control score" readonly>
                                 </div>
                             </div>
                         </div>
