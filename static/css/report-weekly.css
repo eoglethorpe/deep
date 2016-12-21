@@ -207,6 +207,14 @@ body {
     padding-bottom: 20px; }
     #main #report-content #people-in-need .toplevel .sub {
       margin-left: 24px; }
+    #main #report-content #people-in-need .toplevel.parent {
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      background-color: #f0f0f0; }
+      #main #report-content #people-in-need .toplevel.parent + .toplevel:not(.parent) {
+        margin-top: 20px; }
   #main #report-content #people-in-need .row {
     margin-bottom: 10px; }
   #main #report-content #humanitarian-access {

@@ -192,6 +192,18 @@ body{
                 .sub{
                     margin-left: 24px;
                 }
+
+                &.parent {
+                    margin-top: 0;
+                    margin-bottom: 0;
+                    padding-top: 8px;
+                    padding-bottom: 8px;
+                    background-color: #f0f0f0;
+
+                    + .toplevel:not(.parent) {
+                        margin-top: 20px;
+                    }
+                }
             }
             .row{
                 margin-bottom: 10px;

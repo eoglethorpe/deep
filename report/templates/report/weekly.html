@@ -206,7 +206,7 @@ var human_profile_field_rules = [
                     </section>
                     <section id="people-in-need" hidden>
                         {% for field in people_in_need_fields %}
-                        <div class="row toplevel">
+                        <div class="row toplevel parent">
                             <div class="col-md-3">
                                 <label>{{field.name}}{% if field.total_field %} (reported) {% endif %}</label>
                             </div>
@@ -240,7 +240,7 @@ var human_profile_field_rules = [
                         </div>
 
                         {% if field.total_field %}
-                        <div class="row toplevel">
+                        <div class="row toplevel parent">
                             <div class="col-md-3">
                                 <label>{{field.name}}{% if field.total_field %} (calculated) {% endif %}</label>
                             </div>
