@@ -65,6 +65,10 @@ DEEP | Country Panel
                     <a data-target="#key-figures">Key figures</a>
                     <a data-target="#population-data">Population Data</a>
                     <a data-target="#seasonal-calendar">Seasonal calendar</a>
+                    <section>
+                        <button id="save-btn" name="save" class="btn btn-info"><i class="fa fa-save"></i>Save changes</button>
+                        <button id="delete-btn" name="delete" class="btn btn-danger" onclick="return confirm('Are you sure?');"><i class="fa fa-trash"></i>Delete country</button>
+                    </section>
                 </div>
                 <div id="content-wrapper">
                     <div id="country-detail">
@@ -83,8 +87,7 @@ DEEP | Country Panel
                                             <input name="country-name" type="text" class="form-control" id="country-name" placeholder="Enter country name" required>
                                         </div>
                                     </div>
-                                    <button id="save-btn" name="save" class="btn btn-info"><i class="fa fa-save"></i>Save changes</button>
-                                    <button id="delete-btn" name="delete" class="btn btn-danger" onclick="return confirm('Are you sure?');"><i class="fa fa-trash"></i>Delete country</button>
+
                                 </div>
                                 <div class="col-md-8" style="position: relative;">
                                     <div id="the-map">

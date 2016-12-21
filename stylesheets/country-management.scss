@@ -79,6 +79,20 @@ body{
                 .nav-active{
                     border-bottom: 2px solid $primary-color;
                 }
+                section{
+                    margin-top: -8px;
+                    display: inline-block;
+                    float: right;
+
+                    #save-btn, #delete-btn{
+                        margin-left: 16px;
+                        @include btn-shadow-sm();
+
+                        .fa{
+                            margin-right: 10px;
+                        }
+                    }
+                }
             }
             #content-wrapper{
                 #country-detail{
@@ -123,15 +137,7 @@ body{
                     #country-detail-inputs{
                         margin-bottom: 72px;
                     }
-                    #save-btn, #delete-btn{
-                        margin-right: 16px;
-                        margin-bottom: 10px;
-                        @include btn-shadow-sm();
 
-                        .fa{
-                            margin-right: 10px;
-                        }
-                    }
                     h3{
                         margin-top: -10px;
                         margin-bottom: 16px;
