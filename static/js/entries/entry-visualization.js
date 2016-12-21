@@ -46,7 +46,7 @@ function renderVisualizations() {
     }
 
     // Recalculate values]
-    var infomrationCount = 0
+    var informationCount = 0
 
     for(var i=0; i<entries.length; i++){
         var entry = entries[i];
@@ -87,23 +87,23 @@ function renderVisualizations() {
                 return n.id == information.severity.level;
             })[0].value++;
 
-            ++infomrationCount;
+            ++informationCount;
         }
     }
 
-    $('#entry-count').text('Number of entries: ' + infomrationCount);
+    $('#entry-count').text('Number of entries: ' + informationCount);
 
-    renderSectors();
-    renderAttrs("vulnerable-groups-visualization", vulnerable_groups);
-    renderAttrs("specific-needs-groups-visualization", specific_needs_groups);
-    renderAttrs("sources-visualization", sources);
-    renderAttrs("affected-groups-visualization", affected_groups);
-    drawPieChart();
+    renderSectors(informationCount);
+    renderAttrs("vulnerable-groups-visualization", vulnerable_groups, informationCount);
+    renderAttrs("specific-needs-groups-visualization", specific_needs_groups, informationCount);
+    renderAttrs("sources-visualization", sources, informationCount);
+    renderAttrs("affected-groups-visualization", affected_groups, informationCount);
+    drawPieChart(informationCount);
     reloadMap();
     processTimeline();
 }
 
-function renderSectors(){
+function renderSectors(total){
 
     var sectorList = $('#sectors-visualization').find('.attr');
     var totalSeverity = [];
@@ -125,13 +125,15 @@ function renderSectors(){
         if (sector) {
             for(var i=0; i<sector.severities.length; i++){
                 severity = sector.severities[i];
-                $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*240)+'px;" data-toggle="tooltip" onmouseover="$(this).tooltip(\'show\')" title="'+severity.name+' - '+severity.value+'"></span>').appendTo(severitiesContainer);
+                var p = Math.round(severity.value/total*100);
+                $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*240)+'px;" data-toggle="tooltip" onmouseover="$(this).tooltip(\'show\')" ' + 
+                    'title="'+severity.name+' - '+severity.value+' (' + p + '%)"></span>').appendTo(severitiesContainer);
             }
         }
     })
 }
 
-function renderAttrs(id, attrs) {
+function renderAttrs(id, attrs, total) {
     var attrList = $('#'+id).find('.attr');
     var totalSeverity = [];
     for(var i=0; i<attrs.length; i++){
@@ -152,17 +154,16 @@ function renderAttrs(id, attrs) {
         if (attr) {
             for(var i=0; i<attr.severities.length; i++){
                 severity = attr.severities[i];
-                $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*192)+'px;" data-toggle="tooltip" onmouseover="$(this).tooltip(\'show\')" title="'+severity.name+' - '+severity.value+'"></span>').appendTo(severitiesContainer);
+                var p = Math.round(severity.value/total*100);
+                $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*192)+'px;" data-toggle="tooltip" onmouseover="$(this).tooltip(\'show\')" ' +
+                    'title="'+severity.name+' - '+severity.value+' (' + p + '%)"></span>').appendTo(severitiesContainer);
             }
         }
     })
 }
 
-function drawPieChart(){
-    var totalSeverity = 0;
-    for (var i=0; i<severities.length; i++) {
-        totalSeverity += severities[i].value;
-    }
+function drawPieChart(total){
+    var totalSeverity = total;
 
     $("#pies-container").empty();
 
@@ -176,7 +177,7 @@ function drawPieChart(){
             endAngle -= 1;
 
         var percentage = (severities[i].value/totalSeverity*100);
-        var arc = $('<path data-toggle="tooltip" title="' + severities[i].name + ' - ' + Math.round(percentage) + '%" onmouseover="showTooltip(this);"/>');
+        var arc = $('<path data-toggle="tooltip" title="' + severities[i].name + ' - ' + severities[i].value + ' (' + Math.round(percentage) + ')%" onmouseover="showTooltip(this);"/>');
         arc.addClass('severity-'+(i+1));
         arc.attr("d", describeArc(104, 104, 64, startAngle, endAngle));
 
