@@ -111,8 +111,20 @@ class CountryManagementView(View):
                 country = Country(code=code)
 
             country.name = request.POST['country-name']
+
+            # Key figures
+            country.hdi_index = request.POST['hdi-index']
+            country.hdi_rank = request.POST['hdi-rank']
+            country.hdi_geo_score = request.POST['hdi-geo-score']
+            country.u5m = request.POST['u5m']
+            country.u5m_geo_score = request.POST['u5m-geo-score']
+            country.uprooted_percentage = request.POST['uprooted-percentage']
+            country.uprooted_geo_score = request.POST['uprooted-geo-score']
+            country.inform_final_score = request.POST['inform-final-score']
+
             country.save()
 
+            # Admin areas
             admin_level_pks = request.POST.getlist('admin-level-pk')
             admin_levels = request.POST.getlist('admin-level')
             admin_level_names = request.POST.getlist('admin-level-name')

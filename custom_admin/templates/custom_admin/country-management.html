@@ -26,6 +26,12 @@ DEEP | Country Panel
         {% for country in countries %}
         '{{country.code}}': {
             name: '{{country.name}}',
+            // Key figures
+            hdi_index: '{{country.hdi_index}}', hdi_rank: '{{country.hdi_rank}}', hdi_geo_score: '{{country.hdi_geo_score}}',
+            u5m: '{{country.u5m}}', u5m_geo_score: '{{country.u5m_geo_score}}',
+            uprooted_percentage: '{{country.uprooted_percentage}}', uprooted_geo_score: '{{country.uprooted_geo_score}}',
+            inform_final_score: '{{country.inform_final_score}}',
+            // Admin areas
             admin_levels: [
                 {% for admin_level in country.adminlevel_set.all %}
                 { id: '{{admin_level.pk}}', level: '{{admin_level.level}}', name: '{{admin_level.name}}', property_name: '{{admin_level.property_name}}',
@@ -58,17 +64,21 @@ DEEP | Country Panel
                 {% endfor %}
             </div>
         </div>
-        <div class="col-md-9">
-            <div id="wrapper">
-                <div id="navigator">
-                    <a data-target="#country-detail" class="nav-active">General</a>
-                    <a data-target="#key-figures">Key figures</a>
-                    <a data-target="#population-data">Population Data</a>
-                    <a data-target="#seasonal-calendar">Seasonal calendar</a>
-                </div>
-                <div id="content-wrapper">
-                    <div id="country-detail">
-                        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data">
+            <div class="col-md-9">
+                <div id="wrapper">
+                    <div id="navigator">
+                        <a data-target="#country-detail" class="nav-active">General</a>
+                        <a data-target="#key-figures">Key figures</a>
+                        <a data-target="#population-data">Population Data</a>
+                        <a data-target="#seasonal-calendar">Seasonal calendar</a>
+                        <section>
+                            <button id="save-btn" name="save" class="btn btn-info"><i class="fa fa-save"></i>Save changes</button>
+                            <button id="delete-btn" name="delete" class="btn btn-danger" onclick="return confirm('Are you sure?');"><i class="fa fa-trash"></i>Delete country</button>
+                        </section>
+                    </div>
+                    <div id="content-wrapper">
+                        <div id="country-detail">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-4">
@@ -83,8 +93,7 @@ DEEP | Country Panel
                                             <input name="country-name" type="text" class="form-control" id="country-name" placeholder="Enter country name" required>
                                         </div>
                                     </div>
-                                    <button id="save-btn" name="save" class="btn btn-info"><i class="fa fa-save"></i>Save changes</button>
-                                    <button id="delete-btn" name="delete" class="btn btn-danger" onclick="return confirm('Are you sure?');"><i class="fa fa-trash"></i>Delete country</button>
+
                                 </div>
                                 <div class="col-md-8" style="position: relative;">
                                     <div id="the-map">
@@ -98,71 +107,71 @@ DEEP | Country Panel
                             <h3>Admin Levels</h3>
                             <div id="admin-levels-container"></div>
                             <button id="add-new-admin-level" class="btn btn-primary" type="button"><i class="fa fa-plus"></i>Add new admin level</button>
-                        </form>
-                    </div>
-                    <div id="key-figures" hidden>
-                        <div class="key-figure">
-                            <h2>Human development index</h2>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label>Index</label>
-                                    <input type="text" class="form-control" placeholder="Index">
+                        </div>
+                        <div id="key-figures" hidden>
+                            <div class="key-figure">
+                                <h2><a href="http://www.hdr.undp.org/en/countries">Human development index</a></h2>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Index</label>
+                                        <input id="hdi-index" name="hdi-index" type="text" class="form-control" placeholder="Index">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Rank</label>
+                                        <input id="hdi-rank" name="hdi-rank" type="text" class="form-control" placeholder="Rank">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>GEO Score</label>
+                                        <input id="hdi-geo-score" name="hdi-geo-score" type="text" class="form-control" placeholder="GEO Score">
+                                    </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <label>Rank</label>
-                                    <input type="text" class="form-control" placeholder="Rank">
+                            </div>
+                            <div class="key-figure">
+                                <h2><a href="http://www.inform-index.org/">Under five mortality rate</a></h2>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>U5M</label>
+                                        <input id="u5m" name="u5m" type="text" class="form-control" placeholder="U5M">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>GEO Score</label>
+                                        <input id="u5m-geo-score" name="u5m-geo-score" type="text" class="form-control" placeholder="GEO Score">
+                                    </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <label>GEO Score</label>
-                                    <input type="text" class="form-control" placeholder="GEO Score">
+                            </div>
+                            <div class="key-figure">
+                                <h2><a href="http://www.inform-index.org/">Uprooted people</a></h2>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Percentage of uprooted people</label>
+                                        <input id="uprooted-percentage" name="uprooted-percentage" type="text" class="form-control" placeholder="Percentage of uprooted people">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>GEO Score</label>
+                                        <input id="uprooted-geo-score" name="uprooted-geo-score" type="text" class="form-control" placeholder="GEO Score">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="key-figure">
+                                <h2><a href="http://www.inform-index.org/">INFORM final-score</a></h2>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>INFORM final-score</label>
+                                        <input id="inform-final-score" name="inform-final-score" type="text" class="form-control" placeholder="Inform final-score">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="key-figure">
-                            <h2>Under five mortality rate</h2>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label>U5M</label>
-                                    <input type="text" class="form-control" placeholder="U5M">
-                                </div>
-                                <div class="col-md-4">
-                                    <label>GEO Score</label>
-                                    <input type="text" class="form-control" placeholder="GEO Score">
-                                </div>
-                            </div>
+                        <div id="population-data" hidden>
+                            <h1>Population Data</h1>
                         </div>
-                        <div class="key-figure">
-                            <h2>Uprooted people</h2>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label>Percentage of uprooted people</label>
-                                    <input type="text" class="form-control" placeholder="Percentage of uprooted people">
-                                </div>
-                                <div class="col-md-4">
-                                    <label>GEO Score</label>
-                                    <input type="text" class="form-control" placeholder="GEO Score">
-                                </div>
-                            </div>
+                        <div id="seasonal-calendar" hidden>
+                            <h1>Seasonal-Calender</h1>3
                         </div>
-                        <div class="key-figure">
-                            <h2>Inform final-score</h2>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label>Inform final-score</label>
-                                    <input type="text" class="form-control" placeholder="Inform final-score">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="population-data" hidden>
-                        <h1>Population Data</h1>
-                    </div>
-                    <div id="seasonal-calendar" hidden>
-                        <h1>Seasonal-Calender</h1>3
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </main>
 

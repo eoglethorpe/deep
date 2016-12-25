@@ -85,6 +85,17 @@ body main #wrapper {
       cursor: pointer; }
     body main #wrapper #navigator .nav-active {
       border-bottom: 2px solid #008080; }
+    body main #wrapper #navigator section {
+      margin-top: -8px;
+      display: inline-block;
+      float: right; }
+      body main #wrapper #navigator section #save-btn, body main #wrapper #navigator section #delete-btn {
+        margin-left: 16px;
+        box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+        body main #wrapper #navigator section #save-btn:active, body main #wrapper #navigator section #delete-btn:active {
+          box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+        body main #wrapper #navigator section #save-btn .fa, body main #wrapper #navigator section #delete-btn .fa {
+          margin-right: 10px; }
   body main #wrapper #content-wrapper #country-detail {
     background-color: #fff;
     height: calc(100vh - 56px - 48px);
@@ -116,14 +127,6 @@ body main #wrapper {
         margin: 4px !important; }
     body main #wrapper #content-wrapper #country-detail #country-detail-inputs {
       margin-bottom: 72px; }
-    body main #wrapper #content-wrapper #country-detail #save-btn, body main #wrapper #content-wrapper #country-detail #delete-btn {
-      margin-right: 16px;
-      margin-bottom: 10px;
-      box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-      body main #wrapper #content-wrapper #country-detail #save-btn:active, body main #wrapper #content-wrapper #country-detail #delete-btn:active {
-        box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-      body main #wrapper #content-wrapper #country-detail #save-btn .fa, body main #wrapper #content-wrapper #country-detail #delete-btn .fa {
-        margin-right: 10px; }
     body main #wrapper #content-wrapper #country-detail h3 {
       margin-top: -10px;
       margin-bottom: 16px; }

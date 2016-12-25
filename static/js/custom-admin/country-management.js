@@ -12,6 +12,16 @@ $(document).ready(function() {
         $('#country-name').val(country.name);
         $('#country-code').val(code);
 
+        // Key figures
+        $('#hdi-index').val(country.hdi_index);
+        $('#hdi-rank').val(country.hdi_rank);
+        $('#hdi-geo-score').val(country.hdi_geo_score);
+        $('#u5m').val(country.u5m);
+        $('#u5m-geo-score').val(country.u5m_geo_score);
+        $('#uprooted-percentage').val(country.uprooted_percentage);
+        $('#uprooted-geo-score').val(country.uprooted_geo_score);
+        $('#inform-final-score').val(country.inform_final_score);
+
         // Admin levels
         $('#admin-levels-container').empty();
         for (var i=0; i<country.admin_levels.length; ++i) {
@@ -65,6 +75,16 @@ function addNewCountry() {
     $('.active').removeClass('active');
     $('#country-code').val(null);
     $('#country-name').val(null);
+
+    // Key figures
+    $('#hdi-index').val(null);
+    $('#hdi-rank').val(null);
+    $('#hdi-geo-score').val(null);
+    $('#u5m').val(null);
+    $('#u5m-geo-score').val(null);
+    $('#uprooted-percentage').val(null);
+    $('#uprooted-geo-score').val(null);
+    $('#inform-final-score').val(null);
 
     $('#admin-levels-container').empty();
     addNewAdminLevel();

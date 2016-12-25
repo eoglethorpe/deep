@@ -10,6 +10,19 @@ class Country(models.Model):
     code = models.CharField(max_length=5, primary_key=True)
     name = models.CharField(max_length=70)
 
+    # Key figures
+    hdi_index = models.CharField(max_length=100, default='', blank=True)
+    hdi_rank = models.CharField(max_length=100, default='', blank=True)
+    hdi_geo_score = models.CharField(max_length=100, default='', blank=True)
+
+    u5m = models.CharField(max_length=100, default='', blank=True)
+    u5m_geo_score = models.CharField(max_length=100, default='', blank=True)
+
+    uprooted_percentage = models.CharField(max_length=100, default='', blank=True)
+    uprooted_geo_score = models.CharField(max_length=100, default='', blank=True)
+
+    inform_final_score = models.CharField(max_length=100, default='', blank=True)
+
     def __str__(self):
         return self.name
 
