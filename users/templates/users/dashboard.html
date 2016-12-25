@@ -38,6 +38,7 @@ DEEP | Dashboard
             countries: [{% for country in report.2 %} "{{country.code}}", {% endfor %}],
             crises: [{% for crisis in report.3 %} "{{crisis.pk}}", {% endfor %}],
             report_ids: [{% for report_id in report.4 %} "{{report_id}}", {% endfor %}],
+            label: "{{report.5}}",
         },
         {% endfor %}
     ]
@@ -131,7 +132,7 @@ DEEP | Dashboard
                             <thead>
                                 <tr>
                                     {% comment %}{% for weekly_report in weekly_reports %}
-                                    <td class="week-id" data-toggle="tooltip" title="{{weekly_report.0|date:"d-m-Y"}} to {{weekly_report.1|date:"d-m-Y"}}">W{{forloop.counter}}</td>
+                                    <td class="week-id" data-toggle="tooltip" title="{{weekly_report.0|date:"d-m-Y"}} to {{weekly_report.1|date:"d-m-Y"}}">{{weekly_report.5}}</td>
                                     {% endfor %}{% endcomment %}
                                 </tr>
                             </thead>

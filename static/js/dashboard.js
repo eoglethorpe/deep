@@ -85,7 +85,7 @@ function loadTimetable() {
         // Week headers
         for (var i=0; i<weekly_reports.length; ++i) {
             var range = formatDate(weekly_reports[i].start_date) + " to " + formatDate(weekly_reports[i].end_date);
-            var td = $("<td class='week-id' data-toggle='tooltip' title='" + range + "'>W" + (i+1) + "</td>");
+            var td = $("<td class='week-id' data-toggle='tooltip' title='" + range + "'>" + weekly_reports[i].label + "</td>");
             td.appendTo(table.find('thead').find('tr'));
         }
 
@@ -140,7 +140,7 @@ function loadTimetableForCountry(countryCode) {
         // Week headers
         for (var i=0; i<weekly_reports.length; ++i) {
             var range = formatDate(weekly_reports[i].start_date) + " to " + formatDate(weekly_reports[i].end_date);
-            var td = $("<td class='week-id' data-toggle='tooltip' title='" + range + "'>W" + (i+1) + "</td>");
+            var td = $("<td class='week-id' data-toggle='tooltip' title='" + range + "'>" + weekly_reports[i].label + "</td>");
             td.appendTo(table.find('thead').find('tr'));
         }
 
