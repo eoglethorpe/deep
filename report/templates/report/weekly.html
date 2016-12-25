@@ -81,6 +81,11 @@ var human_profile_field_rules = [
     },
     {% endfor %}
 ];
+
+// Some key figures to use in severity score
+var under5MortalityRate = +'{{country.u5m}}';
+var hdi = +'{{country.hdi_index}}';
+var uprootedPercentage = +'{{country.uprooted_percentage}}';
 </script>
 {% endblock %}
 
@@ -256,7 +261,7 @@ var human_profile_field_rules = [
                             </div>
                         </div>
                         {% endif %}
-                        
+
                         {% for subfield in field.peopleinneedfield_set.all %}
                         <div class="row toplevel">
                             <div class="col-md-3">

@@ -474,7 +474,7 @@ function autoCalculateScores() {
 
     // Severity scores
 
-    // Percentage of the population in need or recently affected 
+    // Percentage of the population in need or recently affected
     var totalPopulation = + $('.human-profile-total').val();
     var pinOrAffected;
 
@@ -487,7 +487,7 @@ function autoCalculateScores() {
     }
 
     var pinPercentage = pinOrAffected / totalPopulation * 100;
-    
+
     var pinScore = 0;
     if (!isNaN(pinPercentage)) {
         if (pinPercentage >= 1)
@@ -519,7 +519,7 @@ function autoCalculateScores() {
     $('#level-of-access-score').val(accessScore);
 
     // Under-five mortality rate
-    var under5MortalityRate = 0;
+    // var under5MortalityRate = 0;
     var mortalityScore = 0;
     if (under5MortalityRate >= 19)
         mortalityScore = 1;
@@ -532,7 +532,6 @@ function autoCalculateScores() {
     $('#mortality-rate-score').val(mortalityScore);
 
     // HDI
-    var hdi = 0;
     var hdiRank = "Low";
     var hdiScore = 3;
     if (hdi >= 0.55) {
@@ -553,8 +552,8 @@ function autoCalculateScores() {
     $('#hdi-score').val(hdiScore);
 
     // Number of uprooted people
-    var uprootedPeople = 0;
-    var uprootedPercentage = 0;
+    // var uprootedPeople = 0;
+    // var uprootedPercentage = 0;
     var uprootedScore = 0;
     if (uprootedPercentage >= 1)
         uprootedScore = 1;
@@ -563,13 +562,13 @@ function autoCalculateScores() {
     if (uprootedPercentage >= 10)
         uprootedScore = 3;
 
-    $('#uprooted-people').val(uprootedPeople);
+    $('#uprooted-people').val('N/A');
     $('#uprooted-percentage').val(uprootedPercentage);
     $('#uprooted-score').val(uprootedScore);
 
     var scores = [
         pinScore, accessScore, mortalityScore,
-        hdiScore, uprootedScore 
+        hdiScore, uprootedScore
     ];
     var calculatedScore = Math.min(Math.round(findMedian(scores)), 3);
     $('#calculated-score').val(calculatedScore);
