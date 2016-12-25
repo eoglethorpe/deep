@@ -60,9 +60,9 @@
                                     {% if new_week_date %}
                                     <div class="weekly-report">
                                         <button class="btn btn-primary" onclick="location.href='{% url 'report:weekly' country.pk event.pk %}?start_date={{new_week_date|date:"d-M-Y"}}';"><i class="fa fa-edit"></i></button>
-                                        <h4>Week #{{weekly_report_count|add:1}}</h4>
+                                        <h4>Week #{{new_week_date|date:"W"}}</h4>
                                         <!-- <label>Status</label> -->
-                                        <date>{{new_week_date|date:"d M Y"}}</date>
+                                        <date>{{new_week_date|date:"d M Y"}} to {{new_week_date_end|date:"d-m-Y"}}</date>
                                     </div>
                                     {% endif %}
 
@@ -72,9 +72,9 @@
                                     {% endif %}
                                     <div class="weekly-report">
                                         <button class="btn btn-primary" onclick="location.href='{% url 'report:weekly' country.pk event.pk report.pk %}';"><i class="fa fa-edit"></i></button>
-                                        <h4>Week #{{forloop.revcounter}}</h4>
+                                        <h4>Week #{{report.start_date|date:"W"}}</h4>
                                         <!-- <label>Status</label> -->
-                                        <date>{{report.start_date|date:"d M Y"}}</date>
+                                        <date>{{report.start_date|date:"d-m-Y"}} to {{report.end_date|date:"d-m-Y"}}</date>
                                     </div>
                                     {% endfor %}
                                 </div>

@@ -181,17 +181,18 @@ class DashboardView(View):
             for i in range(weeks):
                 dt = monday1 + timedelta(days=7*i)
 
+                label = 'W' + str(dt.isocalendar()[1])
                 countries = []
                 crises = []
                 report_ids = []
-                context["weekly_reports"].append([dt, dt+timedelta(days=6), countries, crises, report_ids])
+                context["weekly_reports"].append([dt, dt+timedelta(days=6), countries, crises, report_ids, label])
 
                 reports = WeeklyReport.objects.filter(start_date=dt)
                 for report in reports:
                     countries.append(report.country)
                     crises.append(report.event)
                     report_ids.append(report.pk)
-                    
+
 
         # Get event for each country
         for country in context["countries"]:
