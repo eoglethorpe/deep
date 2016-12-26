@@ -27,13 +27,69 @@ function onEachMapFeature(feature, layer) {
     });
 }
 
+var dateFilterSelectize;
+var dateFilter = null;
+var dateFilterSelection;
+
+function buildFilters() {
+    $('#country-filter').change(function() {
+        if (timetable == 'all')
+            loadTimetable();
+        else
+            loadTimetableForCountry(timetable);
+    });
+
+    $('#disaster-type-filter').change(function() {
+        if (timetable == 'all')
+            loadTimetable();
+        else
+            loadTimetableForCountry(timetable);
+    });
+
+    $('#date-created-filter').change(function() {
+        var filterBy = $(this).val();
+        if (filterBy == 'range') {
+            $('#date-range-input').modal();
+            $('#date-range-input #ok-btn').unbind().click(function(){
+                var startDate = new Date($('#date-range-input #start-date').val());
+                var endDate = new Date($('#date-range-input #end-date').val());
+                dateFilter = function(date) {
+                    return dateInRange(new Date(date), startDate, endDate);
+                };
+
+                if (timetable == 'all')
+                    loadTimetable();
+                else
+                    loadTimetableForCountry(timetable);
+            });
+            $('#date-range-input #cancel-btn').unbind().click(function(){
+                dateFilterSelectize[0].selectize.setValue(dateFilterSelection);
+            });
+        } else if (filterBy == '' || filterBy == null) {
+            dateFilter = function(date) { return true; }
+        } else {
+            dateFilter = function(date) {
+                return filterDate(new Date(filterBy), new Date(date));
+            }
+            dateFilterSelection = filterBy;
+        }
+
+        if (timetable == 'all')
+            loadTimetable();
+        else
+            loadTimetableForCountry(timetable);
+    });
+}
+
 var active_countries = {};
+var filtered_reports = {};
 
 $(document).ready(function(){
+    buildFilters();
 
     // Selectize
     $("#country-filter").selectize();
-    $("#date-created-filter").selectize();
+    dateFilterSelectize = $("#date-created-filter").selectize();
     $("#disaster-type-filter").selectize();
 
     // Get active countries list from active crises list
@@ -72,7 +128,10 @@ $(document).ready(function(){
     });
 });
 
+var timetable;
 function loadTimetable() {
+    timetable = 'all';
+
     $('#timeline-table-container').slideUp('fast', function(){
         var table = $("#timeline-table");
         table.removeClass('country-details');
@@ -88,6 +147,9 @@ function loadTimetable() {
             var td = $("<td class='week-id' data-toggle='tooltip' title='" + range + "'>" + weekly_reports[i].label + "</td>");
             td.appendTo(table.find('thead').find('tr'));
         }
+
+        var countryFilter = $('#country-filter').val();
+        var disasterFilter = $('#disaster-type-filter').val();
 
         // Country rows
         for (var countryCode in countries) {
@@ -108,28 +170,34 @@ function loadTimetable() {
                 var td = $("<td class='weekly-report'></td>");
                 td.appendTo(tr);
 
-                var index = weekly_reports[i].countries.indexOf(countryCode);
-                if (index >= 0){
-                    td.addClass('active');
-                    //td.html('<i class="fa fa-check-circle"></i>');
-                    td.click(function(countryCode, eventId, reportId) {
-                        return function(){
-                           window.location.href = '/report/weekly/edit/' + countryCode + '/' + eventId + '/' + reportId;
+                if (countryFilter == null || countryFilter.indexOf(countryCode) >= 0) {
+                    var index = weekly_reports[i].countries.indexOf(countryCode);
+                    if (index >= 0) {
+                        if ((disasterFilter == null || disasterFilter.indexOf(weekly_reports[i].data[index].disaster_type) >= 0)
+                                && (dateFilter == null || dateFilter(weekly_reports[i].created_at[index]))) {
+                            td.addClass('active');
+                            //td.html('<i class="fa fa-check-circle"></i>');
+                            td.click(function(countryCode, eventId, reportId) {
+                                return function(){
+                                   window.location.href = '/report/weekly/edit/' + countryCode + '/' + eventId + '/' + reportId;
+                                }
+                            }(countryCode, weekly_reports[i].crises[index], weekly_reports[i].report_ids[index]));
                         }
-                    }(countryCode, weekly_reports[i].crises[index], weekly_reports[i].report_ids[index]));
+                    }
                 }
             }
         }
-        $("#back-btn").hide();
 
         $('#timeline-table-container').slideDown(function() {
             $('#timeline-table-container').scrollLeft($('#timeline-table-container').width());
         });
     });
-
+    $("#back-btn").hide();
 }
 
 function loadTimetableForCountry(countryCode) {
+    timetable = countryCode;
+
     $('#timeline-table-container').slideUp('fast', function(){
         var table = $("#timeline-table");
         table.addClass('country-details')
@@ -143,6 +211,9 @@ function loadTimetableForCountry(countryCode) {
             var td = $("<td class='week-id' data-toggle='tooltip' title='" + range + "'>" + weekly_reports[i].label + "</td>");
             td.appendTo(table.find('thead').find('tr'));
         }
+
+        var countryFilter = $('#country-filter').val();
+        var disasterFilter = $('#disaster-type-filter').val();
 
         // Crisis headers
         var crises = crises_per_country[countryCode];
@@ -158,28 +229,69 @@ function loadTimetableForCountry(countryCode) {
                 var td = $("<td class='weekly-report'></td>");
                 td.appendTo(tr);
 
-                for (var j=0; j<weekly_reports[i].countries.length; ++j) {
-                    if (weekly_reports[i].countries[j] == countryCode) {
-                        if (weekly_reports[i].crises[j] == crisisPk) {
-                            td.addClass('active');
-                            //td.html('<i class="fa fa-check-circle"></i>');
+                if ((countryFilter == null || countryFilter.indexOf(countryCode) >= 0)) {
+                    for (var j=0; j<weekly_reports[i].countries.length; ++j) {
+                        if (weekly_reports[i].countries[j] == countryCode) {
+                            if (weekly_reports[i].crises[j] == crisisPk) {
+                                if ((disasterFilter == null || disasterFilter.indexOf(weekly_reports[i].data[j].disaster_type) >= 0)
+                                        && (dateFilter == null || dateFilter(weekly_reports[i].created_at[j]))) {
+                                    td.addClass('active');
+                                    //td.html('<i class="fa fa-check-circle"></i>');
 
-                            td.click(function(countryCode, eventId, reportId) {
-                                return function(){
-                                    window.location.href = '/report/weekly/edit/' + countryCode + '/' + eventId + '/' + reportId;
+                                    td.click(function(countryCode, eventId, reportId) {
+                                        return function(){
+                                            window.location.href = '/report/weekly/edit/' + countryCode + '/' + eventId + '/' + reportId;
+                                        }
+                                    }(countryCode, crisisPk, weekly_reports[i].report_ids[j]));
                                 }
-                            }(countryCode, crisisPk, weekly_reports[i].report_ids[j]));
-
+                            }
                         }
                     }
                 }
             }
         }
-        $("#back-btn").show();
 
         $('#timeline-table-container').slideDown(function() {
             $('#timeline-table-container').scrollLeft($('#timeline-table-container').width());
         });
     });
+    $("#back-btn").show();
+}
 
+// Checks if the date is in given range
+function dateInRange(date, min, max){
+    date.setHours(0, 0, 0, 0);
+    min.setHours(0, 0, 0, 0);
+    max.setHours(0, 0, 0, 0);
+    return (date >= min && date <= max);
+}
+
+function filterDate(filter, date){
+    dateStr = date.toDateString();
+    switch(filter){
+        case "today":
+            return (new Date()).toDateString() == dateStr;
+        case "yesterday":
+            yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            return yesterday.toDateString() == dateStr;
+        case "last-seven-days":
+            min = new Date();
+            min.setDate(min.getDate() - 7);
+            return dateInRange(date, min, (new Date));
+        case "this-week":
+            min = new Date();
+            min.setDate(min.getDate() - min.getDay());
+            return dateInRange(date, min, (new Date));
+        case "last-thirty-days":
+            min = new Date();
+            min.setDate(min.getDate() - 30);
+            return dateInRange(date, min, (new Date));
+        case "this-month":
+            min = new Date();
+            min.setDate(1);
+            return dateInRange(date, min, (new Date));
+        default:
+            return true;
+    }
 }

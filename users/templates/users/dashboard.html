@@ -39,6 +39,8 @@ DEEP | Dashboard
             crises: [{% for crisis in report.3 %} "{{crisis.pk}}", {% endfor %}],
             report_ids: [{% for report_id in report.4 %} "{{report_id}}", {% endfor %}],
             label: "{{report.5}}",
+            data: [{% for data in report.6 %} {{data|safe}}, {% endfor %}],
+            created_at: [{% for dt in report.7 %} "{{ dt|date:'Y-m-d' }}", {% endfor %}],
         },
         {% endfor %}
     ]
@@ -94,7 +96,7 @@ DEEP | Dashboard
                     <label>Apply filter:</label>
                 </div>
                 <div class="col-sm-3 col-md-2 col-xs-6">
-                    <select id="country-filter" placeholder="Country">
+                    <select id="country-filter" placeholder="Country" multiple>
                         <option value="">Country</option>
                         {% for country in countries %}
                         <option value="{{country.pk}}">{{country.name}}<option>
@@ -114,7 +116,7 @@ DEEP | Dashboard
                     </select>
                 </div>
                 <div class="col-sm-3 col-md-2 col-xs-6">
-                    <select id="disaster-type-filter" placeholder="Disaster Type">
+                    <select id="disaster-type-filter" placeholder="Disaster Type" multiple>
                         <option value="">Disaster Type</option>
                         {% for disaster_type in disaster_types %}
                         <option value="{{disaster_type.pk}}">{{disaster_type.name}}</option>
@@ -154,4 +156,36 @@ DEEP | Dashboard
         </div>
     </div>
 </section>
+
+
+<div id="date-range-input" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <h3 class="modal-title">Enter date range</h3>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>start date:</label><br>
+                        <div style="position: relative;">
+                            <input type="date" id="start-date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>end date:</label><br>
+                        <div style="position: relative;">
+                            <input type="date" id="end-date" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 24px; text-align: right;">
+                    <button type="button" class="btn btn-default" id="cancel-btn" data-dismiss="modal">CANCEL</button>
+                    <button type="button" class="btn btn-primary" id="ok-btn" style="min-width: 50px; margin-left: 16px;" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
