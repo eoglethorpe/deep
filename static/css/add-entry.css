@@ -136,10 +136,12 @@ body {
       body #page-one .split-pane #right-component #edit-entries-btn {
         float: right; }
       body #page-one .split-pane #right-component #excerpt-text {
-        height: 96px; }
+        height: 96px;
+        margin-bottom: 10px; }
       body #page-one .split-pane #right-component #matrix-one {
         display: flex;
-        flex-direction: column; }
+        flex-direction: column;
+        margin-bottom: 10px; }
         body #page-one .split-pane #right-component #matrix-one .pillar {
           margin-top: 4px;
           margin-bottom: 4px;
@@ -166,9 +168,13 @@ body {
         width: 100%;
         border-spacing: 4px;
         border-collapse: separate; }
+        body #page-one .split-pane #right-component #matrix-two tbody td {
+          color: #fff; }
         body #page-one .split-pane #right-component #matrix-two td {
           padding: 6px;
           text-align: center; }
+          body #page-one .split-pane #right-component #matrix-two td strong {
+            text-transform: uppercase; }
         body #page-one .split-pane #right-component #matrix-two .sector {
           width: 7%; }
         body #page-one .split-pane #right-component #matrix-two .pillar-header {
