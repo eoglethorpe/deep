@@ -69,7 +69,7 @@ function buildFilters() {
             dateFilter = function(date) { return true; }
         } else {
             dateFilter = function(date) {
-                return filterDate(new Date(filterBy), new Date(date));
+                return filterDate(filterBy, new Date(date));
             }
             dateFilterSelection = filterBy;
         }
