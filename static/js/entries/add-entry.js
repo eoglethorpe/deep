@@ -194,6 +194,7 @@ function refreshPageOne() {
 
         // Update attributes
         $("#matrix-one .sub-pillar").removeClass('active');
+        $("#matrix-one .sub-pillar").css("background-color", function(){ return $(this).data('bk-color'); });
         $("#matrix-two .attribute-block").removeClass('active');
         $("#matrix-two .attribute-block").css("background-color", function(){ return $(this).data('bk-color'); });
         for (var i=0; i<excerpt.attributes.length; ++i) {
@@ -201,10 +202,10 @@ function refreshPageOne() {
 
             if (!attribute.sector) {
                 // First matrix
-                $("#matrix-one")
-                    .find('.sub-pillar[data-pillar-id="' + attribute.pillar + '"][data-subpillar-id="' + attribute.subpillar + '"]')
-                        .addClass('active');
-
+                var ss = $("#matrix-one")
+                    .find('.sub-pillar[data-pillar-id="' + attribute.pillar + '"][data-subpillar-id="' + attribute.subpillar + '"]');
+                ss.addClass('active');
+                ss.css('background-color', ss.data("active-bk-color"));
             } else {
                 // Second matrix
                 var ab = $("#matrix-two")
@@ -526,6 +527,9 @@ $(document).ready(function(){
         if ($(this).hasClass('active')){
             $(this).removeClass('active');
 
+            // Color
+            $(this).css("background-color", $(this).data('bk-color'));
+
             if (excerpts[selectedExcerpt]) {
                 // Remove the attribute
                 var subpillar = $(this);
@@ -539,6 +543,9 @@ $(document).ready(function(){
         }
         else {
             $(this).addClass('active');
+
+            // Color
+            $(this).css("background-color", $(this).data('active-bk-color'));
 
             if (excerpts[selectedExcerpt]) {
                 // Add new attribute
@@ -570,6 +577,9 @@ $(document).ready(function(){
         return false;
     });
     $("#matrix-one .sub-pillar").bind('drop', dropEvent);
+
+    // Matrix-one default color
+    $("#matrix-one .sub-pillar").css("background-color", function(){ return $(this).data('bk-color'); });
 
     // Matrix two selection of attribute
     $('#matrix-two .attribute-block').click(function(){
