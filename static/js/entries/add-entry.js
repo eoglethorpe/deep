@@ -201,10 +201,9 @@ function refreshPageOne() {
 
             if (!attribute.sector) {
                 // First matrix
-                $("#matrix-one")
-                    .find('.sub-pillar[data-pillar-id="' + attribute.pillar + '"][data-subpillar-id="' + attribute.subpillar + '"]')
-                        .addClass('active');
-
+                var ss = $("#matrix-one")
+                    .find('.sub-pillar[data-pillar-id="' + attribute.pillar + '"][data-subpillar-id="' + attribute.subpillar + '"]');
+                ss.addClass('active');
             } else {
                 // Second matrix
                 var ab = $("#matrix-two")
@@ -570,6 +569,9 @@ $(document).ready(function(){
         return false;
     });
     $("#matrix-one .sub-pillar").bind('drop', dropEvent);
+
+    // Matrix-one default color
+    $("#matrix-one .sub-pillar").css("background-color", function(){ return $(this).data('bk-color'); });
 
     // Matrix two selection of attribute
     $('#matrix-two .attribute-block').click(function(){

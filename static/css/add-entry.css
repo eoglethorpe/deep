@@ -142,6 +142,8 @@ body {
         display: flex;
         flex-direction: column;
         margin-bottom: 10px; }
+        body #page-one .split-pane #right-component #matrix-one td {
+          color: #fff; }
         body #page-one .split-pane #right-component #matrix-one .pillar {
           margin-top: 4px;
           margin-bottom: 4px;
