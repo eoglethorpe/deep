@@ -308,27 +308,50 @@ $(document).ready(function() {
         dragging = false;
 
         droppedFiles = e.originalEvent.dataTransfer.files;
+
+        $('#attachments-list').text('');
+        $('#manual-text').text('');
+
         if (droppedFiles.length > 0) {
+            $('.manual-row').hide();
+            $('.attachment-row').show();
             $.each(droppedFiles, function(i, file) {
                 $('#attachments-list').append(file.name + " ");
             });
             $('#add-lead-from-attachment').modal('show');
         }
+        else {
+            var text = e.originalEvent.dataTransfer.getData("text");
+            if (text && text.length > 0) {
+                $('.manual-row').show();
+                $('.attachment-row').hide();
+                $('#add-lead-from-attachment').modal('show');
+                $('#manual-text').text(text);
+            }
+        }
     });
 
-    $("#source").selectize();
     $("#confidentiality").selectize();
     $("#assigned-to").selectize();
 
     $("#add-lead-form").on('submit', function() {
         var fd = new FormData();
-        for (var i=0; i<droppedFiles.length; ++i)
-            fd.append('attachments[]', droppedFiles[i]);
+        if ($('.attachment-row').is(':visible')) {
+            for (var i=0; i<droppedFiles.length; ++i)
+                fd.append('attachments[]', droppedFiles[i]);
+        }
+        else if ($('.manual-row').is(':visible')) {
+            fd.append('description', $('#manual-text').text());
+        }
 
         $("#add-lead-form :input").each(function() {
             fd.append(this.name, $(this).val());
         });
-        fd.append("lead-type", "attachment");
+
+        if (droppedFiles && droppedFiles.length > 0)
+            fd.append("lead-type", "attachment");
+        else if ($('#manual-text').text().length > 0)
+            fd.append('lead-type', 'manual');
 
         $.ajax({
             url: postUrl,
