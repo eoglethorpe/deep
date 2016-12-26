@@ -74,10 +74,16 @@
             }
             #excerpt-text{
                 height: 96px;
+                margin-bottom: 10px;
             }
             #matrix-one{
                 display: flex;
                 flex-direction: column;
+                margin-bottom: 10px;
+
+                td{
+                    color: #fff;
+                }
 
                 .pillar{
                     margin-top: 4px;
@@ -112,9 +118,18 @@
                 border-spacing: 4px;
                 border-collapse: separate;
 
+                tbody{
+                    td{
+                        color: #fff;
+                    }
+                }
+
                 td{
                     padding: 6px;
                     text-align: center;
+                    strong{
+                        text-transform: uppercase;
+                    }
                 }
                 .sector {
                     width: 7%;
