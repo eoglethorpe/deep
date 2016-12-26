@@ -138,4 +138,3 @@ class CategoryTimeline(models.Model):
 
     class Meta:
         verbose_name_plural = "Category Timelines"
-
