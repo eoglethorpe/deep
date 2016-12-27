@@ -196,6 +196,8 @@ function refreshPageOne() {
         $("#matrix-one .sub-pillar").removeClass('active');
         $("#matrix-two .attribute-block").removeClass('active');
         $("#matrix-two .attribute-block").css("background-color", function(){ return $(this).data('bk-color'); });
+        $("#matrix-two .attribute-block").css("color", function(){ return $(this).data('bk-color'); });
+
         for (var i=0; i<excerpt.attributes.length; ++i) {
             var attribute = excerpt.attributes[i];
 
@@ -452,6 +454,13 @@ function changeLeadPreview(simplified) {
 
 
 $(document).ready(function(){
+
+    $('#matrix-two .pillar-header').each(function(i){
+        $(this).css('color', getContrastYIQ( $(this).data('bg-color') ) );
+    });
+    $('#matrix-two .subpillar').each(function(i){
+        $(this).css('color', getContrastYIQ( $(this).data('bg-color') ) );
+    });
 
     google.charts.load('current', {packages:["orgchart"]});
     google.charts.setOnLoadCallback(drawChart);
