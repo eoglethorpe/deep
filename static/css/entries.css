@@ -287,6 +287,23 @@ nav {
   #main #visualizations #entry-timeline-container #entry-timeline {
     width: 100%;
     height: 100%; }
+#main #filters .first-child {
+  padding-right: 4px; }
+#main #filters .low-padding {
+  padding-left: 4px;
+  padding-right: 4px; }
+#main #filters .last-child {
+  padding-left: 4px; }
+#main #filters .form-control, #main #filters .selectize-input {
+  border: none;
+  box-shadow: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: none;
+  border-radius: 3px; }
+  #main #filters .form-control:active, #main #filters .form-control:focus, #main #filters .selectize-input:active, #main #filters .selectize-input:focus {
+    border: 1px solid #008080; }
+#main #filters .focus {
+  border: 1px solid #008080; }
 #main #entries .entry {
   background-color: #fff;
   color: #414141;
