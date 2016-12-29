@@ -1,3 +1,31 @@
+#filters{
+    .first-child{
+        padding-right: 4px;
+    }
+    .low-padding{
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+    .last-child{
+        padding-left: 4px;
+    }
+
+    .form-control, .selectize-input{
+        border: none;
+        box-shadow: none;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: none;
+        border-radius: 3px;
+
+        &:active, &:focus {
+            border: 1px solid $primary-color;
+        }
+    }
+    .focus{
+        border: 1px solid $primary-color;
+    }
+}
+
 #entries{
     .entry{
         background-color: #fff;
