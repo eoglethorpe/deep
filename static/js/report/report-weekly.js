@@ -137,6 +137,7 @@ $(document).ready(function(){
     $('#disaster-type-select').selectize();
     $('#status-select').selectize();
     $('.access-select').selectize();
+    $('#day-select').selectize();
 
     // Tab navigation
     $('#navigator').on('click', 'a', function(){
@@ -154,6 +155,7 @@ $(document).ready(function(){
         } else {
             pillarsFilterSelectize[0].selectize.setValue(null);
         }
+        addTodayButtons();
     });
 
     // Make source/date fields droppable
