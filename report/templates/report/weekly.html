@@ -82,6 +82,10 @@ var human_profile_field_rules = [
     {% endfor %}
 ];
 
+{% if report %}
+var editedAt = '{{report.last_edited_at|date:"Y-m-d"}}';
+{% endif %}
+
 // Some key figures to use in severity score
 var under5MortalityRate = +'{{country.u5m}}';
 var hdi = +'{{country.hdi_index}}';
@@ -134,12 +138,15 @@ var uprootedPercentage = +'{{country.uprooted_percentage}}';
                             </div>
                             <div class="col-md-6">
                                 <label>Select day:</label>
-                                <select id="day-select" placeholder="Select Day">
+                                <select id="day-select" placeholder="Select a day">
+                                    <option value="">Select a day </option>
                                     <option value="1">Monday</option>
                                     <option value="2">Tuesday</option>
                                     <option value="3">Wednesday</option>
                                     <option value="4">Thursday</option>
                                     <option value="5">Friday</option>
+                                    <option value="6">Saturday</option>
+                                    <option value="7">Sunday</option>
                                 </select>
                             </div>
                         </div>
