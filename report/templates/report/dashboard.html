@@ -60,9 +60,9 @@
                                     {% if new_week_date %}
                                     <div class="weekly-report">
                                         <button class="btn btn-primary" onclick="location.href='{% url 'report:weekly' country.pk event.pk %}?start_date={{new_week_date|date:"d-M-Y"}}';"><i class="fa fa-edit"></i></button>
-                                        <h4>Week #{{new_week_date|date:"W"}}</h4>
+                                        <h4>Add new report<!-- for week #{{new_week_date|date:"W"}}--></h4>
                                         <!-- <label>Status</label> -->
-                                        <date>{{new_week_date|date:"d M Y"}} to {{new_week_date_end|date:"d-m-Y"}}</date>
+                                        <!-- <date>{{new_week_date|date:"d M Y"}} to {{new_week_date_end|date:"d-m-Y"}}</date> -->
                                     </div>
                                     {% endif %}
 

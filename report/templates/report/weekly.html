@@ -65,7 +65,7 @@ var csrf_token = "{% csrf_token %}";
 {% if start_date %}
 var start_date = "{{start_date|date:'d-M-Y'}}";
 {% else %}
-var start_date = "{{report.date|date:'d-M-Y'}}";
+var start_date = "{{report.start_date|date:'d-M-Y'}}";
 {% endif %}
 
 var appearing_pillars = {
