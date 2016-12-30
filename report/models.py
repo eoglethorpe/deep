@@ -106,7 +106,7 @@ class WeeklyReport(models.Model):
         return "Week at " + str(self.start_date)
 
     class Meta:
-        ordering = [ '-start_date' ]
+        ordering = [ '-start_date', '-last_edited_at' ]
         verbose_name_plural = "Weekly Reports"
 
 

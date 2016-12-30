@@ -65,7 +65,7 @@ var csrf_token = "{% csrf_token %}";
 {% if start_date %}
 var start_date = "{{start_date|date:'d-M-Y'}}";
 {% else %}
-var start_date = "{{report.date|date:'d-M-Y'}}";
+var start_date = "{{report.start_date|date:'d-M-Y'}}";
 {% endif %}
 
 var appearing_pillars = {
@@ -81,6 +81,10 @@ var human_profile_field_rules = [
     },
     {% endfor %}
 ];
+
+{% if report %}
+var editedAt = '{{report.last_edited_at|date:"Y-m-d"}}';
+{% endif %}
 
 // Some key figures to use in severity score
 var under5MortalityRate = +'{{country.u5m}}';
@@ -118,35 +122,70 @@ var uprootedPercentage = +'{{country.uprooted_percentage}}';
             </div>
             <div class="col-md-8">
                 <div id="navigator">
-                    <a data-target="#key-events" class="active">Key events</a>
+                    <a data-target="#reporting-parameters" class="active">Reporting parameters</a>
+                    <a data-target="#key-events">Key events</a>
                     <a data-target="#humanitarian-profile" data-pillar-tag="HPR">Humanitarian profile</a>
                     <a data-target="#people-in-need" data-pillar-tag="PIN">People in need</a>
                     <a data-target="#humanitarian-access" data-pillar-tag="HAC">Humanitarian access</a>
                     <a data-target="#weekly-severity-score" data-pillar-tag="WSC">Weekly Severity Score</a>
                 </div>
                 <div id="report-content">
-                    <section id="key-events">
+                    <section id="reporting-parameters">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Select week:</label>
+                                <input class="form-control" type="week" id="week-select">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Select day:</label>
+                                <select id="day-select" placeholder="Select a day">
+                                    <option value="">Select a day </option>
+                                    <option value="1">Monday</option>
+                                    <option value="2">Tuesday</option>
+                                    <option value="3">Wednesday</option>
+                                    <option value="4">Thursday</option>
+                                    <option value="5">Friday</option>
+                                    <option value="6">Saturday</option>
+                                    <option value="7">Sunday</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Date of entry:</label>
+                                <input class="form-control" type="date" id="date-of-entry">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Hour of entry:</label>
+                                <input class="form-control" type="time" id="hour-of-entry">
+                            </div>
+                        </div>
+                        <br>
+                        <br>
                         <div class="row">
                             <div class="col-md-6">
                                 <label>Select type of disaster:</label>
                                 <select id="disaster-type-select" placeholder="Select type of disaster">
                                     <option>--Select type of disaster--</option>
-                                {% for type in disaster_types %}
+                                    {% for type in disaster_types %}
                                     <option value="{{type.pk}}">{% if type.parent %}{{type.parent}} / {% endif %}{{type}}</option>
-                                {% endfor %}
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <label>Select status:</label>
                                 <select id="status-select" placeholder="Select status">
                                     <option>--Select status--</option>
-                                {% for status in report_statuses %}
+                                    {% for status in report_statuses %}
                                     <option value="{{status.pk}}">{{status}}</option>
-                                {% endfor %}
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
-                        <br>
+                    </section>
+                    <section id="key-events" hidden>
                         <div class="row">
                             <div class="col-md-12">
                                 <label>Events for timeline:</label>

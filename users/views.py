@@ -172,6 +172,7 @@ class DashboardView(View):
             monday2 = last_report.start_date - timedelta(days=last_report.start_date.weekday())
             # monday1 = first_report.start_date - timedelta(days=first_report.start_date.weekday())
             # Actually use first monday of the year
+            # Jan 4 is Week 1 (ISO)
             day4 = date(first_report.start_date.year, 1, 4)
             monday1 = day4 - timedelta(days=day4.weekday())
 

@@ -13,6 +13,15 @@ function addEventTimeline(data, add_btn) {
         event_timeline.find('.category-select').val(data.category);
     }
 
+    var weekDate = new Date(start_date);
+    $('#week-select').val(weekDate.getWeekYear()+'-W'+weekDate.getWeek());
+    $('#week-select').change(function() {
+        var tmp = $(this).val().split('-W');
+        tmp[0] = +tmp[0];
+        tmp[1] = +tmp[1];
+        start_date = getStupidDateFormat(getDateOfISOWeek(tmp[1], tmp[0]));
+    });
+
     event_timeline.find('select').selectize();
     event_timeline.appendTo(container);
     event_timeline.show();
@@ -137,6 +146,7 @@ $(document).ready(function(){
     $('#disaster-type-select').selectize();
     $('#status-select').selectize();
     $('.access-select').selectize();
+    $('#day-select').selectize();
 
     // Tab navigation
     $('#navigator').on('click', 'a', function(){
@@ -154,6 +164,7 @@ $(document).ready(function(){
         } else {
             pillarsFilterSelectize[0].selectize.setValue(null);
         }
+        addTodayButtons();
     });
 
     // Make source/date fields droppable
@@ -187,10 +198,24 @@ $(document).ready(function(){
 
 function setInputData() {
 
-    // Key events
+    // Parameters
+    if (data['day-select'])
+        $('#day-select').val(data['day-select']);
+
+    if (data['date-of-entry'])
+        $('#date-of-entry').val(data['date-of-entry']);
+    else if (editedAt)
+        $('#date-of-entry').val(editedAt);
+    else
+        $('#date-of-entry')[0].valueAsDate = new Date();
+
+    if (data['hour-of-entry'])
+        $('#hour-of-entry').val(data['hour-of-entry']);
+
     $("#disaster-type-select").val(data["disaster_type"]);
     $("#status-select").val(data["status"]);
 
+    // Key events
     for (var i=0; i<data["events"].length; ++i)
         addEventTimeline(data["events"][i], i==0);
 
@@ -260,10 +285,18 @@ function setInputData() {
 
 function getInputData() {
 
-    // Key events
+    // Parameters
+    if ($('#day-select').val() == '')
+        data['day-select'] = null;
+    else
+        data['day-select'] = $('#day-select').val();
+
+    data['date-of-entry'] = $('#date-of-entry').val();
+    data['hour-of-entry'] = $('#hour-of-entry').val();
     data["disaster_type"] = $("#disaster-type-select").val();
     data["status"] = $("#status-select").val();
 
+    // Key events
     data["events"] = [];
     $(".event-timeline").each(function() {
         var newevent = {};
