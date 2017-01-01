@@ -152,7 +152,7 @@ class DashboardView(View):
 
         # Filter options in dashboard
         context["disaster_types"] = DisasterType.objects.all()
-        context["countries"] = Country.objects.all()
+        context["countries"] = Country.objects.filter(event__in=Event.objects.all())
 
         # Get active crises
         context["active_events"] = Event.objects.filter(end_date=None)
