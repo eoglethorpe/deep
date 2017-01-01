@@ -182,7 +182,7 @@ class AddSoS(View):
             m = area.split(':')
             admin_level = AdminLevel.objects.get(
                 country=Country.objects.get(code=m[0]),
-                level=int(m[1])+1
+                level=int(m[1])
             )
             try:
                 if len(m) == 4:
