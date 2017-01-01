@@ -22,7 +22,7 @@ class MapSelectionSerializer(serializers.ModelSerializer):
 
     def get_keyword(self, ms):
         #"{{ms.admin_level.country.code}}:{{ms.admin_level.level|add:'-1'}}:{{ms.name}}"
-        return str(ms.admin_level.country.code) + ":" + str(ms.admin_level.level - 1) + ":" + str(ms.name)
+        return str(ms.admin_level.country.code) + ":" + str(ms.admin_level.level) + ":" + str(ms.name)
 
 
 class EntryInformationSerializer(serializers.ModelSerializer):

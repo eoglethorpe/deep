@@ -38,7 +38,7 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
     var mapSelections = [
     {% if sos %}
     {% for selection in sos.map_selections.all %}
-    "{{selection.admin_level.country.code}}:{{selection.admin_level.level|add:"-1"}}:{{selection.name}}{% if selection.pcode != "" %}:{{selection.pcode}}{% endif %}",
+    "{{selection.admin_level.country.code}}:{{selection.admin_level.level}}:{{selection.name}}{% if selection.pcode != "" %}:{{selection.pcode}}{% endif %}",
     {% endfor %}
     {% endif %}
     ];
