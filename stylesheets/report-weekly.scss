@@ -149,7 +149,15 @@ body{
             }
         }
         #reporting-parameters{
-
+            #week-select-interval {
+                padding-top: 4px;
+                font-weight: $font-weight-bold;
+            }
+            #date-hour-of-entry {
+                padding-left: 16px;
+                font-weight: $font-weight-bold;
+                text-transform: uppercase;
+            }
         }
         #key-events{
             .event-timeline{

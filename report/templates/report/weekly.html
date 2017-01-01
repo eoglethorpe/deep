@@ -127,17 +127,21 @@ var uprootedPercentage = +'{{country.uprooted_percentage}}';
                     <a data-target="#humanitarian-profile" data-pillar-tag="HPR">Humanitarian profile</a>
                     <a data-target="#people-in-need" data-pillar-tag="PIN">People in need</a>
                     <a data-target="#humanitarian-access" data-pillar-tag="HAC">Humanitarian access</a>
-                    <a data-target="#weekly-severity-score" data-pillar-tag="WSC">Weekly Severity Score</a>
+                    <a data-target="#weekly-severity-score" data-pillar-tag="WSC">Severity Score</a>
                 </div>
                 <div id="report-content">
                     <section id="reporting-parameters">
                         <div class="row">
-                            <div class="col-md-6">
-                                <label>Select week:</label>
+                            <div class="col-md-3">
+                                <label>Week covered by report:</label>
                                 <input class="form-control" type="week" id="week-select">
                             </div>
+                            <div class="col-md-3">
+                                <label>Interval</label>
+                                <div id="week-select-interval"></div>
+                            </div>
                             <div class="col-md-6">
-                                <label>Select day:</label>
+                                <label>Day covered by report:</label>
                                 <select id="day-select" placeholder="Select a day">
                                     <option value="">Select a day </option>
                                     <option value="1">Monday</option>
@@ -150,18 +154,18 @@ var uprootedPercentage = +'{{country.uprooted_percentage}}';
                                 </select>
                             </div>
                         </div>
+                        {% if report %}
                         <br>
                         <br>
                         <div class="row">
                             <div class="col-md-6">
-                                <label>Date of entry:</label>
-                                <input class="form-control" type="date" id="date-of-entry">
-                            </div>
-                            <div class="col-md-6">
-                                <label>Hour of entry:</label>
-                                <input class="form-control" type="time" id="hour-of-entry">
+                                <label>Date and hour of entry: </label>
+                                <span id="date-hour-of-entry">
+                                    {{report.last_edited_at|date:"d-m-Y"}} &nbsp; {{report.last_edited_at|date:"P"}}
+                                </span>
                             </div>
                         </div>
+                        {% endif %}
                         <br>
                         <br>
                         <div class="row">

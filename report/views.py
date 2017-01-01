@@ -117,8 +117,8 @@ class WeeklyReportView(View):
             report = WeeklyReport.objects.get(pk=report_id)
         else:
             report = WeeklyReport()
-            report.start_date = datetime.strptime(request.POST["start_date"], '%d-%b-%Y')
 
+        report.start_date = datetime.strptime(request.POST["start_date"], '%d-%b-%Y')
         report.event = event
         report.country = country
         report.last_edited_by = request.user
