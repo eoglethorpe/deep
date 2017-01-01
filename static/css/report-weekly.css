@@ -182,6 +182,13 @@ body {
     #main #report-content section h3 {
       margin: 0;
       margin-bottom: 16px; }
+  #main #report-content #reporting-parameters #week-select-interval {
+    padding-top: 4px;
+    font-weight: 600; }
+  #main #report-content #reporting-parameters #date-hour-of-entry {
+    padding-left: 16px;
+    font-weight: 600;
+    text-transform: uppercase; }
   #main #report-content #key-events .event-timeline {
     margin-bottom: 16px; }
     #main #report-content #key-events .event-timeline .row:first-child {

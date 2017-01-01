@@ -1,3 +1,4 @@
+var weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 function addEventTimeline(data, add_btn) {
     var container = $('#event-timeline-container');
@@ -12,15 +13,6 @@ function addEventTimeline(data, add_btn) {
         event_timeline.find('.end-date').val(data.end_date);
         event_timeline.find('.category-select').val(data.category);
     }
-
-    var weekDate = new Date(start_date);
-    $('#week-select').val(weekDate.getWeekYear()+'-W'+weekDate.getWeek());
-    $('#week-select').change(function() {
-        var tmp = $(this).val().split('-W');
-        tmp[0] = +tmp[0];
-        tmp[1] = +tmp[1];
-        start_date = getStupidDateFormat(getDateOfISOWeek(tmp[1], tmp[0]));
-    });
 
     event_timeline.find('select').selectize();
     event_timeline.appendTo(container);
@@ -194,6 +186,45 @@ $(document).ready(function(){
     autoCalculateScores();
     $('#report-content input').on('change paste drop input', autoCalculateScores);
     $('.access-select').change(autoCalculateScores);
+
+    var changeWeekSelection = function() {
+        // Week interval
+        var sd = new Date(start_date);
+        var ed = new Date(sd.getTime()  + 6*24*60*60*1000);
+        $('#week-select-interval').text(formatDate(sd) + ' to ' + formatDate(ed));
+
+        // Days selection
+        var option = $('#day-select').val();
+        var daySelectize = $('#day-select')[0].selectize;
+        var i = 1;
+        for (var date=sd; date<=ed; date.setDate(date.getDate()+1)) {
+            daySelectize.updateOption(i+'', {
+                value: i+'',
+                text: weekDays[i-1] + ', ' + date.toLocaleString('en-gb', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: '2-digit'
+                })
+            });
+            i++;
+        }
+    }
+
+    var weekDate = new Date(start_date);
+    $('#week-select').val(weekDate.getWeekYear()+'-W'+weekDate.getWeek());
+    changeWeekSelection();
+
+    $('#week-select').change(function() {
+        if ($(this).val() == '') {
+            $('#week-select').val(weekDate.getWeekYear()+'-W'+weekDate.getWeek());
+        }
+        var tmp = $(this).val().split('-W');
+        tmp[0] = +tmp[0];
+        tmp[1] = +tmp[1];
+        start_date = getStupidDateFormat(getDateOfISOWeek(tmp[1], tmp[0]));
+        changeWeekSelection();
+
+    });
 });
 
 function setInputData() {
@@ -201,16 +232,6 @@ function setInputData() {
     // Parameters
     if (data['day-select'])
         $('#day-select').val(data['day-select']);
-
-    if (data['date-of-entry'])
-        $('#date-of-entry').val(data['date-of-entry']);
-    else if (editedAt)
-        $('#date-of-entry').val(editedAt);
-    else
-        $('#date-of-entry')[0].valueAsDate = new Date();
-
-    if (data['hour-of-entry'])
-        $('#hour-of-entry').val(data['hour-of-entry']);
 
     $("#disaster-type-select").val(data["disaster_type"]);
     $("#status-select").val(data["status"]);
@@ -291,8 +312,6 @@ function getInputData() {
     else
         data['day-select'] = $('#day-select').val();
 
-    data['date-of-entry'] = $('#date-of-entry').val();
-    data['hour-of-entry'] = $('#hour-of-entry').val();
     data["disaster_type"] = $("#disaster-type-select").val();
     data["status"] = $("#status-select").val();
 
