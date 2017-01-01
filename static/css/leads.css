@@ -74,7 +74,9 @@ nav {
 #main #filters {
   margin-top: 24px; }
   #main #filters label {
-    vertical-align: sub; }
+    vertical-align: sub;
+    font-size: 16px;
+    color: #008080; }
 #main #add-lead-btn {
   margin-bottom: -40px;
   box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
