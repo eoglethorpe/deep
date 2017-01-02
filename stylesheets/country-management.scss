@@ -48,24 +48,23 @@ body{
                     margin-right: 10px;
                 }
             }
+            input{
+                margin-bottom: 16px;
+            }
 
             #countries {
                 overflow-y: auto;
-                overflow-x: hidden;
-                width: 100%;
                 height: calc(100% - 96px);
 
                 .country{
-                    margin-left: -16px;
-                    margin-right: -16px;
-                    width: 100%;
                     padding: 16px;
                     border-top: 1px solid rgba(0, 0, 0, 0.05);
                     cursor: pointer;
-                }
-                .active{
-                    background-color: $primary-color;
-                    color: #fff;
+
+                    &.active {
+                        background-color: $primary-color;
+                        color: #fff;
+                    }
                 }
             }
         }
