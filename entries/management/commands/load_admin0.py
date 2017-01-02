@@ -30,7 +30,7 @@ class Command(BaseCommand):
                     country = Country(code=country_iso, name=country_name)
                     country.save()
 
-                # Make sure the admin-level 0 file doesn't exist for this country
+                # Make sure the admin-level 0 doesn't already exist for this country
                 admin_level = AdminLevel.objects.filter(country=country, level=0)
                 if admin_level.count() > 0:
                     continue
