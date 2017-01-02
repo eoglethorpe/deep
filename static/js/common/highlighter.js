@@ -3,14 +3,16 @@ var highlighter = {};
 (function(context) {
     context.highlightHtml = function(html, searchFor, spanAttributes) {
         if (searchFor.trim().length > 0) {
+            // Add space before punctuations and escape them
+            searchFor = searchFor.replace(/[-\/\\^$*+?.()|[\]{}]/g, ' \\$&');
             // Get words and form regex to search them, including whitespaces and tags
             var words = searchFor.match(/\S+/g);
             var re = "";
             for (var i=0; i<words.length; ++i) {
                 // Remember to escape characters
-                re += words[i].replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                re += words[i]; //.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
                 if (i < words.length - 1) {
-                    re += "\\s*(\\s*<[^>]*>)*\\s*";
+                    re += "\\s*(\\s*<[^>]*>)*\\s*"; // \\s*; <-- freezes for some reason
                 }
             }
 
@@ -34,7 +36,7 @@ var highlighter = {};
                     output += m[0] + '<span ' + spanAttributes + '>';
                     restStr = restStr.slice(m.index + m[0].length);
                 }
-                
+
                 // End the final span tag
                 output += restStr + '</span>';
 
