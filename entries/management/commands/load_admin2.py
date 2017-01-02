@@ -26,16 +26,22 @@ class Command(BaseCommand):
                 except:
                     continue
 
-                # Make sure the admin-level 2 doesn't already exist for this country
-                admin_level = AdminLevel.objects.filter(country=country, level=2)
-                if admin_level.count() > 0:
-                    continue
+                # Get or create admin level
+                try:
+                    admin_level = AdminLevel.objects.get(country=country, level=2)
+
+                    # The old admin level files, DO NOT OVERWRITE
+                    if admin_level.property_name != 'NAME_2' or admin_level.property_pcode != '':
+                        continue;
+
+                    admin_level.name = admin_name
+                except:
+                    admin_level = AdminLevel(country=country, level=2, name=admin_name,
+                        property_name='NAME_2')
 
                 # Create django file for this geojson file
                 file = open(os.path.join(directory, filename), 'r')
                 django_file = File(file)
 
-                # Create new admin level with this file
-                admin_level = AdminLevel(country=country, level=2, name=admin_name,
-                    property_name='NAME_2')
+                # Save new admin level with this file
                 admin_level.geojson.save(filename, django_file, save=True)
