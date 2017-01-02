@@ -645,7 +645,6 @@ $(document).ready(function(){
     $("#excerpt-text").on('paste drop change keyup', function() {
         excerpts[selectedExcerpt].excerpt = $(this).val();
         refreshExcerpts();
-        console.log('changed');
     });
 
     // Page 2
