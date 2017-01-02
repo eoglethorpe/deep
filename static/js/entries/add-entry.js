@@ -642,9 +642,10 @@ $(document).ready(function(){
     refreshExcerpts();
 
     // Excerpt text handler
-    $("#excerpt-text").on('input paste drop change', function() {
+    $("#excerpt-text").on('paste drop change keyup', function() {
         excerpts[selectedExcerpt].excerpt = $(this).val();
         refreshExcerpts();
+        console.log('changed');
     });
 
     // Page 2

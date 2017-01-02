@@ -67,7 +67,7 @@ $(document).ready(function() {
         addNewCountry();
 
     // Search country
-    $('#search-country').on('change input paste drop keyup', function() {
+    $('#search-country').on('cut input paste drop keyup', function() {
         var query = $(this).val().trim().toLowerCase();
         if (query == '')
             $('#country-list .country').show();
