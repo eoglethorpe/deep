@@ -209,8 +209,8 @@ function refreshAdminLevels() {
             $("#admin-level-buttons").append(btn);
             totalWidth += $("#btn-lvl-"+i).width();
         }
-        $("#map-controls").width(totalWidth+72);
-        $("#map-controls").css("left",($("#the-map").width()-$("#map-controls").width())/2);
+        // $("#map-controls").width(totalWidth+200);
+        // $("#map-controls").css("left",($("#the-map").width()-$("#map-controls").width())/2);
     }
 
     refreshMap();
