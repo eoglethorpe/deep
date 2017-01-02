@@ -60,9 +60,13 @@ DEEP | Country Panel
                 <div id="country-list">
                     <button class="btn btn-primary" onclick="addNewCountry();"><i class="fa fa-plus"></i>Add new country</button>
                     <h2>Countries</h2>
-                    {% for country in countries %}
-                    <div class="country {% if selected_country == country.pk %}active{% endif %}" data-country-code="{{country.code}}">{{country.name}}</div>
-                    {% endfor %}
+                    <input id="search-country" class="form-control" placeholder="Search country">
+
+                    <div id="countries">
+                        {% for country in countries %}
+                        <div class="country {% if selected_country == country.pk %}active{% endif %}" data-country-code="{{country.code}}">{{country.name}}</div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
             <div class="col-md-9" style="padding-right: 0;">

@@ -48,8 +48,7 @@ body header {
 body main #country-list {
   margin-top: 24px;
   padding: 16px;
-  height: calc(100vh - 56px - 32px);
-  overflow-y: auto; }
+  height: calc(100vh - 56px - 32px); }
   body main #country-list h2 {
     font-weight: bold;
     font-size: 18px;
@@ -62,15 +61,21 @@ body main #country-list {
       box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
     body main #country-list button i {
       margin-right: 10px; }
-  body main #country-list .country {
-    margin-left: -16px;
-    margin-right: -16px;
-    padding: 16px;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
-    cursor: pointer; }
-  body main #country-list .active {
-    background-color: #008080;
-    color: #fff; }
+  body main #country-list #countries {
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+    height: calc(100% - 96px); }
+    body main #country-list #countries .country {
+      margin-left: -16px;
+      margin-right: -16px;
+      width: 100%;
+      padding: 16px;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      cursor: pointer; }
+    body main #country-list #countries .active {
+      background-color: #008080;
+      color: #fff; }
 body main #wrapper {
   padding: 0;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
