@@ -21,7 +21,9 @@ class MapSelectionSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'pcode', 'admin_level', 'keyword')
 
     def get_keyword(self, ms):
-        #"{{ms.admin_level.country.code}}:{{ms.admin_level.level|add:'-1'}}:{{ms.name}}"
+        # "{{ms.admin_level.country.code}}:{{ms.admin_level.level|add:'-1'}}:{{ms.name}}"
+        if ms.pcode != '':
+            return str(ms.admin_level.country.code) + ":" + str(ms.admin_level.level) + ":" + str(ms.name) + ":" + str(ms.pcode)
         return str(ms.admin_level.country.code) + ":" + str(ms.admin_level.level) + ":" + str(ms.name)
 
 
