@@ -161,7 +161,7 @@ nav {
   #main #visualizations #severity-legend p {
     margin-bottom: 6px; }
 #main #visualizations #sectors-visualization {
-  height: 540px;
+  height: 588px;
   overflow-y: auto; }
   #main #visualizations #sectors-visualization img {
     height: 24px;
@@ -200,25 +200,6 @@ nav {
         background-color: #ec1717; }
       #main #visualizations .attr-visualization .attr .severities .severity-6 {
         background-color: #c01010; }
-#main #visualizations #map-controls {
-  text-align: center;
-  padding: 8px;
-  max-width: 80%;
-  background-color: rgba(255, 255, 255, 0.88);
-  position: absolute;
-  left: 10%;
-  bottom: 48px;
-  border-radius: 3px;
-  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-  #main #visualizations #map-controls #admin-level-buttons button {
-    margin: 4px !important; }
-#main #visualizations #country-select-wrapper {
-  width: 260px;
-  position: absolute;
-  top: 24px;
-  left: 48px; }
-  #main #visualizations #country-select-wrapper .selectize-input {
-    box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
 #main #visualizations #pie-wrapper {
   width: 256px;
   height: 256px;
@@ -257,7 +238,8 @@ nav {
     stroke: #c01010; }
 #main #visualizations #the-map {
   position: relative;
-  height: 540px; }
+  height: 540px;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
   #main #visualizations #the-map #map-shadow-overlay {
     pointer-events: none;
     position: absolute;
@@ -276,6 +258,18 @@ nav {
     top: auto;
     bottom: 24px;
     left: 24px; }
+#main #visualizations #map-controls {
+  margin-top: 8px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.88); }
+  #main #visualizations #map-controls #admin-level-buttons {
+    text-align: center; }
+    #main #visualizations #map-controls #admin-level-buttons button {
+      margin: 4px !important;
+      box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+#main #visualizations #country-select-wrapper {
+  margin-top: 8px;
+  margin-left: 10px; }
 #main #visualizations #entry-header {
   padding: 16px 24px; }
   #main #visualizations #entry-header h3 {

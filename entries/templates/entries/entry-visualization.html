@@ -47,21 +47,30 @@
         <div id="map-wrapper" class="visualization-block">
             <div id="the-map">
             </div>
+            <div class ="row">
+                <div class="col-md-3">
+                    <div id="country-select-wrapper">
+                        <select name="country" id="country" placeholder="Select a country">
+                            {% for country in event.countries.all %}
+                            <option value="{{country.pk}}">{{country.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div id="map-controls">
+                        <div id="admin-level-buttons"></div>
+                    </div>
+                </div>
+
+            </div>
             <div id="pie-wrapper">
                 <h3>% of entries per severity</h3>
                 <svg id="pies-container">
                 </svg>
             </div>
-            <div id="country-select-wrapper">
-                <select name="country" id="country" placeholder="Select a country">
-                    {% for country in event.countries.all %}
-                    <option value="{{country.pk}}">{{country.name}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div id="map-controls">
-                <div id="admin-level-buttons"></div>
-            </div>
+
+
         </div>
     </div>
 </div>
