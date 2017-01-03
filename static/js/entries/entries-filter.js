@@ -25,6 +25,12 @@ function clearFilters() {
         selectizes[i][0].selectize.setValue(null);
     }
     filterEntries();
+
+    // Entries visualization filters
+    activeSectors = [];
+    activeSeverities = [];
+    if (refreshSectors) refreshSectors();
+    if (refreshSeveritiesLegend) refreshSeveritiesLegend();
 }
 
 
