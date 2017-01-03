@@ -14,7 +14,6 @@
         background-color: #fff;
         margin-bottom: 8px;
         position: relative;
-        //@include shadow();
         border: 2px solid rgba(0, 0, 0, 0.1);
 
         h3{
@@ -40,6 +39,15 @@
     }
     #severity-legend{
         padding-bottom: 16px;
+
+        .inactive{
+            label{
+                color: #ccc;
+            }
+            .severity{
+                filter: grayscale(100%);
+            }
+        }
 
         .severity{
             display: inline-block;
@@ -71,10 +79,25 @@
         height: 588px;
         overflow-y: auto;
 
+        label{
+            cursor: pointer;
+        }
         img{
             height: 24px;
             margin-right: 10px;
             display: inline-block;
+            cursor: pointer;
+        }
+        .inactive{
+            label{
+                color: #ccc;
+            }
+            img{
+                filter: grayscale(100%);
+            }
+            .severities{
+                filter: grayscale(100%);
+            }
         }
     }
 

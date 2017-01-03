@@ -126,7 +126,7 @@ function renderSectors(total){
             for(var i=0; i<sector.severities.length; i++){
                 severity = sector.severities[i];
                 var p = Math.round(severity.value/total*100);
-                $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*240)+'px;" data-toggle="tooltip" onmouseover="$(this).tooltip(\'show\')" ' + 
+                $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*240)+'px;" data-toggle="tooltip" onmouseover="$(this).tooltip(\'show\')" ' +
                     'title="'+severity.name+' - '+severity.value+' (' + p + '%)"></span>').appendTo(severitiesContainer);
             }
         }
@@ -431,7 +431,7 @@ function sortAsc(attributes, divId) {
     var totalEntries = {};
 
     for (var i=0; i<attributes.length; i++) {
-        totalEntries[attributes[i].id] = 0;    
+        totalEntries[attributes[i].id] = 0;
         for (var j=0; j<attributes[i].severities.length; j++) {
             totalEntries[attributes[i].id] += attributes[i].severities[j].value;
         }
@@ -453,7 +453,7 @@ function sortDesc(attributes, divId) {
     var totalEntries = {};
 
     for (var i=0; i<attributes.length; i++) {
-        totalEntries[attributes[i].id] = 0;    
+        totalEntries[attributes[i].id] = 0;
         for (var j=0; j<attributes[i].severities.length; j++) {
             totalEntries[attributes[i].id] += attributes[i].severities[j].value;
         }
@@ -470,3 +470,50 @@ function sortDesc(attributes, divId) {
 
     renderVisualizations();
 }
+
+var activeSectors = [];
+$(document).ready(function(){
+    $('#sectors-visualization label, #sectors-visualization img').on('click', function(){
+        var attrContainer = $(this).closest('.attr-container');
+        var attrs = attrContainer.find('.attr');
+        var that = $(this).parent();
+
+        var index = activeSectors.indexOf(that.data('id'));
+        if (index < 0)
+            activeSectors.push(that.data('id'));
+        else {
+            activeSectors.splice(index, 1);
+        }
+
+        if (activeSectors.length == 0) {
+            $('#sectors-visualization .attr').removeClass('inactive');
+        }
+        else {
+            $('#sectors-visualization .attr').addClass('inactive');
+            for (var i=0; i<activeSectors.length; i++) {
+                $('#sectors-visualization .attr[data-id="' + activeSectors[i] + '"]').removeClass('inactive');
+            }
+        }
+    });
+    var activeSeverities = [];
+    $('#severity-legend p').on('click', function(){
+        var severityContainer = $(this).parent();
+        var severities = severityContainer.find('p');
+
+        var index = activeSeverities.indexOf($(this).data('id'));
+        if(index < 0){
+            activeSeverities.push($(this).data('id'));
+        } else{
+            activeSeverities.splice(index, 1);
+        }
+        if(activeSeverities.length == 0){
+            $('#severity-legend p').removeClass('inactive');
+        }
+        else {
+            $('#severity-legend p').addClass('inactive');
+            for (var i=0; i<activeSeverities.length; i++) {
+                $('#severity-legend p[data-id="' + activeSeverities[i] + '"]').removeClass('inactive');
+            }
+        }
+    });
+});

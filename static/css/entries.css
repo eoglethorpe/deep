@@ -141,6 +141,10 @@ nav {
     font-size: 14px; }
 #main #visualizations #severity-legend {
   padding-bottom: 16px; }
+  #main #visualizations #severity-legend .inactive label {
+    color: #ccc; }
+  #main #visualizations #severity-legend .inactive .severity {
+    filter: grayscale(100%); }
   #main #visualizations #severity-legend .severity {
     display: inline-block;
     height: 16px;
@@ -170,10 +174,19 @@ nav {
 #main #visualizations #sectors-visualization {
   height: 588px;
   overflow-y: auto; }
+  #main #visualizations #sectors-visualization label {
+    cursor: pointer; }
   #main #visualizations #sectors-visualization img {
     height: 24px;
     margin-right: 10px;
-    display: inline-block; }
+    display: inline-block;
+    cursor: pointer; }
+  #main #visualizations #sectors-visualization .inactive label {
+    color: #ccc; }
+  #main #visualizations #sectors-visualization .inactive img {
+    filter: grayscale(100%); }
+  #main #visualizations #sectors-visualization .inactive .severities {
+    filter: grayscale(100%); }
 #main #visualizations .attr-visualization {
   padding-bottom: 16px; }
   #main #visualizations .attr-visualization .attr {
