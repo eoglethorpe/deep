@@ -63,23 +63,23 @@ function addFilter(filterFor, clear, filterFunction) {
 
 function initEntryFilters() {
     selectizes = [];
-    selectizes.push($('#users-filter').selectize());
-    var publishedDateSelectize = $('#date-published-filter').selectize();
+    selectizes.push($('#users-filter').selectize({plugins: ['remove_button']}));
+    var publishedDateSelectize = $('#date-published-filter').selectize({plugins: ['remove_button']});
     selectizes.push(publishedDateSelectize);
-    var areasSelectize = $('#areas-filter').selectize();
+    var areasSelectize = $('#areas-filter').selectize({plugins: ['remove_button']});
     selectizes.push(areasSelectize);
-    selectizes.push($('#affected-groups-filter').selectize());
-    selectizes.push($('#vulnerable-groups-filter').selectize());
-    selectizes.push($('#specific-needs-groups-filter').selectize());
-    pillarsFilterSelectize = $('#pillars-filter').selectize();
+    selectizes.push($('#affected-groups-filter').selectize({plugins: ['remove_button']}));
+    selectizes.push($('#vulnerable-groups-filter').selectize({plugins: ['remove_button']}));
+    selectizes.push($('#specific-needs-groups-filter').selectize({plugins: ['remove_button']}));
+    pillarsFilterSelectize = $('#pillars-filter').selectize({plugins: ['remove_button']});
     selectizes.push(pillarsFilterSelectize);
     // selectizes.push($('#subpillars-filter').selectize());
-    selectizes.push($('#sectors-filter').selectize());
+    selectizes.push($('#sectors-filter').selectize({plugins: ['remove_button']}));
     // selectizes.push($('#subsectors-filter').selectize());
-    selectizes.push($('#reliabilities-min-filter').selectize());
-    selectizes.push($('#reliabilities-max-filter').selectize());
-    selectizes.push($('#severities-min-filter').selectize());
-    selectizes.push($('#severities-max-filter').selectize());
+    selectizes.push($('#reliabilities-min-filter').selectize({plugins: ['remove_button']}));
+    selectizes.push($('#reliabilities-max-filter').selectize({plugins: ['remove_button']}));
+    selectizes.push($('#severities-min-filter').selectize({plugins: ['remove_button']}));
+    selectizes.push($('#severities-max-filter').selectize({plugins: ['remove_button']}));
 
     $.getJSON("/api/v1/entries/?event="+eventId, function(data){
         data.sort(function(e1, e2) {
@@ -302,7 +302,7 @@ function filterByTimeline() {
         var w = timelineCanvas.width * 0.9;
         var dateStart = (startPosition.x - timelineCanvas.width*0.05) * (maxDate.getTime() - minDate.getTime()) / w;
         dateStart = new Date(dateStart + minDate.getTime());
-        
+
         var dateEnd = (endPosition.x - timelineCanvas.width*0.05) * (maxDate.getTime() - minDate.getTime()) / w;
         dateEnd = new Date(dateEnd + minDate.getTime());
 

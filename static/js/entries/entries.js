@@ -5,13 +5,14 @@ $(document).ready(function() {
     initEntryFilters();
 
     $('#toggle-panel').on('click', 'a', function(){
+        $('#loading-animation').show();
         var current = $('#toggle-panel .active');
         current.removeClass('active');
         $(this).addClass('active');
         var that = $(this);
+
         $(current.data('target')).fadeOut(function(){
             $(that.data('target')).fadeIn(function() {
-
                 if (that.data('target') == '#visualizations') {
                     // Fix a little bug on admin level buttons when they
                     // are loaded while not on visualization tab.
@@ -23,7 +24,12 @@ $(document).ready(function() {
                     renderVisualizations();
                 }
             });
+
         });
+        setTimeout(function(){
+            $('#loading-animation').hide();
+        }, 500);
+
     });
 
     // loadMap();
@@ -129,4 +135,5 @@ function renderEntries() {
             }
         }(entry));
     }
+    $('#loading-animation').hide();
 }

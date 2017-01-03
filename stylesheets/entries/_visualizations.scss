@@ -1,24 +1,33 @@
 #visualizations{
+    .first-child{
+        padding-right: 4px;
+    }
+    .low-padding{
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+    .last-child{
+        padding-left: 4px;
+    }
 
     .visualization-block{
         background-color: #fff;
-        margin-bottom: 24px;
+        margin-bottom: 8px;
         position: relative;
-        @include shadow();
+        //@include shadow();
+        border: 2px solid rgba(0, 0, 0, 0.1);
 
         h3{
             margin: 0;
             padding: 16px 16px 26px 16px;
             text-transform: uppercase;
         }
-
         .sort-buttons {
             position: absolute;
             right: 16px;
             top: 16px;
         }
     }
-
     #entry-timeline-wrapper{
         padding-bottom: 16px;
 
@@ -30,7 +39,7 @@
         }
     }
     #severity-legend{
-        padding-bottom: 10px;
+        padding-bottom: 16px;
 
         .severity{
             display: inline-block;
