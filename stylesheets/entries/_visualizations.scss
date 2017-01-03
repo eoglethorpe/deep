@@ -1,24 +1,32 @@
 #visualizations{
+    .first-child{
+        padding-right: 4px;
+    }
+    .low-padding{
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+    .last-child{
+        padding-left: 4px;
+    }
 
     .visualization-block{
         background-color: #fff;
-        margin-bottom: 24px;
+        margin-bottom: 8px;
         position: relative;
-        @include shadow();
+        border: 2px solid rgba(0, 0, 0, 0.1);
 
         h3{
             margin: 0;
             padding: 16px 16px 26px 16px;
             text-transform: uppercase;
         }
-
         .sort-buttons {
             position: absolute;
             right: 16px;
             top: 16px;
         }
     }
-
     #entry-timeline-wrapper{
         padding-bottom: 16px;
 
@@ -30,7 +38,16 @@
         }
     }
     #severity-legend{
-        padding-bottom: 10px;
+        padding-bottom: 16px;
+
+        .inactive{
+            label{
+                color: #ccc;
+            }
+            .severity{
+                filter: grayscale(100%);
+            }
+        }
 
         .severity{
             display: inline-block;
@@ -62,10 +79,25 @@
         height: 588px;
         overflow-y: auto;
 
+        label{
+            cursor: pointer;
+        }
         img{
             height: 24px;
             margin-right: 10px;
             display: inline-block;
+            cursor: pointer;
+        }
+        .inactive{
+            label{
+                color: #ccc;
+            }
+            img{
+                filter: grayscale(100%);
+            }
+            .severities{
+                filter: grayscale(100%);
+            }
         }
     }
 
