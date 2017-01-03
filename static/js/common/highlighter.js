@@ -5,6 +5,8 @@ var highlighter = {};
         if (searchFor.trim().length > 0) {
             // Add space before punctuations and escape them
             searchFor = searchFor.replace(/[-\/\\^$*+?.()|[\]{}]/g, ' \\$&');
+            // Some others to just add space before
+            searchFor = searchFor.replace(/[:;%&`~!@#]/g, ' $&');
             // Get words and form regex to search them, including whitespaces and tags
             var words = searchFor.match(/\S+/g);
             var re = "";

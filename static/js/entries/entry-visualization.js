@@ -471,8 +471,8 @@ function sortDesc(attributes, divId) {
     renderVisualizations();
 }
 
-var activeSectors = [];
 $(document).ready(function(){
+    var activeSectors = [];
     $('#sectors-visualization label, #sectors-visualization img').on('click', function(){
         var attrContainer = $(this).closest('.attr-container');
         var attrs = attrContainer.find('.attr');
@@ -494,7 +494,11 @@ $(document).ready(function(){
                 $('#sectors-visualization .attr[data-id="' + activeSectors[i] + '"]').removeClass('inactive');
             }
         }
+
+        // Filter
+        sectorsFilterSelectize[0].selectize.setValue(activeSectors);
     });
+
     var activeSeverities = [];
     $('#severity-legend p').on('click', function(){
         var severityContainer = $(this).parent();
@@ -515,5 +519,12 @@ $(document).ready(function(){
                 $('#severity-legend p[data-id="' + activeSeverities[i] + '"]').removeClass('inactive');
             }
         }
+
+        // Filter
+        addFilter('severties', activeSeverities.length == 0, function(info){
+            return activeSeverities.filter(function(s){
+                return s == info.severity.level;
+            }).length > 0;
+        });
     });
 });

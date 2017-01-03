@@ -10,6 +10,7 @@ var timelineFilter = null;
 
 var selectizes = [];
 var pillarsFilterSelectize; // Required in report-weekly tab filtering
+var sectorsFilterSelectize; // Required in entries visualization filtering
 
 var previousPublishedDateFilterSelection;
 
@@ -73,9 +74,8 @@ function initEntryFilters() {
     selectizes.push($('#specific-needs-groups-filter').selectize({plugins: ['remove_button']}));
     pillarsFilterSelectize = $('#pillars-filter').selectize({plugins: ['remove_button']});
     selectizes.push(pillarsFilterSelectize);
-    // selectizes.push($('#subpillars-filter').selectize());
-    selectizes.push($('#sectors-filter').selectize({plugins: ['remove_button']}));
-    // selectizes.push($('#subsectors-filter').selectize());
+    sectorsFilterSelectize = $('#sectors-filter').selectize({plugins: ['remove_button']});
+    selectizes.push(sectorsFilterSelectize);
     selectizes.push($('#reliabilities-min-filter').selectize({plugins: ['remove_button']}));
     selectizes.push($('#reliabilities-max-filter').selectize({plugins: ['remove_button']}));
     selectizes.push($('#severities-min-filter').selectize({plugins: ['remove_button']}));
