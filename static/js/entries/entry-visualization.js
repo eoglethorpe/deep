@@ -471,60 +471,70 @@ function sortDesc(attributes, divId) {
     renderVisualizations();
 }
 
+function refreshSectors() {
+    if (activeSectors.length == 0) {
+        $('#sectors-visualization .attr').removeClass('inactive');
+    }
+    else {
+        $('#sectors-visualization .attr').addClass('inactive');
+        for (var i=0; i<activeSectors.length; i++) {
+            $('#sectors-visualization .attr[data-id="' + activeSectors[i] + '"]').removeClass('inactive');
+        }
+    }
+}
+
+function refreshSeveritiesLegend() {
+    if(activeSeverities.length == 0){
+        $('#severity-legend p').removeClass('inactive');
+    }
+    else {
+        $('#severity-legend p').addClass('inactive');
+        for (var i=0; i<activeSeverities.length; i++) {
+            $('#severity-legend p[data-id="' + activeSeverities[i] + '"]').removeClass('inactive');
+        }
+    }
+}
+
+function filterSeverities() {
+    addFilter('severties', activeSeverities.length == 0, function(info){
+        return activeSeverities.filter(function(s){
+            return s == info.severity.level;
+        }).length > 0;
+    });
+}
+
 $(document).ready(function(){
-    var activeSectors = [];
     $('#sectors-visualization label, #sectors-visualization img').on('click', function(){
         var attrContainer = $(this).closest('.attr-container');
         var attrs = attrContainer.find('.attr');
         var that = $(this).parent();
 
-        var index = activeSectors.indexOf(that.data('id'));
+        var index = activeSectors.indexOf(that.data('id').toString());
         if (index < 0)
-            activeSectors.push(that.data('id'));
+            activeSectors.push(that.data('id').toString());
         else {
             activeSectors.splice(index, 1);
         }
 
-        if (activeSectors.length == 0) {
-            $('#sectors-visualization .attr').removeClass('inactive');
-        }
-        else {
-            $('#sectors-visualization .attr').addClass('inactive');
-            for (var i=0; i<activeSectors.length; i++) {
-                $('#sectors-visualization .attr[data-id="' + activeSectors[i] + '"]').removeClass('inactive');
-            }
-        }
-
+        refreshSectors();
         // Filter
         sectorsFilterSelectize[0].selectize.setValue(activeSectors);
     });
 
-    var activeSeverities = [];
     $('#severity-legend p').on('click', function(){
         var severityContainer = $(this).parent();
         var severities = severityContainer.find('p');
 
-        var index = activeSeverities.indexOf($(this).data('id'));
+        var index = activeSeverities.indexOf($(this).data('id').toString());
         if(index < 0){
-            activeSeverities.push($(this).data('id'));
+            activeSeverities.push($(this).data('id').toString());
         } else{
             activeSeverities.splice(index, 1);
         }
-        if(activeSeverities.length == 0){
-            $('#severity-legend p').removeClass('inactive');
-        }
-        else {
-            $('#severity-legend p').addClass('inactive');
-            for (var i=0; i<activeSeverities.length; i++) {
-                $('#severity-legend p[data-id="' + activeSeverities[i] + '"]').removeClass('inactive');
-            }
-        }
+
+        refreshSeveritiesLegend();
 
         // Filter
-        addFilter('severties', activeSeverities.length == 0, function(info){
-            return activeSeverities.filter(function(s){
-                return s == info.severity.level;
-            }).length > 0;
-        });
+        filterSeverities();
     });
 });
