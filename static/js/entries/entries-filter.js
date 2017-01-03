@@ -14,6 +14,10 @@ var sectorsFilterSelectize; // Required in entries visualization filtering
 
 var previousPublishedDateFilterSelection;
 
+// Required in entries visualization filtering:
+var activeSectors = [];
+var activeSeverities  = [];
+
 function clearFilters() {
     filters = {};
     $('input').val('');
@@ -228,6 +232,18 @@ function initEntryFilters() {
 
     $('#sectors-filter').change(function() {
         var filterBy = $(this).val();
+
+        // For entries visualization
+        if (refreshSectors) {
+            if (filterBy == null)
+                activeSectors = [];
+            else {
+                activeSectors = filterBy.filter(function(s) {
+                    return s.indexOf('/') < 0;
+                });
+            }
+            refreshSectors();
+        }
 
         if (filterBy == null)
             addFilter('sector', true, null);
