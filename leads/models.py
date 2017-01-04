@@ -22,7 +22,7 @@ class Country(models.Model):
     total_population = models.CharField(max_length=100, default='', blank=True)
     population_source = models.CharField(max_length=250, default='', blank=True)
 
-    inform_final_score = models.CharField(max_length=100, default='', blank=True)
+    inform_score = models.CharField(max_length=100, default='', blank=True)
     inform_risk_index = models.CharField(max_length=100, default='', blank=True)
     inform_hazard_and_exposure = models.CharField(max_length=100, default='', blank=True)
     inform_vulnerability = models.CharField(max_length=100, default='', blank=True)
