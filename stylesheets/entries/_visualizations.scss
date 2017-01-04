@@ -22,9 +22,9 @@
             text-transform: uppercase;
         }
         .sort-buttons {
-            position: absolute;
-            right: 16px;
-            top: 16px;
+            float: right;
+            margin-left: 10px;
+            padding-top: 16px;
         }
     }
     #entry-timeline-wrapper{
@@ -76,7 +76,7 @@
         }
     }
     #sectors-visualization{
-        height: 588px;
+        height: 592px;
         overflow-y: auto;
 
         label{

@@ -129,9 +129,9 @@ nav {
     padding: 16px 16px 26px 16px;
     text-transform: uppercase; }
   #main #visualizations .visualization-block .sort-buttons {
-    position: absolute;
-    right: 16px;
-    top: 16px; }
+    float: right;
+    margin-left: 10px;
+    padding-top: 16px; }
 #main #visualizations #entry-timeline-wrapper {
   padding-bottom: 16px; }
   #main #visualizations #entry-timeline-wrapper #entry-count {
@@ -172,7 +172,7 @@ nav {
   #main #visualizations #severity-legend p {
     margin-bottom: 6px; }
 #main #visualizations #sectors-visualization {
-  height: 588px;
+  height: 592px;
   overflow-y: auto; }
   #main #visualizations #sectors-visualization label {
     cursor: pointer; }

@@ -82,6 +82,22 @@ $(document).ready(function() {
             });
         }
     });
+
+    // Uprooted people percentage auto calculation
+    $('#number-of-refugees, #number-of-idps, #number-of-returned-refugees, #total-population').on('change', function(){
+        var numberOfRefugees = parseInt($('#number-of-refugees').val());
+        var numberOfIDPs = parseInt($('#number-of-idps').val());
+        var numberOfReturnedRefugees = parseInt($('#number-of-returned-refugees').val());
+        var totalPopulation = parseInt($('#total-population').val());
+
+        if(isNaN(numberOfRefugees) || isNaN(numberOfIDPs) || isNaN(numberOfReturnedRefugees) || isNaN(totalPopulation) || totalPopulation <= 0){
+            $('#uprooted-percentage').val('');
+            return;
+        }
+
+        var uprootedPercentage = 100*(numberOfRefugees+numberOfIDPs+numberOfReturnedRefugees)/totalPopulation;
+        $('#uprooted-percentage').val(''+uprootedPercentage);
+    });
 });
 
 var adminLevelId = 0;

@@ -622,7 +622,11 @@ function autoCalculateScores() {
         pinScore, accessScore, mortalityScore,
         hdiScore, uprootedScore
     ];
-    var calculatedScore = Math.min(Math.round(findMedian(scores)), 3);
+
+    // TODO: why?
+    // var calculatedScore = Math.min(Math.round(findMedian(scores)), 3);
+    // Fix for #192
+    var calculatedScore = findMedian(scores);
     $('#calculated-score').val(calculatedScore);
 
     $('#pin-percentage-score').attr('class', 'form-control score score-'+pinScore);
