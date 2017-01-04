@@ -37,6 +37,13 @@ $(document).ready(function(){
     });
 
     $('.crisis.active').click();
+
+    // prevent enter key from pressing buttons
+    $(window).keypress(function(e) {
+        if(e.which == 13) {
+            e.preventDefault();
+        }
+    });
 });
 
 function addNewCrisis() {

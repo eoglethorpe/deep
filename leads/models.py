@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
 
-from datetime import datetime 
+from datetime import datetime, date
 
 
 class Country(models.Model):
@@ -12,16 +12,18 @@ class Country(models.Model):
 
     # Key figures
     hdi_index = models.CharField(max_length=100, default='', blank=True)
-    hdi_rank = models.CharField(max_length=100, default='', blank=True)
-    hdi_geo_score = models.CharField(max_length=100, default='', blank=True)
-
     u5m = models.CharField(max_length=100, default='', blank=True)
-    u5m_geo_score = models.CharField(max_length=100, default='', blank=True)
 
-    uprooted_percentage = models.CharField(max_length=100, default='', blank=True)
-    uprooted_geo_score = models.CharField(max_length=100, default='', blank=True)
+    number_of_refugees = models.CharField(max_length=100, default='', blank=True)
+    number_of_idps = models.CharField(max_length=100, default='', blank=True)
+    number_of_returned_refugees = models.CharField(max_length=100, default='', blank=True)
+
+    total_population = models.CharField(max_length=100, default='', blank=True)
+    population_source = models.CharField(max_length=250, default='', blank=True)
 
     inform_final_score = models.CharField(max_length=100, default='', blank=True)
+
+    modified_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -295,4 +297,3 @@ class SectorCovered(models.Model):
 
     class Meta:
         verbose_name_plural = "Sectors Covered"
-
