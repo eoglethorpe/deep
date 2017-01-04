@@ -177,14 +177,12 @@ function drawPieChart(total){
             endAngle -= 1;
 
         var percentage = (severities[i].value/totalSeverity*100);
-        var arc = $('<path data-toggle="tooltip" title="' + severities[i].name + ' - ' + severities[i].value + ' (' + Math.round(percentage) + ')%" onmouseover="showTooltip(this);"/>');
+        //  title="' + severities[i].name + ' - ' + severities[i].value + ' (' + Math.round(percentage) + ')%" onmouseover="showTooltip(this);"
+        var arc = $('<path data-toggle="tooltip" onclick="toggleSeverityFilter(' + (i+1) + ');"/>');
         arc.addClass('severity-'+(i+1));
         arc.attr("d", describeArc(104, 104, 64, startAngle, endAngle));
 
         // $('<title>' + severities[i].name + ' - ' + Math.round(percentage) + '%</title>').appendTo(arc);
-
-        arc.mouseover(function() {
-        });
 
         arc.appendTo($('#pies-container'));
         startAngle = endAngle;
@@ -495,7 +493,17 @@ function refreshSeveritiesLegend() {
     }
 }
 
-function filterSeverities() {
+function toggleSeverityFilter(level) {
+    var index = activeSeverities.indexOf(level+'');
+    if(index < 0){
+        activeSeverities.push(level+'');
+    } else{
+        activeSeverities.splice(index, 1);
+    }
+
+    refreshSeveritiesLegend();
+
+    // Filter
     addFilter('severties', activeSeverities.length == 0, function(info){
         return activeSeverities.filter(function(s){
             return s == info.severity.level;
@@ -517,7 +525,6 @@ $(document).ready(function(){
         }
 
         refreshSectors();
-        // Filter
         sectorsFilterSelectize[0].selectize.setValue(activeSectors);
     });
 
@@ -525,16 +532,6 @@ $(document).ready(function(){
         var severityContainer = $(this).parent();
         var severities = severityContainer.find('p');
 
-        var index = activeSeverities.indexOf($(this).data('id').toString());
-        if(index < 0){
-            activeSeverities.push($(this).data('id').toString());
-        } else{
-            activeSeverities.splice(index, 1);
-        }
-
-        refreshSeveritiesLegend();
-
-        // Filter
-        filterSeverities();
+        toggleSeverityFilter($(this).data('id'));
     });
 });
