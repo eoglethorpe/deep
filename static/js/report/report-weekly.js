@@ -623,10 +623,7 @@ function autoCalculateScores() {
         hdiScore, uprootedScore
     ];
 
-    // TODO: why?
-    // var calculatedScore = Math.min(Math.round(findMedian(scores)), 3);
-    // Fix for #192
-    var calculatedScore = findMedian(scores);
+     var calculatedScore = Math.min(Math.round(findMedian(scores)), 3);
     $('#calculated-score').val(calculatedScore);
 
     $('#pin-percentage-score').attr('class', 'form-control score score-'+pinScore);
