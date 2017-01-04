@@ -1,5 +1,8 @@
 $(document).ready(function() {
     loadMap();
+    $('.number').on('change input paste drop', function(){
+        formatNumber($(this));
+    });
 
     $('#country-list .country').click(function() {
         $('#country-detail-inputs h2').text('Edit country details');
@@ -28,6 +31,10 @@ $(document).ready(function() {
         $('#population-source').val(country.population_source);
         $('#last-modified').show();
         $('#last-modified').find('span').text(country.last_modified);
+
+        $('.number').each(function(){
+            formatNumber($(this));
+        });
 
         calculateHdiScore();
         calculateU5mScore();
@@ -95,8 +102,9 @@ $(document).ready(function() {
     });
 
     // Uprooted people percentage auto calculation & uprooted geoscore
-    $('#number-of-refugees, #number-of-idps, #number-of-returned-refugees, #total-population').on('change', function(){
+    $('#number-of-refugees, #number-of-idps, #number-of-returned-refugees, #total-population').unbind().on('input paste change', function(){
         calculateUprootedScore();
+        formatNumber($(this));
     });
 
     // HDI rank and geoscore
@@ -115,6 +123,14 @@ $(document).ready(function() {
         if(e.which == 13) {
             e.preventDefault();
         }
+    });
+
+    // Reformat number inputs before submitting
+    $('#country-form').submit(function() {
+        $('.number').each(function() {
+            $(this).val(getNumberValue($(this)));
+        });
+        return true;
     });
 });
 
@@ -204,10 +220,10 @@ function calculateU5mScore() {
 }
 
 function calculateUprootedScore() {
-    var numberOfRefugees = parseInt($('#number-of-refugees').val());
-    var numberOfIDPs = parseInt($('#number-of-idps').val());
-    var numberOfReturnedRefugees = parseInt($('#number-of-returned-refugees').val());
-    var totalPopulation = parseInt($('#total-population').val());
+    var numberOfRefugees = parseInt(getNumberValue($('#number-of-refugees')));
+    var numberOfIDPs = parseInt(getNumberValue($('#number-of-idps')));
+    var numberOfReturnedRefugees = parseInt(getNumberValue($('#number-of-returned-refugees')));
+    var totalPopulation = parseInt(getNumberValue($('#total-population')));
 
     if(isNaN(numberOfRefugees) || isNaN(numberOfIDPs) || isNaN(numberOfReturnedRefugees) || isNaN(totalPopulation) || totalPopulation <= 0){
         $('#uprooted-percentage').val('');

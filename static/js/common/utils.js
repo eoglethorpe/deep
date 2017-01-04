@@ -182,10 +182,31 @@ function getDateOfISOWeek(w, y) {
     return ISOweekStart;
 }
 
+// dd-mmm-yyyy
 function getStupidDateFormat(date) {
-    // dd-mmm-yyyy
     var dd = date.toLocaleString('en-us', {day: '2-digit'});
     var mmm = date.toLocaleString('en-us', {month: 'short'});
     var yyyy = date.toLocaleString('en-us', {year: 'numeric'});
     return dd + '-' + mmm + '-' + yyyy;
+}
+
+// Change formatted number to real number
+function getNumberValue(element){
+    if (!element.val())
+        return "";
+    return element.val().replace(/\s/g, '');
+};
+
+// formats number in 1 000 000 format
+function formatNumber(numInput){
+    var val = (('' + numInput.val()).replace(/\s/g, '')).split('').reverse().join('');
+
+    var newVal = '';
+    for(var i=0; i<val.length; i++){
+        newVal += val.substr(i, 1);
+        if(i%3 == 2){
+            newVal += ' ';
+        }
+    }
+    numInput.val(newVal.split('').reverse().join('').trim());
 }
