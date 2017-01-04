@@ -104,27 +104,6 @@ function renderEntries(){
     }
 }
 
-// Change formatted number to real number
-function getNumberValue(element){
-    if (!element.val())
-        return "";
-    return element.val().replace(/\s/g, '');
-};
-
-// formats number in 1 000 000 format
-function formatNumber(numInput){
-    var val = (('' + numInput.val()).replace(/\s/g, '')).split('').reverse().join('');
-
-    var newVal = '';
-    for(var i=0; i<val.length; i++){
-        newVal += val.substr(i, 1);
-        if(i%3 == 2){
-            newVal += ' ';
-        }
-    }
-    numInput.val(newVal.split('').reverse().join('').trim());
-}
-
 $(document).ready(function(){
 
     $('.number').on('change input paste drop', function(){
