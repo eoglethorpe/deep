@@ -12,6 +12,7 @@ class Country(models.Model):
 
     # Key figures
     hdi_index = models.CharField(max_length=100, default='', blank=True)
+    hdi_rank = models.CharField(max_length=100, default='', blank=True)
     u5m = models.CharField(max_length=100, default='', blank=True)
 
     number_of_refugees = models.CharField(max_length=100, default='', blank=True)
@@ -21,7 +22,11 @@ class Country(models.Model):
     total_population = models.CharField(max_length=100, default='', blank=True)
     population_source = models.CharField(max_length=250, default='', blank=True)
 
-    inform_final_score = models.CharField(max_length=100, default='', blank=True)
+    inform_score = models.CharField(max_length=100, default='', blank=True)
+    inform_risk_index = models.CharField(max_length=100, default='', blank=True)
+    inform_hazard_and_exposure = models.CharField(max_length=100, default='', blank=True)
+    inform_vulnerability = models.CharField(max_length=100, default='', blank=True)
+    inform_lack_of_coping_capacity = models.CharField(max_length=100, default='', blank=True)
 
     modified_at = models.DateTimeField(auto_now=True)
 
@@ -29,6 +34,7 @@ class Country(models.Model):
         return self.name
 
     class Meta:
+        ordering = ['name']
         verbose_name_plural = 'countries'
 
 

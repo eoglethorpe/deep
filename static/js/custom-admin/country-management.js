@@ -14,11 +14,16 @@ $(document).ready(function() {
 
         // Key figures
         $('#hdi-index').val(country.hdi_index);
+        $('#hdi-rank').val(country.hdi_rank);
         $('#u5m').val(country.u5m);
         $('#number-of-refugees').val(country.number_of_refugees);
         $('#number-of-idps').val(country.number_of_idps);
         $('#number-of-returned-refugees').val(country.number_of_returned_refugees);
-        $('#inform-final-score').val(country.inform_final_score);
+        $('#inform-score').val(country.inform_score);
+        $('#inform-risk-index').val(country.inform_risk_index);
+        $('#inform-vulnerability').val(country.inform_vulnerability);
+        $('#inform-hazard-and-exposure').val(country.inform_hazard_and_exposure);
+        $('#inform-lack-of-coping-capacity').val(country.inform_lack_of_coping_capacity);
         $('#total-population').val(country.total_population);
         $('#population-source').val(country.population_source);
         $('#last-modified').show();
@@ -124,11 +129,16 @@ function addNewCountry() {
 
     // Key figures
     $('#hdi-index').val(null);
+    $('#hdi-rank').val(null);
     $('#u5m').val(null);
     $('#number-of-refugees').val(null);
     $('#number-of-idps').val(null);
     $('#number-of-returned-refugees').val(null);
-    $('#inform-final-score').val(null);
+    $('#inform-score').val(null);
+    $('#inform-risk-index').val(null);
+    $('#inform-vulnerability').val(null);
+    $('#inform-hazard-and-exposure').val(null);
+    $('#inform-lack-of-coping-capacity').val(null);
     $('#total-population').val(null);
     $('#population-source').val(null);
     $('#last-modified').hide();
@@ -136,6 +146,10 @@ function addNewCountry() {
 
     $('#admin-levels-container').empty();
     addNewAdminLevel();
+
+    calculateHdiScore();
+    calculateU5mScore();
+    calculateUprootedScore();
 }
 
 function addNewAdminLevel() {
@@ -173,7 +187,7 @@ function calculateHdiScore() {
         hdiScore = 0;
         hdiRank = "Very High";
     }
-    $('#hdi-rank').val(hdiRank+'');
+    $('#hdi-geo-rank').val(hdiRank+'');
     $('#hdi-geo-score').val(hdiScore+'')
 }
 

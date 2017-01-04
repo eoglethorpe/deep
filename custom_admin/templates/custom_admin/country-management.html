@@ -28,11 +28,16 @@ DEEP | Country Panel
             name: '{{country.name}}',
             // Key figures
             hdi_index: '{{country.hdi_index}}',
+            hdi_rank: '{{country.hdi_rank}}',
             u5m: '{{country.u5m}}',
             number_of_refugees: '{{country.number_of_refugees}}',
             number_of_idps: '{{country.number_of_idps}}',
             number_of_returned_refugees: '{{country.number_of_returned_refugees}}',
-            inform_final_score: '{{country.inform_final_score}}',
+            inform_score: '{{country.inform_score}}',
+            inform_risk_index: '{{country.inform_risk_index}}',
+            inform_vulnerability: '{{country.inform_vulnerability}}',
+            inform_hazard_and_exposure: '{{country.inform_hazard_and_exposure}}',
+            inform_lack_of_coping_capacity: '{{country.inform_lack_of_coping_capacity}}',
             total_population: '{{country.total_population}}',
             last_modified: '{{country.modified_at|date:"Y-m-d h:i A"}}',
             // Admin areas
@@ -126,11 +131,11 @@ DEEP | Country Panel
                                             <input id="hdi-index" name="hdi-index" type="number" step="any" max="1" min="0" class="form-control" placeholder="Index">
                                             <br>
                                             <label>Rank</label>
-                                            <input type="number" step="any" max="1" min="0" class="form-control" placeholder="Rank">
+                                            <input id="hdi-rank" name="hdi-rank" type="text" class="form-control" placeholder="Rank">
                                         </div>
                                         <div class="col-md-4">
                                             <label>GEO Rank</label>
-                                            <input id="hdi-rank" name="hdi-rank" type="text" class="form-control" placeholder="GEO Rank" readonly>
+                                            <input id="hdi-geo-rank" name="hdi-geo-rank" type="text" class="form-control" placeholder="GEO Rank" readonly>
                                         </div>
                                         <div class="col-md-4">
                                             <label>GEO Score</label>
@@ -184,18 +189,18 @@ DEEP | Country Panel
                                             <input id="inform-score" name="inform-score" type="text" class="form-control" placeholder="Inform Score">
                                             <br>
                                             <label>Vulnerability</label>
-                                            <input id="inform-score-vulnerability" name="inform-score-vulnerability" type="text" class="form-control" placeholder="Inform Score Vulnerability">
+                                            <input id="inform-vulnerability" name="inform-vulnerability" type="text" class="form-control" placeholder="Vulnerability">
                                         </div>
                                         <div class="col-md-4">
-                                            <label>INFORM Risk Hazard</label>
-                                            <input id="inform-risk-hazard" name="inform-risk-hazard" type="text" class="form-control" placeholder="Inform Risk Hazard">
+                                            <label>INFORM Risk Index</label>
+                                            <input id="inform-risk-index" name="inform-risk-index" type="text" class="form-control" placeholder="Risk Index">
                                             <br>
                                             <label>Lack of coping capacity</label>
-                                            <input id="lack-of-coping-capacity" name="lack-of-coping-capacity" type="text" class="form-control" placeholder="Lack of Coping Capacity">
+                                            <input id="inform-lack-of-coping-capacity" name="inform-lack-of-coping-capacity" type="text" class="form-control" placeholder="Lack of Coping Capacity">
                                         </div>
                                         <div class="col-md-4">
                                             <label>Hazard and Exposure</label>
-                                            <input id="hazard-and-exposure" name="hazard-and-exposure" type="text" class="form-control" placeholder="Hazard and Exposure">
+                                            <input id="inform-hazard-and-exposure" name="inform-hazard-and-exposure" type="text" class="form-control" placeholder="Hazard and Exposure">
                                         </div>
                                     </div>
                                 </div>
