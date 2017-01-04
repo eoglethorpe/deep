@@ -236,7 +236,7 @@ var uprootedPercentage = +'{{country.uprooted_percentage}}';
                         <div class="row-group">
                             <div class="row">
                                 <div class="col-md-6"><label>{{field.name}}</label></div>
-                                <div class="col-md-2"><input class="human-number form-control{% if field.total_field %} human-profile-total{% endif %}{% if field.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{field.pk}}" placeholder="Number of person"></div>
+                                <div class="col-md-2"><input class="human-number number form-control{% if field.total_field %} human-profile-total{% endif %}{% if field.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{field.pk}}" placeholder="Number of person"></div>
                                 <div class="col-md-2"><input class="human-source form-control source-droppable" data-human-pk="{{field.pk}}" placeholder="Source/Date"></div>
                                 <div class="col-md-2"><input class="human-comment form-control" data-human-pk="{{field.pk}}" placeholder="Comment"></div>
                             </div>
@@ -245,7 +245,7 @@ var uprootedPercentage = +'{{country.uprooted_percentage}}';
 
                             <div class="row">
                                 <div class="col-md-6"><label  class="sub">{{subfield.name}}</label></div>
-                                <div class="col-md-2"><input class="human-number form-control{% if subfield.total_field %} human-profile-total{% endif %}{% if subfield.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{subfield.pk}}" placeholder="Number of person"></div>
+                                <div class="col-md-2"><input class="human-number number form-control{% if subfield.total_field %} human-profile-total{% endif %}{% if subfield.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{subfield.pk}}" placeholder="Number of person"></div>
                                 <div class="col-md-2"><input class="human-source form-control source-droppable" data-human-pk="{{subfield.pk}}" placeholder="Source/Date"></div>
                                 <div class="col-md-2"><input class="human-comment form-control" data-human-pk="{{subfield.pk}}" placeholder="Comment"></div>
                             </div>
@@ -263,11 +263,11 @@ var uprootedPercentage = +'{{country.uprooted_percentage}}';
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-2"></div>
-                                    <div class="col-md-2"><input class="people-total form-control {% if field.total_field %}people-in-need-total{% endif %}" data-people-pk="{{field.pk}}" placeholder="Total"></div>
-                                    <div class="col-md-2"><input class="people-at-risk form-control" data-people-pk="{{field.pk}}" placeholder="At Risk"></div>
-                                    <div class="col-md-2"><input class="people-moderate form-control" data-people-pk="{{field.pk}}" placeholder="Moderate"></div>
-                                    <div class="col-md-2"><input class="people-severe form-control" data-people-pk="{{field.pk}}" placeholder="Severe"></div>
-                                    <div class="col-md-2"><input class="people-planned form-control" data-people-pk="{{field.pk}}" placeholder="Planned"></div>
+                                    <div class="col-md-2"><input class="number people-total form-control {% if field.total_field %}people-in-need-total{% endif %}" data-people-pk="{{field.pk}}" placeholder="Total"></div>
+                                    <div class="col-md-2"><input class="number people-at-risk form-control" data-people-pk="{{field.pk}}" placeholder="At Risk"></div>
+                                    <div class="col-md-2"><input class="number people-moderate form-control" data-people-pk="{{field.pk}}" placeholder="Moderate"></div>
+                                    <div class="col-md-2"><input class="number people-severe form-control" data-people-pk="{{field.pk}}" placeholder="Severe"></div>
+                                    <div class="col-md-2"><input class="number people-planned form-control" data-people-pk="{{field.pk}}" placeholder="Planned"></div>
                                 </div>
 
                                 <div class="row">
@@ -297,11 +297,11 @@ var uprootedPercentage = +'{{country.uprooted_percentage}}';
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-2"></div>
-                                    <div class="col-md-2"><input class="people-total-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Total"></div>
-                                    <div class="col-md-2"><input class="people-at-risk-calculated form-control" data-people-pk="{{field.pk}}" placeholder="At Risk"></div>
-                                    <div class="col-md-2"><input class="people-moderate-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Moderate"></div>
-                                    <div class="col-md-2"><input class="people-severe-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Severe"></div>
-                                    <div class="col-md-2"><input class="people-planned-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Planned"></div>
+                                    <div class="col-md-2"><input class="number people-total-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Total"></div>
+                                    <div class="col-md-2"><input class="number people-at-risk-calculated form-control" data-people-pk="{{field.pk}}" placeholder="At Risk"></div>
+                                    <div class="col-md-2"><input class="number people-moderate-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Moderate"></div>
+                                    <div class="col-md-2"><input class="number people-severe-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Severe"></div>
+                                    <div class="col-md-2"><input class="number people-planned-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Planned"></div>
                                 </div>
                             </div>
                         </div>
@@ -319,11 +319,11 @@ var uprootedPercentage = +'{{country.uprooted_percentage}}';
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-2"></div>
-                                    <div class="col-md-2"><input class="people-total form-control {% if field.total_field %}total-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Total"></div>
-                                    <div class="col-md-2"><input class="people-at-risk form-control {% if field.total_field %}total-at-risk-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="At Risk"></div>
-                                    <div class="col-md-2"><input class="people-moderate form-control {% if field.total_field %}total-moderate-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Moderate"></div>
-                                    <div class="col-md-2"><input class="people-severe form-control {% if field.total_field %}total-severe-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Severe"></div>
-                                    <div class="col-md-2"><input class="people-planned form-control {% if field.total_field %}total-planned-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Planned"></div>
+                                    <div class="col-md-2"><input class="number people-total form-control {% if field.total_field %}total-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Total"></div>
+                                    <div class="col-md-2"><input class="number people-at-risk form-control {% if field.total_field %}total-at-risk-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="At Risk"></div>
+                                    <div class="col-md-2"><input class="number people-moderate form-control {% if field.total_field %}total-moderate-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Moderate"></div>
+                                    <div class="col-md-2"><input class="number people-severe form-control {% if field.total_field %}total-severe-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Severe"></div>
+                                    <div class="col-md-2"><input class="number people-planned form-control {% if field.total_field %}total-planned-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Planned"></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-2"></div>
@@ -404,7 +404,7 @@ var uprootedPercentage = +'{{country.uprooted_percentage}}';
                                     <div class="row">
                                         <div class="col-md-5">
                                             <div class="form-group">
-                                                <input class="form-control access-pin-number" data-access-pin-pk="{{field.pk}}" placeholder="Number">
+                                                <input class="number form-control access-pin-number" data-access-pin-pk="{{field.pk}}" placeholder="Number">
                                             </div>
                                         </div>
                                         <div class="col-md-7">
