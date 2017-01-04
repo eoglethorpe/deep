@@ -21,6 +21,8 @@ var eventId = "{{event.pk}}";
 var csrf_token = "{% csrf_token %}";
 {% if report %}
 var data = JSON.parse("{{report.data|escapejs}}");
+{% elif last_report %}
+var data = JSON.parse("{{last_report.data|escapejs}}");
 {% else %}
 var data = {};
 {% endif %}
