@@ -114,6 +114,7 @@ class CountryManagementView(View):
 
             # Key figures
             country.hdi_index = request.POST['hdi-index']
+            country.hdi_rank= request.POST['hdi-rank']
             country.u5m = request.POST['u5m']
 
             country.number_of_refugees = request.POST['number-of-refugees']
