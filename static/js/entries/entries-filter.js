@@ -198,7 +198,6 @@ function initEntryFilters() {
         if (filterBy == null)
             addFilter('pillar', true, null);
         else {
-
             // Separate the pillar and subpillar ids to filter by
             var pillarFilters = filterBy.map(function(a) {
                 var strings = a.split("/");
