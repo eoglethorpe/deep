@@ -14,13 +14,19 @@ $(document).ready(function() {
 
         // Key figures
         $('#hdi-index').val(country.hdi_index);
-        $('#hdi-rank').val(country.hdi_rank);
-        $('#hdi-geo-score').val(country.hdi_geo_score);
         $('#u5m').val(country.u5m);
-        $('#u5m-geo-score').val(country.u5m_geo_score);
-        $('#uprooted-percentage').val(country.uprooted_percentage);
-        $('#uprooted-geo-score').val(country.uprooted_geo_score);
+        $('#number-of-refugees').val(country.number_of_refugees);
+        $('#number-of-idps').val(country.number_of_idps);
+        $('#number-of-returned-refugees').val(country.number_of_returned_refugees);
         $('#inform-final-score').val(country.inform_final_score);
+        $('#total-population').val(country.total_population);
+        $('#population-source').val(country.population_source);
+        $('#last-modified').show();
+        $('#last-modified').find('span').text(country.last_modified);
+
+        calculateHdiScore();
+        calculateU5mScore();
+        calculateUprootedScore();
 
         // Admin levels
         $('#admin-levels-container').empty();
@@ -82,6 +88,29 @@ $(document).ready(function() {
             });
         }
     });
+
+    // Uprooted people percentage auto calculation & uprooted geoscore
+    $('#number-of-refugees, #number-of-idps, #number-of-returned-refugees, #total-population').on('change', function(){
+        calculateUprootedScore();
+    });
+
+    // HDI rank and geoscore
+    $('#hdi-index').on('change', function(){
+        calculateHdiScore();
+    });
+
+    //Under five mortality geoscore
+    $('#u5m').on('change', function(){
+        calculateU5mScore();
+    });
+
+
+    // prevent enter key from pressing buttons
+    $(window).keypress(function(e) {
+        if(e.which == 13) {
+            e.preventDefault();
+        }
+    });
 });
 
 var adminLevelId = 0;
@@ -95,13 +124,15 @@ function addNewCountry() {
 
     // Key figures
     $('#hdi-index').val(null);
-    $('#hdi-rank').val(null);
-    $('#hdi-geo-score').val(null);
     $('#u5m').val(null);
-    $('#u5m-geo-score').val(null);
-    $('#uprooted-percentage').val(null);
-    $('#uprooted-geo-score').val(null);
+    $('#number-of-refugees').val(null);
+    $('#number-of-idps').val(null);
+    $('#number-of-returned-refugees').val(null);
     $('#inform-final-score').val(null);
+    $('#total-population').val(null);
+    $('#population-source').val(null);
+    $('#last-modified').hide();
+    $('#last-modified').val(null);
 
     $('#admin-levels-container').empty();
     addNewAdminLevel();
@@ -124,4 +155,61 @@ function addNewAdminLevel() {
 
     adminLevelId++;
     return adminLevelView;
+}
+
+function calculateHdiScore() {
+    var hdi = parseFloat($('#hdi-index').val());
+    var hdiRank = "Low";
+    var hdiScore = 3;
+    if (hdi >= 0.55) {
+        hdiScore = 2;
+        hdiRank = "Medium";
+    }
+    if (hdi >= 0.7) {
+        hdiScore = 1;
+        hdiRank = "High";
+    }
+    if (hdi >= 0.801) {
+        hdiScore = 0;
+        hdiRank = "Very High";
+    }
+    $('#hdi-rank').val(hdiRank+'');
+    $('#hdi-geo-score').val(hdiScore+'')
+}
+
+function calculateU5mScore() {
+    var under5MortalityRate = parseFloat($('#u5m').val());
+    var mortalityScore = 0;
+    if (under5MortalityRate >= 19)
+        mortalityScore = 1;
+    if (under5MortalityRate >= 55)
+        mortalityScore = 2;
+    if (under5MortalityRate >= 90)
+        mortalityScore = 3;
+    $('#u5m-geo-score').val(mortalityScore+'')
+}
+
+function calculateUprootedScore() {
+    var numberOfRefugees = parseInt($('#number-of-refugees').val());
+    var numberOfIDPs = parseInt($('#number-of-idps').val());
+    var numberOfReturnedRefugees = parseInt($('#number-of-returned-refugees').val());
+    var totalPopulation = parseInt($('#total-population').val());
+
+    if(isNaN(numberOfRefugees) || isNaN(numberOfIDPs) || isNaN(numberOfReturnedRefugees) || isNaN(totalPopulation) || totalPopulation <= 0){
+        $('#uprooted-percentage').val('');
+        return;
+    }
+
+    var uprootedPercentage = 100*(numberOfRefugees+numberOfIDPs+numberOfReturnedRefugees)/totalPopulation;
+    $('#uprooted-percentage').val(''+uprootedPercentage);
+
+    var uprootedScore = 0;
+    if (uprootedPercentage >= 1)
+        uprootedScore = 1;
+    if (uprootedPercentage >= 3)
+        uprootedScore = 2;
+    if (uprootedPercentage >= 10)
+        uprootedScore = 3;
+
+    $('#uprooted-geo-score').val(uprootedScore);
 }

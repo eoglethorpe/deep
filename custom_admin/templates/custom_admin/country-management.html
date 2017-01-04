@@ -27,10 +27,14 @@ DEEP | Country Panel
         '{{country.code}}': {
             name: '{{country.name}}',
             // Key figures
-            hdi_index: '{{country.hdi_index}}', hdi_rank: '{{country.hdi_rank}}', hdi_geo_score: '{{country.hdi_geo_score}}',
-            u5m: '{{country.u5m}}', u5m_geo_score: '{{country.u5m_geo_score}}',
-            uprooted_percentage: '{{country.uprooted_percentage}}', uprooted_geo_score: '{{country.uprooted_geo_score}}',
+            hdi_index: '{{country.hdi_index}}',
+            u5m: '{{country.u5m}}',
+            number_of_refugees: '{{country.number_of_refugees}}',
+            number_of_idps: '{{country.number_of_idps}}',
+            number_of_returned_refugees: '{{country.number_of_returned_refugees}}',
             inform_final_score: '{{country.inform_final_score}}',
+            total_population: '{{country.total_population}}',
+            last_modified: '{{country.modified_at|date:"Y-m-d h:i A"}}',
             // Admin areas
             admin_levels: [
                 {% for admin_level in country.adminlevel_set.all %}
@@ -115,50 +119,65 @@ DEEP | Country Panel
                             </div>
                             <div id="key-figures" hidden>
                                 <div class="key-figure">
-                                    <h2><a href="http://www.hdr.undp.org/en/countries">Human development index</a></h2>
+                                    <h2><a href="http://www.hdr.undp.org/en/countries" target="_blank" >Human development index</a></h2>
                                     <div class="row">
                                         <div class="col-md-4">
                                             <label>Index</label>
-                                            <input id="hdi-index" name="hdi-index" type="text" class="form-control" placeholder="Index">
+                                            <input id="hdi-index" name="hdi-index" type="number" step="any" max="1" min="0" class="form-control" placeholder="Index">
                                         </div>
                                         <div class="col-md-4">
                                             <label>Rank</label>
-                                            <input id="hdi-rank" name="hdi-rank" type="text" class="form-control" placeholder="Rank">
+                                            <input id="hdi-rank" name="hdi-rank" type="text" class="form-control" placeholder="Rank" readonly>
                                         </div>
                                         <div class="col-md-4">
                                             <label>GEO Score</label>
-                                            <input id="hdi-geo-score" name="hdi-geo-score" type="text" class="form-control" placeholder="GEO Score">
+                                            <input id="hdi-geo-score" name="hdi-geo-score" type="text" class="form-control" placeholder="GEO Score" readonly>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="key-figure">
-                                    <h2><a href="http://www.inform-index.org/">Under five mortality rate</a></h2>
+                                    <h2><a href="http://www.inform-index.org/" target="_blank" >Under five mortality rate (per 1.000 live births)</a></h2>
                                     <div class="row">
                                         <div class="col-md-4">
                                             <label>U5M</label>
-                                            <input id="u5m" name="u5m" type="text" class="form-control" placeholder="U5M">
+                                            <input id="u5m" name="u5m" type="number" class="form-control" placeholder="U5M">
                                         </div>
                                         <div class="col-md-4">
                                             <label>GEO Score</label>
-                                            <input id="u5m-geo-score" name="u5m-geo-score" type="text" class="form-control" placeholder="GEO Score">
+                                            <input id="u5m-geo-score" name="u5m-geo-score" type="text" class="form-control" placeholder="GEO Score" readonly>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="key-figure">
-                                    <h2><a href="http://www.inform-index.org/">Uprooted people</a></h2>
+                                <div class="key-figure" id="uprooted-people">
+                                    <h2><a href="http://www.inform-index.org/" target="_blank">Uprooted people<span style="text-transform: none"> (refugees + IDPs + Returned refugees)</span></a></h2>
                                     <div class="row">
                                         <div class="col-md-4">
+                                            <label>Number of refugees</label>
+                                            <input id="number-of-refugees" name="number-of-refugees" type="text" class="form-control" placeholder="Number of refugees">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Number of IDPs</label>
+                                            <input id="number-of-idps" name="number-of-idps" type="text" class="form-control" placeholder="Number of IDPs">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Number of returned refugees</label>
+                                            <input id="number-of-returned-refugees" name="number-of-returned-refugees" type="text" class="form-control" placeholder="Number of returned refugees">
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top: 10px;">
+                                        <div class="col-md-4">
                                             <label>Percentage of uprooted people</label>
-                                            <input id="uprooted-percentage" name="uprooted-percentage" type="text" class="form-control" placeholder="Percentage of uprooted people">
+                                            <input id="uprooted-percentage" name="uprooted-percentage" type="text" class="form-control" placeholder="Percentage of uprooted people" readonly>
                                         </div>
                                         <div class="col-md-4">
                                             <label>GEO Score</label>
-                                            <input id="uprooted-geo-score" name="uprooted-geo-score" type="text" class="form-control" placeholder="GEO Score">
+                                            <input id="uprooted-geo-score" name="uprooted-geo-score" type="text" class="form-control" placeholder="GEO Score" readonly>
                                         </div>
+
                                     </div>
                                 </div>
                                 <div class="key-figure">
-                                    <h2><a href="http://www.inform-index.org/">INFORM final-score</a></h2>
+                                    <h2><a href="http://www.inform-index.org/" target="_blank" >INFORM final-score</a></h2>
                                     <div class="row">
                                         <div class="col-md-4">
                                             <label>INFORM final-score</label>
@@ -172,19 +191,19 @@ DEEP | Country Panel
                                     <div class="row">
                                         <div class="col-md-3">
                                             <label>Total Population of Country</label>
-                                            <input name="total-population" type="text" class="form-control" placeholder="Enter population.." >
+                                            <input id="total-population" name="total-population" type="text" class="form-control" placeholder="Total population" >
                                         </div>
                                         <div class="col-md-6">
                                             <label>Source</label>
-                                            <input name="source" type="text" class="form-control" placeholder="Enter Source.." >
+                                            <input id="population-source" name="population-source" type="text" class="form-control" placeholder="Enter Source.." >
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="last-modified" hidden>
                                     <div class="row">
                                         <div class="col-md-4">
                                             <label>Last Updated</label>
-                                            <span>(dd/mm/yyyy hh:mm)</span>
+                                            <span></span>
                                         </div>
                                     </div>
                                 </div>

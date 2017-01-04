@@ -67,7 +67,7 @@ class CrisisPanelView(View):
 
             event.save()
 
-            event.assignee.clear()            
+            event.assignee.clear()
             if "assigned-to" in request.POST and request.POST["assigned-to"]:
                 for assigned_to in request.POST.getlist("assigned-to"):
                     event.assignee.add(User.objects.get(pk=int(assigned_to)))
@@ -114,13 +114,15 @@ class CountryManagementView(View):
 
             # Key figures
             country.hdi_index = request.POST['hdi-index']
-            country.hdi_rank = request.POST['hdi-rank']
-            country.hdi_geo_score = request.POST['hdi-geo-score']
             country.u5m = request.POST['u5m']
-            country.u5m_geo_score = request.POST['u5m-geo-score']
-            country.uprooted_percentage = request.POST['uprooted-percentage']
-            country.uprooted_geo_score = request.POST['uprooted-geo-score']
+
+            country.number_of_refugees = request.POST['number-of-refugees']
+            country.number_of_idps = request.POST['number-of-idps']
+            country.number_of_returned_refugees = request.POST['number-of-returned-refugees']
             country.inform_final_score = request.POST['inform-final-score']
+
+            country.total_population = request.POST['total-population']
+            country.population_soure = request.POST['population-source']
 
             country.save()
 
@@ -132,7 +134,7 @@ class CountryManagementView(View):
             property_pcodes = request.POST.getlist('property-pcode')
             geojsons = request.FILES.getlist('geojson')
             geojsons_selected = request.POST.getlist('geojson-selected')
-            
+
             # Deletion are checkboxes and need to be handled differently
             # See html comment for more info
             temp = request.POST.getlist('delete-admin-level')
@@ -168,12 +170,12 @@ class CountryManagementView(View):
                 admin_level.name = admin_level_names[i]
                 admin_level.property_name = property_names[i]
                 admin_level.property_pcode = property_pcodes[i]
-                
+
                 if geojsons_selected[i] == 'true':
                     admin_level.geojson = geojsons[geojson_file]
                     geojson_file += 1
                 admin_level.save()
-            
+
 
             response["Location"] += "?selected="+str(country.pk)
 
@@ -182,5 +184,5 @@ class CountryManagementView(View):
                 country = Country.objects.get(code=request.POST['country-code']).delete()
             except:
                 pass
-        
+
         return response

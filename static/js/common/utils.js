@@ -111,9 +111,9 @@ function findMedian(values) {
     var vs = values.sort(function(a, b) { return a-b; });
     var m = Math.floor((vs.length-1)/2);
     if (m % 2)
-        return vs[m];
-    else
         return (vs[m] + vs[m+1])/2;
+    else
+        return vs[m];
 }
 
 function getContrastYIQ(hexcolor){
