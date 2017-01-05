@@ -143,6 +143,7 @@ $(document).ready(function(){
                     renderTimeline();
                 } else{
                     hideTimeline();
+                    addTodayButtons();
                 }
             });
         });
