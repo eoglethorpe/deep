@@ -123,21 +123,18 @@ body{
                             stroke-width: 1px;
                             stroke-linejoin: round;
                         }
+                        @include shadow();
                     }
                     #map-controls{
-                        text-align: center;
-                        padding: 8px;
-                        max-width: 80%;
-                        box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
+                        margin-top: 8px;
+                        width: 100%;
+                        display: inline-block;
                         background-color: rgba(255, 255, 255, 0.88);
-                        position: absolute;
-                        left: 10%;
-                        bottom: 24px;
-                        border-radius: 3px;
 
                         #admin-level-buttons{
                             button{
                                 margin: 4px!important;
+                                @include shadow();
                             }
                         }
                     }
