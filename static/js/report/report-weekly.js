@@ -95,6 +95,11 @@ function renderEntries(){
 }
 
 function renderTimeline(){
+    var timeElements = $('.time-element');
+    if(timeElements){
+        timeElements.remove();
+    }
+
     var container = $('#timeline-view');
     var timeElementTemplate = $('.time-element-template').clone();
     timeElementTemplate.removeClass('time-element-template');
@@ -109,7 +114,7 @@ function renderTimeline(){
         timeElement.show();
     }
 
-    var timeElements = $('.time-element');
+    timeElements = $('.time-element');
     var timelineHeight = 0;
     timeElements.each(function(){
         timelineHeight += $(this).outerHeight();
