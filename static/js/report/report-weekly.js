@@ -1,40 +1,30 @@
 var weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+var keyEvents = [];
 
-function addEventTimeline(data, add_btn) {
-    var container = $('#event-timeline-container');
-    var event_timeline = $('.event-timeline-template').clone();
+function addKeyEvent(data) {
+    var container = $('#key-event-list');
+    var keyEvent = $('.key-event-template').clone();
 
-    event_timeline.removeClass('event-timeline-template');
-    event_timeline.addClass('event-timeline');
+    keyEvent.removeClass('key-event-template');
+    keyEvent.addClass('key-event');
 
-    if (data) {
-        event_timeline.find('.event-value').val(data.value);
-        event_timeline.find('.start-date').val(data.start_date);
-        event_timeline.find('.end-date').val(data.end_date);
-        event_timeline.find('.category-select').val(data.category);
+    if(data){
+        keyEvent.find('.event-value').val(data.value);
+        keyEvent.find('.start-date').val(data.start_date);
+        keyEvent.find('.end-date').val(data.end_date);
+        keyEvent.find('.category-select').val(data.category);
     }
 
-    event_timeline.find('select').selectize();
-    event_timeline.appendTo(container);
-    event_timeline.show();
+    keyEvent.find('button').click(function(){
+        var that = $(this).closest('.key-event');
+        that.fadeOut('fast', function(){
+            that.remove();
+        });
+    });
 
-    var set_remove_btn = !(add_btn | false);
-
-    if(set_remove_btn){
-        event_timeline.find('button').text('Remove');
-        event_timeline.find('button').removeClass('btn-primary');
-        event_timeline.find('button').addClass('btn-danger');
-
-        event_timeline.find('button').on('click', function(){
-            $(this).closest('.event-timeline').remove();
-        })
-    } else {
-        event_timeline.find('button').text('Add');
-        event_timeline.find('button').removeClass('btn-danger');
-        event_timeline.find('button').addClass('btn-primary');
-
-        event_timeline.find('button').on('click', addEventTimeline);
-    }
+    keyEvent.find('select').selectize();
+    keyEvent.appendTo(container);
+    keyEvent.slideDown('slow');
 
     addTodayButtons();
 }
@@ -104,8 +94,57 @@ function renderEntries(){
     }
 }
 
-$(document).ready(function(){
+function renderTimeline(){
+    var container = $('#timeline-view');
+    var timeElementTemplate = $('.time-element-template').clone();
+    timeElementTemplate.removeClass('time-element-template');
+    timeElementTemplate.addClass('time-element');
 
+    for(var i=0; i < keyEvents.length; i++){
+        var timeElement = timeElementTemplate.clone();
+        timeElement.find('h3').text(keyEvents[i].value);
+        timeElement.find('date').text(keyEvents[i].start_date);
+        timeElement.find('p').text(timelineCategories[keyEvents[i].category-1]);
+        timeElement.appendTo(container);
+        timeElement.show();
+    }
+
+    var timeElements = $('.time-element');
+    var timelineHeight = 0;
+    timeElements.each(function(){
+        timelineHeight += $(this).outerHeight();
+    });
+
+    container.find('#line').height(timelineHeight);
+}
+function hideTimeline(){
+    var container = $('#timeline-view');
+    var timeElements = $('.time-element');
+    timeElements.remove();
+    container.hide();
+}
+
+$(document).ready(function(){
+    $('#toggle-panel').on('click', 'a', function(){
+        $('#loading-animation').show();
+        var current = $('#toggle-panel .active');
+        current.removeClass('active');
+        $(this).addClass('active');
+        var that = $(this);
+
+        $(current.data('target')).fadeOut(function(){
+            $(that.data('target')).fadeIn(function(){
+                if(that.data('target') == '#timeline-view'){
+                    renderTimeline();
+                } else{
+                    hideTimeline();
+                }
+            });
+        });
+    });
+    $('#add-key-event-btn').click(function(){
+        addKeyEvent();
+    });
     $('.number').on('change input paste drop', function(){
         formatNumber($(this));
     });
@@ -245,8 +284,10 @@ function setInputData() {
     $("#status-select").val(data["status"]);
 
     // Key events
-    for (var i=0; i<data["events"].length; ++i)
-        addEventTimeline(data["events"][i], i==0);
+    for (var i=0; i<data["events"].length; ++i){
+        addKeyEvent(data["events"][i]);
+    }
+    keyEvents = data["events"];
 
     // Humanitarian profile data
     for (var pk in data["human"]["number"])
@@ -325,7 +366,7 @@ function getInputData() {
 
     // Key events
     data["events"] = [];
-    $(".event-timeline").each(function() {
+    $(".key-event").each(function() {
         var newevent = {};
         newevent["value"] = $(this).find('.event-value').val();
         newevent["start_date"] = $(this).find('.start-date').val();

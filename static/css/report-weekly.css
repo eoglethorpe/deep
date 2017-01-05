@@ -189,10 +189,73 @@ body {
     padding-left: 16px;
     font-weight: 600;
     text-transform: uppercase; }
-  #main #report-content #key-events .event-timeline {
+  #main #report-content #key-events #toggle-panel {
+    height: 64px; }
+    #main #report-content #key-events #toggle-panel .fa {
+      margin-right: 10px; }
+    #main #report-content #key-events #toggle-panel a {
+      margin: 10px;
+      margin-right: 32px;
+      transition: 0.2s all ease-in-out;
+      color: #414141; }
+    #main #report-content #key-events #toggle-panel .active {
+      color: #008080; }
+    #main #report-content #key-events #toggle-panel button {
+      float: right; }
+  #main #report-content #key-events #header {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
     margin-bottom: 16px; }
-    #main #report-content #key-events .event-timeline .row:first-child {
-      margin-bottom: 16px; }
+  #main #report-content #key-events .key-event {
+    min-height: 48px;
+    margin-top: 10px;
+    margin-bottom: 10px; }
+  #main #report-content #key-events #timeline-view {
+    position: relative;
+    padding: 32px; }
+    #main #report-content #key-events #timeline-view #line {
+      position: absolute;
+      height: 100%;
+      width: 2px;
+      left: calc(50% - 1px);
+      background-color: #008080; }
+    #main #report-content #key-events #timeline-view .time-element {
+      width: calc(50% - 30px);
+      background-color: #f0f0f0;
+      border-radius: 3px;
+      box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5);
+      padding: 10px 24px;
+      position: relative; }
+      #main #report-content #key-events #timeline-view .time-element h3 {
+        margin: -10px -24px 10px -24px;
+        padding: 16px 24px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        background-color: #008080;
+        color: #fff; }
+      #main #report-content #key-events #timeline-view .time-element:nth-child(odd) {
+        clear: both;
+        float: left; }
+        #main #report-content #key-events #timeline-view .time-element:nth-child(odd):before {
+          display: inline-block;
+          content: '';
+          width: 30px;
+          height: 2px;
+          background-color: #008080;
+          position: absolute;
+          right: -30px;
+          top: 30px; }
+      #main #report-content #key-events #timeline-view .time-element:nth-child(even) {
+        clear: both;
+        float: right; }
+        #main #report-content #key-events #timeline-view .time-element:nth-child(even):before {
+          display: inline-block;
+          content: '';
+          width: 30px;
+          height: 2px;
+          background-color: #008080;
+          position: absolute;
+          left: -30px;
+          top: 30px; }
   #main #report-content #key-events button {
     box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
     #main #report-content #key-events button:active {
