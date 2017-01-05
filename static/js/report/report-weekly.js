@@ -611,7 +611,9 @@ function autoCalculateScores() {
         hdiScore = 1;
         hdiRank = "High";
     }
-    if (hdi >= 0.801) {
+
+    // changed from 0.801 to 0.8
+    if (hdi >= 0.8) {
         hdiScore = 0;
         hdiRank = "Very High";
     }
