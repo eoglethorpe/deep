@@ -105,6 +105,11 @@ function renderEntries(){
 }
 
 $(document).ready(function(){
+
+    $('.number').on('change input paste drop', function(){
+        formatNumber($(this));
+    });
+
     initEntryFilters();
 
     // One extra filter on last sevendays
@@ -133,6 +138,9 @@ $(document).ready(function(){
 
     // Set fields data
     setInputData();
+    $('.number').each(function() {
+        formatNumber($(this));
+    })
 
     // Selectize fields
     $('#disaster-type-select').selectize();
@@ -328,7 +336,7 @@ function getInputData() {
 
     // Humanitarian profile data
     $(".human-number").each(function() {
-        data["human"]["number"][$(this).data("human-pk")] = $(this).val();
+        data["human"]["number"][$(this).data("human-pk")] = getNumberValue($(this));
     });
     $(".human-source").each(function() {
         data["human"]["source"][$(this).data("human-pk")] = $(this).val();
@@ -339,19 +347,19 @@ function getInputData() {
 
     // People in need data
     $(".people-total").each(function() {
-        data["people"]["total"][$(this).data("people-pk")] = $(this).val();
+        data["people"]["total"][$(this).data("people-pk")] = getNumberValue($(this));
     });
     $(".people-at-risk").each(function() {
-        data["people"]["at-risk"][$(this).data("people-pk")] = $(this).val();
+        data["people"]["at-risk"][$(this).data("people-pk")] = getNumberValue($(this));
     });
     $(".people-moderate").each(function() {
-        data["people"]["moderate"][$(this).data("people-pk")] = $(this).val();
+        data["people"]["moderate"][$(this).data("people-pk")] = getNumberValue($(this));
     });
     $(".people-severe").each(function() {
-        data["people"]["severe"][$(this).data("people-pk")] = $(this).val();
+        data["people"]["severe"][$(this).data("people-pk")] = getNumberValue($(this));
     });
     $(".people-planned").each(function() {
-        data["people"]["planned"][$(this).data("people-pk")] = $(this).val();
+        data["people"]["planned"][$(this).data("people-pk")] = getNumberValue($(this));
     });
 
     $(".people-total-source").each(function() {
@@ -398,13 +406,13 @@ function getInputData() {
 
     // Access pin data
     $(".access-pin-number").each(function() {
-        data["access-pin"]["number"][$(this).data("access-pin-pk")] = $(this).val();
+        data["access-pin"]["number"][$(this).data("access-pin-pk")] = getNumberValue($(this));
     });
     $(".access-pin-source").each(function() {
-        data["access-pin"]["number"][$(this).data("access-pin-pk")] = $(this).val();
+        data["access-pin"]["source"][$(this).data("access-pin-pk")] = $(this).val();
     });
     $(".access-pin-comment").each(function() {
-        data["access-pin"]["number"][$(this).data("access-pin-pk")] = $(this).val();
+        data["access-pin"]["comment"][$(this).data("access-pin-pk")] = $(this).val();
     });
 
     // Severity score
@@ -428,7 +436,7 @@ function checkRules() {
         for (var i=0; i<human_profile_field_rules.length; i++) {
             var rule = human_profile_field_rules[i];
 
-            var parent = +$('.human-number[data-human-pk="' + rule.parent + '"]').val();
+            var parent = +getNumberValue($('.human-number[data-human-pk="' + rule.parent + '"]'));
             if (!parent || isNaN(parent))
                 continue;
             var parentTitle = $('.human-number[data-human-pk="' + rule.parent + '"]').parent('div').parent('div').find('label').text();
@@ -438,7 +446,7 @@ function checkRules() {
             var childrenTitles = [];
 
             for (var j=0; j<rule.children.length; j++) {
-                var child = +$('.human-number[data-human-pk="' + rule.children[j] + '"]').val();
+                var child = +getNumberValue($('.human-number[data-human-pk="' + rule.children[j] + '"]'));
                 if (child && !isNaN(child)) {
                     childrenSum += parseInt(child);
                     children.push(child);
@@ -483,59 +491,68 @@ function autoCalculateScores() {
     // PIN
     var maxTotalPin, maxAtRiskPin, maxModeratePin, maxSeverePin, maxPlannedPin;
     $('.total-subfield').each(function() {
-        var v = +$(this).val();
+        var v = +getNumberValue($(this));
         if (!isNaN(v)) {
             if (!maxTotalPin || maxTotalPin < v)
                 maxTotalPin = v;
         }
     });
     $('.people-total-calculated').val(maxTotalPin);
+    formatNumber($('.people-total-calculated'));
+
     $('.total-at-risk-subfield').each(function() {
-        var v = +$(this).val();
+        var v = +getNumberValue($(this));
         if (!isNaN(v)) {
             if (!maxAtRiskPin || maxAtRiskPin < v)
                 maxAtRiskPin = v;
         }
     });
     $('.people-at-risk-calculated').val(maxAtRiskPin);
+    formatNumber($('.people-at-risk-calculated'));
+
     $('.total-moderate-subfield').each(function() {
-        var v = +$(this).val();
+        var v = +getNumberValue($(this));
         if (!isNaN(v)) {
             if (!maxModeratePin || maxModeratePin < v)
                 maxModeratePin = v;
         }
     });
     $('.people-moderate-calculated').val(maxModeratePin);
+    formatNumber($('.people-moderate-calculated'));
+
     $('.total-severe-subfield').each(function() {
-        var v = +$(this).val();
+        var v = +getNumberValue($(this));
         if (!isNaN(v)) {
             if (!maxSeverePin || maxSeverePin < v)
                 maxSeverePin = v;
         }
     });
     $('.people-severe-calculated').val(maxSeverePin);
+    formatNumber($('.people-severe-calculated'));
+
     $('.total-planned-subfield').each(function() {
-        var v = +$(this).val();
+        var v = +getNumberValue($(this));
         if (!isNaN(v)) {
             if (!maxPlannedPin || maxPlannedPin < v)
                 maxPlannedPin = v;
         }
     });
     $('.people-planned-calculated').val(maxPlannedPin);
+    formatNumber($('.people-planned-calculated'));
 
 
     // Severity scores
 
     // Percentage of the population in need or recently affected
-    var totalPopulation = + $('.human-profile-total').val();
+    var totalPopulation = +getNumberValue($('.human-profile-total'));
     var pinOrAffected;
 
-    if ($('.people-in-need-total').val() != '') {
-        pinOrAffected = + $('.people-in-need-total').val();
+    if (getNumberValue($('.people-in-need-total')) != '') {
+        pinOrAffected = +getNumberValue($('.people-in-need-total'));
     }
 
     if (!pinOrAffected || isNaN(pinOrAffected)) {
-        pinOrAffected = + $('.human-profile-total-affected').val();
+        pinOrAffected = +getNumberValue($('.human-profile-total-affected'));
     }
 
     var pinPercentage = pinOrAffected / totalPopulation * 100;

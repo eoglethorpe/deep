@@ -79,7 +79,7 @@ DEEP | Country Panel
                 </div>
             </div>
             <div class="col-md-9" style="padding-right: 0;">
-                <form method="post" enctype="multipart/form-data">
+                <form id="country-form" method="post" enctype="multipart/form-data">
                     <div id="wrapper">
                         <div id="navigator">
                             <a data-target="#country-detail" class="nav-active">General</a>
@@ -163,13 +163,13 @@ DEEP | Country Panel
                                     <div class="row">
                                         <div class="col-md-4">
                                             <label>Number of refugees</label>
-                                            <input id="number-of-refugees" name="number-of-refugees" type="text" class="form-control" placeholder="Number of refugees">
+                                            <input id="number-of-refugees" name="number-of-refugees" type="text" class="number form-control" placeholder="Number of refugees">
                                             <br>
                                             <label>Number of IDPs</label>
-                                            <input id="number-of-idps" name="number-of-idps" type="text" class="form-control" placeholder="Number of IDPs">
+                                            <input id="number-of-idps" name="number-of-idps" type="text" class="number form-control" placeholder="Number of IDPs">
                                             <br>
                                             <label>Number of returned refugees</label>
-                                            <input id="number-of-returned-refugees" name="number-of-returned-refugees" type="text" class="form-control" placeholder="Number of returned refugees">
+                                            <input id="number-of-returned-refugees" name="number-of-returned-refugees" type="text" class="number form-control" placeholder="Number of returned refugees">
                                         </div>
                                         <div class="col-md-4">
                                             <label>Percentage of uprooted people</label>
@@ -210,7 +210,7 @@ DEEP | Country Panel
                                     <div class="row">
                                         <div class="col-md-3">
                                             <label>Total Population of Country</label>
-                                            <input id="total-population" name="total-population" type="text" class="form-control" placeholder="Total population" >
+                                            <input id="total-population" name="total-population" type="text" class="number form-control" placeholder="Total population" >
                                         </div>
                                         <div class="col-md-6">
                                             <label>Source</label>
@@ -228,7 +228,7 @@ DEEP | Country Panel
                                 </div>
                             </div>
                             <div id="seasonal-calendar" hidden>
-                                <h1>Seasonal-Calender</h1>3
+                                <h1>Seasonal-Calender</h1>
                             </div>
                         </div>
                     </div>
