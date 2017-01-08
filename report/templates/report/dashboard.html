@@ -15,7 +15,7 @@
     <div class="container-fluid">
         <h1>Report Dashboard</h1>
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-3" style="padding-right: 8px">
                 <div id="country-list">
                     <input id="search-country" placeholder="Search country">
                     <i class="fa fa-search"></i>
@@ -36,7 +36,7 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-9" style="padding-left: 8px">
                 {% if country %}
                 <div id="report-list">
                     <header>
@@ -72,6 +72,8 @@
                                         <p><date>{{report.start_date|date:"d-m-Y"}}</date> to <date>{{report.end_date|date:"d-m-Y"}}</date></p>
                                         <a onclick="location.href='{% url 'report:weekly' country.pk event.pk report.pk %}';"><i class="fa fa-edit"></i>Edit</a>
                                     </div>
+                                    {% empty %}
+                                    <p class="empty-text">No reports found</p>
                                     {% endfor %}
                                 </div>
                             </div>

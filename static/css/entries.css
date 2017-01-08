@@ -2,11 +2,11 @@
   width: 8px;
   height: 8px;
   border-radius: 3px;
-  background-color: rgba(0, 128, 255, 0.1); }
+  background-color: rgba(0, 0, 0, 0.1); }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 3px;
-  background-color: #004d4d; }
+  background-color: rgba(0, 0, 0, 0.2); }
 
 body {
   font-family: 'Source Sans Pro', sans-serif;
@@ -375,15 +375,14 @@ nav {
   100% {
     transform: rotate(360deg) scale(1); } }
 #main #filters .first-child {
-  padding-right: 4px; }
+  padding-right: 2px; }
 #main #filters .low-padding {
-  padding-left: 4px;
-  padding-right: 4px; }
+  padding-left: 2px;
+  padding-right: 2px; }
 #main #filters .last-child {
-  padding-left: 4px; }
+  padding-left: 2px; }
 #main #filters .form-control, #main #filters .selectize-input {
   border: none;
-  box-shadow: none;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: none;
   border-radius: 3px; }

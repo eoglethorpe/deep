@@ -117,7 +117,7 @@ var timelineCategories = [{% for category in category_timelines %}"{{category}}"
             </div>
         </header>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4" style="padding-right: 6px">
                 <div id="entries-header-container">
                     <a id="last-seven-days-btn" href="#">Show entries from last 7 days</a>
                     <h3>Entries</h3>
@@ -125,7 +125,7 @@ var timelineCategories = [{% for category in category_timelines %}"{{category}}"
                 <div id="entries">
                 </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8" style="padding-left: 6px">
                 <div id="navigator">
                     <a data-target="#reporting-parameters" class="active">Reporting parameters</a>
                     <a data-target="#key-events">Key events</a>
@@ -196,8 +196,8 @@ var timelineCategories = [{% for category in category_timelines %}"{{category}}"
                     </section>
                     <section id="key-events" hidden>
                         <div id="toggle-panel">
-                            <a href="#" data-target="#table-view" class="fa fa-list active fa-2x"></a>
-                            <a href="#" data-target="#timeline-view" class="fa fa-code-fork fa-2x" style="transform:rotate(180deg) rotateY(180deg)"></a>
+                            <a href="#" data-target="#table-view" class="fa fa-list active"></a>
+                            <a href="#" data-target="#timeline-view" class="fa fa-code-fork" style="transform:rotate(180deg) rotateY(180deg)"></a>
                             <button id="add-key-event-btn" class="btn btn-primary"><i class="fa fa-plus"></i>Add new event</button>
                         </div>
                         <div id="table-view">

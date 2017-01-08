@@ -8,11 +8,11 @@
     width: 8px;
     height: 8px;
     border-radius: 3px;
-    background-color: rgba(0, 128, 1280, 0.1);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 ::-webkit-scrollbar-thumb {
     border-radius: 3px;
-    background-color: darken($primary-color, 10%);
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 body{

@@ -2,11 +2,11 @@
   width: 8px;
   height: 8px;
   border-radius: 3px;
-  background-color: rgba(0, 128, 255, 0.1); }
+  background-color: rgba(0, 0, 0, 0.1); }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 3px;
-  background-color: #004d4d; }
+  background-color: rgba(0, 0, 0, 0.2); }
 
 body {
   font-family: 'Source Sans Pro', sans-serif;
@@ -117,7 +117,7 @@ nav {
   margin-top: 24px; }
 #main #country-list {
   background-color: #fff;
-  height: calc(100vh - 56px - 80px);
+  height: calc(100vh - 56px - 68px);
   overflow-y: auto;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
   #main #country-list #search-country {
@@ -136,7 +136,7 @@ nav {
     color: rgba(0, 0, 0, 0.5); }
   #main #country-list h2 {
     padding: 28px 0 26px 24px;
-    border-bottom: 1px solid #008080; }
+    border-bottom: 2px solid rgba(0, 0, 0, 0.05); }
   #main #country-list hr {
     margin: 0; }
   #main #country-list .country {
@@ -157,9 +157,18 @@ nav {
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
   #main #report-list header {
     padding-right: 24px;
-    border-bottom: 1px solid #008080; }
+    border-bottom: 2px solid rgba(0, 0, 0, 0.05); }
     #main #report-list header .selectize-input {
-      margin-top: 16px; }
+      margin-top: 18px;
+      border: none;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: none;
+      border-radius: 3px;
+      transition: all 0.2s; }
+      #main #report-list header .selectize-input:active, #main #report-list header .selectize-input:focus {
+        border: 1px solid #008080; }
+    #main #report-list header .focus {
+      border: 1px solid #008080; }
   #main #report-list h2 {
     padding: 24px;
     font-weight: 600;
@@ -168,7 +177,9 @@ nav {
   #main #report-list hr {
     margin: 0; }
   #main #report-list .reports #weekly-report-list {
-    padding-top: 10px; }
+    padding-top: 10px;
+    height: calc(100vh - 56px - 140px);
+    overflow-y: auto; }
     #main #report-list .reports #weekly-report-list #header {
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
       margin-bottom: 16px; }
@@ -186,6 +197,13 @@ nav {
         box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
       #main #report-list .reports #weekly-report-list #add-weekly-report-btn .fa {
         margin-right: 10px; }
+    #main #report-list .reports #weekly-report-list .empty-text {
+      color: rgba(0, 0, 0, 0.2);
+      font-weight: 300;
+      text-transform: uppercase;
+      padding: 64px 24px;
+      font-size: 2em;
+      text-align: center; }
     #main #report-list .reports #weekly-report-list .weekly-report {
       padding: 10px 24px; }
       #main #report-list .reports #weekly-report-list .weekly-report a {

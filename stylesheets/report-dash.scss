@@ -14,7 +14,7 @@
 
     #country-list{
         background-color: #fff;
-        height: calc(100vh - #{$navbar-height} - 80px);
+        height: calc(100vh - #{$navbar-height} - 68px);
         overflow-y: auto;
         @include shadow();
 
@@ -36,7 +36,7 @@
         }
         h2{
             padding: 28px 0 26px 24px;
-            border-bottom: 1px solid $primary-color;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.05);
         }
         hr{
             margin: 0;
@@ -67,10 +67,23 @@
 
         header{
             padding-right: 24px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+
             .selectize-input{
-                margin-top: 16px;
+                margin-top: 18px;
+                border: none;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                box-shadow: none;
+                border-radius: 3px;
+                transition: all 0.2s;
+
+                &:active, &:focus {
+                    border: 1px solid $primary-color;
+                }
             }
-            border-bottom: 1px solid $primary-color;
+            .focus{
+                border: 1px solid $primary-color;
+            }
         }
         h2{
             padding: 24px;
@@ -84,6 +97,8 @@
         .reports{
             #weekly-report-list{
                 padding-top: 10px;
+                height: calc(100vh - #{$navbar-height} - 140px);
+                overflow-y: auto;
 
                 #header{
                     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -105,6 +120,14 @@
                     .fa{
                         margin-right: 10px;
                     }
+                }
+                .empty-text{
+                    color: rgba(0, 0, 0, 0.2);
+                    font-weight: $font-weight-thin;
+                    text-transform: uppercase;
+                    padding: 64px 24px;
+                    font-size: 2em;
+                    text-align: center;
                 }
                 .weekly-report{
                     padding: 10px 24px;
