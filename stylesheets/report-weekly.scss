@@ -4,7 +4,6 @@
 body{
     background-color: #f0f0f0;
     min-height: 100vh;
-
 }
 
 #main{
@@ -160,13 +159,95 @@ body{
             }
         }
         #key-events{
-            .event-timeline{
-                margin-bottom: 16px;
+            #toggle-panel{
+                height: 64px;
 
-                .row:first-child{
-                    margin-bottom: 16px;
+                .fa{
+                    margin-right: 10px;
+                }
+                a{
+                    margin: 10px;
+                    margin-right: 32px;
+                    transition: 0.2s all ease-in-out;
+                    color: #414141;
+                }
+                .active{
+                    color: $primary-color;
+                }
+                button{
+                    float: right;
                 }
             }
+            #header{
+                border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+                margin-bottom: 16px;
+            }
+            .key-event{
+                min-height: 48px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+            #timeline-view{
+                position: relative;
+                padding: 32px;
+
+                #line{
+                    position: absolute;
+                    height: 100%;
+                    width: 2px;
+                    left: calc(50% - 1px);
+                    background-color: $primary-color;
+                }
+                .time-element{
+                    width: calc(50% - 30px);
+                    background-color: #f0f0f0;
+                    border-radius: 3px;
+                    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5);
+                    padding: 10px 24px;
+                    position: relative;
+
+                    h3{
+                        margin: -10px -24px 10px -24px;
+                        padding: 16px 24px;
+                        border-top-left-radius: 3px;
+                        border-top-right-radius: 3px;
+                        background-color: $primary-color;
+                        color: #fff;
+                    }
+
+                    &:nth-child(odd){
+                        clear: both;
+                        float: left;
+
+                        &:before{
+                            display: inline-block;
+                            content: '';
+                            width: 30px;
+                            height: 2px;
+                            background-color: $primary-color;
+                            position: absolute;
+                            right: -30px;
+                            top: 30px;
+                        }
+                    }
+                    &:nth-child(even){
+                        clear: both;
+                        float: right;
+
+                        &:before{
+                            display: inline-block;
+                            content: '';
+                            width: 30px;
+                            height: 2px;
+                            background-color: $primary-color;
+                            position: absolute;
+                            left: -30px;
+                            top: 30px;
+                        }
+                    }
+                }
+            }
+
             button{
                 @include btn-shadow-sm();
             }
