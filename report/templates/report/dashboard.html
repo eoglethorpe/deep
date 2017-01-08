@@ -18,9 +18,10 @@
             <div class="col-md-3">
                 <div id="country-list">
                     <h2>Countries</h2>
+                    <input id="search-country" class="form-control" placeholder="Search country">
                     <hr>
                     {% for c in countries %}
-                    <a href="{% url 'report:dashboard' %}?country={{c.pk}}">
+                    <a class="country-container" data-name="{{c.name}}" href="{% url 'report:dashboard' %}?country={{c.pk}}">
                         <div class="country {% if country and country == c%}active{% endif %}">
                             {{c.name}}
                             <br>
