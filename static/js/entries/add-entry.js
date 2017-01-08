@@ -438,7 +438,7 @@ function styleText(text) {
         }
     }
 
-    return "<div>" + text.replace(/\n/g, "<br />"); + "</div>";
+    return "<div>" + text.replace(/\n/g, "<br>"); + "</div>";
 }
 
 function changeLeadPreview(simplified) {

@@ -30,7 +30,11 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     var cancelUrl = "{% url 'entries:entries' event.pk %}";
 
     // Simplified version of the lead.
-    var leadSimplified = $('<p> {% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %} </p>').text().trim();
+    var leadSimplifiedHtml = $('<div> {% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %} </div>');
+    leadSimplifiedHtml.find('p').each(function(){
+        $(this).replaceWith($(this).text() + '\n\n')
+    });
+    var leadSimplified = leadSimplifiedHtml.text().trim();
     // Is simplified option selected?
     var isSimplified;
 

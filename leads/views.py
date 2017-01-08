@@ -52,7 +52,7 @@ def get_simplified_lead(lead, context):
             else:
                 context["lead_simplified"] = attachment.upload.read()
     except Exception as e:
-        print(e)
+        # print(e)
         # print("Error while simplifying")
         pass
 
@@ -309,6 +309,12 @@ class AddLead(View):
                 attachment.upload = request.FILES[file]
                 attachment.save()
                 break
+
+        # Finally try to get the simplified lead
+        temp = {}
+        get_simplified_lead(lead, temp)
+        if "lead_simplified" in temp:
+            SimplifiedLead(lead=lead, text=temp["lead_simplified"]).save()
 
         if error != "":
             context = {}
