@@ -1,3 +1,13 @@
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  border-radius: 3px;
+  background-color: rgba(0, 128, 255, 0.1); }
+
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: #004d4d; }
+
 body {
   font-family: 'Source Sans Pro', sans-serif;
   background-color: #f0f0f0;
