@@ -6,7 +6,7 @@
             background-color: rgba(0, 0, 0, 0.2);
         }
         #left-component{
-            width: 40em;
+            width: 33vw;
             box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.3);
             background-color: #fff;
             overflow-x: hidden;
@@ -14,7 +14,6 @@
                 margin-right: 0;
             }
             #lead-options-container{
-
                 padding: 8px;
                 width: 100%;
                 margin-bottom: 4px;
@@ -47,12 +46,12 @@
             }
         }
         #divider{
-            left: 40em;
+            left: 33vw;
             width: 3px;
             background-color: transparent;
         }
         #right-component{
-            left: 40em;
+            left: 33vw;
             margin-left: 3px;
             padding-top: 24px;
 
@@ -122,7 +121,7 @@
             }
             #matrix-two{
                 width: 100%;
-                border-spacing: 4px;
+                border-spacing: 2px;
                 border-collapse: separate;
 
                 tbody{
