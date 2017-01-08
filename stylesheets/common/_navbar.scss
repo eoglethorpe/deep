@@ -49,6 +49,47 @@ nav{
             margin-left: 10px;
         }
     }
+    #crisis-wrapper{
+        padding: 18px;
+
+        .selectize-input, .input-active{
+            border: none;
+            background-color: transparent;
+            text-align: left;
+            padding: 0;
+            color: #b3caca;
+            font-size: $text-size-md!important;
+
+            .item{
+                text-transform: uppercase;
+                text-align: left;
+                font-size: $text-size-md!important;
+            }
+
+            input{
+                text-transform: uppercase!important;
+                color: #b3caca;
+            }
+
+            &:after{
+                margin-top: -10px;
+                border-color: #b3caca transparent transparent transparent;
+            }
+        }
+        .dropdown-active{
+            &:after{
+                border-color: transparent transparent #b3caca transparent;
+            }
+        }
+        .selectize-dropdown{
+            text-align: left!important;
+        }
+        .focus{
+            border: none;
+            color: #fff;
+            box-shadow: none;
+        }
+    }
     .dropdown{
         ul{
             li{

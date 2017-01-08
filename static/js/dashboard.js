@@ -1,9 +1,22 @@
+
+function hashString(str) {
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+       hash = str.charCodeAt(i) + ((hash << 4) - hash);
+    }
+    return hash;
+}
+
+function generateColor(str) {
+    return 'hsl(' + hashString(str)%360 + ', 30%, 50%)';
+}
+
 function styleMapFeature(feature) {
     var active = feature.properties.iso_a2 in active_countries
         || feature.properties.iso_a3 in active_countries;
 
     return {
-        fillColor: active?'#d35400':'#ecf0f1',
+        fillColor: active?generateColor(feature.properties.name):'#ecf0f1',
         weight: 1.4,
         opacity: 1,
         color: '#2980b9',

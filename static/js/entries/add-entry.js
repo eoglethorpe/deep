@@ -426,10 +426,19 @@ function deleteExcerpt() {
 function styleText(text) {
     for (var i=0; i<excerpts.length; ++i) {
         var excerpt = excerpts[i].excerpt;
-        text = highlighter.highlightHtml(text, excerpt, 'style="background-color:#ccc;"');
+        // text = highlighter.highlightHtml(text, excerpt, 'style="background-color:#ccc;"');
+
+        // Search for this excerpt
+        var index = text.indexOf(excerpt);
+        if (index >= 0) {
+            // Create highlighting tag for this search
+            text = text.slice(0, index) + '<span style="background-color:#ccc">'
+                + excerpt + '</span>'
+                + text.slice(index+excerpt.length)
+        }
     }
 
-    return "<div>" + text + "</div>";
+    return "<div>" + text.replace(/\n/g, "<br>"); + "</div>";
 }
 
 function changeLeadPreview(simplified) {

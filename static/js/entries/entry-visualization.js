@@ -167,6 +167,7 @@ function drawPieChart(total){
 
     $("#pies-container").empty();
 
+
     if (totalSeverity == 0)
         return;
 
@@ -177,24 +178,24 @@ function drawPieChart(total){
             endAngle -= 1;
 
         var percentage = (severities[i].value/totalSeverity*100);
-        //  title="' + severities[i].name + ' - ' + severities[i].value + ' (' + Math.round(percentage) + ')%" onmouseover="showTooltip(this);"
-        var arc = $('<path data-toggle="tooltip" onclick="toggleSeverityFilter(' + (i+1) + ');"/>');
+        var arc = $('<path data-toggle="tooltip" onclick="toggleSeverityFilter(' + (i+1) + ');" onmouseenter="showPiechartLabel('+ percentage +');" onmouseleave="hidePiechartLabel();"></path>');
         arc.addClass('severity-'+(i+1));
         arc.attr("d", describeArc(104, 104, 64, startAngle, endAngle));
-
-        // $('<title>' + severities[i].name + ' - ' + Math.round(percentage) + '%</title>').appendTo(arc);
-
         arc.appendTo($('#pies-container'));
         startAngle = endAngle;
     }
+    $('<text id ="pie-percent" x="84" y="112"></text>').appendTo($("#pies-container"));
     $("#pie-wrapper").html($("#pie-wrapper").html());
 }
 
-function showTooltip(me) {
-    $(me).tooltip({
-        'container': 'body',
-        'placement': 'bottom'
-    });
+function showPiechartLabel(value) {
+    $('#pie-percent').hide();
+    $("#pie-percent").text(Math.round(value)+'%');
+    $('#pie-percent').fadeIn();
+}
+function hidePiechartLabel() {
+    $("#pie-percent").fadeOut();
+    $('#pie-percent').data('faded', true);
 }
 
 function polarToCartesian(centerX, centerY, radius, angleInDegrees) {

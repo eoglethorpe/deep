@@ -160,6 +160,14 @@ class Attachment(models.Model):
         return self.lead.name + ' - ' + self.upload.name
 
 
+class SimplifiedLead(models.Model):
+    lead = models.OneToOneField(Lead)
+    # simplified text
+    text = models.TextField()
+
+    def __str__(self):
+        return self.lead.name
+
 @receiver(pre_delete, sender=Attachment)
 def _attachment_delete(sender, instance, **kwargs):
     instance.upload.delete(False)

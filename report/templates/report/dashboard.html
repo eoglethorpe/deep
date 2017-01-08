@@ -17,9 +17,10 @@
         <div class="row">
             <div class="col-md-3">
                 <div id="country-list">
+                    <input id="search-country" placeholder="Search country">
+                    <i class="fa fa-search"></i>
                     <h2>Countries</h2>
-                    <input id="search-country" class="form-control" placeholder="Search country">
-                    <hr>
+
                     {% for c in countries %}
                     <a class="country-container" data-name="{{c.name}}" href="{% url 'report:dashboard' %}?country={{c.pk}}">
                         <div class="country {% if country and country == c%}active{% endif %}">
@@ -32,7 +33,6 @@
                             </span>
                         </div>
                     </a>
-                    <hr>
                     {% endfor %}
                 </div>
             </div>
@@ -53,35 +53,30 @@
                             </div>
                         </div>
                     </header>
-                    <hr>
                     <div class="reports">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <div id="weekly-report-list">
-                                    {% if new_week_date %}
-                                    <div class="weekly-report">
-                                        <button class="btn btn-primary" onclick="location.href='{% url 'report:weekly' country.pk event.pk %}?start_date={{new_week_date|date:"d-M-Y"}}';"><i class="fa fa-edit"></i></button>
-                                        <h4>Add new report<!-- for week #{{new_week_date|date:"W"}}--></h4>
-                                        <!-- <label>Status</label> -->
-                                        <!-- <date>{{new_week_date|date:"d M Y"}} to {{new_week_date_end|date:"d-m-Y"}}</date> -->
+                                    <div id="header">
+                                        <h3>Weekly reports</h3>
+                                        {% if new_week_date %}
+                                        <button id="add-weekly-report-btn" class="btn btn-sm btn-primary" onclick="location.href='{% url 'report:weekly' country.pk event.pk %}?start_date={{new_week_date|date:"d-M-Y"}}';"><i class="fa fa-plus"></i>Add new report</button>
+                                        {% endif %}
                                     </div>
-                                    {% endif %}
 
                                     {% for report in weekly_reports %}
                                     {% if new_week_date %}
-                                    <hr>
                                     {% endif %}
                                     <div class="weekly-report">
-                                        <button class="btn btn-primary" onclick="location.href='{% url 'report:weekly' country.pk event.pk report.pk %}';"><i class="fa fa-edit"></i></button>
                                         <h4>Week #{{report.start_date|date:"W"}}</h4>
-                                        <!-- <label>Status</label> -->
-                                        <date>{{report.start_date|date:"d-m-Y"}} to {{report.end_date|date:"d-m-Y"}}</date>
+                                        <p><date>{{report.start_date|date:"d-m-Y"}}</date> to <date>{{report.end_date|date:"d-m-Y"}}</date></p>
+                                        <a onclick="location.href='{% url 'report:weekly' country.pk event.pk report.pk %}';"><i class="fa fa-edit"></i>Edit</a>
                                     </div>
                                     {% endfor %}
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div id="monthly-report-list">
+                                <div id="monthly-report-list" hidden>
                                     <div class="monthly-report">
                                         <h4>Month #4</h4>
                                         <p>Partially Completed</p>
