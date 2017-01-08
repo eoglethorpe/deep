@@ -21,6 +21,7 @@ DEEP | Crisis Manager
         "{{event.pk}}": {
             name: "{{event.name}}", countries: [{% for country in event.countries.all %}"{{country.pk}}",{%endfor%}],
             start_date: "{{event.start_date|date:'Y-m-d'}}", end_date: "{{event.end_date|date:'Y-m-d'}}",
+            status: "{{event.status}}",
             disaster_type: "{{event.disaster_type.pk}}",
             assigned_to: [
                 {% for assigned_to in event.assignee.all %}"{{assigned_to.pk}}", {% endfor %}
@@ -68,8 +69,8 @@ DEEP | Crisis Manager
                     <div class="form-group">
                         <label> Crisis Status </label>
                         <div id="crisis-status">
-                            <label><input class="crisis-status" type="checkbox">Global Monitoring</label>
-                            <label><input class="crisis-status" type="checkbox" checked>Active Crisis</label>
+                            <label><input class="crisis-status" name="crisis-status" value="0" type="radio">Global Monitoring</label>
+                            <label><input class="crisis-status" name="crisis-status" value="1" type="radio" checked>Active Crisis</label>
                         </div>
                     </div>
                     <div class="form-group">

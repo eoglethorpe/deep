@@ -20,6 +20,7 @@ $(document).ready(function(){
         $("#crisis-pk").val(pk);
 
         $("#crisis-name").val(crisis.name);
+        $(".crisis-status").val([crisis.status]);
         disasterTypeSelectize[0].selectize.setValue(crisis.disaster_type);
         countriesSelectize[0].selectize.setValue(crisis.countries);
         assignedToSelectize[0].selectize.setValue(crisis.assigned_to);
@@ -53,6 +54,7 @@ function addNewCrisis() {
     $("#crisis-pk").val("new");
 
     $("#crisis-name").val("");
+    $(".crisis-status").val([1]);
     disasterTypeSelectize[0].selectize.setValue("");
     countriesSelectize[0].selectize.setValue("");
     assignedToSelectize[0].selectize.setValue("");
