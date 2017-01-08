@@ -47,7 +47,8 @@ DEEP | Crisis Manager
             <div class="col-md-3 col-md-offset-1">
                 <div id="crisis-list">
                     <button id="add-new-crisis-btn" class="btn btn-primary" onclick="addNewCrisis()" ><i class="fa fa-plus"></i>Add new crisis</button>
-                    <h2>Crisis List</h3>
+                    <h2>Crisis List</h2>
+
                     <hr>
                     {% for event in events %}
                     <div class="crisis {% if event.pk == selected_event %}active{% endif %}" data-crisis-pk="{{event.pk}}">{{event.name}}</div>
@@ -65,6 +66,13 @@ DEEP | Crisis Manager
                         <input name="crisis-name" type="text" class="form-control" id="crisis-name" placeholder="Enter crisis name" required>
                     </div>
                     <div class="form-group">
+                        <label> Crisis Status </label>
+                        <div id="crisis-status">
+                            <label><input class="crisis-status" type="checkbox">Global Monitoring</label>
+                            <label><input class="crisis-status" type="checkbox" checked>Active Crisis</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label> Disaster Type </label>
                         <select name="disaster-type" class="form-control" id="disaster-type" placeholder="Select disaster type">
                             <option value="">Select disaster type</option>
@@ -74,7 +82,7 @@ DEEP | Crisis Manager
                         </select>
                     </div>
                     <div class="form-group">
-                        <label> <a target="_blank" href="http://glidenumber.net/">Glide Number</a> </label>
+                        <label> <a target="_blank" href="http://glidenumber.net/">Glide Number <span class="fa fa-external-link" style="margin-left: 8px;"></span></a> </label>
                         <input name="glide-number" type="text" class="form-control" id="glide-number" placeholder="Enter Glide Number">
                     </div>
                     <div class="form-group">

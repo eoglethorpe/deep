@@ -45,6 +45,8 @@ body header {
       margin-right: 10px; }
     body header a:hover {
       color: #eee; }
+body main label {
+  color: #008080; }
 body main h2 {
   font-weight: 600;
   font-size: 18px; }
@@ -80,6 +82,12 @@ body main #crisis-detail {
   body main #crisis-detail h2 {
     margin: 0;
     margin-bottom: 32px; }
+  body main #crisis-detail #crisis-status label {
+    margin-right: 16px;
+    cursor: pointer;
+    color: #767676; }
+  body main #crisis-detail #crisis-status .crisis-status {
+    margin: 5px; }
   body main #crisis-detail .form-control {
     margin-bottom: 16px; }
   body main #crisis-detail #action-buttons {
