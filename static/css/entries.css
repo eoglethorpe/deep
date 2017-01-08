@@ -263,6 +263,10 @@ nav {
     height: 208px;
     background: transparent;
     border-radius: 50%; }
+    #main #visualizations #pie-wrapper svg text {
+      color: #414141;
+      font-family: "monospace";
+      font-size: 24px; }
   #main #visualizations #pie-wrapper path {
     cursor: pointer;
     fill: transparent;
