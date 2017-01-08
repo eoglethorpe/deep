@@ -14,6 +14,7 @@ $(document).ready(function() {
         // Set country data to the form
         $('#country-name').val(country.name);
         $('#country-code').val(code);
+        $('#country-code').attr('readonly', true);
 
         // Key figures
         $('#hdi-index').val(country.hdi_index);
@@ -142,6 +143,7 @@ function addNewCountry() {
     $('.active').removeClass('active');
     $('#country-code').val(null);
     $('#country-name').val(null);
+    $('#country-code').attr('readonly', false);
 
     // Key figures
     $('#hdi-index').val(null);
