@@ -59,6 +59,7 @@
             .btn{
                 margin-right: 8px;
                 @include btn-shadow-sm();
+                margin-bottom: 2px;
             }
             .row{
                 margin-bottom: 24px;
@@ -92,16 +93,22 @@
 
                     .pillar-header{
                         display: inline-block;
-                        padding: 8px 10px;
+                        padding: 6px 10px;
                         margin-right: 2px;
                         background-color: #fff;
                         text-align: center;
                         width: 192px;
+                        float: left;
+                    }
+                    .sub-pillars{
+                        margin-left: 204px;
                     }
                     .sub-pillar{
+                        text-indent: 0;
                         display: inline-block;
-                        padding: 8px 10px;
+                        padding: 6px 10px;
                         margin-right: 2px;
+                        margin-bottom: 2px;
                         cursor: pointer;
                         background-color: #ddd;
                         transition: 0.2s all ease-in-out;
