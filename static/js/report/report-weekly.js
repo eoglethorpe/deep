@@ -654,13 +654,13 @@ function autoCalculateScores() {
         hdiScore = 2;
         hdiRank = "Medium";
     }
-    if (hdi >= 0.7) {
+    if (hdi >= 0.625) {
         hdiScore = 1;
         hdiRank = "High";
     }
 
     // changed from 0.801 to 0.8
-    if (hdi >= 0.8) {
+    if (hdi >= 0.7) {
         hdiScore = 0;
         hdiRank = "Very High";
     }

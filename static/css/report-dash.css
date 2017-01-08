@@ -107,7 +107,9 @@ nav {
   margin-top: 24px; }
 #main #country-list {
   background-color: #fff;
-  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3);
+  height: calc(100vh - 56px - 80px);
+  overflow-y: auto; }
   #main #country-list h2 {
     padding: 16px 32px; }
   #main #country-list hr {

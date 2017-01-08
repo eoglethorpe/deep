@@ -127,7 +127,14 @@ class AddEntry(View):
         # context["all_events"] = Event.objects.all()
 
         context["lead"] = lead
-        get_simplified_lead(lead, context)
+        # get_simplified_lead(lead, context)
+        try:
+            simplified_lead = SimplifiedLead.objects.get(lead=lead)
+            context["lead_simplified"] = simplified_lead.text
+        except:
+            get_simplified_lead(lead, context)
+            if "lead_simplified" in context:
+                SimplifiedLead(lead=lead, text=context["lead_simplified"]).save()
 
         context["pillars_one"] = InformationPillar.objects.filter(contains_sectors=False)
         context["pillars_two"] = InformationPillar.objects.filter(contains_sectors=True)
