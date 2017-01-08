@@ -95,34 +95,64 @@ function renderEntries(){
 }
 
 function renderTimeline(){
+    var container = $('#timeline-view');
+
+    var line = container.find('#line');
+    line.hide();
+
     var timeElements = $('.time-element');
     if(timeElements){
         timeElements.remove();
     }
 
-    var container = $('#timeline-view');
     var timeElementTemplate = $('.time-element-template').clone();
     timeElementTemplate.removeClass('time-element-template');
     timeElementTemplate.addClass('time-element');
 
-    for(var i=0; i < keyEvents.length; i++){
+    keyEvents = [];
+    var margins = [];
+    margins.push(0);
+
+    $('.key-event').each(function(){
+        keyEvents.push({
+            'value': $(this).find('.event-value').val(),
+            'startDate': $(this).find('.start-date').val(),
+            'category': $(this).find('.category-select').val()
+        });
+    });
+    keyEvents.sort(function(a, b){
+        return (new Date(a.startDate)) < (new Date(b.startDate));
+    });
+    var dateDiff = (new Date(keyEvents[0].startDate)).getTime() - (new Date(keyEvents[keyEvents.length-1].startDate)).getTime();
+
+    for(var i=0; i<keyEvents.length; i++){
         var timeElement = timeElementTemplate.clone();
         timeElement.find('h3').text(keyEvents[i].value);
-        timeElement.find('date').text(keyEvents[i].start_date);
+        timeElement.find('date').text(keyEvents[i].startDate);
         timeElement.find('p').text(timelineCategories[keyEvents[i].category-1]);
         timeElement.appendTo(container);
+        var currentMargin = 0;
+        if(i > 0){
+            currentMargin = parseInt(240*((new Date(keyEvents[i-1].startDate)).getTime()-((new Date(keyEvents[i].startDate)).getTime()))/dateDiff);
+            margins.push(currentMargin);
+        }
         timeElement.show();
+        timeElement.css('margin-top', parseInt(currentMargin)+'px');
     }
-
-    timeElements = $('.time-element');
-    var timelineHeight = 0;
-    timeElements.each(function(){
-        timelineHeight += $(this).outerHeight();
-    });
-
-    container.find('#line').height(timelineHeight);
+    console.log(margins);
+    setTimeout(function(){
+        timeElements = $('.time-element');
+        var timelineHeight = 0;
+        timeElements.each(function(i){
+            console.log(i);
+            timelineHeight += $(this).outerHeight() + margins[i];
+        });
+        line.height(timelineHeight);
+        line.slideDown();
+    }, 500);
 }
 function hideTimeline(){
+    $('#timeline-view #line').hide();
     var container = $('#timeline-view');
     var timeElements = $('.time-element');
     timeElements.remove();
@@ -141,9 +171,11 @@ $(document).ready(function(){
             $(that.data('target')).fadeIn(function(){
                 if(that.data('target') == '#timeline-view'){
                     renderTimeline();
+                    $('#add-key-event-btn').hide();
                 } else{
                     hideTimeline();
                     addTodayButtons();
+                    $('#add-key-event-btn').show();
                 }
             });
         });
