@@ -1,10 +1,16 @@
 {% load staticfiles %}
 
+<script>
+    $(document).ready(function(){
+        $('#crisis-dropdown').selectize();
+    });
+</script>
+
 <nav>
     <div class="container-fluid">
         <div class="row">
             {# Deep logo #}
-            <div class="col-sm-1">
+            <div class="col-md-1">
                 {% if event %}
                 <a href="{% url 'dashboard' event=event.pk%}"><img src="{% static 'img/deep-logo-white.png' %}"></a>
                 {% else %}
@@ -13,27 +19,24 @@
             </div>
 
             {# Report #}
-            <div class="col-sm-1">
+            <div class="col-md-1">
                 <a class="{% if current_page == 'report' %}active{% endif %} menu-item" href="{% url 'report:dashboard' %}{% if event %}?event={{event.pk}}&country={{event.countries.all.0.code}}{% endif %}">Report</a>
             </div>
 
             {# Event menu #}
-            <div class="col-sm-7">
-                <span class="dropdown menu-item" id="event-menu">
+            <div class="col-md-2">
+                <div id="crisis-wrapper">
                     {% if all_events %}
-                    <button class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-location-arrow"></i>{% if event %} {{event}} {% else %} Select an event {% endif %}<span class="caret"></span></button>
-                    <ul class="dropdown-menu">
+                    <select id="crisis-dropdown" placeholder="Select event">
+                        <option>Select event</option>
                         {% for ev in all_events %}
-                        <li><a href="{% url request.resolver_match.view_name event=ev.pk %}">{{ev}}</a></li>
+                        <option value="{{ev.pk}}">{{ev}}</option>
                         {% endfor %}
-                        <li><a href="{% url 'dashboard' %}">None</a></li>
-                    </ul>
-                    {% else %}
-                    <button class="dropdown-toggle" type="button" enabled="disabled" data-toggle="dropdown">
-                        {% if event %} <i class="fa fa-location-arrow"></i>{{event}}{% endif %}
-                    </button>
+                    </select>
                     {% endif %}
-                </span>
+                </div>
+            </div>
+            <div class="col-md-5">
                 {% if event %}
                 <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' event=event.pk %}">Leads</a>
                 <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' event=event.pk %}">Entries</a>
@@ -46,7 +49,7 @@
                 {% endif %}
             </div>
 
-            <div class="col-sm-3" style="text-align: right;">
+            <div class="col-md-3" style="text-align: right;">
                 {# Chrome extension download #}
                 <a class="menu-item" style="padding-left: 0; padding-right: 0; color: #fff;" target="_blank" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Download Chrome Extension" href="https://chrome.google.com/webstore/detail/deep-create-lead/ggplhkhciodfdkkonmhgniaopboeoopi"><i class="fa fa-chrome fa-spin" style="margin-right: 0"></i></a>
 
