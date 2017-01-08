@@ -1,3 +1,13 @@
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.1); }
+
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.2); }
+
 body {
   font-family: 'Source Sans Pro', sans-serif;
   background-color: #f0f0f0;
@@ -110,23 +120,20 @@ body main #wrapper {
       margin-bottom: 32px;
       margin-top: 10px; }
     body main #wrapper #content-wrapper #country-detail #the-map {
-      height: 400px; }
+      height: 400px;
+      box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
       body main #wrapper #content-wrapper #country-detail #the-map path {
         stroke: #717171;
         stroke-width: 1px;
         stroke-linejoin: round; }
     body main #wrapper #content-wrapper #country-detail #map-controls {
-      text-align: center;
-      padding: 8px;
-      max-width: 80%;
-      box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
-      background-color: rgba(255, 255, 255, 0.88);
-      position: absolute;
-      left: 10%;
-      bottom: 24px;
-      border-radius: 3px; }
+      margin-top: 8px;
+      width: 100%;
+      display: inline-block;
+      background-color: rgba(255, 255, 255, 0.88); }
       body main #wrapper #content-wrapper #country-detail #map-controls #admin-level-buttons button {
-        margin: 4px !important; }
+        margin: 4px !important;
+        box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
     body main #wrapper #content-wrapper #country-detail #country-detail-inputs {
       margin-bottom: 72px; }
     body main #wrapper #content-wrapper #country-detail h3 {

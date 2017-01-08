@@ -92,6 +92,9 @@ var editedAt = '{{report.last_edited_at|date:"Y-m-d"}}';
 var under5MortalityRate = +'{{country.u5m}}';
 var hdi = +'{{country.hdi_index}}';
 var uprootedPercentage = +'{{country.uprooted_percentage}}';
+
+var timelineCategories = [{% for category in category_timelines %}"{{category}}",{% endfor %}];
+
 </script>
 {% endblock %}
 
@@ -114,7 +117,7 @@ var uprootedPercentage = +'{{country.uprooted_percentage}}';
             </div>
         </header>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4" style="padding-right: 6px">
                 <div id="entries-header-container">
                     <a id="last-seven-days-btn" href="#">Show entries from last 7 days</a>
                     <h3>Entries</h3>
@@ -122,7 +125,7 @@ var uprootedPercentage = +'{{country.uprooted_percentage}}';
                 <div id="entries">
                 </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8" style="padding-left: 6px">
                 <div id="navigator">
                     <a data-target="#reporting-parameters" class="active">Reporting parameters</a>
                     <a data-target="#key-events">Key events</a>
@@ -192,42 +195,64 @@ var uprootedPercentage = +'{{country.uprooted_percentage}}';
                         </div>
                     </section>
                     <section id="key-events" hidden>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label>Events for timeline:</label>
-                                <div id="event-timeline-container">
+                        <div id="toggle-panel">
+                            <a href="#" data-target="#table-view" class="fa fa-list active"></a>
+                            <a href="#" data-target="#timeline-view" class="fa fa-code-fork" style="transform:rotate(180deg) rotateY(180deg)"></a>
+                            <button id="add-key-event-btn" class="btn btn-primary"><i class="fa fa-plus"></i>Add new event</button>
+                        </div>
+                        <div id="table-view">
+                            <div id="header">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Events for timeline</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Start date</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>End date</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Category</label>
+                                    </div>
+                                    <div class="col-md-1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="key-event-list">
+                            </div>
+                            <div class="key-event-template" hidden>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <input class="form-control event-value">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="date" class="form-control start-date">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="date" class="form-control end-date">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select class="category-select" placeholder="Select Category">
+                                            <option>Select category</option>
+                                            {% for category in category_timelines %}
+                                                <option value="{{category.pk}}">{{category}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button class="btn btn-danger pull-right"><i class="fa fa-trash"></i></button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="event-timeline-template" hidden>
-                            <div class="row">
-                                <div class="col-md-9">
-                                    <input class="form-control event-value">
-                                </div>
-                                <div class="col-md-3">
-                                    <button class="btn btn-default" >Add</button>
-                                </div>
+                        <div id="timeline-view" hidden>
+                            <div id="line" hidden></div>
+                            <div class="time-element-template" hidden>
+                                <h3></h3>
+                                <date></date>
+                                <p></p>
                             </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label>Start Date:</label>
-                                    <input type="date" class="form-control start-date">
-                                </div>
-                                <div class="col-md-3">
-                                    <label>End Date:</label>
-                                    <input type="date" class="form-control end-date">
-                                </div>
-                                <div class="col-md-3">
-                                    <label>Category:</label>
-                                    <select class="category-select" placeholder="Select Category">
-                                        <option>--Select category--</option>
-                                    {% for category in category_timelines %}
-                                        <option value="{{category.pk}}">{{category}}</option>
-                                    {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            <br>
                         </div>
                     </section>
                     <section id="humanitarian-profile" hidden>

@@ -1,3 +1,13 @@
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.1); }
+
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.2); }
+
 body {
   font-family: 'Source Sans Pro', sans-serif;
   background-color: #f0f0f0;
@@ -65,6 +75,33 @@ nav {
       margin-right: 10px; }
     nav button .caret, nav button:visited .caret {
       margin-left: 10px; }
+  nav #crisis-wrapper {
+    padding: 18px; }
+    nav #crisis-wrapper .selectize-input, nav #crisis-wrapper .input-active {
+      border: none;
+      background-color: transparent;
+      text-align: left;
+      padding: 0;
+      color: #b3caca;
+      font-size: 14px !important; }
+      nav #crisis-wrapper .selectize-input .item, nav #crisis-wrapper .input-active .item {
+        text-transform: uppercase;
+        text-align: left;
+        font-size: 14px !important; }
+      nav #crisis-wrapper .selectize-input input, nav #crisis-wrapper .input-active input {
+        text-transform: uppercase !important;
+        color: #b3caca; }
+      nav #crisis-wrapper .selectize-input:after, nav #crisis-wrapper .input-active:after {
+        margin-top: -10px;
+        border-color: #b3caca transparent transparent transparent; }
+    nav #crisis-wrapper .dropdown-active:after {
+      border-color: transparent transparent #b3caca transparent; }
+    nav #crisis-wrapper .selectize-dropdown {
+      text-align: left !important; }
+    nav #crisis-wrapper .focus {
+      border: none;
+      color: #fff;
+      box-shadow: none; }
   nav .dropdown ul li a {
     padding-top: 8px;
     padding-bottom: 8px; }
@@ -76,51 +113,124 @@ nav {
   text-transform: uppercase; }
 #main h1 {
   font-weight: bold;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   margin-top: 24px; }
 #main #country-list {
   background-color: #fff;
+  height: calc(100vh - 56px - 68px);
+  overflow-y: auto;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  #main #country-list #search-country {
+    float: right;
+    outline: none;
+    margin-right: 10px;
+    margin-top: 20px;
+    padding: 4px 10px;
+    padding-left: 32px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 3px; }
+  #main #country-list #search-country + .fa {
+    float: right;
+    margin-right: -24px;
+    margin-top: 27px;
+    color: rgba(0, 0, 0, 0.5); }
   #main #country-list h2 {
-    padding: 16px 32px; }
+    padding: 28px 0 26px 24px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.05); }
   #main #country-list hr {
     margin: 0; }
   #main #country-list .country {
-    padding: 16px 32px;
+    padding: 16px 24px;
     cursor: pointer;
-    transition: 0.2s all ease-in-out; }
+    transition: 0.2s all ease-in-out;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
     #main #country-list .country .event {
-      color: #767676; }
+      color: #767676;
+      text-transform: none; }
   #main #country-list .country:hover {
     background-color: rgba(0, 0, 0, 0.1); }
   #main #country-list .active {
-    border-right: 3px solid #008080;
+    border-left: 3px solid #008080;
     background-color: #f0f0f0; }
 #main #report-list {
   background-color: #fff;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
   #main #report-list header {
-    padding-right: 24px; }
+    padding-right: 24px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.05); }
     #main #report-list header .selectize-input {
-      margin-top: 16px; }
+      margin-top: 18px;
+      border: none;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: none;
+      border-radius: 3px;
+      transition: all 0.2s; }
+      #main #report-list header .selectize-input:active, #main #report-list header .selectize-input:focus {
+        border: 1px solid #008080; }
+    #main #report-list header .focus {
+      border: 1px solid #008080; }
   #main #report-list h2 {
     padding: 24px;
+    font-weight: 600;
+    font-size: 1.5em;
     color: #008080; }
   #main #report-list hr {
     margin: 0; }
-  #main #report-list .reports #weekly-report-list .weekly-report {
-    padding: 24px; }
-    #main #report-list .reports #weekly-report-list .weekly-report h4 {
-      margin-bottom: 10px; }
-    #main #report-list .reports #weekly-report-list .weekly-report date {
+  #main #report-list .reports #weekly-report-list {
+    padding-top: 10px;
+    height: calc(100vh - 56px - 140px);
+    overflow-y: auto; }
+    #main #report-list .reports #weekly-report-list #header {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      margin-bottom: 16px; }
+    #main #report-list .reports #weekly-report-list h3 {
+      margin: 0;
+      padding: 16px 0 16px 24px;
       font-weight: 600;
-      color: #767676; }
-    #main #report-list .reports #weekly-report-list .weekly-report button {
-      float: right;
+      display: inline-block; }
+    #main #report-list .reports #weekly-report-list #add-weekly-report-btn {
       margin-right: 24px;
+      margin-top: 6px;
+      float: right;
       box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-      #main #report-list .reports #weekly-report-list .weekly-report button:active {
+      #main #report-list .reports #weekly-report-list #add-weekly-report-btn:active {
         box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+      #main #report-list .reports #weekly-report-list #add-weekly-report-btn .fa {
+        margin-right: 10px; }
+    #main #report-list .reports #weekly-report-list .empty-text {
+      color: rgba(0, 0, 0, 0.2);
+      font-weight: 300;
+      text-transform: uppercase;
+      padding: 64px 24px;
+      font-size: 2em;
+      text-align: center; }
+    #main #report-list .reports #weekly-report-list .weekly-report {
+      padding: 10px 24px; }
+      #main #report-list .reports #weekly-report-list .weekly-report a {
+        margin-left: 16px;
+        cursor: pointer;
+        float: right; }
+        #main #report-list .reports #weekly-report-list .weekly-report a .fa {
+          margin-right: 6px; }
+      #main #report-list .reports #weekly-report-list .weekly-report h4 {
+        margin-bottom: 16px;
+        font-weight: 400;
+        display: inline-block;
+        font-size: 1em;
+        margin-right: 10px; }
+      #main #report-list .reports #weekly-report-list .weekly-report p {
+        display: inline-block;
+        margin: 0;
+        font-family: monospace; }
+        #main #report-list .reports #weekly-report-list .weekly-report p:before {
+          content: '['; }
+        #main #report-list .reports #weekly-report-list .weekly-report p:after {
+          content: ']'; }
+      #main #report-list .reports #weekly-report-list .weekly-report button {
+        float: right;
+        box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+        #main #report-list .reports #weekly-report-list .weekly-report button:active {
+          box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
   #main #report-list .reports #monthly-report-list .monthly-report {
     padding: 24px; }
     #main #report-list .reports #monthly-report-list .monthly-report button {

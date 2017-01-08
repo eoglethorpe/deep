@@ -2,12 +2,14 @@ from django.contrib import admin
 from leads.models import *
 
 
+class SimplifiedLead(admin.StackedInline):
+    model = SimplifiedLead
+
 class AttachmentInline(admin.StackedInline):
     model = Attachment
 
-
 class LeadAdmin(admin.ModelAdmin):
-    inlines = [AttachmentInline, ]
+    inlines = [AttachmentInline, SimplifiedLead]
 
 
 admin.site.register(Source)

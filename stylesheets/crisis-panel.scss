@@ -30,6 +30,9 @@ body{
     }
 
     main{
+        label{
+            color: $primary-color;
+        }
         h2{
             font-weight: $font-weight-bold;
             font-size: $text-size-sl;
@@ -63,6 +66,8 @@ body{
                 color: #fff;
             }
         }
+
+
         #crisis-detail{
             padding: 32px;
             height: calc(100vh - #{$navbar-height} - 5px);
@@ -75,6 +80,22 @@ body{
                 margin: 0;
                 margin-bottom: 32px;
             }
+
+            #crisis-status{
+
+
+                label{
+                    margin-right: 16px;
+                    cursor: pointer;
+                    color: $label-color;    
+                }
+                .crisis-status{
+                    margin: 5px;
+                }
+
+
+            }
+
             .form-control{
                 margin-bottom: 16px;
             }

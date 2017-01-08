@@ -1,3 +1,13 @@
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.1); }
+
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.2); }
+
 body {
   font-family: 'Source Sans Pro', sans-serif;
   background-color: #f0f0f0;
@@ -65,6 +75,33 @@ nav {
       margin-right: 10px; }
     nav button .caret, nav button:visited .caret {
       margin-left: 10px; }
+  nav #crisis-wrapper {
+    padding: 18px; }
+    nav #crisis-wrapper .selectize-input, nav #crisis-wrapper .input-active {
+      border: none;
+      background-color: transparent;
+      text-align: left;
+      padding: 0;
+      color: #b3caca;
+      font-size: 14px !important; }
+      nav #crisis-wrapper .selectize-input .item, nav #crisis-wrapper .input-active .item {
+        text-transform: uppercase;
+        text-align: left;
+        font-size: 14px !important; }
+      nav #crisis-wrapper .selectize-input input, nav #crisis-wrapper .input-active input {
+        text-transform: uppercase !important;
+        color: #b3caca; }
+      nav #crisis-wrapper .selectize-input:after, nav #crisis-wrapper .input-active:after {
+        margin-top: -10px;
+        border-color: #b3caca transparent transparent transparent; }
+    nav #crisis-wrapper .dropdown-active:after {
+      border-color: transparent transparent #b3caca transparent; }
+    nav #crisis-wrapper .selectize-dropdown {
+      text-align: left !important; }
+    nav #crisis-wrapper .focus {
+      border: none;
+      color: #fff;
+      box-shadow: none; }
   nav .dropdown ul li a {
     padding-top: 8px;
     padding-bottom: 8px; }
@@ -72,11 +109,23 @@ nav {
       margin-right: 10px; }
 
 body {
-  background-color: #f0f0f0;
   min-height: 100vh; }
 
+#main .form-control, #main .selectize-input {
+  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: none;
+  border-radius: 3px; }
+  #main .form-control:active, #main .form-control:focus, #main .selectize-input:active, #main .selectize-input:focus {
+    border: 1px solid #008080; }
+#main .focus {
+  border: 1px solid #008080; }
+#main .selectize-dropdown-content .option {
+  color: #767676;
+  padding: 10px;
+  line-height: 1; }
 #main header {
-  height: 176px; }
+  height: 172px; }
   #main header h1 {
     text-transform: uppercase;
     font-weight: 600; }
@@ -84,29 +133,38 @@ body {
       font-weight: 400; }
   #main header button {
     float: right;
-    margin-right: 16px;
-    margin-top: 16px;
+    margin-left: 16px;
+    margin-top: 10px;
     box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
     #main header button:active {
       box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
     #main header button .fa {
       margin-right: 10px; }
   #main header #filters {
-    margin-top: 10px; }
+    margin-top: 6px; }
+    #main header #filters .form-control, #main header #filters .selectize-input {
+      box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
     #main header #filters #reliability-filter-container, #main header #filters #severity-filter-container {
       margin-top: -26px; }
+    #main header #filters .first-child {
+      padding-right: 2px; }
+    #main header #filters .low-padding {
+      padding-left: 2px;
+      padding-right: 2px; }
+    #main header #filters .last-child {
+      padding-left: 2px; }
 #main #last-seven-days-btn {
   float: right; }
 #main #entries {
-  height: calc(100vh - 56px - 176px - 48px) !important;
+  height: calc(100vh - 56px - 172px - 48px) !important;
   background-color: #fff;
   overflow-y: auto;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
   #main #entries h3 {
     padding-left: 32px; }
   #main #entries .entry {
-    padding: 24px;
-    background-color: #fafafa; }
+    padding: 10px 24px;
+    background-color: #f5f5f5; }
     #main #entries .entry:nth-child(odd) {
       background-color: #fff; }
     #main #entries .entry header {
@@ -120,6 +178,8 @@ body {
       margin-top: 10px; }
     #main #entries .entry label {
       margin-right: 10px; }
+    #main #entries .entry hr {
+      margin: 6px 0; }
     #main #entries .entry .severity, #main #entries .entry .reliability {
       margin-top: 8px; }
       #main #entries .entry .severity span, #main #entries .entry .reliability span {
@@ -163,15 +223,21 @@ body {
   padding: 16px;
   background-color: #fafafa;
   height: 48px; }
-#main #navigator a {
-  display: inline-block;
-  padding: 0 24px;
-  padding-bottom: 8px;
-  cursor: pointer; }
-#main #navigator .active {
-  border-bottom: 2px solid #008080; }
+#main #navigator {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  overflow: auto;
+  overflow-y: hidden;
+  flex-wrap: nowrap; }
+  #main #navigator a {
+    display: block;
+    cursor: pointer;
+    padding: 0 10px 8px 10px; }
+  #main #navigator .active {
+    border-bottom: 2px solid #008080; }
 #main #report-content {
-  height: calc(100vh - 56px - 176px - 48px) !important;
+  height: calc(100vh - 56px - 172px - 48px) !important;
   background-color: #fff;
   overflow-y: auto;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
@@ -189,10 +255,73 @@ body {
     padding-left: 16px;
     font-weight: 600;
     text-transform: uppercase; }
-  #main #report-content #key-events .event-timeline {
+  #main #report-content #key-events #toggle-panel {
+    height: 64px; }
+    #main #report-content #key-events #toggle-panel .fa {
+      margin-right: 10px; }
+    #main #report-content #key-events #toggle-panel a {
+      margin: 10px;
+      margin-right: 32px;
+      transition: 0.2s all ease-in-out;
+      color: #414141; }
+    #main #report-content #key-events #toggle-panel .active {
+      color: #008080; }
+    #main #report-content #key-events #toggle-panel button {
+      float: right; }
+  #main #report-content #key-events #header {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
     margin-bottom: 16px; }
-    #main #report-content #key-events .event-timeline .row:first-child {
-      margin-bottom: 16px; }
+  #main #report-content #key-events .key-event {
+    min-height: 48px;
+    margin-top: 10px;
+    margin-bottom: 10px; }
+  #main #report-content #key-events #timeline-view {
+    position: relative;
+    padding: 32px; }
+    #main #report-content #key-events #timeline-view #line {
+      position: absolute;
+      width: 2px;
+      left: calc(50% - 1px);
+      background-color: #008080; }
+    #main #report-content #key-events #timeline-view .time-element {
+      width: calc(50% - 30px);
+      background-color: #f0f0f0;
+      border-radius: 3px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      box-shadow: 0 3px 10px -3px rgba(0, 0, 0, 0.3);
+      padding: 10px 24px;
+      position: relative; }
+      #main #report-content #key-events #timeline-view .time-element h3 {
+        margin: -10px -24px 10px -24px;
+        padding: 16px 24px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        background-color: #008080;
+        color: #fff; }
+      #main #report-content #key-events #timeline-view .time-element:nth-child(odd) {
+        clear: both;
+        float: left; }
+        #main #report-content #key-events #timeline-view .time-element:nth-child(odd):before {
+          display: inline-block;
+          content: '';
+          width: 30px;
+          height: 2px;
+          background-color: #008080;
+          position: absolute;
+          right: -30px;
+          top: 30px; }
+      #main #report-content #key-events #timeline-view .time-element:nth-child(even) {
+        clear: both;
+        float: right; }
+        #main #report-content #key-events #timeline-view .time-element:nth-child(even):before {
+          display: inline-block;
+          content: '';
+          width: 30px;
+          height: 2px;
+          background-color: #008080;
+          position: absolute;
+          left: -30px;
+          top: 30px; }
   #main #report-content #key-events button {
     box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
     #main #report-content #key-events button:active {

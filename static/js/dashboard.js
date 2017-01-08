@@ -1,9 +1,22 @@
+
+function hashString(str) {
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+       hash = str.charCodeAt(i) + ((hash << 4) - hash);
+    }
+    return hash;
+}
+
+function generateColor(str) {
+    return 'hsl(' + hashString(str)%360 + ', 30%, 50%)';
+}
+
 function styleMapFeature(feature) {
     var active = feature.properties.iso_a2 in active_countries
         || feature.properties.iso_a3 in active_countries;
 
     return {
-        fillColor: active?'#d35400':'#ecf0f1',
+        fillColor: active?generateColor(feature.properties.name):'#ecf0f1',
         weight: 1.4,
         opacity: 1,
         color: '#2980b9',
@@ -165,6 +178,8 @@ function loadTimetable() {
                 }
             }(countryCode));
 
+            var hasReports = false;
+
             // Country reports
             for (var i=0; i<weekly_reports.length; ++i) {
                 var td = $("<td class='weekly-report'></td>");
@@ -174,7 +189,10 @@ function loadTimetable() {
                     var index = weekly_reports[i].countries.indexOf(countryCode);
                     if (index >= 0) {
                         if ((disasterFilter == null || disasterFilter.indexOf(weekly_reports[i].data[index].disaster_type) >= 0)
-                                && (dateFilter == null || dateFilter(weekly_reports[i].created_at[index]))) {
+                                && (dateFilter == null || dateFilter(weekly_reports[i].created_at[index])))
+                        {
+                            hasReports = true;
+
                             td.addClass('active');
                             //td.html('<i class="fa fa-check-circle"></i>');
                             td.click(function(countryCode, eventId, reportId) {
@@ -186,6 +204,11 @@ function loadTimetable() {
                     }
                 }
             }
+
+            if (hasReports)
+                tr.show();
+            else
+                tr.hide();
         }
 
         $('#timeline-table-container').slideDown(function() {
@@ -234,7 +257,8 @@ function loadTimetableForCountry(countryCode) {
                         if (weekly_reports[i].countries[j] == countryCode) {
                             if (weekly_reports[i].crises[j] == crisisPk) {
                                 if ((disasterFilter == null || disasterFilter.indexOf(weekly_reports[i].data[j].disaster_type) >= 0)
-                                        && (dateFilter == null || dateFilter(weekly_reports[i].created_at[j]))) {
+                                        && (dateFilter == null || dateFilter(weekly_reports[i].created_at[j])))
+                                {
                                     td.addClass('active');
                                     //td.html('<i class="fa fa-check-circle"></i>');
 

@@ -40,6 +40,10 @@ class CrisisPanelView(View):
                 event = Event.objects.get(pk=int(pk))
 
             event.name = request.POST["crisis-name"]
+
+            if request.POST["crisis-status"] and request.POST["crisis-status"] != "":
+                event.status = int(request.POST["crisis-status"])
+
             if request.POST["disaster-type"] and request.POST["disaster-type"] != "":
                 event.disaster_type = DisasterType.objects.get(pk=int(request.POST["disaster-type"]))
             else:

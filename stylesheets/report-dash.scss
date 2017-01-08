@@ -8,34 +8,55 @@
     }
     h1{
         font-weight: bold;
-        margin-bottom: 32px;
+        margin-bottom: 24px;
         margin-top: 24px;
     }
 
     #country-list{
         background-color: #fff;
+        height: calc(100vh - #{$navbar-height} - 68px);
+        overflow-y: auto;
         @include shadow();
 
+        #search-country{
+            float: right;
+            outline: none;
+            margin-right: 10px;
+            margin-top: 20px;
+            padding: 4px 10px;
+            padding-left: 32px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+        }
+        #search-country+.fa{
+            float: right;
+            margin-right: -24px;
+            margin-top: 27px;
+            color: rgba(0, 0, 0, 0.5);
+        }
         h2{
-            padding: 16px 32px;
+            padding: 28px 0 26px 24px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.05);
         }
         hr{
             margin: 0;
         }
         .country{
-            padding: 16px 32px;
+            padding: 16px 24px;
             cursor: pointer;
             transition: 0.2s all ease-in-out;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
             .event{
                 color: $label-color;
+                text-transform: none;
             }
         }
         .country:hover{
             background-color: rgba(0, 0, 0, 0.1);
         }
         .active{
-            border-right: 3px solid $primary-color;
+            border-left: 3px solid $primary-color;
             background-color: #f0f0f0;
         }
     }
@@ -46,12 +67,28 @@
 
         header{
             padding-right: 24px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+
             .selectize-input{
-                margin-top: 16px;
+                margin-top: 18px;
+                border: none;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                box-shadow: none;
+                border-radius: 3px;
+                transition: all 0.2s;
+
+                &:active, &:focus {
+                    border: 1px solid $primary-color;
+                }
+            }
+            .focus{
+                border: 1px solid $primary-color;
             }
         }
         h2{
             padding: 24px;
+            font-weight: $font-weight-bold;
+            font-size: 1.5em;
             color: $primary-color;
         }
         hr{
@@ -59,18 +96,75 @@
         }
         .reports{
             #weekly-report-list{
+                padding-top: 10px;
+                height: calc(100vh - #{$navbar-height} - 140px);
+                overflow-y: auto;
+
+                #header{
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                    margin-bottom: 16px;
+                }
+                h3{
+                    margin: 0;
+                    padding: 16px 0 16px 24px;
+                    font-weight: $font-weight-bold;
+                    display: inline-block;
+
+                }
+                #add-weekly-report-btn{
+                    margin-right: 24px;
+                    margin-top: 6px;
+                    float: right;
+                    @include btn-shadow-sm();
+
+                    .fa{
+                        margin-right: 10px;
+                    }
+                }
+                .empty-text{
+                    color: rgba(0, 0, 0, 0.2);
+                    font-weight: $font-weight-thin;
+                    text-transform: uppercase;
+                    padding: 64px 24px;
+                    font-size: 2em;
+                    text-align: center;
+                }
                 .weekly-report{
-                    padding: 24px;
+                    padding: 10px 24px;
+
+                    a{
+                        margin-left: 16px;
+                        cursor: pointer;
+                        float: right;
+
+                        .fa{
+                            margin-right: 6px;
+                        }
+                    }
                     h4{
-                        margin-bottom: 10px;
+                        margin-bottom: 16px;
+                        font-weight: $font-weight-normal;
+                        display: inline-block;
+                        font-size: 1em;
+                        margin-right: 10px;
+                    }
+                    p{
+                        display: inline-block;
+                        margin: 0;
+                        font-family: monospace;
+
+                        &:before{
+                            content: '[';
+                        }
+                        &:after{
+                            content: ']';
+                        }
                     }
                     date{
-                        font-weight: $font-weight-bold;
-                        color: $label-color;
+
                     }
                     button{
                         float: right;
-                        margin-right: 24px;
                         @include btn-shadow-sm();
                     }
                 }

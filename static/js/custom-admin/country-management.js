@@ -14,6 +14,7 @@ $(document).ready(function() {
         // Set country data to the form
         $('#country-name').val(country.name);
         $('#country-code').val(code);
+        $('#country-code').attr('readonly', true);
 
         // Key figures
         $('#hdi-index').val(country.hdi_index);
@@ -142,6 +143,7 @@ function addNewCountry() {
     $('.active').removeClass('active');
     $('#country-code').val(null);
     $('#country-name').val(null);
+    $('#country-code').attr('readonly', false);
 
     // Key figures
     $('#hdi-index').val(null);
@@ -195,11 +197,13 @@ function calculateHdiScore() {
         hdiScore = 2;
         hdiRank = "Medium";
     }
-    if (hdi >= 0.7) {
+    if (hdi >= 0.625) {
         hdiScore = 1;
         hdiRank = "High";
     }
-    if (hdi >= 0.801) {
+
+    // changed from 0.801 to 0.8
+    if (hdi >= 0.7) {
         hdiScore = 0;
         hdiRank = "Very High";
     }

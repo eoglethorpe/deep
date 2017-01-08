@@ -44,6 +44,11 @@ class Event(models.Model):
     Contains leads and their entries.
     """
 
+    STATUSES = (
+        (0, 'Global monitoring'),
+        (1, 'Active crisis'),
+    )
+
     name = models.CharField(max_length=100)
     countries = models.ManyToManyField(Country, blank=True)
     disaster_type = models.ForeignKey('report.DisasterType', null=True, blank=True, default=None)
@@ -58,6 +63,8 @@ class Event(models.Model):
 
     start_date = models.DateField(default=datetime(2016, 1, 1))
     end_date = models.DateField(null=True, blank=True, default=None)
+
+    status = models.IntegerField(default=1, choices=STATUSES)
 
     def __str__(self):
         return self.name
@@ -159,6 +166,14 @@ class Attachment(models.Model):
     def __str__(self):
         return self.lead.name + ' - ' + self.upload.name
 
+
+class SimplifiedLead(models.Model):
+    lead = models.OneToOneField(Lead)
+    # simplified text
+    text = models.TextField()
+
+    def __str__(self):
+        return self.lead.name
 
 @receiver(pre_delete, sender=Attachment)
 def _attachment_delete(sender, instance, **kwargs):
