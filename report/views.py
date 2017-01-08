@@ -89,7 +89,7 @@ class WeeklyReportView(View):
 
             # Get last report
             try:
-                context["last_report"] = WeeklyReport.objects.all()[0]
+                context["last_report"] = WeeklyReport.objects.filter(event=event, country=country)[0]
             except:
                 pass
 

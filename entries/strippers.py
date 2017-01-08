@@ -87,7 +87,7 @@ class PdfStripper:
 
         rmgr = PDFResourceManager()
         params = LAParams()
-        device = HTMLConverter(rmgr, outfp, laparams=params)
+        device = TextConverter(rmgr, outfp, laparams=params) # HTMLConverter(rmgr, outfp, laparams=params)
         process_pdf(rmgr, device, fp, None, 0)
 
         fp.close()
@@ -95,18 +95,10 @@ class PdfStripper:
         outfp.seek(0)
         content = outfp.read()
         outfp.close()
-        
-        html = HtmlStripper(content).simplify()
 
-        # Try removing extra lines
-        # regex = re.compile('\<br\s*\\/?>', flags=re.IGNORECASE)
+        # html = HtmlStripper(content).simplify()
+        # regex = re.compile('\n*', flags=re.IGNORECASE)
         # html = regex.sub('', html)
+        # return html
 
-        # regex = re.compile('\<span\>\s*\<\/span\>', flags=re.IGNORECASE)
-        # html = regex.sub('', html)
-        # regex = re.compile('\<span\s*\\/?>', flags=re.IGNORECASE)
-        # html = regex.sub('', html)
-
-        regex = re.compile('\n*', flags=re.IGNORECASE)
-        html = regex.sub('', html)
-        return html
+        return content
