@@ -174,13 +174,13 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <button class="btn btn-primary" id="add-excerpt" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Add Excerpt"><i class="fa fa-plus"></i></button>
-                        <button class="btn btn-danger" id="delete-excerpt" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Delete Excerpt"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-primary" id="add-excerpt"  data-toggle="tooltip" data-placement="bottom" title="Add Excerpt"><i class="fa fa-plus"></i></button>
+                        <button class="btn btn-danger" id="delete-excerpt"  data-toggle="tooltip" data-placement="bottom" title="Delete Excerpt"><i class="fa fa-minus"></i></button>
                     </div>
                     <div class="col-md-4">
                         <button class="btn btn-primary" id="edit-entries-btn">Edit Entries <i class="fa fa-long-arrow-right"></i></button>
-                        <button class="btn btn-primary save-excerpt" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Save Excerpt"><i class="fa fa-save"></i></button>
-                        <button class="btn btn-danger cancel" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Cancel"><i class="fa fa-times"></i></button>
+                        <button class="btn btn-primary save-excerpt" data-toggle="tooltip" data-placement="bottom" title="Save Excerpt"><i class="fa fa-save"></i></button>
+                        <button class="btn btn-danger cancel" data-toggle="tooltip" data-placement="bottom" title="Cancel"><i class="fa fa-times"></i></button>
                     </div>
                 </div>
                 <textarea class="form-control" id="excerpt-text" placeholder="Excerpt"></textarea>
@@ -188,9 +188,11 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     {% for pillar in pillars_one %}
                     <div class="pillar">
                         <div class="pillar-header">{{pillar}}</div>
-                        {% for subpillar in pillar.informationsubpillar_set.all %}
-                        <div class="sub-pillar" data-pillar-id="{{pillar.pk}}" data-subpillar-id="{{subpillar.pk}}">{{subpillar}}</div>
-                        {% endfor %}
+                        <div class="sub-pillars">
+                            {% for subpillar in pillar.informationsubpillar_set.all %}
+                            <div class="sub-pillar" data-pillar-id="{{pillar.pk}}" data-subpillar-id="{{subpillar.pk}}">{{subpillar}}</div>
+                            {% endfor %}
+                        </div>
                     </div>
                     {% endfor %}
 
@@ -207,11 +209,11 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         {% for subpillar in pillar.informationsubpillar_set.all %}
                         <tr>
                             {% if forloop.first %}
-                            <td class="pillar-header" style="background-color:{{pillar.background_color}};" data-bg-color="{{pillar.background_color}}" rowspan="{{pillar.informationsubpillar_set.count}}">
+                            <td class="pillar-header" data-toggle="tooltip" title="{{pillar.tooltip}}" style="background-color:{{pillar.background_color}};" data-bg-color="{{pillar.background_color}}" rowspan="{{pillar.informationsubpillar_set.count}}">
                                 {{pillar}}
                             </td>
                             {% endif %}
-                            <td class="subpillar" style="background-color:{{pillar.background_color}};" data-bg-color="{{pillar.background_color}}">{{subpillar}}</td>
+                            <td class="subpillar" data-toggle="tooltip" title="{{subpillar.tooltip}}" style="background-color:{{pillar.background_color}};" data-bg-color="{{pillar.background_color}}">{{subpillar}}</td>
 
                             {% for sector in sectors %}<td class="attribute-block" data-pillar-id="{{pillar.pk}}" data-subpillar-id="{{subpillar.pk}}" data-sector-id="{{sector.pk}}" data-bk-color="{{pillar.background_color}}" data-active-bk-color="{{pillar.active_background_color}}"></td>{% endfor %}
                         </tr>
@@ -226,8 +228,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <div id="page-two" hidden>
     <div class="container-fluid">
         <div style="text-align: right">
-            <button class="btn btn-danger cancel" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Cancel"><i class="fa fa-times"></i></button>
-            <button class="btn btn-primary save-excerpt" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Save Excerpt"><i class="fa fa-save"></i></button>
+            <button class="btn btn-danger cancel"  data-toggle="tooltip" data-placement="bottom" title="Cancel"><i class="fa fa-times"></i></button>
+            <button class="btn btn-primary save-excerpt"  data-toggle="tooltip" data-placement="bottom" title="Save Excerpt"><i class="fa fa-save"></i></button>
             <button id="back-to-excerpts-btn"  class="btn btn-primary"><i class="fa fa-long-arrow-left"></i>Back to excerpts</button>
         </div>
         <div id="entries">

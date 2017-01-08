@@ -154,7 +154,8 @@ body {
             margin-right: 2px;
             background-color: #fff;
             text-align: center;
-            width: 192px; }
+            width: 192px;
+            float: left; }
           body #page-one .split-pane #right-component #matrix-one .pillar .sub-pillar {
             display: inline-block;
             padding: 8px 10px;

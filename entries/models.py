@@ -105,6 +105,8 @@ class InformationPillar(models.Model):
     name = models.CharField(max_length=150)
     contains_sectors = models.BooleanField(default=False)
 
+    tooltip = models.TextField(default='', blank=True)
+
     background_color = models.CharField(max_length=20, default="#fbe8db")
     active_background_color = models.CharField(max_length=20, default="#ea7120")
 
@@ -131,6 +133,8 @@ class InformationPillar(models.Model):
 class InformationSubpillar(models.Model):
     name = models.CharField(max_length=150)
     pillar = models.ForeignKey(InformationPillar)
+
+    tooltip = models.TextField(default='', blank=True)
 
     def __str__(self):
         return self.name
