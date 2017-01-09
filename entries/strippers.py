@@ -2,14 +2,13 @@ import requests
 import html
 import tempfile
 
-from readability.readability import Document
+from django.conf import settings
 
-import pdfminer
-from pdfminer.pdfinterp import PDFResourceManager, process_pdf
-from pdfminer.converter import HTMLConverter, TextConverter
-from pdfminer.layout import LAParams
+from readability.readability import Document
+import textract
 
 import re
+import shutil
 
 
 class StripError(Exception):
@@ -42,8 +41,9 @@ class WebDocument:
 
         elif "application/pdf" in r.headers["content-type"]:
             self.html = None
-            fp = tempfile.TemporaryFile()
+            fp = tempfile.NamedTemporaryFile(dir=settings.BASE_DIR)
             r = requests.get(url, stream=True)
+            # fp.write(bytes(r.text, 'utf-8'))
             for chunk in r.iter_content(chunk_size=1024):
                 if chunk:
                     fp.write(chunk)
@@ -81,24 +81,25 @@ class PdfStripper:
         if not self.doc:
             raise StripError("Not a pdf document")
 
-        fp = self.doc
-        fp.seek(0)
-        outfp = tempfile.TemporaryFile("w+")
-
-        rmgr = PDFResourceManager()
-        params = LAParams()
-        device = TextConverter(rmgr, outfp, laparams=params) # HTMLConverter(rmgr, outfp, laparams=params)
-        process_pdf(rmgr, device, fp, None, 0)
-
-        fp.close()
-
-        outfp.seek(0)
-        content = outfp.read()
-        outfp.close()
+        # fp = self.doc
+        # fp.seek(0)
+        # outfp = tempfile.TemporaryFile("w+")
+        #
+        # rmgr = PDFResourceManager()
+        # params = LAParams()
+        # device = TextConverter(rmgr, outfp, laparams=params) # HTMLConverter(rmgr, outfp, laparams=params)
+        # process_pdf(rmgr, device, fp, None, 0)
+        #
+        # fp.close()
+        #
+        # outfp.seek(0)
+        # content = outfp.read()
+        # outfp.close()
 
         # html = HtmlStripper(content).simplify()
         # regex = re.compile('\n*', flags=re.IGNORECASE)
         # html = regex.sub('', html)
         # return html
-
-        return content
+        path = self.doc.name
+        print(path)
+        return textract.process(path)
