@@ -6,7 +6,7 @@ $(document).ready(function(){
         window.location.href = window.location.pathname+"?"+$.param({event:event})
     });
 
-    $('#country-list').scrollTop($('#country-list .active').eq(1).position().top);
+    $('#country-list').scrollTop($('#country-list .active').position().top);
 
 
     // Search country
