@@ -21,6 +21,7 @@ var humanitarianProfileDecay = {
     updateHumanSource: function(humanSource){
         if(data["human"]["source"][humanSource.data("human-pk")] != humanSource.val()){
             humanSource.css('border-color', getDecayColor());
+            humanSource.data('decay-color', getDecayColor());
         } else {
             humanSource.css('border-color', humanSource.data('decay-color'));
         }
@@ -28,6 +29,7 @@ var humanitarianProfileDecay = {
     updateHumanComment: function(humanComment){
         if(data["human"]["comment"][humanComment.data("human-pk")] != humanComment.val()){
             humanComment.css('border-color', getDecayColor());
+            humanComment.data('decay-color', getDecayColor());
         } else {
             humanComment.css('border-color', humanComment.data('decay-color'));
         }
@@ -191,14 +193,6 @@ function hideTimeline(){
 }
 
 $(document).ready(function(){
-    // $('.decay').css('border-color', function(){ return $(this).data('current-color'); });
-    // $('.decay').css('border-width', '2px');
-    //
-    // $('.decay').on('change', function(){
-    //     updateDecay();
-    // });
-
-
     $('#toggle-panel').on('click', 'a', function(){
         $('#loading-animation').show();
         var current = $('#toggle-panel .active');
