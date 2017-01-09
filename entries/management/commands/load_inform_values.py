@@ -44,6 +44,8 @@ class Command(BaseCommand):
             idps = next((result for result in results if result['IndicatorId'] == 'VU.VGR.UP.IDP-TOT'), None)
             if idps:
                 country.number_of_idps = idps['IndicatorScore']
+                if country.number_of_idps == -99:
+                    country.number_of_idps = 0
 
             returned_refugees = next((result for result in results if result['IndicatorId'] == 'RET_REF'), None)
             if returned_refugees:
