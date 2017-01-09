@@ -60,25 +60,44 @@ body main label {
 body main h2 {
   font-weight: 600;
   font-size: 18px; }
-body main #crisis-list {
-  margin-top: 24px;
-  padding: 24px;
-  height: calc(100vh - 56px - 32px);
-  overflow-y: auto; }
-  body main #crisis-list h2 {
-    padding-top: 8px; }
-  body main #crisis-list #add-new-crisis-btn {
+body main #crisis-header {
+  height: 128px;
+  padding: 32px 0 24px 0; }
+  body main #crisis-header h2 {
+    margin-bottom: 24px; }
+  body main #crisis-header #add-new-crisis-btn {
     float: right;
+    margin-top: -10px;
     box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
-    body main #crisis-list #add-new-crisis-btn:active {
+    body main #crisis-header #add-new-crisis-btn:active {
       box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
-    body main #crisis-list #add-new-crisis-btn i {
+    body main #crisis-header #add-new-crisis-btn .fa {
       margin-right: 10px; }
+  body main #crisis-header input {
+    outline: none;
+    width: 100%;
+    border-radius: 3px;
+    padding: 6px 16px 6px 40px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: transparent;
+    box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+    body main #crisis-header input:active {
+      box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+    body main #crisis-header input:focus, body main #crisis-header input:active {
+      border: 1px solid #008080; }
+  body main #crisis-header input + .fa {
+    float: left;
+    margin-top: -24px;
+    margin-left: 16px;
+    z-index: 1;
+    color: rgba(0, 0, 0, 0.5); }
+body main #crisis-list {
+  height: calc(100vh - 56px - 128px);
+  overflow-y: auto;
+  padding-right: 10px; }
   body main #crisis-list .crisis {
     padding: 16px 24px;
-    margin-left: -24px;
-    margin-right: -24px;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     cursor: pointer; }
   body main #crisis-list .active {
     background-color: #008080;
@@ -95,9 +114,13 @@ body main #crisis-detail {
   body main #crisis-detail #crisis-status label {
     margin-right: 16px;
     cursor: pointer;
-    color: #767676; }
+    color: #767676;
+    vertical-align: bottom; }
   body main #crisis-detail #crisis-status .crisis-status {
     margin: 5px; }
+  body main #crisis-detail #crisis-status input {
+    outline: none;
+    vertical-align: sub; }
   body main #crisis-detail .form-control {
     margin-bottom: 16px; }
   body main #crisis-detail #action-buttons {
