@@ -89,14 +89,13 @@ $(document).ready(function() {
     $('#search-country').on('cut input paste drop keyup', function() {
         var query = $(this).val().trim().toLowerCase();
         if (query == '')
-            $('#country-list .country').show();
+            $('#country-list .country').slideDown();
         else {
             $('#country-list .country').each(function() {
                 if ($(this).text().trim().toLowerCase().indexOf(query) >= 0) {
-                    $(this).show();
-                }
-                else {
-                    $(this).hide();
+                    $(this).slideDown();
+                } else {
+                    $(this).slideUp();
                 }
             });
         }
