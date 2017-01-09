@@ -12,12 +12,7 @@
         margin-top: 24px;
     }
 
-    #country-list{
-        background-color: #fff;
-        height: calc(100vh - #{$navbar-height} - 68px);
-        overflow-y: auto;
-        @include shadow();
-
+    #country-list-header{
         #search-country{
             float: right;
             outline: none;
@@ -38,6 +33,14 @@
             padding: 28px 0 26px 24px;
             border-bottom: 2px solid rgba(0, 0, 0, 0.05);
         }
+    }
+    #country-list{
+        background-color: #fff;
+        height: calc(100vh - #{$navbar-height} - 140px);
+        overflow-y: auto;
+        @include shadow();
+
+
         hr{
             margin: 0;
         }
