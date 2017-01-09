@@ -47,7 +47,7 @@ class WebDocument:
             for chunk in r.iter_content(chunk_size=1024):
                 if chunk:
                     fp.write(chunk)
-            self.pdf = fp
+            self.pdf = fp.name
 
 
 class HtmlStripper:
@@ -74,11 +74,11 @@ class PdfStripper:
     """Stripper class to simplify PDF documents.
     """
 
-    def __init__(self, pdf_file):
-        self.doc = pdf_file
+    def __init__(self, file_path):
+        self.file_path = file_path
 
     def simplify(self):
-        if not self.doc:
+        if not self.file_path:
             raise StripError("Not a pdf document")
 
         # fp = self.doc
@@ -100,6 +100,4 @@ class PdfStripper:
         # regex = re.compile('\n*', flags=re.IGNORECASE)
         # html = regex.sub('', html)
         # return html
-        path = self.doc.name
-        print(path)
-        return textract.process(path)
+        return textract.process(self.file_path)
