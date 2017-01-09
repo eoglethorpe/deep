@@ -8,6 +8,7 @@ from readability.readability import Document
 import textract
 
 import re
+import shutil
 
 
 class StripError(Exception):
@@ -42,10 +43,10 @@ class WebDocument:
             self.html = None
             fp = tempfile.NamedTemporaryFile(dir=settings.BASE_DIR)
             r = requests.get(url, stream=True)
-            fp.write(bytes(r.text, 'utf-8'))
-            # for chunk in r.iter_content(chunk_size=1024):
-            #     if chunk:
-            #         fp.write(chunk)
+            # fp.write(bytes(r.text, 'utf-8'))
+            for chunk in r.iter_content(chunk_size=1024):
+                if chunk:
+                    fp.write(chunk)
             self.pdf = fp
 
 
