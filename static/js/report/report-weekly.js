@@ -1,5 +1,38 @@
 var weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 var keyEvents = [];
+var decayPalette = ['#1a9850', '#66bd63', '#a6d96a', '#d9ef8b', '#fee08b', '#fdae61', '#f46d43','#d73027'];
+
+// get next color form the decayPalette according to currentColor
+function getDecayColor(currentColor){
+    if(currentColor){
+        return decayPalette[Math.min(decayPalette.indexOf(currentColor)+1, decayPalette.length-1)];
+    }
+    return decayPalette[0];
+}
+var humanitarianProfileDecay = {
+    updateHumanNumber: function(humanNumber){
+        if(data["human"]["number"][humanNumber.data("human-pk")] != getNumberValue(humanNumber)){
+            humanNumber.css('border-color', getDecayColor());
+            humanNumber.data('decay-color', getDecayColor());
+        } else {
+            humanNumber.css('border-color', humanNumber.data('decay-color'));
+        }
+    },
+    updateHumanSource: function(humanSource){
+        if(data["human"]["source"][humanSource.data("human-pk")] != humanSource.val()){
+            humanSource.css('border-color', getDecayColor());
+        } else {
+            humanSource.css('border-color', humanSource.data('decay-color'));
+        }
+    },
+    updateHumanComment: function(humanComment){
+        if(data["human"]["comment"][humanComment.data("human-pk")] != humanComment.val()){
+            humanComment.css('border-color', getDecayColor());
+        } else {
+            humanComment.css('border-color', humanComment.data('decay-color'));
+        }
+    }
+};
 
 function addKeyEvent(data) {
     var container = $('#key-event-list');
@@ -139,12 +172,10 @@ function renderTimeline(){
         timeElement.show();
         timeElement.css('margin-top', parseInt(currentMargin)+'px');
     }
-    console.log(margins);
     setTimeout(function(){
         timeElements = $('.time-element');
         var timelineHeight = 0;
         timeElements.each(function(i){
-            console.log(i);
             timelineHeight += $(this).outerHeight() + margins[i];
         });
         line.height(timelineHeight);
@@ -160,6 +191,14 @@ function hideTimeline(){
 }
 
 $(document).ready(function(){
+    // $('.decay').css('border-color', function(){ return $(this).data('current-color'); });
+    // $('.decay').css('border-width', '2px');
+    //
+    // $('.decay').on('change', function(){
+    //     updateDecay();
+    // });
+
+
     $('#toggle-panel').on('click', 'a', function(){
         $('#loading-animation').show();
         var current = $('#toggle-panel .active');
@@ -335,6 +374,59 @@ function setInputData() {
     for (var pk in data["human"]["comment"])
         $(".human-comment[data-human-pk='" + pk + "']").val(data["human"]["comment"][pk]);
 
+    // decay colors for humanitarian profile
+    if(typeof data['human']['numberDecay'] == 'undefined'){
+        data['human']['numberDecay'] = {}
+    }
+    if(typeof data['human']['sourceDecay'] == 'undefined'){
+        data['human']['sourceDecay'] = {}
+    }
+    if(typeof data['human']['commentDecay'] == 'undefined'){
+        data['human']['commentDecay'] = {}
+    }
+    $(".human-number").each(function(){
+        if( typeof data['human']['numberDecay'][$(this).data('human-pk')] == 'undefined'){
+            data['human']['numberDecay'][$(this).data('human-pk')] = getDecayColor();
+        }
+    });
+    $(".human-source").each(function(){
+        if( typeof data['human']['sourceDecay'][$(this).data('human-pk')] == 'undefined'){
+            data['human']['sourceDecay'][$(this).data('human-pk')] = getDecayColor();
+        }
+    });
+    $(".human-comment").each(function(){
+        if( typeof data['human']['commentDecay'][$(this).data('human-pk')] == 'undefined'){
+            data['human']['commentDecay'][$(this).data('human-pk')] = getDecayColor();
+        }
+    });
+    if(reportMode == "new" || reportMode == "edit"){
+        $(".human-number").each(function(){
+            $(this).data('decay-color', data['human']['numberDecay'][$(this).data('human-pk')]);
+            $(this).css('border-color', $(this).data('decay-color'));
+        });
+        $(".human-source").each(function(){
+            $(this).data('decay-color', data['human']['sourceDecay'][$(this).data('human-pk')]);
+            $(this).css('border-color', $(this).data('decay-color'));
+        });
+        $(".human-comment").each(function(){
+            $(this).data('decay-color', data['human']['commentDecay'][$(this).data('human-pk')]);
+            $(this).css('border-color', $(this).data('decay-color'));
+        });
+    } else{ // for last week's data
+        $(".human-number").each(function(){
+            $(this).data('decay-color', getDecayColor(data['human']['numberDecay'][$(this).data('human-pk')]));
+            $(this).css('border-color', $(this).data('decay-color'));
+        });
+        $(".human-source").each(function(){
+            $(this).data('decay-color', getDecayColor(data['human']['sourceDecay'][$(this).data('human-pk')]));
+            $(this).css('border-color', $(this).data('decay-color'));
+        });
+        $(".human-comment").each(function(){
+            $(this).data('decay-color', getDecayColor(data['human']['commentDecay'][$(this).data('human-pk')]));
+            $(this).css('border-color', $(this).data('decay-color'));
+        });
+    }
+
     // People in need data
     for (var pk in data["people"]["total"])
         $(".people-total[data-people-pk='" + pk + "']").val(data["people"]["total"][pk]);
@@ -416,12 +508,15 @@ function getInputData() {
     // Humanitarian profile data
     $(".human-number").each(function() {
         data["human"]["number"][$(this).data("human-pk")] = getNumberValue($(this));
+        data["human"]["numberDecay"][$(this).data("human-pk")] = $(this).data('decay-color');
     });
     $(".human-source").each(function() {
         data["human"]["source"][$(this).data("human-pk")] = $(this).val();
+        data["human"]["sourceDecay"][$(this).data("human-pk")] = $(this).data('decay-color');
     });
     $(".human-comment").each(function() {
         data["human"]["comment"][$(this).data("human-pk")] = $(this).val();
+        data["human"]["commentDecay"][$(this).data("human-pk")] = $(this).data('decay-color');
     });
 
     // People in need data
@@ -503,14 +598,19 @@ function getInputData() {
     });
 }
 
-
-// $(window).on('resize', function(e) {
-//     $('#navigator').width($('#report-content').innerWidth())
-// });
-
-
 function checkRules() {
+    $('.human-comment').on('paste change input', function(){
+        // check for decay
+        humanitarianProfileDecay.updateHumanComment($(this));
+    });
+    $('.human-source').on('paste change input', function(){
+        // check for decay
+        humanitarianProfileDecay.updateHumanSource($(this));
+    });
     $('.human-number').on('paste change input', function(){
+        // check for decay
+        humanitarianProfileDecay.updateHumanNumber($(this));
+
         var errors = "";
         for (var i=0; i<human_profile_field_rules.length; i++) {
             var rule = human_profile_field_rules[i];

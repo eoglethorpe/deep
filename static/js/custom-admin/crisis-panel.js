@@ -8,13 +8,13 @@ $(document).ready(function(){
     $('#crisis-search').on('cut input paste drop keyup', function(){
         var searchText = $(this).val().trim().toLowerCase();
         if(searchText == ''){
-            $('.crisis').slideDown();
+            $('.crisis').show();
         }else{
             $('.crisis').each(function(){
                 if($(this).text().trim().toLowerCase().indexOf(searchText) != -1){
-                    $(this).slideDown();
+                    $(this).show();
                 } else {
-                    $(this).slideUp();
+                    $(this).hide();
                 }
 
             });
