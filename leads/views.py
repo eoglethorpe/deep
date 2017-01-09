@@ -5,6 +5,7 @@ from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
+from django.conf import settings
 
 from datetime import datetime
 import json
@@ -45,17 +46,17 @@ def get_simplified_lead(lead, context):
                 name, extension = attachment.upload.name, ""
             if extension == ".pdf":
                 context["lead_simplified"] = \
-                    PdfStripper(attachment.upload).simplify()
+                    PdfStripper(os.path.join(settings.MEDIA_ROOT, attachment.upload.name)).simplify()
             elif extension in [".html", ".htm"]:
                 context["lead_simplified"] = \
                     HtmlStripper(attachment.upload.read()).simplify()
             else:
                 context["lead_simplified"] = attachment.upload.read()
     except Exception as e:
-        # raise e
+        raise e
         # print(e)
         # print("Error while simplifying")
-        pass
+        # pass
 
 
 def get_lead_form_data():
