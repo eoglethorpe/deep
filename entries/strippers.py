@@ -43,6 +43,7 @@ class WebDocument:
             self.html = None
             fp = tempfile.NamedTemporaryFile(dir=settings.BASE_DIR)
             r = requests.get(url, stream=True)
+            # fp.write(r.content)
             # fp.write(bytes(r.text, 'utf-8'))
             for chunk in r.iter_content(chunk_size=1024):
                 if chunk:
