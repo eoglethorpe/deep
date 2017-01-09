@@ -78,7 +78,7 @@ body main #country-list {
     height: calc(100% - 96px); }
     body main #country-list #countries .country {
       padding: 16px;
-      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
       cursor: pointer; }
       body main #country-list #countries .country.active {
         background-color: #008080;

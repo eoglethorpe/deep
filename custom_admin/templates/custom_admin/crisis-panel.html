@@ -46,24 +46,26 @@ DEEP | Crisis Manager
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3 col-md-offset-1">
+                <div id="crisis-header">
+                    <button id="add-new-crisis-btn" class="btn btn-primary" onclick="addNewCrisis()"><i class="fa fa-plus"></i>Add new crisis</button>
+                    <h2>Crises</h2>
+                    <input id="crisis-search" placeholder="Search crisis">
+                    <i class="fa fa-search"></i>
+                </div>
                 <div id="crisis-list">
-                    <button id="add-new-crisis-btn" class="btn btn-primary" onclick="addNewCrisis()" ><i class="fa fa-plus"></i>Add new crisis</button>
-                    <h2>Crisis List</h2>
-
-                    <hr>
                     {% for event in events %}
                     <div class="crisis {% if event.pk == selected_event %}active{% endif %}" data-crisis-pk="{{event.pk}}">{{event.name}}</div>
                     {% endfor %}
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-7 ">
                 <div id="crisis-detail">
                     <form method="post" action="{% url 'custom_admin:crisis_panel' %}">
                     {%csrf_token%}
-                    <h2> Add new crisis </h2>
+                    <h2>Add new crisis</h2>
                     <input type="hidden" name="crisis-pk" id="crisis-pk" value="new">
                     <div class="form-group">
-                        <label> Name </label>
+                        <label>Name</label>
                         <input name="crisis-name" type="text" class="form-control" id="crisis-name" placeholder="Enter crisis name" required>
                     </div>
                     <div class="form-group">

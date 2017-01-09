@@ -5,6 +5,22 @@ var spilloverSelectize;
 
 $(document).ready(function(){
 
+    $('#crisis-search').on('cut input paste drop keyup', function(){
+        var searchText = $(this).val().trim().toLowerCase();
+        if(searchText == ''){
+            $('.crisis').slideDown();
+        }else{
+            $('.crisis').each(function(){
+                if($(this).text().trim().toLowerCase().indexOf(searchText) != -1){
+                    $(this).slideDown();
+                } else {
+                    $(this).slideUp();
+                }
+
+            });
+        }
+    });
+
     disasterTypeSelectize = $("#disaster-type").selectize();
     countriesSelectize = $("#countries").selectize();
     assignedToSelectize = $("#assigned-to").selectize();
@@ -14,7 +30,7 @@ $(document).ready(function(){
         var pk = $(this).data("crisis-pk");
         var crisis = crises[pk];
 
-        $("#crisis-detail").find("h2").text("Edit crisis");
+        $("#crisis-detail").find("h2").text("Edit crisis / "+crisis.name);
 
         // Change form values for active crisis
         $("#crisis-pk").val(pk);

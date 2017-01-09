@@ -229,7 +229,7 @@ body{
             }
             #timeline-view{
                 position: relative;
-                padding: 32px;
+                padding: 0 48px;
 
                 #line{
                     position: absolute;
@@ -248,17 +248,27 @@ body{
 
                     h3{
                         margin: -10px -24px 10px -24px;
-                        padding: 16px 24px;
+                        padding: 10px 24px;
                         border-top-left-radius: 3px;
                         border-top-right-radius: 3px;
                         background-color: $primary-color;
                         color: #fff;
+                    }
+                    date{
+                        position: absolute;
+                        top: 20px;
+                    }
+                    p{
+                        margin: 0;
                     }
 
                     &:nth-child(odd){
                         clear: both;
                         float: left;
 
+                        date{
+                            right: -108px;
+                        }
                         &:before{
                             display: inline-block;
                             content: '';
@@ -274,6 +284,9 @@ body{
                         clear: both;
                         float: right;
 
+                        date{
+                            left: -108px;
+                        }
                         &:before{
                             display: inline-block;
                             content: '';

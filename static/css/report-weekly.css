@@ -277,7 +277,7 @@ body {
     margin-bottom: 10px; }
   #main #report-content #key-events #timeline-view {
     position: relative;
-    padding: 32px; }
+    padding: 0 48px; }
     #main #report-content #key-events #timeline-view #line {
       position: absolute;
       width: 2px;
@@ -293,14 +293,21 @@ body {
       position: relative; }
       #main #report-content #key-events #timeline-view .time-element h3 {
         margin: -10px -24px 10px -24px;
-        padding: 16px 24px;
+        padding: 10px 24px;
         border-top-left-radius: 3px;
         border-top-right-radius: 3px;
         background-color: #008080;
         color: #fff; }
+      #main #report-content #key-events #timeline-view .time-element date {
+        position: absolute;
+        top: 20px; }
+      #main #report-content #key-events #timeline-view .time-element p {
+        margin: 0; }
       #main #report-content #key-events #timeline-view .time-element:nth-child(odd) {
         clear: both;
         float: left; }
+        #main #report-content #key-events #timeline-view .time-element:nth-child(odd) date {
+          right: -108px; }
         #main #report-content #key-events #timeline-view .time-element:nth-child(odd):before {
           display: inline-block;
           content: '';
@@ -313,6 +320,8 @@ body {
       #main #report-content #key-events #timeline-view .time-element:nth-child(even) {
         clear: both;
         float: right; }
+        #main #report-content #key-events #timeline-view .time-element:nth-child(even) date {
+          left: -108px; }
         #main #report-content #key-events #timeline-view .time-element:nth-child(even):before {
           display: inline-block;
           content: '';
