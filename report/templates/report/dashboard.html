@@ -16,11 +16,12 @@
         <h1>Report Dashboard</h1>
         <div class="row">
             <div class="col-md-3" style="padding-right: 8px">
-                <div id="country-list">
+                <div id="country-list-header">
                     <input id="search-country" placeholder="Search country">
                     <i class="fa fa-search"></i>
                     <h2>Countries</h2>
-
+                </div>
+                <div id="country-list">
                     {% for c in countries %}
                     <a class="country-container" data-name="{{c.name}}" href="{% url 'report:dashboard' %}?country={{c.pk}}">
                         <div class="country {% if country and country == c%}active{% endif %}">
