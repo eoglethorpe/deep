@@ -52,6 +52,7 @@ def get_simplified_lead(lead, context):
             else:
                 context["lead_simplified"] = attachment.upload.read()
     except Exception as e:
+        # raise e
         # print(e)
         # print("Error while simplifying")
         pass
