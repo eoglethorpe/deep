@@ -40,6 +40,10 @@
                         <option value="{% url request.resolver_match.view_name event=ev.pk %}" {% if event and event == ev %}selected{% endif %}>{{ev}}</option>
                         {% endfor %}
                     </select>
+                    {% else %}
+                    {% if event %}
+                    <a href="#" style="color: #fff; font-weight: bold;"><span class="fa fa-location-arrow" style="margin-right: 8px;"></span>{{event}}</a>
+                    {% endif %}
                     {% endif %}
                 </div>
             </div>
