@@ -46,17 +46,17 @@ def get_simplified_lead(lead, context):
                 name, extension = attachment.upload.name, ""
             if extension == ".pdf":
                 context["lead_simplified"] = \
-                    PdfStripper(os.path.join(settings.MEDIA_ROOT, attachment.upload.name)).simplify()
+                    PdfStripper(attachment.upload).simplify()
             elif extension in [".html", ".htm"]:
                 context["lead_simplified"] = \
                     HtmlStripper(attachment.upload.read()).simplify()
             else:
                 context["lead_simplified"] = attachment.upload.read()
     except Exception as e:
-        raise e
+        # raise e
         # print(e)
         # print("Error while simplifying")
-        # pass
+        pass
 
 
 def get_lead_form_data():
