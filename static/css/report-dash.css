@@ -115,36 +115,40 @@ nav {
   font-weight: bold;
   margin-bottom: 24px;
   margin-top: 24px; }
-#main #country-list-header #search-country {
-  float: right;
-  outline: none;
-  margin-right: 10px;
-  margin-top: 20px;
-  padding: 4px 10px;
-  padding-left: 32px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 3px; }
-#main #country-list-header #search-country + .fa {
-  float: right;
-  margin-right: -24px;
-  margin-top: 27px;
-  color: rgba(0, 0, 0, 0.5); }
-#main #country-list-header h2 {
-  padding: 28px 0 26px 24px;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.05); }
-#main #country-list-header #crisis-status label {
-  margin-right: 16px;
-  cursor: pointer;
-  color: #767676;
-  vertical-align: bottom; }
-#main #country-list-header #crisis-status .crisis-status {
-  margin: 10px; }
-#main #country-list-header #crisis-status input {
-  outline: none;
-  vertical-align: sub; }
+#main #country-list-header {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+  background-color: #fff; }
+  #main #country-list-header #search-country {
+    float: right;
+    outline: none;
+    margin-right: 10px;
+    margin-top: 20px;
+    padding: 4px 10px;
+    padding-left: 32px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 3px; }
+  #main #country-list-header #search-country + .fa {
+    float: right;
+    margin-right: -24px;
+    margin-top: 27px;
+    color: rgba(0, 0, 0, 0.5); }
+  #main #country-list-header h2 {
+    padding: 28px 0 16px 24px; }
+  #main #country-list-header #crisis-status {
+    padding-left: 24px; }
+    #main #country-list-header #crisis-status label {
+      margin-right: 16px;
+      cursor: pointer;
+      color: #767676;
+      vertical-align: bottom; }
+    #main #country-list-header #crisis-status .crisis-status {
+      margin-right: 4px; }
+    #main #country-list-header #crisis-status input {
+      outline: none;
+      vertical-align: sub; }
 #main #country-list {
   background-color: #fff;
-  height: calc(100vh - 56px - 140px);
+  height: calc(100vh - 56px - 156px);
   overflow-y: auto;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
   #main #country-list hr {
@@ -231,7 +235,7 @@ nav {
       #main #report-list .reports #weekly-report-list .weekly-report p {
         display: inline-block;
         margin: 0;
-        font-family: monospace; }
+        font-family: 'Inconsolata', monospace; }
         #main #report-list .reports #weekly-report-list .weekly-report p:before {
           content: '['; }
         #main #report-list .reports #weekly-report-list .weekly-report p:after {

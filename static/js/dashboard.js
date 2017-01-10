@@ -98,6 +98,10 @@ var active_countries = {};
 var filtered_reports = {};
 
 $(document).ready(function(){
+    $('#timeline-table-container').on('scroll' ,function(){
+        $('#timeline-table-col0-container').scrollTop($(this).scrollTop());
+    });
+
     buildFilters();
 
     // Selectize
@@ -147,12 +151,16 @@ function loadTimetable() {
 
     $('#timeline-table-container').slideUp('fast', function(){
         var table = $("#timeline-table");
+        var tableCol0 = $("#timeline-table-col0");
         table.removeClass('country-details');
+        tableCol0.removeClass('country-details');
         table.find('thead').find('tr').empty();
+        tableCol0.find('thead').find('tr').empty();
         table.find('tbody').empty();
+        tableCol0.find('tbody').empty();
 
         var hd = $("<td class='overlay-td'>Countries</td>");
-        hd.appendTo(table.find('thead').find('tr'));
+        hd.appendTo(tableCol0.find('thead').find('tr'));
 
         // Week headers
         for (var i=0; i<weekly_reports.length; ++i) {
@@ -167,10 +175,10 @@ function loadTimetable() {
         // Country rows
         for (var countryCode in countries) {
             var tr = $("<tr class='country-data'></tr>");
-            tr.appendTo(table.find('tbody'));
+            var trCol0 = $("<tr class='country-data'></tr>");
 
             var td = $("<td class='overlay-td country-name'>" + countries[countryCode] + "</td>");
-            td.appendTo(tr);
+            td.appendTo(trCol0);
 
             td.unbind().click(function(countryCode) {
                 return function() {
@@ -192,9 +200,7 @@ function loadTimetable() {
                                 && (dateFilter == null || dateFilter(weekly_reports[i].created_at[index])))
                         {
                             hasReports = true;
-
                             td.addClass('active');
-                            //td.html('<i class="fa fa-check-circle"></i>');
                             td.click(function(countryCode, eventId, reportId) {
                                 return function(){
                                    window.location.href = '/report/weekly/edit/' + countryCode + '/' + eventId + '/' + reportId;
@@ -205,14 +211,15 @@ function loadTimetable() {
                 }
             }
 
-            if (hasReports)
-                tr.show();
-            else
-                tr.hide();
+            if (hasReports) {
+                tr.appendTo(table.find('tbody'));
+                trCol0.appendTo(tableCol0.find('tbody'));
+                tableCol0.css('width', '100%');
+            }
         }
 
         $('#timeline-table-container').slideDown(function() {
-            $('#timeline-table-container').scrollLeft($('#timeline-table-container').width());
+            $('#timeline-table-container').scrollLeft($('#timeline-table').width());
         });
     });
     $("#back-btn").hide();
@@ -223,11 +230,18 @@ function loadTimetableForCountry(countryCode) {
 
     $('#timeline-table-container').slideUp('fast', function(){
         var table = $("#timeline-table");
+        var tableCol0 = $("#timeline-table-col0");
         table.addClass('country-details')
+        tableCol0.addClass('country-details')
         table.find('thead').find('tr').empty();
+        tableCol0.find('thead').find('tr').empty();
         table.find('tbody').empty();
+        tableCol0.find('tbody').empty();
 
-        $("<td class='overlay-td'>" + countries[countryCode] + "</td>").appendTo(table.find('thead').find('tr'));
+        var cctd = $("<td class='overlay-td'>" + countries[countryCode] + "</td>");
+        cctd.appendTo(tableCol0.find('thead').find('tr'));
+        cctd.data('top', cctd.css('top'));
+
         // Week headers
         for (var i=0; i<weekly_reports.length; ++i) {
             var range = formatDate(weekly_reports[i].start_date) + " to " + formatDate(weekly_reports[i].end_date);
@@ -242,10 +256,13 @@ function loadTimetableForCountry(countryCode) {
         var crises = crises_per_country[countryCode];
         for (var crisisPk in crises) {
             var tr = $("<tr class='country-data'></tr>");
+            var trCol0 = $("<tr class='country-data'></tr>");
             tr.appendTo(table.find('tbody'));
+            trCol0.appendTo(tableCol0.find('tbody'));
 
             var td = $("<td class='country-name overlay-td'>" + crises[crisisPk] + "</td>");
-            td.appendTo(tr);
+            td.appendTo(trCol0);
+            td.data('top', td.css('top'));
 
             // Crisis reports
             for (var i=0; i<weekly_reports.length; ++i) {
@@ -276,7 +293,7 @@ function loadTimetableForCountry(countryCode) {
         }
 
         $('#timeline-table-container').slideDown(function() {
-            $('#timeline-table-container').scrollLeft($('#timeline-table-container').width());
+            $('#timeline-table-container').scrollLeft($('#timeline-table').width());
         });
     });
     $("#back-btn").show();

@@ -12,6 +12,7 @@ body{
     margin-top: $navbar-height;
     padding: 0;
     background-color: #f5f5f5;
+    overflow: hidden;
 
     #map-section{
         h2{
@@ -22,24 +23,23 @@ body{
         }
         #the-map{
             background: transparent;
-            height: 480px;
+            height: 44vh;
         }
         #overview{
-            padding-top: 32px;
-            height: 480px;
+            height: 44vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
 
             h1{
                 margin: 0;
                 text-transform: uppercase;
                 margin-bottom: 24px;
                 color: $primary-color;
-                margin-left: 166px;
             }
             div{
-                margin-bottom: 16px;
             }
             label{
-                margin-left: 16px;
                 color: $text-color;
                 font-size: $text-size-xl;
                 font-weight: $font-weight-thin;
@@ -47,29 +47,32 @@ body{
             }
             .number{
                 display: inline-block;
-                width: 156px;
                 text-align: right;
-                font-size: 3.2em;
+                margin-right: 10px;
+                margin-left: 10px;
+                font-size: 3em;
                 color: $label-color;
+                min-width: 4ch;
+                font-family: 'Inconsolata', monospace;
             }
 
         }
     }
     #body{
         box-shadow: 0 -2px 5px 1px rgba(0, 0, 0, 0.3);
-        min-height: 50vh;
+        height: calc(56vh - $navbar-height);
 
-        #filters{
-            margin-top: 16px;
-        }
-        label{
-            vertical-align: sub;
-        }
-        h3{
-            text-transform: uppercase;
-            margin: 16px 0;
-        }
+        #header{
+            height: 48px;
+            padding-top: 6px;
+            z-index: 1;
 
+            h3{
+                margin: 0;
+                text-transform: uppercase;
+                padding-top: 10px;
+            }
+        }
         #back-btn{
             position: absolute;
             margin-top: 24px;
@@ -79,11 +82,22 @@ body{
                 margin-right: 10px;
             }
         }
-        #timeline-table-container {
+
+        #timeline-table-wrapper {
             width: 100%;
             overflow-x: scroll;
 
-            #timeline-table{
+            #timeline-table-col0-container{
+                height: calc(56vh - #{$navbar-height} - 48px);
+                overflow-y: hidden;
+                overflow-x: scroll;
+            }
+            #timeline-table-container{
+                height: calc(56vh - #{$navbar-height} - 48px);
+                overflow-y: scroll;
+            }
+
+            #timeline-table, #timeline-table-col0{
                 border-collapse: separate;
                 @include shadow();
 
@@ -95,20 +109,11 @@ body{
                         background-color: #fff;
                     }
                 }
-                .overlay-td{
-                    width: 176px;
-                    position: absolute;
-                    box-shadow: 5px 0 10px -5px rgba(0,0,0,0.3);
-                    overflow: hidden;
-
-                    & + td{
-                        padding-left: 192px;
-                    }
-                }
                 td{
                     padding: 16px;
                     text-align: center;
                     height: 56px;
+                    z-index: 0;
                 }
                 tr{
                     background-color: #f8f8f8;
@@ -142,7 +147,6 @@ body{
             td{
                 &:first-child{
                     font-weight: $font-weight-bold;
-
                 }
             }
         }

@@ -45,25 +45,26 @@ DEEP | Crisis Manager
 <main>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-3 col-md-offset-1">
+            <div class="col-md-3 col-md-offset-1" >
                 <div id="crisis-header">
                     <button id="add-new-crisis-btn" class="btn btn-primary" onclick="addNewCrisis()"><i class="fa fa-plus"></i>Add new crisis</button>
                     <h2>Crises</h2>
                     <input id="crisis-search" placeholder="Search crisis">
                     <i class="fa fa-search"></i>
+                    <div id="crisis-status-radio">
+                        <label class="active"><input name="crisis-status-radio" value="2" type="radio" checked>All</label>
+                        <label><input name="crisis-status-radio" value="0" type="radio">Global Monitoring</label>
+                        <label><input name="crisis-status-radio" value="1" type="radio">Active Crisis</label>
+                    </div>
                 </div>
-                <div id="crisis-status-radio">
-                    <label><input class="crisis-status-radio" name="crisis-status-radio" value="0" type="radio">Global Monitoring</label>
-                    <label><input class="crisis-status-radio" name="crisis-status-radio" value="1" type="radio" checked>Active Crisis</label>
-                    <label><input class="crisis-status-radio" name="crisis-status-radio" value="2" type="radio" checked>All</label>
-                </div>
+
                 <div id="crisis-list">
                     {% for event in events %}
-                    <div class="crisis {% if event.pk == selected_event %}active{% endif %}" data-crisis-pk="{{event.pk}}">{{event.name}}</div>
+                    <div class="crisis {% if event.pk == selected_event %}active{% endif %}" data-crisis-status="{{ event.status }}" data-crisis-pk="{{ event.pk }}">{{event.name}}</div>
                     {% endfor %}
                 </div>
             </div>
-            <div class="col-md-7 ">
+            <div class="col-md-7" >
                 <div id="crisis-detail">
                     <form method="post" action="{% url 'custom_admin:crisis_panel' %}">
                     {%csrf_token%}
@@ -139,8 +140,8 @@ DEEP | Crisis Manager
                         </select>
                     </div>
                     <div class = "form-group" id="action-buttons">
-                        <button class='btn btn-danger' name="delete" id="delete-btn" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Delete" onclick="return confirm('Are you sure?');" hidden> <i class='fa fa-trash'></i>Delete Crisis</button>
-                        <button class='btn btn-info' name="save" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Save" > <i class='fa fa-save'></i>Save Crisis</button>
+                        <button class='btn btn-danger' name="delete" id="delete-btn"onclick="return confirm('Are you sure you want to delete this crisis?');" hidden> <i class='fa fa-trash'></i>Delete Crisis</button>
+                        <button class='btn btn-info' name="save"> <i class='fa fa-save'></i>Save Crisis</button>
                     </div>
 
                     </form>
