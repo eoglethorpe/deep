@@ -1,4 +1,4 @@
-@import 'common/base';
+    @import 'common/base';
 
 body{
     h1, h2, h3, h4{
@@ -73,11 +73,28 @@ body{
                 z-index: 1;
                 color: rgba(0, 0, 0, 0.5);
             }
+
+        }
+        #crisis-status-radio{
+            label{
+                margin-right: 16px;
+                cursor: pointer;
+                color: $label-color;
+                vertical-align: bottom;
+            }
+            .crisis-status-radio{
+                margin: 1px;
+            }
+            input{
+                outline: none;
+                vertical-align: sub;
+            }
         }
         #crisis-list{
             height: calc(100vh - #{$navbar-height} - 128px);
             overflow-y: auto;
             padding-right: 10px;
+            
 
             .crisis{
                 padding: 16px 24px;

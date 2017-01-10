@@ -20,6 +20,11 @@
                     <input id="search-country" placeholder="Search country">
                     <i class="fa fa-search"></i>
                     <h2>Countries</h2>
+                    <div id="crisis-status">
+                        <label><input class="crisis-status" name="crisis-status" value="0" type="radio">Global Monitoring</label>
+                        <label><input class="crisis-status" name="crisis-status" value="1" type="radio" checked>Active Crisis</label>
+                        <label><input class="crisis-status" name="crisis-status" value="2" type="radio" checked>All</label>
+                    </div>
                 </div>
                 <div id="country-list">
                     {% for c in countries %}

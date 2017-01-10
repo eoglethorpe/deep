@@ -52,6 +52,11 @@ DEEP | Crisis Manager
                     <input id="crisis-search" placeholder="Search crisis">
                     <i class="fa fa-search"></i>
                 </div>
+                <div id="crisis-status-radio">
+                    <label><input class="crisis-status-radio" name="crisis-status-radio" value="0" type="radio">Global Monitoring</label>
+                    <label><input class="crisis-status-radio" name="crisis-status-radio" value="1" type="radio" checked>Active Crisis</label>
+                    <label><input class="crisis-status-radio" name="crisis-status-radio" value="2" type="radio" checked>All</label>
+                </div>
                 <div id="crisis-list">
                     {% for event in events %}
                     <div class="crisis {% if event.pk == selected_event %}active{% endif %}" data-crisis-pk="{{event.pk}}">{{event.name}}</div>
