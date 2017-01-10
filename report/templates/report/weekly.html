@@ -14,9 +14,9 @@ DEEP | Weekly Report
 <script src="{% static 'js/common/selectize.js' %}"></script>
 <script src="{% static 'js/common/utils.js' %}"></script>
 <script src="{% static 'js/report/report-weekly.js' %}"></script>
+<script src="{% static 'js/report/decay.js' %}"></script>
 
 <script>
-
 var eventId = "{{event.pk}}";
 var csrf_token = "{% csrf_token %}";
 var reportMode = "new";
