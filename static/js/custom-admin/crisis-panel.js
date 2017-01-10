@@ -3,22 +3,31 @@ var countriesSelectize;
 var assignedToSelectize;
 var spilloverSelectize;
 
+function filterCrises() {
+    var crisisStatus = $('input[type=radio][name=crisis-status-radio]:checked').val();
+    var searchText = $('#crisis-search').val().trim().toLowerCase();
+
+    $('.crisis').each(function(){
+        if ((crisisStatus == '2' || $(this).data('crisis-status') == crisisStatus)
+            && (searchText.length == 0 || $(this).text().trim().toLowerCase().indexOf(searchText) != -1))
+        {
+            $(this).show();
+        } else {
+            $(this).hide();
+        }
+    });
+}
+
 $(document).ready(function(){
+    $('input[type=radio][name=crisis-status-radio]').change(function(){
+        $('#crisis-status-radio label').removeClass('active');
+        $(this).closest('label').addClass('active');
+        filterCrises();
+    });
+
 
     $('#crisis-search').on('cut input paste drop keyup', function(){
-        var searchText = $(this).val().trim().toLowerCase();
-        if(searchText == ''){
-            $('.crisis').show();
-        }else{
-            $('.crisis').each(function(){
-                if($(this).text().trim().toLowerCase().indexOf(searchText) != -1){
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-
-            });
-        }
+        filterCrises();
     });
 
     disasterTypeSelectize = $("#disaster-type").selectize();
@@ -49,7 +58,7 @@ $(document).ready(function(){
 
         $("#delete-btn").show();
 
-        $('.active').removeClass('active');
+        $('.crisis.active').removeClass('active');
         $(this).addClass('active');
     });
 
@@ -81,5 +90,5 @@ function addNewCrisis() {
 
     $("#delete-btn").hide();
 
-    $('.active').removeClass('active');
+    $('.crisis.active').removeClass('active');
 }

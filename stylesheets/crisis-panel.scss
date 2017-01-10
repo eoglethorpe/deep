@@ -38,11 +38,11 @@ body{
             font-size: $text-size-sl;
         }
         #crisis-header{
-            height: 128px;
-            padding: 32px 0 24px 0;
+            height: 144px;
+            padding: 32px 16px 24px 0;
 
             h2{
-                margin-bottom: 24px;
+                margin-bottom: 16px;
             }
             #add-new-crisis-btn{
                 float: right;
@@ -53,7 +53,7 @@ body{
                     margin-right: 10px;
                 }
             }
-            input{
+            #crisis-search{
                 outline: none;
                 width: 100%;
                 border-radius: 3px;
@@ -73,28 +73,34 @@ body{
                 z-index: 1;
                 color: rgba(0, 0, 0, 0.5);
             }
+            #crisis-status-radio{
+                margin-top: 16px;
+                text-align: center;
 
+                label{
+                    padding: 0 10px;
+                    cursor: pointer;
+                    color: $label-color;
+                    vertical-align: bottom;
+                    user-select: none;
+                }
+                .active {
+                    color: $primary-color;
+                    border-bottom: 1px solid $primary-color;
+                }
+                input{
+                    display: none;
+                    //margin-right: 4px;
+                    // outline: none;
+                    // vertical-align: sub;
+                }
+            }
         }
-        #crisis-status-radio{
-            label{
-                margin-right: 16px;
-                cursor: pointer;
-                color: $label-color;
-                vertical-align: bottom;
-            }
-            .crisis-status-radio{
-                margin: 1px;
-            }
-            input{
-                outline: none;
-                vertical-align: sub;
-            }
-        }
+
         #crisis-list{
-            height: calc(100vh - #{$navbar-height} - 128px);
+            height: calc(100vh - #{$navbar-height} - 144px);
             overflow-y: auto;
             padding-right: 10px;
-            
 
             .crisis{
                 padding: 16px 24px;
@@ -112,7 +118,6 @@ body{
             padding: 32px;
             height: calc(100vh - #{$navbar-height} - 5px);
             overflow-y: auto;
-            //border-radius: 10px;
             background-color: #fff;
             @include shadow();
 

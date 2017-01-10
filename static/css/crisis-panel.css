@@ -61,10 +61,10 @@ body main h2 {
   font-weight: 600;
   font-size: 18px; }
 body main #crisis-header {
-  height: 128px;
-  padding: 32px 0 24px 0; }
+  height: 144px;
+  padding: 32px 16px 24px 0; }
   body main #crisis-header h2 {
-    margin-bottom: 24px; }
+    margin-bottom: 16px; }
   body main #crisis-header #add-new-crisis-btn {
     float: right;
     margin-top: -10px;
@@ -73,7 +73,7 @@ body main #crisis-header {
       box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
     body main #crisis-header #add-new-crisis-btn .fa {
       margin-right: 10px; }
-  body main #crisis-header input {
+  body main #crisis-header #crisis-search {
     outline: none;
     width: 100%;
     border-radius: 3px;
@@ -81,9 +81,9 @@ body main #crisis-header {
     border: 1px solid rgba(0, 0, 0, 0.2);
     background-color: transparent;
     box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-    body main #crisis-header input:active {
+    body main #crisis-header #crisis-search:active {
       box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-    body main #crisis-header input:focus, body main #crisis-header input:active {
+    body main #crisis-header #crisis-search:focus, body main #crisis-header #crisis-search:active {
       border: 1px solid #008080; }
   body main #crisis-header input + .fa {
     float: left;
@@ -91,18 +91,22 @@ body main #crisis-header {
     margin-left: 16px;
     z-index: 1;
     color: rgba(0, 0, 0, 0.5); }
-body main #crisis-status-radio label {
-  margin-right: 16px;
-  cursor: pointer;
-  color: #767676;
-  vertical-align: bottom; }
-body main #crisis-status-radio .crisis-status-radio {
-  margin: 1px; }
-body main #crisis-status-radio input {
-  outline: none;
-  vertical-align: sub; }
+  body main #crisis-header #crisis-status-radio {
+    margin-top: 16px;
+    text-align: center; }
+    body main #crisis-header #crisis-status-radio label {
+      padding: 0 10px;
+      cursor: pointer;
+      color: #767676;
+      vertical-align: bottom;
+      user-select: none; }
+    body main #crisis-header #crisis-status-radio .active {
+      color: #008080;
+      border-bottom: 1px solid #008080; }
+    body main #crisis-header #crisis-status-radio input {
+      display: none; }
 body main #crisis-list {
-  height: calc(100vh - 56px - 128px);
+  height: calc(100vh - 56px - 144px);
   overflow-y: auto;
   padding-right: 10px; }
   body main #crisis-list .crisis {
