@@ -5,7 +5,13 @@ import tempfile
 from django.conf import settings
 
 from readability.readability import Document
-import textract
+
+import pdfminer
+from pdfminer.pdfinterp import PDFResourceManager, process_pdf
+from pdfminer.converter import HTMLConverter, TextConverter
+from pdfminer.layout import LAParams
+
+# import textract
 
 import re
 import shutil
@@ -44,11 +50,13 @@ class WebDocument:
             fp = tempfile.NamedTemporaryFile(dir=settings.BASE_DIR)
             r = requests.get(url, stream=True)
             # fp.write(r.content)
-            # fp.write(bytes(r.text, 'utf-8'))
+
             for chunk in r.iter_content(chunk_size=1024):
                 if chunk:
                     fp.write(chunk)
-            self.pdf = fp.name
+
+            # self.temp = fp
+            self.pdf = fp
 
 
 class HtmlStripper:
@@ -75,30 +83,31 @@ class PdfStripper:
     """Stripper class to simplify PDF documents.
     """
 
-    def __init__(self, file_path):
-        self.file_path = file_path
+    def __init__(self, doc):
+        self.doc = doc
 
     def simplify(self):
-        if not self.file_path:
+        if not self.doc:
             raise StripError("Not a pdf document")
 
-        # fp = self.doc
-        # fp.seek(0)
-        # outfp = tempfile.TemporaryFile("w+")
-        #
-        # rmgr = PDFResourceManager()
-        # params = LAParams()
-        # device = TextConverter(rmgr, outfp, laparams=params) # HTMLConverter(rmgr, outfp, laparams=params)
-        # process_pdf(rmgr, device, fp, None, 0)
-        #
-        # fp.close()
-        #
-        # outfp.seek(0)
-        # content = outfp.read()
-        # outfp.close()
+        fp = self.doc
+        fp.seek(0)
+        outfp = tempfile.TemporaryFile("w+")
+
+        rmgr = PDFResourceManager()
+        params = LAParams()
+        device = TextConverter(rmgr, outfp, laparams=params) # HTMLConverter(rmgr, outfp, laparams=params)
+        process_pdf(rmgr, device, fp, None, 0)
+
+        fp.close()
+
+        outfp.seek(0)
+        content = outfp.read()
+        outfp.close()
+        return content
 
         # html = HtmlStripper(content).simplify()
         # regex = re.compile('\n*', flags=re.IGNORECASE)
         # html = regex.sub('', html)
         # return html
-        return textract.process(self.file_path)
+        # return textract.process(self.file_path)

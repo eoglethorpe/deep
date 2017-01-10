@@ -94,7 +94,15 @@ var editedAt = '{{report.last_edited_at|date:"Y-m-d"}}';
 // Some key figures to use in severity score
 var under5MortalityRate = +'{{country.u5m}}';
 var hdi = +'{{country.hdi_index}}';
-var uprootedPercentage = +'{{country.uprooted_percentage}}';
+
+var uprootedPeople = (+'{{country.number_of_refugees}}') + (+'{{country.number_of_idps}}') + (+'{{country.number_of_returned_refugees}}');
+var uprootedPercentage = 100.0 * uprootedPeople / (+'{{country.total_population}}');
+
+
+var totalPopulation = +'{{country.total_population}}';
+{% for field in human_profile_fields %}
+{% if field.total_field %}data['human']['number'][{{field.pk}}] = totalPopulation;{% endif %}
+{% endfor %}
 
 var timelineCategories = [{% for category in category_timelines %}"{{category}}",{% endfor %}];
 
@@ -267,7 +275,7 @@ var timelineCategories = [{% for category in category_timelines %}"{{category}}"
                                     <label>{{field.name}}</label>
                                 </div>
                                 <div class="col-md-2">
-                                    <input class="human-number number form-control{% if field.total_field %} human-profile-total{% endif %}{% if field.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{field.pk}}" placeholder="Number of person">
+                                    <input class="human-number number form-control{% if field.total_field %} human-profile-total{% endif %}{% if field.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{field.pk}}" placeholder="Number of person" {% if field.total_field %}readonly{% endif %}>
                                 </div>
                                 <div class="col-md-2">
                                     <input class="human-source form-control source-droppable" data-human-pk="{{field.pk}}" placeholder="Source/Date">

@@ -31,8 +31,11 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
     // Is simplified option selected?
     var isSimplified;
     // Simplified version of the lead.
-    var leadSimplified = "{% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %}";
-    leadSimplified = leadSimplified.replace(/(?:\r\n|\r|\n)/g, '<br />');
+    var leadSimplifiedHtml = $('<div> {% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %} </div>');
+    leadSimplifiedHtml.find('p').each(function(){
+        $(this).replaceWith($(this).text() + '\n\n')
+    });
+    var leadSimplified = leadSimplifiedHtml.text().trim();
 
     // Map selections
     var mapSelections = [
@@ -120,7 +123,7 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
             {% elif lead.lead_type == 'ATT' %}
             <iframe id="lead-preview" src="{{ lead.attachment.upload.url}}"></iframe>
             {% endif %}
-            <div id="lead-simplified-preview">{{lead_simplified|safe|escape}}</div>
+            <div id="lead-simplified-preview"></div>
         </div>
     </div>
     <div class="split-pane-divider" id="my-divider"></div>
