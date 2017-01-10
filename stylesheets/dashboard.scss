@@ -60,7 +60,7 @@ body{
     }
     #body{
         box-shadow: 0 -2px 5px 1px rgba(0, 0, 0, 0.3);
-        height: calc(56vh - $navbar-height);
+        overflow-x: hidden;
 
         #header{
             height: 48px;
@@ -85,18 +85,20 @@ body{
 
         #timeline-table-wrapper {
             width: 100%;
-            overflow-x: scroll;
+            overflow-x: hidden;
 
             #timeline-table-col0-container{
-                height: calc(56vh - #{$navbar-height} - 48px);
+                max-height: calc(56vh - #{$navbar-height} - 48px);
                 overflow-y: hidden;
                 overflow-x: scroll;
             }
             #timeline-table-container{
-                height: calc(56vh - #{$navbar-height} - 48px);
+                max-height: calc(56vh - #{$navbar-height} - 48px);
                 overflow-y: scroll;
             }
-
+            #timeline-table-col0{
+                border-right: 1px solid $primary-color;
+            }
             #timeline-table, #timeline-table-col0{
                 border-collapse: separate;
                 @include shadow();
