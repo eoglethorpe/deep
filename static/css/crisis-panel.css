@@ -91,6 +91,16 @@ body main #crisis-header {
     margin-left: 16px;
     z-index: 1;
     color: rgba(0, 0, 0, 0.5); }
+body main #crisis-status-radio label {
+  margin-right: 16px;
+  cursor: pointer;
+  color: #767676;
+  vertical-align: bottom; }
+body main #crisis-status-radio .crisis-status-radio {
+  margin: 1px; }
+body main #crisis-status-radio input {
+  outline: none;
+  vertical-align: sub; }
 body main #crisis-list {
   height: calc(100vh - 56px - 128px);
   overflow-y: auto;
