@@ -806,7 +806,7 @@ function autoCalculateScores() {
     if (uprootedPercentage >= 10)
         uprootedScore = 3;
 
-    $('#uprooted-people').val('N/A');
+    $('#uprooted-people').val(uprootedPeople);
     $('#uprooted-percentage').val(uprootedPercentage);
     $('#uprooted-score').val(uprootedScore);
 
