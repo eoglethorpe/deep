@@ -162,7 +162,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 {% elif lead.lead_type == 'ATT' %}
                 <iframe id="lead-preview" src="{{ lead.attachment.upload.url}}"></iframe>
                 {% endif %}
-                <div id="lead-simplified-preview">{{lead_simplified|safe|escape}}</div>
+                <div id="lead-simplified-preview"></div>
             </div>
 
         </div>
