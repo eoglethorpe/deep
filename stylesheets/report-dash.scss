@@ -29,10 +29,29 @@
             margin-top: 27px;
             color: rgba(0, 0, 0, 0.5);
         }
+
+
         h2{
             padding: 28px 0 26px 24px;
             border-bottom: 2px solid rgba(0, 0, 0, 0.05);
         }
+
+        #crisis-status{
+            label{
+                margin-right: 16px;
+                cursor: pointer;
+                color: $label-color;
+                vertical-align: bottom;
+            }
+            .crisis-status{
+                margin: 10px;
+            }
+            input{
+                outline: none;
+                vertical-align: sub;
+            }
+        }
+
     }
     #country-list{
         background-color: #fff;
