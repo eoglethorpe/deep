@@ -99,7 +99,11 @@ $(document).ready(function() {
             { data: "source"},
             { data: null, render: function(data, type, row) { return statuses[data.status]; } },
             { data: null, render: function(data, type, row){
-                return '<a class="btn btn-default btn-action btn-add-entry" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Add Entry" href="/'+currentEvent+'/entries/add/'+data.id+'"><i class="fa fa-share"></i></a> <a class="btn btn-default btn-action btn-edit" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Edit Entry" href="/'+currentEvent+'/leads/edit/'+data.id+'"><i class="fa fa-edit"></i></a>';
+                var getPendingBtn = function(){
+                    return (data.status == "PEN") ? '<a class="btn btn-default btn-action btn-mark-processed" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Mark Processed" onclick="markProcessed('+data.id+', \'PRO\');"><i class="fa fa-check"></i>  </a>' : '<a class="btn btn-default btn-action btn-mark-pending" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Mark Pending" onclick="markProcessed('+data.id+', \'PEN\');"><i class="fa fa-exclamation-triangle"></i></a>';
+                };
+                return '<a class="btn btn-default btn-action btn-add-entry" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Add Entry" href="/'+currentEvent+'/entries/add/'+data.id+'"><i class="fa fa-share"></i></a> <a class="btn btn-default btn-action btn-edit" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Edit Lead" href="/'+currentEvent+'/leads/edit/'+data.id+'"><i class="fa fa-edit"></i></a>'+getPendingBtn();
+
             }}
         ],
         initComplete: function(){
