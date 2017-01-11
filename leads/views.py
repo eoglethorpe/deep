@@ -231,6 +231,7 @@ class AddLead(View):
         context = {}
         context["current_page"] = "leads"
         context["event"] = Event.objects.get(pk=event)
+        context["events"] = Event.objects.all()
         UserProfile.set_last_event(request, context["event"])
         if id:
             context["lead"] = Lead.objects.get(pk=id)
