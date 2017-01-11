@@ -163,13 +163,8 @@ body {
         text-transform: uppercase;
         padding-top: 10px; }
     body #body #back-btn {
-      position: absolute;
-      margin-top: 24px;
-      box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
-      body #body #back-btn:active {
-        box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
-      body #body #back-btn .fa {
-        margin-right: 10px; }
+      margin-right: 10px;
+      cursor: pointer; }
     body #body #timeline-table-wrapper {
       width: 100%;
       overflow-x: hidden; }

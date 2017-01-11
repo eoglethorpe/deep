@@ -39,14 +39,15 @@ body{
         }
         #crisis-header{
             height: 144px;
-            padding: 32px 16px 24px 0;
+            padding: 32px 0 24px 0;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.2);
 
             h2{
                 margin-bottom: 16px;
             }
             #add-new-crisis-btn{
                 float: right;
-                margin-top: -10px;
+                margin-top: -16px;
                 @include btn-shadow-lg();
 
                 .fa{
@@ -74,11 +75,11 @@ body{
                 color: rgba(0, 0, 0, 0.5);
             }
             #crisis-status-radio{
-                margin-top: 16px;
-                text-align: center;
+
+                margin-top: 10px;
 
                 label{
-                    padding: 0 10px;
+                    padding: 6px 16px;
                     cursor: pointer;
                     color: $label-color;
                     vertical-align: bottom;
@@ -86,28 +87,33 @@ body{
                 }
                 .active {
                     color: $primary-color;
-                    border-bottom: 1px solid $primary-color;
+                    border-bottom: 2px solid $primary-color;
                 }
                 input{
                     display: none;
-                    //margin-right: 4px;
-                    // outline: none;
-                    // vertical-align: sub;
                 }
             }
         }
 
         #crisis-list{
-            height: calc(100vh - #{$navbar-height} - 144px);
+            height: calc(100vh - #{$navbar-height} - 156px);
             overflow-y: auto;
-            padding-right: 10px;
+            margin-top: 10px;
 
             .crisis{
-                padding: 16px 24px;
-                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                padding: 10px 16px;
+                //border-bottom: 1px solid rgba(0, 0, 0, 0.1);
                 cursor: pointer;
+
+                &:nth-child(odd){
+                    background-color: #fafafa;
+                }
+
+                &:hover{
+                    background-color: rgba(0, 0, 0, 0.1);
+                }
             }
-            .active{
+            .crisis.active{
                 background-color: $primary-color;
                 color: #fff;
             }

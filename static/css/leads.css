@@ -158,9 +158,11 @@ nav {
   #main #leads-table tbody .btn-add-entry .fa {
     color: #8e44ad; }
   #main #leads-table tbody .btn-edit .fa {
-    color: #d35400; }
+    color: #333399; }
   #main #leads-table tbody .btn-mark-processed .fa {
-    color: #27ae60; }
+    color: #009900; }
+  #main #leads-table tbody .btn-mark-pending .fa {
+    color: #cc6600; }
   #main #leads-table tbody .btn-delete .fa {
     color: #e74c3c; }
 

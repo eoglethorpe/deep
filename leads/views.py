@@ -231,6 +231,7 @@ class AddLead(View):
         context = {}
         context["current_page"] = "leads"
         context["event"] = Event.objects.get(pk=event)
+        context["events"] = Event.objects.all()
         UserProfile.set_last_event(request, context["event"])
         if id:
             context["lead"] = Lead.objects.get(pk=id)
@@ -251,7 +252,14 @@ class AddLead(View):
             lead = Lead()
 
         lead.name = request.POST["name"]
+
         lead.event = Event.objects.get(pk=event)
+
+        # todo fix integrity error
+        # if "event" in request.POST and request.POST["event"] != "":
+        #     lead.event = Event.objects.get(pk=request.POST["event"])
+        # else:
+        #     lead.event = Event.objects.get(pk=event)
 
         if "source" in request.POST and request.POST["source"] != "":
             lead.source_name = request.POST["source"]

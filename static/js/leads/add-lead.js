@@ -51,4 +51,5 @@ $(document).ready(function() {
     $('#content-format').selectize();
     $('#confidentiality').selectize();
     $('#assigned-to').selectize();
+    $("#crisis-lead").selectize();
 });
