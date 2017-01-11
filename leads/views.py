@@ -252,7 +252,14 @@ class AddLead(View):
             lead = Lead()
 
         lead.name = request.POST["name"]
+
         lead.event = Event.objects.get(pk=event)
+
+        # todo fix integrity error
+        # if "event" in request.POST and request.POST["event"] != "":
+        #     lead.event = Event.objects.get(pk=request.POST["event"])
+        # else:
+        #     lead.event = Event.objects.get(pk=event)
 
         if "source" in request.POST and request.POST["source"] != "":
             lead.source_name = request.POST["source"]
