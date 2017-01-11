@@ -16,7 +16,7 @@ class CrisisPanelView(View):
     def get(self, request):
         context = {}
         context["current_page"] = "crisis-panel"
-        context["events"] = Event.objects.all()
+        context["events"] = Event.objects.all().order_by('name')
 
         context["countries"] = Country.objects.all()
         context["disaster_types"] = DisasterType.objects.all()

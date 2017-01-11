@@ -12,11 +12,28 @@ function generateColor(str) {
 }
 
 function styleMapFeature(feature) {
-    var active = feature.properties.iso_a2 in active_countries
-        || feature.properties.iso_a3 in active_countries;
+    var active = feature.properties.iso_a2 in active_countries || feature.properties.iso_a3 in active_countries;
+    var color_test = '#ecfof1';
+
+    if(active && (feature.properties.iso_a2 in active_countries)){
+        if(active_countries[feature.properties.iso_a2][0].status == '0'){
+            color_temp = '#414141';
+        }
+        else{
+            color_temp = '#e67e22';
+        }
+    }
+    if(active && (feature.properties.iso_a3 in active_countries)){
+        if(active_countries[feature.properties.iso_a3][0].status == '0'){
+            color_temp = '#414141';
+        }
+        else{
+            color_temp = '#e67e22';
+        }
+    }
 
     return {
-        fillColor: active?generateColor(feature.properties.name):'#ecf0f1',
+        fillColor: active?color_temp:'#ecf0f1',
         weight: 1.4,
         opacity: 1,
         color: '#2980b9',
@@ -96,6 +113,8 @@ function buildFilters() {
 
 var active_countries = {};
 var filtered_reports = {};
+var active_crises_number = 0;
+var global_monitoring_number = 0;
 
 $(document).ready(function(){
     $('#timeline-table-container').on('scroll' ,function(){
@@ -117,8 +136,17 @@ $(document).ready(function(){
             if (!active_countries[country])
                 active_countries[country] = []
             active_countries[country].push(crisis) ;
+            if(crisis.status == '0'){
+                global_monitoring_number+=1;
+            }
+            else{
+                active_crises_number+=1;
+            }
         }
     }
+
+    $("#number-of-active-crisises span").text(active_crises_number);
+    $("#number-of-global-monitoring span").text(global_monitoring_number);
 
     // Show the map
     var map = L.map('the-map').setView([41.87, 12.6], 2);

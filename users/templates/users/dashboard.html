@@ -24,7 +24,7 @@ DEEP | Dashboard
 <script>
     var active_crises = [
         {% for crisis in active_events %}{
-            name: "{{crisis.name}}", start_date: "{{crisis.start_date|date:'Y-m-d'}}",
+            name: "{{crisis.name}}", start_date: "{{crisis.start_date|date:'Y-m-d'}}", status: "{{crisis.status}}",
             countries: [
                 {% for country in crisis.countries.all %}{ code: "{{country.code}}", name: "{{country.name}}" },{% endfor %}
             ],
@@ -80,6 +80,9 @@ DEEP | Dashboard
                     </div>
                     <div id="number-of-active-crisises">
                         <span class="number">{{ active_events|length }}</span><label>Active crises</label>
+                    </div>
+                    <div id="number-of-global-monitoring">
+                        <span class="number">{{ active_events|length }}</span><label>Countries monitored</label>
                     </div>
                 </div>
             </div>
