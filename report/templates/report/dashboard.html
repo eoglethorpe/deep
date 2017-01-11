@@ -26,6 +26,7 @@
                         <label><input class="crisis-status" name="crisis-status" value="2" type="radio" checked>All</label>
                     </div>
                 </div>
+
                 <div id="country-list">
                     {% for c in countries %}
                     <a class="country-container" data-name="{{c.name}}" href="{% url 'report:dashboard' %}?country={{c.pk}}">
@@ -51,7 +52,7 @@
                                 <h2>{{country.name}}</h2>
                             </div>
                             <div class="col-md-4">
-                                <select id="select-event">
+                                <select id="select-event" data-country-pk="{{country.pk}}">
                                     {% for e in country.event_set.all %}
                                     <option value="{{e.pk}}" {% if event == e %}selected{% endif %}>{{e}}</option>
                                     {% endfor %}
@@ -83,7 +84,7 @@
                                     {% endfor %}
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                                 <div id="monthly-report-list" hidden>
                                     <div class="monthly-report">
                                         <h4>Month #4</h4>
@@ -92,7 +93,7 @@
                                         <button class="btn btn-export btn-info"><i class="fa fa-external-link"></i>Export</button>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

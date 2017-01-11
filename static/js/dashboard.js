@@ -157,7 +157,6 @@ $(document).ready(function(){
     map.on('blur', function() { map.scrollWheelZoom.disable(); });
 
     // Load countries geojson in the map
-
     $.getJSON('/static/files/countries.geo.json', function(data) {
         var layer = L.geoJson(data, {
             style: styleMapFeature,
@@ -168,7 +167,7 @@ $(document).ready(function(){
     // Load the weekly report timetable
     loadTimetable();
 
-    $("#back-btn").click(function() {
+    $("#body").on('click', '#back-btn', function(){
         loadTimetable();
     });
 });
@@ -177,7 +176,7 @@ var timetable;
 function loadTimetable() {
     timetable = 'all';
 
-    $('#timeline-table-container').slideUp('fast', function(){
+    $('#timeline-table-container, #timeline-table-col0-container').slideUp('fast', function(){
         var table = $("#timeline-table");
         var tableCol0 = $("#timeline-table-col0");
         table.removeClass('country-details');
@@ -246,17 +245,17 @@ function loadTimetable() {
             }
         }
 
-        $('#timeline-table-container').slideDown(function() {
+        $('#timeline-table-container, #timeline-table-col0-container').slideDown(function() {
             $('#timeline-table-container').scrollLeft($('#timeline-table').width());
         });
     });
-    $("#back-btn").hide();
+    //$("#back-btn").hide();
 }
 
 function loadTimetableForCountry(countryCode) {
     timetable = countryCode;
 
-    $('#timeline-table-container').slideUp('fast', function(){
+    $('#timeline-table-container, #timeline-table-col0-container').slideUp('fast', function(){
         var table = $("#timeline-table");
         var tableCol0 = $("#timeline-table-col0");
         table.addClass('country-details')
@@ -266,9 +265,8 @@ function loadTimetableForCountry(countryCode) {
         table.find('tbody').empty();
         tableCol0.find('tbody').empty();
 
-        var cctd = $("<td class='overlay-td'>" + countries[countryCode] + "</td>");
+        var cctd = $("<td class='overlay-td'>" + '<a id="back-btn" title="Back to countries" data-toggle="tooltip" style="float:left" class="fa fa-arrow-left"></a>'+ countries[countryCode] + "</td>");
         cctd.appendTo(tableCol0.find('thead').find('tr'));
-        cctd.data('top', cctd.css('top'));
 
         // Week headers
         for (var i=0; i<weekly_reports.length; ++i) {
@@ -305,7 +303,6 @@ function loadTimetableForCountry(countryCode) {
                                         && (dateFilter == null || dateFilter(weekly_reports[i].created_at[j])))
                                 {
                                     td.addClass('active');
-                                    //td.html('<i class="fa fa-check-circle"></i>');
 
                                     td.click(function(countryCode, eventId, reportId) {
                                         return function(){
@@ -320,7 +317,7 @@ function loadTimetableForCountry(countryCode) {
             }
         }
 
-        $('#timeline-table-container').slideDown(function() {
+        $('#timeline-table-container, #timeline-table-col0-container').slideDown(function() {
             $('#timeline-table-container').scrollLeft($('#timeline-table').width());
         });
     });
