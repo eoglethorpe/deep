@@ -3,7 +3,7 @@ $(document).ready(function(){
 
     $('#select-event').change(function() {
         var event = $(this).val();
-        window.location.href = window.location.pathname+"?"+$.param({event:event})
+        window.location.href = window.location.pathname+"?"+$.param({event:event})+"&country="+$(this).data('country-pk');
     });
 
     $('#country-list').scrollTop($('#country-list .active').position().top - 100);
