@@ -74,13 +74,8 @@ body{
             }
         }
         #back-btn{
-            position: absolute;
-            margin-top: 24px;
-            @include btn-shadow-lg();
-
-            .fa{
-                margin-right: 10px;
-            }
+            margin-right: 10px;
+            cursor: pointer;
         }
 
         #timeline-table-wrapper {

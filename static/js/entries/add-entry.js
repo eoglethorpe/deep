@@ -447,7 +447,7 @@ function changeLeadPreview(simplified) {
     var simplifiedFrame = $("#lead-simplified-preview");
 
     if (simplified) {
-        simplifiedFrame.text(styleText(leadSimplified));
+        simplifiedFrame.html(styleText(leadSimplified));
 
         simplifiedFrame.css("display", "inherit");
         frame.css("display", "none");
