@@ -119,9 +119,9 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
 
         <div id="lead-preview-container">
             {% if lead.lead_type == 'URL' %}
-            <iframe id="lead-preview" src="{{ lead.url }}"></iframe>
+            <iframe sandbox="allow-scripts" id="lead-preview" src="{{ lead.url }}"></iframe>
             {% elif lead.lead_type == 'ATT' %}
-            <iframe id="lead-preview" src="{{ lead.attachment.upload.url}}"></iframe>
+            <iframe sandbox="allow-scripts" id="lead-preview" src="{{ lead.attachment.upload.url}}"></iframe>
             {% endif %}
             <div id="lead-simplified-preview"></div>
         </div>
