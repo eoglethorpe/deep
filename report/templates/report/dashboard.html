@@ -7,6 +7,13 @@
 <link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
 <script src="{% static 'js/common/selectize.js' %}"></script>
 <script src="{% static 'js/report/report-dash.js' %}"></script>
+<script>
+var reports = [
+    {% for report in weekly_reports_all %}
+    {'country': '{{ report.country }}', 'startDate': '{{ report.start_date }}', 'data': JSON.parse("{{ report.data|escapejs }}")},
+    {% endfor %}
+];
+</script>
 {% endblock %}
 
 {% block body %}
@@ -71,7 +78,7 @@
                     </div>
                     <div id="countries">
                         {% for c in countries %}
-                        <div class="country {% if country and country == c %}active{% endif %}" data-href="{% url 'report:dashboard' %}?country={{c.pk}}" >
+                        <div class="country {% if country and country == c %}active{% endif %}" data-href="{% url 'report:dashboard' %}?country={{c.pk}}" data-name="{{c.name}}">
                             <div class="row">
                                 <div class="col-md-3 first-child">
                                     <div class="row">
@@ -90,25 +97,25 @@
                                     <div class="row">
                                         <div class="col-md-3 first-child">
                                             <div class="affected list-col">
-                                                <i class="fa fa-arrow-up"></i><span class="number">2000</span>
+                                                <i class="fa"></i><span class="number">N/A</span>
                                                 <div class="viz"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-3 low-padding">
                                             <div class="in-need list-col">
-                                                <i class="fa fa-arrow-down"></i><span class="number">1000</span>
+                                                <i class="fa"></i><span class="number">N/A</span>
                                                 <div class="viz"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-3 low-padding">
                                             <div class="access-constraints list-col">
-                                                <i class="fa fa-arrow-up"></i><span class="number">3300</span>
+                                                <i class="fa"></i><span class="number">N/A</span>
                                                 <div class="viz"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-3 last-child">
                                             <div class="Geo ranking list-col">
-                                                <i class="fa fa-arrow-up"></i><span class="number">911000</span>
+                                                <i class="fa"></i><span class="number">N/A</span>
                                                 <div class="viz"></div>
                                             </div>
                                         </div>
@@ -118,19 +125,19 @@
                                     <div class="row">
                                         <div class="col-md-4 first-child">
                                             <div class="consistency list-col">
-                                                <i class="fa fa-arrow-down"></i><span class="percent">10</span>
+                                                <i class="fa"></i><span class="percent"></span>
                                                 <div class="viz"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-4 low-padding">
                                             <div class="recency list-col">
-                                                <i class="fa fa-arrow-down"></i><span class="percent">50</span>
+                                                <i class="fa"></i><span class="percent"></span>
                                                 <div class="viz"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-4 last-child">
                                             <div class="change list-col">
-                                                <i class="fa fa-arrow-up"></i><span class="percent">20</span>
+                                                <i class="fa"></i><span class="percent"></span>
                                                 <div class="viz"></div>
                                             </div>
                                         </div>

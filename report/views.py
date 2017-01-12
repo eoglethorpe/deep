@@ -51,6 +51,9 @@ class ReportDashboardView(View):
         context["event"] = event
         context["current_page"] = "report"
 
+        # for sparklines and other viz
+        context["weekly_reports_all"] = WeeklyReport.objects.all()
+
         return render(request, "report/dashboard.html", context)
 
 
