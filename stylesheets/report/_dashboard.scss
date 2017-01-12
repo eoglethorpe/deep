@@ -38,6 +38,7 @@ main{
                     padding: 6px 16px;
                 }
                 .active{
+                    color: $primary-color;
                     border-bottom: 2px solid $primary-color;
                 }
             }
@@ -53,7 +54,6 @@ main{
             padding-left: 0;
         }
         #countries-header{
-            //padding: 0 10px;
             .list-col{
                 padding: 10px 4px;
             }
@@ -65,7 +65,6 @@ main{
             }
         }
         #countries{
-            //padding: 0 10px;
             height: calc(100vh - #{$navbar-height} - 144px);
             overflow: hidden;
             overflow-y: auto;
@@ -75,6 +74,7 @@ main{
             }
             .country{
                 background-color: #fff;
+                cursor: pointer;
 
                 .name{
                     text-transform: uppercase;
@@ -88,6 +88,13 @@ main{
                 &:nth-child(odd){
                     background-color: #f0f0f0;
                 }
+
+                &:hover{
+                    background-color: rgba(0, 0, 0, 0.2);
+                }
+            }
+            .active{
+                border-left: 3px solid $primary-color;
             }
             .percent{
                 &:after{
