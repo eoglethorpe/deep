@@ -379,6 +379,28 @@ body{
                 color: rgb(255, 255, 255);
                 background-color: rgba(231,76,60,1);
             }
+
+            .dynamic{
+
+                    color: $primary-color;
+
+            }
+
+            #hdi{
+                background-color: rgba(0,0,0,0.3);
+            }
+            #hdi-rank{
+                background-color: rgba(0,0,0,0.3);
+            }
+            #mortality-rate{
+                background-color: rgba(0,0,0,0.3);
+            }
+            #uprooted-people{
+                background-color: rgba(0,0,0,0.3);
+            }
+            #uprooted-percentage{
+                background-color: rgba(0,0,0,0.3);
+            }
         }
     }
 }
