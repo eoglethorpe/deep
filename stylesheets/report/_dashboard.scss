@@ -1,0 +1,193 @@
+main{
+    h1, h2, h3, h4{
+        margin: 0;
+        text-transform: uppercase;
+    }
+    h1{
+        height: 48px;
+        padding-top: 16px;
+    }
+    #country-list{
+        height: calc(100vh - #{$navbar-height} - 48px);
+        background-color: #fff;
+        @include shadow();
+
+        #header{
+            padding: 10px 16px;
+            background-color: #f5f5f5;
+
+            #search-country{
+                float: right;
+                outline: none;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                border-radius: 3px;
+                width: 240px;
+                padding: 6px 16px 6px 32px;
+            }
+            #search-country+i{
+                float: right;
+                margin-right: -24px;
+                margin-top: 10px;
+                color: rgba(0, 0, 0, 0.5);
+            }
+            #crisis-status{
+                input{
+                    display: none;
+                }
+                label{
+                    padding: 6px 16px;
+                }
+                .active{
+                    border-bottom: 2px solid $primary-color;
+                }
+            }
+        }
+        .first-child{
+            padding-right: 0;
+        }
+        .low-padding{
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .last-child{
+            padding-left: 0;
+        }
+        #countries-header{
+            //padding: 0 10px;
+            .list-col{
+                padding: 10px 4px;
+            }
+            label{
+                width: 100%;
+                margin-bottom: 0;
+                padding: 4px 10px!important;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+            }
+        }
+        #countries{
+            //padding: 0 10px;
+            height: calc(100vh - #{$navbar-height} - 144px);
+            overflow: hidden;
+            overflow-y: auto;
+
+            hr{
+                margin: 4px 0;
+            }
+            .country{
+                background-color: #fff;
+
+                .name{
+                    text-transform: uppercase;
+                }
+                .events{
+                    color: $label-color;
+                }
+                .fa{
+                    margin-right: 10px;
+                }
+                &:nth-child(odd){
+                    background-color: #f0f0f0;
+                }
+            }
+            .percent{
+                &:after{
+                    content: '%';
+                }
+            }
+            .viz{
+                height: 50px;
+            }
+
+            .list-col{
+                padding: 10px 4px;
+            }
+        }
+    }
+    #country-detail{
+        height: calc(100vh - #{$navbar-height} - 48px);
+        background-color: #fff;
+        @include shadow();
+
+        #country-detail-header{
+            background-color: #f5f5f5;
+            padding: 11px 16px 5px 16px;
+
+            h2{
+                padding-top: 10px;
+                color: $primary-color;
+            }
+        }
+        #weekly-report-list{
+            padding-top: 10px;
+            height: calc(100vh - #{$navbar-height} - 140px);
+            overflow-y: auto;
+
+            h3{
+                padding-left: 16px;
+                padding-top: 10px;
+                margin-bottom: 12px;
+            }
+            #add-weekly-report-btn{
+                margin-right: 16px;
+                float: right;
+                @include btn-shadow-sm();
+
+                .fa{
+                    margin-right: 10px;
+                }
+            }
+            .empty-text{
+                color: rgba(0, 0, 0, 0.2);
+                font-weight: $font-weight-thin;
+                text-transform: uppercase;
+                padding: 64px 24px;
+                font-size: 2em;
+                text-align: center;
+            }
+            .weekly-report{
+                padding: 6px 16px;
+
+                a{
+                    margin-left: 16px;
+                    cursor: pointer;
+                    float: right;
+
+                    .fa{
+                        margin-right: 6px;
+                    }
+                }
+                h4{
+                    font-weight: $font-weight-normal;
+                    display: inline-block;
+                    font-size: 1em;
+                    margin-right: 10px;
+                    width: 144px;
+                    color: $label-color;
+                }
+                p{
+                    display: inline-block;
+                    margin: 0;
+                    font-family: 'Inconsolata', monospace;
+
+                    &:before{
+                        content: '[';
+                    }
+                    &:after{
+                        content: ']';
+                    }
+                }
+                date{
+
+                }
+                button{
+                    float: right;
+                    @include btn-shadow-sm();
+                }
+
+                &:nth-child(even){
+                    background-color: #f0f0f0;
+                }
+            }
+        }
+    }
+}

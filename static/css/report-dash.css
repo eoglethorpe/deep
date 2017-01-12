@@ -108,151 +108,135 @@ nav {
     nav .dropdown ul li a .fa {
       margin-right: 10px; }
 
-#main h1, #main h2, #main h3, #main h4 {
+main h1, main h2, main h3, main h4 {
   margin: 0;
   text-transform: uppercase; }
-#main h1 {
-  font-weight: bold;
-  margin-bottom: 24px;
-  margin-top: 24px; }
-#main #country-list-header {
-  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
-  background-color: #fff; }
-  #main #country-list-header #search-country {
-    float: right;
-    outline: none;
-    margin-right: 10px;
-    margin-top: 20px;
-    padding: 4px 10px;
-    padding-left: 32px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 3px; }
-  #main #country-list-header #search-country + .fa {
-    float: right;
-    margin-right: -24px;
-    margin-top: 27px;
-    color: rgba(0, 0, 0, 0.5); }
-  #main #country-list-header h2 {
-    padding: 28px 0 16px 24px; }
-  #main #country-list-header #crisis-status {
-    padding-left: 24px; }
-    #main #country-list-header #crisis-status label {
-      margin-right: 16px;
-      cursor: pointer;
-      color: #767676;
-      vertical-align: bottom; }
-    #main #country-list-header #crisis-status .crisis-status {
-      margin-right: 4px; }
-    #main #country-list-header #crisis-status input {
+main h1 {
+  height: 48px;
+  padding-top: 16px; }
+main #country-list {
+  height: calc(100vh - 56px - 48px);
+  background-color: #fff;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  main #country-list #header {
+    padding: 10px 16px;
+    background-color: #f5f5f5; }
+    main #country-list #header #search-country {
+      float: right;
       outline: none;
-      vertical-align: sub; }
-#main #country-list {
-  background-color: #fff;
-  height: calc(100vh - 56px - 156px);
-  overflow-y: auto;
-  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-  #main #country-list hr {
-    margin: 0; }
-  #main #country-list .country {
-    padding: 16px 24px;
-    cursor: pointer;
-    transition: 0.2s all ease-in-out;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
-    #main #country-list .country .event {
-      color: #767676;
-      text-transform: none; }
-  #main #country-list .country:hover {
-    background-color: rgba(0, 0, 0, 0.1); }
-  #main #country-list .active {
-    border-left: 3px solid #008080;
-    background-color: #f0f0f0; }
-#main #report-list {
-  background-color: #fff;
-  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-  #main #report-list header {
-    padding-right: 24px;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.05); }
-    #main #report-list header .selectize-input {
-      margin-top: 18px;
-      border: none;
       border: 1px solid rgba(0, 0, 0, 0.1);
-      box-shadow: none;
       border-radius: 3px;
-      transition: all 0.2s; }
-      #main #report-list header .selectize-input:active, #main #report-list header .selectize-input:focus {
-        border: 1px solid #008080; }
-    #main #report-list header .focus {
-      border: 1px solid #008080; }
-  #main #report-list h2 {
-    padding: 24px;
-    font-weight: 600;
-    font-size: 1.5em;
-    color: #008080; }
-  #main #report-list hr {
-    margin: 0; }
-  #main #report-list .reports #weekly-report-list {
+      width: 240px;
+      padding: 6px 16px 6px 32px; }
+    main #country-list #header #search-country + i {
+      float: right;
+      margin-right: -24px;
+      margin-top: 10px;
+      color: rgba(0, 0, 0, 0.5); }
+    main #country-list #header #crisis-status input {
+      display: none; }
+    main #country-list #header #crisis-status label {
+      padding: 6px 16px; }
+    main #country-list #header #crisis-status .active {
+      border-bottom: 2px solid #008080; }
+  main #country-list .first-child {
+    padding-right: 0; }
+  main #country-list .low-padding {
+    padding-left: 0;
+    padding-right: 0; }
+  main #country-list .last-child {
+    padding-left: 0; }
+  main #country-list #countries-header .list-col {
+    padding: 10px 4px; }
+  main #country-list #countries-header label {
+    width: 100%;
+    margin-bottom: 0;
+    padding: 4px 10px !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
+  main #country-list #countries {
+    height: calc(100vh - 56px - 144px);
+    overflow: hidden;
+    overflow-y: auto; }
+    main #country-list #countries hr {
+      margin: 4px 0; }
+    main #country-list #countries .country {
+      background-color: #fff; }
+      main #country-list #countries .country .name {
+        text-transform: uppercase; }
+      main #country-list #countries .country .events {
+        color: #767676; }
+      main #country-list #countries .country .fa {
+        margin-right: 10px; }
+      main #country-list #countries .country:nth-child(odd) {
+        background-color: #f0f0f0; }
+    main #country-list #countries .percent:after {
+      content: '%'; }
+    main #country-list #countries .viz {
+      height: 50px; }
+    main #country-list #countries .list-col {
+      padding: 10px 4px; }
+main #country-detail {
+  height: calc(100vh - 56px - 48px);
+  background-color: #fff;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  main #country-detail #country-detail-header {
+    background-color: #f5f5f5;
+    padding: 11px 16px 5px 16px; }
+    main #country-detail #country-detail-header h2 {
+      padding-top: 10px;
+      color: #008080; }
+  main #country-detail #weekly-report-list {
     padding-top: 10px;
     height: calc(100vh - 56px - 140px);
     overflow-y: auto; }
-    #main #report-list .reports #weekly-report-list #header {
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-      margin-bottom: 16px; }
-    #main #report-list .reports #weekly-report-list h3 {
-      margin: 0;
-      padding: 16px 0 16px 24px;
-      font-weight: 600;
-      display: inline-block; }
-    #main #report-list .reports #weekly-report-list #add-weekly-report-btn {
-      margin-right: 24px;
-      margin-top: 6px;
+    main #country-detail #weekly-report-list h3 {
+      padding-left: 16px;
+      padding-top: 10px;
+      margin-bottom: 12px; }
+    main #country-detail #weekly-report-list #add-weekly-report-btn {
+      margin-right: 16px;
       float: right;
       box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-      #main #report-list .reports #weekly-report-list #add-weekly-report-btn:active {
+      main #country-detail #weekly-report-list #add-weekly-report-btn:active {
         box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-      #main #report-list .reports #weekly-report-list #add-weekly-report-btn .fa {
+      main #country-detail #weekly-report-list #add-weekly-report-btn .fa {
         margin-right: 10px; }
-    #main #report-list .reports #weekly-report-list .empty-text {
+    main #country-detail #weekly-report-list .empty-text {
       color: rgba(0, 0, 0, 0.2);
       font-weight: 300;
       text-transform: uppercase;
       padding: 64px 24px;
       font-size: 2em;
       text-align: center; }
-    #main #report-list .reports #weekly-report-list .weekly-report {
-      padding: 10px 24px; }
-      #main #report-list .reports #weekly-report-list .weekly-report a {
+    main #country-detail #weekly-report-list .weekly-report {
+      padding: 6px 16px; }
+      main #country-detail #weekly-report-list .weekly-report a {
         margin-left: 16px;
         cursor: pointer;
         float: right; }
-        #main #report-list .reports #weekly-report-list .weekly-report a .fa {
+        main #country-detail #weekly-report-list .weekly-report a .fa {
           margin-right: 6px; }
-      #main #report-list .reports #weekly-report-list .weekly-report h4 {
-        margin-bottom: 16px;
+      main #country-detail #weekly-report-list .weekly-report h4 {
         font-weight: 400;
         display: inline-block;
         font-size: 1em;
-        margin-right: 10px; }
-      #main #report-list .reports #weekly-report-list .weekly-report p {
+        margin-right: 10px;
+        width: 144px;
+        color: #767676; }
+      main #country-detail #weekly-report-list .weekly-report p {
         display: inline-block;
         margin: 0;
         font-family: 'Inconsolata', monospace; }
-        #main #report-list .reports #weekly-report-list .weekly-report p:before {
+        main #country-detail #weekly-report-list .weekly-report p:before {
           content: '['; }
-        #main #report-list .reports #weekly-report-list .weekly-report p:after {
+        main #country-detail #weekly-report-list .weekly-report p:after {
           content: ']'; }
-      #main #report-list .reports #weekly-report-list .weekly-report button {
+      main #country-detail #weekly-report-list .weekly-report button {
         float: right;
         box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-        #main #report-list .reports #weekly-report-list .weekly-report button:active {
+        main #country-detail #weekly-report-list .weekly-report button:active {
           box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-  #main #report-list .reports #monthly-report-list .monthly-report {
-    padding: 24px; }
-    #main #report-list .reports #monthly-report-list .monthly-report button {
-      margin-right: 10px;
-      box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-      #main #report-list .reports #monthly-report-list .monthly-report button:active {
-        box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-    #main #report-list .reports #monthly-report-list .monthly-report .fa {
-      margin-right: 10px; }
+      main #country-detail #weekly-report-list .weekly-report:nth-child(even) {
+        background-color: #f0f0f0; }
 
 /*# sourceMappingURL=report-dash.css.map */

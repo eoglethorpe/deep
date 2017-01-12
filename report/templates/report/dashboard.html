@@ -11,47 +11,259 @@
 
 {% block body %}
 {% include 'navbar.html' %}
-<section id="main">
+<main>
     <div class="container-fluid">
         <h1>Report Dashboard</h1>
         <div class="row">
-            <div class="col-md-3" style="padding-right: 8px">
-                <div id="country-list-header">
+            <div class="col-md-8" style="padding-right: 0">
+                <div id="country-list">
+                    <div id="header">
+                        <input id="search-country" placeholder="Search country">
+                        <i class="fa fa-search"></i>
+                        <div id="crisis-status">
+                            <label class="active"><input name="crisis-status" value="2" type="radio" checked>All countries</label>
+                            <label><input name="crisis-status" value="0" type="radio">Globally Monitored</label>
+                            <label><input name="crisis-status" value="1" type="radio">Countries with active Crisis</label>
+                        </div>
+                    </div>
+                    <div id="countries-header">
+                        <div class="row">
+                            <div class="col-md-3 first-child">
+                                <div class="row">
+                                    <div class="col-md-5 first-child">
+                                        <label class="list-col">Assigned to</label>
+                                    </div>
+                                    <div class="col-md-7 last-child">
+                                        <label class="list-col">Name / Events</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 low-padding">
+                                <div class="row">
+                                    <div class="col-md-3 first-child">
+                                        <label class="list-col">Affected</label>
+                                    </div>
+                                    <div class="col-md-3 low-padding">
+                                        <label class="list-col">In need</label>
+                                    </div>
+                                    <div class="col-md-3 low-padding">
+                                        <label class="list-col">Access contraints</label>
+                                    </div>
+                                    <div class="col-md-3 last-child">
+                                        <label class="list-col">Geo ranking</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 last-child">
+                                <div class="row">
+                                    <div class="col-md-4 first-child">
+                                        <label class="list-col">Consistency</label>
+                                    </div>
+                                    <div class="col-md-4 low-padding">
+                                        <label class="list-col">Recency</label>
+                                    </div>
+                                    <div class="col-md-4 last-child">
+                                        <label class="list-col">Change</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="countries">
+                        {% for c in countries %}
+                        <div class="country">
+                            <div class="row">
+                                <div class="col-md-3 first-child">
+                                    <div class="row">
+                                        <div class="col-md-5 first-child">
+                                            <div class="assigned-to list-col"></div>
+                                        </div>
+                                        <div class="col-md-7 last-child">
+                                            <div class="list-col">
+                                                <div class="name">{{c.name}}</div>
+                                                <div class="events">{% for e in c.event_set.all %}{{e}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 low-padding">
+                                    <div class="row">
+                                        <div class="col-md-3 first-child">
+                                            <div class="affected list-col">
+                                                <i class="fa fa-arrow-up"></i><span class="number">2000</span>
+                                                <div class="viz"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 low-padding">
+                                            <div class="in-need list-col">
+                                                <i class="fa fa-arrow-down"></i><span class="number">1000</span>
+                                                <div class="viz"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 low-padding">
+                                            <div class="access-constraints list-col">
+                                                <i class="fa fa-arrow-up"></i><span class="number">3300</span>
+                                                <div class="viz"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 last-child">
+                                            <div class="Geo ranking list-col">
+                                                <i class="fa fa-arrow-up"></i><span class="number">911000</span>
+                                                <div class="viz"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 last-child">
+                                    <div class="row">
+                                        <div class="col-md-4 first-child">
+                                            <div class="consistency list-col">
+                                                <i class="fa fa-arrow-down"></i><span class="percent">10</span>
+                                                <div class="viz"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 low-padding">
+                                            <div class="recency list-col">
+                                                <i class="fa fa-arrow-down"></i><span class="percent">50</span>
+                                                <div class="viz"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 last-child">
+                                            <div class="change list-col">
+                                                <i class="fa fa-arrow-up"></i><span class="percent">20</span>
+                                                <div class="viz"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div id="country-detail">
+                    {% if country %}
+                    <div id="country-detail-header">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <h2>{{country.name}}</h2>
+                            </div>
+                            <div class="col-md-7">
+                                <select id="select-event" data-country-pk="{{country.pk}}">
+                                    {% for e in country.event_set.all %}
+                                    <option value="{{e.pk}}" {% if event == e %}selected{% endif %}>{{e}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="weekly-report-list">
+                        <div id="header">
+                            {% if new_week_date %}
+                            <button id="add-weekly-report-btn" class="btn btn-sm btn-primary" onclick="location.href='{% url 'report:weekly' country.pk event.pk %}?start_date={{new_week_date|date:"d-M-Y"}}';"><i class="fa fa-plus"></i>Add new report</button>
+                            {% endif %}
+                            <h3>Weekly reports</h3>
+                        </div>
+                        {% for report in weekly_reports %}
+                        {% if new_week_date %}
+                        {% endif %}
+                        <div class="weekly-report">
+                            <h4>Week #<span class="number">{{report.start_date|date:"W"}}</span></h4>
+                            <p><date>{{report.start_date|date:"d-m-Y"}}</date> to <date>{{report.end_date|date:"d-m-Y"}}</date></p>
+                            <a onclick="location.href='{% url 'report:weekly' country.pk event.pk report.pk %}';"><i class="fa fa-edit"></i>Edit</a>
+                        </div>
+                        {% empty %}
+                        <p class="empty-text">No reports found</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!--
+
+                <div id="country-list-header" hidden>
                     <input id="search-country" placeholder="Search country">
                     <i class="fa fa-search"></i>
                     <h2>Countries</h2>
-                    <div id="crisis-status">
+                    <div id="crisis-status" hidden>
                         <label><input class="crisis-status" name="crisis-status" value="0" type="radio">Global Monitoring</label>
                         <label><input class="crisis-status" name="crisis-status" value="1" type="radio" checked>Active Crisis</label>
                         <label><input class="crisis-status" name="crisis-status" value="2" type="radio" checked>All</label>
                     </div>
                 </div>
+                <div id="country-list" class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-3 first-child">
+                            <div class="row">
+                                <div class="col-md-4 first-child">
+                                    <label>User list</label>
+                                </div>
+                                <div class="col-md-8 last-child">
+                                    <label>Name</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 low-padding">
+                            <div class="row">
+                                <div class="col-md-3 first-child">
+                                    <label>Affected</label>
+                                </div>
+                                <div class="col-md-3 low-padding">
+                                    <label>In need</label>
+                                </div>
+                                <div class="col-md-3 low-padding">
+                                    <label>Access contraints</label>
+                                </div>
+                                <div class="col-md-3 last-child">
+                                    <label>Geo ranking</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 last-child">
+                            <div class="row">
+                                <div class="col-md-4 first-child">
+                                    <label>Consistency</label>
+                                </div>
+                                <div class="col-md-4 low-padding">
+                                    <label>Recency</label>
+                                </div>
+                                <div class="col-md-4 last-child">
+                                    <label>Change</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <div id="country-list">
                     {% for c in countries %}
-                    <a class="country-container" data-name="{{c.name}}" href="{% url 'report:dashboard' %}?country={{c.pk}}">
-                        <div class="country {% if country and country == c%}active{% endif %}">
+                    <div class="country-container" data-name="{{c.name}}" data-href="{% url 'report:dashboard' %}?country={{c.pk}}">
+                        <div class="country {% if country and country == c %}active{% endif %}">
                             {{c.name}}
                             <br>
-                            <span class="event">
+                            <div class="event">
                                 {% for e in c.event_set.all %}
                                 {{e}}{% if not forloop.last %}, {% endif %}
                                 {% endfor %}
-                            </span>
+                            </div>
                         </div>
-                    </a>
+                    </div>
                     {% endfor %}
                 </div>
             </div>
-            <div class="col-md-9" style="padding-left: 8px">
+            <div class="col-md-5" style="padding-left: 8px">
                 {% if country %}
                 <div id="report-list">
                     <header>
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 <h2>{{country.name}}</h2>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-8">
                                 <select id="select-event" data-country-pk="{{country.pk}}">
                                     {% for e in country.event_set.all %}
                                     <option value="{{e.pk}}" {% if event == e %}selected{% endif %}>{{e}}</option>
@@ -61,39 +273,24 @@
                         </div>
                     </header>
                     <div class="reports">
-                        <div class="row">
-                            <div class="col-md-5">
-                                <div id="weekly-report-list">
-                                    <div id="header">
-                                        <h3>Weekly reports</h3>
-                                        {% if new_week_date %}
-                                        <button id="add-weekly-report-btn" class="btn btn-sm btn-primary" onclick="location.href='{% url 'report:weekly' country.pk event.pk %}?start_date={{new_week_date|date:"d-M-Y"}}';"><i class="fa fa-plus"></i>Add new report</button>
-                                        {% endif %}
-                                    </div>
-
-                                    {% for report in weekly_reports %}
-                                    {% if new_week_date %}
-                                    {% endif %}
-                                    <div class="weekly-report">
-                                        <h4>Week #{{report.start_date|date:"W"}}</h4>
-                                        <p><date>{{report.start_date|date:"d-m-Y"}}</date> to <date>{{report.end_date|date:"d-m-Y"}}</date></p>
-                                        <a onclick="location.href='{% url 'report:weekly' country.pk event.pk report.pk %}';"><i class="fa fa-edit"></i>Edit</a>
-                                    </div>
-                                    {% empty %}
-                                    <p class="empty-text">No reports found</p>
-                                    {% endfor %}
-                                </div>
+                        <div id="weekly-report-list">
+                            <div id="header">
+                                <h3>Weekly reports</h3>
+                                {% if new_week_date %}
+                                <button id="add-weekly-report-btn" class="btn btn-sm btn-primary" onclick="location.href='{% url 'report:weekly' country.pk event.pk %}?start_date={{new_week_date|date:"d-M-Y"}}';"><i class="fa fa-plus"></i>Add new report</button>
+                                {% endif %}
                             </div>
-                            <!-- <div class="col-md-6">
-                                <div id="monthly-report-list" hidden>
-                                    <div class="monthly-report">
-                                        <h4>Month #4</h4>
-                                        <p>Partially Completed</p>
-                                        <button class="btn btn-edit btn-primary"><i class="fa fa-edit"></i>Edit</button>
-                                        <button class="btn btn-export btn-info"><i class="fa fa-external-link"></i>Export</button>
-                                    </div>
-                                </div>
-                            </div> -->
+                            {% for report in weekly_reports %}
+                            {% if new_week_date %}
+                            {% endif %}
+                            <div class="weekly-report">
+                                <h4>Week #{{report.start_date|date:"W"}}</h4>
+                                <p><date>{{report.start_date|date:"d-m-Y"}}</date> to <date>{{report.end_date|date:"d-m-Y"}}</date></p>
+                                <a onclick="location.href='{% url 'report:weekly' country.pk event.pk report.pk %}';"><i class="fa fa-edit"></i>Edit</a>
+                            </div>
+                            {% empty %}
+                            <p class="empty-text">No reports found</p>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -101,5 +298,5 @@
             </div>
         </div>
     </div>
-</section>
+</main> -->
 {% endblock %}
