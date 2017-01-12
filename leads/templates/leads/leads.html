@@ -52,20 +52,22 @@ DEEP | Leads
 
 {% include 'navbar.html' %}
 
-<section id="main">
+<main>
     <div class="container-fluid">
+        <a class="btn btn-primary" id="add-lead-btn" href="{% url 'leads:add' event=event.pk %}" ><i class="fa fa-plus-square" style=" margin-right: 10px; font-size:1.2em"></i>Add Lead</a>
+        <h1>Leads</h1>
 
         <div id="filters">
             <div class="row">
-                <div class="col-sm-1">
+                <div class="col-md-1 first-child">
                     <label>Apply filter:</label>
                 </div>
-                <div class="col-sm-3 col-md-2 col-xs-6">
+                <div class="col-md-2 low-padding">
                     <select id="assigned-to-filter" placeholder="Assigned to">
                         <option value="">Assigned to</option>
                     </select>
                 </div>
-                <div class="col-sm-3 col-md-2 col-xs-6">
+                <div class="col-md-2 low-padding">
                     <select id="date-created-filter" placeholder="Date Created">
                         <option value="">Date Created</option>
                         <option value="today">Today</option>
@@ -77,7 +79,7 @@ DEEP | Leads
                         <option value="range">Range</option>
                     </select>
                 </div>
-                <div class="col-sm-3 col-md-2 col-xs-6">
+                <div class="col-md-2 low-padding">
                     <select id="date-published-filter" placeholder="Date Published">
                         <option value="">Date Published</option>
                         <option value="today">Today</option>
@@ -89,7 +91,7 @@ DEEP | Leads
                         <option value="range">Range</option>
                     </select>
                 </div>
-                <div class="col-sm-3 col-md-2 col-xs-6">
+                <div class="col-md-2 low-padding">
                     <select id="confidentiality-filter" placeholder="Confidentiality">
                         <option value="">Confidentiality</option>
                         <option value="Unprotected">Unprotected</option>
@@ -98,7 +100,7 @@ DEEP | Leads
                         <option value="Confidential">Confidential</option>
                     </select>
                 </div>
-                <div class="col-sm-3 col-md-2 col-xs-6">
+                <div class="col-md-2 last-child">
                     <select id="status-filter" placeholder="Status">
                         <option value="">Status</option>
                         <option value="Pending">Pending</option>
@@ -107,7 +109,6 @@ DEEP | Leads
                 </div>
             </div>
         </div>
-        <a class="btn btn-primary" id="add-lead-btn" href="{% url 'leads:add' event=event.pk %}" ><i class="fa fa-plus-square" style=" margin-right: 10px; font-size:1.2em"></i>Add Lead</a>
         <table id="leads-table" class="table  table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
@@ -124,7 +125,7 @@ DEEP | Leads
             </thead>
         </table>
     </div>
-</section>
+</main>
 
 <div id="drag-overlay" hidden>
     <div id="border">

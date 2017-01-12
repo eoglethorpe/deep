@@ -1,19 +1,51 @@
 @import 'common/base';
 @import 'common/navbar';
 
-#main{
+main{
+    clear: both;
+
+    #add-lead-btn{
+        @include btn-shadow-lg();
+        float: right;
+    }
+    h1{
+        margin: 16px 0!important;
+        text-transform: uppercase;
+        text-align: left!important;
+        color: $primary-color;
+        font-size: 1.5em;
+    }
     #filters{
-        margin-top: 24px;
+        width: 80%;
+        float: left;
+        margin-bottom: -40px;
 
         label{
             vertical-align: sub;
-            font-size: 16px;
-            color: $primary-color;
         }
-    }
-    #add-lead-btn{
-        margin-bottom: -40px;
-        @include btn-shadow-lg();
+        .first-child{
+            padding-right: 2px;
+        }
+        .low-padding{
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+        .last-child{
+            padding-left: 2px;
+        }
+        .form-control, .selectize-input{
+            border: none;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: none;
+            border-radius: 3px;
+
+            &:active, &:focus {
+                border: 1px solid $primary-color;
+            }
+        }
+        .focus{
+            border: 1px solid $primary-color;
+        }
     }
     #leads-table{
         @include shadow();

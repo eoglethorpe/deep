@@ -113,9 +113,9 @@ $(document).ready(function() {
             }}
         ],
         initComplete: function(){
-            assigned_to_col = this.api().column(1);
-            confidentiality_col = this.api().column(4);
-            status_col = this.api().column(6);
+            assigned_to_col = this.api().column(2);
+            confidentiality_col = this.api().column(5);
+            status_col = this.api().column(7);
 
             assigned_to_col.data().unique().sort().each(
                 function ( value, index ) {
