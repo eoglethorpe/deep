@@ -1,9 +1,15 @@
 $(document).ready(function(){
     $('#select-event').selectize();
 
+    $('#countries').scrollTop($('#countries .active').position().top - $('#countries .active').height());
+
     $('#select-event').change(function() {
         var event = $(this).val();
         window.location.href = window.location.pathname+"?"+$.param({event:event})+"&country="+$(this).data('country-pk');
+    });
+
+    $('.country').on('click', function(){
+        window.location.href = $(this).data('href');
     });
 
     $('#country-list').scrollTop($('#country-list .active').position().top - 100);

@@ -18,7 +18,7 @@
             <div class="col-md-8" style="padding-right: 0">
                 <div id="country-list">
                     <div id="header">
-                        <input id="search-country" placeholder="Search country">
+                        <input id="search-country" placeholder="Search country" readonly>
                         <i class="fa fa-search"></i>
                         <div id="crisis-status">
                             <label class="active"><input name="crisis-status" value="2" type="radio" checked>All countries</label>
@@ -71,7 +71,7 @@
                     </div>
                     <div id="countries">
                         {% for c in countries %}
-                        <div class="country">
+                        <div class="country {% if country and country == c %}active{% endif %}" data-href="{% url 'report:dashboard' %}?country={{c.pk}}" >
                             <div class="row">
                                 <div class="col-md-3 first-child">
                                     <div class="row">

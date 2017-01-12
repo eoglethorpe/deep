@@ -145,6 +145,7 @@ main #country-list {
     main #country-list #header #crisis-status label {
       padding: 6px 16px; }
     main #country-list #header #crisis-status .active {
+      color: #008080;
       border-bottom: 2px solid #008080; }
   main #country-list .first-child {
     padding-right: 0; }
@@ -167,7 +168,8 @@ main #country-list {
     main #country-list #countries hr {
       margin: 4px 0; }
     main #country-list #countries .country {
-      background-color: #fff; }
+      background-color: #fff;
+      cursor: pointer; }
       main #country-list #countries .country .name {
         text-transform: uppercase; }
       main #country-list #countries .country .events {
@@ -176,6 +178,10 @@ main #country-list {
         margin-right: 10px; }
       main #country-list #countries .country:nth-child(odd) {
         background-color: #f0f0f0; }
+      main #country-list #countries .country:hover {
+        background-color: rgba(0, 0, 0, 0.2); }
+    main #country-list #countries .active {
+      border-left: 3px solid #008080; }
     main #country-list #countries .percent:after {
       content: '%'; }
     main #country-list #countries .viz {
