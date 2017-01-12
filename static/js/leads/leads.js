@@ -89,7 +89,13 @@ $(document).ready(function() {
             {
                 data: null,
                 render: function (data, type, row ) {
-                    return "<span hidden>"+data.created_at+"</span> "+formatDate(data.created_at) + "<br>" + formatTime(data.created_at) + "<br>" + data.created_by_name;
+                    return "<span hidden>"+data.created_at+"</span> "+formatDate(data.created_at) + "<br>" + formatTime(data.created_at) + "<br>";
+                }
+            },
+            {
+                data: null,
+                render: function (data, type, row ) {
+                    return data.created_by_name;
                 }
             },
             { data: "assigned_to_name" },
@@ -98,7 +104,7 @@ $(document).ready(function() {
             { data: null, render: function(data, type, row) { return confidentialities[data.confidentiality]; } },
             { data: "source"},
             { data: null, render: function(data, type, row) { return statuses[data.status]; } },
-            { data: null, render: function(data, type, row){
+            { data: null,width: "10%",render: function(data, type, row){
                 var getPendingBtn = function(){
                     return (data.status == "PEN") ? '<a class="btn btn-default btn-action btn-mark-processed" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Mark Processed" onclick="markProcessed('+data.id+', \'PRO\');"><i class="fa fa-check"></i>  </a>' : '<a class="btn btn-default btn-action btn-mark-pending" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Mark Pending" onclick="markProcessed('+data.id+', \'PEN\');"><i class="fa fa-exclamation-triangle"></i></a>';
                 };
