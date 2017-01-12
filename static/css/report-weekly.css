@@ -384,5 +384,17 @@ body {
   #main #report-content #weekly-severity-score .score-3 {
     color: white;
     background-color: #e74c3c; }
+  #main #report-content #weekly-severity-score .dynamic {
+    color: #008080; }
+  #main #report-content #weekly-severity-score #hdi {
+    background-color: rgba(0, 0, 0, 0.3); }
+  #main #report-content #weekly-severity-score #hdi-rank {
+    background-color: rgba(0, 0, 0, 0.3); }
+  #main #report-content #weekly-severity-score #mortality-rate {
+    background-color: rgba(0, 0, 0, 0.3); }
+  #main #report-content #weekly-severity-score #uprooted-people {
+    background-color: rgba(0, 0, 0, 0.3); }
+  #main #report-content #weekly-severity-score #uprooted-percentage {
+    background-color: rgba(0, 0, 0, 0.3); }
 
 /*# sourceMappingURL=report-weekly.css.map */
