@@ -87,7 +87,14 @@ nav {
       nav #crisis-wrapper .selectize-input .item, nav #crisis-wrapper .input-active .item {
         text-transform: uppercase;
         text-align: left;
-        font-size: 14px !important; }
+        font-size: 14px !important;
+        display: block;
+        width: 80%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis; }
+        nav #crisis-wrapper .selectize-input .item.focus .item, nav #crisis-wrapper .input-active .item.focus .item {
+          display: inline-block; }
       nav #crisis-wrapper .selectize-input input, nav #crisis-wrapper .input-active input {
         text-transform: uppercase !important;
         color: #b3caca; }

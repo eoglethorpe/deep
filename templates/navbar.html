@@ -28,7 +28,7 @@
             </div>
 
             {# Event menu #}
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <div id="crisis-wrapper">
                     {% if all_events %}
                     <select id="crisis-dropdown" placeholder="Select event">
@@ -42,7 +42,7 @@
                     </select>
                     {% else %}
                     {% if event %}
-                    <a href="#" style="color: #fff; font-weight: bold;"><span class="fa fa-location-arrow" style="margin-right: 8px;"></span>{{event}}</a>
+                    <a href="#" style="color: #fff; font-weight: bold; width: 100%; overflow: hidden;"><span class="fa fa-location-arrow" style="margin-right: 8px;"></span>{{event}}</a>
                     {% endif %}
                     {% endif %}
                 </div>
@@ -60,7 +60,7 @@
                 {% endif %}
             </div>
 
-            <div class="col-md-3" style="text-align: right;">
+            <div class="col-md-2" style="text-align: right;">
                 {# Chrome extension download #}
                 <a class="menu-item" style="padding-left: 0; padding-right: 0; color: #fff;" target="_blank" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Download Chrome Extension" href="https://chrome.google.com/webstore/detail/deep-create-lead/ggplhkhciodfdkkonmhgniaopboeoopi"><i class="fa fa-chrome fa-spin" style="margin-right: 0"></i></a>
 

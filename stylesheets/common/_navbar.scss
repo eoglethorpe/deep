@@ -64,6 +64,17 @@ nav{
                 text-transform: uppercase;
                 text-align: left;
                 font-size: $text-size-md!important;
+                display: block;
+                width: 80%;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+
+                &.focus {
+                    .item {
+                      display: inline-block;
+                    }
+                }
             }
 
             input{
@@ -89,6 +100,7 @@ nav{
             color: #fff;
             box-shadow: none;
         }
+    
     }
     .dropdown{
         ul{
