@@ -160,6 +160,10 @@ main{
             .weekly-report{
                 padding: 6px 16px;
 
+                #delete-button{
+                    color: #e74c3c;
+                    margin-right: 10px;
+                }
                 a{
                     margin-left: 16px;
                     cursor: pointer;

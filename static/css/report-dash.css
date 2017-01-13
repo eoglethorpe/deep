@@ -228,6 +228,9 @@ main #country-detail {
       text-align: center; }
     main #country-detail #weekly-report-list .weekly-report {
       padding: 6px 16px; }
+      main #country-detail #weekly-report-list .weekly-report #delete-button {
+        color: #e74c3c;
+        margin-right: 10px; }
       main #country-detail #weekly-report-list .weekly-report a {
         margin-left: 16px;
         cursor: pointer;
