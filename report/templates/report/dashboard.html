@@ -172,7 +172,9 @@
                         <div class="weekly-report">
                             <h4>Week #<span class="number">{{report.start_date|date:"W"}}</span></h4>
                             <p><date>{{report.start_date|date:"d-m-Y"}}</date> to <date>{{report.end_date|date:"d-m-Y"}}</date></p>
+                            <a  id="deleteReport" onclick="return confirm('Are you sure you want to delete this report?');" ><i class="fa fa-trash"></i>Delete</a>
                             <a onclick="location.href='{% url 'report:weekly' country.pk event.pk report.pk %}';"><i class="fa fa-edit"></i>Edit</a>
+
                         </div>
                         {% empty %}
                         <p class="empty-text">No reports found</p>

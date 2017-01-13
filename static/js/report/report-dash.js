@@ -12,6 +12,9 @@ $(document).ready(function(){
         window.location.href = $(this).data('href');
     });
 
+}
+
+
     $('#country-list').scrollTop($('#country-list .active').position().top - 100);
 
 
