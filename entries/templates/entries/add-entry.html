@@ -194,7 +194,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         <div class="pillar-header">{{pillar}}</div>
                         <div class="sub-pillars">
                             {% for subpillar in pillar.informationsubpillar_set.all %}
-                            <div class="sub-pillar" data-pillar-id="{{pillar.pk}}" data-subpillar-id="{{subpillar.pk}}">{{subpillar}}</div>
+                            <div class="sub-pillar" data-pillar-id="{{pillar.pk}}" data-bg-color="{{ pillar.background_color }}" data-subpillar-id="{{subpillar.pk}}">{{subpillar}}</div>
                             {% endfor %}
                         </div>
                     </div>

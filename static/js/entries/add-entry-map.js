@@ -206,6 +206,7 @@ function refreshAdminLevels() {
         for (var i in adminLevels[k]) {
             if (adminLevels[k][i] != null) {
                 var features = adminLevels[k][i]["features"];
+
                 for (var j in features) {
                     if ("properties" in features[j]) {
                         var properties = features[j]["properties"];
@@ -218,12 +219,19 @@ function refreshAdminLevels() {
                         if (propPcode != "" && properties[propPcode] != "")
                             selectionName += ":" + properties[propPcode]
 
+                        if(i==0){
+                            for(var index=0; index<excerpts.length; index++){
+                                if(excerpts[index].map_selections.length == 0){
+                                    excerpts[index].map_selections.push(selectionName);
+                                }
+                            }
+                        }
+
                         locations[selectionName] = name;
                     }
                 }
             }
         }
     }
-
     refreshMap();
 }

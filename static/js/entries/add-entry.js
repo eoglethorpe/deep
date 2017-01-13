@@ -26,7 +26,6 @@ var excerpts = [
 var selectedExcerpt = -1;
 var refreshing = false;
 
-
 // map stuffs
 
 function updateLocationSelections() {
@@ -60,6 +59,9 @@ function refreshLocations() {
     for (var key in locations) {
         var name = locations[key];
         $('#manual-location-input')[0].selectize.addOption({value: key, text: name});
+        // if(key.includes(':0:')){
+        //     $('#manual-location-input')[0].selectize.setValue(key);
+        // }
         // Add key to mapSelections array on selection and call updateLayer(key).
     }
 
@@ -394,7 +396,7 @@ function refreshExcerpts() {
 }
 
 
-function addExcerpt(excerpt) {
+function addExcerpt(excerpt, color) {
     // Create new excerpt and refresh
     var excerpt = {
         excerpt: excerpt,
@@ -402,7 +404,8 @@ function addExcerpt(excerpt) {
         reliability: defaultReliability, severity: defaultSeverity,
         date: defaultDate, number: null,
         affected_groups: [], vulnerable_groups: [], specific_needs_groups: [],
-        map_selections: []
+        map_selections: [],
+        bgColor: color
     };
     excerpts.push(excerpt);
 
@@ -433,10 +436,12 @@ function styleText(text) {
         var color = "#ccc";
         if (index >= 0) {
             // Create highlighting tag for this search
-            if(typeof excerpts[i] != 'undefined' && typeof excerpts[i].attributes[0] != 'undefined' && typeof excerpts[i].attributes[0].bgColor != 'undefined'){
+            if(typeof excerpts[i].attributes[0] != 'undefined' && typeof excerpts[i].attributes[0].bgColor != 'undefined'){
                 color = excerpts[i].attributes[0].bgColor;
+            } else if( typeof excerpts[i].bgColor != 'undefined' ){
+                color = excerpts[i].bgColor;
             }
-            text = text.slice(0, index) + '<span style="background-color:'+ color +'">'
+            text = text.slice(0, index) + '<span style="background-color:'+ color +'; color:'+ getContrastYIQ(color) +'" >'
                 + excerpt + '</span>'
                 + text.slice(index+excerpt.length)
         }
@@ -579,7 +584,7 @@ $(document).ready(function(){
                 || excerpts[selectedExcerpt].excerpt == text)
             excerpts[selectedExcerpt].excerpt = e.originalEvent.dataTransfer.getData('Text');
         else
-            addExcerpt(e.originalEvent.dataTransfer.getData('Text'));
+            addExcerpt(e.originalEvent.dataTransfer.getData('Text'), (typeof $(this).data('bg-color') != 'undefined')? $(this).data('bg-color'): $(this).css('background-color'));
 
         $(this).click();
         refreshExcerpts();
