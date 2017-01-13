@@ -16,7 +16,7 @@ main{
             padding: 10px 16px;
             background-color: #f5f5f5;
 
-            #search-country{
+            #country-search{
                 float: right;
                 outline: none;
                 border: 1px solid rgba(0, 0, 0, 0.1);
@@ -24,7 +24,7 @@ main{
                 width: 240px;
                 padding: 6px 16px 6px 32px;
             }
-            #search-country+i{
+            #country-search+i{
                 float: right;
                 margin-right: -24px;
                 margin-top: 10px;
@@ -36,6 +36,7 @@ main{
                 }
                 label{
                     padding: 6px 16px;
+                    cursor: pointer;
                 }
                 .active{
                     color: $primary-color;
@@ -88,18 +89,23 @@ main{
                 &:nth-child(odd){
                     background-color: #f0f0f0;
                 }
-
                 &:hover{
                     background-color: rgba(0, 0, 0, 0.2);
+                }
+                .fa-arrow-up{
+                    color: #27ae60;
+                }
+                .fa-arrow-down{
+                    color: #c0392b;
+                }
+                .fa-arrow-right{
+                    color: #b79622;
                 }
             }
             .active{
                 border-left: 3px solid $primary-color;
             }
             .percent{
-                &:after{
-                    content: '%';
-                }
             }
             .viz{
                 height: 50px;
@@ -154,6 +160,10 @@ main{
             .weekly-report{
                 padding: 6px 16px;
 
+                #delete-button{
+                    color: #e74c3c;
+                    margin-right: 10px;
+                }
                 a{
                     margin-left: 16px;
                     cursor: pointer;

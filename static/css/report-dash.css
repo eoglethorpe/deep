@@ -128,14 +128,14 @@ main #country-list {
   main #country-list #header {
     padding: 10px 16px;
     background-color: #f5f5f5; }
-    main #country-list #header #search-country {
+    main #country-list #header #country-search {
       float: right;
       outline: none;
       border: 1px solid rgba(0, 0, 0, 0.1);
       border-radius: 3px;
       width: 240px;
       padding: 6px 16px 6px 32px; }
-    main #country-list #header #search-country + i {
+    main #country-list #header #country-search + i {
       float: right;
       margin-right: -24px;
       margin-top: 10px;
@@ -143,7 +143,8 @@ main #country-list {
     main #country-list #header #crisis-status input {
       display: none; }
     main #country-list #header #crisis-status label {
-      padding: 6px 16px; }
+      padding: 6px 16px;
+      cursor: pointer; }
     main #country-list #header #crisis-status .active {
       color: #008080;
       border-bottom: 2px solid #008080; }
@@ -180,10 +181,14 @@ main #country-list {
         background-color: #f0f0f0; }
       main #country-list #countries .country:hover {
         background-color: rgba(0, 0, 0, 0.2); }
+      main #country-list #countries .country .fa-arrow-up {
+        color: #27ae60; }
+      main #country-list #countries .country .fa-arrow-down {
+        color: #c0392b; }
+      main #country-list #countries .country .fa-arrow-right {
+        color: #b79622; }
     main #country-list #countries .active {
       border-left: 3px solid #008080; }
-    main #country-list #countries .percent:after {
-      content: '%'; }
     main #country-list #countries .viz {
       height: 50px; }
     main #country-list #countries .list-col {
@@ -223,6 +228,9 @@ main #country-detail {
       text-align: center; }
     main #country-detail #weekly-report-list .weekly-report {
       padding: 6px 16px; }
+      main #country-detail #weekly-report-list .weekly-report #delete-button {
+        color: #e74c3c;
+        margin-right: 10px; }
       main #country-detail #weekly-report-list .weekly-report a {
         margin-left: 16px;
         cursor: pointer;
