@@ -228,21 +228,12 @@ main #country-detail {
       text-align: center; }
     main #country-detail #weekly-report-list .weekly-report {
       padding: 6px 16px; }
-      main #country-detail #weekly-report-list .weekly-report #delete-button {
-        color: #e74c3c;
-        margin-right: 10px; }
-      main #country-detail #weekly-report-list .weekly-report a {
-        margin-left: 16px;
-        cursor: pointer;
-        float: right; }
-        main #country-detail #weekly-report-list .weekly-report a .fa {
-          margin-right: 6px; }
       main #country-detail #weekly-report-list .weekly-report h4 {
         font-weight: 400;
         display: inline-block;
         font-size: 1em;
         margin-right: 10px;
-        width: 144px;
+        width: 72px;
         color: #767676; }
       main #country-detail #weekly-report-list .weekly-report p {
         display: inline-block;
@@ -252,6 +243,16 @@ main #country-detail {
           content: '['; }
         main #country-detail #weekly-report-list .weekly-report p:after {
           content: ']'; }
+      main #country-detail #weekly-report-list .weekly-report .actions {
+        float: right; }
+        main #country-detail #weekly-report-list .weekly-report .actions #delete-button {
+          color: #e74c3c;
+          margin-right: 10px; }
+        main #country-detail #weekly-report-list .weekly-report .actions a {
+          margin-left: 10px;
+          cursor: pointer; }
+          main #country-detail #weekly-report-list .weekly-report .actions a .fa {
+            margin-right: 6px; }
       main #country-detail #weekly-report-list .weekly-report button {
         float: right;
         box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }

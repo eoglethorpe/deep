@@ -160,25 +160,12 @@ main{
             .weekly-report{
                 padding: 6px 16px;
 
-                #delete-button{
-                    color: #e74c3c;
-                    margin-right: 10px;
-                }
-                a{
-                    margin-left: 16px;
-                    cursor: pointer;
-                    float: right;
-
-                    .fa{
-                        margin-right: 6px;
-                    }
-                }
                 h4{
                     font-weight: $font-weight-normal;
                     display: inline-block;
                     font-size: 1em;
                     margin-right: 10px;
-                    width: 144px;
+                    width: 72px;
                     color: $label-color;
                 }
                 p{
@@ -193,14 +180,26 @@ main{
                         content: ']';
                     }
                 }
-                date{
+                .actions{
+                    float: right;
 
+                    #delete-button{
+                        color: #e74c3c;
+                        margin-right: 10px;
+                    }
+                    a{
+                        margin-left: 10px;
+                        cursor: pointer;
+
+                        .fa{
+                            margin-right: 6px;
+                        }
+                    }
                 }
                 button{
                     float: right;
                     @include btn-shadow-sm();
                 }
-
                 &:nth-child(even){
                     background-color: #f0f0f0;
                 }
