@@ -26,7 +26,6 @@ var excerpts = [
 var selectedExcerpt = -1;
 var refreshing = false;
 
-
 // map stuffs
 
 function updateLocationSelections() {
@@ -60,6 +59,9 @@ function refreshLocations() {
     for (var key in locations) {
         var name = locations[key];
         $('#manual-location-input')[0].selectize.addOption({value: key, text: name});
+        // if(key.includes(':0:')){
+        //     $('#manual-location-input')[0].selectize.setValue(key);
+        // }
         // Add key to mapSelections array on selection and call updateLayer(key).
     }
 
