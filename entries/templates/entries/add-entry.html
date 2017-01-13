@@ -94,6 +94,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 {% for attr in excerpt.informationattribute_set.all %}
                 {
                     pillar: {{attr.subpillar.pillar.pk}}, subpillar: {{attr.subpillar.pk}},
+                    bgColor: '{{attr.subpillar.pillar.background_color}}',
                     sector: {% if attr.sector %}{{attr.sector.pk}},
                     subsectors:
                         {% if attr.subsectors %}
