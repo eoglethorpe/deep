@@ -13,6 +13,21 @@ var reports = [
     {'country': '{{ report.country }}', 'startDate': '{{ report.start_date }}', 'data': JSON.parse("{{ report.data|escapejs }}")},
     {% endfor %}
 ];
+var affectedFieldIds = [
+    {% for afid in affected_field_id_list %}
+    {{ afid.pk }},
+    {% endfor %}
+];
+var inNeedFieldIds = [
+    {% for infid in in_need_field_id_list %}
+    {{ infid.pk }},
+    {% endfor %}
+];
+var accessConstraintsFieldIds = [
+    {% for acfid in access_constraints_id_list %}
+    {{ acfid.pk }},
+    {% endfor %}
+]
 </script>
 {% endblock %}
 
@@ -25,7 +40,7 @@ var reports = [
             <div class="col-md-8" style="padding-right: 0">
                 <div id="country-list">
                     <div id="header">
-                        <input id="search-country" placeholder="Search country" readonly>
+                        <input id="country-search" placeholder="Search country">
                         <i class="fa fa-search"></i>
                         <div id="crisis-status">
                             <label class="active"><input name="crisis-status" value="2" type="radio" checked>All countries</label>
@@ -78,7 +93,7 @@ var reports = [
                     </div>
                     <div id="countries">
                         {% for c in countries %}
-                        <div class="country {% if country and country == c %}active{% endif %}" data-href="{% url 'report:dashboard' %}?country={{c.pk}}" data-name="{{c.name}}">
+                        <div class="country {% if country and country == c %}active{% endif %}" data-href="{% url 'report:dashboard' %}?country={{c.pk}}" data-name="{{c.name}}" data-crisis-status="{{c.event_set.all.0.status}}">
                             <div class="row">
                                 <div class="col-md-3 first-child">
                                     <div class="row">
@@ -88,7 +103,7 @@ var reports = [
                                         <div class="col-md-7 last-child">
                                             <div class="list-col">
                                                 <div class="name">{{c.name}}</div>
-                                                <div class="events">{% for e in c.event_set.all %}{{e}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
+                                                <div class="events">{% for e in c.event_set.all %}{{ e }}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -124,7 +139,7 @@ var reports = [
                                 <div class="col-md-3 last-child">
                                     <div class="row">
                                         <div class="col-md-4 first-child">
-                                            <div class="consistency list-col">
+                                            <div class="availability list-col">
                                                 <i class="fa"></i><span class="percent"></span>
                                                 <div class="viz"></div>
                                             </div>

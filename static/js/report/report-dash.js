@@ -30,37 +30,69 @@ $(document).ready(function(){
             });
 
             if(current.weeklyReports.length > 0){
+                // fills number to element
+                function fillNumber(el, num){
+                    if(!isNaN(num)){
+                        el.text(num);
+                    }
+                }
+
+                // returns the number of affected people from current report
+                function getAffectedNumber(index){
+                    var sum = 0;
+                    for(var i=0; i<affectedFieldIds.length; i++){
+                        sum += parseInt(current.weeklyReports[index].data.human.number[affectedFieldIds[i]]);
+                    }
+                    return sum;
+                }
+                // returns the number of people in need from current report
+                function getInNeedNumber(index){
+                    var sum = 0;
+                    for(var i=0; i<inNeedFieldIds.length; i++){
+                        sum += parseInt(current.weeklyReports[index].data.people.total[inNeedFieldIds[i]]);
+                    }
+                    return sum;
+                }
+                // returns the number of people with access constraints from current report
+                function getAccessConstraintsNumber(index){
+                    var sum = 0;
+                    for(var i=0; i<accessConstraintsFieldIds.length; i++){
+                        sum += parseInt(current.weeklyReports[index].data['access-pin'].number[accessConstraintsFieldIds[i]]);
+                    }
+                    return sum;
+                }
+
+
                 // affected number
-                var affectedNumber = current.weeklyReports[0].data.human.number['8'];   // TODO: fix this hack i.e. '8'
-                country.find('.affected .number').text(affectedNumber);
+                fillNumber(country.find('.affected .number'), getAffectedNumber(0));
 
                 // in need
-                var inNeedNumber = current.weeklyReports[0].data.people.total['1'];
-                country.find('.in-need .number').text(inNeedNumber);
+                fillNumber(country.find('.in-need .number'), getInNeedNumber(0));
 
                 // access constraints
-                var accessConstraintsNumber = parseInt(current.weeklyReports[0].data['access-pin'].number['2']) + parseInt(current.weeklyReports[0].data['access-pin'].number['3']);
-                country.find('.access-constraints .number').text(accessConstraintsNumber);
+                fillNumber(country.find('.access-constraints .number'), getAccessConstraintsNumber(0));
 
                 if(typeof current.weeklyReports[1] != 'undefined'){
+
+                    // returns appropriate icon according to change
                     function getChangeFa(num){
                         if(num > 0){
                             return 'fa-arrow-up';
                         } else if(num < 0){
                             return 'fa-arrow-down';
-                        } else{
+                        } else if(!isNaN(num)){
                             return 'fa-arrow-right';
                         }
                     }
 
                     // affected number change
-                    country.find('.affected .fa').addClass(getChangeFa(parseInt(affectedNumber) - parseInt(current.weeklyReports[1].data.human.number['8'])));
+                    country.find('.affected .fa').addClass(getChangeFa(getAffectedNumber(0) - getAffectedNumber(1)));
 
                     // in need number change
-                    country.find('.in-need .fa').addClass(getChangeFa(parseInt(inNeedNumber) - parseInt(current.weeklyReports[1].data.people.total['1'])));
+                    country.find('.in-need .fa').addClass(getChangeFa(getInNeedNumber(0) - getInNeedNumber(1)));
 
                     // access constraints number change
-                    country.find('.access-constraints .fa').addClass(getChangeFa(accessConstraintsNumber - (parseInt(current.weeklyReports[1].data['access-pin'].number['2']) + parseInt(current.weeklyReports[1].data['access-pin'].number['3'])) ));
+                    country.find('.access-constraints .fa').addClass(getChangeFa(getAccessConstraintsNumber(0) - getAccessConstraintsNumber(1)));
                 }
 
             }
@@ -82,21 +114,28 @@ $(document).ready(function(){
         window.location.href = $(this).data('href');
     });
 
+    function filterCountries(){
+        var crisisStatus = $('input[type=radio][name=crisis-status]:checked').val();
+        var searchText = $('#country-search').val().trim().toLowerCase();
+        $('.country').each(function(){
+            if ((crisisStatus == '2' || $(this).data('crisis-status') == crisisStatus)
+                && (searchText.length == 0 || $(this).text().trim().toLowerCase().indexOf(searchText) != -1))
+            {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    }
+
     // Search country
-    $('#search-country').on('cut input paste drop keyup', function() {
-        var query = $(this).val().trim().toLowerCase();
-        if (query == '')
-            $('#country-list .country-container').show();
-        else {
-            $('#country-list .country-container').each(function() {
-                if ($(this).data('name').trim().toLowerCase().indexOf(query) >= 0) {
-                    $(this).show();
-                }
-                else {
-                    $(this).hide();
-                }
-            });
-        }
+    $('#country-search').on('cut input paste drop keyup', function() {
+        filterCountries();
+    });
+    $('input[type=radio][name=crisis-status]').change(function(){
+        $('#crisis-status label').removeClass('active');
+        $(this).closest('label').addClass('active');
+        filterCountries();
     });
 
 });
