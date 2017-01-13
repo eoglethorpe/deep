@@ -106,6 +106,9 @@ var totalPopulation = +'{{country.total_population}}';
 
 var timelineCategories = [{% for category in category_timelines %}"{{category}}",{% endfor %}];
 
+var severityScoreTotalPinId = '{{ severity_score_total_pin_id.0.pk }}';
+var severityScoreTotalPinHumanId = '{{ severity_score_total_pin_human_id.0.pk }}';
+
 </script>
 {% endblock %}
 
@@ -487,10 +490,12 @@ var timelineCategories = [{% for category in category_timelines %}"{{category}}"
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label>% of people in need or recently affected </label>
-                                    <input id="pin-percentage" class="form-control" readonly>
+                                    <label>Total number of people in need</label>
+                                    <input id="total-pin" class="form-control" readonly>
                                 </div>
                                 <div class="col-md-3">
+                                    <label>% of people in need or recently affected </label>
+                                    <input id="pin-percentage" class="form-control" readonly>
                                 </div>
                                 <div class="col-md-3">
                                     <label> Score</label>
@@ -507,7 +512,7 @@ var timelineCategories = [{% for category in category_timelines %}"{{category}}"
                                 <div class="col-md-3">
                                 </div>
                                 <div class="col-md-3">
-                                    <label> Score</label>
+                                    <label>Score</label>
                                     <input id="level-of-access-score" class="form-control score" readonly>
                                 </div>
                             </div>
@@ -515,7 +520,7 @@ var timelineCategories = [{% for category in category_timelines %}"{{category}}"
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label class = "dynamic" >Under 5 Mortality Rate</label>
+                                    <label class = "dynamic">Under 5 Mortality Rate</label>
                                     <input id="mortality-rate" class="form-control" placeholder="Number" readonly>
                                 </div>
                                 <div class="col-md-3">
