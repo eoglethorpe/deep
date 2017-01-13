@@ -57,7 +57,6 @@ class ReportDashboardView(View):
         context["in_need_field_id_list"] = PeopleInNeedField.objects.filter(dashboard_in_need_field=True)
         context["access_constraints_id_list"] = HumanAccessPinField.objects.filter(dashboard_access_constraints_field=True)
 
-
         return render(request, "report/dashboard.html", context)
 
 
@@ -85,6 +84,10 @@ class WeeklyReportView(View):
         context["severities"] = Severity.objects.all().order_by('level')
         context["affected_groups"] = AffectedGroup.objects.all()
         context["sources"] = Source.objects.all()
+
+        # for severity score total people in need
+        context["severity_score_total_pin_id"] = PeopleInNeedField.objects.filter(severity_score_total_pin_field=True)
+        context["severity_score_total_pin_human_id"] = HumanProfileField.objects.filter(severity_score_total_pin_field=True)
 
         # Get the report if in edit mode, otherwise get the start date of the
         # new weekly report

@@ -510,7 +510,7 @@ function getInputData() {
 }
 
 function checkRules() {
-    
+
     // check for decay
     $('.human-comment').on('paste change input', function(){
         humanitarianProfileDecay.updateHumanComment($(this));
@@ -587,7 +587,7 @@ function autoCalculateScores() {
                 maxTotalPin = v;
         }
     });
-    $('.people-total-calculated').val(maxTotalPin);
+    $('.people-total-calculated').val(maxTotalPin!=0?maxTotalPin:'');
     formatNumber($('.people-total-calculated'));
 
     $('.total-at-risk-subfield').each(function() {
@@ -597,7 +597,7 @@ function autoCalculateScores() {
                 maxAtRiskPin = v;
         }
     });
-    $('.people-at-risk-calculated').val(maxAtRiskPin);
+    $('.people-at-risk-calculated').val(maxAtRiskPin!=0?maxAtRiskPin:'');
     formatNumber($('.people-at-risk-calculated'));
 
     $('.total-moderate-subfield').each(function() {
@@ -607,7 +607,7 @@ function autoCalculateScores() {
                 maxModeratePin = v;
         }
     });
-    $('.people-moderate-calculated').val(maxModeratePin);
+    $('.people-moderate-calculated').val(maxModeratePin!=0?maxModeratePin:'');
     formatNumber($('.people-moderate-calculated'));
 
     $('.total-severe-subfield').each(function() {
@@ -617,7 +617,7 @@ function autoCalculateScores() {
                 maxSeverePin = v;
         }
     });
-    $('.people-severe-calculated').val(maxSeverePin);
+    $('.people-severe-calculated').val(maxSeverePin!=0?maxSeverePin:'');
     formatNumber($('.people-severe-calculated'));
 
     $('.total-planned-subfield').each(function() {
@@ -627,7 +627,7 @@ function autoCalculateScores() {
                 maxPlannedPin = v;
         }
     });
-    $('.people-planned-calculated').val(maxPlannedPin);
+    $('.people-planned-calculated').val(maxPlannedPin!=0?maxPlannedPin:'');
     formatNumber($('.people-planned-calculated'));
 
 
@@ -743,4 +743,28 @@ function autoCalculateScores() {
 
     $('#calculated-score').attr('class', 'form-control score score-'+calculatedScore);
     $('#final-score').attr('class', 'form-control score score-'+$('#final-score').val());
+
+
+    // Severity score total number of people in need
+    var totalPinReported = parseInt(getNumberValue($('#people-in-need .people-total')));
+    var totalPinCalculated = parseInt(getNumberValue($('#people-in-need .people-total-calculated')));
+    var totalHumanAffected = parseInt(getNumberValue($('#humanitarian-profile .number[data-human-pk='+severityScoreTotalPinHumanId+']')));
+
+    if(isNaN(totalPinReported) && isNaN(totalPinCalculated) ){
+        if(!isNaN(totalHumanAffected)){
+            $('#total-pin').val(totalHumanAffected);
+        }else{
+            $('#total-pin').val('');
+        }
+    } else if(isNaN(totalPinReported)){
+        if(!isNaN(totalPinCalculated)){
+            $('#total-pin').val(totalPinCalculated);
+        }else{
+            $('#total-pin').val('');
+        }
+    } else if(isNaN(totalPinCalculated)){
+        $('#total-pin').val(totalPinReported);
+    } else{
+        $('#total-pin').val(Math.max(totalPinReported, totalPinCalculated));
+    }
 }
