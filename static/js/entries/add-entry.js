@@ -433,7 +433,7 @@ function styleText(text) {
         var color = "#ccc";
         if (index >= 0) {
             // Create highlighting tag for this search
-            if(typeof excerpts[i] != 'undefined' && typeof excerpts[i].attributes[0] != 'undefined'){
+            if(typeof excerpts[i] != 'undefined' && typeof excerpts[i].attributes[0] != 'undefined' && typeof excerpts[i].attributes[0].bgColor != 'undefined'){
                 color = excerpts[i].attributes[0].bgColor;
             }
             text = text.slice(0, index) + '<span style="background-color:'+ color +'">'
