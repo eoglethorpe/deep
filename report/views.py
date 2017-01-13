@@ -142,6 +142,12 @@ class WeeklyReportView(View):
         report.save()
         return redirect(reverse("report:dashboard") + "?country=" + country_id + "&event=" + event_id)
 
+class DeleteWeeklyReport(View):
+    @method_decorator(login_required)
+    def get(self, request, country_id=None, event_id=None, report_id=None):
+        report = WeeklyReport.objects.get(country=country_id, event=event_id, pk=report_id)
+        report.delete()
+        return redirect(reverse("report:dashboard") + "?country=" + country_id + "&event=" + event_id)
 
 class MonthlyReportView(View):
     @method_decorator(login_required)
