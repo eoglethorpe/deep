@@ -51,6 +51,13 @@ class ReportDashboardView(View):
         context["event"] = event
         context["current_page"] = "report"
 
+        # for sparklines and other viz
+        context["weekly_reports_all"] = WeeklyReport.objects.all()
+        context["affected_field_id_list"] = HumanProfileField.objects.filter(dashboard_affected_field=True)
+        context["in_need_field_id_list"] = PeopleInNeedField.objects.filter(dashboard_in_need_field=True)
+        context["access_constraints_id_list"] = HumanAccessPinField.objects.filter(dashboard_access_constraints_field=True)
+
+
         return render(request, "report/dashboard.html", context)
 
 

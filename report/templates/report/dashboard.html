@@ -7,6 +7,28 @@
 <link href="{% static 'css/selectize.bootstrap3.css' %}" type="text/css" rel="stylesheet">
 <script src="{% static 'js/common/selectize.js' %}"></script>
 <script src="{% static 'js/report/report-dash.js' %}"></script>
+<script>
+var reports = [
+    {% for report in weekly_reports_all %}
+    {'country': '{{ report.country }}', 'startDate': '{{ report.start_date }}', 'data': JSON.parse("{{ report.data|escapejs }}")},
+    {% endfor %}
+];
+var affectedFieldIds = [
+    {% for afid in affected_field_id_list %}
+    {{ afid.pk }},
+    {% endfor %}
+];
+var inNeedFieldIds = [
+    {% for infid in in_need_field_id_list %}
+    {{ infid.pk }},
+    {% endfor %}
+];
+var accessConstraintsFieldIds = [
+    {% for acfid in access_constraints_id_list %}
+    {{ acfid.pk }},
+    {% endfor %}
+]
+</script>
 {% endblock %}
 
 {% block body %}
@@ -18,7 +40,7 @@
             <div class="col-md-8" style="padding-right: 0">
                 <div id="country-list">
                     <div id="header">
-                        <input id="search-country" placeholder="Search country" readonly>
+                        <input id="country-search" placeholder="Search country">
                         <i class="fa fa-search"></i>
                         <div id="crisis-status">
                             <label class="active"><input name="crisis-status" value="2" type="radio" checked>All countries</label>
@@ -71,7 +93,7 @@
                     </div>
                     <div id="countries">
                         {% for c in countries %}
-                        <div class="country {% if country and country == c %}active{% endif %}" data-href="{% url 'report:dashboard' %}?country={{c.pk}}" >
+                        <div class="country {% if country and country == c %}active{% endif %}" data-href="{% url 'report:dashboard' %}?country={{c.pk}}" data-name="{{c.name}}" data-crisis-status="{{c.event_set.all.0.status}}">
                             <div class="row">
                                 <div class="col-md-3 first-child">
                                     <div class="row">
@@ -81,7 +103,7 @@
                                         <div class="col-md-7 last-child">
                                             <div class="list-col">
                                                 <div class="name">{{c.name}}</div>
-                                                <div class="events">{% for e in c.event_set.all %}{{e}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
+                                                <div class="events">{% for e in c.event_set.all %}{{ e }}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -90,25 +112,25 @@
                                     <div class="row">
                                         <div class="col-md-3 first-child">
                                             <div class="affected list-col">
-                                                <i class="fa fa-arrow-up"></i><span class="number">2000</span>
+                                                <i class="fa"></i><span class="number">N/A</span>
                                                 <div class="viz"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-3 low-padding">
                                             <div class="in-need list-col">
-                                                <i class="fa fa-arrow-down"></i><span class="number">1000</span>
+                                                <i class="fa"></i><span class="number">N/A</span>
                                                 <div class="viz"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-3 low-padding">
                                             <div class="access-constraints list-col">
-                                                <i class="fa fa-arrow-up"></i><span class="number">3300</span>
+                                                <i class="fa"></i><span class="number">N/A</span>
                                                 <div class="viz"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-3 last-child">
                                             <div class="Geo ranking list-col">
-                                                <i class="fa fa-arrow-up"></i><span class="number">911000</span>
+                                                <i class="fa"></i><span class="number">N/A</span>
                                                 <div class="viz"></div>
                                             </div>
                                         </div>
@@ -117,20 +139,20 @@
                                 <div class="col-md-3 last-child">
                                     <div class="row">
                                         <div class="col-md-4 first-child">
-                                            <div class="consistency list-col">
-                                                <i class="fa fa-arrow-down"></i><span class="percent">10</span>
+                                            <div class="availability list-col">
+                                                <i class="fa"></i><span class="percent"></span>
                                                 <div class="viz"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-4 low-padding">
                                             <div class="recency list-col">
-                                                <i class="fa fa-arrow-down"></i><span class="percent">50</span>
+                                                <i class="fa"></i><span class="percent"></span>
                                                 <div class="viz"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-4 last-child">
                                             <div class="change list-col">
-                                                <i class="fa fa-arrow-up"></i><span class="percent">20</span>
+                                                <i class="fa"></i><span class="percent"></span>
                                                 <div class="viz"></div>
                                             </div>
                                         </div>
@@ -173,6 +195,8 @@
                             <h4>Week #<span class="number">{{report.start_date|date:"W"}}</span></h4>
                             <p><date>{{report.start_date|date:"d-m-Y"}}</date> to <date>{{report.end_date|date:"d-m-Y"}}</date></p>
                             <a onclick="location.href='{% url 'report:weekly' country.pk event.pk report.pk %}';"><i class="fa fa-edit"></i>Edit</a>
+                            <a hidden  id="delete-button" onclick="return confirm('Are you sure you want to delete this report?');" ><i class="fa fa-trash"></i>Delete</a>
+
                         </div>
                         {% empty %}
                         <p class="empty-text">No reports found</p>

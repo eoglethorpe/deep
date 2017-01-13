@@ -29,6 +29,8 @@ class HumanProfileField(models.Model):
 
     total_field = models.BooleanField(default=False)
     total_affected_field = models.BooleanField(default=False)
+    dashboard_affected_field = models.BooleanField(default=False)
+    dashboard_availability_field = models.BooleanField(default=False)
 
     def __str__(self):
         if self.parent:
@@ -61,6 +63,7 @@ class PeopleInNeedField(models.Model):
     parent = models.ForeignKey('PeopleInNeedField', default=None, null=True, blank=True)
 
     total_field = models.BooleanField(default=False)
+    dashboard_in_need_field = models.BooleanField(default=False)
 
     def __str__(self):
         if self.parent:
@@ -84,6 +87,7 @@ class HumanAccessField(models.Model):
 
 class HumanAccessPinField(models.Model):
     name = models.CharField(max_length=100)
+    dashboard_access_constraints_field = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
