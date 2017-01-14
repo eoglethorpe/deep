@@ -6,11 +6,11 @@ DEEP | Leads
 {% endblock %}
 
 {% block head %}
-<link href="{% static 'css/leads.css' %}" type="text/css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% static 'css/datatables.min.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.bootstrap.min.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/selectize.bootstrap3.css' %}"/>
+<link href="{% static 'css/leads.css' %}" type="text/css" rel="stylesheet">
 
 <script>
     var currentEvent = {{event.pk}};
@@ -109,21 +109,23 @@ DEEP | Leads
                 </div>
             </div>
         </div>
-        <table id="leads-table" class="table  table-bordered" cellspacing="0" width="100%">
-            <thead>
-                <tr>
-                    <th>Created in</th>
-                    <th>Created by</th>
-                    <th>Assigned</th>
-                    <th>Name</th>
-                    <th>Published</th>
-                    <th>Confidentiality</th>
-                    <th>Source</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-        </table>
+        <div id="leads-table-wrapper">
+            <table id="leads-table" class="table" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Created in</th>
+                        <th>Created by</th>
+                        <th>Assigned</th>
+                        <th>Name</th>
+                        <th>Published</th>
+                        <th>Confidentiality</th>
+                        <th>Source</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
     </div>
 </main>
 
@@ -194,12 +196,12 @@ DEEP | Leads
     </div>
 </div>
 
-<form id="process-form" style="visibility:collapse;" method="post" action="{% url 'leads:mark_processed' event=event.pk %}">
+<form id="process-form" method="post" action="{% url 'leads:mark_processed' event=event.pk %}" hidden>
     {% csrf_token %}
     <input id="process-id" name="id" type="text">
     <input id="process-status" name="status" type="text">
 </form>
-<form id="delete-form" style="visibility:collapse;" method="post" action="{% url 'leads:delete' event=event.pk %}">
+<form id="delete-form" method="post" action="{% url 'leads:delete' event=event.pk %}" hidden>
     {% csrf_token %}
     <input id="delete-id" name="id" type="text">
 </form>

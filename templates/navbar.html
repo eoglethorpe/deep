@@ -2,10 +2,25 @@
 
 <script>
     $(document).ready(function(){
-        $('#crisis-dropdown').selectize();
+        var currentDropdownVal = $('#crisis-dropdown').val();
+
+        var crisisDropdown = $('#crisis-dropdown').selectize({
+            onDropdownOpen: function(dropdown) {
+                //currentDropdownVal = $('#crisis-dropdown').text();
+                crisisDropdown.clear();
+                dropdown.stop().hide().slideToggle();
+            },
+            onDropdownClose: function(dropdown) {
+                if(crisisDropdown.getValue() == ''){
+                    crisisDropdown.setValue(currentDropdownVal);
+                }
+                dropdown.stop().show().slideToggle();
+            }
+        })[0].selectize;
         $('#crisis-dropdown').change(function() {
-            if ($(this).val() != null && $(this).val() != '')
+            if ($(this).val() != null && $(this).val() != '' && $(this).val() != currentDropdownVal){
                 window.location.href = $(this).val();
+            }
         });
     });
 </script>

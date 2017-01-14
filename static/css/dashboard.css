@@ -89,7 +89,7 @@ nav {
         text-align: left;
         font-size: 14px !important;
         display: block;
-        width: 80%;
+        width: calc(100% - 32px);
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis; }
@@ -101,10 +101,12 @@ nav {
       nav #crisis-wrapper .selectize-input:after, nav #crisis-wrapper .input-active:after {
         margin-top: -10px;
         border-color: #b3caca transparent transparent transparent; }
+    nav #crisis-wrapper .selectize-dropdown {
+      text-align: left; }
+      nav #crisis-wrapper .selectize-dropdown .option {
+        padding: 6px 10px; }
     nav #crisis-wrapper .dropdown-active:after {
       border-color: transparent transparent #b3caca transparent; }
-    nav #crisis-wrapper .selectize-dropdown {
-      text-align: left !important; }
     nav #crisis-wrapper .focus {
       border: none;
       color: #fff;
