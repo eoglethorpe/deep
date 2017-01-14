@@ -13,22 +13,22 @@ function generateColor(str) {
 
 function styleMapFeature(feature) {
     var active = feature.properties.iso_a2 in active_countries || feature.properties.iso_a3 in active_countries;
-    var color_test = '#ecfof1';
+    var color_temp = '#ecfof1';
 
     if(active && (feature.properties.iso_a2 in active_countries)){
         if(active_countries[feature.properties.iso_a2][0].status == '0'){
-            color_temp = '#414141';
+            color_temp = '#3992fd';
         }
         else{
-            color_temp = '#e67e22';
+            color_temp = '#f44336';
         }
     }
     if(active && (feature.properties.iso_a3 in active_countries)){
         if(active_countries[feature.properties.iso_a3][0].status == '0'){
-            color_temp = '#414141';
+            color_temp = '#3992fd';
         }
         else{
-            color_temp = '#e67e22';
+            color_temp = '#f44336';
         }
     }
 
@@ -36,7 +36,7 @@ function styleMapFeature(feature) {
         fillColor: active?color_temp:'#ecf0f1',
         weight: 1.4,
         opacity: 1,
-        color: '#2980b9',
+        color: '#37373b',
         dashArray: '3',
         fillOpacity: 0.9
     };

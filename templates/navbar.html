@@ -1,5 +1,6 @@
 {% load staticfiles %}
 
+{% if all_events %}
 <script>
     $(document).ready(function(){
         var currentDropdownVal = $('#crisis-dropdown').val();
@@ -24,6 +25,7 @@
         });
     });
 </script>
+{% endif %}
 
 <nav>
     <div class="container-fluid">

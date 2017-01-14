@@ -174,11 +174,11 @@ function refreshPageOne() {
         var excerpt = excerpts[i];
         var option = $("<option value='" + i + "'></option>");
         var temp = excerpt.excerpt;
-        if (excerpt.excerpt.length>0 && excerpt.excerpt.length<=64){
+        if (excerpt.excerpt.length>0 && excerpt.excerpt.length<=100){
 
         }
-        else if (excerpt.excerpt.length>64){
-            temp = temp.substr(0,64)+" . . . .";
+        else if (excerpt.excerpt.length>100){
+            temp = temp.substr(0,72)+"...";
         }
         else {
             temp= "Add Excerpt";

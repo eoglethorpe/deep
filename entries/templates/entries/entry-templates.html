@@ -18,44 +18,47 @@
 
 <div class="information-template" hidden>
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3 first-child">
             <p class="excerpt"></p>
         </div>
-        <div class="col-md-1">
-            <div class="reliability">
-                <label>Reliability </label><br>
-                {% for reliability in reliabilities %}
-                <span data-id="{{reliability.pk}}" class="_{{reliability.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{reliability}}"></span>
-                {% endfor %}
-            </div>
-            <div class="severity">
-                <label>Severity </label><br>
-                {% for severity in severities %}
-                <span data-id="{{severity.pk}}" class="_{{severity.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{severity}}"></span>
-                {% endfor %}
+        <div class="col-md-2 low-padding">
+            <div class="second-col">
+                <div class="reliability">
+                    <label>Reliability:</label>
+                    {% for reliability in reliabilities %}
+                    <span data-id="{{reliability.pk}}" class="_{{reliability.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{reliability}}"></span>
+                    {% endfor %}
+                </div>
+                <div class="severity">
+                    <label>Severity:</label>
+                    {% for severity in severities %}
+                    <span data-id="{{severity.pk}}" class="_{{severity.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{severity}}"></span>
+                    {% endfor %}
+                </div>
+                <hr>
+                <p><label>Date:</label><span class="date"></span></p>
+                <p><label>Number:</label><span class="number"></span></p>
             </div>
         </div>
-        <div class="col-md-1">
-            <p><label>Date:</label><br><span class="date"></span></p>
-            <p><label>Number:</label><br><span class="number"></span></p>
-        </div>
-        <div class="col-md-2">
+        <div class="col-md-2 low-padding">
             <div class="vulnerable-group"><label>Demographic groups:</label><br><span class="vulnerable-groups"></span></div>
             <div class="specific-need-group"><label>Specific need groups:</label></br><span class="sepecific-need-groups"></span></div>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-5 last-child">
             <div class="row">
-                <div class="col-md-5">
+                <div class="col-md-3 first-child">
                     <div class="affected-group">
                         <label>Affected groups:</label>
                         <div class="affected-group-list"></div>
                     </div>
+                </div>
+                <div class="col-md-3 low-padding">
                     <div class="geo-location">
                         <label>Geo locations:</label>
                         <div class="geo-locations-list"></div>
                     </div>
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-6 last-child">
                     <label>Pillar / Sub-pillar</label>
                     <div class="attribute-list">
                     </div>
@@ -66,10 +69,10 @@
 </div>
 <div class="attribute-template" hidden>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 first-child">
             <span class="pillar"></span> <br> <span class="sub-pillar"></span>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 last-child">
             <span class="sector"></span> <br> <span class="sub-sector"></span>
         </div>
     </div>

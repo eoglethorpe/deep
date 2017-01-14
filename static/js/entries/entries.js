@@ -68,27 +68,27 @@ function renderEntries() {
             informationElement.find('.date').text(information.date?formatDate(information.date):"");
             informationElement.find('.number').text(information.number);
 
-            informationElement.find('.vulnerable-groups').text(
+            informationElement.find('.vulnerable-groups').html(
                 information.vulnerable_groups.map(function(vg) {
-                    return vg.name;
-                }).join(", ")
+                    return '<span>'+vg.name+'</span>';
+                }).join('')
             );
-            informationElement.find('.sepecific-need-groups').text(
+            informationElement.find('.sepecific-need-groups').html(
                 information.specific_needs_groups.map(function(sg) {
-                    return sg.name;
-                }).join(", ")
+                    return '<span>'+sg.name+'</span>';
+                }).join('')
             );
 
-            informationElement.find('.affected-group-list').text(
+            informationElement.find('.affected-group-list').html(
                 information.affected_groups.map(function(ag) {
-                    return ag.name;
-                }).join(", ")
+                    return '<span>'+ag.name+'</span>';
+                }).join('')
             );
 
-            informationElement.find('.geo-locations-list').text(
+            informationElement.find('.geo-locations-list').html(
                 information.map_selections.map(function(ms) {
-                    return ms.name;
-                }).join(", ")
+                    return '<span>'+ms.name+'</span>';
+                }).join('')
             );
 
             for (var k=0; k<information.attributes.length; ++k) {
