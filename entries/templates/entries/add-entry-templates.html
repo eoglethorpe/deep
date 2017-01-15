@@ -18,27 +18,37 @@
                     <span data-id="{{severity.pk}}" class="_{{severity.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{severity}}"></span>
                     {% endfor %}
                 </div>
+                <hr>
                 <div id="date-number">
-                    <hr>
-                    <label>Date:</label>
-                    <div style="position: relative;">
-                        <input type="date" class="entry-date form-control form-group" placeholder="Date">
+                    <div class="date">
+                        <label>Date:</label>
+                        <div style="position: relative;">
+                            <input type="date" class="entry-date form-control form-group" placeholder="Date">
+                        </div>
                     </div>
-                    <label>Number:</label>
-                    <input type="number" step="1" min="0" class="entry-number form-control form-group" placeholder="Number">
+                    <div class="number">
+                        <label>Number:</label>
+                        <input type="number" step="1" min="0" class="entry-number form-control form-group" placeholder="Number">
+                    </div>
                 </div>
         </div>
         <div class="col-md-2 low-padding">
-            <select  style="width: 90%;" class="vulnerable-group-select" class="form-control form-group" placeholder="Select demographic group" multiple>
-                {% for vg in vulnerable_groups %}
-                <option value="{{vg.pk}}">{{vg}}</option>
-                {% endfor %}
-            </select>
-            <select style="width: 90%;" class="specific-need-group-select" class="form-control form-group" placeholder="Select specific need group" multiple>
-                {% for sg in specific_needs_groups %}
-                <option value="{{sg.pk}}">{{sg}}</option>
-                {% endfor %}
-            </select>
+            <div class="vulnerable-groups">
+                <label>Demographic groups:</label>
+                <select  style="width: 90%;" class="vulnerable-group-select" class="form-control form-group" placeholder="Select demographic group" multiple>
+                    {% for vg in vulnerable_groups %}
+                    <option value="{{vg.pk}}">{{vg}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="specific-need-groups">
+                <label>Specific need groups:</label>
+                <select style="width: 90%;" class="specific-need-group-select" class="form-control form-group" placeholder="Select specific need group" multiple>
+                    {% for sg in specific_needs_groups %}
+                    <option value="{{sg.pk}}">{{sg}}</option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
         <div class="col-md-5 low-padding">
             <div class="row">
@@ -59,8 +69,8 @@
                     </div>
                 </div>
                 <div class="col-md-1 last-child">
-                    <a class="edit-entry-btn btn btn-primary btn-action" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Edit Attributes"><i class="fa fa-edit"></i></a>
-                    <a class="delete-entry-btn btn btn-danger btn-action" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Delete Entry"><i class="fa fa-times"></i></a>
+                    <a class="edit-entry-btn btn btn-primary btn-action" data-toggle="tooltip" data-placement="bottom" title="Edit Attributes"><i class="fa fa-edit"></i></a>
+                    <a class="delete-entry-btn btn btn-danger btn-action" data-toggle="tooltip" data-placement="bottom" title="Delete Entry"><i class="fa fa-times"></i></a>
                 </div>
             </div>
         </div>

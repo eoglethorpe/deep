@@ -411,8 +411,9 @@ nav {
 #main #entries .entry {
   background-color: #fff;
   color: #414141;
-  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
-  margin-bottom: 16px; }
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -2px 16px -5px rgba(0, 0, 0, 0.5);
+  margin-bottom: 10px; }
   #main #entries .entry .entry-title-extra {
     margin-left: 16px;
     text-transform: uppercase;
@@ -435,7 +436,7 @@ nav {
     margin-left: 16px;
     font-size: 1.2em; }
   #main #entries .entry .information {
-    background-color: #f0f0f0;
+    background-color: #f8f8f8;
     padding: 10px 16px 0 16px; }
     #main #entries .entry .information label {
       min-width: 72px;
@@ -513,6 +514,6 @@ nav {
       font-size: 0.9em;
       word-wrap: break-word; }
   #main #entries .entry .information:nth-child(even) {
-    background-color: #fafafa; }
+    background-color: #fff; }
 
 /*# sourceMappingURL=entries.css.map */
