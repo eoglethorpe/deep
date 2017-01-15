@@ -191,11 +191,11 @@ function drawPieChart(total){
 function showPiechartLabel(value) {
     $('#pie-percent').hide();
     $("#pie-percent").text(Math.round(value)+'%');
-    $('#pie-percent').fadeIn();
+    $('#pie-percent').fadeIn('fast');
 }
 function hidePiechartLabel() {
+    $("#pie-percent").stop();
     $("#pie-percent").fadeOut();
-    $('#pie-percent').data('faded', true);
 }
 
 function polarToCartesian(centerX, centerY, radius, angleInDegrees) {

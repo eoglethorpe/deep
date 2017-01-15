@@ -147,7 +147,9 @@ function refreshCurrentEntryLists() {
         var title = affectedGroups[agIdRowMap[ag]][0];
         text.push(title)
     }
-    currentEntry.find('.affected-group-list').html(text.join(', '));
+    if(text.length != 0){
+        currentEntry.find('.affected-group-list').html('<span>'+text.join('</span><span>')+'</span>');
+    }
 
     // Refresh map list for current excerpt
     currentEntry.find('.geo-locations-list').empty();
@@ -157,7 +159,9 @@ function refreshCurrentEntryLists() {
         var title = ms.split(':')[2];
         text.push(title)
     }
-    currentEntry.find('.geo-locations-list').html(text.join(', '));
+    if(text.length != 0){
+        currentEntry.find('.geo-locations-list').html('<span>'+text.join('</span><span>')+'</span>');
+    }
 }
 
 function refreshPageOne() {
@@ -174,11 +178,11 @@ function refreshPageOne() {
         var excerpt = excerpts[i];
         var option = $("<option value='" + i + "'></option>");
         var temp = excerpt.excerpt;
-        if (excerpt.excerpt.length>0 && excerpt.excerpt.length<=64){
+        if (excerpt.excerpt.length>0 && excerpt.excerpt.length<=100){
 
         }
-        else if (excerpt.excerpt.length>64){
-            temp = temp.substr(0,64)+" . . . .";
+        else if (excerpt.excerpt.length>100){
+            temp = temp.substr(0,72)+"...";
         }
         else {
             temp= "Add Excerpt";
@@ -588,6 +592,7 @@ $(document).ready(function(){
 
         $(this).click();
         refreshExcerpts();
+        window.getSelection().removeAllRanges();
         return false;
     };
 

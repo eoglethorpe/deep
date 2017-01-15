@@ -1,3 +1,4 @@
+@charset "UTF-8";
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -89,7 +90,7 @@ nav {
         text-align: left;
         font-size: 14px !important;
         display: block;
-        width: 80%;
+        width: calc(100% - 32px);
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis; }
@@ -101,10 +102,12 @@ nav {
       nav #crisis-wrapper .selectize-input:after, nav #crisis-wrapper .input-active:after {
         margin-top: -10px;
         border-color: #b3caca transparent transparent transparent; }
+    nav #crisis-wrapper .selectize-dropdown {
+      text-align: left; }
+      nav #crisis-wrapper .selectize-dropdown .option {
+        padding: 6px 10px; }
     nav #crisis-wrapper .dropdown-active:after {
       border-color: transparent transparent #b3caca transparent; }
-    nav #crisis-wrapper .selectize-dropdown {
-      text-align: left !important; }
     nav #crisis-wrapper .focus {
       border: none;
       color: #fff;
@@ -135,9 +138,6 @@ nav {
 #main #filters {
   margin-top: 10px;
   margin-bottom: 10px; }
-  #main #filters label {
-    text-transform: uppercase;
-    font-size: 0.8em; }
   #main #filters #reliability-filter-container, #main #filters #severity-filter-container {
     margin-top: -26px; }
 #main #clear-filter-btn {
@@ -401,14 +401,23 @@ nav {
     border: 1px solid #008080; }
 #main #filters .focus {
   border: 1px solid #008080; }
+#main #entries .first-child {
+  padding-right: 2px; }
+#main #entries .low-padding {
+  padding-left: 2px;
+  padding-right: 2px; }
+#main #entries .last-child {
+  padding-left: 2px; }
 #main #entries .entry {
   background-color: #fff;
   color: #414141;
-  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
-  margin-bottom: 16px; }
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -2px 16px -5px rgba(0, 0, 0, 0.5);
+  margin-bottom: 10px; }
   #main #entries .entry .entry-title-extra {
     margin-left: 16px;
-    text-transform: uppercase; }
+    text-transform: uppercase;
+    font-size: 0.8em; }
     #main #entries .entry .entry-title-extra i {
       margin-right: 10px; }
     #main #entries .entry .entry-title-extra .created-by {
@@ -417,74 +426,94 @@ nav {
     float: right;
     width: 40px;
     margin: 10px;
-    margin-top: 16px; }
+    margin-top: 16px;
+    box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+    #main #entries .entry .btn-action:active {
+      box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
   #main #entries .entry h2 {
     margin-top: 16px;
     margin-bottom: 8px;
-    margin-left: 16px; }
+    margin-left: 16px;
+    font-size: 1.2em; }
   #main #entries .entry .information {
-    background-color: #f0f0f0;
-    padding: 16px; }
+    background-color: #f8f8f8;
+    padding: 10px 16px 0 16px; }
     #main #entries .entry .information label {
-      text-transform: uppercase;
-      font-size: 0.8em;
-      color: #969696; }
-    #main #entries .entry .information .severity, #main #entries .entry .information .reliability {
-      margin-top: 8px; }
-      #main #entries .entry .information .severity span, #main #entries .entry .information .reliability span {
-        width: 10px;
+      min-width: 72px;
+      margin-right: 10px;
+      vertical-align: middle; }
+    #main #entries .entry .information .second-col {
+      padding: 0 10px 10px 10px; }
+      #main #entries .entry .information .second-col hr {
+        margin: 16px 32px 16px 0;
+        border: 1px solid rgba(0, 0, 0, 0.05); }
+      #main #entries .entry .information .second-col .reliability {
+        margin-bottom: 10px; }
+      #main #entries .entry .information .second-col .severity span, #main #entries .entry .information .second-col .reliability span {
+        width: 8px;
         height: 16px;
         background-color: #ccc;
-        display: inline-block; }
-      #main #entries .entry .information .severity label, #main #entries .entry .information .reliability label {
-        vertical-align: super;
-        margin-right: 16px; }
-    #main #entries .entry .information .reliability ._1 {
-      background-color: #afb5f0; }
-    #main #entries .entry .information .reliability ._2 {
-      background-color: #858de7; }
-    #main #entries .entry .information .reliability ._3 {
-      background-color: #5a65df; }
-    #main #entries .entry .information .reliability ._4 {
-      background-color: #2f3dd7; }
-    #main #entries .entry .information .reliability ._5 {
-      background-color: #222eb1; }
-    #main #entries .entry .information .reliability ._6 {
-      background-color: #1e299b; }
-    #main #entries .entry .information .reliability .active {
-      transform: scale(1.2); }
-    #main #entries .entry .information .severity ._1 {
-      background-color: #f7a5a5; }
-    #main #entries .entry .information .severity ._2 {
-      background-color: #f47575; }
-    #main #entries .entry .information .severity ._3 {
-      background-color: #f04646; }
-    #main #entries .entry .information .severity ._4 {
-      background-color: #ec1717; }
-    #main #entries .entry .information .severity ._5 {
-      background-color: #d81212; }
-    #main #entries .entry .information .severity ._6 {
-      background-color: #c01010; }
-    #main #entries .entry .information .severity .active {
-      transform: scale(1.2); }
+        display: inline-block;
+        border: none;
+        border-radius: 2px;
+        margin-right: 1px; }
+      #main #entries .entry .information .second-col .reliability ._1 {
+        background-color: #afb5f0; }
+      #main #entries .entry .information .second-col .reliability ._2 {
+        background-color: #858de7; }
+      #main #entries .entry .information .second-col .reliability ._3 {
+        background-color: #5a65df; }
+      #main #entries .entry .information .second-col .reliability ._4 {
+        background-color: #2f3dd7; }
+      #main #entries .entry .information .second-col .reliability ._5 {
+        background-color: #222eb1; }
+      #main #entries .entry .information .second-col .reliability ._6 {
+        background-color: #1e299b; }
+      #main #entries .entry .information .second-col .reliability .active {
+        width: 12px;
+        height: 24px;
+        margin-bottom: -4px; }
+      #main #entries .entry .information .second-col .severity ._1 {
+        background-color: #f7a5a5; }
+      #main #entries .entry .information .second-col .severity ._2 {
+        background-color: #f47575; }
+      #main #entries .entry .information .second-col .severity ._3 {
+        background-color: #f04646; }
+      #main #entries .entry .information .second-col .severity ._4 {
+        background-color: #ec1717; }
+      #main #entries .entry .information .second-col .severity ._5 {
+        background-color: #d81212; }
+      #main #entries .entry .information .second-col .severity ._6 {
+        background-color: #c01010; }
+      #main #entries .entry .information .second-col .severity .active {
+        width: 12px;
+        height: 24px;
+        margin-bottom: -4px; }
     #main #entries .entry .information .excerpt {
       min-height: 96px;
-      white-space: pre-line; }
+      white-space: pre-line;
+      padding: 0 16px 0 0;
+      margin-bottom: 0;
+      text-align: justify; }
     #main #entries .entry .information .affected-group {
       color: #e74c3c; }
-    #main #entries .entry .information .geo-location {
-      margin-top: 4px; }
-    #main #entries .entry .information .geo-location, #main #entries .entry .information .affected-group {
-      padding: 0 4px;
-      min-height: 64px; }
-    #main #entries .entry .information .vulnerable-group, #main #entries .entry .information .specific-need-group {
-      min-height: 64px;
-      padding: 0 4px; }
+    #main #entries .entry .information date, #main #entries .entry .information .number {
+      font-family: 'Inconsolata', monospace; }
+    #main #entries .entry .information .affected-group, #main #entries .entry .information .vulnerable-group {
+      min-height: 48px; }
+    #main #entries .entry .information .geo-location, #main #entries .entry .information .affected-group, #main #entries .entry .information .vulnerable-group, #main #entries .entry .information .specific-need-group {
+      padding-bottom: 10px; }
+      #main #entries .entry .information .geo-location span, #main #entries .entry .information .affected-group span, #main #entries .entry .information .vulnerable-group span, #main #entries .entry .information .specific-need-group span {
+        display: block; }
+        #main #entries .entry .information .geo-location span:before, #main #entries .entry .information .affected-group span:before, #main #entries .entry .information .vulnerable-group span:before, #main #entries .entry .information .specific-need-group span:before {
+          content: '•';
+          margin-right: 10px; }
     #main #entries .entry .information .pillar, #main #entries .entry .information .sector {
       font-weight: bold; }
     #main #entries .entry .information .sub-pillar, #main #entries .entry .information .sub-sector {
-      font-size: 0.9em; }
+      font-size: 0.9em;
+      word-wrap: break-word; }
   #main #entries .entry .information:nth-child(even) {
-    background-color: #fafafa; }
+    background-color: #fff; }
 
 /*# sourceMappingURL=entries.css.map */

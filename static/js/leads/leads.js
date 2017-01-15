@@ -77,6 +77,7 @@ $.fn.dataTable.ext.search.push(
 $(document).ready(function() {
     var leadsTable = $('#leads-table').DataTable( {
         "order": [[ 0, "desc" ]],
+        "scrollY": function(){ return ($(window).height()-250)+'px';},
         "bPaginate": false,
         lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
         ajax: {

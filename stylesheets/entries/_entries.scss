@@ -72,15 +72,27 @@
 }
 
 #entries{
+    .first-child{
+        padding-right: 2px;
+    }
+    .low-padding{
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+    .last-child{
+        padding-left: 2px;
+    }
     .entry{
         background-color: #fff;
         color: #414141;
-        box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
-        margin-bottom: 16px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 -2px 16px -5px rgba(0, 0, 0, 0.5);
+        margin-bottom: 10px;
 
         .entry-title-extra{
             margin-left: 16px;
             text-transform: uppercase;
+            font-size: 0.8em;
             i{
                 margin-right: 10px;
             }
@@ -93,82 +105,101 @@
             width: 40px;
             margin: 10px;
             margin-top: 16px;
+            @include btn-shadow-sm();
         }
         h2{
             margin-top: 16px;
             margin-bottom: 8px;
             margin-left: 16px;
+            font-size: 1.2em;
         }
         .information{
-            background-color: #f0f0f0;
-            padding: 16px;
+            background-color: #f8f8f8;
+            padding: 10px 16px 0 16px;
 
             label{
-                text-transform: uppercase;
-                font-size: 0.8em;
-                color: #969696;
+                min-width: 72px;
+                margin-right: 10px;
+                vertical-align: middle;
             }
-            .severity, .reliability{
-                margin-top: 8px;
-                span{
-                    width: 10px;
-                    height: 16px;
-                    background-color: #ccc;
-                    display: inline-block;
-                }
-                label{
-                    vertical-align: super;
-                    margin-right: 16px;
-                }
-            }
-            $reliability-base: #1A2386;
-            .reliability{
-                ._1{ background-color: lighten($reliability-base, 50%); }
-                ._2{ background-color: lighten($reliability-base, 40%); }
-                ._3{ background-color: lighten($reliability-base, 30%);  }
-                ._4{ background-color: lighten($reliability-base, 20%); }
-                ._5{ background-color: lighten($reliability-base, 10%); }
-                ._6{ background-color: lighten($reliability-base, 5%); }
-                .active{ transform: scale(1.2); }
-            }
+            .second-col{
+                padding: 0 10px 10px 10px;
 
-            .severity{
-                ._1{ background-color: lighten($severity-base, 40%); }
-                ._2{ background-color: lighten($severity-base, 30%); }
-                ._3{ background-color: lighten($severity-base, 20%);  }
-                ._4{ background-color: lighten($severity-base, 10%); }
-                ._5{ background-color: lighten($severity-base, 5%); }
-                ._6{ background-color: lighten($severity-base, 0%); }
-                .active{ transform: scale(1.2); }
+                hr{
+                    margin: 16px 32px 16px 0;
+                    border: 1px solid rgba(0, 0, 0, 0.05);
+                }
+                .reliability{
+                    margin-bottom: 10px;
+                }
+                .severity, .reliability{
+                    span{
+                        width: 8px;
+                        height: 16px;
+                        background-color: #ccc;
+                        display: inline-block;
+                        border: none;
+                        border-radius: 2px;
+                        margin-right: 1px;
+                    }
+                }
+                $reliability-base: #1A2386;
+                .reliability{
+                    ._1{ background-color: lighten($reliability-base, 50%); }
+                    ._2{ background-color: lighten($reliability-base, 40%); }
+                    ._3{ background-color: lighten($reliability-base, 30%);  }
+                    ._4{ background-color: lighten($reliability-base, 20%); }
+                    ._5{ background-color: lighten($reliability-base, 10%); }
+                    ._6{ background-color: lighten($reliability-base, 5%); }
+                    .active{ width: 12px; height: 24px; margin-bottom: -4px;}
+                }
+                .severity{
+                    ._1{ background-color: lighten($severity-base, 40%); }
+                    ._2{ background-color: lighten($severity-base, 30%); }
+                    ._3{ background-color: lighten($severity-base, 20%);  }
+                    ._4{ background-color: lighten($severity-base, 10%); }
+                    ._5{ background-color: lighten($severity-base, 5%); }
+                    ._6{ background-color: lighten($severity-base, 0%); }
+                    .active{ width: 12px; height: 24px; margin-bottom: -4px;}
+                }
             }
-
             .excerpt{
                 min-height: 96px;
                 white-space: pre-line;
+                padding: 0 16px 0 0;
+                margin-bottom: 0;
+                text-align: justify;
             }
             .affected-group{
                 color: #e74c3c;
             }
-            .geo-location{
-                margin-top: 4px;
+            date, .number{
+                font-family: 'Inconsolata', monospace;
             }
-            .geo-location, .affected-group{
-                padding: 0 4px;
-                min-height: 64px;
+            .affected-group, .vulnerable-group{
+                min-height: 48px;
             }
-            .vulnerable-group, .specific-need-group{
-                min-height: 64px;
-                padding: 0 4px;
+            .geo-location, .affected-group, .vulnerable-group, .specific-need-group{
+                span{
+                    display: block;
+
+                    &:before{
+                        content:'•';
+                        margin-right: 10px;
+                    }
+                }
+                padding-bottom: 10px;
             }
             .pillar, .sector{
                 font-weight: bold;
             }
             .sub-pillar, .sub-sector{
                 font-size: 0.9em;
+                word-wrap: break-word;
             }
         }
         .information:nth-child(even){
-            background-color: #fafafa;
+            background-color: #fff;
         }
     }
 }

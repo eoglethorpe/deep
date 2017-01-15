@@ -65,7 +65,7 @@ nav{
                 text-align: left;
                 font-size: $text-size-md!important;
                 display: block;
-                width: 80%;
+                width: calc(100% - 32px);
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
@@ -87,20 +87,26 @@ nav{
                 border-color: #b3caca transparent transparent transparent;
             }
         }
+        .selectize-dropdown{
+            text-align: left;
+
+            .option{
+                padding: 6px 10px;
+            }
+        }
+
         .dropdown-active{
             &:after{
                 border-color: transparent transparent #b3caca transparent;
             }
         }
-        .selectize-dropdown{
-            text-align: left!important;
-        }
+
         .focus{
             border: none;
             color: #fff;
             box-shadow: none;
         }
-    
+
     }
     .dropdown{
         ul{

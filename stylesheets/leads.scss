@@ -1,6 +1,10 @@
 @import 'common/base';
 @import 'common/navbar';
 
+body{
+    background-color: #f0f0f0;
+}
+
 main{
     clear: both;
 
@@ -22,6 +26,8 @@ main{
 
         label{
             vertical-align: sub;
+            margin-top: 10px;
+            font-weight: $font-weight-normal;
         }
         .first-child{
             padding-right: 2px;
@@ -47,20 +53,33 @@ main{
             border: 1px solid $primary-color;
         }
     }
-    #leads-table{
-        @include shadow();
-        thead{
-            background-color: #fff;
+    #leads-table-wrapper{
+    }
+    thead{
+        tr{
+            th{
+                background-color: #fff;
+
+                &:not(:last-child){
+                    border-right: 1px solid rgba(0, 0, 0, 0.03);
+                }
+            }
         }
+    }
+    #leads-table{
+
         tbody{
             tr[role="row"]{
                 cursor: pointer;
+                td:not(:last-child){
+                    border-right: 1px solid rgba(0, 0, 0, 0.03);
+                }
             }
             .odd, .odd+tr:not(.even){
-                background-color: #f0f0f0;
+                background-color: #f5f5f5;
             }
             .even, .even+tr:not(.odd){
-                background-color: #fafafa;
+                background-color: #fff;
             }
             .btn-action{
                 margin: 2px;
@@ -79,7 +98,6 @@ main{
                     margin-bottom: 16px;
                 }
                 label{
-                    color: #969696;
                     margin-right: 10px;
                     width: 100px;
                 }
