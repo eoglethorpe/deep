@@ -100,21 +100,27 @@ body{
                     margin-right: 10px;
                 }
             }
+            date{
+                font-family: 'Inconsolata', monospace;
+            }
             .excerpt{
                 margin-top: 10px;
+                text-align: justify;
             }
             label{
                 margin-right: 10px;
             }
             hr{
-                margin: 6px 0;
+                margin: 6px 0 10px 0;
+                border: 1px solid rgba(0, 0, 0, 0.1);
             }
             .severity, .reliability{
-                margin-top: 8px;
                 span{
-                    width: 10px;
+                    width: 8px;
+                    margin-right: 1px;
                     height: 16px;
                     background-color: #ccc;
+                    border-radius: 2px;
                     display: inline-block;
                 }
             }
@@ -127,7 +133,7 @@ body{
                 ._4{ background-color: lighten($reliability-base, 20%); }
                 ._5{ background-color: lighten($reliability-base, 10%); }
                 ._6{ background-color: lighten($reliability-base, 5%); }
-                .active{ transform: scale(1.2); }
+                .active{ width: 12px; height: 24px; margin-bottom: -4px;}
             }
             $severity-base: #B71C1C;
             .severity{
@@ -137,7 +143,7 @@ body{
                 ._4{ background-color: lighten($severity-base, 10%); }
                 ._5{ background-color: lighten($severity-base, 5%); }
                 ._6{ background-color: lighten($severity-base, 0%); }
-                .active{ transform: scale(1.2); }
+                .active{ width: 12px; height: 24px; margin-bottom: -4px;}
             }
         }
     }
@@ -172,11 +178,15 @@ body{
     }
     #report-content{
         height: calc(100vh - #{$navbar-height} - #{$header-height} - 48px)!important;
-        //padding: 24px;
         background-color: #fff;
         overflow-y: auto;
         @include shadow();
 
+        label{
+            font-weight: $font-weight-normal;
+            //color: $text-color;
+            vertical-align: sub;
+        }
         h5{
             text-transform: uppercase;
         }
@@ -198,6 +208,17 @@ body{
                 text-transform: uppercase;
             }
         }
+        .first-child{
+            padding-right: 6px;
+        }
+        .low-padding{
+            padding-left: 6px;
+            padding-right: 6px;
+        }
+        .last-child{
+            padding-left: 6px;
+        }
+
         #key-events{
             #toggle-panel{
                 height: 64px;
@@ -307,8 +328,13 @@ body{
         }
 
         #humanitarian-profile{
+            padding-top: 0;
+
             #humanitarian-profile-field-error{
-                color: #e74c3c;
+                margin: 10px -24px 0 -24px;
+                padding: 10px;
+                background-color: #e74c3c;
+                color: #fff;
                 text-align: center;
             }
             .row-group{
@@ -327,11 +353,11 @@ body{
                 margin-left: 24px;
             }
         }
-
         #people-in-need{
+            padding-top: 0;
+
             .toplevel{
                 padding-bottom: 20px;
-                //padding-left: 16px;
 
                 .sub{
                     margin-left: 24px;
@@ -355,13 +381,15 @@ body{
         }
         #humanitarian-access{
             text-transform: none;
+            .human-access-fields{
+                background-color: #fff;
+                padding: 6px 10px 0 10px;
 
-            .right-pane{
-                padding-left: 48px;
+                &:nth-child(even){
+                    background-color: rgba(0, 0, 0, 0.05);
+                }
             }
-            label{
 
-            }
         }
         #weekly-severity-score{
             .score-0{

@@ -270,29 +270,29 @@ var severityScoreTotalPinHumanId = '{{ severity_score_total_pin_human_id.0.pk }}
                         </div>
                     </section>
                     <section id="humanitarian-profile" hidden>
-                        <p id="humanitarian-profile-field-error" hidden>Value of <strong>bla bla</strong> should be greater than or equal to than that of <strong>bla blu</strong>!</p>
+                        <p id="humanitarian-profile-field-error" hidden></p>
                         {% for field in human_profile_fields %}
                         <div class="row-group">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4 first-child">
                                     <label>{{field.name}}</label>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2 low-padding">
                                     <input class="human-number number form-control{% if field.total_field %} human-profile-total{% endif %}{% if field.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{field.pk}}" placeholder="Number of person" {% if field.total_field %}readonly{% endif %}>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3 low-padding">
                                     <input class="human-source form-control source-droppable" data-human-pk="{{field.pk}}" placeholder="Source/Date">
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3 last-child">
                                     <input class="human-comment form-control" data-human-pk="{{field.pk}}" placeholder="Comment">
                                 </div>
                             </div>
                             {% for subfield in field.humanprofilefield_set.all %}
                             <div class="row">
-                                <div class="col-md-6"><label  class="sub">{{subfield.name}}</label></div>
-                                <div class="col-md-2"><input class="human-number number form-control{% if subfield.total_field %} human-profile-total{% endif %}{% if subfield.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{subfield.pk}}" placeholder="Number of person"></div>
-                                <div class="col-md-2"><input class="human-source form-control source-droppable" data-human-pk="{{subfield.pk}}" placeholder="Source/Date"></div>
-                                <div class="col-md-2"><input class="human-comment form-control" data-human-pk="{{subfield.pk}}" placeholder="Comment"></div>
+                                <div class="col-md-4 first-child"><label  class="sub">{{subfield.name}}</label></div>
+                                <div class="col-md-2 low-padding"><input class="human-number number form-control{% if subfield.total_field %} human-profile-total{% endif %}{% if subfield.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{subfield.pk}}" placeholder="Number of person"></div>
+                                <div class="col-md-3 low-padding"><input class="human-source form-control source-droppable" data-human-pk="{{subfield.pk}}" placeholder="Source/Date"></div>
+                                <div class="col-md-3 last-child"><input class="human-comment form-control" data-human-pk="{{subfield.pk}}" placeholder="Comment"></div>
                             </div>
                             {% endfor %}
                         </div>
@@ -301,138 +301,139 @@ var severityScoreTotalPinHumanId = '{{ severity_score_total_pin_human_id.0.pk }}
                     <section id="people-in-need" hidden>
                         {% for field in people_in_need_fields %}
                         <div class="row toplevel parent">
-                            <div class="col-md-3">
+                            <div class="col-md-3 first-child">
                                 <label>{{field.name}}{% if field.total_field %} (reported) {% endif %}</label>
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-md-9 last-child">
                                 <div class="row">
-                                    <div class="col-md-2"></div>
-                                    <div class="col-md-2"><input class="number people-total form-control {% if field.total_field %}people-in-need-total{% endif %}" data-people-pk="{{field.pk}}" placeholder="Total"></div>
-                                    <div class="col-md-2"><input class="number people-at-risk form-control" data-people-pk="{{field.pk}}" placeholder="At Risk"></div>
-                                    <div class="col-md-2"><input class="number people-moderate form-control" data-people-pk="{{field.pk}}" placeholder="Moderate"></div>
-                                    <div class="col-md-2"><input class="number people-severe form-control" data-people-pk="{{field.pk}}" placeholder="Severe"></div>
-                                    <div class="col-md-2"><input class="number people-planned form-control" data-people-pk="{{field.pk}}" placeholder="Planned"></div>
+                                    <div class="col-md-2 first-child col-md-offset-1"><label>Total</label></div>
+                                    <div class="col-md-2 low-padding"><label>At risk</label></div>
+                                    <div class="col-md-2 low-padding"><label>Moderate</label></div>
+                                    <div class="col-md-2 low-padding"><label>Severe</label></div>
+                                    <div class="col-md-2 last-child"><label>Planned</label></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 first-child col-md-offset-1"><input class="number people-total form-control {% if field.total_field %}people-in-need-total{% endif %}" data-people-pk="{{field.pk}}" placeholder="Total"></div>
+                                    <div class="col-md-2 low-padding"><input class="number people-at-risk form-control" data-people-pk="{{field.pk}}" placeholder="At Risk"></div>
+                                    <div class="col-md-2 low-padding"><input class="number people-moderate form-control" data-people-pk="{{field.pk}}" placeholder="Moderate"></div>
+                                    <div class="col-md-2 low-padding"><input class="number people-severe form-control" data-people-pk="{{field.pk}}" placeholder="Severe"></div>
+                                    <div class="col-md-2 last-child"><input class="number people-planned form-control" data-people-pk="{{field.pk}}" placeholder="Planned"></div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-2"></div>
-                                    <div class="col-md-2"><input class="people-total-source form-control source-droppable" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
-                                    <div class="col-md-2"><input class="people-at-risk-source form-control source-droppable" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
-                                    <div class="col-md-2"><input class="people-moderate-source form-control source-droppable" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
-                                    <div class="col-md-2"><input class="people-severe-source form-control source-droppable" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
-                                    <div class="col-md-2"><input class="people-planned-source form-control source-droppable" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
+                                    <div class="col-md-2 first-child col-md-offset-1"><input class="people-total-source form-control source-droppable" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
+                                    <div class="col-md-2 low-padding"><input class="people-at-risk-source form-control source-droppable" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
+                                    <div class="col-md-2 low-padding"><input class="people-moderate-source form-control source-droppable" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
+                                    <div class="col-md-2 low-padding"><input class="people-severe-source form-control source-droppable" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
+                                    <div class="col-md-2 last-child"><input class="people-planned-source form-control source-droppable" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-2"></div>
-                                    <div class="col-md-2"><input class="people-total-comment form-control" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
-                                    <div class="col-md-2"><input class="people-at-risk-comment form-control" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
-                                    <div class="col-md-2"><input class="people-moderate-comment form-control" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
-                                    <div class="col-md-2"><input class="people-severe-comment form-control" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
-                                    <div class="col-md-2"><input class="people-planned-comment form-control" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
+                                    <div class="col-md-2 first-child col-md-offset-1"><input class="people-total-comment form-control" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
+                                    <div class="col-md-2 low-padding"><input class="people-at-risk-comment form-control" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
+                                    <div class="col-md-2 low-padding"><input class="people-moderate-comment form-control" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
+                                    <div class="col-md-2 low-padding"><input class="people-severe-comment form-control" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
+                                    <div class="col-md-2 last-child"><input class="people-planned-comment form-control" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
                                 </div>
                             </div>
                         </div>
 
                         {% if field.total_field %}
                         <div class="row toplevel parent">
-                            <div class="col-md-3">
-                                <label>{{field.name}}{% if field.total_field %} (calculated) {% endif %}</label>
+                            <div class="col-md-3 first-child">
+                                <label>{{field.name}}{% if field.total_field %} (calculated){% endif %}</label>
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-md-9 last-child">
                                 <div class="row">
-                                    <div class="col-md-2"></div>
-                                    <div class="col-md-2"><input class="number people-total-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Total"></div>
-                                    <div class="col-md-2"><input class="number people-at-risk-calculated form-control" data-people-pk="{{field.pk}}" placeholder="At Risk"></div>
-                                    <div class="col-md-2"><input class="number people-moderate-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Moderate"></div>
-                                    <div class="col-md-2"><input class="number people-severe-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Severe"></div>
-                                    <div class="col-md-2"><input class="number people-planned-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Planned"></div>
+                                    <div class="col-md-2 first-child col-md-offset-1"><input class="number people-total-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Total"></div>
+                                    <div class="col-md-2 low-padding"><input class="number people-at-risk-calculated form-control" data-people-pk="{{field.pk}}" placeholder="At Risk"></div>
+                                    <div class="col-md-2 low-padding"><input class="number people-moderate-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Moderate"></div>
+                                    <div class="col-md-2 low-padding"><input class="number people-severe-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Severe"></div>
+                                    <div class="col-md-2 last-child"><input class="number people-planned-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Planned"></div>
                                 </div>
                             </div>
                         </div>
                         {% endif %}
 
                         <div class="row toplevel parent">
-                            <div class="col-md-3">
+                            <div class="col-md-3 first-child">
                                 <label>Total IPC (calculated)</label>
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-md-9 last-child">
                                 <div class="row">
-                                    <div class="col-md-2"></div>
-                                    <div class="col-md-2"><input class="number people-total-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Total"></div>
-                                    <div class="col-md-2"><input class="number people-at-risk-calculated form-control" data-people-pk="{{field.pk}}" placeholder="At Risk"></div>
-                                    <div class="col-md-2"><input class="number people-moderate-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Moderate"></div>
-                                    <div class="col-md-2"><input class="number people-severe-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Severe"></div>
-                                    <div class="col-md-2"><input class="number people-planned-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Planned"></div>
+                                    <div class="col-md-2 first-child col-md-offset-1"><input class="number people-total-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Total" readonly></div>
+                                    <div class="col-md-2 low-padding"><input class="number people-at-risk-calculated form-control" data-people-pk="{{field.pk}}" placeholder="At Risk" readonly></div>
+                                    <div class="col-md-2 low-padding"><input class="number people-moderate-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Moderate" readonly></div>
+                                    <div class="col-md-2 low-padding"><input class="number people-severe-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Severe" readonly></div>
+                                    <div class="col-md-2 last-child"><input class="number people-planned-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Planned" readonly></div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row toplevel">
-                            <div class="col-md-5">
+                            <div class="col-md-3 first-child">
+                                <label class="sub">IPC</label>
+                            </div>
+                            <div class="col-md-9 last-child">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <label class="sub">IPC</label>
+                                    <div class="col-md-2 first-child col-md-offset-1">
+                                        <label>1. None/Minimal</label>
+                                        <input data-ipc="a" class="form-control" placeholder="Number">
+                                    </div>
+                                    <div class="col-md-2 low-padding">
+                                        <label>2. Stressed</label>
+                                        <input data-ipc="c" class="form-control" placeholder="Number">
+                                    </div>
+                                    <div class="col-md-2 low-padding">
+                                        <label>3. Crisis</label>
+                                        <input data-ipc="e" class="form-control" placeholder="Number">
+                                    </div>
+                                    <div class="col-md-2 last-child">
+                                        <label>4. Emergency</label>
+                                        <input data-ipc="b" class="form-control" placeholder="Number">
+                                    </div>
+                                    <div class="col-md-2 low-padding">
+                                        <label>5. Famine</label>
+                                        <input data-ipc="d" class="form-control" placeholder="Number">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-7">
+
                                 <div class="row">
-                                    <div class="col-md-3"><label class="sub">1.None/Minimal</label></div>
-                                    <div class="col-md-3"><input data-ipc="a" class="form-control" placeholder="Number"></div>
-                                    <div class="col-md-3"><label class="sub">4. Emergency</label></div>
-                                    <div class="col-md-3"><input data-ipc="b" class="form-control" placeholder="Number"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3"><label class="sub">2. Stressed</label></div>
-                                    <div class="col-md-3"><input data-ipc="c" class="form-control" placeholder="Number"></div>
-                                    <div class="col-md-3"><label class="sub">5. Famine</label></div>
-                                    <div class="col-md-3"><input data-ipc="d" class="form-control" placeholder="Number"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3"><label class="sub">3. Crisis</label></div>
-                                    <div class="col-md-3"><input data-ipc="e" class="form-control" placeholder="Number"></div>
-                                    <div class="col-md-6"><input data-ipc="f" class="form-control" placeholder="Source"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-11"><input data-ipc="g" class="form-control" placeholder="Comment"></div>
+                                    <div class="col-md-4 col-md-offset-1 first-child"><input data-ipc="f" class="form-control" placeholder="Source"></div>
+                                    <div class="col-md-6 last-child"><input data-ipc="g" class="form-control" placeholder="Comment"></div>
                                 </div>
                             </div>
                         </div>
 
                         {% for subfield in field.peopleinneedfield_set.all %}
                         <div class="row toplevel">
-                            <div class="col-md-3">
+                            <div class="col-md-3 first-child">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label class="sub">{{subfield.name}}</label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-md-9 last-child">
                                 <div class="row">
-                                    <div class="col-md-2"></div>
-                                    <div class="col-md-2"><input class="number people-total form-control {% if field.total_field %}total-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Total"></div>
-                                    <div class="col-md-2"><input class="number people-at-risk form-control {% if field.total_field %}total-at-risk-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="At Risk"></div>
-                                    <div class="col-md-2"><input class="number people-moderate form-control {% if field.total_field %}total-moderate-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Moderate"></div>
-                                    <div class="col-md-2"><input class="number people-severe form-control {% if field.total_field %}total-severe-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Severe"></div>
-                                    <div class="col-md-2"><input class="number people-planned form-control {% if field.total_field %}total-planned-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Planned"></div>
+                                    <div class="col-md-2 first-child col-md-offset-1"><input class="number people-total form-control {% if field.total_field %}total-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Total"></div>
+                                    <div class="col-md-2 low-padding"><input class="number people-at-risk form-control {% if field.total_field %}total-at-risk-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="At Risk"></div>
+                                    <div class="col-md-2 low-padding"><input class="number people-moderate form-control {% if field.total_field %}total-moderate-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Moderate"></div>
+                                    <div class="col-md-2 low-padding"><input class="number people-severe form-control {% if field.total_field %}total-severe-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Severe"></div>
+                                    <div class="col-md-2 last-child"><input class="number people-planned form-control {% if field.total_field %}total-planned-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Planned"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-2"></div>
-                                    <div class="col-md-2"><input class="people-total-source form-control source-droppable" data-people-pk="{{subfield.pk}}" placeholder="Source/Date"></div>
-                                    <div class="col-md-2"><input class="people-at-risk-source form-control source-droppable" data-people-pk="{{subfield.pk}}" placeholder="Source/Date"></div>
-                                    <div class="col-md-2"><input class="people-moderate-source form-control source-droppable" data-people-pk="{{subfield.pk}}" placeholder="Source/Date"></div>
-                                    <div class="col-md-2"><input class="people-severe-source form-control source-droppable" data-people-pk="{{subfield.pk}}" placeholder="Source/Date"></div>
-                                    <div class="col-md-2"><input class="people-planned-source form-control source-droppable" data-people-pk="{{subfield.pk}}" placeholder="Source/Date"></div>
+                                    <div class="col-md-2 first-child col-md-offset-1"><input class="people-total-source form-control source-droppable" data-people-pk="{{subfield.pk}}" placeholder="Source/Date"></div>
+                                    <div class="col-md-2 low-padding"><input class="people-at-risk-source form-control source-droppable" data-people-pk="{{subfield.pk}}" placeholder="Source/Date"></div>
+                                    <div class="col-md-2 low-padding"><input class="people-moderate-source form-control source-droppable" data-people-pk="{{subfield.pk}}" placeholder="Source/Date"></div>
+                                    <div class="col-md-2 low-padding"><input class="people-severe-source form-control source-droppable" data-people-pk="{{subfield.pk}}" placeholder="Source/Date"></div>
+                                    <div class="col-md-2 last-child"><input class="people-planned-source form-control source-droppable" data-people-pk="{{subfield.pk}}" placeholder="Source/Date"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-2"></div>
-                                    <div class="col-md-2"><input class="people-total-comment form-control" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
-                                    <div class="col-md-2"><input class="people-at-risk-comment form-control" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
-                                    <div class="col-md-2"><input class="people-moderate-comment form-control" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
-                                    <div class="col-md-2"><input class="people-severe-comment form-control" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
-                                    <div class="col-md-2"><input class="people-planned-comment form-control" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
+                                    <div class="col-md-2 first-child col-md-offset-1"><input class="people-total-comment form-control" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
+                                    <div class="col-md-2 low-padding"><input class="people-at-risk-comment form-control" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
+                                    <div class="col-md-2 low-padding"><input class="people-moderate-comment form-control" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
+                                    <div class="col-md-2 low-padding"><input class="people-severe-comment form-control" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
+                                    <div class="col-md-2 last-child"><input class="people-planned-comment form-control" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
                                 </div>
                             </div>
                         </div>
@@ -442,35 +443,33 @@ var severityScoreTotalPinHumanId = '{{ severity_score_total_pin_human_id.0.pk }}
                     </section>
                     <section id="humanitarian-access" hidden>
                         <div class="row">
-                            <div class="col-md-7">
+                            <div class="col-md-5 first-child">
                                 {% for field in human_access_fields %}
-                                <div class="row">
-                                    <div class="col-md-8"><label class="title">{{field.name}}</label></div>
-                                    <div class="col-md-4">
-                                        <select class="access-select" data-access-pk="{{field.pk}}">
-                                            <option value="Yes">Yes</option>
-                                            <option value="No">No</option>
-                                            <option value="DNK">DNK</option>
-                                        </select>
+                                <div class="human-access-fields">
+                                    <div class="row">
+                                        <div class="col-md-9 first-child"><label class="title">{{field.name}}</label></div>
+                                        <div class="col-md-3 last-child">
+                                            <select class="access-select" data-access-pk="{{field.pk}}">
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
+                                                <option value="DNK">DNK</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                                 {% endfor %}
                             </div>
-                            <div class="col-md-5 right-pane">
+                            <div class="col-md-6 last-child col-md-offset-1">
                                 {% for field in human_access_pin_fields %}
                                 <div>
+                                    <label class="title">{{field.name}}</label>
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            <label class="title">{{field.name}}</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-md-5 first-child">
                                             <div class="form-group">
                                                 <input class="number form-control access-pin-number" data-access-pin-pk="{{field.pk}}" placeholder="Number">
                                             </div>
                                         </div>
-                                        <div class="col-md-7">
+                                        <div class="col-md-7 last-child">
                                             <div class="form-group">
                                                 <input class="form-control access-pin-source source-droppable" data-access-pin-pk="{{field.pk}}" placeholder="Source/Date">
                                             </div>
@@ -488,11 +487,11 @@ var severityScoreTotalPinHumanId = '{{ severity_score_total_pin_human_id.0.pk }}
                     <section id="weekly-severity-score" hidden>
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-md-offset-2 first-child">
                                     <label>Final Severity Score</label>
                                     <input id="final-score" class="form-control score" type="number" min="0" max="3" step="1">
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-5 last-child">
                                     <label>Comment</label>
                                     <input id="final-score-comment" class="form-control" placeholder="Comment">
                                 </div>
@@ -500,7 +499,7 @@ var severityScoreTotalPinHumanId = '{{ severity_score_total_pin_human_id.0.pk }}
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-2 col-md-offset-8 last-child">
                                     <label>Calculated Score</label>
                                     <input id="calculated-score" class="form-control" readonly="readonly">
                                 </div>
@@ -508,15 +507,15 @@ var severityScoreTotalPinHumanId = '{{ severity_score_total_pin_human_id.0.pk }}
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-md-offset-2 first-child">
                                     <label>Total number of people in need</label>
                                     <input id="total-pin" class="form-control" readonly>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 low-padding">
                                     <label>% of people in need or recently affected </label>
                                     <input id="pin-percentage" class="form-control" readonly>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2 last-child">
                                     <label> Score</label>
                                     <input id="pin-percentage-score" class="form-control score" readonly>
                                 </div>
@@ -524,13 +523,11 @@ var severityScoreTotalPinHumanId = '{{ severity_score_total_pin_human_id.0.pk }}
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-3 first-child col-md-offset-2">
                                     <label>Humanitarian Access</label>
                                     <input id="level-of-access" class="form-control" placeholder="Number (0-9)" readonly>
                                 </div>
-                                <div class="col-md-3">
-                                </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2 last-child col-md-offset-3">
                                     <label>Score</label>
                                     <input id="level-of-access-score" class="form-control score" readonly>
                                 </div>
@@ -538,13 +535,13 @@ var severityScoreTotalPinHumanId = '{{ severity_score_total_pin_human_id.0.pk }}
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-3 first-child col-md-offset-2">
                                     <label class = "dynamic">Under 5 Mortality Rate</label>
                                     <input id="mortality-rate" class="form-control" placeholder="Number" readonly>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 low-padding">
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2 last-child">
                                     <label> Score</label>
                                     <input id="mortality-rate-score" class="form-control score" readonly>
                                 </div>
@@ -552,15 +549,15 @@ var severityScoreTotalPinHumanId = '{{ severity_score_total_pin_human_id.0.pk }}
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-3 first-child col-md-offset-2">
                                     <label class = "dynamic">Human Development Index</label>
                                     <input id="hdi" class="form-control" placeholder="Number" readonly>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 low-padding">
                                     <label class = "dynamic"> HDI Rank</label>
                                     <input id="hdi-rank" class="form-control" placeholder="HDI Rank" readonly>
                                 </div>.
-                                <div class="col-md-3">
+                                <div class="col-md-2 last-child">
                                     <label> Score</label>
                                     <input id="hdi-score" class="form-control score" readonly>
                                 </div>
@@ -568,15 +565,15 @@ var severityScoreTotalPinHumanId = '{{ severity_score_total_pin_human_id.0.pk }}
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-3 first-child col-md-offset-2">
                                     <label class = "dynamic">Uprooted People</label>
                                     <input id="uprooted-people" class="form-control" placeholder="Number" readonly>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 low-padding">
                                     <label class = "dynamic"> % of total population</label>
                                     <input id="uprooted-percentage" class="form-control" placeholder="% of total population" readonly>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2 last-child">
                                     <label> Score</label>
                                     <input id="uprooted-score" class="form-control score" readonly>
                                 </div>
