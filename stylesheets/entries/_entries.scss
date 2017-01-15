@@ -114,32 +114,32 @@
         }
         .information{
             background-color: #f0f0f0;
-            padding: 16px 16px 0 16px;
+            padding: 10px 16px 0 16px;
 
             label{
-                min-width: 64px;
+                min-width: 72px;
+                margin-right: 10px;
+                vertical-align: middle;
             }
             .second-col{
-                padding: 0 16px;
+                padding: 0 10px 10px 10px;
 
-                p{
-                    margin-bottom: 6px;
-                }
                 hr{
                     margin: 16px 32px 16px 0;
                     border: 1px solid rgba(0, 0, 0, 0.05);
                 }
+                .reliability{
+                    margin-bottom: 10px;
+                }
                 .severity, .reliability{
-                    margin-top: 8px;
                     span{
-                        width: 10px;
+                        width: 8px;
                         height: 16px;
                         background-color: #ccc;
                         display: inline-block;
-                    }
-                    label{
-                        vertical-align: super;
-                        margin-right: 16px;
+                        border: none;
+                        border-radius: 2px;
+                        margin-right: 1px;
                     }
                 }
                 $reliability-base: #1A2386;
@@ -150,9 +150,8 @@
                     ._4{ background-color: lighten($reliability-base, 20%); }
                     ._5{ background-color: lighten($reliability-base, 10%); }
                     ._6{ background-color: lighten($reliability-base, 5%); }
-                    .active{ transform: scale(1.2); }
+                    .active{ width: 12px; height: 24px; margin-bottom: -4px;}
                 }
-
                 .severity{
                     ._1{ background-color: lighten($severity-base, 40%); }
                     ._2{ background-color: lighten($severity-base, 30%); }
@@ -160,10 +159,9 @@
                     ._4{ background-color: lighten($severity-base, 10%); }
                     ._5{ background-color: lighten($severity-base, 5%); }
                     ._6{ background-color: lighten($severity-base, 0%); }
-                    .active{ transform: scale(1.2); }
+                    .active{ width: 12px; height: 24px; margin-bottom: -4px;}
                 }
             }
-
             .excerpt{
                 min-height: 96px;
                 white-space: pre-line;
@@ -174,14 +172,13 @@
             .affected-group{
                 color: #e74c3c;
             }
-            .geo-location{
-                margin-top: 4px;
+            date, .number{
+                font-family: 'Inconsolata', monospace;
             }
-            .geo-location, .affected-group{
-                padding: 0 4px;
-                min-height: 64px;
-                margin-bottom: 10px;
-
+            .affected-group, .vulnerable-group{
+                min-height: 48px;
+            }
+            .geo-location, .affected-group, .vulnerable-group, .specific-need-group{
                 span{
                     display: block;
 
@@ -190,20 +187,7 @@
                         margin-right: 10px;
                     }
                 }
-            }
-            .vulnerable-group, .specific-need-group{
-                min-height: 64px;
-                padding: 0 4px;
-                margin-bottom: 10px;
-
-                span:not(:first-child){
-                    display: block;
-                    
-                    &:before{
-                        content:'•';
-                        margin-right: 10px;
-                    }
-                }
+                padding-bottom: 10px;
             }
             .pillar, .sector{
                 font-weight: bold;
@@ -214,7 +198,7 @@
             }
         }
         .information:nth-child(even){
-            background-color: #fff;
+            background-color: #fafafa;
         }
     }
 }

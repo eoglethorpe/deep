@@ -1,13 +1,13 @@
 <div class="entry-template" hidden>
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10 first-child">
             <h2 class="entry-title"></h2>
             <p class="entry-title-extra">
                 <i class="fa fa-user"></i><span class="created-by">frozen helium</span>
                 <i class="fa fa-calendar"></i><date class="created-on">2015-10-12</date>
             </p>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2 last-child">
             <a class="fa fa-trash delete-btn btn btn-danger btn-action" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Delete Entry"></a>
             <a class="fa fa-edit edit-btn btn btn-info btn-action" onmouseover="$(this).tooltip('show')" style="margin-right: 0;" data-toggle="tooltip" data-placement="bottom" title="Edit Entry"></a>
         </div>
@@ -36,13 +36,13 @@
                     {% endfor %}
                 </div>
                 <hr>
-                <p><label>Date:</label><span class="date"></span></p>
-                <p><label>Number:</label><span class="number"></span></p>
+                <div><label>Date:</label><date class="date"></date></div>
+                <div><label>Number:</label><span class="number"></span></div>
             </div>
         </div>
         <div class="col-md-2 low-padding">
-            <div class="vulnerable-group"><label>Demographic groups:</label><br><span class="vulnerable-groups"></span></div>
-            <div class="specific-need-group"><label>Specific need groups:</label></br><span class="sepecific-need-groups"></span></div>
+            <div class="vulnerable-group"><label>Demographic groups:</label><div class="vulnerable-groups"></div></div>
+            <div class="specific-need-group"><label>Specific need groups:</label><div class="sepecific-need-groups"></div></div>
         </div>
         <div class="col-md-5 last-child">
             <div class="row">
@@ -59,8 +59,10 @@
                     </div>
                 </div>
                 <div class="col-md-6 last-child">
-                    <label>Pillar / Sub-pillar</label>
-                    <div class="attribute-list">
+                    <div class="pillars">
+                        <label>Pillar / Sub-pillar</label>
+                        <div class="attribute-list">
+                        </div>
                     </div>
                 </div>
             </div>
