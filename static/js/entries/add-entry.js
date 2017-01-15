@@ -147,7 +147,9 @@ function refreshCurrentEntryLists() {
         var title = affectedGroups[agIdRowMap[ag]][0];
         text.push(title)
     }
-    currentEntry.find('.affected-group-list').html(text.join(', '));
+    if(text.length != 0){
+        currentEntry.find('.affected-group-list').html('<span>'+text.join('</span><span>')+'</span>');
+    }
 
     // Refresh map list for current excerpt
     currentEntry.find('.geo-locations-list').empty();
@@ -157,7 +159,9 @@ function refreshCurrentEntryLists() {
         var title = ms.split(':')[2];
         text.push(title)
     }
-    currentEntry.find('.geo-locations-list').html(text.join(', '));
+    if(text.length != 0){
+        currentEntry.find('.geo-locations-list').html('<span>'+text.join('</span><span>')+'</span>');
+    }
 }
 
 function refreshPageOne() {

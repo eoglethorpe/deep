@@ -1,6 +1,16 @@
 #page-two{
     padding-top: 24px;
 
+    .first-child{
+        padding-right: 2px;
+    }
+    .low-padding{
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+    .last-child{
+        padding-left: 2px;
+    }
     .btn{
         @include btn-shadow-sm();
     }
@@ -23,6 +33,10 @@
             padding-bottom: 0;
             background-color: #fff;
 
+            label{
+                min-width: 64px;
+            }
+
             .severity, .reliability{
                 cursor: pointer;
 
@@ -37,7 +51,11 @@
                 label{
                     vertical-align: super;
                     margin-right: 16px;
+                    margin-left: 24px;
                 }
+            }
+            #date-number{
+                margin: 0 24px;
             }
             $reliability-base: #1A237E;
             .reliability{
@@ -67,26 +85,30 @@
                 resize: none;
                 resize: vertical;
             }
-            .geo-location{
-                margin-top: 4px;
-                font-weight: bold;
-            }
+
             .affected-group{
                 color: #e74c3c;
             }
             .geo-location, .affected-group{
-                padding: 4px;
+                padding: 0 4px;
                 min-height: 64px;
+                margin-bottom: 10px;
 
-                a{
-                    float: right;
-                }
-                .fa{
-                    margin-right: 0;
+                label{
+                    display: inline-block;
+                    margin-right: 10px;
                 }
                 img{
                     width: 24px;
                     height: 24px;
+                }
+                span{
+                    display: block;
+
+                    &:before{
+                        content:'•';
+                        margin-right: 10px;
+                    }
                 }
             }
             .attribute-list{
@@ -124,6 +146,7 @@
             }
             .sub-pillar, .sub-sector{
                 font-size: 0.9em;
+                word-wrap: break-word;
             }
             a.sub-sector{
                 color: $primary-color;
