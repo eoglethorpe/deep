@@ -140,15 +140,13 @@ function renderTimeline(){
         timeElement.show();
         timeElement.css('margin-top', parseInt(currentMargin)+'px');
     }
-    setTimeout(function(){
-        timeElements = $('.time-element');
-        var timelineHeight = 0;
-        timeElements.each(function(i){
-            timelineHeight += $(this).outerHeight() + margins[i];
-        });
-        line.height(timelineHeight);
-        line.slideDown();
-    }, 500);
+    timeElements = $('.time-element');
+    var timelineHeight = 0;
+    timeElements.each(function(i){
+        timelineHeight += $(this).outerHeight() + margins[i];
+    });
+    line.height(timelineHeight);
+    line.show();
 }
 function hideTimeline(){
     $('#timeline-view #line').hide();
@@ -767,4 +765,12 @@ function autoCalculateScores() {
     } else{
         $('#total-pin').val(Math.max(totalPinReported, totalPinCalculated));
     }
+
+    // PIN IPC calculations
+    var ipcLvl4 = parseInt($('input[data-ipc-level="4"]').val());
+    var ipcLvl5 = parseInt($('input[data-ipc-level="5"]').val());
+    var ipcLvl3 = parseInt($('input[data-ipc-level="3"]').val());
+
+    $('.ipc-severe-calculated').val( !(isNaN(ipcLvl4) || isNaN(ipcLvl5))? ipcLvl4+ipcLvl5: '' );
+    $('.ipc-moderate-calculated').val( !isNaN(ipcLvl3)? ipcLvl3: '' );
 }
