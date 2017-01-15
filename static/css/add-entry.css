@@ -1,3 +1,4 @@
+@charset "UTF-8";
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -266,6 +267,13 @@ body {
         color: #fff; }
   body #page-two {
     padding-top: 24px; }
+    body #page-two .first-child {
+      padding-right: 2px; }
+    body #page-two .low-padding {
+      padding-left: 2px;
+      padding-right: 2px; }
+    body #page-two .last-child {
+      padding-left: 2px; }
     body #page-two .btn {
       box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
       body #page-two .btn:active {
@@ -287,6 +295,8 @@ body {
         padding: 16px;
         padding-bottom: 0;
         background-color: #fff; }
+        body #page-two #entries .entry label {
+          min-width: 64px; }
         body #page-two #entries .entry .severity, body #page-two #entries .entry .reliability {
           cursor: pointer; }
           body #page-two #entries .entry .severity span, body #page-two #entries .entry .reliability span {
@@ -298,7 +308,10 @@ body {
             cursor: pointer; }
           body #page-two #entries .entry .severity label, body #page-two #entries .entry .reliability label {
             vertical-align: super;
-            margin-right: 16px; }
+            margin-right: 16px;
+            margin-left: 24px; }
+        body #page-two #entries .entry #date-number {
+          margin: 0 24px; }
         body #page-two #entries .entry .reliability {
           cursor: pointer; }
           body #page-two #entries .entry .reliability ._1 {
@@ -336,21 +349,23 @@ body {
           margin-bottom: 16px;
           resize: none;
           resize: vertical; }
-        body #page-two #entries .entry .geo-location {
-          margin-top: 4px;
-          font-weight: bold; }
         body #page-two #entries .entry .affected-group {
           color: #e74c3c; }
         body #page-two #entries .entry .geo-location, body #page-two #entries .entry .affected-group {
-          padding: 4px;
-          min-height: 64px; }
-          body #page-two #entries .entry .geo-location a, body #page-two #entries .entry .affected-group a {
-            float: right; }
-          body #page-two #entries .entry .geo-location .fa, body #page-two #entries .entry .affected-group .fa {
-            margin-right: 0; }
+          padding: 0 4px;
+          min-height: 64px;
+          margin-bottom: 10px; }
+          body #page-two #entries .entry .geo-location label, body #page-two #entries .entry .affected-group label {
+            display: inline-block;
+            margin-right: 10px; }
           body #page-two #entries .entry .geo-location img, body #page-two #entries .entry .affected-group img {
             width: 24px;
             height: 24px; }
+          body #page-two #entries .entry .geo-location span, body #page-two #entries .entry .affected-group span {
+            display: block; }
+            body #page-two #entries .entry .geo-location span:before, body #page-two #entries .entry .affected-group span:before {
+              content: '•';
+              margin-right: 10px; }
         body #page-two #entries .entry .attribute-list {
           display: flex;
           flex-direction: column; }
@@ -376,7 +391,8 @@ body {
         body #page-two #entries .entry .pillar, body #page-two #entries .entry .sector {
           font-weight: bold; }
         body #page-two #entries .entry .sub-pillar, body #page-two #entries .entry .sub-sector {
-          font-size: 0.9em; }
+          font-size: 0.9em;
+          word-wrap: break-word; }
         body #page-two #entries .entry a.sub-sector {
           color: #008080; }
       body #page-two #entries .entry:nth-child(even) {
