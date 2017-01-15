@@ -351,6 +351,55 @@ var severityScoreTotalPinHumanId = '{{ severity_score_total_pin_human_id.0.pk }}
                         </div>
                         {% endif %}
 
+                        <div class="row toplevel parent">
+                            <div class="col-md-3">
+                                <label>Total IPC (calculated)</label>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-2"><input class="number people-total-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Total"></div>
+                                    <div class="col-md-2"><input class="number people-at-risk-calculated form-control" data-people-pk="{{field.pk}}" placeholder="At Risk"></div>
+                                    <div class="col-md-2"><input class="number people-moderate-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Moderate"></div>
+                                    <div class="col-md-2"><input class="number people-severe-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Severe"></div>
+                                    <div class="col-md-2"><input class="number people-planned-calculated form-control" data-people-pk="{{field.pk}}" placeholder="Planned"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row toplevel">
+                            <div class="col-md-5">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label class="sub">IPC</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="row">
+                                    <div class="col-md-3"><label class="sub">1.None/Minimal</label></div>
+                                    <div class="col-md-3"><input data-ipc="a" class="form-control" placeholder="Number"></div>
+                                    <div class="col-md-3"><label class="sub">4. Emergency</label></div>
+                                    <div class="col-md-3"><input data-ipc="b" class="form-control" placeholder="Number"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3"><label class="sub">2. Stressed</label></div>
+                                    <div class="col-md-3"><input data-ipc="c" class="form-control" placeholder="Number"></div>
+                                    <div class="col-md-3"><label class="sub">5. Famine</label></div>
+                                    <div class="col-md-3"><input data-ipc="d" class="form-control" placeholder="Number"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3"><label class="sub">3. Crisis</label></div>
+                                    <div class="col-md-3"><input data-ipc="e" class="form-control" placeholder="Number"></div>
+                                    <div class="col-md-6"><input data-ipc="f" class="form-control" placeholder="Source"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-11"><input data-ipc="g" class="form-control" placeholder="Comment"></div>
+                                </div>
+                            </div>
+                        </div>
+
                         {% for subfield in field.peopleinneedfield_set.all %}
                         <div class="row toplevel">
                             <div class="col-md-3">
@@ -389,37 +438,7 @@ var severityScoreTotalPinHumanId = '{{ severity_score_total_pin_human_id.0.pk }}
                         </div>
                         {% endfor %}
                         {% endfor %}
-                        <div class="row toplevel">
-                            <div class="col-md-4">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label class="sub">IPC</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col-md-3"><label class="sub">1. None/Minimal</label></div>
-                                    <div class="col-md-3"><input data-ipc="a" class="form-control" placeholder="Number"></div>
-                                    <div class="col-md-3"><label class="sub">4. Emergency</label></div>
-                                    <div class="col-md-3"><input data-ipc="b" class="form-control" placeholder="Number"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3"><label class="sub">2. Stressed</label></div>
-                                    <div class="col-md-3"><input data-ipc="c" class="form-control" placeholder="Number"></div>
-                                    <div class="col-md-3"><label class="sub">5. Famine</label></div>
-                                    <div class="col-md-3"><input data-ipc="d" class="form-control" placeholder="Number"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3"><label class="sub">3. Crisis</label></div>
-                                    <div class="col-md-3"><input data-ipc="e" class="form-control" placeholder="Number"></div>
-                                    <div class="col-md-6"><input data-ipc="f" class="form-control" placeholder="Source"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12"><input data-ipc="g" class="form-control" placeholder="Comment"></div>
-                                </div>
-                            </div>
-                        </div>
+
                     </section>
                     <section id="humanitarian-access" hidden>
                         <div class="row">
