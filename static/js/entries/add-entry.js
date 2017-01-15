@@ -588,6 +588,7 @@ $(document).ready(function(){
 
         $(this).click();
         refreshExcerpts();
+        window.getSelection().removeAllRanges();
         return false;
     };
 
