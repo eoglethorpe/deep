@@ -180,7 +180,8 @@ body {
       height: auto;
       margin-bottom: 16px; }
       #main #entries .entry header h4 {
-        color: #008080; }
+        color: #008080;
+        font-size: 1.2em; }
       #main #entries .entry header label {
         margin-right: 10px; }
     #main #entries .entry date {
