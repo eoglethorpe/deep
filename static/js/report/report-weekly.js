@@ -505,6 +505,8 @@ function getInputData() {
     $("#final-score-comment").each(function() {
         data["final-severity-score"].comment= $(this).val();
     });
+
+    data["calculated-severity-score"] = $('#calculated-score').val();
 }
 
 function checkRules() {

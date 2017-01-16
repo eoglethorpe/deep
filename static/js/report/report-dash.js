@@ -61,6 +61,16 @@ $(document).ready(function(){
                     }
                     return sum;
                 }
+                function getGeoScore(index){
+                    var finalSeverityScore = parseInt(current.weeklyReports[index].data["final-severity-score"].score)
+                    if(!isNaN(finalSeverityScore)){
+                        return finalSeverityScore;
+                    }
+                    var calculatedSeverityScore = parseInt(current.weeklyReports[index].data["calculated-severity-score"]);
+                    if(!isNaN(calculatedSeverityScore)){
+                        return calculatedSeverityScore;
+                    }
+                }
 
 
                 // affected number
@@ -72,8 +82,10 @@ $(document).ready(function(){
                 // access constraints
                 fillNumber(country.find('.access-constraints .number'), getAccessConstraintsNumber(0));
 
-                if(typeof current.weeklyReports[1] != 'undefined'){
+                // geo score
+                fillNumber(country.find('.geo-ranking .number'), getGeoScore(0));
 
+                if(typeof current.weeklyReports[1] != 'undefined'){
                     // returns appropriate icon according to change
                     function getChangeFa(num){
                         if(num > 0){
@@ -93,6 +105,9 @@ $(document).ready(function(){
 
                     // access constraints number change
                     country.find('.access-constraints .fa').addClass(getChangeFa(getAccessConstraintsNumber(0) - getAccessConstraintsNumber(1)));
+
+                    // geo ranking change
+                    country.find('.geo-ranking .fa').addClass(getChangeFa(getGeoScore(0) - getGeoScore(1)));
                 }
 
             }
