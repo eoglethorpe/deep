@@ -62,13 +62,17 @@ $(document).ready(function(){
                     return sum;
                 }
                 function getGeoScore(index){
-                    var finalSeverityScore = parseInt(current.weeklyReports[index].data["final-severity-score"].score)
-                    if(!isNaN(finalSeverityScore)){
-                        return finalSeverityScore;
+                    if(current.weeklyReports[index].data["final-severity-score"]){
+                        var finalSeverityScore = parseInt(current.weeklyReports[index].data["final-severity-score"].score)
+                        if(!isNaN(finalSeverityScore)){
+                            return finalSeverityScore;
+                        }
                     }
-                    var calculatedSeverityScore = parseInt(current.weeklyReports[index].data["calculated-severity-score"]);
-                    if(!isNaN(calculatedSeverityScore)){
-                        return calculatedSeverityScore;
+                    if(current.weeklyReports[index].data["calculated-severity-score"]){
+                        var calculatedSeverityScore = parseInt(current.weeklyReports[index].data["calculated-severity-score"]);
+                        if(!isNaN(calculatedSeverityScore)){
+                            return calculatedSeverityScore;
+                        }
                     }
                 }
 
