@@ -144,6 +144,12 @@ class AddEntry(View):
         context["reliabilities"] = Reliability.objects.all().order_by('level')
         context["severities"] = Severity.objects.all().order_by('level')
         context["affected_groups"] = AffectedGroup.objects.all()
+
+        if lead.lead_type == 'URL' and lead.url.endswith('.pdf'):
+            context["is_pdf"] = True
+        else:
+            context["is_pdf"] = False
+
         try:
             context["default_reliability"] = Reliability.objects.get(is_default=True)
             context["default_severity"] = Severity.objects.get(is_default=True)
