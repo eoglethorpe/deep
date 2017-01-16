@@ -499,6 +499,10 @@ function getInputData() {
     });
 
     // Severity score
+    $("#total-pin").each(function() {
+        data["people"]["total"][$(this).data("people-pk")] = getNumberValue($(this));
+    });
+
     $("#final-score").each(function() {
         data["final-severity-score"].score= $(this).val();
     });
@@ -724,6 +728,7 @@ function autoCalculateScores() {
         uprootedScore = 3;
 
     $('#uprooted-people').val(uprootedPeople);
+    formatNumber($('#uprooted-people'));
     $('#uprooted-percentage').val(uprootedPercentage);
     $('#uprooted-score').val(uprootedScore);
 
@@ -753,19 +758,23 @@ function autoCalculateScores() {
     if(isNaN(totalPinReported) && isNaN(totalPinCalculated) ){
         if(!isNaN(totalHumanAffected)){
             $('#total-pin').val(totalHumanAffected);
+            formatNumber($('#total-pin'));
         }else{
             $('#total-pin').val('');
         }
     } else if(isNaN(totalPinReported)){
         if(!isNaN(totalPinCalculated)){
             $('#total-pin').val(totalPinCalculated);
+            formatNumber($('#total-pin'));
         }else{
             $('#total-pin').val('');
         }
     } else if(isNaN(totalPinCalculated)){
         $('#total-pin').val(totalPinReported);
+        formatNumber($('#total-pin'));
     } else{
         $('#total-pin').val(Math.max(totalPinReported, totalPinCalculated));
+        formatNumber($('#total-pin'));
     }
 
     // PIN IPC calculations
