@@ -123,7 +123,7 @@ var severityScoreTotalPinHumanId = '{{ severity_score_total_pin_human_id.0.pk }}
                 </div>
                 <div class="col-md-4">
                     <button class="btn btn-primary btn-save" id="save-btn"><i class="fa fa-save"></i>Save Changes</button>
-                    <button class="btn btn-danger btn-cancel" id="cancel-btn"><i class="fa fa-times"></i>Cancel</button>
+                    <button class="btn btn-danger btn-cancel" id="cancel-btn" onclick="location.href='{% url 'report:dashboard' %}{% if event %}?event={{event.pk}}&country={{event.countries.all.0.code}}{% endif %}';"><i class="fa fa-times"></i>Cancel</button>
                 </div>
             </div>
             <div id="filters">
