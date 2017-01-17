@@ -27,7 +27,12 @@ var accessConstraintsFieldIds = [
     {% for acfid in access_constraints_id_list %}
     {{ acfid.pk }},
     {% endfor %}
-]
+];
+var humanAvailabilityFieldIds = [
+    {% for hafid in human_availability_field_id_list %}
+    {{ hafid.pk }},
+    {% endfor %}
+];
 </script>
 {% endblock %}
 
@@ -79,7 +84,7 @@ var accessConstraintsFieldIds = [
                             <div class="col-md-3 last-child">
                                 <div class="row">
                                     <div class="col-md-4 first-child">
-                                        <label class="list-col">Consistency</label>
+                                        <label class="list-col">Availability</label>
                                     </div>
                                     <div class="col-md-4 low-padding">
                                         <label class="list-col">Recency</label>
