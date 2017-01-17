@@ -649,7 +649,13 @@ function autoCalculateScores() {
         pinOrAffected = +getNumberValue($('.human-profile-total-affected'));
     }
 
-    var pinPercentage = pinOrAffected / totalPopulation * 100;
+    // Severity score total number of people in need
+    var totalPinReported = parseInt(getNumberValue($('#people-in-need .people-total')));
+    var totalPinCalculated = maxTotalPin;
+
+    var maxPin = isNaN(totalPinReported)? totalPinCalculated: Math.max(totalPinReported, totalPinCalculated);
+
+    var pinPercentage = (maxPin / totalPopulation) * 100;
 
     var pinScore = 0;
     if (!isNaN(pinPercentage)) {
@@ -750,11 +756,9 @@ function autoCalculateScores() {
     $('#final-score').attr('class', 'form-control score score-'+$('#final-score').val());
 
 
-    // Severity score total number of people in need
-    var totalPinReported = parseInt(getNumberValue($('#people-in-need .people-total')));
-    var totalPinCalculated = parseInt(getNumberValue($('#people-in-need .people-total-calculated')));
+    totalPinReported = totalPinReported == 0? '': totalPinReported;
     //var totalHumanAffected = parseInt(getNumberValue($('#humanitarian-profile .number[data-human-pk='+severityScoreTotalPinHumanId+']')));
-
+    // total pin in severity score
     if(isNaN(totalPinReported) && isNaN(totalPinCalculated) ){
         $('#total-pin').val('');
     } else if(isNaN(totalPinReported)){
