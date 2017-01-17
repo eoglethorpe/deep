@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
     $('#select-event').selectize();
     fillCountryDetails();
 
@@ -36,7 +37,12 @@ $(document).ready(function(){
                         el.text(num);
                     }
                 }
-
+                // fills percent to element
+                function fillPercent(el, num){
+                    if(!isNaN(num)){
+                        el.text(num.toFixed(2)+'%');
+                    }
+                }
                 // returns the number of affected people from current report
                 function getAffectedNumber(index){
                     var sum = 0;
@@ -75,6 +81,74 @@ $(document).ready(function(){
                         }
                     }
                 }
+                function getHumanAvailability(index){
+                    var available = 0;
+                    for(var i=0; i<humanAvailabilityFieldIds.length; i++){
+                        var currentField = current.weeklyReports[index].data.human.number[humanAvailabilityFieldIds[i]];
+                        if(typeof currentField != 'undefined' && currentField.length != 0){
+                            ++available;
+                        }
+                    }
+                    if(humanAvailabilityFieldIds.length != 0){
+                        return 100*available/humanAvailabilityFieldIds.length;
+                    }
+                    return -1;
+                }
+                function getPinAvailability(index){
+                    var available = 0;
+                    var moderateKeys = Object.keys(current.weeklyReports[index].data.people.moderate);
+                    var severeKeys = Object.keys(current.weeklyReports[index].data.people.severe);
+                    var totalKeys = Object.keys(current.weeklyReports[index].data.people.total);
+                    var total = moderateKeys.length + severeKeys.length + totalKeys.length;
+
+                    for(var i=0; i<moderateKeys.length; i++){
+                        if(current.weeklyReports[index].data.people.moderate[moderateKeys[i]]){
+                            ++available;
+                        }
+                    }
+                    for(var i=0; i<severeKeys.length; i++){
+                        if(current.weeklyReports[index].data.people.severe[severeKeys[i]]){
+                            ++available;
+                        }
+                    }
+                    for(var i=0; i<totalKeys.length; i++){
+                        if(current.weeklyReports[index].data.people.total[totalKeys[i]]){
+                            ++available;
+                        }
+                    }
+                    if(total == 0){
+                        return -1;
+                    }
+                    return 100*available/total;
+                }
+                function getHumanAccessAvailability(index){
+                    var available = 0;
+                    var total = 12; // 9 access + 3 access-pin
+                    for(var i=0; i<9; i++){
+                        if(current.weeklyReports[index].data.access[i]){
+                            ++available;
+                        }
+                    }
+                    var pinKeys = Object.keys(current.weeklyReports[index].data['access-pin'].number);
+                    for(var i=0; i<pinKeys.length; i++){
+                        if(current.weeklyReports[index].data['access-pin'].number[i]){
+                            ++available;
+                        }
+                    }
+                    return 100*available/total;
+                }
+                function getHealthBar(health, tooltip){
+                    if(health < 0){
+                        return $('<div class="health-bar-invalid"></div>');
+                    } else{
+                        var healthBar = $('<div class="health-bar" data-toggle="tooltip" title="'+tooltip+' ('+health.toFixed(2)+'%)'+'"></div>');
+                        var healthIndicator = $('<div class="health-indicator"></div>');
+                        healthIndicator.appendTo(healthBar);
+                        healthIndicator.css('width', health+'%');
+                        return healthBar;
+                    }
+
+                }
 
 
                 // affected number
@@ -88,6 +162,17 @@ $(document).ready(function(){
 
                 // geo score
                 fillNumber(country.find('.geo-ranking .number'), getGeoScore(0));
+
+                var availabilityPercent0 = getHumanAvailability(0);
+                var pinAvailabilityPercent0 = getPinAvailability(0);
+                var humanAccessAvailability0 = getHumanAccessAvailability(0);
+
+                getHealthBar(availabilityPercent0, 'Availability').appendTo(country.find('.availability .viz'));
+                getHealthBar(pinAvailabilityPercent0, 'In need').appendTo(country.find('.availability .viz'));
+                getHealthBar(humanAccessAvailability0, 'Access constraints').appendTo(country.find('.availability .viz'));
+
+                fillPercent(country.find('.availability .percent'), (availabilityPercent0+pinAvailabilityPercent0+humanAccessAvailability0)/3);
+
 
                 if(typeof current.weeklyReports[1] != 'undefined'){
                     // returns appropriate icon according to change
@@ -113,7 +198,6 @@ $(document).ready(function(){
                     // geo ranking change
                     country.find('.geo-ranking .fa').addClass(getChangeFa(getGeoScore(0) - getGeoScore(1)));
                 }
-
             }
         }
     }

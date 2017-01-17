@@ -86,12 +86,6 @@ main{
                 .fa{
                     margin-right: 10px;
                 }
-                &:nth-child(odd){
-                    background-color: #f0f0f0;
-                }
-                &:hover{
-                    background-color: rgba(0, 0, 0, 0.2);
-                }
                 .fa-arrow-up{
                     color: #27ae60;
                 }
@@ -100,6 +94,27 @@ main{
                 }
                 .fa-arrow-right{
                     color: #b79622;
+                }
+                .health-bar-invalid{
+                    height: 12px;
+                    background-color: #969696;
+                }
+                .health-bar{
+                    height: 12px;
+                    background-color: #414141;
+                    margin-bottom: 4px;
+
+                    .health-indicator{
+                        height: 100%;
+                        background-color: #7CB342;
+                    }
+                }
+
+                &:nth-child(odd){
+                    background-color: #f0f0f0;
+                }
+                &:hover{
+                    background-color: rgba(0, 0, 0, 0.2);
                 }
             }
             .active{
