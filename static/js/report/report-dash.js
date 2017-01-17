@@ -197,6 +197,10 @@ $(document).ready(function(){
 
                     // geo ranking change
                     country.find('.geo-ranking .fa').addClass(getChangeFa(getGeoScore(0) - getGeoScore(1)));
+
+                    // availability change
+                    country.find('.availability .fa').addClass(getChangeFa((availabilityPercent0+pinAvailabilityPercent0+humanAccessAvailability0)/3 - (getHumanAvailability(1)+getPinAvailability(1)+getHumanAccessAvailability(1))/3 ));
+
                 }
             }
         }

@@ -202,7 +202,8 @@ main #country-list {
     main #country-list #countries .active {
       border-left: 3px solid #008080; }
     main #country-list #countries .viz {
-      height: 50px; }
+      height: 50px;
+      margin-top: 6px; }
     main #country-list #countries .list-col {
       padding: 10px 4px; }
 main #country-detail {
