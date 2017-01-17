@@ -753,15 +753,10 @@ function autoCalculateScores() {
     // Severity score total number of people in need
     var totalPinReported = parseInt(getNumberValue($('#people-in-need .people-total')));
     var totalPinCalculated = parseInt(getNumberValue($('#people-in-need .people-total-calculated')));
-    var totalHumanAffected = parseInt(getNumberValue($('#humanitarian-profile .number[data-human-pk='+severityScoreTotalPinHumanId+']')));
+    //var totalHumanAffected = parseInt(getNumberValue($('#humanitarian-profile .number[data-human-pk='+severityScoreTotalPinHumanId+']')));
 
     if(isNaN(totalPinReported) && isNaN(totalPinCalculated) ){
-        if(!isNaN(totalHumanAffected)){
-            $('#total-pin').val(totalHumanAffected);
-            formatNumber($('#total-pin'));
-        }else{
-            $('#total-pin').val('');
-        }
+        $('#total-pin').val('');
     } else if(isNaN(totalPinReported)){
         if(!isNaN(totalPinCalculated)){
             $('#total-pin').val(totalPinCalculated);
