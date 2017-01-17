@@ -54,7 +54,7 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
                                 <input type="text" class="form-control" name="source" placeholder="Enter source" {% if lead %}value="{{lead.source_name}}"{% endif %}>
                             </div>
                         </div>
-                        <div class="row" {%if lead %} {% else %} style="display: none;"{% endif %} hidden>
+                        <div class="row" {%if lead %} {% else %} style="display: none;"{% endif %}>
                             <div class="col-md-3 label-container">
                                 <label>Crisis:</label>
                             </div>
