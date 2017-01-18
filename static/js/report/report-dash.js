@@ -1,5 +1,16 @@
 $(document).ready(function(){
 
+    $('.assigned-to').each(function(){
+        var alreadyThere = {};
+        $(this).find('span').each(function(){
+            if(alreadyThere[$(this).text()]){
+                $(this).remove();
+            } else{
+                alreadyThere[$(this).text()] = true;
+            }
+        });
+    });
+
     $('#select-event').selectize();
     fillCountryDetails();
 

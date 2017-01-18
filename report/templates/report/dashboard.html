@@ -103,7 +103,8 @@ var humanAvailabilityFieldIds = [
                                 <div class="col-md-3 first-child">
                                     <div class="row">
                                         <div class="col-md-5 first-child">
-                                            <div class="assigned-to list-col"></div>
+                                            <div class="assigned-to list-col">{% for e in c.event_set.all %}{% for u in e.assignee.all %}<span>{{u.first_name}} {{u.last_name}}</span>{% endfor %}{% endfor %}
+                                            </div>
                                         </div>
                                         <div class="col-md-7 last-child">
                                             <div class="list-col">

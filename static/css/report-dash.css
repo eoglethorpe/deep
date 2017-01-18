@@ -172,9 +172,14 @@ main #country-list {
       margin: 4px 0; }
     main #country-list #countries .country {
       background-color: #fff;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
       cursor: pointer; }
+      main #country-list #countries .country .assigned-to span {
+        display: block;
+        padding: 2px; }
       main #country-list #countries .country .name {
-        text-transform: uppercase; }
+        text-transform: uppercase;
+        font-weight: 600; }
       main #country-list #countries .country .events {
         color: #767676; }
       main #country-list #countries .country .fa {
@@ -200,7 +205,9 @@ main #country-list {
       main #country-list #countries .country:hover {
         background-color: rgba(0, 0, 0, 0.2); }
     main #country-list #countries .active {
-      border-left: 3px solid #008080; }
+      border-right: 3px solid #008080; }
+    main #country-list #countries .percent, main #country-list #countries .number {
+      font-family: 'Inconsolata', monospace; }
     main #country-list #countries .viz {
       height: 50px;
       margin-top: 6px; }
