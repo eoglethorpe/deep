@@ -10,7 +10,7 @@
 <script>
 var reports = [
     {% for report in weekly_reports_all %}
-    {'country': '{{ report.country }}', 'startDate': '{{ report.start_date }}', 'data': JSON.parse("{{ report.data|escapejs }}")},
+    {'country': '{{ report.country.pk }}', 'startDate': '{{ report.start_date }}', 'data': JSON.parse("{{ report.data|escapejs }}")},
     {% endfor %}
 ];
 var affectedFieldIds = [
@@ -98,7 +98,7 @@ var humanAvailabilityFieldIds = [
                     </div>
                     <div id="countries">
                         {% for c in countries %}
-                        <div class="country {% if country and country == c %}active{% endif %}" data-href="{% url 'report:dashboard' %}?country={{c.pk}}" data-name="{{c.name}}" data-crisis-status="{{c.event_set.all.0.status}}">
+                        <div class="country {% if country and country == c %}active{% endif %}" data-href="{% url 'report:dashboard' %}?country={{c.pk}}" data-name="{{c.name}}" data-crisis-status="{{c.event_set.all.0.status}}" data-pk="{{c.pk}}">
                             <div class="row">
                                 <div class="col-md-3 first-child">
                                     <div class="row">
