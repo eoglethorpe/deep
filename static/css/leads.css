@@ -199,9 +199,9 @@ main {
   main #leads-table tbody .btn-edit .fa {
     color: #333399; }
   main #leads-table tbody .btn-mark-processed .fa {
-    color: #009900; }
-  main #leads-table tbody .btn-mark-pending .fa {
     color: #cc6600; }
+  main #leads-table tbody .btn-mark-pending .fa {
+    color: #009900; }
   main #leads-table tbody .btn-delete .fa {
     color: #e74c3c; }
 

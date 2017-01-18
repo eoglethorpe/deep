@@ -1,5 +1,16 @@
 $(document).ready(function(){
 
+    $('.assigned-to').each(function(){
+        var alreadyThere = {};
+        $(this).find('span').each(function(){
+            if(alreadyThere[$(this).text()]){
+                $(this).remove();
+            } else{
+                alreadyThere[$(this).text()] = true;
+            }
+        });
+    });
+
     $('#select-event').selectize();
     fillCountryDetails();
 
@@ -25,7 +36,7 @@ $(document).ready(function(){
 
         for(var i=0; i<reportGrouped.length; i++){
             var current = reportGrouped[i];
-            var country = $('#countries .country[data-name="'+current.country+'"]');
+            var country = $('#countries .country[data-pk="'+current.country+'"]');
             current.weeklyReports.sort(function(a, b){
                 return (new Date(a.startDate)) < (new Date(b.startDate));
             });

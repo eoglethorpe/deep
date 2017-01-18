@@ -10,7 +10,7 @@
 <script>
 var reports = [
     {% for report in weekly_reports_all %}
-    {'country': '{{ report.country }}', 'startDate': '{{ report.start_date }}', 'data': JSON.parse("{{ report.data|escapejs }}")},
+    {'country': '{{ report.country.pk }}', 'startDate': '{{ report.start_date }}', 'data': JSON.parse("{{ report.data|escapejs }}")},
     {% endfor %}
 ];
 var affectedFieldIds = [
@@ -98,12 +98,13 @@ var humanAvailabilityFieldIds = [
                     </div>
                     <div id="countries">
                         {% for c in countries %}
-                        <div class="country {% if country and country == c %}active{% endif %}" data-href="{% url 'report:dashboard' %}?country={{c.pk}}" data-name="{{c.name}}" data-crisis-status="{{c.event_set.all.0.status}}">
+                        <div class="country {% if country and country == c %}active{% endif %}" data-href="{% url 'report:dashboard' %}?country={{c.pk}}" data-name="{{c.name}}" data-crisis-status="{{c.event_set.all.0.status}}" data-pk="{{c.pk}}">
                             <div class="row">
                                 <div class="col-md-3 first-child">
                                     <div class="row">
                                         <div class="col-md-5 first-child">
-                                            <div class="assigned-to list-col"></div>
+                                            <div class="assigned-to list-col">{% for e in c.event_set.all %}{% for u in e.assignee.all %}<span>{{u.first_name}} {{u.last_name}}</span>{% endfor %}{% endfor %}
+                                            </div>
                                         </div>
                                         <div class="col-md-7 last-child">
                                             <div class="list-col">
