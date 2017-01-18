@@ -253,13 +253,12 @@ class AddLead(View):
 
         lead.name = request.POST["name"]
 
-        lead.event = Event.objects.get(pk=event)
+        # lead.event = Event.objects.get(pk=event)
 
-        # todo fix integrity error
-        # if "event" in request.POST and request.POST["event"] != "":
-        #     lead.event = Event.objects.get(pk=request.POST["event"])
-        # else:
-        #     lead.event = Event.objects.get(pk=event)
+        if "event" in request.POST and request.POST["event"] != "":
+            lead.event = Event.objects.get(pk=request.POST["event"])
+        else:
+            lead.event = Event.objects.get(pk=event)
 
         if "source" in request.POST and request.POST["source"] != "":
             lead.source_name = request.POST["source"]
@@ -321,6 +320,8 @@ class AddLead(View):
                 break
 
         # Finally try to get the simplified lead
+        # But remember to delete the old one
+        SimplifiedLead.objects.filter(lead=lead).delete()
         temp = {}
         get_simplified_lead(lead, temp)
         if "lead_simplified" in temp:

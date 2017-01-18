@@ -293,12 +293,12 @@ $(document).ready(function(){
     }
 
     var weekDate = new Date(start_date);
-    $('#week-select').val(weekDate.getWeekYear()+'-W'+weekDate.getWeek());
+    $('#week-select').val(weekDate.getWeekYear()+'-W'+getTwoDigits(weekDate.getWeek()));
     changeWeekSelection();
 
     $('#week-select').change(function() {
         if ($(this).val() == '') {
-            $('#week-select').val(weekDate.getWeekYear()+'-W'+weekDate.getWeek());
+            $('#week-select').val(weekDate.getWeekYear()+'-W'+getTwoDigits(weekDate.getWeek()));
         }
         var tmp = $(this).val().split('-W');
         tmp[0] = +tmp[0];
