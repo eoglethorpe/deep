@@ -1,3 +1,5 @@
+import string
+
 import docx
 from docx import RT
 from docx.enum.dml import MSO_THEME_COLOR_INDEX
@@ -96,7 +98,7 @@ def add_line(para):
 
 def add_excerpt_info(d, info):
     # Show the excerpt
-    ref = d.add_paragraph(info.excerpt)
+    ref = d.add_paragraph(xstr(info.excerpt))
     ref.paragraph_format.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.JUSTIFY
 
     # Show the reference
@@ -260,3 +262,7 @@ def export_docx(order, event, informations=None):
     d.add_page_break()
 
     return d
+
+def xstr(conv):
+    """remove illegal characters from a string (errors from PDFs etc)"""
+    return "".join(filter(lambda x: x in string.printable, conv))

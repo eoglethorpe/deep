@@ -1,7 +1,8 @@
+import string
+
 from excel_writer import *
 from entries.models import *
 from openpyxl.styles import Font, Color
-
 
 def export_xls(title, event_pk):
 
@@ -44,7 +45,7 @@ def export_xls(title, event_pk):
         rows.add_values([
             info.entry.lead.published_at, info.date, info.entry.modified_by,
             info.entry.lead.name, info.entry.lead.source,
-            info.excerpt, info.reliability.name,
+            xstr(info.excerpt), info.reliability.name,
             info.severity.name, info.number
         ])
 
@@ -83,3 +84,7 @@ def export_xls(title, event_pk):
     ew.append(grouped_rows, wsg)
     
     return ew.get_http_response(title)
+
+def xstr(conv):
+    """remove illegal characters from a string (errors from PDFs etc)"""
+    return "".join(filter(lambda x: x in string.printable, conv))
