@@ -211,6 +211,8 @@ function formatNumber(numInput){
     numInput.val(newVal.split('').reverse().join('').trim());
 }
 
+
+
 // Get minimum two digit string for an integer
 function getTwoDigits(number) {
     return ('0' + number).slice(-2);
