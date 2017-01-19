@@ -192,7 +192,8 @@ main #country-list {
         color: #b79622; }
       main #country-list #countries .country .health-bar-invalid {
         height: 12px;
-        background-color: #969696; }
+        background-color: #969696;
+        margin-bottom: 4px; }
       main #country-list #countries .country .health-bar {
         height: 12px;
         background-color: #414141;

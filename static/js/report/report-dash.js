@@ -45,7 +45,7 @@ $(document).ready(function(){
                 // fills number to element
                 function fillNumber(el, num){
                     if(!isNaN(num)){
-                        el.text(num);
+                        el.text(getFormattedNumber(num));
                     }
                 }
                 // fills percent to element
@@ -231,6 +231,19 @@ $(document).ready(function(){
     $('.country').on('click', function(){
         window.location.href = $(this).data('href');
     });
+
+    // format number to 1 000 format
+    function getFormattedNumber(num){
+        num = (num+'').replace(/\s/g, '').split('').reverse().join('')
+        var newVal = '';
+        for(var i=0; i<num.length; i++){
+            newVal += num.substr(i, 1);
+            if(i%3 == 2){
+                newVal += ' ';
+            }
+        }
+        return newVal.split('').reverse().join('');
+    }
 
     function filterCountries(){
         var crisisStatus = $('input[type=radio][name=crisis-status]:checked').val();
