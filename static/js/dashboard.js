@@ -28,7 +28,13 @@ function styleMapFeature(feature) {
             color_temp = '#3992fd';
         }
         else{
+            console.log(feature.properties.iso_a3);
             color_temp = '#f44336';
+            //Trump
+            if(feature.properties.iso_a3 == "USA") {
+                color_temp = '#f39c12';
+                $('#trump').show();
+            }
         }
     }
 
@@ -147,6 +153,9 @@ $(document).ready(function(){
 
     $("#number-of-active-crisises span").text(active_crises_number);
     $("#number-of-global-monitoring span").text(global_monitoring_number);
+
+    //Trump
+
 
     // Show the map
     var map = L.map('the-map').setView([41.87, 12.6], 2);
