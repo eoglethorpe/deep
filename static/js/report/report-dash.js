@@ -57,7 +57,8 @@ $(document).ready(function(){
                 function getAffectedNumber(index){
                     var sum = 0;
                     for(var i=0; i<affectedFieldIds.length; i++){
-                        sum += parseInt(current.weeklyReports[index].data.human.number[affectedFieldIds[i]]);
+                        var affected = parseInt(current.weeklyReports[index].data.human.number[affectedFieldIds[i]]);
+                        sum += isNaN(affected)? 0: affected;
                     }
                     return sum;
                 }
@@ -65,7 +66,8 @@ $(document).ready(function(){
                 function getInNeedNumber(index){
                     var sum = 0;
                     for(var i=0; i<inNeedFieldIds.length; i++){
-                        sum += parseInt(current.weeklyReports[index].data.people.total[inNeedFieldIds[i]]);
+                        var inNeed = parseInt(current.weeklyReports[index].data.people.total[inNeedFieldIds[i]]);
+                        sum += isNaN(inNeed)? 0: inNeed;
                     }
                     return sum;
                 }
@@ -73,7 +75,8 @@ $(document).ready(function(){
                 function getAccessConstraintsNumber(index){
                     var sum = 0;
                     for(var i=0; i<accessConstraintsFieldIds.length; i++){
-                        sum += parseInt(current.weeklyReports[index].data['access-pin'].number[accessConstraintsFieldIds[i]]);
+                        var constraint = parseInt(current.weeklyReports[index].data['access-pin'].number[accessConstraintsFieldIds[i]]);
+                        sum += isNaN(constraint)? 0: constraint;
                     }
                     return sum;
                 }
