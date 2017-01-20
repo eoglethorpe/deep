@@ -1,3 +1,7 @@
+.jqstooltip {
+    box-sizing: content-box;
+}
+
 main{
     h1, h2, h3, h4{
         margin: 0;
@@ -82,11 +86,11 @@ main{
                     span{
                         display: block;
                         padding: 2px;
-                        font-size: 0.9em;
+                        font-size: 0.8em;
                         color: $label-color;
 
                         &:not(:last-child){
-                            margin-bottom: 6px;
+                            margin-bottom: 4px;
                         }
 
                         .fa{

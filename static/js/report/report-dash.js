@@ -33,7 +33,6 @@ $(document).ready(function(){
             }
             currentReport.weeklyReports.push({'startDate': report.startDate, 'data': report.data});
         }
-
         for(var i=0; i<reportGrouped.length; i++){
             var current = reportGrouped[i];
             var country = $('#countries .country[data-pk="'+current.country+'"]');
@@ -275,6 +274,22 @@ $(document).ready(function(){
                     country.find('.recency .fa').addClass(getChangeFa(getAveragePercent(affectedRecencyPercent0+pinRecencyPercent0+accessRecencyPercent0) - getAveragePercent(getHumanRecency(1),getPinAvailability(1),getAccessRecency(1)) ));
 
                 }
+
+                var affectedList = [];
+                var pinList = [];
+                var accessConstraintsList = [];
+                for(var index=0; index<current.weeklyReports.length; index++){
+                    var affected = getAffectedNumber(index);
+                    var pin = getInNeedNumber(index);
+                    var access = getAccessConstraintsNumber(index)
+                    affectedList.push(isNaN(affected)? 0: affected);
+                    pinList.push(isNaN(pin)? 0: pin);
+                    accessConstraintsList.push(isNaN(access)? 0: access);
+                }
+
+                country.find('.affected .viz').sparkline(affectedList, {type: 'line'});
+                country.find('.in-need .viz').sparkline(pinList, {type: 'line'});
+                country.find('.access-constraints .viz').sparkline(accessConstraintsList, {type: 'line'});
             }
         }
     }

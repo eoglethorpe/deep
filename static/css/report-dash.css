@@ -117,6 +117,9 @@ nav {
     nav .dropdown ul li a .fa {
       margin-right: 10px; }
 
+.jqstooltip {
+  box-sizing: content-box; }
+
 main h1, main h2, main h3, main h4 {
   margin: 0;
   text-transform: uppercase; }
@@ -177,10 +180,10 @@ main #country-list {
       main #country-list #countries .country .assigned-to span {
         display: block;
         padding: 2px;
-        font-size: 0.9em;
+        font-size: 0.8em;
         color: #767676; }
         main #country-list #countries .country .assigned-to span:not(:last-child) {
-          margin-bottom: 6px; }
+          margin-bottom: 4px; }
         main #country-list #countries .country .assigned-to span .fa {
           margin-right: 6px; }
       main #country-list #countries .country .name {
