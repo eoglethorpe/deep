@@ -520,7 +520,7 @@ function getInputData() {
     });
     $(".access-pin-comment").each(function() {
         data["access-pin"]["comment"][$(this).data("access-pin-pk")] = $(this).val();
-        data["access-pin"]["Decay"][$(this).data("access-pin-pk")] = $(this).data('decay-color');
+        data["access-pin"]["commentDecay"][$(this).data("access-pin-pk")] = $(this).data('decay-color');
     });
 
     // Severity score

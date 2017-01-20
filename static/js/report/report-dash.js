@@ -152,13 +152,15 @@ $(document).ready(function(){
                 function calculateRecency(decays){
                     var scores = {};
                     for(var i=0; i<decays.length; i++){
-                        var keys = Object.keys(decays[i]);
-                        for(var j=0; j<keys.length; j++){
-                            var currentIndex = decayPalette.indexOf(decays[i][keys[j]]);
-                            if(scores[currentIndex]){
-                                scores[currentIndex] = scores[currentIndex]+1;
-                            } else{
-                                scores[currentIndex] = 1;
+                        if(decays[i]){
+                            var keys = Object.keys(decays[i]);
+                            for(var j=0; j<keys.length; j++){
+                                var currentIndex = decayPalette.indexOf(decays[i][keys[j]]);
+                                if(scores[currentIndex]){
+                                    scores[currentIndex] = scores[currentIndex]+1;
+                                } else{
+                                    scores[currentIndex] = 1;
+                                }
                             }
                         }
                     }
