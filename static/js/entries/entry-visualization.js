@@ -134,6 +134,7 @@ function renderSectors(total){
 }
 
 function renderAttrs(id, attrs, total) {
+    var numberAttrEntry = 0;
     var attrList = $('#'+id).find('.attr');
     var totalSeverity = [];
     for(var i=0; i<attrs.length; i++){
@@ -157,9 +158,11 @@ function renderAttrs(id, attrs, total) {
                 var p = Math.round(severity.value/total*100);
                 $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*192)+'px;" data-toggle="tooltip" onmouseover="$(this).tooltip(\'show\')" ' +
                     'title="'+severity.name+' - '+severity.value+' (' + p + '%)"></span>').appendTo(severitiesContainer);
+                numberAttrEntry = numberAttrEntry + severity.value;
             }
         }
     })
+    $('#'+id+' h3 span').text(' (' + numberAttrEntry + ')' );
 }
 
 function drawPieChart(total){
