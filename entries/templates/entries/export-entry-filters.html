@@ -48,6 +48,18 @@
             </select>
         </div>
         <div class="form-group">
+            <select id="date-imported-filter" placeholder="Date Imported">
+                <option value="">Date Imported</option>
+                <option value="today">Today</option>
+                <option value="yesterday">Yesterday</option>
+                <option value="last-seven-days">Last 7 days</option>
+                <option value="this-week">This week</option>
+                <option value="last-thirty-days">Last 30 days</option>
+                <option value="this-month">This month</option>
+                <option value="range">Range</option>
+            </select>
+        </div>
+        <div class="form-group">
             <select id="vulnerable-groups-filter" placeholder="Demographic group" multiple>
                 <option value="">Demographic group</option>
                 {% for vulnerable_group in vulnerable_groups %}
