@@ -176,7 +176,7 @@ $(document).ready(function(){
                 }
                 function getHumanRecency(index){
                     var humanDecays = [current.weeklyReports[index].data.human.numberDecay, current.weeklyReports[index].data.human.commentDecay, current.weeklyReports[index].data.human.sourceDecay];
-                    return calculateRecency(humanDecays);
+                    return 100*calculateRecency(humanDecays);
                 }
                 function getPinRecency(index){
                     var pin = current.weeklyReports[index].data.people;
@@ -186,11 +186,11 @@ $(document).ready(function(){
                         pin.severeDecay, pin.severeSourceDecay, pin.severeCommentDecay,
                         pin.totalDecay, pin.totalSourceDecay, pin.totalCommentDecay
                     ];
-                    return calculateRecency(pinDecay);
+                    return 100*calculateRecency(pinDecay);
                 }
                 function getAccessRecency(index){
                     var accessDecays = [current.weeklyReports[index].data.accessDecay, current.weeklyReports[index].data['access-pin'].commentDecay, current.weeklyReports[index].data['access-pin'].numberDecay, current.weeklyReports[index].data['access-pin'].sourceDecay];
-                    return calculateRecency(accessDecays);
+                    return 100*calculateRecency(accessDecays);
                 }
                 function getHealthBar(health, tooltip){
                     if(health < 0){
@@ -231,11 +231,19 @@ $(document).ready(function(){
                 var pinRecencyPercent0 = getPinRecency(0);
                 var accessRecencyPercent0 = getAccessRecency(0);
 
-                getHealthBar(100*affectedRecencyPercent0, 'Affected recency').appendTo(country.find('.recency .viz'));
-                getHealthBar(100*pinRecencyPercent0, 'In need recency').appendTo(country.find('.recency .viz'));
-                getHealthBar(100*accessRecencyPercent0, 'Access constraints recency').appendTo(country.find('.recency .viz'));
+                getHealthBar(affectedRecencyPercent0, 'Affected recency').appendTo(country.find('.recency .viz'));
+                getHealthBar(pinRecencyPercent0, 'In need recency').appendTo(country.find('.recency .viz'));
+                getHealthBar(accessRecencyPercent0, 'Access constraints recency').appendTo(country.find('.recency .viz'));
 
-                fillPercent(country.find('.recency .percent'), (affectedRecencyPercent0+pinRecencyPercent0+accessRecencyPercent0)/3);
+                function getAveragePercent(p1, p2, p3){
+                    var sum = 0;
+                    if(p1 && p1 > 0) sum+=p1;
+                    if(p2 && p2 > 0) sum+=p2;
+                    if(p3 && p3 > 0) sum+=p3;
+                    return sum/3;
+                }
+
+                fillPercent(country.find('.recency .percent'), getAveragePercent(affectedRecencyPercent0,pinRecencyPercent0,accessRecencyPercent0));
 
                 if(typeof current.weeklyReports[1] != 'undefined'){
                     // returns appropriate icon according to change
@@ -262,9 +270,9 @@ $(document).ready(function(){
                     country.find('.geo-ranking .fa').addClass(getChangeFa(getGeoScore(0) - getGeoScore(1)));
 
                     // availability change
-                    country.find('.availability .fa').addClass(getChangeFa((affectedAvailabilityPercent0+pinAvailabilityPercent0+humanAccessAvailability0)/3 - (getHumanAvailability(1)+getPinAvailability(1)+getHumanAccessAvailability(1))/3 ));
+                    country.find('.availability .fa').addClass(getChangeFa(getAveragePercent(affectedAvailabilityPercent0,pinAvailabilityPercent0,humanAccessAvailability0) - getAveragePercent(getHumanAvailability(1),getPinAvailability(1),getHumanAccessAvailability(1)) ));
 
-                    country.find('.recency .fa').addClass(getChangeFa((affectedRecencyPercent0+pinRecencyPercent0+accessRecencyPercent0)/3 - (getHumanRecency(1)+getPinAvailability(1)+getAccessRecency(1))/3 ));
+                    country.find('.recency .fa').addClass(getChangeFa(getAveragePercent(affectedRecencyPercent0+pinRecencyPercent0+accessRecencyPercent0) - getAveragePercent(getHumanRecency(1),getPinAvailability(1),getAccessRecency(1)) ));
 
                 }
             }
