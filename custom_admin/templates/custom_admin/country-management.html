@@ -25,7 +25,7 @@ DEEP | Country Panel
     var countries = {
         {% for country in countries %}
         '{{country.code}}': {
-            name: '{{country.name}}',
+            name: '{{country.name|escapejs}}',
             // Key figures
             hdi_index: '{{country.hdi_index}}',
             hdi_rank: '{{country.hdi_rank}}',
@@ -43,8 +43,8 @@ DEEP | Country Panel
             // Admin areas
             admin_levels: [
                 {% for admin_level in country.adminlevel_set.all %}
-                { id: '{{admin_level.pk}}', level: '{{admin_level.level}}', name: '{{admin_level.name}}', property_name: '{{admin_level.property_name}}',
-                  property_pcode: '{{admin_level.property_pcode}}', geojson: '{% if admin_level.geojson %}{{admin_level.geojson.url}}{% endif %}' },
+                { id: '{{admin_level.pk}}', level: '{{admin_level.level}}', name: '{{admin_level.name|escapejs}}', property_name: '{{admin_level.property_name|escapejs}}',
+                  property_pcode: '{{admin_level.property_pcode|escapejs}}', geojson: '{% if admin_level.geojson %}{{admin_level.geojson.url}}{% endif %}' },
                 {% endfor %}
             ]
         },
