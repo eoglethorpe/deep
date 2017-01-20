@@ -50,7 +50,7 @@ function renderEntries(){
         var entry = $('.entry-template').clone();
         entry.removeClass('entry-template');
         entry.addClass('entry');
-        entry.find('h4').text(entries[i].lead_title);
+        entry.find('h4').html(searchAndHighlight(entries[i].lead_title, leadTitleFilterText));
         entry.find('.source').text(entries[i].lead_source_name!=null? entries[i].lead_source_name: 'Not specified');
         if (entries[i].lead_url)
             entry.find('.source').prop('href', entries[i].lead_url);
@@ -62,7 +62,7 @@ function renderEntries(){
             information.removeClass('information-template');
             information.addClass('information');
 
-            information.find('.excerpt').text(entries[i].informations[j].excerpt);
+            information.find('.excerpt').html(searchAndHighlight(entries[i].informations[j].excerpt, searchFilterText));
             if (entries[i].informations[j].date)
                 information.find('date').text(formatDate(new Date(entries[i].informations[j].date)));
             else
