@@ -82,6 +82,16 @@ main{
                     span{
                         display: block;
                         padding: 2px;
+                        font-size: 0.9em;
+                        color: $label-color;
+
+                        &:not(:last-child){
+                            margin-bottom: 6px;
+                        }
+
+                        .fa{
+                            margin-right: 6px;
+                        }
                     }
                 }
                 .name{
@@ -92,7 +102,7 @@ main{
                     color: $label-color;
                 }
                 .fa{
-                    margin-right: 10px;
+                    margin-right: 8px;
                 }
                 .fa-arrow-up{
                     color: #27ae60;
@@ -105,7 +115,7 @@ main{
                 }
                 .health-bar-invalid{
                     height: 12px;
-                    background-color: #969696;
+                    background-color: rgba(0, 0, 0, 0.1);
                     margin-bottom: 4px;
                 }
                 .health-bar{

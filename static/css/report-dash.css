@@ -176,14 +176,20 @@ main #country-list {
       cursor: pointer; }
       main #country-list #countries .country .assigned-to span {
         display: block;
-        padding: 2px; }
+        padding: 2px;
+        font-size: 0.9em;
+        color: #767676; }
+        main #country-list #countries .country .assigned-to span:not(:last-child) {
+          margin-bottom: 6px; }
+        main #country-list #countries .country .assigned-to span .fa {
+          margin-right: 6px; }
       main #country-list #countries .country .name {
         text-transform: uppercase;
         font-weight: 600; }
       main #country-list #countries .country .events {
         color: #767676; }
       main #country-list #countries .country .fa {
-        margin-right: 10px; }
+        margin-right: 8px; }
       main #country-list #countries .country .fa-arrow-up {
         color: #27ae60; }
       main #country-list #countries .country .fa-arrow-down {
@@ -192,7 +198,7 @@ main #country-list {
         color: #b79622; }
       main #country-list #countries .country .health-bar-invalid {
         height: 12px;
-        background-color: #969696;
+        background-color: rgba(0, 0, 0, 0.1);
         margin-bottom: 4px; }
       main #country-list #countries .country .health-bar {
         height: 12px;
