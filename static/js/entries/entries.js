@@ -46,7 +46,7 @@ function renderEntries() {
         entryElement.removeClass("entry-template");
         entryElement.addClass("entry");
 
-        entryElement.find(".entry-title").text(entry.lead_title);
+        entryElement.find(".entry-title").html(searchAndHighlight(entry.lead_title, leadTitleFilterText));
         entryElement.find(".created-by").text(entry.modified_by);
         entryElement.find(".created-on").text(formatDate(new Date(entry.modified_at)));
 
@@ -60,7 +60,7 @@ function renderEntries() {
             informationElement.removeClass("information-template");
             informationElement.addClass("information");
 
-            informationElement.find('.excerpt').text(information.excerpt);
+            informationElement.find('.excerpt').html(searchAndHighlight(information.excerpt, searchFilterText));
 
             informationElement.find('.reliability').find('span[data-id=' + information.reliability.id + ']').addClass('active');
             informationElement.find('.severity').find('span[data-id=' + information.severity.id + ']').addClass('active');

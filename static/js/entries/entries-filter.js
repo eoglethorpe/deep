@@ -19,6 +19,10 @@ var previousImportedDateFilterSelection;
 var activeSectors = [];
 var activeSeverities  = [];
 
+// Active searches to use for highlighting and stuffs
+var searchFilterText = "";
+var leadTitleFilterText = "";
+
 function clearFilters() {
     filters = {};
     $('input').val('');
@@ -123,6 +127,7 @@ function initEntryFilters() {
 
     $('#lead-title-search').on('input paste change drop', function() {
         var filterBy = $(this).val();
+        leadTitleFilterText = filterBy;
         addFilter('lead-title', filterBy == "", function(info){
             return info.lead_title.toLowerCase().includes(filterBy.toLowerCase());
         });
@@ -220,6 +225,7 @@ function initEntryFilters() {
 
     $('#search').on('input paste change drop', function() {
         var filterBy = $(this).val();
+        searchFilterText = filterBy;
         addFilter('excerpt', filterBy == "", function(info){
             return info.excerpt.toLowerCase().includes(filterBy.toLowerCase());
         });
