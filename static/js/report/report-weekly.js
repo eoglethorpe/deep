@@ -8,7 +8,7 @@ function addKeyEvent(data) {
 
     keyEvent.removeClass('key-event-template');
     keyEvent.addClass('key-event');
-
+    keyEvent.removeClass('key-event-template');
     if(data){
         keyEvent.find('.event-value').val(data.value);
         keyEvent.find('.start-date').val(data.start_date);
@@ -506,17 +506,21 @@ function getInputData() {
     // Access data
     $(".access-select").each(function() {
         data["access"][$(this).data("access-pk")] = $(this).val();
+        data["accessDecay"][$(this).data("access-pk")] = $(this).data('decay-color');
     });
 
     // Access pin data
     $(".access-pin-number").each(function() {
         data["access-pin"]["number"][$(this).data("access-pin-pk")] = getNumberValue($(this));
+        data["access-pin"]["numberDecay"][$(this).data("access-pin-pk")] = $(this).data('decay-color');
     });
     $(".access-pin-source").each(function() {
         data["access-pin"]["source"][$(this).data("access-pin-pk")] = $(this).val();
+        data["access-pin"]["sourceDecay"][$(this).data("access-pin-pk")] = $(this).data('decay-color');
     });
     $(".access-pin-comment").each(function() {
         data["access-pin"]["comment"][$(this).data("access-pin-pk")] = $(this).val();
+        data["access-pin"]["Decay"][$(this).data("access-pin-pk")] = $(this).data('decay-color');
     });
 
     // Severity score

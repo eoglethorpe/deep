@@ -148,6 +148,48 @@ $(document).ready(function(){
                     }
                     return 100*available/total;
                 }
+                var decayPalette = ['#1a9850', '#66bd63', '#a6d96a', '#d9ef8b', '#fee08b', '#fdae61', '#f46d43','#d73027'];
+                function calculateRecency(decays){
+                    var scores = {};
+                    for(var i=0; i<decays.length; i++){
+                        var keys = Object.keys(decays[i]);
+                        for(var j=0; j<keys.length; j++){
+                            var currentIndex = decayPalette.indexOf(decays[i][keys[j]]);
+                            if(scores[currentIndex]){
+                                scores[currentIndex] = scores[currentIndex]+1;
+                            } else{
+                                scores[currentIndex] = 1;
+                            }
+                        }
+                    }
+                    var scoreKeys = Object.keys(scores);
+                    var scoreSum = 0;
+                    var scoreTotal = 0;
+                    for(var i=0; i<scoreKeys.length; i++){
+                        scoreSum += (parseInt(scores[scoreKeys[i]])*(1 - parseFloat(scoreKeys[i])/decayPalette.length));
+                        scoreTotal += parseInt(scores[scoreKeys[i]]);
+                    }
+                    if(scoreTotal == 0) {return -1};
+                    return scoreSum/scoreTotal;
+                }
+                function getHumanRecency(index){
+                    var humanDecays = [current.weeklyReports[index].data.human.numberDecay, current.weeklyReports[index].data.human.commentDecay, current.weeklyReports[index].data.human.sourceDecay];
+                    return calculateRecency(humanDecays);
+                }
+                function getPinRecency(index){
+                    var pin = current.weeklyReports[index].data.people;
+                    var pinDecay = [pin.atRiskDecay, pin.atRiskSourceDecay, pin.atRiskCommentDecay,
+                        pin.moderateDecay, pin.moderateSourceDecay, pin.moderateCommentDecay,
+                        pin.plannedDecay, pin.plannedSourceDecay, pin.plannedCommentDecay,
+                        pin.severeDecay, pin.severeSourceDecay, pin.severeCommentDecay,
+                        pin.totalDecay, pin.totalSourceDecay, pin.totalCommentDecay
+                    ];
+                    return calculateRecency(pinDecay);
+                }
+                function getAccessRecency(index){
+                    var accessDecays = [current.weeklyReports[index].data.accessDecay, current.weeklyReports[index].data['access-pin'].commentDecay, current.weeklyReports[index].data['access-pin'].numberDecay, current.weeklyReports[index].data['access-pin'].sourceDecay];
+                    return calculateRecency(accessDecays);
+                }
                 function getHealthBar(health, tooltip){
                     if(health < 0){
                         return $('<div class="health-bar-invalid"></div>');
@@ -161,7 +203,6 @@ $(document).ready(function(){
 
                 }
 
-
                 // affected number
                 fillNumber(country.find('.affected .number'), getAffectedNumber(0));
 
@@ -174,16 +215,25 @@ $(document).ready(function(){
                 // geo score
                 fillNumber(country.find('.geo-ranking .number'), getGeoScore(0));
 
-                var availabilityPercent0 = getHumanAvailability(0);
+                var affectedAvailabilityPercent0 = getHumanAvailability(0);
                 var pinAvailabilityPercent0 = getPinAvailability(0);
                 var humanAccessAvailability0 = getHumanAccessAvailability(0);
 
-                getHealthBar(availabilityPercent0, 'Availability').appendTo(country.find('.availability .viz'));
-                getHealthBar(pinAvailabilityPercent0, 'In need').appendTo(country.find('.availability .viz'));
-                getHealthBar(humanAccessAvailability0, 'Access constraints').appendTo(country.find('.availability .viz'));
+                getHealthBar(affectedAvailabilityPercent0, 'Affected availability').appendTo(country.find('.availability .viz'));
+                getHealthBar(pinAvailabilityPercent0, 'In need availability').appendTo(country.find('.availability .viz'));
+                getHealthBar(humanAccessAvailability0, 'Access constraints availability').appendTo(country.find('.availability .viz'));
 
-                fillPercent(country.find('.availability .percent'), (availabilityPercent0+pinAvailabilityPercent0+humanAccessAvailability0)/3);
+                fillPercent(country.find('.availability .percent'), (affectedAvailabilityPercent0+pinAvailabilityPercent0+humanAccessAvailability0)/3);
 
+                var affectedRecencyPercent0 = getHumanRecency(0);
+                var pinRecencyPercent0 = getPinRecency(0);
+                var accessRecencyPercent0 = getAccessRecency(0);
+
+                getHealthBar(100*affectedRecencyPercent0, 'Affected recency').appendTo(country.find('.recency .viz'));
+                getHealthBar(100*pinRecencyPercent0, 'In need recency').appendTo(country.find('.recency .viz'));
+                getHealthBar(100*accessRecencyPercent0, 'Access constraints recency').appendTo(country.find('.recency .viz'));
+
+                fillPercent(country.find('.recency .percent'), (affectedRecencyPercent0+pinRecencyPercent0+accessRecencyPercent0)/3);
 
                 if(typeof current.weeklyReports[1] != 'undefined'){
                     // returns appropriate icon according to change
@@ -210,7 +260,9 @@ $(document).ready(function(){
                     country.find('.geo-ranking .fa').addClass(getChangeFa(getGeoScore(0) - getGeoScore(1)));
 
                     // availability change
-                    country.find('.availability .fa').addClass(getChangeFa((availabilityPercent0+pinAvailabilityPercent0+humanAccessAvailability0)/3 - (getHumanAvailability(1)+getPinAvailability(1)+getHumanAccessAvailability(1))/3 ));
+                    country.find('.availability .fa').addClass(getChangeFa((affectedAvailabilityPercent0+pinAvailabilityPercent0+humanAccessAvailability0)/3 - (getHumanAvailability(1)+getPinAvailability(1)+getHumanAccessAvailability(1))/3 ));
+
+                    country.find('.recency .fa').addClass(getChangeFa((affectedRecencyPercent0+pinRecencyPercent0+accessRecencyPercent0)/3 - (getHumanRecency(1)+getPinAvailability(1)+getAccessRecency(1))/3 ));
 
                 }
             }
