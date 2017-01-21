@@ -281,18 +281,22 @@ $(document).ready(function(){
                 var affectedList = [];
                 var pinList = [];
                 var accessConstraintsList = [];
+                var geoRankList = [];
                 for(var index=0; index<current.weeklyReports.length; index++){
                     var affected = getAffectedNumber(index);
                     var pin = getInNeedNumber(index);
-                    var access = getAccessConstraintsNumber(index)
+                    var access = getAccessConstraintsNumber(index);
+                    var geo = getGeoScore(index);
                     affectedList.push(isNaN(affected)? 0: affected);
                     pinList.push(isNaN(pin)? 0: pin);
                     accessConstraintsList.push(isNaN(access)? 0: access);
+                    geoRankList.push(isNaN(geo)? 0: geo);
                 }
 
-                country.find('.affected .viz').sparkline(affectedList, {type: 'line'});
-                country.find('.in-need .viz').sparkline(pinList, {type: 'line'});
-                country.find('.access-constraints .viz').sparkline(accessConstraintsList, {type: 'line'});
+                country.find('.affected .viz').sparkline(affectedList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#2980b9', fillColor: 'rgba(0, 50, 255, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5});
+                country.find('.in-need .viz').sparkline(pinList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#c0392b', fillColor: 'rgba(255, 0, 0, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5});
+                country.find('.access-constraints .viz').sparkline(accessConstraintsList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#e67e22', fillColor: 'rgba(255, 160, 50, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5});
+                country.find('.geo-ranking .viz').sparkline(geoRankList.reverse(), {type: 'bar', height: '48px ', width: '100%', barWidth: 12, barSpacing: 4, barColor: '#8e44ad'});
             }
         }
     }

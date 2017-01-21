@@ -86,7 +86,7 @@ main{
                     span{
                         display: block;
                         padding: 2px;
-                        font-size: 0.8em;
+                        font-size: $text-size-xs;
                         color: $label-color;
 
                         &:not(:last-child){
