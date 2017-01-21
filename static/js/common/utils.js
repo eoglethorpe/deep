@@ -124,6 +124,20 @@ function getContrastYIQ(hexcolor){
     return (yiq >= 128) ? '#212121' : '#fff';
 }
 
+// Search in a string and highlight the searched content with html
+function searchAndHighlight(content, searchString) {
+    var text = $('<div></div>').text(content).text();
+    if (searchString.length > 0) {
+        var index = text.toLowerCase().indexOf(searchString.toLowerCase());
+        if (index >= 0) {
+            return text.substr(0, index) + '<span style="background-color:#ff0">'
+                + text.substr(index, searchString.length) + '</span>'
+                + text.substr(index+searchString.length);
+        }
+    }
+    return text;
+}
+
 
 // http://techblog.procurios.nl/k/news/view/33796/14863/calculate-iso-8601-week-and-year-in-javascript.html
 /**

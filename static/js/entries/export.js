@@ -26,7 +26,7 @@ $(document).ready(function(){
                 informationList.push(entries[i].informations[j].id);
             }
         }
-        console.log(informationList);
+        // console.log(informationList);
         $("<input>").attr({
             'type': 'hidden',
             'name': 'informations',

@@ -13,10 +13,15 @@ var pillarsFilterSelectize; // Required in report-weekly tab filtering
 var sectorsFilterSelectize; // Required in entries visualization filtering
 
 var previousPublishedDateFilterSelection;
+var previousImportedDateFilterSelection;
 
 // Required in entries visualization filtering:
 var activeSectors = [];
 var activeSeverities  = [];
+
+// Active searches to use for highlighting and stuffs
+var searchFilterText = "";
+var leadTitleFilterText = "";
 
 function clearFilters() {
     filters = {};
@@ -77,6 +82,11 @@ function initEntryFilters() {
     selectizes.push($('#users-filter').selectize({plugins: ['remove_button']}));
     var publishedDateSelectize = $('#date-published-filter').selectize({plugins: ['remove_button']});
     selectizes.push(publishedDateSelectize);
+    var importedDateSelectize = null;
+    if ($('#date-imported-filter').length > 0) {
+        importedDateSelectize = $('#date-imported-filter').selectize({plugins: ['remove_button']});
+        selectizes.push(importedDateSelectize);
+    }
     var areasSelectize = $('#areas-filter').selectize({plugins: ['remove_button']});
     selectizes.push(areasSelectize);
     selectizes.push($('#affected-groups-filter').selectize({plugins: ['remove_button']}));
@@ -117,6 +127,7 @@ function initEntryFilters() {
 
     $('#lead-title-search').on('input paste change drop', function() {
         var filterBy = $(this).val();
+        leadTitleFilterText = filterBy;
         addFilter('lead-title', filterBy == "", function(info){
             return info.lead_title.toLowerCase().includes(filterBy.toLowerCase());
         });
@@ -153,6 +164,34 @@ function initEntryFilters() {
             previousPublishedDateFilterSelection = filterBy;
         }
     });
+    if (importedDateSelectize) {
+        $('#date-imported-filter').change(function() {
+            var filterBy = $(this).val();
+            if (filterBy == 'range') {
+                $('#date-range-input').modal();
+                $('#date-range-input #ok-btn').unbind().click(function(){
+                    var startDate = new Date($('#date-range-input #start-date').val());
+                    var endDate = new Date($('#date-range-input #end-date').val());
+                    addFilter('imported-at', !startDate || !endDate, function(info) {
+                        var date = new Date(info.modified_at);
+                        return dateInRange(date, startDate, endDate);
+                    });
+                });
+                $('#date-range-input #cancel-btn').unbind().click(function(){
+                    importedDateSelectize[0].selectize.setValue(previousImportedDateFilterSelection);
+                });
+            } else {
+                addFilter('imported-at', filterBy == "" || filterBy == null, function(info) {
+                    if (info.modified_at) {
+                        return filterDate(filterBy, new Date(info.modified_at));
+                    }
+                    return false;
+                });
+                previousImportedDateFilterSelection = filterBy;
+            }
+        });
+    }
+
     $('#users-filter').change(function() {
         var filterBy = $(this).val();
         addFilter('users', filterBy == null, function(info){
@@ -186,6 +225,7 @@ function initEntryFilters() {
 
     $('#search').on('input paste change drop', function() {
         var filterBy = $(this).val();
+        searchFilterText = filterBy;
         addFilter('excerpt', filterBy == "", function(info){
             return info.excerpt.toLowerCase().includes(filterBy.toLowerCase());
         });

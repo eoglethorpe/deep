@@ -8,6 +8,9 @@ from docx.oxml.ns import qn
 
 from entries.models import *
 
+def xstr(conv):
+    """remove illegal characters from a string (errors from PDFs etc)"""
+    return "".join(filter(lambda x: x in string.printable, conv))
 
 # See: https://github.com/python-openxml/python-docx/issues/74#issuecomment-215678765
 def add_hyperlink(paragraph, url, text):
@@ -106,14 +109,14 @@ def add_excerpt_info(d, info):
     source_name = ""
     if info.entry.lead.source_name and info.entry.lead.source_name != "":
         source_name = info.entry.lead.source_name
-    
+
     if source_name == "":
         source_name = "Reference"
 
     ref.add_run(" (")
     if info.entry.lead.url and info.entry.lead.url != "":
         add_hyperlink(ref, info.entry.lead.url, source_name)
-    
+
     elif Attachment.objects.filter(lead=info.entry.lead).count() > 0:
         add_hyperlink(ref, info.entry.lead.attachment.upload.url, source_name)
 
@@ -154,7 +157,7 @@ def export_docx(order, event, informations=None):
     set_style(d.styles["Heading 3"])
     set_style(d.styles["Heading 4"])
     set_style(d.styles["Heading 5"])
-    
+
 
     # TODO: Hierarchy and filter
 
@@ -167,7 +170,7 @@ def export_docx(order, event, informations=None):
     pillars = InformationPillar.objects.filter(contains_sectors=False)
     for pillar in pillars:
         pillar_header_shown = False
-        
+
         # Get each subpillar
         subpillars = pillar.informationsubpillar_set.all()
         for subpillar in subpillars:
@@ -226,7 +229,7 @@ def export_docx(order, event, informations=None):
                     add_excerpt_info(d, info)
                     leads_pk.append(info.entry.lead.pk)
 
-    
+
     add_line(d.add_paragraph())
 
     # Bibliography
@@ -250,19 +253,15 @@ def export_docx(order, event, informations=None):
         p = d.add_paragraph()
         if lead.url and lead.url != "":
             add_hyperlink(p, lead.url, lead.url)
-        
+
         elif Attachment.objects.filter(lead=lead).count() > 0:
             add_hyperlink(p, lead.attachment.upload.url, lead.attachment.upload.url)
 
         else:
             p.add_run("Missing url.")
-            
+
         d.add_paragraph()
 
     d.add_page_break()
 
     return d
-
-def xstr(conv):
-    """remove illegal characters from a string (errors from PDFs etc)"""
-    return "".join(filter(lambda x: x in string.printable, conv))
