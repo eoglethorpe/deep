@@ -296,7 +296,7 @@ $(document).ready(function(){
                 country.find('.affected .viz').sparkline(affectedList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#2980b9', fillColor: 'rgba(0, 50, 255, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0});
                 country.find('.in-need .viz').sparkline(pinList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#c0392b', fillColor: 'rgba(255, 0, 0, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0});
                 country.find('.access-constraints .viz').sparkline(accessConstraintsList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#e67e22', fillColor: 'rgba(255, 160, 50, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0});
-                country.find('.geo-ranking .viz').sparkline(geoRankList.reverse(), {type: 'bar', height: '48px ', chartRangeMin: 0, width: '100%', barWidth: 12, barSpacing: 4, barColor: '#8e44ad'});
+                country.find('.geo-ranking .viz').sparkline(geoRankList.reverse(), {type: 'bar', height: '48px ', chartRangeMin: 0, chartRangeMax: 3, width: '100%', barWidth: 12, barSpacing: 4, barColor: '#8e44ad'});
             }
         }
     }
