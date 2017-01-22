@@ -60,36 +60,36 @@ var humanAvailabilityFieldIds = [
                             <div class="col-md-3 first-child">
                                 <div class="row">
                                     <div class="col-md-5 first-child">
-                                        <label class="list-col">Assigned to</label>
+                                        <label class="list-col" style="padding-left: 8px">Assigned to</label>
                                     </div>
                                     <div class="col-md-7 last-child">
-                                        <label class="list-col">Name / Events</label>
+                                        <label data-sorted="false" data-sort=".name" class="list-col">Name / Events</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6 low-padding">
                                 <div class="row">
                                     <div class="col-md-3 first-child">
-                                        <label class="list-col">Affected</label>
+                                        <label data-sorted="false" data-sort=".affected .number" class="list-col">Affected</label>
                                     </div>
                                     <div class="col-md-3 low-padding">
-                                        <label class="list-col">In need</label>
+                                        <label data-sorted="false" data-sort=".in-need .number" class="list-col">In need</label>
                                     </div>
                                     <div class="col-md-3 low-padding">
-                                        <label class="list-col">Access contraints</label>
+                                        <label data-sorted="false" data-sort=".access-constraints .number" class="list-col">Access contraints</label>
                                     </div>
                                     <div class="col-md-3 last-child">
-                                        <label class="list-col">Geo ranking</label>
+                                        <label data-sorted="false" data-sort=".geo-ranking .number"  class="list-col">Geo ranking</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-3 last-child">
                                 <div class="row">
                                     <div class="col-md-4 first-child">
-                                        <label class="list-col">Availability</label>
+                                        <label data-sorted="false" data-sort=".availability .percent" class="list-col">Availability</label>
                                     </div>
                                     <div class="col-md-4 low-padding">
-                                        <label class="list-col">Recency</label>
+                                        <label data-sorted="false" data-sort=".recency .percent" class="list-col">Recency</label>
                                     </div>
                                     <div class="col-md-4 last-child">
                                         <label class="list-col">Change</label>
@@ -161,7 +161,11 @@ var humanAvailabilityFieldIds = [
                                         <div class="col-md-4 last-child">
                                             <div class="change list-col">
                                                 <i class="fa"></i><span class="percent"></span>
-                                                <div class="viz"></div>
+                                                <div class="viz">
+                                                    <svg height="48" width="48">
+                                                        <path stroke-width="3" fill="none" />
+                                                    </svg>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -217,119 +221,4 @@ var humanAvailabilityFieldIds = [
         </div>
     </div>
 </main>
-
-<!--
-
-                <div id="country-list-header" hidden>
-                    <input id="search-country" placeholder="Search country">
-                    <i class="fa fa-search"></i>
-                    <h2>Countries</h2>
-                    <div id="crisis-status" hidden>
-                        <label><input class="crisis-status" name="crisis-status" value="0" type="radio">Global Monitoring</label>
-                        <label><input class="crisis-status" name="crisis-status" value="1" type="radio" checked>Active Crisis</label>
-                        <label><input class="crisis-status" name="crisis-status" value="2" type="radio" checked>All</label>
-                    </div>
-                </div>
-                <div id="country-list" class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-3 first-child">
-                            <div class="row">
-                                <div class="col-md-4 first-child">
-                                    <label>User list</label>
-                                </div>
-                                <div class="col-md-8 last-child">
-                                    <label>Name</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 low-padding">
-                            <div class="row">
-                                <div class="col-md-3 first-child">
-                                    <label>Affected</label>
-                                </div>
-                                <div class="col-md-3 low-padding">
-                                    <label>In need</label>
-                                </div>
-                                <div class="col-md-3 low-padding">
-                                    <label>Access contraints</label>
-                                </div>
-                                <div class="col-md-3 last-child">
-                                    <label>Geo ranking</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 last-child">
-                            <div class="row">
-                                <div class="col-md-4 first-child">
-                                    <label>Consistency</label>
-                                </div>
-                                <div class="col-md-4 low-padding">
-                                    <label>Recency</label>
-                                </div>
-                                <div class="col-md-4 last-child">
-                                    <label>Change</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {% for c in countries %}
-                    <div class="country-container" data-name="{{c.name}}" data-href="{% url 'report:dashboard' %}?country={{c.pk}}">
-                        <div class="country {% if country and country == c %}active{% endif %}">
-                            {{c.name}}
-                            <br>
-                            <div class="event">
-                                {% for e in c.event_set.all %}
-                                {{e}}{% if not forloop.last %}, {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="col-md-5" style="padding-left: 8px">
-                {% if country %}
-                <div id="report-list">
-                    <header>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>{{country.name}}</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <select id="select-event" data-country-pk="{{country.pk}}">
-                                    {% for e in country.event_set.all %}
-                                    <option value="{{e.pk}}" {% if event == e %}selected{% endif %}>{{e}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                    </header>
-                    <div class="reports">
-                        <div id="weekly-report-list">
-                            <div id="header">
-                                <h3>Weekly reports</h3>
-                                {% if new_week_date %}
-                                <button id="add-weekly-report-btn" class="btn btn-sm btn-primary" onclick="location.href='{% url 'report:weekly' country.pk event.pk %}?start_date={{new_week_date|date:"d-M-Y"}}';"><i class="fa fa-plus"></i>Add new report</button>
-                                {% endif %}
-                            </div>
-                            {% for report in weekly_reports %}
-                            {% if new_week_date %}
-                            {% endif %}
-                            <div class="weekly-report">
-                                <h4>Week #{{report.start_date|date:"W"}}</h4>
-                                <p><date>{{report.start_date|date:"d-m-Y"}}</date> to <date>{{report.end_date|date:"d-m-Y"}}</date></p>
-                                <a onclick="location.href='{% url 'report:weekly' country.pk event.pk report.pk %}';"><i class="fa fa-edit"></i>Edit</a>
-                            </div>
-                            {% empty %}
-                            <p class="empty-text">No reports found</p>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-</main> -->
 {% endblock %}

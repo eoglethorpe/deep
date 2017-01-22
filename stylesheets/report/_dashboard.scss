@@ -65,8 +65,23 @@ main{
             label{
                 width: 100%;
                 margin-bottom: 0;
-                padding: 4px 10px!important;
+                padding: 4px 0;
                 border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+            }
+            label[data-sort]{
+                cursor: pointer;
+            }
+            .asc{
+                &:after{
+                    content: '⇂';
+                    color: $primary-color;
+                }
+            }
+            .dsc{
+                &:after{
+                    content: '↾';
+                    color: $primary-color;
+                }
             }
         }
         #countries{
@@ -149,6 +164,31 @@ main{
             .viz{
                 height: 50px;
                 margin-top: 6px;
+                position: relative;
+
+                .no-change-block{
+                    width: 24px;
+                    height: 24px;
+                    margin: auto;
+                    border-radius: 50%;
+                    background-color: #e74c3c;
+                }
+                .change-block{
+                    width: 24px;
+                    height: 24px;
+                    top: 12px;
+                    left: calc(50% - 12px);
+                    margin: auto;
+                    border-radius: 50%;
+                    background-color: #27ae60;
+                    position: absolute;
+                }
+                path{
+                    stroke: #7f8c8d;
+                }
+            }
+            .change{
+                text-align: center;
             }
 
             .list-col{
