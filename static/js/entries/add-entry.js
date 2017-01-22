@@ -463,11 +463,13 @@ function changeLeadPreview(simplified) {
         simplifiedFrame.html(styleText(leadSimplified));
 
         simplifiedFrame.css("display", "inherit");
+        $('#multimedia-pane').show();
         frame.css("display", "none");
         $(".btn-zoom").show();
     }
     else {
         simplifiedFrame.css("display", "none");
+        $('#multimedia-pane').hide();
         frame.css("display", "inherit");
         selectedTags = {};
         $(".btn-zoom").hide();
@@ -486,6 +488,10 @@ $(document).ready(function(){
 
     google.charts.load('current', {packages:["orgchart"]});
     google.charts.setOnLoadCallback(drawChart);
+
+    $('#expand-pane').click(function(){
+        $('#multimedia-pane').toggleClass('open');
+    });
 
     // Map
     drawMap();

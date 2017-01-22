@@ -133,10 +133,12 @@ body {
     body #page-one .split-pane .split-pane-divider {
       background-color: rgba(0, 0, 0, 0.2); }
     body #page-one .split-pane #left-component {
+      height: 100%;
       width: 33vw;
       box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.3);
       background-color: #fff;
-      overflow-x: hidden; }
+      overflow-x: hidden;
+      position: relative; }
       body #page-one .split-pane #left-component .fa {
         margin-right: 0; }
       body #page-one .split-pane #left-component #lead-options-container {
@@ -160,10 +162,34 @@ body {
       body #page-one .split-pane #left-component #lead-preview-container iframe {
         width: 100%; }
       body #page-one .split-pane #left-component #lead-preview-container #lead-simplified-preview {
+        height: calc(100vh - 144px);
+        overflow-x: auto;
         padding: 16px; }
+      body #page-one .split-pane #left-component #multimedia-pane {
+        position: fixed;
+        left: 0;
+        bottom: -260px;
+        width: inherit;
+        background-color: #1d1f21;
+        transform: translateZ(0);
+        z-index: 20;
+        min-height: 300px;
+        text-align: right;
+        color: #fff;
+        transition: 0.2s all ease-in-out; }
+        body #page-one .split-pane #left-component #multimedia-pane #expand-pane {
+          color: #fff;
+          cursor: pointer;
+          padding: 0 16px;
+          transition: 0.2s all ease-in-out; }
+      body #page-one .split-pane #left-component .open {
+        bottom: 0 !important; }
+        body #page-one .split-pane #left-component .open #expand-pane {
+          transform: rotate(180deg); }
     body #page-one .split-pane #divider {
       left: 33vw;
       width: 3px;
+      z-index: 21;
       background-color: transparent; }
     body #page-one .split-pane #right-component {
       left: 33vw;
