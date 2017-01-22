@@ -149,6 +149,31 @@ main{
             .viz{
                 height: 50px;
                 margin-top: 6px;
+                position: relative;
+
+                .no-change-block{
+                    width: 24px;
+                    height: 24px;
+                    margin: auto;
+                    border-radius: 50%;
+                    background-color: #e74c3c;
+                }
+                .change-block{
+                    width: 24px;
+                    height: 24px;
+                    top: 12px;
+                    left: calc(50% - 12px);
+                    margin: auto;
+                    border-radius: 50%;
+                    background-color: #27ae60;
+                    position: absolute;
+                }
+                path{
+                    stroke: #7f8c8d;
+                }
+            }
+            .change{
+                text-align: center;
             }
 
             .list-col{

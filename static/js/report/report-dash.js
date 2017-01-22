@@ -276,6 +276,70 @@ $(document).ready(function(){
 
                     country.find('.recency .fa').addClass(getChangeFa(getAveragePercent(affectedRecencyPercent0+pinRecencyPercent0+accessRecencyPercent0) - getAveragePercent(getHumanRecency(1),getPinAvailability(1),getAccessRecency(1)) ));
 
+                    function getReportChangePercentage(){
+                        function getFields(index){
+                            let report = current.weeklyReports[index].data;
+                            let accessPin = report['access-pin'];
+                            let human = report.human;
+                            let people = report.people;
+                            return [report.access, accessPin.number, accessPin.source, accessPin.comment, human.number, human.source, human.comment, report.ipc, people['at-risk'], people['at-risk-source'], people['at-risk-comment'], people['moderate'], people['moderate-source'], people['moderate-comment'], people['planned'], people['planned-source'], people['planned-comment'], people['severe'], people['severe-source'], people['severe-comment'], people['total'], people['total-source'], people['total-comment'], report['final-severity-score']];
+                        }
+
+                        let fieldsWeek0 = getFields(0);
+                        let fieldsWeek1 = getFields(1);
+                        let total = 0;
+                        let change = 0;
+
+                        for(let i=0; i<fieldsWeek0.length; i++){
+                            if(fieldsWeek0[i]){
+                                let keys = Object.keys(fieldsWeek0[i]);
+                                for(let j=0; j<keys.length; j++){
+                                    if(fieldsWeek0[i][keys[j]] != fieldsWeek1[i][keys[j]]){
+                                        ++change;
+                                    }
+                                    ++total;
+                                }
+                            }
+                        }
+                        if(total != 0){
+                            return 100*change/total;
+                        }
+                        return -1;
+                    }
+
+                    var reportChange = getReportChangePercentage();
+                    if(reportChange < 0){
+
+                    } else if(reportChange == 0){
+                        country.find('.change .viz svg').remove();
+                        $('<div class="no-change-block" data-toggle="tooltip" title="No change"></div>').appendTo(country.find('.change .viz'));
+                    } else{
+                        function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+                            var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
+
+                            return {
+                                x: centerX + (radius * Math.cos(angleInRadians)),
+                                y: centerY + (radius * Math.sin(angleInRadians))
+                            };
+                        }
+
+                        function describeArc(x, y, radius, startAngle, endAngle){
+                            var start = polarToCartesian(x, y, radius, endAngle);
+                            var end = polarToCartesian(x, y, radius, startAngle);
+
+                            var largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+
+                            var d = [
+                                "M", start.x, start.y,
+                                "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y
+                            ].join(" ");
+
+                            return d;
+                        }
+                        var path = country.find('.change .viz svg path');
+                        path.attr('d', describeArc(24, 24, 16, 0, reportChange*360/100));
+                        $('<div class="change-block" data-toggle="tooltip" title="'+reportChange.toFixed(2)+'% changed"></div>').appendTo(country.find('.change .viz'));
+                    }
                 }
 
                 var affectedList = [];
