@@ -475,9 +475,29 @@ function changeLeadPreview(simplified) {
         $(".btn-zoom").hide();
     }
 }
+function loadMultimedia(){
+    $('#multimedia-container').empty();
+    var multimediaArray = [{"source":"http://i.imgur.com/Ubes2bx.jpg","caption":"Test 1"},
+            {"source":"http://i.imgur.com/f4o74J5.jpg","caption":"Test 2"},
+            {"source":"http://i.imgur.com/PyLIGi5.jpg","caption":"Test 3"},
+            {"source":"http://i.imgur.com/30s5oaY.jpg","caption":"Test 4"},
+            {"source":"http://i.imgur.com/BUOfqte.jpg","caption":"Test 5"},
+        ];
+    for(var i = 0; i < multimediaArray.length; i++){
+        var multimediaElement = $('.multimedia-template').clone();
+        multimediaElement.removeClass('multimedia-template');
+        multimediaElement.addClass('multimedia');
 
+        multimediaElement.find('.media-image').attr('src',multimediaArray[i].source);
+        multimediaElement.find('.media-caption').text(multimediaArray[i].caption);
+
+        multimediaElement.appendTo($('#multimedia-container'));
+        multimediaElement.show();
+    }
+}
 
 $(document).ready(function(){
+
 
     $('#matrix-two .pillar-header').each(function(i){
         $(this).css('color', getContrastYIQ( $(this).data('bg-color') ) );
@@ -489,9 +509,23 @@ $(document).ready(function(){
     google.charts.load('current', {packages:["orgchart"]});
     google.charts.setOnLoadCallback(drawChart);
 
-    $('#expand-pane').click(function(){
-        $('#multimedia-pane').toggleClass('open');
-    });
+    //Multimedia Pane
+    // $('#expand-pane').click(function(){
+    //     $('#multimedia-pane').toggleClass('open');
+    // });
+    // loadMultimedia();
+    //
+    // $('.multimedia').click(function(){
+    //     var source = $(this).find('.media-image').attr('src');
+    //     var caption = $(this).find('.media-caption').text();
+    //     $('#multimedia-viewer img').attr('src',source);
+    //     $('#multimedia-viewer label').text(caption);
+    //     $('#multimedia-viewer').show();
+    //     $('#viewer-wrapper img').focus();
+    // });
+    // $('#viewer-wrapper img').focusout(function(){
+    //     $('#multimedia-viewer').hide();
+    // });
 
     // Map
     drawMap();

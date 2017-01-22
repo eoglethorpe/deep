@@ -128,6 +128,25 @@ body {
   body .fa-long-arrow-left {
     margin-right: 10px;
     margin-left: 0; }
+  body #page-one #multimedia-viewer {
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 101;
+    background-color: rgba(0, 0, 0, 0.96); }
+    body #page-one #multimedia-viewer #viewer-wrapper {
+      text-align: center; }
+      body #page-one #multimedia-viewer #viewer-wrapper img {
+        outline: none;
+        max-height: 72vh;
+        margin-top: 14vh;
+        width: auto; }
+      body #page-one #multimedia-viewer #viewer-wrapper label {
+        margin-top: 16px;
+        font-size: 2em;
+        color: #fff; }
   body #page-one .split-pane {
     height: calc(100vh - 56px - 2px) !important; }
     body #page-one .split-pane .split-pane-divider {
@@ -168,20 +187,35 @@ body {
       body #page-one .split-pane #left-component #multimedia-pane {
         position: fixed;
         left: 0;
-        bottom: -260px;
+        bottom: -236px;
         width: inherit;
         background-color: #1d1f21;
         transform: translateZ(0);
-        z-index: 20;
-        min-height: 300px;
+        min-height: 284px;
         text-align: right;
         color: #fff;
         transition: 0.2s all ease-in-out; }
         body #page-one .split-pane #left-component #multimedia-pane #expand-pane {
           color: #fff;
           cursor: pointer;
-          padding: 0 16px;
+          padding: 10px 16px;
           transition: 0.2s all ease-in-out; }
+        body #page-one .split-pane #left-component #multimedia-pane #multimedia-container {
+          display: flex;
+          overflow-x: auto;
+          flex-wrap: nowrap;
+          flex-direction: row;
+          justify-content: space-between; }
+          body #page-one .split-pane #left-component #multimedia-pane #multimedia-container .multimedia {
+            text-align: center;
+            padding: 2px 8px;
+            cursor: pointer; }
+            body #page-one .split-pane #left-component #multimedia-pane #multimedia-container .multimedia img {
+              max-height: 180px;
+              width: auto; }
+            body #page-one .split-pane #left-component #multimedia-pane #multimedia-container .multimedia label {
+              height: 36px;
+              vertical-align: sub; }
       body #page-one .split-pane #left-component .open {
         bottom: 0 !important; }
         body #page-one .split-pane #left-component .open #expand-pane {
