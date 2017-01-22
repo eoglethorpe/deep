@@ -220,7 +220,27 @@ main #country-list {
       font-family: 'Inconsolata', monospace; }
     main #country-list #countries .viz {
       height: 50px;
-      margin-top: 6px; }
+      margin-top: 6px;
+      position: relative; }
+      main #country-list #countries .viz .no-change-block {
+        width: 24px;
+        height: 24px;
+        margin: auto;
+        border-radius: 50%;
+        background-color: #e74c3c; }
+      main #country-list #countries .viz .change-block {
+        width: 24px;
+        height: 24px;
+        top: 12px;
+        left: calc(50% - 12px);
+        margin: auto;
+        border-radius: 50%;
+        background-color: #27ae60;
+        position: absolute; }
+      main #country-list #countries .viz path {
+        stroke: #7f8c8d; }
+    main #country-list #countries .change {
+      text-align: center; }
     main #country-list #countries .list-col {
       padding: 10px 4px; }
 main #country-detail {
