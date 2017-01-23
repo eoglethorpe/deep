@@ -134,6 +134,12 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 {% block body %}
 {% include 'navbar.html' %}
 <div id="page-one">
+    <div id="multimedia-viewer" hidden>
+        <div id="viewer-wrapper">
+            <img tabindex="-1"></img><br>
+            <label></label>
+        </div>
+    </div>
     <div class="split-pane fixed-left">
         <div class="split-pane-component" id="left-component">
 
@@ -163,9 +169,14 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 {% elif lead.lead_type == 'ATT' %}
                 <iframe id="lead-preview" src="{{ lead.attachment.upload.url }}"></iframe>
                 {% endif %}
-                <div id="lead-simplified-preview"></div>
+                <div id="lead-simplified-preview">
+                </div>
             </div>
-
+            <!-- <div id="multimedia-pane">
+                <i id="expand-pane" class="fa fa-angle-up fa-2x"></i>
+                <div id="multimedia-container">
+                </div>
+            </div> -->
         </div>
         <div class="split-pane-divider" id="divider"></div>
         <div class="split-pane-component" id="right-component">
@@ -314,5 +325,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
             </div
         </div>
     </div>
+</div>
+<div class="multimedia-template" hidden>
+    <img class="media-image" src=""></img><br>
+    <label class="media-caption">Caption</label>
 </div>
 {% endblock %}

@@ -34,7 +34,6 @@ $(document).ready(function() {
 
     // loadMap();
 });
-
 function renderEntries() {
     renderVisualizations();
 
