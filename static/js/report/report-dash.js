@@ -423,20 +423,30 @@ $(document).ready(function(){
         if( $(this).data('sort-asc')){
             sortAsc = false;
         }
-        var sortedCountries = $('#countries .country').sort(function(a, b){
+
+        var countryList = $('#countries');
+        var countryListItems = countryList.children('.country').get();
+        countryListItems.sort(function(a, b){
             var textA = $(a).find(sortQuery).text().replace(/\s/g, '');
             var textB = $(b).find(sortQuery).text().replace(/\s/g, '');
             if( isNaN(parseFloat(textA)) ){
-                return sortAsc? textA > textB : textB > textA;
+                return sortAsc? ((textA > textB)? 1: (textB > textA)? -1: 0) : ((textB > textA)? 1: (textA > textB)? -1: 0);
             }
             else{
-                return sortAsc? parseFloat(textA) > parseFloat(textB) : parseFloat(textB) > parseFloat(textA);
+                return sortAsc? parseFloat(textA) - parseFloat(textB) : parseFloat(textB) - parseFloat(textA);
             }
-        }).detach();
-        sortedCountries.each(function(){
-            console.log($(this).find('.name').text());
         });
-        sortedCountries.appendTo($('#countries'));
+        $.each(countryListItems, function(index, item){ countryList.append(item) });
+
+        //var countryList = $('#countries .country');
+        //var sortedCountries = $(countryList.toArray().sort());
+
+        //let countries = $('#countries');
+
+        // countryList.each(function(i){
+        //     $(this).after(sortedCountries.eq(i));
+        // });
+
 
         var asc = $('.asc');
         asc.data('sort-asc', null);
