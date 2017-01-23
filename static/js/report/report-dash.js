@@ -419,54 +419,79 @@ $(document).ready(function(){
 
     $('label[data-sort]').on('click', function(){
         var sortQuery = $(this).data('sort');
-        if($(this).data('sorted') == 'false'){
-            $('#countries .country').sort(function(a, b){
-                var textA = $(a).find(sortQuery).text().replace(/\s/g, '');
-                var textB = $(b).find(sortQuery).text().replace(/\s/g, '');
-                if(isNaN(parseInt(textA))){
-                    return textA > textB;
-                }
-                else{
-                    return parseInt(textA) > parseInt(textB);
-                }
-            }).appendTo($('#countries'));
-            $('label[data-sorted="true"]').data('sorted', 'false');
-            $('label[data-sorted="true"]').removeClass('sorted');
-            $(this).addClass('sorted');
-            $(this).data('sorted', 'true');
-        } else{
-            if($(this).data('sort-asc') && $(this).data('sort-asc') == 'true'){
-                $('#countries .country').sort(function(a, b){
-                    var textA = $(a).find(sortQuery).text().replace(/\s/g, '');
-                    var textB = $(b).find(sortQuery).text().replace(/\s/g, '');
-                    if(isNaN(parseInt(textA))){
-                        return textA < textB;
-                    }
-                    else{
-                        return parseInt(textA) < parseInt(textB);
-                    }
-                }).appendTo($('#countries'));
-                $('.asc').removeClass('asc');
-                $('.dsc').removeClass('dsc');
-                $(this).data('sort-asc', 'false');
-                $(this).addClass('dsc');
-            }else{
-                $('#countries .country').sort(function(a, b){
-                    var textA = $(a).find(sortQuery).text().replace(/\s/g, '');
-                    var textB = $(b).find(sortQuery).text().replace(/\s/g, '');
-                    if(isNaN(parseInt(textA))){
-                        return textA > textB;
-                    }
-                    else{
-                        return parseInt(textA) > parseInt(textB);
-                    }
-                }).appendTo($('#countries'));
-                $('.asc').removeClass('asc');
-                $('.dsc').removeClass('dsc');
-                $(this).data('sort-asc', 'true');
-                $(this).addClass('asc');
-            }
+        var sortAsc = true;
+        if( $(this).data('sort-asc')){
+            sortAsc = false;
         }
+        $('#countries .country').sort(function(a, b){
+            var textA = $(a).find(sortQuery).text().replace(/\s/g, '');
+            var textB = $(b).find(sortQuery).text().replace(/\s/g, '');
+            if( isNaN(parseFloat(textA)) ){
+                return sortAsc? textA > textB : textB > textA;
+            }
+            else{
+                return sortAsc? parseFloat(textA) > parseFloat(textB) : parseFloat(textB) > parseFloat(textA);
+            }
+        }).appendTo($('#countries'));
+
+        var asc = $('.asc');
+        asc.data('sort-asc', null);
+        asc.removeClass('asc');
+
+        var dsc = $('.dsc');
+        dsc.data('sort-asc', null);
+        dsc.removeClass('dsc');
+
+        $(this).data('sort-asc', sortAsc);
+        $(this).addClass(sortAsc? 'asc' : 'dsc');
+        // if($(this).data('sorted') == 'false'){
+        //     $('#countries .country').sort(function(a, b){
+        //         var textA = $(a).find(sortQuery).text().replace(/\s/g, '');
+        //         var textB = $(b).find(sortQuery).text().replace(/\s/g, '');
+        //         if(isNaN(parseInt(textA))){
+        //             return textA > textB;
+        //         }
+        //         else{
+        //             return parseInt(textA) > parseInt(textB);
+        //         }
+        //     }).appendTo($('#countries'));
+        //     $('label[data-sorted="true"]').data('sorted', 'false');
+        //     $('label[data-sorted="true"]').removeClass('sorted');
+        //     $(this).addClass('sorted');
+        //     $(this).data('sorted', 'true');
+        // } else{
+        //     if($(this).data('sort-asc') && $(this).data('sort-asc') == 'true'){
+        //         $('#countries .country').sort(function(a, b){
+        //             var textA = $(a).find(sortQuery).text().replace(/\s/g, '');
+        //             var textB = $(b).find(sortQuery).text().replace(/\s/g, '');
+        //             if(isNaN(parseInt(textA))){
+        //                 return textA < textB;
+        //             }
+        //             else{
+        //                 return parseInt(textA) < parseInt(textB);
+        //             }
+        //         }).appendTo($('#countries'));
+        //         $('.asc').removeClass('asc');
+        //         $('.dsc').removeClass('dsc');
+        //         $(this).data('sort-asc', 'false');
+        //         $(this).addClass('dsc');
+        //     }else{
+        //         $('#countries .country').sort(function(a, b){
+        //             var textA = $(a).find(sortQuery).text().replace(/\s/g, '');
+        //             var textB = $(b).find(sortQuery).text().replace(/\s/g, '');
+        //             if(isNaN(parseInt(textA))){
+        //                 return textA > textB;
+        //             }
+        //             else{
+        //                 return parseInt(textA) > parseInt(textB);
+        //             }
+        //         }).appendTo($('#countries'));
+        //         $('.asc').removeClass('asc');
+        //         $('.dsc').removeClass('dsc');
+        //         $(this).data('sort-asc', 'true');
+        //         $(this).addClass('asc');
+        //     }
+        // }
 
     });
 
