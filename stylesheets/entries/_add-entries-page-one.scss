@@ -1,4 +1,29 @@
 #page-one{
+    #multimedia-viewer{
+        position: fixed;
+        height: 100vh;
+        width: 100%;
+        left: 0;
+        top: 0;
+        z-index: 101;
+        background-color: rgba(0,0,0,0.96);
+
+        #viewer-wrapper{
+            text-align: center;
+
+            img{
+                outline: none;
+                max-height: 72vh;
+                margin-top: 14vh;
+                width: auto;
+            }
+            label{
+                margin-top: 16px;
+                font-size: 2em;
+                color: #fff;
+            }
+        }
+    }
     .split-pane{
         height: calc(100vh - #{$navbar-height} - 2px)!important;
 
@@ -6,10 +31,13 @@
             background-color: rgba(0, 0, 0, 0.2);
         }
         #left-component{
+            height: 100%;
             width: 33vw;
             box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.3);
             background-color: #fff;
             overflow-x: hidden;
+            position: relative;
+
             .fa{
                 margin-right: 0;
             }
@@ -41,13 +69,64 @@
                     width: 100%;
                 }
                 #lead-simplified-preview{
+                    height: calc(100vh - 144px);
+                    overflow-x: auto;
                     padding: 16px;
+                }
+            }
+            #multimedia-pane{
+                position: fixed;
+                left: 0;
+                bottom: -236px;
+                width: inherit;
+                background-color: #1d1f21;
+                transform: translateZ(0);
+                min-height: 284px;
+                text-align: right;
+                color: #fff;
+                transition: 0.2s all ease-in-out;
+
+                #expand-pane{
+                    color: #fff;
+                    cursor: pointer;
+                    padding: 10px 16px;
+                    transition: 0.2s all ease-in-out;
+                }
+                #multimedia-container{
+                    display: flex;
+                    overflow-x: auto;
+                    flex-wrap: nowrap;
+                    flex-direction: row;
+                    justify-content: space-between;
+
+                    .multimedia{
+                        text-align: center;
+                        padding: 2px 8px;
+                        cursor: pointer;
+
+                        img{
+                            max-height: 180px;
+                            width: auto;
+                        }
+                        label{
+                            height: 36px;
+                            vertical-align: sub;
+                        }
+                    }
+                }
+            }
+            .open{
+                bottom: 0!important;
+
+                #expand-pane{
+                    transform: rotate(180deg);
                 }
             }
         }
         #divider{
             left: 33vw;
             width: 3px;
+            z-index: 21;
             background-color: transparent;
         }
         #right-component{
