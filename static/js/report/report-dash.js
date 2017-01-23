@@ -423,7 +423,7 @@ $(document).ready(function(){
         if( $(this).data('sort-asc')){
             sortAsc = false;
         }
-        $('#countries .country').sort(function(a, b){
+        $('#countries .country').detach().sort(function(a, b){
             var textA = $(a).find(sortQuery).text().replace(/\s/g, '');
             var textB = $(b).find(sortQuery).text().replace(/\s/g, '');
             if( isNaN(parseFloat(textA)) ){
