@@ -1,13 +1,14 @@
 @charset "UTF-8";
+::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.04); }
+
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-  border-radius: 3px;
-  background-color: rgba(0, 0, 0, 0.1); }
+  width: 12px;
+  height: 12px; }
 
 ::-webkit-scrollbar-thumb {
-  border-radius: 3px;
-  background-color: rgba(0, 0, 0, 0.2); }
+  background-color: rgba(0, 0, 0, 0.24); }
 
 body {
   font-family: 'Source Sans Pro', sans-serif;
@@ -179,7 +180,8 @@ main #country-list {
   main #country-list #countries {
     height: calc(100vh - 56px - 144px);
     overflow: hidden;
-    overflow-y: auto; }
+    overflow-y: auto;
+    backface-visibility: hidden; }
     main #country-list #countries hr {
       margin: 4px 0; }
     main #country-list #countries .country {
