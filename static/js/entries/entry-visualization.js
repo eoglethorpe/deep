@@ -91,7 +91,7 @@ function renderVisualizations() {
         }
     }
 
-    $('#entry-count').text('Number of entries: ' + informationCount);
+    $('.entry-count').text(' (' + informationCount+')');
 
     renderSectors(informationCount);
     renderAttrs("vulnerable-groups-visualization", vulnerable_groups, informationCount);
