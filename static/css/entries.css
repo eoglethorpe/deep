@@ -166,7 +166,8 @@ nav {
   padding-left: 4px; }
 #main #visualizations .visualization-block {
   background-color: #fff;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
+  box-sizing: border-box;
   position: relative;
   border: 2px solid rgba(0, 0, 0, 0.1); }
   #main #visualizations .visualization-block h3 {
@@ -178,14 +179,13 @@ nav {
     margin-left: 10px;
     padding-top: 16px; }
 #main #visualizations #entry-timeline-wrapper {
-  padding-bottom: 16px; }
-  #main #visualizations #entry-timeline-wrapper #entry-count {
-    position: absolute;
-    right: 32px;
-    top: 10px;
-    font-size: 14px; }
+  width: calc(84% - 240px);
+  float: left;
+  padding-bottom: 38px; }
 #main #visualizations #severity-legend {
-  padding-bottom: 16px; }
+  width: 16%;
+  float: left;
+  padding-bottom: 41px; }
   #main #visualizations #severity-legend .inactive label {
     color: #ccc; }
   #main #visualizations #severity-legend .inactive .severity {
@@ -216,7 +216,47 @@ nav {
     vertical-align: super; }
   #main #visualizations #severity-legend p {
     margin-bottom: 6px; }
+#main #visualizations #pie-wrapper-container {
+  width: 240px;
+  float: left;
+  padding-bottom: 1px; }
+  #main #visualizations #pie-wrapper-container #pie-wrapper {
+    width: 100%;
+    background-color: #fff; }
+    #main #visualizations #pie-wrapper-container #pie-wrapper svg {
+      margin-top: -16px;
+      margin-left: 16px;
+      width: 208px;
+      height: 208px;
+      background: transparent;
+      border-radius: 50%; }
+      #main #visualizations #pie-wrapper-container #pie-wrapper svg text {
+        color: #414141;
+        font-family: "monospace";
+        font-size: 24px; }
+    #main #visualizations #pie-wrapper-container #pie-wrapper path {
+      cursor: pointer;
+      fill: transparent;
+      stroke-width: 56;
+      transition: all 0.2s ease-in-out; }
+      #main #visualizations #pie-wrapper-container #pie-wrapper path:hover {
+        stroke-width: 64;
+        stroke-linecap: butt; }
+    #main #visualizations #pie-wrapper-container #pie-wrapper .severity-1 {
+      stroke: #fbd4d4; }
+    #main #visualizations #pie-wrapper-container #pie-wrapper .severity-2 {
+      stroke: #f7a5a5; }
+    #main #visualizations #pie-wrapper-container #pie-wrapper .severity-3 {
+      stroke: #f47575; }
+    #main #visualizations #pie-wrapper-container #pie-wrapper .severity-4 {
+      stroke: #f04646; }
+    #main #visualizations #pie-wrapper-container #pie-wrapper .severity-5 {
+      stroke: #ec1717; }
+    #main #visualizations #pie-wrapper-container #pie-wrapper .severity-6 {
+      stroke: #c01010; }
 #main #visualizations #sectors-visualization {
+  float: left;
+  width: 30% !important;
   height: 592px;
   overflow-y: auto; }
   #main #visualizations #sectors-visualization label {
@@ -265,80 +305,54 @@ nav {
         background-color: #ec1717; }
       #main #visualizations .attr-visualization .attr .severities .severity-6 {
         background-color: #c01010; }
-#main #visualizations #pie-wrapper {
-  width: 256px;
-  height: 256px;
-  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
-  background-color: rgba(255, 255, 255, 0.88);
-  position: absolute;
-  top: 24px;
-  right: 48px;
-  border-radius: 3px; }
-  #main #visualizations #pie-wrapper svg {
-    margin-left: 24px;
-    margin-top: -16px;
-    width: 208px;
-    height: 208px;
-    background: transparent;
-    border-radius: 50%; }
-    #main #visualizations #pie-wrapper svg text {
-      color: #414141;
-      font-family: "monospace";
-      font-size: 24px; }
-  #main #visualizations #pie-wrapper path {
-    cursor: pointer;
-    fill: transparent;
-    stroke-width: 56;
-    transition: all 0.2s ease-in-out; }
-    #main #visualizations #pie-wrapper path:hover {
-      stroke-width: 64;
-      stroke-linecap: butt; }
-  #main #visualizations #pie-wrapper .severity-1 {
-    stroke: #fbd4d4; }
-  #main #visualizations #pie-wrapper .severity-2 {
-    stroke: #f7a5a5; }
-  #main #visualizations #pie-wrapper .severity-3 {
-    stroke: #f47575; }
-  #main #visualizations #pie-wrapper .severity-4 {
-    stroke: #f04646; }
-  #main #visualizations #pie-wrapper .severity-5 {
-    stroke: #ec1717; }
-  #main #visualizations #pie-wrapper .severity-6 {
-    stroke: #c01010; }
-#main #visualizations #the-map {
-  position: relative;
-  height: 540px;
-  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-  #main #visualizations #the-map #map-shadow-overlay {
-    pointer-events: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 999;
-    box-shadow: inset 10px 0 15px -8px rgba(0, 0, 0, 0.5); }
-  #main #visualizations #the-map path {
-    stroke: #717171;
-    stroke-width: 1px;
-    stroke-linejoin: round; }
-  #main #visualizations #the-map .leaflet-top {
-    z-index: 1;
-    top: auto;
-    bottom: 24px;
-    left: 24px; }
-#main #visualizations #map-controls {
-  margin-top: 8px;
+#main #visualizations #attr-visualizations-container {
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.88); }
-  #main #visualizations #map-controls #admin-level-buttons {
-    text-align: center; }
-    #main #visualizations #map-controls #admin-level-buttons button {
-      margin: 4px !important;
-      box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-#main #visualizations #country-select-wrapper {
-  margin-top: 8px;
-  margin-left: 10px; }
+  clear: both; }
+  #main #visualizations #attr-visualizations-container .attr-visualization {
+    width: 25% !important;
+    float: left; }
+#main #visualizations #map-wrapper {
+  width: 70%;
+  float: left; }
+  #main #visualizations #map-wrapper #the-map {
+    position: relative;
+    height: 540px;
+    box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+    #main #visualizations #map-wrapper #the-map #map-shadow-overlay {
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 999;
+      box-shadow: inset 10px 0 15px -8px rgba(0, 0, 0, 0.5); }
+    #main #visualizations #map-wrapper #the-map path {
+      stroke: #717171;
+      stroke-width: 1px;
+      stroke-linejoin: round; }
+    #main #visualizations #map-wrapper #the-map .leaflet-top {
+      z-index: 1;
+      top: auto;
+      bottom: 24px;
+      left: 24px; }
+  #main #visualizations #map-wrapper #map-controls {
+    margin-top: 8px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.88);
+    float: left;
+    width: 75%; }
+    #main #visualizations #map-wrapper #map-controls #admin-level-buttons {
+      text-align: center; }
+      #main #visualizations #map-wrapper #map-controls #admin-level-buttons button {
+        margin: 4px !important;
+        box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  #main #visualizations #map-wrapper #country-select-wrapper {
+    box-sizing: border-box;
+    float: left;
+    margin-top: 8px;
+    width: 25%;
+    display: block; }
 #main #visualizations #entry-header {
   padding: 16px 24px; }
   #main #visualizations #entry-header h3 {

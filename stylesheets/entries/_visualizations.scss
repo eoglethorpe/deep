@@ -12,7 +12,8 @@
 
     .visualization-block{
         background-color: #fff;
-        margin-bottom: 8px;
+        margin-bottom: 4px;
+        box-sizing: border-box;
         position: relative;
         border: 2px solid rgba(0, 0, 0, 0.1);
 
@@ -28,17 +29,14 @@
         }
     }
     #entry-timeline-wrapper{
-        padding-bottom: 16px;
-
-        #entry-count{
-            position: absolute;
-            right: 32px;
-            top: 10px;
-            font-size: $text-size-md;
-        }
+        width: calc(84% - 240px);
+        float: left;
+        padding-bottom: 38px;
     }
     #severity-legend{
-        padding-bottom: 16px;
+        width: 16%;
+        float: left;
+        padding-bottom: 41px;
 
         .inactive{
             label{
@@ -75,7 +73,51 @@
             margin-bottom: 6px;
         }
     }
+    #pie-wrapper-container{
+        width: 240px;
+        float: left;
+        padding-bottom: 1px;
+
+        #pie-wrapper {
+            width: 100%;
+            background-color: #fff;
+
+            svg{
+                margin-top: -16px;
+                margin-left: 16px;
+                width: 208px;
+                height: 208px;
+                background: transparent;
+                border-radius: 50%;
+
+                text{
+                    color: $text-color;
+                    font-family: "monospace";
+                    font-size: 24px;
+                }
+            }
+            path {
+                cursor: pointer;
+                fill: transparent;
+                stroke-width: 56;
+                transition: all 0.2s ease-in-out;
+
+                &:hover{
+                    stroke-width: 64;
+                    stroke-linecap: butt;
+                }
+            }
+            .severity-1{stroke: lighten($severity-base, 50%);}
+            .severity-2{stroke: lighten($severity-base, 40%);}
+            .severity-3{stroke: lighten($severity-base, 30%);}
+            .severity-4{stroke: lighten($severity-base, 20%);}
+            .severity-5{stroke: lighten($severity-base, 10%);}
+            .severity-6{stroke: lighten($severity-base, 0%);}
+        }
+    }
     #sectors-visualization{
+        float: left;
+        width: 30%!important;
         height: 592px;
         overflow-y: auto;
 
@@ -139,98 +181,69 @@
 
         }
     }
-
-
-    #pie-wrapper {
-        width: 256px;
-        height: 256px;
-
-        box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
-        background-color: rgba(255, 255, 255, 0.88);
-        position: absolute;
-        top: 24px;
-        right: 48px;
-        border-radius: 3px;
-
-        svg{
-            margin-left: 24px;
-            margin-top: -16px;
-            width: 208px;
-            height: 208px;
-            background: transparent;
-            border-radius: 50%;
-
-            text{
-                color: $text-color;
-                font-family: "monospace";
-                font-size: 24px;
-            }
-        }
-        path {
-            cursor: pointer;
-            fill: transparent;
-            stroke-width: 56;
-            transition: all 0.2s ease-in-out;
-
-            &:hover{
-                stroke-width: 64;
-                stroke-linecap: butt;
-            }
-        }
-        .severity-1{stroke: lighten($severity-base, 50%);}
-        .severity-2{stroke: lighten($severity-base, 40%);}
-        .severity-3{stroke: lighten($severity-base, 30%);}
-        .severity-4{stroke: lighten($severity-base, 20%);}
-        .severity-5{stroke: lighten($severity-base, 10%);}
-        .severity-6{stroke: lighten($severity-base, 0%);}
-    }
-
-    #the-map {
-        position: relative;
-        height: 540px;
-
-        #map-shadow-overlay{
-            pointer-events:none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 999;
-            box-shadow: inset 10px 0 15px -8px rgba(0, 0, 0, 0.5);
-        }
-        path {
-            stroke: #717171;
-            stroke-width: 1px;
-            stroke-linejoin: round;
-        }
-        .leaflet-top{
-            z-index: 1;
-            top: auto;
-            bottom: 24px;
-            left: 24px;
-        }
-        @include shadow();
-    }
-
-    #map-controls{
-        margin-top: 8px;
+    #attr-visualizations-container{
         width: 100%;
-        background-color: rgba(255, 255, 255, 0.88);
+        clear: both;
 
-        #admin-level-buttons{
-            text-align: center;
-            button{
-                margin: 4px!important;
-                @include shadow();
-            }
+        .attr-visualization{
+            width: 25%!important;
+            float: left;
         }
     }
-    #country-select-wrapper{
-        margin-top: 8px;
-        margin-left: 10px;
+    #map-wrapper{
+        width: 70%;
+        float: left;
 
+        #the-map {
+            position: relative;
+            height: 540px;
 
+            #map-shadow-overlay{
+                pointer-events:none;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 999;
+                box-shadow: inset 10px 0 15px -8px rgba(0, 0, 0, 0.5);
+            }
+            path {
+                stroke: #717171;
+                stroke-width: 1px;
+                stroke-linejoin: round;
+            }
+            .leaflet-top{
+                z-index: 1;
+                top: auto;
+                bottom: 24px;
+                left: 24px;
+            }
+            @include shadow();
+        }
+
+        #map-controls{
+            margin-top: 8px;
+            box-sizing: border-box;
+            background-color: rgba(255, 255, 255, 0.88);
+            float: left;
+            width: 75%;
+
+            #admin-level-buttons{
+                text-align: center;
+                button{
+                    margin: 4px!important;
+                    @include shadow();
+                }
+            }
+        }
+        #country-select-wrapper{
+            box-sizing: border-box;
+            float: left;
+            margin-top: 8px;
+            width: 25%;
+            display: block;
+        }
     }
 
     #entry-header{
