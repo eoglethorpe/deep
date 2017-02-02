@@ -81,7 +81,6 @@ class EventSerializer(serializers.ModelSerializer):
 
 class SosSerializer(serializers.ModelSerializer):
     countries = serializers.SerializerMethodField()
-    areas = serializers.SerializerMethodField()
     areas_summary = serializers.SerializerMethodField()
     created_by_name = serializers.SerializerMethodField()
     sectors_covered = serializers.SerializerMethodField()
@@ -107,59 +106,59 @@ class SosSerializer(serializers.ModelSerializer):
                   'end_data_collection', 'data_collection_technique',
                   'sectors_covered',
                   'sampling_type', 'frequency', 'status', 'confidentiality',
-                  'countries', 'areas', 'areas_summary', 'sectors_covered',
+                  'countries', 'areas_summary', 'sectors_covered',
                   'affected_groups', 'lead', 'lead_id')
 
 
     def get_countries(self, sos):
         return {s.admin_level.country.pk: s.admin_level.country.name for s in sos.map_selections.all()}
-
-
-    def get_child_features(self, admin_features, children_properties, admin, name):
-        child_admin = AdminLevel.objects.filter(level=admin.level+1, country=admin.country)
-
-        if child_admin.count() > 0:
-            if child_admin[0].pk not in admin_features:
-                admin_features[child_admin[0].pk] = GeoJsonHandler(child_admin[0].geojson.read().decode())
-
-            features = admin_features[child_admin[0].pk].filter_features(admin.property_name, name)
-            children_properties.append((child_admin[0], features))
-
-            for f in features:
-                self.get_child_features(admin_features, children_properties, child_admin[0], f["properties"][child_admin[0].property_name])
-
-    def get_areas(self, sos):
-        summary = self.context['request'].query_params.get('summary')
-        if summary:
-            return
-        if sos.map_selections.count() == 0:
-            return
-
-        data = {}
-        children_properties = []
-        admin_features = {}
-        for s in sos.map_selections.all():
-            if s.admin_level.name not in data:
-                data[s.admin_level.name] = {"country": s.admin_level.country.pk, "locations": [], "pcodes": []}
-
-            if s.pcode != "":
-                data[s.admin_level.name]["pcodes"].append(s.pcode)
-            else:
-                data[s.admin_level.name]["locations"].append(s.name)
-
-            self.get_child_features(admin_features, children_properties, s.admin_level, s.name)
-
-        # Get children areas if exist as well
-        for cp in children_properties:
-            features = cp[1]
-            if cp[0].name not in data:
-                data[cp[0].name] = {"country": cp[0].country.pk, "locations": [], "pcodes": []}
-
-            if cp[0].property_pcode != "":
-                data[cp[0].name]["pcodes"].extend([f["properties"][cp[0].property_pcode] for f in features])
-            else:
-                data[cp[0].name]["locations"].extend([f["properties"][cp[0].property_name] for f in features])
-        return data
+    #
+    #
+    # def get_child_features(self, admin_features, children_properties, admin, name):
+    #     child_admin = AdminLevel.objects.filter(level=admin.level+1, country=admin.country)
+    #
+    #     if child_admin.count() > 0:
+    #         if child_admin[0].pk not in admin_features:
+    #             admin_features[child_admin[0].pk] = GeoJsonHandler(child_admin[0].geojson.read().decode())
+    #
+    #         features = admin_features[child_admin[0].pk].filter_features(admin.property_name, name)
+    #         children_properties.append((child_admin[0], features))
+    #
+    #         for f in features:
+    #             self.get_child_features(admin_features, children_properties, child_admin[0], f["properties"][child_admin[0].property_name])
+    #
+    # def get_areas(self, sos):
+    #     summary = self.context['request'].query_params.get('summary')
+    #     if summary:
+    #         return
+    #     if sos.map_selections.count() == 0:
+    #         return
+    #
+    #     data = {}
+    #     children_properties = []
+    #     admin_features = {}
+    #     for s in sos.map_selections.all():
+    #         if s.admin_level.name not in data:
+    #             data[s.admin_level.name] = {"country": s.admin_level.country.pk, "locations": [], "pcodes": []}
+    #
+    #         if s.pcode != "":
+    #             data[s.admin_level.name]["pcodes"].append(s.pcode)
+    #         else:
+    #             data[s.admin_level.name]["locations"].append(s.name)
+    #
+    #         self.get_child_features(admin_features, children_properties, s.admin_level, s.name)
+    #
+    #     # Get children areas if exist as well
+    #     for cp in children_properties:
+    #         features = cp[1]
+    #         if cp[0].name not in data:
+    #             data[cp[0].name] = {"country": cp[0].country.pk, "locations": [], "pcodes": []}
+    #
+    #         if cp[0].property_pcode != "":
+    #             data[cp[0].name]["pcodes"].extend([f["properties"][cp[0].property_pcode] for f in features])
+    #         else:
+    #             data[cp[0].name]["locations"].extend([f["properties"][cp[0].property_name] for f in features])
+    #     return data
 
     def get_country_names(self, sos):
         cs = [s.admin_level.country.name for s in sos.map_selections.all()]
@@ -183,8 +182,8 @@ class SosSerializer(serializers.ModelSerializer):
                 or \
                 (sc["analytical_value"] and not SectorAnalyticalValue.objects.get(pk=sc["analytical_value"]).is_default):
                 data[sc["title"]] = {
-                    "quantification": SectorQuantification.objects.get(pk=sc["quantification"]).name,
-                    "analytical_value": SectorAnalyticalValue.objects.get(pk=sc["analytical_value"]).name
+                    "quantification": SectorQuantification.objects.get(pk=sc["quantification"]).name if sc["quantification"] != '' else '',
+                    "analytical_value": SectorAnalyticalValue.objects.get(pk=sc["analytical_value"]).name if sc["analytical_value"] != '' else '',
                 }
         return data
 

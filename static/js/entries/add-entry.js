@@ -475,6 +475,7 @@ function changeLeadPreview(simplified) {
         $(".btn-zoom").hide();
     }
 }
+
 function loadMultimedia(){
     $('#multimedia-container').empty();
     var multimediaArray = [{"source":"http://i.imgur.com/Ubes2bx.jpg","caption":"Test 1"},
