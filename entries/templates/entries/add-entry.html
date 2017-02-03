@@ -32,7 +32,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     leadSimplifiedHtml.find('p').each(function(){
         $(this).replaceWith($(this).text() + '\n\n')
     });
-    var leadSimplified = leadSimplifiedHtml.text().trim();
+    var leadSimplified = reformatText(leadSimplifiedHtml.text().trim());
 
     // Is simplified option selected?
     var isSimplified;
@@ -198,7 +198,10 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         <button class="btn btn-danger cancel" data-toggle="tooltip" data-placement="bottom" title="Cancel"><i class="fa fa-times"></i></button>
                     </div>
                 </div>
-                <textarea class="form-control" id="excerpt-text" placeholder="Excerpt"></textarea>
+                <div style="position: relative;">
+                    <textarea class="form-control" id="excerpt-text" placeholder="Excerpt"></textarea>
+                    <a class="fa fa-circle" style="position: absolute; right: 30px; bottom: 10px; cursor: pointer;" onclick="reformatCurrentExcerpt();" title="Try reformatting this excerpt"></a>
+                </div>
                 <div id="matrix-one">
                     {% for pillar in pillars_one %}
                     <div class="pillar">

@@ -72,6 +72,16 @@
                     height: calc(100vh - 144px);
                     overflow-x: auto;
                     padding: 16px;
+
+                    pre {
+                        white-space: pre-wrap;
+                        word-break: normal;
+                        background: inherit;
+                        color: inherit;
+                        font: inherit;
+                        border: inherit;
+                        text-align: justify;
+                    }
                 }
             }
             #multimedia-pane{
