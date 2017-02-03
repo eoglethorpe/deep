@@ -14,7 +14,7 @@ nav{
     z-index: 1001;
 }
 
-#main{
+main{
     h2{
         text-transform: uppercase;
         color: $primary-color;
@@ -26,12 +26,7 @@ nav{
     }
 
     #filters{
-        margin-top: 10px;
-        margin-bottom: 10px;
-
-        #reliability-filter-container, #severity-filter-container{
-            margin-top: -26px;
-        }
+        padding: 10px 16px;
     }
     #clear-filter-btn{
         font-size: 0.8em;

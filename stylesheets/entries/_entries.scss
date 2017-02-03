@@ -44,32 +44,7 @@
     }
 }
 
-#filters{
-    .first-child{
-        padding-right: 2px;
-    }
-    .low-padding{
-        padding-left: 2px;
-        padding-right: 2px;
-    }
-    .last-child{
-        padding-left: 2px;
-    }
-
-    .form-control, .selectize-input{
-        border: none;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        box-shadow: none;
-        border-radius: 3px;
-
-        &:active, &:focus {
-            border: 1px solid $primary-color;
-        }
-    }
-    .focus{
-        border: 1px solid $primary-color;
-    }
-}
+@import 'entry-filters';
 
 #entries{
     .first-child{

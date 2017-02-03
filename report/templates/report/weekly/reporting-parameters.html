@@ -1,0 +1,47 @@
+<section id="reporting-parameters">
+    <div class="input-wrapper">
+        <label>Week covered by report:</label>
+        <input type="week" id="week-select">
+    </div>
+    <div>
+        <label>Day covered by report:</label>
+        <select id="day-select" placeholder="Select a day">
+            <option value="">Select a day </option>
+            <option value="1">Monday</option>
+            <option value="2">Tuesday</option>
+            <option value="3">Wednesday</option>
+            <option value="4">Thursday</option>
+            <option value="5">Friday</option>
+            <option value="6">Saturday</option>
+            <option value="7">Sunday</option>
+        </select>
+    </div>
+    <div class="input-wrapper">
+        <label>Interval:</label>
+        <span id="week-select-interval"></span>
+    </div>
+    <div>
+        <label>Select type of disaster:</label>
+        <select id="disaster-type-select" placeholder="Select type of disaster">
+            <option>--Select type of disaster--</option>
+            {% for type in disaster_types %}
+            <option value="{{type.pk}}">{% if type.parent %}{{type.parent}} / {% endif %}{{type}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        <label>Select status:</label>
+        <select id="status-select" placeholder="Select status">
+            <option>--Select status--</option>
+            {% for status in report_statuses %}
+            <option value="{{status.pk}}">{{status}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    {% if report %}
+    <div>
+        <label>Date and hour of entry: </label>
+        <span id="date-hour-of-entry">{{report.last_edited_at|date:"d-m-Y"}} &nbsp; {{report.last_edited_at|date:"P"}}</span>
+    </div>
+    {% endif %}
+</section>

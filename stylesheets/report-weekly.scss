@@ -1,120 +1,69 @@
 @import 'common/base';
 @import 'common/navbar';
 
+$header-height: 172px;
 body{
     min-height: 100vh;
-}
-
-#main{
-    $header-height: 172px;
-
-    .form-control, .selectize-input{
-        border: none;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        box-shadow: none;
-        border-radius: 3px;
-
-        &:active, &:focus {
-            border: 1px solid $primary-color;
-        }
-    }
-    .focus{
-        border: 1px solid $primary-color;
-    }
-    .selectize-dropdown-content{
-        .option{
-            color: $label-color;
-            padding: 10px;
-            line-height: 1;
-        }
-    }
     header{
         height: $header-height;
+        padding: 16px 16px 0 16px;
 
         h1{
+            margin: 0;
+            padding-top: 10px;
             text-transform: uppercase;
             font-weight: $font-weight-bold;
+            margin-bottom: 10px;
+
             span{
                 font-weight: $font-weight-normal;
             }
         }
-        button{
+        #main-action-buttons{
             float: right;
+        }
+        button{
             margin-left: 16px;
-            margin-top: 10px;
             @include btn-shadow-lg();
 
             .fa{
                 margin-right: 10px;
             }
         }
-        #filters{
-            margin-top: 6px;
-
-            .form-control, .selectize-input{
-                box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3);
-            }
-            #reliability-filter-container, #severity-filter-container{
-                margin-top: -26px;
-            }
-            .first-child{
-                padding-right: 2px;
-            }
-            .low-padding{
-                padding-left: 2px;
-                padding-right: 2px;
-            }
-            .last-child{
-                padding-left: 2px;
-            }
-        }
+        @import 'entries/entry-filters';
     }
-    #last-seven-days-btn{
-        float: right;
+}
+aside{
+    width: 30%;
+    margin-left: 16px;
+    margin-right: 24px;
+    float: left;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -2px 13px -3px rgba(0, 0, 0, 0.3);
+
+    #entry-list-header{
+        height: 56px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 16px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+        h2{
+            margin: 0;
+            text-transform: uppercase;
+            font-size: 1.5em;
+        }
     }
     #entries{
-        height: calc(100vh - #{$navbar-height} - #{$header-height} - 48px)!important;
-        background-color: #fff;
+        height: calc(100vh - #{$navbar-height} - #{$header-height} - 58px);
+        box-sizing: border-box;
         overflow-y: auto;
-        @include shadow();
-
-        h3{
-            padding-left: 32px;
-        }
+        overflow-x: hidden;
 
         .entry{
-            padding: 10px 24px;
-            background-color: #f5f5f5;
-
-            &:nth-child(odd){
-                background-color: #fff;
-            }
-            header{
-                height: auto;
-                margin-bottom: 16px;
-
-                h4{
-                    color: $primary-color;
-                    font-size: 1.2em;
-                }
-                label{
-                    margin-right: 10px;
-                }
-            }
-            date{
-                font-family: 'Inconsolata', monospace;
-            }
-            .excerpt{
-                margin-top: 10px;
-                text-align: justify;
-            }
-            label{
-                margin-right: 10px;
-            }
-            hr{
-                margin: 6px 0 10px 0;
-                border: 1px solid rgba(0, 0, 0, 0.1);
-            }
+            padding: 10px 16px;
             .severity, .reliability{
                 span{
                     width: 8px;
@@ -125,7 +74,6 @@ body{
                     display: inline-block;
                 }
             }
-
             $reliability-base: #1A237E;
             .reliability{
                 ._1{ background-color: lighten($reliability-base, 50%); }
@@ -146,290 +94,98 @@ body{
                 ._6{ background-color: lighten($severity-base, 0%); }
                 .active{ width: 12px; height: 24px; margin-bottom: -4px;}
             }
+            label{
+                margin-right: 8px;
+            }
+            .information{
+
+                .information-header{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    height: 48px;
+                }
+                .excerpt{
+                    text-align: justify;
+                }
+            }
+            hr{
+                margin: 0;
+                border: 1px solid rgba(0, 0, 0, 0.05);
+            }
+            date{
+                font-family: 'Inconsolata', monospace;
+            }
+            &:nth-child(odd){
+                background-color: #f5f5f5;
+            }
         }
     }
-    #entries-header-container{
-        h3{
-            margin: 0;
-            text-transform: uppercase;
-            font-size: 1.2em;
-        }
-    }
-    #entries-header-container, #navigator{
-        padding: 16px;
-        background-color: #fafafa;
-        height: 48px;
-    }
+}
+main{
+    margin-right: 24px;
+
+    // .form-control, .selectize-input{
+    //     border: none;
+    //     border: 1px solid rgba(0, 0, 0, 0.1);
+    //     box-shadow: none;
+    //     border-radius: 3px;
+    //
+    //     &:active, &:focus {
+    //         border: 1px solid $primary-color;
+    //     }
+    // }
+    // .focus{
+    //     border: 1px solid $primary-color;
+    // }
+    // .selectize-dropdown-content{
+    //     .option{
+    //         color: $label-color;
+    //         padding: 10px;
+    //         line-height: 1;
+    //     }
+    // }
     #navigator{
+        height: 56px;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.05);
         display: flex;
-        justify-content: space-around;
-        align-items: flex-start;
-        overflow: auto;
-        overflow-y: hidden;
-        flex-wrap: nowrap;
+        align-items: stretch;
+        justify-content: space-between;
+        box-sizing: border-box;
+        padding: 0 10px;
 
         a{
-            display: block;
+            flex-grow: 1;
+            text-align: center;
+            padding-top: calc(calc(56px - #{$text-size-md}) / 2 - 4px);
             cursor: pointer;
-            padding: 0 10px 8px 10px;
         }
         .active{
             border-bottom: 2px solid $primary-color;
         }
     }
     #report-content{
-        height: calc(100vh - #{$navbar-height} - #{$header-height} - 48px)!important;
-        background-color: #fff;
+        height: calc(100vh - #{$navbar-height} - #{$header-height} - 56px);
         overflow-y: auto;
-        @include shadow();
 
-        label{
-            font-weight: $font-weight-normal;
-            //color: $text-color;
-            vertical-align: sub;
-        }
         h5{
             text-transform: uppercase;
         }
         section{
-            padding: 16px;
+            padding: 16px 0;
+            box-sizing: border-box;
             h3{
                 margin: 0;
                 margin-bottom: 16px;
             }
         }
-        #reporting-parameters{
-            #week-select-interval {
-                padding-top: 4px;
-                font-weight: $font-weight-bold;
-            }
-            #date-hour-of-entry {
-                padding-left: 16px;
-                font-weight: $font-weight-bold;
-                text-transform: uppercase;
-            }
-        }
-        .first-child{
-            padding-right: 6px;
-        }
-        .low-padding{
-            padding-left: 6px;
-            padding-right: 6px;
-        }
-        .last-child{
-            padding-left: 6px;
-        }
 
-        #key-events{
-            #toggle-panel{
-                height: 64px;
+        @import 'report/weekly-reporting-parameters';
+        @import 'report/weekly-key-events';
+        @import 'report/weekly-humanitarian-profile';
+        @import 'report/weekly-people-in-need';
+        @import 'report/weekly-humanitarian-access';
+        @import 'report/weekly-severity-score';
 
-                .fa{
-                    margin-right: 10px;
-                }
-                a{
-                    margin: 10px;
-                    margin-right: 32px;
-                    transition: 0.2s all ease-in-out;
-                    color: #414141;
-                }
-                .active{
-                    color: $primary-color;
-                }
-                button{
-                    float: right;
-                }
-            }
-            #header{
-                border-bottom: 2px solid rgba(0, 0, 0, 0.2);
-                margin-bottom: 16px;
-            }
-            .key-event{
-                min-height: 48px;
-                margin-top: 10px;
-                margin-bottom: 10px;
-            }
-            #timeline-view{
-                position: relative;
-                padding: 0 48px;
-
-                #line{
-                    position: absolute;
-                    width: 2px;
-                    left: calc(50% - 1px);
-                    background-color: $primary-color;
-                }
-                .time-element{
-                    width: calc(50% - 30px);
-                    background-color: #f0f0f0;
-                    border-radius: 3px;
-                    border: 1px solid rgba(0, 0, 0, 0.05);
-                    box-shadow: 0 3px 10px -3px rgba(0, 0, 0, 0.3);
-                    padding: 10px 24px;
-                    position: relative;
-
-                    h3{
-                        margin: -10px -24px 10px -24px;
-                        padding: 10px 24px;
-                        border-top-left-radius: 3px;
-                        border-top-right-radius: 3px;
-                        background-color: $primary-color;
-                        color: #fff;
-                    }
-                    date{
-                        position: absolute;
-                        top: 20px;
-                    }
-                    p{
-                        margin: 0;
-                    }
-
-                    &:nth-child(odd){
-                        clear: both;
-                        float: left;
-
-                        date{
-                            right: -108px;
-                        }
-                        &:before{
-                            display: inline-block;
-                            content: '';
-                            width: 30px;
-                            height: 2px;
-                            background-color: $primary-color;
-                            position: absolute;
-                            right: -30px;
-                            top: 30px;
-                        }
-                    }
-                    &:nth-child(even){
-                        clear: both;
-                        float: right;
-
-                        date{
-                            left: -108px;
-                        }
-                        &:before{
-                            display: inline-block;
-                            content: '';
-                            width: 30px;
-                            height: 2px;
-                            background-color: $primary-color;
-                            position: absolute;
-                            left: -30px;
-                            top: 30px;
-                        }
-                    }
-                }
-            }
-
-            button{
-                @include btn-shadow-sm();
-            }
-        }
-
-        #humanitarian-profile{
-            padding-top: 0;
-
-            #humanitarian-profile-field-error{
-                margin: 10px -24px 0 -24px;
-                padding: 10px;
-                background-color: #e74c3c;
-                color: #fff;
-                text-align: center;
-            }
-            .row-group{
-                margin-left: -16px;
-                margin-right: -16px;
-                padding: 10px 16px 2px 16px;;
-
-                &:nth-child(even){
-                    background-color: #f0f0f0;
-                }
-            }
-            .row{
-                margin-bottom: 10px;
-            }
-            .sub{
-                margin-left: 24px;
-            }
-        }
-        #people-in-need{
-            padding-top: 0;
-
-            .toplevel{
-                padding-bottom: 20px;
-
-                .sub{
-                    margin-left: 24px;
-                }
-
-                &.parent {
-                    margin-top: 0;
-                    margin-bottom: 0;
-                    padding-top: 8px;
-                    padding-bottom: 8px;
-                    background-color: #f0f0f0;
-
-                    + .toplevel:not(.parent) {
-                        margin-top: 20px;
-                    }
-                }
-            }
-            .row{
-                margin-bottom: 10px;
-            }
-        }
-        #humanitarian-access{
-            text-transform: none;
-            .human-access-fields{
-                background-color: #fff;
-                padding: 6px 10px 0 10px;
-
-                &:nth-child(even){
-                    background-color: rgba(0, 0, 0, 0.05);
-                }
-            }
-
-        }
-        #weekly-severity-score{
-            .score-0{
-                background-color: rgba(231,76,60,0.2);
-            }
-            .score-1{
-                color: rgba(0, 0, 0, 0.6);
-                background-color: rgba(231,76,60,0.5);
-            }
-            .score-2{
-                color: rgba(255, 255, 255, 0.8);
-                background-color: rgba(231,76,60,0.75);
-            }
-            .score-3{
-                color: rgb(255, 255, 255);
-                background-color: rgba(231,76,60,1);
-            }
-
-            .dynamic{
-
-                    color: $primary-color;
-
-            }
-
-            #hdi{
-                background-color: rgba(0,0,0,0.3);
-            }
-            #hdi-rank{
-                background-color: rgba(0,0,0,0.3);
-            }
-            #mortality-rate{
-                background-color: rgba(0,0,0,0.3);
-            }
-            #uprooted-people{
-                background-color: rgba(0,0,0,0.3);
-            }
-            #uprooted-percentage{
-                background-color: rgba(0,0,0,0.3);
-            }
-        }
     }
 }
