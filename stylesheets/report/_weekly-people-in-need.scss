@@ -1,0 +1,78 @@
+#people-in-need{
+    input{
+        outline: none;
+        padding: 4px 10px;
+        width: 100%;
+        border: 1px solid transparent;
+        margin: 6px 0;
+    }
+    .pin-field, .pin-sub-field{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+
+        > label{ flex-basis: 20%; }
+        > div{
+            flex-basis: 80%;
+
+            > div{
+                display: flex;
+                justify-content: space-around;
+
+                >*{ flex-basis: 19%; }
+            }
+        }
+    }
+    .total-field, .total-ipc{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+
+        > label{ flex-basis: 20%; }
+        > div{
+            flex-basis: 80%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+
+            >*{
+                flex-basis: 19%;
+                margin: 6px 0;
+            }
+        }
+    }
+    .pin-field, .total-field, .total-ipc{
+        background-color: #fff;
+    }
+    .total-ipc{
+        margin-bottom: 10px;
+    }
+    .ipc{
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+
+        > label{ flex-basis: 20%; }
+        > div{
+            flex-basis: 80%;
+            > div{
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                &:nth-child(1){ >*{ flex-basis: 19%; } }
+                &:nth-child(2){ >*{ flex-basis: 49%; } }
+            }
+        }
+    }
+    .sub{
+        padding-left: 24px;
+        font-weight: $font-weight-normal;
+    }
+    .pin-sub-field, .pin-field, .total-ipc, .ipc{
+        padding-bottom: 10px;
+        padding-top: 10px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+}

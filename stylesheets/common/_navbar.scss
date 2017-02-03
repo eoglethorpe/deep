@@ -2,29 +2,27 @@ nav{
     background-color: darken($primary-color, 10%);
     height: $navbar-height;
     z-index: 1010;
-    line-height: 1;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
     @include shadow();
 
     img{
-        height: $navbar-height - 16px;
-        margin-top: 8px + 2px;  // 2px to fix logo's bottom padding
+        width: 96px;
     }
     a, a:visited{
         display: inline-block;
     }
-    #event-menu{
-        display: inline-block;
-        padding: (($navbar-height - $text-size-md)/2);
-    }
     .menu-item{
-        height: $navbar-height;
-        padding: (($navbar-height - $text-size-md)/2);
-        vertical-align: middle;
-        font-size: $text-size-md;
         font-weight: $font-weight-normal;
         color: rgba(255, 255, 255, 0.7);
         transition: 0.2s all ease-in-out;
+        flex-basis: 8%;
+        text-align: center;
+        font-size: $text-size-md;
+        height: $navbar-height;
+        padding-top: calc(calc(#{$navbar-height} - #{$text-size-md} - 8px) / 2);
 
         &.active{
             border-bottom: 2px solid #fff;
@@ -50,63 +48,33 @@ nav{
         }
     }
     #crisis-wrapper{
-        padding: 18px;
+        flex-basis: 28%;
 
-        .selectize-input, .input-active{
+        .selectize-control.single{
+            .selectize-input, &.single, .selectize-input.input-active{
+                background-color: transparent!important;
+            }
+        }
+        .selectize-input{
             border: none;
-            background-color: transparent;
-            text-align: left;
-            padding: 0;
-            color: #b3caca;
-            font-size: $text-size-md!important;
-
-            .item{
-                text-transform: uppercase;
-                text-align: left;
-                font-size: $text-size-md!important;
+            > div, input{
+                background-color: transparent;
+                color: #fff;
+            }
+            &:after {
+                content: ' ';
                 display: block;
-                width: calc(100% - 32px);
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-
-                &.focus {
-                    .item {
-                      display: inline-block;
-                    }
-                }
-            }
-
-            input{
-                text-transform: uppercase!important;
-                color: #b3caca;
-            }
-
-            &:after{
-                margin-top: -10px;
-                border-color: #b3caca transparent transparent transparent;
+                position: absolute;
+                top: 50%;
+                right: 15px;
+                margin-top: -3px;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 5px 5px 0 5px;
+                border-color: #808080 transparent transparent transparent;
             }
         }
-        .selectize-dropdown{
-            text-align: left;
-
-            .option{
-                padding: 6px 10px;
-            }
-        }
-
-        .dropdown-active{
-            &:after{
-                border-color: transparent transparent #b3caca transparent;
-            }
-        }
-
-        .focus{
-            border: none;
-            color: #fff;
-            box-shadow: none;
-        }
-
     }
     .dropdown{
         ul{

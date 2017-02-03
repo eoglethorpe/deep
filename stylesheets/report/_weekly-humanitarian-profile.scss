@@ -1,0 +1,40 @@
+#humanitarian-profile{
+
+    #human-profile-field-list{
+
+        .human-profile-field{
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+
+            input{
+                outline: none;
+                box-shadow: none;
+                border: 1px solid transparent;
+                box-sizing: border-box;
+                padding: 6px 10px;
+            }
+            &:nth-child(odd){
+                background-color: #fff;
+            }
+            .sub{
+                padding-left: 24px;
+                font-weight: $font-weight-normal;
+            }
+        }
+        .human-profile-field > *{
+            flex-basis: 23%;
+            box-sizing: border-box;
+            margin: 10px 0;
+        }
+    }
+
+    #humanitarian-profile-field-error{
+        padding: 16px;
+        text-align: center;
+        color: #e74c3c;
+        margin: 0;
+    }
+}

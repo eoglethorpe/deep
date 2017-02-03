@@ -1,0 +1,130 @@
+#key-events{
+    #toggle-panel{
+        min-height: 32px;
+
+        .fa{
+            margin-right: 10px;
+        }
+        a{
+            margin: 10px;
+            margin-right: 32px;
+            transition: 0.2s all ease-in-out;
+            color: #414141;
+        }
+        .active{
+            color: $primary-color;
+        }
+        button{
+            float: right;
+        }
+    }
+    #table-view{
+        .col{
+            position: relative;
+
+            &:nth-child(1){ width: 25%; }
+            &:nth-child(2){ width: 22%; }
+            &:nth-child(3){ width: 22%; }
+            &:nth-child(4){ width: 26%; }
+            padding: 0 6px;
+            box-sizing: border-box;
+        }
+        .today-btn{
+            margin-bottom: 3px;
+        }
+        .col > input{
+            width: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 1px 5px;
+            outline: none;
+        }
+        .key-event{
+            margin-top: 16px;
+            display: flex;
+        }
+    }
+    #header{
+        display: flex;
+        height: 32px;
+        align-items: center;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    }
+
+    #timeline-view{
+        position: relative;
+        padding: 0 48px;
+
+        #line{
+            position: absolute;
+            width: 2px;
+            left: calc(50% - 1px);
+            background-color: $primary-color;
+        }
+        .time-element{
+            width: calc(50% - 30px);
+            background-color: #f0f0f0;
+            border-radius: 3px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 3px 10px -3px rgba(0, 0, 0, 0.3);
+            padding: 10px 24px;
+            position: relative;
+
+            h3{
+                margin: -10px -24px 10px -24px;
+                padding: 10px 24px;
+                border-top-left-radius: 3px;
+                border-top-right-radius: 3px;
+                background-color: $primary-color;
+                color: #fff;
+            }
+            date{
+                position: absolute;
+                top: 20px;
+            }
+            p{
+                margin: 0;
+            }
+
+            &:nth-child(odd){
+                clear: both;
+                float: left;
+
+                date{
+                    right: -108px;
+                }
+                &:before{
+                    display: inline-block;
+                    content: '';
+                    width: 30px;
+                    height: 2px;
+                    background-color: $primary-color;
+                    position: absolute;
+                    right: -30px;
+                    top: 30px;
+                }
+            }
+            &:nth-child(even){
+                clear: both;
+                float: right;
+
+                date{
+                    left: -108px;
+                }
+                &:before{
+                    display: inline-block;
+                    content: '';
+                    width: 30px;
+                    height: 2px;
+                    background-color: $primary-color;
+                    position: absolute;
+                    left: -30px;
+                    top: 30px;
+                }
+            }
+        }
+    }
+
+    button{
+        @include btn-shadow-sm();
+    }
+}
