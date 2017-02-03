@@ -1,0 +1,73 @@
+@import 'common/base';
+
+.selectize-control{
+    position: relative;
+    width: 100%;
+    line-height: 0;
+    font-size: $text-size-sm;
+
+    &.plugin-remove_button{
+        position: relative;
+    }
+    &.plugin-remove_button [data-value] .remove{
+        z-index: 1;
+        width: 16px;
+        margin-left: 3px;
+        text-align: center;
+    }
+    .selectize-input, &.single, .selectize-input.input-active{
+        background-color: #fff;
+        cursor: text;
+        display: inline-block;
+    }
+    .selectize-input{
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 3px 5px;
+        width: 100%;
+        z-index: 1;
+        box-sizing: border-box;
+
+        > * {
+            vertical-align: baseline;
+            display: inline;
+            box-sizing: border-box;
+            margin: 0 1px;
+            padding: 0 2px;
+            line-height: 1;
+        }
+
+        > input{
+            padding: 0;
+            outline: none;
+            border: none;
+        }
+        > div{
+            background-color: #f0f0f0;
+        }
+    }
+    .selectize-dropdown{
+        position: absolute;
+        z-index: 11;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 3px 15px -5px rgba(0, 0, 0, 0.5);
+        background-color: #fff;
+        box-sizing: border-box;
+
+        [data-selectable]{
+            line-height: 1;
+            cursor: pointer;
+            overflow: hidden;
+            padding: 6px 10px;
+
+            &:hover{
+                background-color: $primary-color;
+                color: #fff;
+            }
+        }
+        .selectize-dropdown-content{
+            overflow-y: auto;
+            overflow-x: hidden;
+            max-height: 320px;
+        }
+    }
+}

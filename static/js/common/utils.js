@@ -66,7 +66,7 @@ function addTodayButtons() {
         date.css('position', 'relative');
         today_btn.css('position', 'absolute');
         today_btn.css('left', date.position().left+9+'px');
-        today_btn.css('top', date.position().top+9+'px');
+        today_btn.css('top', date.position().top+date.outerHeight()/2-10+'px');
         today_btn.css('cursor', 'pointer');
 
         today_btn.on('click', function(date) {

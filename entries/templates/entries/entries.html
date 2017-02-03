@@ -9,7 +9,6 @@ DEEP | Entries
 
 <link href="{% static 'css/entries.css' %}" type="text/css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}"/>
-<link rel="stylesheet" type="text/css" href="{% static 'css/selectize.bootstrap3.css' %}"/>
 <script type="text/javascript" src="{% static 'js/common/datatables.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/common/selectize.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/common/split.js' %}"></script>
@@ -114,15 +113,16 @@ DEEP | Entries
 
 {% include 'navbar.html' %}
 
-<section id="main">
+<main>
     <div id="loading-animation">
         <span id="loader"></span>
         <p>working...</p>
     </div>
+    <div id="filters">
+        {% include 'entries/entry-filters.html' %}
+    </div>
     <div class="container-fluid">
-        <div id="filters">
-            {% include 'entries/entry-filters.html' %}
-        </div>
+
         <button class="btn btn-default btn-sm" id="clear-filter-btn" style="float: right" onclick="clearFilters();">Clear filters</button>
         <div id="toggle-panel">
             <a href="#" data-target="#entries" class="fa fa-list active"></a>
@@ -134,7 +134,7 @@ DEEP | Entries
         <div id="entries">
         </div>
     </div>
-</section>
+</main>
 
 {% include 'entries/entry-templates.html' %}
 

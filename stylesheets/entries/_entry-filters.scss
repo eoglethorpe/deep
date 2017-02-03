@@ -1,0 +1,42 @@
+#entry-filters{
+    display: flex;
+    justify-content: space-between;
+
+    label{
+        flex-basis: 100%;
+    }
+    #left-block{
+        flex-basis: 80%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+
+        >input[type="text"].filter{
+            padding: 3px 5px;
+            font-size: $text-size-sm;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .filter{
+            flex-basis: calc(20% - 1px);
+            outline: none;
+            border: none;
+        }
+        #search, #lead-title-search{
+            flex-basis: calc(13% - 1px);
+        }
+        #sources-filter{
+            flex-basis: calc(14% - 2px);
+        }
+    }
+    #right-block{
+        flex-basis: 20%;
+        display: flex;
+        justify-content: space-around;
+
+        .filter{
+            flex-basis: 50%;
+            box-sizing: border-box;
+        }
+    }
+}

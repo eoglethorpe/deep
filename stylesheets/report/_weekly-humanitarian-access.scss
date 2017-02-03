@@ -1,0 +1,49 @@
+#humanitarian-access{
+    > div{
+        display: flex;
+
+        input, select{
+            outline: none;
+            padding: 5px 10px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+        #human-access-field-list{
+            flex-basis: 60%;
+
+            .human-access-field{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 16px;
+                min-height: 48px;
+
+                label{ width: 38%; }
+                select{ width: 10%; }
+                input{ width: 24%; }
+
+            }
+        }
+        #human-access-pin-field-list{
+            flex-basis: 40%;
+
+            .human-access-pin-field{
+                padding: 0 16px;
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                margin-bottom: 10px;
+
+                label{ width: 100%; }
+                input{
+                    margin-bottom: 6px;
+
+                    &:nth-child(2){ width: 33%; }
+                    &:nth-child(3){ width: 65%; }
+                    &:nth-child(4){ width: 100%; }
+                }
+
+            }
+        }
+    }
+}

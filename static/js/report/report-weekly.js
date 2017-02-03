@@ -833,14 +833,14 @@ function autoCalculateScores() {
      var calculatedScore = Math.min(Math.round(findMedian(scores)), 3);
     $('#calculated-score').val(calculatedScore);
 
-    $('#pin-percentage-score').attr('class', 'form-control score score-'+pinScore);
-    $('#level-of-access-score').attr('class', 'form-control score score-'+accessScore);
-    $('#mortality-rate-score').attr('class', 'form-control score score-'+mortalityScore);
-    $('#hdi-score').attr('class', 'form-control score score-'+hdiScore);
-    $('#uprooted-score').attr('class', 'form-control score score-'+uprootedScore);
+    $('#pin-percentage-score').attr('class', 'score score-'+pinScore);
+    $('#level-of-access-score').attr('class', 'score score-'+accessScore);
+    $('#mortality-rate-score').attr('class', 'score score-'+mortalityScore);
+    $('#hdi-score').attr('class', 'score score-'+hdiScore);
+    $('#uprooted-score').attr('class', 'score score-'+uprootedScore);
 
-    $('#calculated-score').attr('class', 'form-control score score-'+calculatedScore);
-    $('#final-score').attr('class', 'form-control score score-'+$('#final-score').val());
+    $('#calculated-score').attr('class', 'score score-'+calculatedScore);
+    $('#final-score').attr('class', 'score score-'+$('#final-score').val());
 
 
     totalPinReported = totalPinReported == 0? '': totalPinReported;

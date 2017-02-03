@@ -7,7 +7,6 @@
 
         var crisisDropdown = $('#crisis-dropdown').selectize({
             onDropdownOpen: function(dropdown) {
-                //currentDropdownVal = $('#crisis-dropdown').text();
                 crisisDropdown.clear();
                 dropdown.stop().hide().slideToggle();
             },
@@ -28,74 +27,58 @@
 {% endif %}
 
 <nav>
-    <div class="container-fluid">
-        <div class="row">
-            {# Deep logo #}
-            <div class="col-md-1">
-                {% if event %}
-                <a href="{% url 'dashboard' event=event.pk%}"><img src="{% static 'img/deep-logo-white.png' %}"></a>
-                {% else %}
-                <a href="{% url 'dashboard' %}?last_event=1"><img src="{% static 'img/deep-logo-white.png' %}"></a>
-                {% endif %}
-            </div>
+    <!-- DEEP logo -->
+    {% if event %}
+    <a href="{% url 'dashboard' event=event.pk%}"><img src="{% static 'img/deep-logo-white.png' %}"></a>
+    {% else %}
+    <a href="{% url 'dashboard' %}?last_event=1"><img src="{% static 'img/deep-logo-white.png' %}"></a>
+    {% endif %}
 
-            {# Report #}
-            <div class="col-md-1">
-                <a class="{% if current_page == 'report' %}active{% endif %} menu-item" href="{% url 'report:dashboard' %}{% if event %}?event={{event.pk}}&country={{event.countries.all.0.code}}{% endif %}">Report</a>
-            </div>
+    <!-- Report -->
+    <a class="{% if current_page == 'report' %}active{% endif %} menu-item" href="{% url 'report:dashboard' %}{% if event %}?event={{event.pk}}&country={{event.countries.all.0.code}}{% endif %}">Report</a>
 
-            {# Event menu #}
-            <div class="col-md-3">
-                <div id="crisis-wrapper">
-                    {% if all_events %}
-                    <select id="crisis-dropdown" placeholder="Select event">
-                        <option>Select event</option>
-                        {% if event %}
-                        <option value="{% url 'dashboard' %}">None</option>
-                        {% endif %}
-                        {% for ev in all_events %}
-                        <option value="{% url request.resolver_match.view_name event=ev.pk %}" {% if event and event == ev %}selected{% endif %}>{{ev}}</option>
-                        {% endfor %}
-                    </select>
-                    {% else %}
-                    {% if event %}
-                    <a href="#" style="color: #fff; font-weight: bold; width: 100%; overflow: hidden;"><span class="fa fa-location-arrow" style="margin-right: 8px;"></span>{{event}}</a>
-                    {% endif %}
-                    {% endif %}
-                </div>
-            </div>
-            <div class="col-md-5">
-                {% if event %}
-                <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' event=event.pk %}">Leads</a>
-                <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' event=event.pk %}">Entries</a>
-                <a class="{% if current_page == 'sos' %}active{% endif %} menu-item" href="{% url 'leads:sos' event=event.pk %}">Survey of surveys</a>
-                <a class="{% if current_page == 'export' %}active{% endif %} menu-item" href="{% url 'entries:export' event=event.pk %}">Export</a>
-                {% endif %}
-
-                {% if cancel_url %}
-                    <a class="menu-item" href="{{cancel_url}}" onclick="return confirm('All changes will be discarded. Are you sure?')">Cancel</a>
-                {% endif %}
-            </div>
-
-            <div class="col-md-2" style="text-align: right;">
-                {# Chrome extension download #}
-                <a class="menu-item" style="padding-left: 0; padding-right: 0; color: #fff;" target="_blank" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Download Chrome Extension" href="https://chrome.google.com/webstore/detail/deep-create-lead/ggplhkhciodfdkkonmhgniaopboeoopi"><i class="fa fa-chrome fa-spin" style="margin-right: 0"></i></a>
-
-                {# User menu #}
-                <span class="dropdown menu-item pull-right" id="user-menu">
-                    <button class="dropdown-toggle" type="button" data-toggle="dropdown">
-                        <i class="fa fa-user"></i>{{ user.first_name }}<span class="caret" style="margin-right: 0"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        {% if request.user.is_superuser %}
-                        <li><a href="/admin"><i class="fa fa-user-secret"></i>Admin panel</a></li>
-                        <li><a href="{% url 'custom_admin:country_management' %}"><i class="fa fa-globe"></i>Country Panel</a></li>
-                        <li><a href="{% url 'custom_admin:crisis_panel' %}"><i class="fa fa-wrench"></i>Crisis Panel</a></li>
-                        {% endif %}
-                        <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a></li>
-                    </ul>
-                </span>
-            </div>
-        </div>
+    <!-- Event selector -->
+    <div id="crisis-wrapper">
+        {% if all_events %}
+        <select id="crisis-dropdown" placeholder="Select event">
+            <option>Select event</option>
+            {% if event %}
+            <option value="{% url 'dashboard' %}">None</option>
+            {% endif %}
+            {% for ev in all_events %}
+            <option value="{% url request.resolver_match.view_name event=ev.pk %}" {% if event and event == ev %}selected{% endif %}>{{ev}}</option>
+            {% endfor %}
+        </select>
+        {% else %}
+        {% if event %}
+        <a href="#" style="color: #fff; font-weight: bold; width: 100%; overflow: hidden;"><span class="fa fa-location-arrow" style="margin-right: 8px;"></span>{{event}}</a>
+        {% endif %}
+        {% endif %}
     </div>
+
+    <!-- Main menu -->
+    {% if event %}
+    <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' event=event.pk %}">Leads</a>
+    <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' event=event.pk %}">Entries</a>
+    <a class="{% if current_page == 'sos' %}active{% endif %} menu-item" href="{% url 'leads:sos' event=event.pk %}">Survey of surveys</a>
+    <a class="{% if current_page == 'export' %}active{% endif %} menu-item" href="{% url 'entries:export' event=event.pk %}">Export</a>
+    {% endif %}
+
+    <!-- Chrome extension download -->
+    <a class="menu-item" style="padding-left: 0; padding-right: 0; color: #fff;" target="_blank" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Download Chrome Extension" href="https://chrome.google.com/webstore/detail/deep-create-lead/ggplhkhciodfdkkonmhgniaopboeoopi"><i class="fa fa-chrome fa-spin" style="margin-right: 0"></i></a>
+
+    <!-- User menu -->
+    <span class="dropdown menu-item pull-right" id="user-menu">
+        <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+            <i class="fa fa-user"></i>{{ user.first_name }}<span class="caret" style="margin-right: 0"></span>
+        </button>
+        <ul class="dropdown-menu">
+            {% if request.user.is_superuser %}
+            <li><a href="/admin"><i class="fa fa-user-secret"></i>Admin panel</a></li>
+            <li><a href="{% url 'custom_admin:country_management' %}"><i class="fa fa-globe"></i>Country Panel</a></li>
+            <li><a href="{% url 'custom_admin:crisis_panel' %}"><i class="fa fa-wrench"></i>Crisis Panel</a></li>
+            {% endif %}
+            <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a></li>
+        </ul>
+    </span>
 </nav>

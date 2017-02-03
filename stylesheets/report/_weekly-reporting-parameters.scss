@@ -1,0 +1,30 @@
+#reporting-parameters{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    .input-wrapper{
+        input{
+            width: 100%;
+            outline: none;
+            padding: 2px 5px;
+            box-sizing: border-box;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            font-size: $text-size-sm;
+        }
+    }
+    span{
+        font-family: 'Inconsolata', monospace;
+        font-size: 1.2em;
+        text-transform: uppercase;
+    }
+    label{
+        margin-right: 10px;
+    }
+}
+
+#reporting-parameters > div{
+    flex-basis: 30%;
+    margin-bottom: 24px;
+}
