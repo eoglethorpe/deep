@@ -345,6 +345,44 @@ function refreshPageTwo() {
             }
         }(excerpt, entry, i));
 
+        // Apply to all buttons
+        entry.find('.btn-demographic-apply-to-all').unbind().click(function(i) {
+            return function() {
+                var vg = excerpts[i].vulnerable_groups;
+                for (var d=0; d<excerpts.length; d++) {
+                    excerpts[d].vulnerable_groups = vg;
+                }
+                refreshPageTwo();
+            }
+        }(i));
+        entry.find('.btn-demographic-apply-to-all-below').unbind().click(function(i) {
+            return function() {
+                var vg = excerpts[i].vulnerable_groups;
+                for (var d=i+1; d<excerpts.length; d++) {
+                    excerpts[d].vulnerable_groups = vg;
+                }
+                refreshPageTwo();
+            }
+        }(i));
+        entry.find('.btn-specific-needs-apply-to-all').unbind().click(function(i) {
+            return function() {
+                var sg = excerpts[i].specific_needs_groups;
+                for (var d=0; d<excerpts.length; d++) {
+                    excerpts[d].specific_needs_groups = sg;
+                }
+                refreshPageTwo();
+            }
+        }(i));
+        entry.find('.btn-specific-needs-apply-to-all-below').unbind().click(function(i) {
+            return function() {
+                var sg = excerpts[i].specific_needs_groups;
+                for (var d=i+1; d<excerpts.length; d++) {
+                    excerpts[d].specific_needs_groups = sg;
+                }
+                refreshPageTwo();
+            }
+        }(i));
+
         // Edit and delete buttons
         entry.find('.edit-entry-btn').unbind().click(function(i) {
             return function() {
@@ -799,6 +837,7 @@ $(document).ready(function(){
         }
         refreshExcerpts();
     });
+
 
 
     // Save and cancel
