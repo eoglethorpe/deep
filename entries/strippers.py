@@ -104,6 +104,7 @@ class PdfStripper:
         outfp.seek(0)
         content = outfp.read()
         outfp.close()
+
         return content
 
         # html = HtmlStripper(content).simplify()
