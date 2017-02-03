@@ -47,7 +47,9 @@ function redirectPost(location, args, csrf_token)
     $.each(args, function(key, value) {
         form += '<textarea type="hidden" name="'+key+'">' + value + '</textarea>';
     });
-    $('<form action="'+location+'" method="POST">'+form+'</form>').submit();
+    var postForm = $('<form action="'+location+'" method="POST" hidden>'+form+'</form>');
+    postForm.appendTo($('body'));
+    postForm.submit();
 }
 
 function addTodayButtons() {

@@ -35,6 +35,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
         $(this).replaceWith($(this).text() + '\n\n')
     });
     var leadSimplified = leadSimplifiedHtml.text().trim();
+
     // Is simplified option selected?
     var isSimplified;
 
@@ -44,14 +45,16 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
         {{pillar.pk}}: {
             name: "{{pillar | safe}}", subpillars: {
                 {% for subpillar in pillar.informationsubpillar_set.all %}{{subpillar.pk}}: "{{subpillar | safe}}",{% endfor %}
-            }
+            },
+            bgColor: '{{pillar.background_color}}',
         },
         {% endfor %}
         {% for pillar in pillars_two %}
         {{pillar.pk}}: {
             name: "{{pillar | safe}}", subpillars: {
                 {% for subpillar in pillar.informationsubpillar_set.all %}{{subpillar.pk}}: "{{subpillar | safe}}",{% endfor %}
-            }
+            },
+            bgColor: '{{pillar.background_color}}',
         },
         {% endfor %}
     };
@@ -94,7 +97,6 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 {% for attr in excerpt.informationattribute_set.all %}
                 {
                     pillar: {{attr.subpillar.pillar.pk}}, subpillar: {{attr.subpillar.pk}},
-                    bgColor: '{{attr.subpillar.pillar.background_color}}',
                     sector: {% if attr.sector %}{{attr.sector.pk}},
                     subsectors:
                         {% if attr.subsectors %}

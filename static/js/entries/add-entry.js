@@ -400,7 +400,7 @@ function refreshExcerpts() {
 }
 
 
-function addExcerpt(excerpt, color) {
+function addExcerpt(excerpt) {
     // Create new excerpt and refresh
     var excerpt = {
         excerpt: excerpt,
@@ -408,8 +408,7 @@ function addExcerpt(excerpt, color) {
         reliability: defaultReliability, severity: defaultSeverity,
         date: defaultDate, number: null,
         affected_groups: [], vulnerable_groups: [], specific_needs_groups: [],
-        map_selections: [],
-        bgColor: color
+        map_selections: []
     };
     excerpts.push(excerpt);
 
@@ -440,10 +439,8 @@ function styleText(text) {
         var color = "#ccc";
         if (index >= 0) {
             // Create highlighting tag for this search
-            if(typeof excerpts[i].attributes[0] != 'undefined' && typeof excerpts[i].attributes[0].bgColor != 'undefined'){
-                color = excerpts[i].attributes[0].bgColor;
-            } else if( typeof excerpts[i].bgColor != 'undefined' ){
-                color = excerpts[i].bgColor;
+            if (excerpts[i].attributes && excerpts[i].attributes.length > 0) {
+                color = pillars[excerpts[i].attributes[0].pillar].bgColor;
             }
             text = text.slice(0, index) + '<span style="background-color:'+ color +'; color:'+ getContrastYIQ(color) +'" >'
                 + excerpt + '</span>'
@@ -620,16 +617,17 @@ $(document).ready(function(){
                 });
             }
         }
+
+        var simplifiedFrame = $("#lead-simplified-preview");
+        simplifiedFrame.html(styleText(leadSimplified));
     });
 
     // Drag drop
     var dropEvent = function(e) {
         var text = e.originalEvent.dataTransfer.getData('Text');
-        if (excerpts[selectedExcerpt].excerpt.trim().length == 0
-                || excerpts[selectedExcerpt].excerpt == text)
-            excerpts[selectedExcerpt].excerpt = e.originalEvent.dataTransfer.getData('Text');
-        else
-            addExcerpt(e.originalEvent.dataTransfer.getData('Text'), (typeof $(this).data('bg-color') != 'undefined')? $(this).data('bg-color'): $(this).css('background-color'));
+        if (excerpts[selectedExcerpt].excerpt.trim().length == 0 || excerpts[selectedExcerpt].excerpt == text)
+            excerpts = [];
+        addExcerpt(e.originalEvent.dataTransfer.getData('Text'));
 
         $(this).click();
         refreshExcerpts();
@@ -681,6 +679,9 @@ $(document).ready(function(){
                 });
             }
         }
+
+        var simplifiedFrame = $("#lead-simplified-preview");
+        simplifiedFrame.html(styleText(leadSimplified));
     });
     // Matrix-two default color
     $("#matrix-two .attribute-block").css("background-color", function(){ return $(this).data('bk-color'); });
