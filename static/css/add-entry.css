@@ -185,6 +185,14 @@ body {
         height: calc(100vh - 144px);
         overflow-x: auto;
         padding: 16px; }
+        body #page-one .split-pane #left-component #lead-preview-container #lead-simplified-preview pre {
+          white-space: pre-wrap;
+          word-break: normal;
+          background: inherit;
+          color: inherit;
+          font: inherit;
+          border: inherit;
+          text-align: justify; }
       body #page-one .split-pane #left-component #multimedia-pane {
         position: fixed;
         left: 0;

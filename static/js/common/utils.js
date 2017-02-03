@@ -233,3 +233,12 @@ function formatNumber(numInput){
 function getTwoDigits(number) {
     return ('0' + number).slice(-2);
 }
+
+// Try reformatting a text
+function reformatText(text) {
+    text = text.replace(/\t/gi, ' ');
+    text = text.replace(/[^\x00-\x7F]/g, "");
+    text = text.replace(/([^\n])[ \t]*\n[ \t]*(?!\n)/gi, '$1 ');
+    text = text.replace(/\n\s*\n\s*(\n\s*)+/gi, '\n\n\n');
+    return text;
+}

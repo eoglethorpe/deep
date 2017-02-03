@@ -294,6 +294,12 @@ function refreshAttributes(entry, excerpt) {
     }
 }
 
+function reformatCurrentExcerpt() {
+    var text = $('#excerpt-text').val();
+    $('#excerpt-text').val(reformatText(text));
+    $('#excerpt-text').trigger('change');
+}
+
 function refreshPageTwo() {
     var entriesContainer = $("#entries");
     entriesContainer.empty();
@@ -438,10 +444,10 @@ function refreshExcerpts() {
 }
 
 
-function addExcerpt(excerpt) {
+function addExcerpt(text) {
     // Create new excerpt and refresh
     var excerpt = {
-        excerpt: excerpt,
+        excerpt: text,
         attributes: [],
         reliability: defaultReliability, severity: defaultSeverity,
         date: defaultDate, number: null,
@@ -486,7 +492,8 @@ function styleText(text) {
         }
     }
 
-    return "<div>" + text.replace(/\n/g, "<br>"); + "</div>";
+    // return "<div>" + text.replace(/\n/g, "<br>"); + "</div>";
+    return "<pre>" + text + "</pre>";
 }
 
 function changeLeadPreview(simplified) {
@@ -495,8 +502,6 @@ function changeLeadPreview(simplified) {
     var simplifiedFrame = $("#lead-simplified-preview");
 
     if (simplified) {
-        simplifiedFrame.html(styleText(leadSimplified));
-
         simplifiedFrame.css("display", "inherit");
         $('#multimedia-pane').show();
         frame.css("display", "none");
