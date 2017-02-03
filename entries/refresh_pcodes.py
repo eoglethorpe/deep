@@ -10,13 +10,16 @@ def refresh_pcodes():
         if al.geojson == None or al.property_pcode == "" or s.pcode != "":
             continue
 
-        if al.pk not in admin_features:
-            admin_features[al.pk] = GeoJsonHandler(al.geojson.read().decode())
+        try:
+            if al.pk not in admin_features:
+                admin_features[al.pk] = GeoJsonHandler(al.geojson.read().decode())
 
-        features = admin_features[al.pk].filter_features(al.property_name, s.name)
-        if len(features) > 0:
-            try:
-                s.pcode = features[0]["properties"][al.property_pcode]
-                s.save()
-            except:
-                pass
+            features = admin_features[al.pk].filter_features(al.property_name, s.name)
+            if len(features) > 0:
+                try:
+                    s.pcode = features[0]["properties"][al.property_pcode]
+                    s.save()
+                except:
+                    pass
+        except:
+            pass

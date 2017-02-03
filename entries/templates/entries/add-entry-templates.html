@@ -21,12 +21,12 @@
                 <hr>
                 <div id="date-number">
                     <div class="date">
-                        <label>Date:</label>
+                        <label>Information's date:</label>
                         <div style="position: relative;">
                             <input type="date" class="entry-date form-control form-group" placeholder="Date">
                         </div>
                     </div>
-                    <div class="number">
+                    <div class="number" hidden>
                         <label>Number:</label>
                         <input type="number" step="1" min="0" class="entry-number form-control form-group" placeholder="Number">
                     </div>
@@ -35,6 +35,8 @@
         <div class="col-md-2 low-padding">
             <div class="vulnerable-groups">
                 <label>Demographic groups:</label>
+                <a class="fa fa-circle btn-demographic-apply-to-all" title="Apply to all" style="color: #f39c12; cursor: pointer;"></a>
+                <a class="fa fa-circle btn-demographic-apply-to-all-below" title="Apply to all below" style="color: #3498db; cursor: pointer; margin-left: 5px; margin-right: 10px;"></a>
                 <select  style="width: 90%;" class="vulnerable-group-select" class="form-control form-group" placeholder="Select demographic group" multiple>
                     {% for vg in vulnerable_groups %}
                     <option value="{{vg.pk}}">{{vg}}</option>
@@ -43,6 +45,8 @@
             </div>
             <div class="specific-need-groups">
                 <label>Specific need groups:</label>
+                <a class="fa fa-circle btn-specific-needs-apply-to-all" title="Apply to all" style="color: #f39c12; cursor: pointer;"></a>
+                <a class="fa fa-circle btn-specific-needs-apply-to-all-below" title="Apply to all below" style="color: #3498db; cursor: pointer; margin-left: 5px; margin-right: 10px;"></a>
                 <select style="width: 90%;" class="specific-need-group-select" class="form-control form-group" placeholder="Select specific need group" multiple>
                     {% for sg in specific_needs_groups %}
                     <option value="{{sg.pk}}">{{sg}}</option>
