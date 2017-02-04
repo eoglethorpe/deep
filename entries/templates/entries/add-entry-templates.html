@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load watchful_url %}
 
 <div class="entry-template" hidden>
     <div class="row">
@@ -58,13 +58,13 @@
             <div class="row">
                 <div class="col-md-3 first-child">
                     <div class="affected-group">
-                        <label>Affected groups:</label><a class="btn-affected " data-toggle="modal" data-target="#affected-groups-modal"><img src="{% static 'img/organigram.png' %}"></a>
+                        <label>Affected groups:</label><a class="btn-affected " data-toggle="modal" data-target="#affected-groups-modal"><img src="{% watchful_static_url 'img/organigram.png' %}"></a>
                         <div class="affected-group-list"></div>
                     </div>
                 </div>
                 <div class="col-md-3 low-padding">
                     <div class="geo-location">
-                        <label>Geo locations:</label><a class="btn-map " data-toggle="modal" data-target="#map-modal"><img src="{% static 'img/mapicon.png' %}"></a>
+                        <label>Geo locations:</label><a class="btn-map " data-toggle="modal" data-target="#map-modal"><img src="{% watchful_static_url 'img/mapicon.png' %}"></a>
                         <div class="geo-locations-list"></div>
                     </div>
                 </div>

@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load watchful_url %}
 
 {% block title %}
 DEEP | 404 Error
 {% endblock %}
 
 {% block head %}
-<link href="{% static 'css/404.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/404.css' %}" type="text/css" rel="stylesheet">
 {% endblock %}
 
 {% block body %}

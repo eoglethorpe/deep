@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load watchful_url %}
 
 {% block title %}
 DEEP | Crisis Manager
@@ -7,12 +7,12 @@ DEEP | Crisis Manager
 
 {% block head %}
 
-<link href="{% static 'css/crisis-panel.css' %}" type="text/css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}"/>
-<script type="text/javascript" src="{% static 'js/common/selectize.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/common/split.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/common/utils.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/custom-admin/crisis-panel.js' %}"></script>
+<link href="{% watchful_static_url 'css/crisis-panel.css' %}" type="text/css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}"/>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/split.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/crisis-panel.js' %}"></script>
 
 <script>
     var crises = {

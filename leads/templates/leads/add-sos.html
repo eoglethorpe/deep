@@ -1,26 +1,26 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load watchful_url %}
 
 {% block title %}
 DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
 {% endblock %}
 
 {% block head %}
-<link href="{% static 'css/add-sos.css' %}" type="text/css" rel="stylesheet">
-<link href="{% static 'css/selectize.css' %}" type="text/css" rel="stylesheet">
-<link href="{% static 'css/split-pane.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/add-sos.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/selectize.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/split-pane.css' %}" type="text/css" rel="stylesheet">
 
 
-<script src="{% static 'js/common/selectize.js' %}"></script>
-<script src="{% static 'js/common/split-pane.js' %}"></script>
-<script src="{% static 'js/common/utils.js' %}"></script>
+<script src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
+<script src="{% watchful_static_url 'js/common/split-pane.js' %}"></script>
+<script src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
-<link rel="stylesheet" href="{% static 'css/leaflet.label.css' %}" >
+<link rel="stylesheet" href="{% watchful_static_url 'css/leaflet.label.css' %}" >
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
-<script src="{% static 'js/common/leaflet.label.js' %}"></script>
-<script src="{% static 'js/common/utils.js' %}"></script>
+<script src="{% watchful_static_url 'js/common/leaflet.label.js' %}"></script>
+<script src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 
 <style>
 
@@ -280,6 +280,6 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
     </div>
 </div>
 
-<script src="{% static 'js/sos/add-sos.js' %}"></script>
-<script src="{% static 'js/sos/add-sos-map.js' %}"></script>
+<script src="{% watchful_static_url 'js/sos/add-sos.js' %}"></script>
+<script src="{% watchful_static_url 'js/sos/add-sos-map.js' %}"></script>
 {% endblock %}
