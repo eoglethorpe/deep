@@ -1,85 +1,97 @@
-    @import 'common/base';
+@import 'common/base';
 
 body{
-    h1, h2, h3, h4{
-        text-transform: uppercase;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    h1,h2,h3,h4{
         margin: 0;
-        vertical-align: middle;
+        text-transform: uppercase;
     }
     header{
+        flex-basis: 100%;
+        height: $navbar-height;
         background-color: darken($primary-color, 10%);
         color: #fff;
-        height: $navbar-height;
-        @include shadow();
+        display: flex;
+        justify-content: space-between;
+        padding: 0 16px;
+        align-items: center;
+        @include shadow;
 
-        h1{
-            padding-top: ($navbar-height - $text-size-sl)/2;
-        }
         a{
             color: #fff;
-            float: right;
-            padding-top: ($navbar-height - $text-size-md)/2;
-            i{
+
+            .fa{
                 margin-right: 10px;
             }
-
             &:hover{
-                color: #eee;
-            }
+                color: #fff;
+             }
         }
     }
+    aside{
+        $crisis-header-height: 144px;
+        flex-basis: 27%;
 
-    main{
-        label{
-            color: $primary-color;
-        }
-        h2{
-            font-weight: $font-weight-bold;
-            font-size: $text-size-sl;
-        }
         #crisis-header{
-            height: 144px;
-            padding: 32px 0 24px 0;
-            border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+            height: $crisis-header-height;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 10px 16px 0 16px;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 
             h2{
-                margin-bottom: 16px;
+                flex-basis: 60%;
+                font-weight: $font-weight-bold;
+                font-size: $text-size-sl;
             }
-            #add-new-crisis-btn{
-                float: right;
-                margin-top: -16px;
-                @include btn-shadow-lg();
+            button{
+                flex-basis: 30%;
+                @include btn-shadow-lg;
 
                 .fa{
                     margin-right: 10px;
                 }
             }
-            #crisis-search{
-                outline: none;
-                width: 100%;
-                border-radius: 3px;
-                padding: 6px 16px 6px 40px;
-                border: 1px solid rgba(0, 0, 0, 0.2);
-                background-color: transparent;
-                @include btn-shadow-sm();
+            #search-wrapper{
+                flex-basis: 100%;
+                position: relative;
+                margin: 8px 0;
 
-                &:focus, &:active{
-                    border: 1px solid $primary-color;
+                input{
+                    width: 100%;
+                    height: 32px;
+                    padding: 0 16px 0 32px;
+                    outline: none;
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                    border-radius: 3px;
+                    background-color: transparent;
+
+                    &:focus{
+                        border-color: $primary-color;
+                    }
                 }
-            }
-            input+.fa{
-                float: left;
-                margin-top: -24px;
-                margin-left: 16px;
-                z-index: 1;
-                color: rgba(0, 0, 0, 0.5);
-            }
-            #crisis-status-radio{
+                i{
+                    position: absolute;
+                    left: 10px;
+                    top: 8px;
+                    color: rgba(0, 0, 0, 0.3);
+                    font-size: 16px;
+                }
 
-                margin-top: 10px;
+            }
+
+            #crisis-status-radio{
+                flex-basis: 100%;
+                align-self: flex-end;
 
                 label{
                     padding: 6px 16px;
+                    margin-bottom: 0;
                     cursor: pointer;
                     color: $label-color;
                     vertical-align: bottom;
@@ -94,15 +106,14 @@ body{
                 }
             }
         }
-
         #crisis-list{
-            height: calc(100vh - #{$navbar-height} - 156px);
+            height: calc(100vh - #{$navbar-height} - #{$crisis-header-height});
             overflow-y: auto;
-            margin-top: 10px;
+            overflow-x: hidden;
+            padding: 0 16px;
 
             .crisis{
                 padding: 10px 16px;
-                //border-bottom: 1px solid rgba(0, 0, 0, 0.1);
                 cursor: pointer;
 
                 &:nth-child(odd){
@@ -118,21 +129,72 @@ body{
                 color: #fff;
             }
         }
+    }
+    main{
+        flex-basis: 60%;
+        background-color: #fff;
+        height: calc(100vh - #{$navbar-height});
+        padding: 10px 32px 0 32px;
+        @include shadow;
 
+        .selectize-input{
+            height: 32px;
+            border-radius: 3px;
 
-        #crisis-detail{
-            padding: 32px;
-            height: calc(100vh - #{$navbar-height} - 5px);
-            overflow-y: auto;
-            background-color: #fff;
-            @include shadow();
+            input{
+                margin-top: 4px!important;
+            }
+        }
+
+        form{
+            padding: 10px 16px;
 
             h2{
-                margin: 0;
+                font-weight: $font-weight-bold;
+                font-size: $text-size-sl;
                 margin-bottom: 32px;
             }
+            >div{
+                margin-bottom: 8px;
 
-            #crisis-status{
+                >input[type="text"]{
+                    width: 100%;
+                    height: 32px;
+                    padding: 0 16px 0 8px;
+                    outline: none;
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                    border-radius: 3px;
+                    background-color: transparent;
+
+                    &:focus{
+                        border-color: $primary-color;
+                    }
+                }
+            }
+            #date-field-wrapper{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                div{
+                    flex-basis: 48%;
+
+                    input{
+                        width: 100%;
+                        height: 32px;
+                        padding: 0 16px 0 8px;
+                        outline: none;
+                        border: 1px solid rgba(0, 0, 0, 0.1);
+                        border-radius: 3px;
+                        background-color: transparent;
+
+                        &:focus{
+                            border-color: $primary-color;
+                        }
+                    }
+                }
+            }
+            #crisis-status-wrapper{
                 label{
                     margin-right: 16px;
                     cursor: pointer;
@@ -147,14 +209,9 @@ body{
                     vertical-align: sub;
                 }
             }
-
-            .form-control{
-                margin-bottom: 16px;
-            }
             #action-buttons{
                 text-align: right;
-                margin-top: 48px;
-
+                margin-top: 32px;
 
                 button{
                     margin-left: 16px;
@@ -162,7 +219,6 @@ body{
 
                     i{
                         margin-right: 10px;
-                        margin-left: 10px;
                     }
                 }
             }
