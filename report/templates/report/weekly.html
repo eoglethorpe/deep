@@ -1,24 +1,25 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
 {% load dict_access %}
+{% load watchful_url %}
 
 {% block title %}
 DEEP | Weekly Report
 {% endblock %}
 
 {% block head %}
-<link href="{% static 'css/report-weekly.css' %}" type="text/css" rel="stylesheet">
-<link href="{% static 'css/selectize.css' %}" type="text/css" rel="stylesheet">
-<script src="{% static 'js/entries/entries-filter.js' %}"></script>
-<script src="{% static 'js/common/selectize.js' %}"></script>
-<script src="{% static 'js/common/utils.js' %}"></script>
-<script src="{% static 'js/report/report-weekly.js' %}"></script>
-<script src="{% static 'js/report/decay.js' %}"></script>
+<link href="{% watchful_static_url 'css/report-weekly.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/selectize.css' %}" type="text/css" rel="stylesheet">
+<script src="{% watchful_static_url 'js/entries/entries-filter.js' %}"></script>
+<script src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
+<script src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script src="{% watchful_static_url 'js/report/report-weekly.js' %}"></script>
+<script src="{% watchful_static_url 'js/report/decay.js' %}"></script>
 
 <script>
 var eventId = "{{event.pk}}";
 var csrf_token = "{% csrf_token %}";
 var reportMode = "new";
+
 {% if report %}
 var data = JSON.parse("{{report.data|escapejs}}");
 reportMode = "edit";

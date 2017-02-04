@@ -539,7 +539,6 @@ function loadMultimedia(){
 
 $(document).ready(function(){
 
-
     $('#matrix-two .pillar-header').each(function(i){
         $(this).css('color', getContrastYIQ( $(this).data('bg-color') ) );
     });

@@ -1,25 +1,25 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load watchful_url %}
 
 {% block title %}
 DEEP | Leads
 {% endblock %}
 
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/datatables.min.css' %}"/>
-<link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.bootstrap.min.css' %}"/>
-<link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}"/>
-<link href="{% static 'css/leads.css' %}" type="text/css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/datatables.min.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/dataTables.bootstrap.min.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}"/>
+<link href="{% watchful_static_url 'css/leads.css' %}" type="text/css" rel="stylesheet">
 
 <script>
     var currentEvent = {{event.pk}};
     var postUrl = "{% url 'leads:add' event.pk %}";
 </script>
 
-<script type="text/javascript" src="{% static 'js/common/datatables.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/common/selectize.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/common/utils.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/leads/leads.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/datatables.min.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/leads/leads.js' %}"></script>
 {% endblock %}
 
 {% block body %}

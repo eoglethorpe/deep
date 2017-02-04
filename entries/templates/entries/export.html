@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load watchful_url %}
 
 {% block title %}
 DEEP | Export
@@ -10,13 +10,13 @@ DEEP | Export
     var currentEvent = {{event.pk}};
     var heirarchy = [];
 </script>
-<link href="{% static 'css/jquery-ui.min.css' %}" type="text/css" rel="stylesheet">
-<link href="{% static 'css/export.css' %}" type="text/css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}"/>
-<script type="text/javascript" src="{% static 'js/common/selectize.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/common/jquery-ui.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/entries/entries-filter.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/entries/export.js' %}"></script>
+<link href="{% watchful_static_url 'css/jquery-ui.min.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/export.css' %}" type="text/css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}"/>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entries/entries-filter.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entries/export.js' %}"></script>
 
 <script>
     var eventId = "{{event.pk}}";

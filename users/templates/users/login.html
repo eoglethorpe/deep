@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load watchful_url %}
 
 {% block title %}
 DEEP | Sign in
 {% endblock %}
 
 {% block head %}
-<link href="{% static 'css/login.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/login.css' %}" type="text/css" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -17,7 +17,7 @@ DEEP | Sign in
             <div class="col-md-6 col-md-offset-3">
                 <div id="wrapper">
                     <header>
-                        <img src="{% static 'img/deep-logo-header.png' %}">
+                        <img src="{% watchful_static_url 'img/deep-logo-header.png' %}">
                     </header>
                     <form method="post">
                         {% csrf_token %}

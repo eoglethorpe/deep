@@ -148,6 +148,7 @@ function renderTimeline(){
     line.height(timelineHeight);
     line.show();
 }
+
 function hideTimeline(){
     $('#timeline-view #line').hide();
     var container = $('#timeline-view');
