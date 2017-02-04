@@ -11,6 +11,7 @@ main{
     #add-lead-btn{
         @include btn-shadow-lg();
         float: right;
+        margin-top: 8px;
     }
     h1{
         margin: 16px 0!important;
@@ -67,7 +68,6 @@ main{
         }
     }
     #leads-table{
-
         tbody{
             tr[role="row"]{
                 cursor: pointer;

@@ -111,7 +111,8 @@ main {
   clear: both; }
   main #add-lead-btn {
     box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7);
-    float: right; }
+    float: right;
+    margin-top: 8px; }
     main #add-lead-btn:active {
       box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
   main h1 {
