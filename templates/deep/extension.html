@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load watchful_url %}
 
 {% block title %}
 DEEP | Chrome extension
 {% endblock %}
 
 {% block head %}
-<link href="{% static 'css/extension.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/extension.css' %}" type="text/css" rel="stylesheet">
 <style>
 body{
     background-color: #eee!important;
 }
 #header-section{
     height: 400px;
-    background-image: url("{% static 'img/extension-screenshot.png' %}");
+    background-image: url("{% watchful_static_url 'img/extension-screenshot.png' %}");
     background-color: #717171;
     background-size: cover;
     background-blend-mode: multiply;
@@ -44,7 +44,7 @@ body{
         <div class="title">
             Chrome Extension
         </div>
-        <a href="{% static 'files/deep-chrome-extension.crx' %}" class="btn btn-primary"><span class="fa-container"><i class="fa fa-download"></span></i>Download now</a>
+        <a href="{% watchful_static_url 'files/deep-chrome-extension.crx' %}" class="btn btn-primary"><span class="fa-container"><i class="fa fa-download"></span></i>Download now</a>
     </div>
 </div>
 <div id="body-section">

@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load watchful_url %}
 
 {% if all_events %}
 <script>
@@ -29,9 +29,9 @@
 <nav>
     <!-- DEEP logo -->
     {% if event %}
-    <a href="{% url 'dashboard' event=event.pk%}"><img src="{% static 'img/deep-logo-white.png' %}"></a>
+    <a href="{% url 'dashboard' event=event.pk%}"><img src="{% watchful_static_url 'img/deep-logo-white.png' %}"></a>
     {% else %}
-    <a href="{% url 'dashboard' %}?last_event=1"><img src="{% static 'img/deep-logo-white.png' %}"></a>
+    <a href="{% url 'dashboard' %}?last_event=1"><img src="{% watchful_static_url 'img/deep-logo-white.png' %}"></a>
     {% endif %}
 
     <!-- Report -->
