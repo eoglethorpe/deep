@@ -37,120 +37,164 @@ body {
     text-transform: uppercase;
     font-size: 12px; }
 
-body h1, body h2, body h3, body h4 {
-  text-transform: uppercase;
-  margin: 0;
-  vertical-align: middle; }
-body header {
-  background-color: #004d4d;
-  color: #fff;
-  height: 56px;
-  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-  body header h1 {
-    padding-top: 19px; }
-  body header a {
-    color: #fff;
-    float: right;
-    padding-top: 21px; }
-    body header a i {
-      margin-right: 10px; }
-    body header a:hover {
-      color: #eee; }
-body main label {
-  color: #008080; }
-body main h2 {
-  font-weight: 600;
-  font-size: 18px; }
-body main #crisis-header {
-  height: 144px;
-  padding: 32px 0 24px 0;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.2); }
-  body main #crisis-header h2 {
-    margin-bottom: 16px; }
-  body main #crisis-header #add-new-crisis-btn {
-    float: right;
-    margin-top: -16px;
-    box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
-    body main #crisis-header #add-new-crisis-btn:active {
-      box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
-    body main #crisis-header #add-new-crisis-btn .fa {
-      margin-right: 10px; }
-  body main #crisis-header #crisis-search {
-    outline: none;
-    width: 100%;
-    border-radius: 3px;
-    padding: 6px 16px 6px 40px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    background-color: transparent;
-    box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-    body main #crisis-header #crisis-search:active {
-      box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-    body main #crisis-header #crisis-search:focus, body main #crisis-header #crisis-search:active {
-      border: 1px solid #008080; }
-  body main #crisis-header input + .fa {
-    float: left;
-    margin-top: -24px;
-    margin-left: 16px;
-    z-index: 1;
-    color: rgba(0, 0, 0, 0.5); }
-  body main #crisis-header #crisis-status-radio {
-    margin-top: 10px; }
-    body main #crisis-header #crisis-status-radio label {
-      padding: 6px 16px;
-      cursor: pointer;
-      color: #767676;
-      vertical-align: bottom;
-      user-select: none; }
-    body main #crisis-header #crisis-status-radio .active {
-      color: #008080;
-      border-bottom: 2px solid #008080; }
-    body main #crisis-header #crisis-status-radio input {
-      display: none; }
-body main #crisis-list {
-  height: calc(100vh - 56px - 156px);
-  overflow-y: auto;
-  margin-top: 10px; }
-  body main #crisis-list .crisis {
-    padding: 10px 16px;
-    cursor: pointer; }
-    body main #crisis-list .crisis:nth-child(odd) {
-      background-color: #fafafa; }
-    body main #crisis-list .crisis:hover {
-      background-color: rgba(0, 0, 0, 0.1); }
-  body main #crisis-list .crisis.active {
-    background-color: #008080;
-    color: #fff; }
-body main #crisis-detail {
-  padding: 32px;
-  height: calc(100vh - 56px - 5px);
-  overflow-y: auto;
-  background-color: #fff;
-  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-  body main #crisis-detail h2 {
+body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start; }
+  body h1, body h2, body h3, body h4 {
     margin: 0;
-    margin-bottom: 32px; }
-  body main #crisis-detail #crisis-status label {
-    margin-right: 16px;
-    cursor: pointer;
-    color: #767676;
-    vertical-align: bottom; }
-  body main #crisis-detail #crisis-status .crisis-status {
-    margin: 5px; }
-  body main #crisis-detail #crisis-status input {
-    outline: none;
-    vertical-align: sub; }
-  body main #crisis-detail .form-control {
-    margin-bottom: 16px; }
-  body main #crisis-detail #action-buttons {
-    text-align: right;
-    margin-top: 48px; }
-    body main #crisis-detail #action-buttons button {
-      margin-left: 16px;
-      box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-      body main #crisis-detail #action-buttons button:active {
-        box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-      body main #crisis-detail #action-buttons button i {
-        margin-right: 10px;
-        margin-left: 10px; }
+    text-transform: uppercase; }
+  body header {
+    flex-basis: 100%;
+    height: 56px;
+    background-color: #004d4d;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 16px;
+    align-items: center;
+    box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+    body header a {
+      color: #fff; }
+      body header a .fa {
+        margin-right: 10px; }
+      body header a:hover {
+        color: #fff; }
+  body aside {
+    flex-basis: 27%; }
+    body aside #crisis-header {
+      height: 144px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding: 10px 16px 0 16px;
+      align-items: center;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.3); }
+      body aside #crisis-header h2 {
+        flex-basis: 60%;
+        font-weight: 600;
+        font-size: 18px; }
+      body aside #crisis-header button {
+        flex-basis: 30%;
+        box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
+        body aside #crisis-header button:active {
+          box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
+        body aside #crisis-header button .fa {
+          margin-right: 10px; }
+      body aside #crisis-header #search-wrapper {
+        flex-basis: 100%;
+        position: relative;
+        margin: 8px 0; }
+        body aside #crisis-header #search-wrapper input {
+          width: 100%;
+          height: 32px;
+          padding: 0 16px 0 32px;
+          outline: none;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          border-radius: 3px;
+          background-color: transparent; }
+          body aside #crisis-header #search-wrapper input:focus {
+            border-color: #008080; }
+        body aside #crisis-header #search-wrapper i {
+          position: absolute;
+          left: 10px;
+          top: 8px;
+          color: rgba(0, 0, 0, 0.3);
+          font-size: 16px; }
+      body aside #crisis-header #crisis-status-radio {
+        flex-basis: 100%;
+        align-self: flex-end; }
+        body aside #crisis-header #crisis-status-radio label {
+          padding: 6px 16px;
+          margin-bottom: 0;
+          cursor: pointer;
+          color: #767676;
+          vertical-align: bottom;
+          user-select: none; }
+        body aside #crisis-header #crisis-status-radio .active {
+          color: #008080;
+          border-bottom: 2px solid #008080; }
+        body aside #crisis-header #crisis-status-radio input {
+          display: none; }
+    body aside #crisis-list {
+      height: calc(100vh - 56px - 144px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 0 16px; }
+      body aside #crisis-list .crisis {
+        padding: 10px 16px;
+        cursor: pointer; }
+        body aside #crisis-list .crisis:nth-child(odd) {
+          background-color: #fafafa; }
+        body aside #crisis-list .crisis:hover {
+          background-color: rgba(0, 0, 0, 0.1); }
+      body aside #crisis-list .crisis.active {
+        background-color: #008080;
+        color: #fff; }
+  body main {
+    flex-basis: 60%;
+    background-color: #fff;
+    height: calc(100vh - 56px);
+    padding: 10px 32px 0 32px;
+    box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+    body main .selectize-input {
+      height: 32px;
+      border-radius: 3px; }
+      body main .selectize-input input {
+        margin-top: 4px !important; }
+    body main form {
+      padding: 10px 16px; }
+      body main form h2 {
+        font-weight: 600;
+        font-size: 18px;
+        margin-bottom: 32px; }
+      body main form > div {
+        margin-bottom: 8px; }
+        body main form > div > input[type="text"] {
+          width: 100%;
+          height: 32px;
+          padding: 0 16px 0 8px;
+          outline: none;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          border-radius: 3px;
+          background-color: transparent; }
+          body main form > div > input[type="text"]:focus {
+            border-color: #008080; }
+      body main form #date-field-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center; }
+        body main form #date-field-wrapper div {
+          flex-basis: 48%; }
+          body main form #date-field-wrapper div input {
+            width: 100%;
+            height: 32px;
+            padding: 0 16px 0 8px;
+            outline: none;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+            background-color: transparent; }
+            body main form #date-field-wrapper div input:focus {
+              border-color: #008080; }
+      body main form #crisis-status-wrapper label {
+        margin-right: 16px;
+        cursor: pointer;
+        color: #767676;
+        vertical-align: bottom; }
+      body main form #crisis-status-wrapper .crisis-status {
+        margin: 5px; }
+      body main form #crisis-status-wrapper input {
+        outline: none;
+        vertical-align: sub; }
+      body main form #action-buttons {
+        text-align: right;
+        margin-top: 32px; }
+        body main form #action-buttons button {
+          margin-left: 16px;
+          box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+          body main form #action-buttons button:active {
+            box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+          body main form #action-buttons button i {
+            margin-right: 10px; }
 
 /*# sourceMappingURL=crisis-panel.css.map */
