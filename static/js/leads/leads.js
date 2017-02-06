@@ -88,23 +88,23 @@ $(document).ready(function() {
         },
         columns: [
             {
-                data: null,
+                data: null,width: "7%",
                 render: function (data, type, row ) {
                     return "<span hidden>"+data.created_at+"</span> "+formatDate(data.created_at) + "<br>" + formatTime(data.created_at) + "<br>";
                 }
             },
             {
-                data: null,
+                data: null,width: "7%",
                 render: function (data, type, row ) {
                     return data.created_by_name;
                 }
             },
-            { data: "assigned_to_name" },
-            { data: "name" , width: "40%"},
-            { data: null, render: function(data, type, row) { if (data.published_at) return formatDate(data.published_at); else return ""; } },
-            { data: null, render: function(data, type, row) { return confidentialities[data.confidentiality]; } },
-            { data: "source"},
-            { data: null, render: function(data, type, row) { return statuses[data.status]; } },
+            { data: "assigned_to_name",width: "6%"},
+            { data: "name" , width: "35%"},
+            { data: null,width: "5%", render: function(data, type, row) { if (data.published_at) return formatDate(data.published_at); else return ""; } },
+            { data: null,width: "5%", render: function(data, type, row) { return confidentialities[data.confidentiality]; } },
+            { data: "source",width: "20%"},
+            { data: null,width: "5%", render: function(data, type, row) { return statuses[data.status]; } },
             { data: null,width: "10%",render: function(data, type, row){
                 var getPendingBtn = function(){
                     return (data.status == "PEN") ? '<a class="btn btn-default btn-action btn-mark-processed" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Mark Processed" onclick="markProcessed('+data.id+', \'PRO\');"><i class="fa fa-exclamation-triangle"></i>  </a>' : '<a class="btn btn-default btn-action btn-mark-pending" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Mark Pending" onclick="markProcessed('+data.id+', \'PEN\');"><i class="fa fa-check"></i></a>';
