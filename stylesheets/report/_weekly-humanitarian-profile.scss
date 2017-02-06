@@ -2,7 +2,13 @@
 
     #human-profile-field-list{
 
-        .human-profile-field{
+        .human-profile-field {
+            &:nth-child(odd){
+                background-color: #fff;
+            }
+        }
+
+        .human-profile-field, .human-profile-subfield, .human-profile-child{
             width: 100%;
             display: flex;
             flex-wrap: wrap;
@@ -16,18 +22,28 @@
                 box-sizing: border-box;
                 padding: 6px 10px;
             }
-            &:nth-child(odd){
-                background-color: #fff;
-            }
             .sub{
                 padding-left: 24px;
                 font-weight: $font-weight-normal;
             }
+            > *{
+                flex-basis: 23%;
+                box-sizing: border-box;
+                margin: 10px 0;
+            }
+            > a{
+                flex-basis: 24px;
+                cursor: pointer;
+            }
+            > div {
+                flex-basis: 100%;
+            }
         }
-        .human-profile-field > *{
-            flex-basis: 23%;
-            box-sizing: border-box;
-            margin: 10px 0;
+
+        .human-profile-child{
+            input {
+                border: 1px solid rgba(0,0,0,0.2);
+            }
         }
     }
 
