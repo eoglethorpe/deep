@@ -357,10 +357,16 @@ $(document).ready(function(){
                     geoRankList.push(isNaN(geo)? 0: geo);
                 }
 
-                country.find('.affected .viz').sparkline(affectedList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#2980b9', fillColor: 'rgba(0, 50, 255, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0});
-                country.find('.in-need .viz').sparkline(pinList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#c0392b', fillColor: 'rgba(255, 0, 0, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0});
-                country.find('.access-constraints .viz').sparkline(accessConstraintsList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#e67e22', fillColor: 'rgba(255, 160, 50, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0});
-                country.find('.geo-ranking .viz').sparkline(geoRankList.reverse(), {type: 'bar', height: '48px ', chartRangeMin: 0, chartRangeMax: 3, width: '100%', barWidth: 12, barSpacing: 4, barColor: '#8e44ad'});
+                var sparkLineYMax = Math.max(...[
+                    Math.max(...affectedList),
+                    Math.max(...pinList),
+                    Math.max(...accessConstraintsList)
+                ]);
+
+                country.find('.affected .viz').sparkline(affectedList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#2980b9', fillColor: 'rgba(0, 50, 255, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
+                country.find('.in-need .viz').sparkline(pinList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#c0392b', fillColor: 'rgba(255, 0, 0, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
+                country.find('.access-constraints .viz').sparkline(accessConstraintsList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#e67e22', fillColor: 'rgba(97,97,97 ,1)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
+                country.find('.geo-ranking .viz').sparkline(geoRankList.reverse(), {type: 'bar', height: '48px ', chartRangeMin: 0, chartRangeMax: 3, width: '100%', barWidth: 12, barSpacing: 4, barColor: '#cc2d06'});
             }
         }
     }
