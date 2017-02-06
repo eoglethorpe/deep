@@ -12,8 +12,9 @@ DEEP | Weekly Report
 <script src="{% watchful_static_url 'js/entries/entries-filter.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/utils.js' %}"></script>
-<script src="{% watchful_static_url 'js/report/report-weekly.js' %}"></script>
-<script src="{% watchful_static_url 'js/report/decay.js' %}"></script>
+<script src="{% watchful_static_url 'js/report/weekly/children-fields.js' %}"></script>
+<script src="{% watchful_static_url 'js/report/weekly/weekly.js' %}"></script>
+<script src="{% watchful_static_url 'js/report/weekly/decay.js' %}"></script>
 
 <script>
 var eventId = "{{event.pk}}";
@@ -39,17 +40,18 @@ var dataModel = {
         "number": {}, "source": {}, "comment": {},
         "numberDecay": {}, "sourceDecay": {}, "commentDecay": {}
     },
+    "human-children": {},
     "people": {
         "total": {}, "at-risk": {}, "moderate": {}, "severe": {}, "planned": {},
         "total-source": {}, "at-risk-source": {}, "moderate-source": {}, "severe-source": {}, "planned-source": {},
         "total-comment": {}, "at-risk-comment": {}, "moderate-comment": {}, "severe-comment": {}, "planned-comment": {},
     },
     "ipc": {"a":null, "b":null, "c":null, "d":null, "e":null, "f":null, "g":null},
-    "access": {},
+    "access": {}, "access-extra": { "source": {}, "comment": {} },
     "access-pin": { "number": {}, "source": {}, "comment": {} },
     "final-severity-score": { score: null, comment: null }
-};
 
+};
 // Migrate anything that exists in the data model but not in the actual data
 migrate(data, dataModel);
 // TODO: Check this ^^^ is working.
