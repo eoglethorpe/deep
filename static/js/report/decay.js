@@ -52,7 +52,7 @@ var humanitarianProfileDecay = {
                 $(this).data('last-decay-color', $(this).data('decay-color'));
                 $(this).css('border-color', $(this).data('decay-color'));
             });
-        } else{ // for last week's data
+        } else { // for last week's data
             $(".human-number").each(function(){
                 $(this).data('decay-color', getDecayColor(data['human']['numberDecay'][$(this).data('human-pk')]));
                 $(this).data('last-decay-color', $(this).data('decay-color'));

@@ -242,3 +242,20 @@ function reformatText(text) {
     text = text.replace(/\n\s*\n\s*(\n\s*)+/gi, '\n\n\n');
     return text;
 }
+
+// Migrate object keys based on given model
+function migrate(data, dataModel) {
+    // TODO:
+    // Check for other cases such as:
+    //      * when data[key] == null but dataModel[key] = {a:{}, b:{c:d}}
+    for (var key in dataModel) {
+        if (!(key in data)) {
+            data[key] = dataModel[key];
+        }
+        else {
+            if (dataModel[key] != null && typeof dataModel[key] == 'object') {
+                migrate(data[key], dataModel[key]);
+            }
+        }
+    }
+}
