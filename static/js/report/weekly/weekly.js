@@ -766,7 +766,7 @@ function autoCalculateScores() {
             pinScore = 2;
         if (pinPercentage >= 10)
             pinScore = 3;
-        $('#pin-percentage').val(pinPercentage+'%');
+        $('#pin-percentage').val(Math.round(pinPercentage) +'%');
     }
     $('#pin-percentage-score').val(pinScore);
 
@@ -836,7 +836,7 @@ function autoCalculateScores() {
 
     $('#uprooted-people').val(uprootedPeople);
     formatNumber($('#uprooted-people'));
-    $('#uprooted-percentage').val(uprootedPercentage);
+    $('#uprooted-percentage').val(Math.round(uprootedPercentage)+ "%");
     $('#uprooted-score').val(uprootedScore);
 
     var scores = [
