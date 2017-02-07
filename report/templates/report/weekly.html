@@ -12,8 +12,9 @@ DEEP | Weekly Report
 <script src="{% watchful_static_url 'js/entries/entries-filter.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/utils.js' %}"></script>
-<script src="{% watchful_static_url 'js/report/report-weekly.js' %}"></script>
-<script src="{% watchful_static_url 'js/report/decay.js' %}"></script>
+<script src="{% watchful_static_url 'js/report/weekly/children-fields.js' %}"></script>
+<script src="{% watchful_static_url 'js/report/weekly/weekly.js' %}"></script>
+<script src="{% watchful_static_url 'js/report/weekly/decay.js' %}"></script>
 
 <script>
 var eventId = "{{event.pk}}";
@@ -30,42 +31,36 @@ reportMode = "lastweek";
 var data = {};
 {% endif %}
 
-if (!data["disaster_type"])
-    data["disaster_type"] = null;
-if (!data["status"])
-    data["status"] = null;
 
-if (!data["events"] || data["events"].length==0)
-    data["events"] = [{"value":null, "start_date":null, "end_date":null, "category":null}];
-
-if (!data["human"])
-    data["human"] = { "number": {}, "source": {}, "comment": {}};
-
-if (!data["people"]) {
-    data["people"] = {
+// The JSON data model with default values
+var dataModel = {
+    "disaster_type": null, "status": null,
+    "events": [],
+    "human": {
+        "number": {}, "source": {}, "comment": {},
+        "numberDecay": {}, "sourceDecay": {}, "commentDecay": {}
+    },
+    "human-children": {},
+    "people": {
         "total": {}, "at-risk": {}, "moderate": {}, "severe": {}, "planned": {},
         "total-source": {}, "at-risk-source": {}, "moderate-source": {}, "severe-source": {}, "planned-source": {},
         "total-comment": {}, "at-risk-comment": {}, "moderate-comment": {}, "severe-comment": {}, "planned-comment": {},
-    };
-}
-// Migration for "at-risk"
-if (!data["people"]["at-risk"]) {
-    data["people"]["at-risk"] = {};
-    data["people"]["at-risk-source"] = {};
-    data["people"]["at-risk-comment"] = {};
-}
+    },
+    "ipc": {"a":null, "b":null, "c":null, "d":null, "e":null, "f":null, "g":null},
+    "access": {}, "access-extra": { "source": {}, "comment": {} },
+    "access-pin": { "number": {}, "source": {}, "comment": {} },
+    "final-severity-score": { score: null, comment: null }
 
-if (!data["ipc"])
-    data["ipc"] = {"a":null, "b":null, "c":null, "d":null, "e":null, "f":null, "g":null};
-if (!data["access"])
-    data["access"] = {};
-if (!data["access-pin"])
-    data["access-pin"] = { "number": {}, "source": {}, "comment": {} };
-
-if (!data["final-severity-score"])
-    data["final-severity-score"] = { score: null, comment: null };
+};
+// Migrate anything that exists in the data model but not in the actual data
+migrate(data, dataModel);
+// TODO: Check this ^^^ is working.
 
 var csrf_token = "{% csrf_token %}";
+
+if (data["events"].length == 0) {
+    data["events"] = [{"value":null, "start_date":null, "end_date":null, "category":null}];
+}
 
 {% if start_date %}
 var start_date = "{{start_date|date:'d-M-Y'}}";
@@ -98,15 +93,15 @@ var hdi = +'{{country.hdi_index}}';
 var uprootedPeople = (+'{{country.number_of_refugees}}') + (+'{{country.number_of_idps}}') + (+'{{country.number_of_returned_refugees}}');
 var uprootedPercentage = 100.0 * uprootedPeople / (+'{{country.total_population}}');
 
-
 var totalPopulation = +'{{country.total_population}}';
 {% for field in human_profile_fields %}
 {% if field.total_field %}data['human']['number'][{{field.pk}}] = totalPopulation;{% endif %}
 {% endfor %}
 
+var severityScoreTotalPinId = '{{ severity_score_total_pin_id.0.pk }}';
+
 var timelineCategories = [{% for category in category_timelines %}"{{category}}",{% endfor %}];
 
-var severityScoreTotalPinId = '{{ severity_score_total_pin_id.0.pk }}';
 //var severityScoreTotalPinHumanId = '{{ severity_score_total_pin_human_id.0.pk }}';
 
 </script>

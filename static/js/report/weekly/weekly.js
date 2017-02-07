@@ -308,6 +308,9 @@ $(document).ready(function(){
         changeWeekSelection();
 
     });
+
+    // Initialize children fields stuffs
+    childrenFields.init();
 });
 
 function setInputData() {
@@ -382,6 +385,10 @@ function setInputData() {
     // Access data
     for (var pk in data["access"])
         $(".access-select[data-access-pk='" + pk + "']").val(data["access"][pk]);
+    for (var pk in data["access-extra"]["source"])
+        $(".access-source[data-access-pk='" + pk + "']").val(data["access-extra"]["source"][pk]);
+    for (var pk in data["access-extra"]["comment"])
+        $(".access-comment[data-access-pk='" + pk + "']").val(data["access-extra"]["comment"][pk]);
 
     // Access pin data
     for (var pk in data["access-pin"]["number"])
@@ -509,6 +516,12 @@ function getInputData() {
         data["access"][$(this).data("access-pk")] = $(this).val();
         data["accessDecay"][$(this).data("access-pk")] = $(this).data('decay-color');
     });
+    $(".access-source").each(function() {
+        data["access-extra"]["source"][$(this).data("access-pk")] = $(this).val();
+    });
+    $(".access-comment").each(function() {
+        data["access-extra"]["comment"][$(this).data("access-pk")] = $(this).val();
+    });
 
     // Access pin data
     $(".access-pin-number").each(function() {
@@ -561,7 +574,7 @@ function checkRules() {
             var parent = +getNumberValue($('.human-number[data-human-pk="' + rule.parent + '"]'));
             if (!parent || isNaN(parent))
                 continue;
-            var parentTitle = $('.human-number[data-human-pk="' + rule.parent + '"]').parent('div').parent('div').find('label').text();
+            var parentTitle = $('.human-number[data-human-pk="' + rule.parent + '"]').parent('div').find('label').eq(0).text();
 
             var childrenSum = 0;
             var children = [];
@@ -574,7 +587,7 @@ function checkRules() {
                     children.push(child);
                 }
 
-                var childTitle = $('.human-number[data-human-pk="' + rule.children[j] + '"]').parent('div').parent('div').find('label').text();
+                var childTitle = $('.human-number[data-human-pk="' + rule.children[j] + '"]').parent('div').find('label').eq(0).text();
                 childrenTitles.push(childTitle);
             }
 

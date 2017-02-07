@@ -9,8 +9,8 @@
                     <option value="No">No</option>
                     <option value="DNK">DNK</option>
                 </select>
-                <input type="text" name="source" placeholder="Source/Date">
-                <input type="text" name="comment" placeholder="Comment">
+                <input class="access-source" data-access-pk="{{field.pk}}" type="text" name="source" placeholder="Source/Date">
+                <input class="access-comment" data-access-pk="{{field.pk}}" type="text" name="comment" placeholder="Comment">
             </div>
             {% endfor %}
         </div>
