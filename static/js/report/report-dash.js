@@ -308,6 +308,8 @@ $(document).ready(function(){
                     }
 
                     var reportChange = getReportChangePercentage();
+                    fillPercent(country.find('.change .percent'), reportChange);
+
                     if(reportChange < 0){
 
                     } else if(reportChange == 0){
