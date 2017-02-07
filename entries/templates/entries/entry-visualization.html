@@ -43,14 +43,14 @@
 <div id="map-wrapper" class="visualization-block">
     <div id="the-map">
     </div>
-    <div id="country-select-wrapper">
-        <select name="country" id="country" placeholder="Select a country">
-            {% for country in event.countries.all %}
-            <option value="{{country.pk}}">{{country.name}}</option>
-            {% endfor %}
-        </select>
-    </div>
     <div id="map-controls">
+        <div id="country-select-wrapper">
+            <select name="country" id="country" placeholder="Select a country">
+                {% for country in event.countries.all %}
+                <option value="{{country.pk}}">{{country.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
         <div id="admin-level-buttons"></div>
     </div>
 </div>

@@ -140,13 +140,6 @@ main #toggle-panel {
   main #toggle-panel .active {
     color: #008080;
     transform: scale(1.41); }
-main #visualizations .first-child {
-  padding-right: 4px; }
-main #visualizations .low-padding {
-  padding-left: 4px;
-  padding-right: 4px; }
-main #visualizations .last-child {
-  padding-left: 4px; }
 main #visualizations .visualization-block {
   background-color: #fff;
   margin-bottom: 4px;
@@ -168,7 +161,7 @@ main #visualizations #entry-timeline-wrapper {
 main #visualizations #severity-legend {
   width: 16%;
   float: left;
-  padding-bottom: 41px; }
+  padding-bottom: 38px; }
   main #visualizations #severity-legend .inactive label {
     color: #ccc; }
   main #visualizations #severity-legend .inactive .severity {
@@ -320,22 +313,20 @@ main #visualizations #map-wrapper {
       bottom: 24px;
       left: 24px; }
   main #visualizations #map-wrapper #map-controls {
-    margin-top: 8px;
     box-sizing: border-box;
     background-color: rgba(255, 255, 255, 0.88);
-    float: left;
-    width: 75%; }
+    padding: 11px 0 12px 4px;
+    display: flex;
+    justify-content: space-between; }
+    main #visualizations #map-wrapper #map-controls #country-select-wrapper {
+      flex-basis: 25%;
+      box-sizing: border-box; }
     main #visualizations #map-wrapper #map-controls #admin-level-buttons {
+      flex-basis: 75%;
       text-align: center; }
       main #visualizations #map-wrapper #map-controls #admin-level-buttons button {
-        margin: 4px !important;
+        margin: 0 4px;
         box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-  main #visualizations #map-wrapper #country-select-wrapper {
-    box-sizing: border-box;
-    float: left;
-    margin-top: 8px;
-    width: 25%;
-    display: block; }
 main #visualizations #entry-header {
   padding: 16px 24px; }
   main #visualizations #entry-header h3 {
