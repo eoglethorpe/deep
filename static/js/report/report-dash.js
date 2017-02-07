@@ -50,7 +50,7 @@ $(document).ready(function(){
                 // fills percent to element
                 function fillPercent(el, num){
                     if(!isNaN(num)){
-                        el.text(num.toFixed(2)+'%');
+                        el.text(Math.round(num)+'%');
                     }
                 }
                 // returns the number of affected people from current report
@@ -198,7 +198,7 @@ $(document).ready(function(){
                     if(health < 0){
                         return $('<div class="health-bar-invalid"></div>');
                     } else{
-                        var healthBar = $('<div class="health-bar" data-toggle="tooltip" title="'+tooltip+' ('+health.toFixed(2)+'%)'+'"></div>');
+                        var healthBar = $('<div class="health-bar" data-toggle="tooltip" title="'+tooltip+' ('+Math.round(health)+'%)'+'"></div>');
                         var healthIndicator = $('<div class="health-indicator"></div>');
                         healthIndicator.appendTo(healthBar);
                         healthIndicator.css('width', health+'%');
@@ -338,7 +338,7 @@ $(document).ready(function(){
                         }
                         var path = country.find('.change .viz svg path');
                         path.attr('d', describeArc(24, 24, 16, 0, reportChange*360/100));
-                        $('<div class="change-block" data-toggle="tooltip" title="'+reportChange.toFixed(2)+'% changed"></div>').appendTo(country.find('.change .viz'));
+                        $('<div class="change-block" data-toggle="tooltip" title="'+Math.round(reportChange)+'% changed"></div>').appendTo(country.find('.change .viz'));
                     }
                 }
 
