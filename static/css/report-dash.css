@@ -212,7 +212,8 @@ main #country-list {
       main #country-list #countries .country:hover {
         background-color: rgba(0, 0, 0, 0.2); }
     main #country-list #countries .active {
-      border-right: 3px solid #008080; }
+      border-right: 3px solid #008080;
+      background-color: rgba(0, 128, 128, 0.3) !important; }
     main #country-list #countries .percent, main #country-list #countries .number {
       font-family: 'Inconsolata', monospace; }
     main #country-list #countries .viz {
