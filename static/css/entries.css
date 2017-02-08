@@ -248,6 +248,12 @@ main #visualizations #sectors-visualization {
     filter: grayscale(100%); }
   main #visualizations #sectors-visualization .inactive .severities {
     filter: grayscale(100%); }
+  main #visualizations #sectors-visualization .attr-scale-container {
+    padding: 0; }
+    main #visualizations #sectors-visualization .attr-scale-container label {
+      cursor: inherit; }
+    main #visualizations #sectors-visualization .attr-scale-container .attr-scale .scale {
+      width: calc(240px/5); }
 main #visualizations .attr-visualization {
   padding-bottom: 16px; }
   main #visualizations .attr-visualization .attr {
@@ -281,6 +287,40 @@ main #visualizations .attr-visualization {
         background-color: #ec1717; }
       main #visualizations .attr-visualization .attr .severities .severity-6 {
         background-color: #c01010; }
+  main #visualizations .attr-visualization .attr-scale-container {
+    margin-top: 16px;
+    padding: 6px; }
+    main #visualizations .attr-visualization .attr-scale-container label {
+      padding-left: 10px;
+      margin-right: 8px;
+      width: 112px;
+      text-align: right;
+      vertical-align: super; }
+    main #visualizations .attr-visualization .attr-scale-container .blank-space {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      margin-right: 10px; }
+    main #visualizations .attr-visualization .attr-scale-container .attr-scale .scale {
+      position: relative;
+      border-top: 1px solid black;
+      display: inline-block;
+      width: calc(192px/5);
+      height: 24px; }
+      main #visualizations .attr-visualization .attr-scale-container .attr-scale .scale:after {
+        position: absolute;
+        left: 0;
+        content: '';
+        border-left: 1px solid black;
+        display: inline-block;
+        width: 100%;
+        height: 4px; }
+      main #visualizations .attr-visualization .attr-scale-container .attr-scale .scale:last-child:after {
+        border-right: 1px solid black; }
+    main #visualizations .attr-visualization .attr-scale-container .attr-scale .val {
+      float: left; }
+    main #visualizations .attr-visualization .attr-scale-container .attr-scale .val-right {
+      float: right; }
 main #visualizations #attr-visualizations-container {
   width: 100%;
   clear: both; }

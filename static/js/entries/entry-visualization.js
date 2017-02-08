@@ -115,6 +115,18 @@ function renderSectors(total){
     }
     var maxSeverity = Math.max(...totalSeverity);
 
+    var scale = $('#sectors-visualization').find('.attr-scale');
+    scale.find('.scale-2 .val').text(parseInt(maxSeverity/5));
+    scale.find('.scale-3 .val').text(parseInt(maxSeverity/5*2));
+    scale.find('.scale-4 .val').text(parseInt(maxSeverity/5*3));
+    scale.find('.scale-5 .val').text(parseInt(maxSeverity/5*4));
+    scale.find('.scale-5 .val-right').text(maxSeverity);
+
+    if (maxSeverity == 0)
+        $('#sectors-visualization').find('.attr-scale-container').hide();
+    else
+        $('#sectors-visualization').find('.attr-scale-container').show();
+
     sectorList.each(function(){
         var severitiesContainer = $(this).find('.severities');
         severitiesContainer.empty();
@@ -144,6 +156,18 @@ function renderAttrs(id, attrs, total) {
         }
     }
     var maxSeverity = Math.max(...totalSeverity);
+
+    var scale = $('#'+id).find('.attr-scale');
+    scale.find('.scale-2 .val').text(parseInt(maxSeverity/5));
+    scale.find('.scale-3 .val').text(parseInt(maxSeverity/5*2));
+    scale.find('.scale-4 .val').text(parseInt(maxSeverity/5*3));
+    scale.find('.scale-5 .val').text(parseInt(maxSeverity/5*4));
+    scale.find('.scale-5 .val-right').text(maxSeverity);
+
+    if (maxSeverity == 0)
+        $('#'+id).find('.attr-scale-container').hide();
+    else
+        $('#'+id).find('.attr-scale-container').show();
 
     attrList.each(function(){
         var severitiesContainer = $(this).find('.severities');
