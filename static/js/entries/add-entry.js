@@ -445,6 +445,8 @@ function refreshExcerpts() {
 
 
 function addExcerpt(text) {
+    text = reformatText(text);
+
     // Create new excerpt and refresh
     var excerpt = {
         excerpt: text,
@@ -750,7 +752,7 @@ $(document).ready(function(){
 
     // Excerpt text handler
     $("#excerpt-text").on('paste drop change keyup', function() {
-        excerpts[selectedExcerpt].excerpt = $(this).val();
+        excerpts[selectedExcerpt].excerpt = reformatText($(this).val());
         refreshExcerpts();
     });
 
