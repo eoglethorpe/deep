@@ -134,7 +134,6 @@ $(document).ready(function(){
                     $("#lead-form-wrapper").show();
                     currentEvent = response.last_event;
                     currentUser = response.user_id;
-                    //console.log(response);
 
                     if (inputs["user-select"])
                         currentUser = inputs["user-select"];

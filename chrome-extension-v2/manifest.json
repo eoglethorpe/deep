@@ -1,0 +1,21 @@
+{
+    "manifest_version": 2,
+
+    "name": "DEEP: Add Lead",
+    "description": "Submit a lead from current tab to the DEEP",
+    "version": "2.0",
+
+    "browser_action": {
+        "default_icon": "deep-logo.png",
+        "default_popup": "popup.html"
+    },
+
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    },
+
+    "options_page": "options.html",
+
+    "permissions": ["activeTab", "http://localhost/*", "<all_urls>", "storage"]
+}
