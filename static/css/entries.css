@@ -293,9 +293,7 @@ main #visualizations .attr-visualization {
     main #visualizations .attr-visualization .attr-scale-container label {
       padding-left: 10px;
       margin-right: 8px;
-      width: 112px;
-      text-align: right;
-      vertical-align: super; }
+      width: 112px; }
     main #visualizations .attr-visualization .attr-scale-container .blank-space {
       display: inline-block;
       width: 24px;
@@ -317,6 +315,10 @@ main #visualizations .attr-visualization {
         height: 4px; }
       main #visualizations .attr-visualization .attr-scale-container .attr-scale .scale:last-child:after {
         border-right: 1px solid black; }
+    main #visualizations .attr-visualization .attr-scale-container .attr-scale .val, main #visualizations .attr-visualization .attr-scale-container .attr-scale .val-right {
+      margin-top: 8px;
+      font-family: 'Inconsolata', monospace;
+      color: #767676; }
     main #visualizations .attr-visualization .attr-scale-container .attr-scale .val {
       float: left; }
     main #visualizations .attr-visualization .attr-scale-container .attr-scale .val-right {
@@ -374,10 +376,40 @@ main #visualizations #entry-header {
     margin: 0; }
 main #visualizations #entry-timeline-container {
   height: 160px;
-  cursor: crosshair; }
+  cursor: crosshair;
+  position: relative; }
   main #visualizations #entry-timeline-container #entry-timeline {
     width: 100%;
     height: 100%; }
+  main #visualizations #entry-timeline-container .timeline-scale {
+    height: 90%;
+    width: 5%;
+    display: inline-block;
+    position: absolute;
+    left: 5%;
+    top: 0;
+    border-left: 1px solid black; }
+    main #visualizations #entry-timeline-container .timeline-scale .scale {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      height: 20%; }
+      main #visualizations #entry-timeline-container .timeline-scale .scale:after {
+        position: absolute;
+        content: '';
+        top: 0;
+        left: -4px;
+        width: 4px;
+        height: 1px;
+        display: inline-block;
+        border-top: 1px solid black; }
+      main #visualizations #entry-timeline-container .timeline-scale .scale .val {
+        display: inline-block;
+        width: 100%;
+        font-family: 'Inconsolata', monospace;
+        color: #767676;
+        text-align: right;
+        transform: translateY(-10px) translateX(-110%); }
 main #loading-animation {
   z-index: 1000;
   position: fixed;

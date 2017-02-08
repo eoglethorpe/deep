@@ -194,7 +194,6 @@ function drawPieChart(total){
 
     $("#pies-container").empty();
 
-
     if (totalSeverity == 0)
         return;
 
@@ -320,6 +319,13 @@ function processTimeline(){
         }
     }
     maxEntries += 5;
+
+    $('.timeline-scale .scale-1 .val').text(parseInt(maxEntries/5*5));
+    $('.timeline-scale .scale-2 .val').text(parseInt(maxEntries/5*4));
+    $('.timeline-scale .scale-3 .val').text(parseInt(maxEntries/5*3));
+    $('.timeline-scale .scale-4 .val').text(parseInt(maxEntries/5*2));
+    $('.timeline-scale .scale-5 .val').text(parseInt(maxEntries/5*1));
+
     renderTimeline();
 }
 
@@ -344,7 +350,7 @@ function renderTimeline(){
 
 
     for(var i=0; i<entryDates.length; i++){
-        var x = timelineCanvas.width*((entryDates[i].date.getTime()-minDate.getTime())/timeGap)*0.9+timelineCanvas.width*0.05;
+        var x = timelineCanvas.width*((entryDates[i].date.getTime()-minDate.getTime())/timeGap)*0.85+timelineCanvas.width*0.1;
         var y = timelineCanvas.height*0.9;
         for(var j=0; j<severities.length; j++){
             var currentHeight = (timelineCanvas.height*entryDates[i].severities[severities[j].id]/maxEntries);
@@ -365,7 +371,7 @@ function renderTimeline(){
     context.beginPath();
     for(var j=0; j<=10; j++){
         var date = new Date(minDate.getTime()+j*(timeGap/9));
-        var x = (j*timelineCanvas.width/9)*0.9+timelineCanvas.width*0.05;
+        var x = (j*timelineCanvas.width/9)*0.85+timelineCanvas.width*0.1;
         var labelWidth = context.measureText(formatDate(date)).width;
         context.moveTo(x, yOffset);
         //context.lineTo(x, yOffset+10);
