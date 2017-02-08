@@ -87,7 +87,7 @@ function drawChart() {
 }
 
 function styleText(text) {
-    return "<div>" + text + "</div>";
+    return "<pre>" + text + "</pre>";
 }
 
 function changeLeadPreview(simplified) {
