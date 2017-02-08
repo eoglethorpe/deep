@@ -1,15 +1,4 @@
 #visualizations{
-    .first-child{
-        padding-right: 4px;
-    }
-    .low-padding{
-        padding-left: 4px;
-        padding-right: 4px;
-    }
-    .last-child{
-        padding-left: 4px;
-    }
-
     .visualization-block{
         background-color: #fff;
         margin-bottom: 4px;
@@ -36,7 +25,7 @@
     #severity-legend{
         width: 16%;
         float: left;
-        padding-bottom: 41px;
+        padding-bottom: 38px;
 
         .inactive{
             label{
@@ -223,26 +212,24 @@
         }
 
         #map-controls{
-            margin-top: 8px;
             box-sizing: border-box;
             background-color: rgba(255, 255, 255, 0.88);
-            float: left;
-            width: 75%;
+            padding: 11px 0 12px 4px;
+            display: flex;
+            justify-content: space-between;
 
+            #country-select-wrapper{
+                flex-basis: 25%;
+                box-sizing: border-box;
+            }
             #admin-level-buttons{
+                flex-basis: 75%;
                 text-align: center;
                 button{
-                    margin: 4px!important;
+                    margin: 0 4px;
                     @include shadow();
                 }
             }
-        }
-        #country-select-wrapper{
-            box-sizing: border-box;
-            float: left;
-            margin-top: 8px;
-            width: 25%;
-            display: block;
         }
     }
 

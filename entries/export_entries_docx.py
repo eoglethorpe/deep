@@ -139,7 +139,7 @@ def add_excerpt_info(d, info):
 
     # TODO Find out whether to show date of info or lead
     if info.date:
-        ref.add_run(", {}".format(info.date.strftime("%m/%d/%Y")), )
+        ref.add_run(", {}".format(info.date.strftime("%d/%m/%Y")), )
 
 
     # d.add_paragraph("Reliability: {}\nSeverity: {}".format(info.reliability.name, info.severity.name))
