@@ -1,15 +1,4 @@
 #visualizations{
-    .first-child{
-        padding-right: 4px;
-    }
-    .low-padding{
-        padding-left: 4px;
-        padding-right: 4px;
-    }
-    .last-child{
-        padding-left: 4px;
-    }
-
     .visualization-block{
         background-color: #fff;
         margin-bottom: 4px;
@@ -36,7 +25,7 @@
     #severity-legend{
         width: 16%;
         float: left;
-        padding-bottom: 41px;
+        padding-bottom: 38px;
 
         .inactive{
             label{
@@ -141,6 +130,19 @@
                 filter: grayscale(100%);
             }
         }
+
+        .attr-scale-container {
+            padding: 0;
+
+            label {
+                cursor: inherit;
+            }
+            .attr-scale {
+                .scale {
+                    width: calc(240px/5);
+                }
+            }
+        }
     }
 
     .attr-visualization{
@@ -179,6 +181,64 @@
                 .severity-6{background-color: lighten($severity-base, 0%);}
             }
 
+        }
+
+        .attr-scale-container {
+            margin-top: 16px;
+            padding: 6px;
+
+            label {
+                padding-left: 10px;
+                margin-right: 8px;
+                width: 112px;
+            }
+
+            .blank-space {
+                display: inline-block;
+                width: 24px;
+                height: 24px;
+                margin-right: 10px;
+            }
+
+            .attr-scale {
+                .scale {
+                    position: relative;
+                    border-top: 1px solid black;
+                    display: inline-block;
+                    width: calc(192px/5);
+                    height: 24px;
+
+                    &:after {
+                        position: absolute;
+                        left: 0;
+                        content: '';
+                        border-left: 1px solid black;
+                        display: inline-block;
+                        width: 100%;
+                        height: 4px;
+                    }
+
+                    &:last-child {
+                        &:after {
+                            border-right: 1px solid black;
+                        }
+                    }
+                }
+
+                .val, .val-right {
+                    margin-top: 8px;
+                    font-family: 'Inconsolata', monospace;
+                    color: $label-color;
+                }
+
+                .val {
+                    float: left;
+                }
+
+                .val-right {
+                    float: right;
+                }
+            }
         }
     }
     #attr-visualizations-container{
@@ -223,26 +283,24 @@
         }
 
         #map-controls{
-            margin-top: 8px;
             box-sizing: border-box;
             background-color: rgba(255, 255, 255, 0.88);
-            float: left;
-            width: 75%;
+            padding: 11px 0 12px 4px;
+            display: flex;
+            justify-content: space-between;
 
+            #country-select-wrapper{
+                flex-basis: 25%;
+                box-sizing: border-box;
+            }
             #admin-level-buttons{
+                flex-basis: 75%;
                 text-align: center;
                 button{
-                    margin: 4px!important;
+                    margin: 0 4px;
                     @include shadow();
                 }
             }
-        }
-        #country-select-wrapper{
-            box-sizing: border-box;
-            float: left;
-            margin-top: 8px;
-            width: 25%;
-            display: block;
         }
     }
 
@@ -256,10 +314,48 @@
     #entry-timeline-container{
         height: 160px;
         cursor: crosshair;
+        position: relative;
 
         #entry-timeline{
             width: 100%;
             height: 100%;
+        }
+
+        .timeline-scale {
+            height: 90%;
+            width: 5%;
+            display: inline-block;
+            position: absolute;
+            left: 5%;
+            top: 0;
+            border-left: 1px solid black;
+
+            .scale {
+                position: relative;
+                display: inline-block;
+                width: 100%;
+                height: 20%;
+
+                &:after {
+                    position: absolute;
+                    content: '';
+                    top: 0;
+                    left: -4px;
+                    width: 4px;
+                    height: 1px;
+                    display: inline-block;
+                    border-top: 1px solid black;
+                }
+
+                .val {
+                    display: inline-block;
+                    width: 100%;
+                    font-family: 'Inconsolata', monospace;
+                    color: $label-color;
+                    text-align: right;
+                    transform: translateY(-10px) translateX(-110%);
+                }
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load watchful_url %}
 
 {% block title %}
 DEEP | Country Panel
@@ -7,18 +7,18 @@ DEEP | Country Panel
 
 {% block head %}
 
-<link href="{% static 'css/country-management.css' %}" type="text/css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}"/>
-<script type="text/javascript" src="{% static 'js/common/selectize.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/common/utils.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/custom-admin/country-management.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/custom-admin/country-management-map.js' %}"></script>
+<link href="{% watchful_static_url 'css/country-management.css' %}" type="text/css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}"/>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/country-management.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/country-management-map.js' %}"></script>
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 
-<link rel="stylesheet" href="{% static 'css/leaflet.label.css' %}" >
-<script src="{% static 'js/common/leaflet.label.js' %}"></script>
+<link rel="stylesheet" href="{% watchful_static_url 'css/leaflet.label.css' %}" >
+<script src="{% watchful_static_url 'js/common/leaflet.label.js' %}"></script>
 
 <script>
     var countries = {
@@ -56,231 +56,198 @@ DEEP | Country Panel
 {% block body %}
 
 <header>
-    <div class="container-fluid">
-        <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to DEEP</a>
-        <h1>Country Management Panel</h1>
-    </div>
+    <h1>Country Management Panel</h1>
+    <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to DEEP</a>
 </header>
+<aside>
+    <div id="countries-header">
+        <h2>Countries</h2>
+        <button class="btn btn-primary" onclick="addNewCountry();"><i class="fa fa-plus"></i>Add new country</button>
+        <div id="search-wrapper">
+            <input id="search-country" placeholder="Search country">
+            <i class="fa fa-search"></i>
+        </div>
+    </div>
+    <div id="country-list">
+        <div id="countries">
+            {% for country in countries %}
+            <div class="country {% if selected_country == country.pk %}active{% endif %}" data-country-code="{{country.code}}">{{country.name}}</div>
+            {% endfor %}
+        </div>
+    </div>
+</aside>
 <main>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-3">
-                <div id="country-list">
-                    <button class="btn btn-primary" onclick="addNewCountry();"><i class="fa fa-plus"></i>Add new country</button>
-                    <h2>Countries</h2>
-                    <input id="search-country" class="form-control" placeholder="Search country">
-
-                    <div id="countries">
-                        {% for country in countries %}
-                        <div class="country {% if selected_country == country.pk %}active{% endif %}" data-country-code="{{country.code}}">{{country.name}}</div>
-                        {% endfor %}
+    <form id="country-form" method="post" enctype="multipart/form-data">
+        <div id="navigator">
+            <div>
+                <a data-target="#country-detail" class="nav-active">General</a>
+                <a data-target="#key-figures">Key figures</a>
+                <a data-target="#population-data">Population Data</a>
+                <a data-target="#seasonal-calendar">Seasonal calendar</a>
+            </div>
+            <div>
+                <button id="delete-btn" name="delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this country?');"><i class="fa fa-trash"></i>Delete country</button>
+                <button id="save-btn" name="save" class="btn btn-info"><i class="fa fa-save"></i>Save changes</button>
+            </div>
+        </div>
+        <div id="content-wrapper">
+            <div id="country-detail">
+                {% csrf_token %}
+                <div id="country-details-map-wrapper">
+                    <div id="country-detail-inputs">
+                        <h2>Add new country</h2>
+                        <div>
+                            <label>Country code</label>
+                            <input name="country-code" type="text" id="country-code" placeholder="Enter country code" required>
+                        </div>
+                        <div>
+                            <label>Name</label>
+                            <input name="country-name" type="text" id="country-name" placeholder="Enter country name" required>
+                        </div>
+                    </div>
+                    <div>
+                        <div id="the-map">
+                        </div>
+                        <div id="map-controls">
+                            <div id="admin-level-buttons"></div>
+                        </div>
+                    </div>
+                </div>
+                <h3>Admin Levels</h3>
+                <div id="admin-levels-container"></div>
+                <button id="add-new-admin-level" class="btn btn-primary" type="button"><i class="fa fa-plus"></i>Add new admin level</button>
+            </div>
+            <div id="key-figures" hidden>
+                <div class="key-figure">
+                    <h2><a href="http://www.hdr.undp.org/en/countries" target="_blank" >Human development index</a></h2>
+                    <div>
+                        <label>Index</label>
+                        <input id="hdi-index" name="hdi-index" type="number" step="any" max="1" min="0" placeholder="Index">
+                        <br>
+                        <br>
+                        <label>Rank</label>
+                        <input id="hdi-rank" name="hdi-rank" type="text" placeholder="Rank">
+                    </div>
+                    <div>
+                        <label>GEO Rank</label>
+                        <input id="hdi-geo-rank" name="hdi-geo-rank" type="text" placeholder="GEO Rank" readonly>
+                    </div>
+                    <div>
+                        <label>GEO Score</label>
+                        <input id="hdi-geo-score" name="hdi-geo-score" type="text" placeholder="GEO Score" readonly>
+                    </div>
+                </div>
+                <div class="key-figure">
+                    <h2><a href="http://www.inform-index.org/" target="_blank" >Under five mortality rate <span style="text-transform: none"> (per 1.000 live births)</span></a></h2>
+                    <div>
+                        <label>U5M</label>
+                        <input id="u5m" name="u5m" type="number" step="any" placeholder="U5M">
+                    </div>
+                    <div>
+                        <label>GEO Score</label>
+                        <input id="u5m-geo-score" name="u5m-geo-score" type="text" placeholder="GEO Score" readonly>
+                    </div>
+                </div>
+                <div class="key-figure" id="uprooted-people">
+                    <h2><a href="http://www.inform-index.org/" target="_blank">Uprooted people<span style="text-transform: none"> (refugees + IDPs + returned refugees)</span></a></h2>
+                    <div>
+                        <label>Number of refugees</label>
+                        <input id="number-of-refugees" name="number-of-refugees" type="text" class="number form-control" placeholder="Number of refugees">
+                        <br>
+                        <label>Number of IDPs</label>
+                        <input id="number-of-idps" name="number-of-idps" type="text" class="number form-control" placeholder="Number of IDPs">
+                        <br>
+                        <label>Number of returned refugees</label>
+                        <input id="number-of-returned-refugees" name="number-of-returned-refugees" type="text" class="number form-control" placeholder="Number of returned refugees">
+                    </div>
+                    <div>
+                        <label>Percentage of uprooted people</label>
+                        <input id="uprooted-percentage" name="uprooted-percentage" type="text" placeholder="Percentage of uprooted people" readonly>
+                    </div>
+                    <div>
+                        <label>GEO Score</label>
+                        <input id="uprooted-geo-score" name="uprooted-geo-score" type="text" placeholder="GEO Score" readonly>
+                    </div>
+                </div>
+                <div class="key-figure">
+                    <h2><a href="http://www.inform-index.org/" target="_blank" >INFORM Score</a></h2>
+                    <div>
+                        <label>Risk Class</label>
+                        <input id="inform-score" name="inform-score" type="text" placeholder="Risk Class">
+                        <br>
+                        <br>
+                        <label>Vulnerability</label>
+                        <input id="inform-vulnerability" name="inform-vulnerability" type="text" placeholder="Vulnerability">
+                    </div>
+                    <div>
+                        <label>INFORM Risk Index</label>
+                        <input id="inform-risk-index" name="inform-risk-index" type="text" placeholder="Risk Index">
+                        <br>
+                        <br>
+                        <label>Lack of coping capacity</label>
+                        <input id="inform-lack-of-coping-capacity" name="inform-lack-of-coping-capacity" type="text" placeholder="Lack of Coping Capacity">
+                    </div>
+                    <div>
+                        <label>Hazard and Exposure</label>
+                        <input id="inform-hazard-and-exposure" name="inform-hazard-and-exposure" type="text" placeholder="Hazard and Exposure">
                     </div>
                 </div>
             </div>
-            <div class="col-md-9" style="padding-right: 0;">
-                <form id="country-form" method="post" enctype="multipart/form-data">
-                    <div id="wrapper">
-                        <div id="navigator">
-                            <a data-target="#country-detail" class="nav-active">General</a>
-                            <a data-target="#key-figures">Key figures</a>
-                            <a data-target="#population-data">Population Data</a>
-                            <a data-target="#seasonal-calendar">Seasonal calendar</a>
-                            <section>
-                                <button id="delete-btn" name="delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this country?');"><i class="fa fa-trash"></i>Delete country</button>
-                                <button id="save-btn" name="save" class="btn btn-info"><i class="fa fa-save"></i>Save changes</button>
-                            </section>
-                        </div>
-                        <div id="content-wrapper">
-                            <div id="country-detail">
-                                {% csrf_token %}
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div id="country-detail-inputs">
-                                            <h2>Add new country</h2>
-                                            <div class="form-group">
-                                                <label>Country code</label>
-                                                <input name="country-code" type="text" class="form-control" id="country-code" placeholder="Enter country code" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Name</label>
-                                                <input name="country-name" type="text" class="form-control" id="country-name" placeholder="Enter country name" required>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="col-md-8" style="position: relative; text-align: center;">
-                                        <div id="the-map">
-                                        </div>
-                                        <div id="map-controls">
-                                            <div id="admin-level-buttons"></div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <h3>Admin Levels</h3>
-                                <div id="admin-levels-container"></div>
-                                <button id="add-new-admin-level" class="btn btn-primary" type="button"><i class="fa fa-plus"></i>Add new admin level</button>
-                            </div>
-                            <div id="key-figures" hidden>
-                                <div class="key-figure">
-                                    <h2><a href="http://www.hdr.undp.org/en/countries" target="_blank" >Human development index</a></h2>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label>Index</label>
-                                            <input id="hdi-index" name="hdi-index" type="number" step="any" max="1" min="0" class="form-control" placeholder="Index">
-                                            <br>
-                                            <label>Rank</label>
-                                            <input id="hdi-rank" name="hdi-rank" type="text" class="form-control" placeholder="Rank">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label>GEO Rank</label>
-                                            <input id="hdi-geo-rank" name="hdi-geo-rank" type="text" class="form-control" placeholder="GEO Rank" readonly>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label>GEO Score</label>
-                                            <input id="hdi-geo-score" name="hdi-geo-score" type="text" class="form-control" placeholder="GEO Score" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="key-figure">
-                                    <h2><a href="http://www.inform-index.org/" target="_blank" >Under five mortality rate <span style="text-transform: none"> (per 1.000 live births)</span></a></h2>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label>U5M</label>
-                                            <input id="u5m" name="u5m" type="number" step="any" class="form-control" placeholder="U5M">
-                                        </div>
-                                        <div class="col-md-4">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label>GEO Score</label>
-                                            <input id="u5m-geo-score" name="u5m-geo-score" type="text" class="form-control" placeholder="GEO Score" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="key-figure" id="uprooted-people">
-                                    <h2><a href="http://www.inform-index.org/" target="_blank">Uprooted people<span style="text-transform: none"> (refugees + IDPs + returned refugees)</span></a></h2>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label>Number of refugees</label>
-                                            <input id="number-of-refugees" name="number-of-refugees" type="text" class="number form-control" placeholder="Number of refugees">
-                                            <br>
-                                            <label>Number of IDPs</label>
-                                            <input id="number-of-idps" name="number-of-idps" type="text" class="number form-control" placeholder="Number of IDPs">
-                                            <br>
-                                            <label>Number of returned refugees</label>
-                                            <input id="number-of-returned-refugees" name="number-of-returned-refugees" type="text" class="number form-control" placeholder="Number of returned refugees">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label>Percentage of uprooted people</label>
-                                            <input id="uprooted-percentage" name="uprooted-percentage" type="text" class="form-control" placeholder="Percentage of uprooted people" readonly>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label>GEO Score</label>
-                                            <input id="uprooted-geo-score" name="uprooted-geo-score" type="text" class="form-control" placeholder="GEO Score" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="key-figure">
-                                    <h2><a href="http://www.inform-index.org/" target="_blank" >INFORM Score</a></h2>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label>Risk Class</label>
-                                            <input id="inform-score" name="inform-score" type="text" class="form-control" placeholder="Risk Class">
-                                            <br>
-                                            <label>Vulnerability</label>
-                                            <input id="inform-vulnerability" name="inform-vulnerability" type="text" class="form-control" placeholder="Vulnerability">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label>INFORM Risk Index</label>
-                                            <input id="inform-risk-index" name="inform-risk-index" type="text" class="form-control" placeholder="Risk Index">
-                                            <br>
-                                            <label>Lack of coping capacity</label>
-                                            <input id="inform-lack-of-coping-capacity" name="inform-lack-of-coping-capacity" type="text" class="form-control" placeholder="Lack of Coping Capacity">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label>Hazard and Exposure</label>
-                                            <input id="inform-hazard-and-exposure" name="inform-hazard-and-exposure" type="text" class="form-control" placeholder="Hazard and Exposure">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="population-data" hidden>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <label>Total Population of Country</label>
-                                            <input id="total-population" name="total-population" type="text" class="number form-control" placeholder="Total population" >
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label>Source</label>
-                                            <input id="population-source" name="population-source" type="text" class="form-control" placeholder="Enter Source.." >
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group" id="last-modified" hidden>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label>Last Updated</label>
-                                            <span></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="seasonal-calendar" hidden>
-                                <h1>Seasonal-Calender</h1>
-                            </div>
-                        </div>
+            <div id="population-data" hidden>
+                <div>
+                    <div>
+                        <label>Total Population of Country</label>
+                        <input id="total-population" name="total-population" type="text" class="number form-control" placeholder="Total population" >
                     </div>
-                </form>
+                    <div>
+                        <label>Source</label>
+                        <input id="population-source" name="population-source" type="text" placeholder="Enter Source.." >
+                    </div>
+                    <div id="last-modified" hidden>
+                        <label>Last Updated</label>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+            <div id="seasonal-calendar" hidden>
+                <h1>Seasonal-Calender</h1>
             </div>
         </div>
-    </div>
+    </form>
 </main>
 
 <div class="admin-level-details-template" hidden>
-    <div class="row">
-        <input name="admin-level-pk" class="admin-level-pk" value="new" type="hidden">
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>Admin level</label>
-                <input name="admin-level" type="number" min="0" step="1" class="form-control admin-level" placeholder="Enter admin level">
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>Admin level name</label>
-                <input name="admin-level-name" type="text" class="form-control admin-level-name" placeholder="Enter admin level name">
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>Property name</label>
-                <input name="property-name" type="text" class="form-control property-name" placeholder="Enter property name">
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>Property pcode</label>
-                <input name="property-pcode" type="text" class="form-control property-pcode" placeholder="Enter property pcode">
-            </div>
-        </div>
+    <input name="admin-level-pk" class="admin-level-pk" value="new" type="hidden">
+    <div>
+        <label>Admin level</label>
+        <input name="admin-level" type="number" min="0" step="1" class="form-control admin-level" placeholder="Enter admin level">
     </div>
-    <div class="row">
-        <div class="col-md-10">
-            <label> GeoJSON file </label>
-            <input id="geojson-file-input" name="geojson" type="file" class="geojson file-input">
-            <label for="geojson-file-input" class="geojson-label"><i class="fa fa-upload"></i>Choose a file</label>
-            <p class="geojson-current"></p>
-            <p class="geojson-old"></p> <input type="hidden" name="geojson-selected" class="geojson-selected" value="false">
-        </div>
-        <div class="col-md-2">
-            {% comment %}
-                Note that by putting a hidden input followed by checkbox input, we will get only the hidden value (0)
-                if checkbox was not checked and both the checkbox and hidden values (1, 0) if it was.
-            {% endcomment %}
-            <label class="delete-admin-level"><input name="delete-admin-level" type="checkbox" class"delete-admin-level form-control" value="1"><span>Delete</span></label>
-            <input name="delete-admin-level" type="hidden" value="0">
-        </div>
+    <div>
+        <label>Admin level name</label>
+        <input name="admin-level-name" type="text" class="form-control admin-level-name" placeholder="Enter admin level name">
+    </div>
+    <div>
+        <label>Property name</label>
+        <input name="property-name" type="text" class="form-control property-name" placeholder="Enter property name">
+    </div>
+    <div>
+        <label>Property pcode</label>
+        <input name="property-pcode" type="text" class="form-control property-pcode" placeholder="Enter property pcode">
+    </div>
+    <div>
+        <label> GeoJSON file </label>
+        <input id="geojson-file-input" name="geojson" type="file" class="geojson file-input">
+        <label for="geojson-file-input" class="geojson-label"><i class="fa fa-upload"></i>Choose a file</label>
+        <p class="geojson-current"></p>
+        <p class="geojson-old"></p> <input type="hidden" name="geojson-selected" class="geojson-selected" value="false">
+    </div>
+    {% comment %}
+        Note that by putting a hidden input followed by checkbox input, we will get only the hidden value (0)
+        if checkbox was not checked and both the checkbox and hidden values (1, 0) if it was.
+    {% endcomment %}
+    <div>
+        <label class="delete-admin-level"><input name="delete-admin-level" type="checkbox" class"delete-admin-level form-control" value="1"><span>Delete</span></label>
+        <input name="delete-admin-level" type="hidden" value="0">
     </div>
 </div>
 {% endblock %}

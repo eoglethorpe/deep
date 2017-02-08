@@ -50,7 +50,7 @@ $(document).ready(function(){
                 // fills percent to element
                 function fillPercent(el, num){
                     if(!isNaN(num)){
-                        el.text(num.toFixed(2)+'%');
+                        el.text(Math.round(num)+'%');
                     }
                 }
                 // returns the number of affected people from current report
@@ -198,7 +198,7 @@ $(document).ready(function(){
                     if(health < 0){
                         return $('<div class="health-bar-invalid"></div>');
                     } else{
-                        var healthBar = $('<div class="health-bar" data-toggle="tooltip" title="'+tooltip+' ('+health.toFixed(2)+'%)'+'"></div>');
+                        var healthBar = $('<div class="health-bar" data-toggle="tooltip" title="'+tooltip+' ('+Math.round(health)+'%)'+'"></div>');
                         var healthIndicator = $('<div class="health-indicator"></div>');
                         healthIndicator.appendTo(healthBar);
                         healthIndicator.css('width', health+'%');
@@ -308,6 +308,8 @@ $(document).ready(function(){
                     }
 
                     var reportChange = getReportChangePercentage();
+                    fillPercent(country.find('.change .percent'), reportChange);
+
                     if(reportChange < 0){
 
                     } else if(reportChange == 0){
@@ -338,7 +340,7 @@ $(document).ready(function(){
                         }
                         var path = country.find('.change .viz svg path');
                         path.attr('d', describeArc(24, 24, 16, 0, reportChange*360/100));
-                        $('<div class="change-block" data-toggle="tooltip" title="'+reportChange.toFixed(2)+'% changed"></div>').appendTo(country.find('.change .viz'));
+                        $('<div class="change-block" data-toggle="tooltip" title="'+Math.round(reportChange)+'% changed"></div>').appendTo(country.find('.change .viz'));
                     }
                 }
 
@@ -357,10 +359,16 @@ $(document).ready(function(){
                     geoRankList.push(isNaN(geo)? 0: geo);
                 }
 
-                country.find('.affected .viz').sparkline(affectedList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#2980b9', fillColor: 'rgba(0, 50, 255, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0});
-                country.find('.in-need .viz').sparkline(pinList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#c0392b', fillColor: 'rgba(255, 0, 0, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0});
-                country.find('.access-constraints .viz').sparkline(accessConstraintsList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#e67e22', fillColor: 'rgba(255, 160, 50, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0});
-                country.find('.geo-ranking .viz').sparkline(geoRankList.reverse(), {type: 'bar', height: '48px ', chartRangeMin: 0, chartRangeMax: 3, width: '100%', barWidth: 12, barSpacing: 4, barColor: '#8e44ad'});
+                var sparkLineYMax = Math.max(...[
+                    Math.max(...affectedList),
+                    Math.max(...pinList),
+                    Math.max(...accessConstraintsList)
+                ]);
+
+                country.find('.affected .viz').sparkline(affectedList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#2980b9', fillColor: 'rgba(0, 50, 255, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
+                country.find('.in-need .viz').sparkline(pinList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#c0392b', fillColor: 'rgba(255, 0, 0, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
+                country.find('.access-constraints .viz').sparkline(accessConstraintsList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#212121', fillColor: 'rgba(0,0,0,0.3)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
+                country.find('.geo-ranking .viz').sparkline(geoRankList.reverse(), {type: 'bar', height: '48px ', chartRangeMin: 0, chartRangeMax: 3, width: '100%', barWidth: 12, barSpacing: 4, barColor: '#cc2d06'});
             }
         }
     }

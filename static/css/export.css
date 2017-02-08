@@ -50,14 +50,16 @@ nav {
     width: 96px; }
   nav a, nav a:visited {
     display: inline-block; }
+  nav #main-menu {
+    flex-basis: 40%; }
   nav .menu-item {
     font-weight: 400;
     color: rgba(255, 255, 255, 0.7);
     transition: 0.2s all ease-in-out;
-    flex-basis: 8%;
     text-align: center;
     font-size: 14px;
     height: 56px;
+    padding: 0 16px;
     padding-top: calc(calc(56px - 14px - 8px) / 2); }
     nav .menu-item.active {
       border-bottom: 2px solid #fff;
@@ -102,67 +104,116 @@ nav {
     nav .dropdown ul li a .fa {
       margin-right: 10px; }
 
-#main hr {
-  border: 1px solid rgba(0, 0, 0, 0.05); }
-#main h1, #main h2, #main h3, #main h4 {
-  text-transform: uppercase;
-  vertical-align: middle;
-  margin: 0; }
-#main h1 {
-  color: #008080;
-  margin-top: 24px;
-  margin-bottom: 24px; }
-#main h2 {
-  font-weight: 600;
-  margin-bottom: 24px; }
-#main h3 {
-  font-size: 14px;
-  margin-bottom: 10px; }
-#main #export-entries #export-entries-doc, #main #export-entries #export-entries-excel {
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 24px; }
-#main #export-entries #export-entries-doc-form {
-  float: right; }
-  #main #export-entries #export-entries-doc-form button {
+#main {
+  padding: 24px 16px 0 16px; }
+  #main hr {
+    border: 1px solid rgba(0, 0, 0, 0.05); }
+  #main h1, #main h2, #main h3, #main h4 {
+    text-transform: uppercase;
+    vertical-align: middle;
+    margin: 0; }
+  #main h1 {
+    color: #008080;
+    margin-bottom: 16px; }
+  #main h2 {
+    font-weight: 600;
+    margin-bottom: 24px; }
+  #main h3 {
+    font-size: 14px;
+    margin-bottom: 10px; }
+  #main button {
+    box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7);
     min-width: 160px;
-    box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
-    #main #export-entries #export-entries-doc-form button:active {
+    padding: 6px 12px;
+    height: 36px; }
+    #main button:active {
       box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
-  #main #export-entries #export-entries-doc-form .fa {
-    margin-right: 10px; }
-#main #export-entries #export-entries-excel-form button {
-  min-width: 160px;
-  box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
-  #main #export-entries #export-entries-excel-form button:active {
-    box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
-#main #export-entries #export-entries-excel-form .fa {
-  margin-right: 10px; }
-#main .form-group {
-  height: 32px; }
-#main ul {
-  list-style: none;
-  padding-left: 0; }
-  #main ul li {
-    padding: 10px 32px;
-    margin-bottom: 10px;
-    border: none;
-    background-color: #fff;
-    font-weight: bold;
-    color: #767676;
-    box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-    #main ul li:active {
-      box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-#main #sos-export {
-  margin-top: 48px; }
-  #main #sos-export #sos-export-excel {
-    padding: 24px;
-    border: 1px solid rgba(0, 0, 0, 0.1); }
-    #main #sos-export #sos-export-excel #export-sos-excel-btn {
-      box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7);
-      min-width: 160px; }
-      #main #sos-export #sos-export-excel #export-sos-excel-btn:active {
-        box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
-      #main #sos-export #sos-export-excel #export-sos-excel-btn i {
-        margin-right: 10px; }
+    #main button i {
+      margin-right: 8px; }
+  #main ul {
+    list-style: none;
+    padding-left: 0; }
+    #main ul li {
+      padding: 10px 32px;
+      margin-bottom: 10px;
+      border: none;
+      background-color: #fff;
+      font-weight: bold;
+      color: #767676;
+      box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+      #main ul li:active {
+        box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+  #main #export-entries {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 16px; }
+    #main #export-entries h1 {
+      flex-basis: 100%; }
+    #main #export-entries #export-entries-doc {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      flex-basis: 73%;
+      margin-right: 16px;
+      padding: 16px;
+      box-sizing: border-box;
+      border: 1px solid rgba(0, 0, 0, 0.1); }
+      #main #export-entries #export-entries-doc #export-entries-doc-form {
+        flex-basis: 100%;
+        display: flex;
+        justify-content: space-between; }
+      #main #export-entries #export-entries-doc > div:nth-child(2) {
+        flex-basis: 60%; }
+      #main #export-entries #export-entries-doc > div:last-child {
+        flex-basis: 35%; }
+      #main #export-entries #export-entries-doc #filters {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap; }
+        #main #export-entries #export-entries-doc #filters > div {
+          flex-basis: 49%; }
+          #main #export-entries #export-entries-doc #filters > div:last-child {
+            flex-basis: 60%; }
+          #main #export-entries #export-entries-doc #filters > div > input[type="text"], #main #export-entries #export-entries-doc #filters > div input[type="number"] {
+            width: 100%;
+            height: 32px;
+            padding: 0 8px;
+            margin: 0 8px 8px 0;
+            outline: none;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+            background-color: #fff; }
+            #main #export-entries #export-entries-doc #filters > div > input[type="text"]:focus, #main #export-entries #export-entries-doc #filters > div input[type="number"]:focus {
+              border-color: #008080; }
+          #main #export-entries #export-entries-doc #filters > div .selectize-control {
+            margin-bottom: 8px !important; }
+            #main #export-entries #export-entries-doc #filters > div .selectize-control .selectize-input {
+              height: 32px;
+              border-radius: 3px; }
+              #main #export-entries #export-entries-doc #filters > div .selectize-control .selectize-input input {
+                margin-top: 4px !important;
+                padding: 0 4px !important; }
+        #main #export-entries #export-entries-doc #filters #severity-filter-container, #main #export-entries #export-entries-doc #filters #reliability-filter-container {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between; }
+          #main #export-entries #export-entries-doc #filters #severity-filter-container label, #main #export-entries #export-entries-doc #filters #reliability-filter-container label {
+            flex-basis: 100%; }
+          #main #export-entries #export-entries-doc #filters #severity-filter-container > div, #main #export-entries #export-entries-doc #filters #reliability-filter-container > div {
+            flex-basis: 48%; }
+    #main #export-entries #export-entries-excel {
+      flex-basis: 25%;
+      padding: 16px;
+      box-sizing: border-box;
+      border: 1px solid rgba(0, 0, 0, 0.1); }
+  #main #sos-export {
+    width: 25%; }
+    #main #sos-export #sos-export-excel {
+      padding: 16px;
+      box-sizing: border-box;
+      border: 1px solid rgba(0, 0, 0, 0.1); }
 
 /*# sourceMappingURL=export.css.map */

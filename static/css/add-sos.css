@@ -50,14 +50,16 @@ nav {
     width: 96px; }
   nav a, nav a:visited {
     display: inline-block; }
+  nav #main-menu {
+    flex-basis: 40%; }
   nav .menu-item {
     font-weight: 400;
     color: rgba(255, 255, 255, 0.7);
     transition: 0.2s all ease-in-out;
-    flex-basis: 8%;
     text-align: center;
     font-size: 14px;
     height: 56px;
+    padding: 0 16px;
     padding-top: calc(calc(56px - 14px - 8px) / 2); }
     nav .menu-item.active {
       border-bottom: 2px solid #fff;
@@ -134,23 +136,24 @@ body {
           margin-bottom: 5px; }
         body .split-pane #left-component #lead-options-container #tag-buttons {
           margin-top: 10px; }
-      body .split-pane #left-component #lead-preview-container {
-        height: calc(100% - 70px); }
-      body .split-pane #left-component #lead-preview {
-        width: 100%;
-        height: 100%;
-        border: none;
-        display: none; }
-      body .split-pane #left-component #lead-simplified-preview {
-        width: 100%;
-        padding: 16px;
-        background-color: #fafafa; }
-        body .split-pane #left-component #lead-simplified-preview div {
-          color: #717171;
+      body .split-pane #left-component #lead-preview-container #lead-preview {
+        height: calc(100vh - 56px - 56px);
+        box-sizing: border-box;
+        border: none; }
+      body .split-pane #left-component #lead-preview-container iframe {
+        width: 100%; }
+      body .split-pane #left-component #lead-preview-container #lead-simplified-preview {
+        height: calc(100vh - 144px);
+        overflow-x: auto;
+        padding: 16px; }
+        body .split-pane #left-component #lead-preview-container #lead-simplified-preview pre {
           white-space: pre-wrap;
-          line-height: 1.5; }
-        body .split-pane #left-component #lead-simplified-preview h1 {
-          font-size: 1.5em; }
+          word-break: normal;
+          background: inherit;
+          color: inherit;
+          font: inherit;
+          border: inherit;
+          text-align: justify; }
     body .split-pane #my-divider {
       left: 40em;
       /* Same as left component width */

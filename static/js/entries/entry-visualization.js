@@ -115,6 +115,18 @@ function renderSectors(total){
     }
     var maxSeverity = Math.max(...totalSeverity);
 
+    var scale = $('#sectors-visualization').find('.attr-scale');
+    scale.find('.scale-2 .val').text(parseInt(maxSeverity/5));
+    scale.find('.scale-3 .val').text(parseInt(maxSeverity/5*2));
+    scale.find('.scale-4 .val').text(parseInt(maxSeverity/5*3));
+    scale.find('.scale-5 .val').text(parseInt(maxSeverity/5*4));
+    scale.find('.scale-5 .val-right').text(maxSeverity);
+
+    if (maxSeverity == 0)
+        $('#sectors-visualization').find('.attr-scale-container').hide();
+    else
+        $('#sectors-visualization').find('.attr-scale-container').show();
+
     sectorList.each(function(){
         var severitiesContainer = $(this).find('.severities');
         severitiesContainer.empty();
@@ -145,6 +157,18 @@ function renderAttrs(id, attrs, total) {
     }
     var maxSeverity = Math.max(...totalSeverity);
 
+    var scale = $('#'+id).find('.attr-scale');
+    scale.find('.scale-2 .val').text(parseInt(maxSeverity/5));
+    scale.find('.scale-3 .val').text(parseInt(maxSeverity/5*2));
+    scale.find('.scale-4 .val').text(parseInt(maxSeverity/5*3));
+    scale.find('.scale-5 .val').text(parseInt(maxSeverity/5*4));
+    scale.find('.scale-5 .val-right').text(maxSeverity);
+
+    if (maxSeverity == 0)
+        $('#'+id).find('.attr-scale-container').hide();
+    else
+        $('#'+id).find('.attr-scale-container').show();
+
     attrList.each(function(){
         var severitiesContainer = $(this).find('.severities');
         severitiesContainer.empty();
@@ -169,7 +193,6 @@ function drawPieChart(total){
     var totalSeverity = total;
 
     $("#pies-container").empty();
-
 
     if (totalSeverity == 0)
         return;
@@ -296,6 +319,13 @@ function processTimeline(){
         }
     }
     maxEntries += 5;
+
+    $('.timeline-scale .scale-1 .val').text(parseInt(maxEntries/5*5));
+    $('.timeline-scale .scale-2 .val').text(parseInt(maxEntries/5*4));
+    $('.timeline-scale .scale-3 .val').text(parseInt(maxEntries/5*3));
+    $('.timeline-scale .scale-4 .val').text(parseInt(maxEntries/5*2));
+    $('.timeline-scale .scale-5 .val').text(parseInt(maxEntries/5*1));
+
     renderTimeline();
 }
 
@@ -320,7 +350,7 @@ function renderTimeline(){
 
 
     for(var i=0; i<entryDates.length; i++){
-        var x = timelineCanvas.width*((entryDates[i].date.getTime()-minDate.getTime())/timeGap)*0.9+timelineCanvas.width*0.05;
+        var x = timelineCanvas.width*((entryDates[i].date.getTime()-minDate.getTime())/timeGap)*0.85+timelineCanvas.width*0.1;
         var y = timelineCanvas.height*0.9;
         for(var j=0; j<severities.length; j++){
             var currentHeight = (timelineCanvas.height*entryDates[i].severities[severities[j].id]/maxEntries);
@@ -341,7 +371,7 @@ function renderTimeline(){
     context.beginPath();
     for(var j=0; j<=10; j++){
         var date = new Date(minDate.getTime()+j*(timeGap/9));
-        var x = (j*timelineCanvas.width/9)*0.9+timelineCanvas.width*0.05;
+        var x = (j*timelineCanvas.width/9)*0.85+timelineCanvas.width*0.1;
         var labelWidth = context.measureText(formatDate(date)).width;
         context.moveTo(x, yOffset);
         //context.lineTo(x, yOffset+10);

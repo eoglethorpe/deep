@@ -2,6 +2,8 @@
 @import 'common/navbar';
 
 #main{
+    padding: 24px 16px 0 16px;
+
     hr{
         border: 1px solid rgba(0, 0, 0, 0.05);
     }
@@ -12,9 +14,7 @@
     }
     h1{
         color: $primary-color;
-        margin-top: 24px;
-        margin-bottom: 24px;
-
+        margin-bottom: 16px;
     }
     h2{
         font-weight: $font-weight-bold;
@@ -24,34 +24,15 @@
         font-size: $text-size-md;
         margin-bottom: 10px;
     }
-    #export-entries{
-        #export-entries-doc, #export-entries-excel{
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            padding: 24px;
-        }
-        #export-entries-doc-form{
-            float: right;
+    button{
+        @include btn-shadow-lg;
+        min-width: 160px;
+        padding: 6px 12px;
+        height: 36px;
 
-            button{
-                min-width: 160px;
-                @include btn-shadow-lg();
-            }
-            .fa{
-                margin-right: 10px;
-            }
+        i{
+            margin-right: 8px;
         }
-        #export-entries-excel-form{
-            button{
-                min-width: 160px;
-                @include btn-shadow-lg();
-            }
-            .fa{
-                margin-right: 10px;
-            }
-        }
-    }
-    .form-group{
-        height: 32px;
     }
     ul{
         list-style: none;
@@ -66,20 +47,106 @@
             @include btn-shadow-sm();
         }
     }
+    #export-entries{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-bottom: 16px;
 
-    #sos-export{
-        margin-top: 48px;
-        #sos-export-excel{
-            padding: 24px;
+        h1{
+            flex-basis: 100%;
+        }
+        #export-entries-doc{
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            flex-basis: 73%;
+            margin-right: 16px;
+            padding: 16px;
+            box-sizing: border-box;
             border: 1px solid rgba(0, 0, 0, 0.1);
 
-            #export-sos-excel-btn{
-                @include btn-shadow-lg();
-                min-width: 160px;
-                i{
-                    margin-right: 10px;
+            #export-entries-doc-form{
+                flex-basis: 100%;
+                display: flex;
+                justify-content: space-between;
+            }
+            >div:nth-child(2){
+                flex-basis: 60%;
+            }
+            >div:last-child{
+                flex-basis: 35%;
+            }
+            #filters{
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                flex-wrap: wrap;
+
+                >div{
+                    flex-basis: 49%;
+
+                    &:last-child{
+                        flex-basis: 60%;
+                    }
+                    >input[type="text"],input[type="number"]{
+                        width: 100%;
+                        height: 32px;
+                        padding: 0 8px;
+                        margin: 0 8px 8px 0;
+                        outline: none;
+                        border: 1px solid rgba(0, 0, 0, 0.1);
+                        border-radius: 3px;
+                        background-color: #fff;
+
+                        &:focus{
+                            border-color: $primary-color;
+                        }
+                    }
+                    .selectize-control{
+                        margin-bottom: 8px!important;
+
+                        .selectize-input{
+                            height: 32px;
+                            border-radius: 3px;
+
+                            input{
+                                margin-top: 4px!important;
+                                padding: 0 4px!important;
+                            }
+                        }
+                    }
+                }
+                #severity-filter-container,#reliability-filter-container{
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+
+                    label{
+                        flex-basis: 100%;
+                    }
+                    >div{
+                        flex-basis: 48%;
+                    }
                 }
             }
+
+        }
+        #export-entries-excel{
+            flex-basis: 25%;
+            padding: 16px;
+            box-sizing: border-box;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+    }
+    #sos-export{
+        width: 25%;
+
+        #sos-export-excel{
+            padding: 16px;
+            box-sizing: border-box;
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
     }
 }

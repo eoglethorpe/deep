@@ -1,25 +1,25 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load watchful_url %}
 
 {% block title %}
 DEEP | Leads
 {% endblock %}
 
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/datatables.min.css' %}"/>
-<link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.bootstrap.min.css' %}"/>
-<link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}"/>
-<link href="{% static 'css/leads.css' %}" type="text/css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/datatables.min.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/dataTables.bootstrap.min.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}"/>
+<link href="{% watchful_static_url 'css/leads.css' %}" type="text/css" rel="stylesheet">
 
 <script>
     var currentEvent = {{event.pk}};
     var postUrl = "{% url 'leads:add' event.pk %}";
 </script>
 
-<script type="text/javascript" src="{% static 'js/common/datatables.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/common/selectize.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/common/utils.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/leads/leads.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/datatables.min.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/leads/leads.js' %}"></script>
 {% endblock %}
 
 {% block body %}
@@ -30,14 +30,14 @@ DEEP | Leads
             <div class="modal-body">
                 <h3 class="modal-title">Enter date range</h3>
                 <br>
-                <div class="row">
-                    <div class="col-sm-6">
+                <div id="date-field-wrapper">
+                    <div>
                         <label>start date:</label><br>
-                        <input type="date" id="start-date" class="form-control">
+                        <div style="position: relative;"><input type="date" id="start-date" class="form-control"></div>
                     </div>
-                    <div class="col-sm-6">
+                    <div>
                         <label>end date:</label><br>
-                        <input type="date" id="end-date" class="form-control">
+                        <div style="position: relative;"><input type="date" id="end-date" class="form-control"></div>
                     </div>
                 </div>
                 <div style="margin-top: 24px; text-align: right;">
@@ -57,56 +57,42 @@ DEEP | Leads
         <h1>Leads</h1>
 
         <div id="filters">
-            <div class="row">
-                <div class="col-md-1 first-child">
-                    <label>Apply filter:</label>
-                </div>
-                <div class="col-md-2 low-padding">
-                    <select id="assigned-to-filter" placeholder="Assigned to">
-                        <option value="">Assigned to</option>
-                    </select>
-                </div>
-                <div class="col-md-2 low-padding">
-                    <select id="date-created-filter" placeholder="Date Created">
-                        <option value="">Date Created</option>
-                        <option value="today">Today</option>
-                        <option value="yesterday">Yesterday</option>
-                        <option value="last-seven-days">Last 7 days</option>
-                        <option value="this-week">This week</option>
-                        <option value="last-thirty-days">Last 30 days</option>
-                        <option value="this-month">This month</option>
-                        <option value="range">Range</option>
-                    </select>
-                </div>
-                <div class="col-md-2 low-padding">
-                    <select id="date-published-filter" placeholder="Date Published">
-                        <option value="">Date Published</option>
-                        <option value="today">Today</option>
-                        <option value="yesterday">Yesterday</option>
-                        <option value="last-seven-days">Last 7 days</option>
-                        <option value="this-week">This week</option>
-                        <option value="last-thirty-days">Last 30 days</option>
-                        <option value="this-month">This month</option>
-                        <option value="range">Range</option>
-                    </select>
-                </div>
-                <div class="col-md-2 low-padding">
-                    <select id="confidentiality-filter" placeholder="Confidentiality">
-                        <option value="">Confidentiality</option>
-                        <option value="Unprotected">Unprotected</option>
-                        <option value="Protected">Protected</option>
-                        <option value="Restricted">Restricted</option>
-                        <option value="Confidential">Confidential</option>
-                    </select>
-                </div>
-                <div class="col-md-2 last-child">
-                    <select id="status-filter" placeholder="Status">
-                        <option value="">Status</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Processed">Processed</option>
-                    </select>
-                </div>
-            </div>
+            <label>Apply filter:</label>
+            <select id="assigned-to-filter" placeholder="Assigned to">
+                <option value="">Assigned to</option>
+            </select>
+            <select id="date-created-filter" placeholder="Date Created">
+                <option value="">Date Created</option>
+                <option value="today">Today</option>
+                <option value="yesterday">Yesterday</option>
+                <option value="last-seven-days">Last 7 days</option>
+                <option value="this-week">This week</option>
+                <option value="last-thirty-days">Last 30 days</option>
+                <option value="this-month">This month</option>
+                <option value="range">Range</option>
+            </select>
+            <select id="date-published-filter" placeholder="Date Published">
+                <option value="">Date Published</option>
+                <option value="today">Today</option>
+                <option value="yesterday">Yesterday</option>
+                <option value="last-seven-days">Last 7 days</option>
+                <option value="this-week">This week</option>
+                <option value="last-thirty-days">Last 30 days</option>
+                <option value="this-month">This month</option>
+                <option value="range">Range</option>
+            </select>
+            <select id="confidentiality-filter" placeholder="Confidentiality">
+                <option value="">Confidentiality</option>
+                <option value="Unprotected">Unprotected</option>
+                <option value="Protected">Protected</option>
+                <option value="Restricted">Restricted</option>
+                <option value="Confidential">Confidential</option>
+            </select>
+            <select id="status-filter" placeholder="Status">
+                <option value="">Status</option>
+                <option value="Pending">Pending</option>
+                <option value="Processed">Processed</option>
+            </select>
         </div>
         <div id="leads-table-wrapper">
             <table id="leads-table" class="table" cellspacing="0" width="100%">
@@ -140,57 +126,47 @@ DEEP | Leads
             <h3>Add Lead</h3>
             <form id="add-lead-form">
                 {% csrf_token %}
-                <div class="row">
-                    <div class="col-sm-3 input-label"><label>Name</label></div>
-                    <div class="col-sm-9"><input type="text" name="name" class="form-control" placeholder="Enter a descriptive name" required></div>
+                <div class="wrapper">
+                    <label>Name</label>
+                    <input type="text" name="name" class="form-control" placeholder="Enter a descriptive name" required>
                 </div>
-                <div class="row">
-                    <div class="col-sm-3 input-label"><label>Source</label></div>
-                    <div class="col-sm-9">
-                        <input class="form-control" id="source" name="source" placeholder="Select source type">
-                    </div>
+                <div class="wrapper">
+                    <label>Source</label>
+                    <input class="form-control" id="source" name="source" placeholder="Select source type">
                 </div>
-                <div class="row">
-                    <div class="col-sm-3 input-label"><label>Confidentiality</label></div>
-                    <div class="col-sm-9">
-                        <select id="confidentiality" name="confidentiality">
-                            {% for c in confidentialities %}
-                            <option value="{{c.0}}">{{c.1}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
+                <div class="wrapper">
+                    <label>Confidentiality</label>
+                    <select id="confidentiality" name="confidentiality">
+                        {% for c in confidentialities %}
+                        <option value="{{c.0}}">{{c.1}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
-                <div class="row">
-                    <div class="col-sm-3 input-label"><label>Assign to</label></div>
-                    <div class="col-md-9">
-                        <select id="assigned-to" name="assigned-to" placeholder="Select user">
-                            <option value="">Select user</option>
-                            {% for u in users %}
-                            <option value="{{u.pk}}">{{u.first_name}} {{u.last_name}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
+                <div class="wrapper">
+                    <label>Assign to</label>
+                    <select id="assigned-to" name="assigned-to" placeholder="Select user">
+                        <option value="">Select user</option>
+                        {% for u in users %}
+                        <option value="{{u.pk}}">{{u.first_name}} {{u.last_name}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
-                <div class="row">
-                    <div class="col-sm-3 input-label"><label>Published at</label></div>
-                    <div class="col-sm-9"> <div style="position:relative;"><input type="date" name="publish-date" class="form-control" placeholder="yyyy-mm-dd"></div></div>
+                <div class="wrapper">
+                    <label>Published at</label>
+                    <div style="position:relative;"><input type="date" name="publish-date" class="form-control" placeholder="yyyy-mm-dd"></div>
                 </div>
-                <div class="row attachment-row">
-                    <div class="col-sm-3 input-label"><label>Attachments</label></div>
-                    <div class="col-sm-9" id="attachments-list"></div>
+                <div class="attachment-row wrapper">
+                    <label>Attachments</label>
+                    <div id="attachments-list"></div>
                 </div>
-                <div class="row manual-row">
-                    <div class="col-sm-3 input-label"><label>Description</label></div>
-                    <textarea class="col-sm-9" id="manual-text"></textarea>
+                <div class="manual-row wrapper">
+                    <label>Description</label>
+                    <br>
+                    <textarea id="manual-text"></textarea>
                 </div>
-                <div class="row" id="action-row">
-                    <div class="col-md-12">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <input type="submit" class="btn btn-primary">
-                    </div>
-                </div>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <input type="submit" class="btn btn-primary">
             </form>
-
         </div>
     </div>
 </div>

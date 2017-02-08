@@ -48,25 +48,28 @@ body{
             }
 
             #lead-preview-container{
-                height: calc(100% - 70px);
-            }
-            #lead-preview{
-                width: 100%;
-                height: 100%;
-                border: none;
-                display: none;
-            }
-            #lead-simplified-preview{
-                width: 100%;
-                padding: 16px;
-                background-color: #fafafa;
-                div{
-                    color: #717171;
-                    white-space: pre-wrap;
-                    line-height: 1.5;
+                #lead-preview{
+                    height: calc(100vh - #{$navbar-height} - 56px);
+                    box-sizing: border-box;
+                    border: none;
                 }
-                h1{
-                    font-size: 1.5em;
+                iframe{
+                    width: 100%;
+                }
+                #lead-simplified-preview{
+                    height: calc(100vh - 144px);
+                    overflow-x: auto;
+                    padding: 16px;
+
+                    pre {
+                        white-space: pre-wrap;
+                        word-break: normal;
+                        background: inherit;
+                        color: inherit;
+                        font: inherit;
+                        border: inherit;
+                        text-align: justify;
+                    }
                 }
             }
         }

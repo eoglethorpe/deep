@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load watchful_url %}
 
 {% block title %}
 DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 {% endblock %}
 
 {% block head %}
-<link href="{% static 'css/add-lead.css' %}" type="text/css" rel="stylesheet">
-<link href="{% static 'css/selectize.css' %}" type="text/css" rel="stylesheet">
-<link href="{% static 'css/dropzone.css' %}" type="text/css" rel="stylesheet">
-<link href="{% static 'css/jquery-ui.min.css' %}" type="text/css" rel="stylesheet">
-<script type="text/javascript" src="{% static 'js/common/selectize.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/common/dropzone.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/common/jquery-ui.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/common/utils.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/leads/add-lead.js' %}"></script>
+<link href="{% watchful_static_url 'css/add-lead.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/selectize.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/dropzone.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/jquery-ui.min.css' %}" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/dropzone.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/leads/add-lead.js' %}"></script>
 
 
 {% endblock %}

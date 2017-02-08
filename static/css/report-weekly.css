@@ -50,14 +50,16 @@ nav {
     width: 96px; }
   nav a, nav a:visited {
     display: inline-block; }
+  nav #main-menu {
+    flex-basis: 40%; }
   nav .menu-item {
     font-weight: 400;
     color: rgba(255, 255, 255, 0.7);
     transition: 0.2s all ease-in-out;
-    flex-basis: 8%;
     text-align: center;
     font-size: 14px;
     height: 56px;
+    padding: 0 16px;
     padding-top: calc(calc(56px - 14px - 8px) / 2); }
     nav .menu-item.active {
       border-bottom: 2px solid #fff;
@@ -386,27 +388,34 @@ main {
       box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
       main #report-content #key-events button:active {
         box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-    main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field {
+    main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field:nth-child(odd) {
+      background-color: #fff; }
+    main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child {
       width: 100%;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-around;
       align-items: center; }
-      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field input {
+      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field input, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield input, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child input {
         outline: none;
         box-shadow: none;
         border: 1px solid transparent;
         box-sizing: border-box;
         padding: 6px 10px; }
-      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field:nth-child(odd) {
-        background-color: #fff; }
-      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .sub {
+      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .sub, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .sub, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .sub {
         padding-left: 24px;
         font-weight: 400; }
-    main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field > * {
-      flex-basis: 23%;
-      box-sizing: border-box;
-      margin: 10px 0; }
+      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field > *, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield > *, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child > * {
+        flex-basis: 23%;
+        box-sizing: border-box;
+        margin: 10px 0; }
+      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field > a, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield > a, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child > a {
+        flex-basis: 24px;
+        cursor: pointer; }
+      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field > div, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield > div, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child > div {
+        flex-basis: 100%; }
+    main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child input {
+      border: 1px solid rgba(0, 0, 0, 0.2); }
     main #report-content #humanitarian-profile #humanitarian-profile-field-error {
       padding: 16px;
       text-align: center;

@@ -8,9 +8,20 @@ from docx.oxml.ns import qn
 
 from entries.models import *
 
+def valid_xml_char_ordinal(c):
+    codepoint = ord(c)
+    # conditions ordered by presumed frequency
+    return (
+        0x20 <= codepoint <= 0xD7FF or
+        codepoint in (0x9, 0xA, 0xD) or
+        0xE000 <= codepoint <= 0xFFFD or
+        0x10000 <= codepoint <= 0x10FFFF
+    )
+
 def xstr(conv):
     """remove illegal characters from a string (errors from PDFs etc)"""
-    return "".join(filter(lambda x: x in string.printable, conv))
+    s = "".join(filter(lambda x: x in string.printable, conv))
+    return ''.join(c for c in s if valid_xml_char_ordinal(c))
 
 # See: https://github.com/python-openxml/python-docx/issues/74#issuecomment-215678765
 def add_hyperlink(paragraph, url, text):
@@ -101,7 +112,10 @@ def add_line(para):
 
 def add_excerpt_info(d, info):
     # Show the excerpt
-    ref = d.add_paragraph(xstr(info.excerpt))
+    try:
+        ref = d.add_paragraph(xstr(info.excerpt))
+    except:
+        ref = d.add_paragraph('')
     ref.paragraph_format.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.JUSTIFY
 
     # Show the reference
@@ -125,7 +139,7 @@ def add_excerpt_info(d, info):
 
     # TODO Find out whether to show date of info or lead
     if info.date:
-        ref.add_run(", {}".format(info.date.strftime("%m/%d/%Y")), )
+        ref.add_run(", {}".format(info.date.strftime("%d/%m/%Y")), )
 
 
     # d.add_paragraph("Reliability: {}\nSeverity: {}".format(info.reliability.name, info.severity.name))

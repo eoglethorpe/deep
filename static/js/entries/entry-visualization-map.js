@@ -7,7 +7,7 @@ var nameLayerMapping = {};
 var currentLevel = 0;
 var selectedCountry = "";
 var layer;
-var mapColors = ['#008080','#80d0d0','hsl(48, 89%, 50%)'];
+var mapColors = ['#008080','#80d0d0','hsl(48, 89%, 50%)', 'rgba(0,0,0,0.6)'];
 var map;
 
 var mapSelections = [];
@@ -135,9 +135,15 @@ function onEachMapFeature(feature, layer) {
     var index = mapSelections.indexOf(selectionName);
 
     if (index >= 0) {
-        var l = (100-mapNumEntries[index]/maxNumEntries * 100); // (10+mapNumEntries[index])/(10+maxNumEntries);
-        l = l*(85-15)/100 + 15;
-        color3 = 'hsl(48, 89%, ' + l + '%)';
+        var areas = $('#areas-filter').val();
+        if (areas && areas.indexOf(name) >= 0) {
+            color3 = mapColors[3];
+        }
+        else {
+            var l = (100-mapNumEntries[index]/maxNumEntries * 100); // (10+mapNumEntries[index])/(10+maxNumEntries);
+            l = l*(85-15)/100 + 15;
+            color3 = 'hsl(48, 89%, ' + l + '%)';
+        }
     }
 
     layer.setStyle({
@@ -148,7 +154,7 @@ function onEachMapFeature(feature, layer) {
 
     layer.on('mouseover', function() {
         this.setStyle({
-            fillOpacity: 0.15
+            fillOpacity: 0.25
         });
     });
     layer.on('mouseout', function() {
@@ -156,6 +162,23 @@ function onEachMapFeature(feature, layer) {
             fillOpacity:0.60
         });
     });
+
+    // Filter on selection
+    if (index >= 0) {
+        layer.on('click', function(name) {
+            return function(){
+                var areas = $('#areas-filter').val();
+                if (!areas)
+                    areas = [];
+                if (areas.indexOf(name) >= 0) {
+                    areas.splice(areas.indexOf(name), 1);
+                } else {
+                    areas.push(name);
+                }
+                areasSelectize[0].selectize.setValue(areas);
+            }
+        }(name));
+    }
 
     if (index < 0)
         layer.bindLabel(name);

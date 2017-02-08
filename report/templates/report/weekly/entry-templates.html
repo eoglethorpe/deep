@@ -1,7 +1,7 @@
 <div class="entry-template" hidden>
     <div class="entry-header">
         <h4></h4>
-        <div><label>Source:</label><a class="source" href="#"></a></div>
+        <div><label>Source:</label><a class="source"  target = "_blank" href="#"></a></div>
     </div>
     <div class="information-list">
     </div>
@@ -9,7 +9,7 @@
 
 <div class="information-template" hidden>
     <div class="information-header">
-        <div><label>Date:</label><date></date></div>
+        <div><label>Information's date:</label><date></date></div>
         <div class="reliability">
             {% for reliability in reliabilities %}
             <span data-id="{{reliability.pk}}" class="_{{reliability.level}}  {% if data.reliability == reliability %}active{% endif %}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{reliability}}"></span>

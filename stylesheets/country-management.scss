@@ -1,60 +1,108 @@
 @import 'common/base';
 
 body{
+    display: flex;
+    justify-content: flex-start;
+    overflow-y: hidden;
+    flex-wrap: wrap;
+
     h1, h2, h3, h4{
         text-transform: uppercase;
         margin: 0;
         vertical-align: middle;
     }
+    input[type="text"],input[type="number"]{
+        width: 100%;
+        height: 32px;
+        padding: 0 16px;
+        outline: none;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 3px;
+        background-color: #fff;
+
+        &:focus{
+            border-color: $primary-color;
+        }
+    }
     header{
+        flex-basis: 100%;
+        height: $navbar-height;
         background-color: darken($primary-color, 10%);
         color: #fff;
-        height: $navbar-height;
-        @include shadow();
+        display: flex;
+        justify-content: space-between;
+        padding: 0 16px;
+        align-items: center;
+        @include shadow;
 
-        h1{
-            padding-top: ($navbar-height - $text-size-sl)/2;
-        }
         a{
             color: #fff;
-            padding-top: ($navbar-height - $text-size-md)/2;
-            float: right;
 
-            i{
+            .fa{
                 margin-right: 10px;
             }
             &:hover{
-                color: #eee;
-            }
+                color: #fff;
+             }
         }
     }
-    main{
-        #country-list{
-            margin-top: 24px;
-            padding: 16px;
-            height: calc(100vh - #{$navbar-height} - 32px);
+    aside{
+        $countries-header-height: 144px;
+        flex-basis: 25%;
+
+        #countries-header{
+            height: $countries-header-height;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 10px 16px 0 16px;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 
             h2{
-                font-weight: bold;
+                flex-basis: 60%;
+                font-weight: $font-weight-bold;
                 font-size: $text-size-sl;
-                margin-bottom: 32px;
-                margin-top: 8px;
             }
             button{
-                float: right;
-                @include btn-shadow-lg();
+                flex-basis: 30%;
+                @include btn-shadow-lg;
 
-                i{
+                .fa{
                     margin-right: 10px;
                 }
             }
-            input{
-                margin-bottom: 16px;
+            #search-wrapper{
+                flex-basis: 100%;
+                position: relative;
+                margin: 8px 0;
+
+                input{
+                    width: 100%;
+                    height: 32px;
+                    outline: none;
+                    padding: 0 16px 0 32px;
+                    background-color: transparent;
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                    border-radius: 3px;
+                }
+                i{
+                    position: absolute;
+                    left: 10px;
+                    top: 8px;
+                    color: rgba(0, 0, 0, 0.3);
+                    font-size: 16px;
+                }
             }
+        }
+
+        #country-list{
+            padding: 0 16px;
+            height: calc(100vh - #{$navbar-height} - 144px);
 
             #countries {
                 overflow-y: auto;
-                height: calc(100% - 96px);
+                height: 100%;
 
                 .country{
                     padding: 16px;
@@ -68,186 +116,237 @@ body{
                 }
             }
         }
-        #wrapper{
-            padding: 0;
-            @include shadow();
+    }
+    main{
+        flex-basis: 75%;
+        @include shadow();
 
-            #navigator{
-                padding: 16px;
-                background-color: #fafafa;
-                height: 48px;
+        #navigator{
+            background-color: #fafafa;
+            box-sizing: border-box;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
-                a{
-                    display: inline-block;
-                    padding: 0 24px;
-                    padding-bottom: 8px;
-                    cursor: pointer;
-                }
-                .nav-active{
-                    border-bottom: 2px solid $primary-color;
-                }
-                section{
-                    margin-top: -8px;
-                    display: inline-block;
-                    float: right;
+            >div{
+                flex-basis: 50%;
 
-                    #save-btn, #delete-btn{
-                        margin-left: 16px;
-                        @include btn-shadow-sm();
-
-                        .fa{
-                            margin-right: 10px;
-                        }
-                    }
+                &:last-child{
+                    flex-basis: 23%;
                 }
             }
-            #content-wrapper{
-                #country-detail{
-                    background-color: #fff;
-                    height: calc(100vh - #{$navbar-height} - 48px);
-                    padding: 24px;
-                    overflow-y: scroll;
-                    overflow-x: hidden;
+            a{
+                padding: 10px 24px 14px 24px;
+                font-size: 14px;
+                cursor: pointer;
+            }
+            .nav-active{
+                border-bottom: 2px solid $primary-color;
+            }
+            #save-btn, #delete-btn{
+                margin-left: 8px;
+                @include btn-shadow-sm();
 
-                    h2{
-                        font-weight: bold;
-                        font-size: $text-size-sl;
-                        margin-bottom: 32px;
-                        margin-top: 10px;
-                    }
-                    #the-map{
-                        height: 400px;
+                .fa{
+                    margin-right: 10px;
+                }
+            }
+        }
+        #content-wrapper{
+            #country-detail{
+                height: calc(100vh - #{$navbar-height} - 48px);
+                background-color: #fff;
+                padding: 24px;
+                overflow-y: auto;
+                overflow-x: hidden;
 
-                        path {
-                            stroke: #717171;
-                            stroke-width: 1px;
-                            stroke-linejoin: round;
-                        }
-                        @include shadow();
-                    }
-                    #map-controls{
-                        margin-top: 8px;
-                        width: 100%;
-                        display: inline-block;
-                        background-color: rgba(255, 255, 255, 0.88);
+                h2{
+                    font-weight: bold;
+                    font-size: $text-size-sl;
+                    margin-bottom: 32px;
+                    margin-top: 10px;
+                }
+                #country-details-map-wrapper{
+                    display: flex;
+                    justify-content: space-between;
 
-                        #admin-level-buttons{
-                            button{
-                                margin: 4px!important;
-                                @include shadow();
-                            }
-                        }
-                    }
                     #country-detail-inputs{
                         margin-bottom: 72px;
+                        flex-basis: 25%;
                     }
+                    >div{
+                        &:nth-child(2){
+                            flex-basis: 70%;
+                            #the-map{
+                                height: 400px;
 
-                    h3{
-                        margin-top: -10px;
-                        margin-bottom: 16px;
-                    }
-                    .admin-level-details{
-                        background-color: #f0f0f0;
-                        padding: 16px 24px;
-                        margin-left: -24px;
-                        margin-right: -24px;
-
-                        &:nth-child(even){
-                            background: #fafafa;
-                        }
-
-                        .file-input {
-                            width: 0.1px;
-                            height: 0.1px;
-                            opacity: 0;
-                            overflow: hidden;
-                            position: absolute;
-                            z-index: -1;
-                        }
-                        .file-input + label {
-                            margin-left: 10px;
-                            margin-right: 10px;
-                            padding: 6px 24px;
-                            background-color: #fff;
-                            font-size: 1em;
-                            border-radius: 3px;
-                            display: inline-block;
-                            cursor: pointer;
-                            @include btn-shadow-sm();
-
-                            i{
-                                margin-right: 10px;
+                                path {
+                                    stroke: #717171;
+                                    stroke-width: 1px;
+                                    stroke-linejoin: round;
+                                }
+                                @include shadow();
                             }
-                        }
-                        .file-input:focus + label,
-                        .file-input + label:hover {
-                        }
-                        .geojson-current{
-                            display: inline-block;
-                        }
-                        .delete-admin-level{
-                            float: right;
-                            cursor: pointer;
-                            font-size: $text-size-lg;
-                            color: #e74c3c;
-                            padding-top: 16px;
-
-                            input{
-                                margin-right: 10px;
-                                margin-top: 0;
-                                vertical-align: middle;
-                                border: none;
-                                box-shadow: none;
-                            }
-                            span{
+                            #map-controls{
+                                margin-top: 8px;
+                                width: 100%;
                                 display: inline-block;
+                                background-color: rgba(255, 255, 255, 0.88);
+
+                                #admin-level-buttons{
+                                    button{
+                                        margin: 4px!important;
+                                        @include shadow();
+                                    }
+                                }
                             }
                         }
                     }
-                    #add-new-admin-level{
-                        margin-top: 16px;
+                }
+                h3{
+                    margin-top: -10px;
+                    margin-bottom: 16px;
+                }
+                .admin-level-details{
+                    background-color: #f0f0f0;
+                    padding: 16px 24px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    >div{
+                        flex-basis: 24%;
+
+                        &:nth-child(6){
+                            margin-top: 16px;
+                        }
+                        &:last-child{
+                            flex-basis: 7%;
+
+                            .delete-admin-level{
+                                cursor: pointer;
+                                font-size: $text-size-lg;
+                                color: #e74c3c;
+
+                                input{
+                                    margin-right: 10px;
+                                    margin-top: 0;
+                                    vertical-align: middle;
+                                    border: none;
+                                    box-shadow: none;
+                                }
+                                span{
+                                    display: inline-block;
+                                }
+                            }
+                        }
+                    }
+
+                    &:nth-child(even){
+                        background: #fafafa;
+                    }
+
+                    .file-input {
+                        width: 0.1px;
+                        height: 0.1px;
+                        opacity: 0;
+                        overflow: hidden;
+                        position: absolute;
+                        z-index: -1;
+                    }
+                    .file-input + label {
+                        margin-left: 10px;
+                        margin-right: 10px;
+                        padding: 6px 24px;
+                        background-color: #fff;
+                        font-size: 1em;
+                        border-radius: 3px;
+                        display: inline-block;
+                        cursor: pointer;
                         @include btn-shadow-sm();
 
                         i{
                             margin-right: 10px;
                         }
                     }
+                    .file-input:focus + label,
+                    .file-input + label:hover {
+                    }
+                    .geojson-current{
+                        display: inline-block;
+                    }
                 }
-                #key-figures{
-                    background-color: #fff;
-                    height: calc(100vh - #{$navbar-height} - 48px);
-                    padding: 24px;
-                    overflow-y: scroll;
-                    overflow-x: hidden;
+                #add-new-admin-level{
+                    margin-top: 16px;
+                    @include btn-shadow-sm();
 
-                    .key-figure{
-                        margin-bottom: 48px;
+                    i{
+                        margin-right: 10px;
+                    }
+                }
+            }
+            #key-figures{
+                background-color: #fff;
+                height: calc(100vh - #{$navbar-height} - 48px);
+                padding: 24px;
+                overflow-y: scroll;
+                overflow-x: hidden;
 
-                        h2{
-                            font-weight: bold;
-                            font-size: $text-size-sl;
-                            margin-top: 10px;
-                            margin-bottom: 8px;
+                .key-figure{
+                    margin-bottom: 32px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+
+                    h2{
+                        font-weight: bold;
+                        flex-basis: 100%;
+                        font-size: $text-size-sl;
+                        margin-top: 10px;
+                        margin-bottom: 8px;
+                    }
+                    input:read-only{
+                        background-color: rgba(0, 0, 0, 0.1);
+                    }
+                    >div{
+                        flex-basis: 30%;
+                        padding: 0 8px;
+                    }
+                }
+            }
+            #population-data{
+                background-color: #fff;
+                height: calc(100vh - #{$navbar-height} - 48px);
+                padding: 24px;
+                overflow-y: scroll;
+                overflow-x: hidden;
+
+                >div{
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    justify-content: flex-start;
+
+                    >div{
+                        flex-basis: 30%;
+                        margin: 8px 4px;
+
+                        &:nth-child(2){
+                            flex-basis: 50%;
                         }
                     }
                 }
-                #population-data{
-                    background-color: #fff;
-                    height: calc(100vh - #{$navbar-height} - 48px);
-                    padding: 24px;
-                    overflow-y: scroll;
-                    overflow-x: hidden;
-                }
-                #seasonal-calendar{
-                    background-color: #fff;
-                    height: calc(100vh - #{$navbar-height} - 48px);
-                    padding: 24px;
-                    overflow-y: scroll;
-                    overflow-x: hidden;
-                }
+            }
+            #seasonal-calendar{
+                background-color: #fff;
+                height: calc(100vh - #{$navbar-height} - 48px);
+                padding: 24px;
+                overflow-y: scroll;
+                overflow-x: hidden;
             }
         }
-
     }
 
 }

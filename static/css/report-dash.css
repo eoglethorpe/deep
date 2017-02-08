@@ -51,14 +51,16 @@ nav {
     width: 96px; }
   nav a, nav a:visited {
     display: inline-block; }
+  nav #main-menu {
+    flex-basis: 40%; }
   nav .menu-item {
     font-weight: 400;
     color: rgba(255, 255, 255, 0.7);
     transition: 0.2s all ease-in-out;
-    flex-basis: 8%;
     text-align: center;
     font-size: 14px;
     height: 56px;
+    padding: 0 16px;
     padding-top: calc(calc(56px - 14px - 8px) / 2); }
     nav .menu-item.active {
       border-bottom: 2px solid #fff;
@@ -104,7 +106,14 @@ nav {
       margin-right: 10px; }
 
 .jqstooltip {
-  box-sizing: content-box; }
+  box-sizing: content-box;
+  font-size: 12px;
+  border: none !important;
+  background-color: black !important; }
+
+.jqsfield {
+  font-size: 12px !important;
+  /*set the text color here */ }
 
 main h1, main h2, main h3, main h4 {
   margin: 0;
@@ -210,7 +219,8 @@ main #country-list {
       main #country-list #countries .country:hover {
         background-color: rgba(0, 0, 0, 0.2); }
     main #country-list #countries .active {
-      border-right: 3px solid #008080; }
+      border-right: 3px solid #008080;
+      background-color: rgba(0, 128, 128, 0.3) !important; }
     main #country-list #countries .percent, main #country-list #countries .number {
       font-family: 'Inconsolata', monospace; }
     main #country-list #countries .viz {

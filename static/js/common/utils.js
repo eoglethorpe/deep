@@ -60,7 +60,7 @@ function addTodayButtons() {
     $('input[type="date"]').each(function() {
         var date = $(this);
         date.css('padding-left', '32px');
-        var today_btn = $('<a class="today-btn"><i class="fa fa-circle"></i></a>');
+        var today_btn = $('<a class="today-btn"><i class="fa fa-clock-o"></i></a>');
         today_btn.appendTo(date.parent());
         today_btn.css('z-index', '10');
         date.css('position', 'relative');
@@ -232,4 +232,31 @@ function formatNumber(numInput){
 // Get minimum two digit string for an integer
 function getTwoDigits(number) {
     return ('0' + number).slice(-2);
+}
+
+// Try reformatting a text
+function reformatText(text) {
+    text = text.replace(/\t/gi, ' ');
+    text = text.replace(/[^\x00-\x7F]/g, "");
+    text = text.replace(/([^\n])[ \t]*\n[ \t]*(?!\n)/gi, '$1 ');
+    text = text.replace(/ +/gi, ' ');
+    text = text.replace(/\n\s*\n\s*(\n\s*)+/gi, '\n\n\n');
+    return text;
+}
+
+// Migrate object keys based on given model
+function migrate(data, dataModel) {
+    // TODO:
+    // Check for other cases such as:
+    //      * when data[key] == null but dataModel[key] = {a:{}, b:{c:d}}
+    for (var key in dataModel) {
+        if (!(key in data)) {
+            data[key] = dataModel[key];
+        }
+        else {
+            if (dataModel[key] != null && typeof dataModel[key] == 'object') {
+                migrate(data[key], dataModel[key]);
+            }
+        }
+    }
 }

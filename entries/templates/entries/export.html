@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load watchful_url %}
 
 {% block title %}
 DEEP | Export
@@ -10,13 +10,13 @@ DEEP | Export
     var currentEvent = {{event.pk}};
     var heirarchy = [];
 </script>
-<link href="{% static 'css/jquery-ui.min.css' %}" type="text/css" rel="stylesheet">
-<link href="{% static 'css/export.css' %}" type="text/css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="{% static 'css/selectize.css' %}"/>
-<script type="text/javascript" src="{% static 'js/common/selectize.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/common/jquery-ui.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/entries/entries-filter.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/entries/export.js' %}"></script>
+<link href="{% watchful_static_url 'css/jquery-ui.min.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/export.css' %}" type="text/css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}"/>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entries/entries-filter.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entries/export.js' %}"></script>
 
 <script>
     var eventId = "{{event.pk}}";
@@ -28,62 +28,45 @@ DEEP | Export
 
 {% include 'navbar.html' %}
 <section id="main">
-    <div class="container-fluid">
-        <div id="export-entries">
-            <h1>Export Entries</h1>
-            <div class="row">
-                <div class="col-md-9">
-                    <div id="export-entries-doc">
-                        <header>
-                            <form id="export-entries-doc-form" action="{% url 'entries:exportdocx' event=event.pk %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-info" ><i class="fa fa-file-word-o"></i>Export</button>
-                            </form>
-                            <h2>Word Export</h2>
-                        </header>
-                        <div class="row">
-                            <div class="col-md-8">
-                                <h3>Filters</h3>
-                                <div id="filters">
-                                    {% include 'entries/export-entry-filters.html' %}
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <h3>Hierarchy <span>(drag to rearrange)</span></h3>
-                                <ul id="sortable">
-                                  <li class="ui-state-default" id="geoarea">Geo Area</li>
-                                  <li class="ui-state-default" id="affected">Affected</li>
-                                  <li class="ui-state-default" id="sector">Sector</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+    <div id="export-entries">
+        <h1>Export Entries</h1>
+        <div id="export-entries-doc">
+            <form id="export-entries-doc-form" action="{% url 'entries:exportdocx' event=event.pk %}" method="post">
+                {% csrf_token %}
+                <h2>Word Export</h2>
+                <button type="submit" class="btn btn-info" ><i class="fa fa-file-word-o"></i>Export</button>
+            </form>
+            <div>
+                <h3>Filters</h3>
+                <div id="filters">
+                    {% include 'entries/export-entry-filters.html' %}
                 </div>
-                <div class="col-md-3">
-                    <div id="export-entries-excel">
-                        <header>
-                            <h2>Excel Export</h2>
-                        </header>
-                        <form id="export-entries-excel-form" action="{% url 'entries:exportxls' event=event.pk %}">
-                            <button type="submit" class="btn btn-primary" ><i class="fa fa-file-excel-o"></i>Export</button>
-                        </form>
-                    </div>
-                </div>
+            </div>
+            <div>
+                <h3>Hierarchy <span>(drag to rearrange)</span></h3>
+                <ul id="sortable">
+                  <li class="ui-state-default" id="geoarea">Geo Area</li>
+                  <li class="ui-state-default" id="affected">Affected</li>
+                  <li class="ui-state-default" id="sector">Sector</li>
+                </ul>
             </div>
         </div>
-
-        <div id="sos-export">
-            <h1>Survey of surveys</h1>
-            <div class="row">
-                <div class="col-md-3">
-                    <div id="sos-export-excel">
-                        <header>
-                            <h2>Excel Export</h2>
-                        </header>
-                        <a id="export-sos-excel-btn" href="{% url 'leads:exportsosxls' event=event.pk %}" type="submit" class="btn btn-primary" ><i class="fa fa-file-excel-o"></i>Export</a>
-                    </div>
-                </div>
-            </div>
+        <div id="export-entries-excel">
+            <header>
+                <h2>Excel Export</h2>
+            </header>
+            <form id="export-entries-excel-form" action="{% url 'entries:exportxls' event=event.pk %}">
+                <button type="submit" class="btn btn-primary" ><i class="fa fa-file-excel-o"></i>Export</button>
+            </form>
+        </div>
+    </div>
+    <div id="sos-export">
+        <h1>Survey of surveys</h1>
+        <div id="sos-export-excel">
+            <header>
+                <h2>Excel Export</h2>
+            </header>
+            <button id="export-sos-excel-btn" href="{% url 'leads:exportsosxls' event=event.pk %}" type="submit" class="btn btn-primary" ><i class="fa fa-file-excel-o"></i>Export</button>
         </div>
     </div>
 </section>

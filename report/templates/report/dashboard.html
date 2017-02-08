@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load watchful_url %}
 
 {% block head %}
-<link href="{% static 'css/report-dash.css' %}" type="text/css" rel="stylesheet">
-<link href="{% static 'css/selectize.css' %}" type="text/css" rel="stylesheet">
-<script src="{% static 'js/common/selectize.js' %}"></script>
-<script src="{% static 'js/common/jquery.sparkline.min.js' %}"></script>
-<script src="{% static 'js/report/report-dash.js' %}"></script>
+<link href="{% watchful_static_url 'css/report-dash.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/selectize.css' %}" type="text/css" rel="stylesheet">
+<script src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
+<script src="{% watchful_static_url 'js/common/jquery.sparkline.min.js' %}"></script>
+<script src="{% watchful_static_url 'js/report/report-dash.js' %}"></script>
 
 <script>
 var reports = [
@@ -91,7 +91,7 @@ var humanAvailabilityFieldIds = [
                                         <label data-sort=".recency .percent" class="list-col">Recency</label>
                                     </div>
                                     <div class="col-md-4 last-child">
-                                        <label class="list-col">Change</label>
+                                        <label data-sort=".change .percent" class="list-col">Change</label>
                                     </div>
                                 </div>
                             </div>
@@ -145,7 +145,7 @@ var humanAvailabilityFieldIds = [
                                 </div>
                                 <div class="col-md-3 last-child">
                                     <div class="row">
-                                        <div class="col-md-4 first-child">
+                                        <div class="col-md-4 first-child" style = "padding-left: 0">
                                             <div class="availability list-col">
                                                 <i class="fa"></i><span class="percent"></span>
                                                 <div class="viz"></div>
