@@ -11,6 +11,7 @@ var timelineFilter = null;
 var selectizes = [];
 var pillarsFilterSelectize; // Required in report-weekly tab filtering
 var sectorsFilterSelectize; // Required in entries visualization filtering
+var areasSelectize;   // Required in entries visualization filtering
 
 var previousPublishedDateFilterSelection;
 var previousImportedDateFilterSelection;
@@ -87,7 +88,7 @@ function initEntryFilters() {
         importedDateSelectize = $('#date-imported-filter').selectize({plugins: ['remove_button']});
         selectizes.push(importedDateSelectize);
     }
-    var areasSelectize = $('#areas-filter').selectize({plugins: ['remove_button']});
+    areasSelectize = $('#areas-filter').selectize({plugins: ['remove_button']});
     selectizes.push(areasSelectize);
     selectizes.push($('#affected-groups-filter').selectize({plugins: ['remove_button']}));
     selectizes.push($('#vulnerable-groups-filter').selectize({plugins: ['remove_button']}));
