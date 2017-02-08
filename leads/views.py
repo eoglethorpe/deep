@@ -110,7 +110,18 @@ class AddSoS(View):
         context["lead"] = Lead.objects.get(pk=lead_id)
         lead = context["lead"]
 
-        get_simplified_lead(lead, context)
+        try:
+            simplified_lead = SimplifiedLead.objects.get(lead=lead)
+            context["lead_simplified"] = simplified_lead.text
+        except:
+            get_simplified_lead(lead, context)
+            if "lead_simplified" in context:
+                SimplifiedLead(lead=lead, text=context["lead_simplified"]).save()
+                
+        if lead.lead_type == 'URL' and lead.url.endswith('.pdf'):
+            context["is_pdf"] = True
+        else:
+            context["is_pdf"] = False
 
         # Get fields options
         context["proximities"] = ProximityToSource.objects.all()
