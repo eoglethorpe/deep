@@ -197,7 +197,7 @@ body {
         justify-content: space-between; }
         body main #content-wrapper #country-detail .admin-level-details > div {
           flex-basis: 24%; }
-          body main #content-wrapper #country-detail .admin-level-details > div:nth-child(5) {
+          body main #content-wrapper #country-detail .admin-level-details > div:nth-child(6) {
             margin-top: 16px; }
           body main #content-wrapper #country-detail .admin-level-details > div:last-child {
             flex-basis: 7%; }
