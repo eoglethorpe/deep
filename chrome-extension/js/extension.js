@@ -37,7 +37,10 @@ var extension = {
         });
         $('select').change(function(){
             extension.storeInputValue($(this));
-        })
+            if($(this)[0].id == 'event-select'){
+                deep.currentEvent = $(this).val();
+            }
+        });
     },
     loadTitle: function(){
         if (extension.currentTabUrl && extension.currentPage) {

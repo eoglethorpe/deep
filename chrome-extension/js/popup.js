@@ -33,4 +33,10 @@ $(document).ready(function(){
     $('#submit-and-add-entry').on('click', function(e){
         $('#add-lead-form').append('<input type="hidden" name="redirect-url" value="true">');
     });
+    $('#publish-date-container a').on('click', function(){
+        let dateInput = $('#publish-date');
+        dateInput[0].type = 'date';
+        dateInput[0].valueAsDate = new Date;
+        dateInput.focus();
+    });
 });
