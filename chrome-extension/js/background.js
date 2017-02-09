@@ -1,6 +1,5 @@
 var database = {};
 
-
 chrome.runtime.onMessage.addListener(
     function(request, sender, reply) {
 

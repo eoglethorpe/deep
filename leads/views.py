@@ -117,7 +117,7 @@ class AddSoS(View):
             get_simplified_lead(lead, context)
             if "lead_simplified" in context:
                 SimplifiedLead(lead=lead, text=context["lead_simplified"]).save()
-                
+
         if lead.lead_type == 'URL' and lead.url.endswith('.pdf'):
             context["is_pdf"] = True
         else:
@@ -347,7 +347,7 @@ class AddLead(View):
             context["error"] = error
             return render(request, "leads/add-lead.html",
                           context)
-
+        print(request.POST)
         if "redirect-url" in request.POST:
             return JsonResponse({
                 "url": reverse('entries:add', args=[event, lead.pk])
