@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Options | DEEP: Add Lead</title>
+    <link rel="stylesheet" type="text/css" href="css/options.css">
+    <script src="js/options.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Options / <span>DEEP: Add Lead</span></h1>
+    </header>
+    <aside>
+        <a data-target="#general">General</a>
+        <a data-target="#usage-guide">Usage guide</a>
+        <a data-target="#about">About</a>
+    </aside>
+    <main>
+        <section id="general" hidden>
+            <h2>General options</h2>
+            <label>Server address:</label>
+            <input type="text" id="server-address" value="">
+            <button id="save-btn">Save changes</button>
+            <p id="status-text" hidden></p>
+        </section>
+        <section id="usage-guide" hidden>
+            <h2>Usage guide</h2>
+            <p><strong>Step 1:</strong>Sign in to the <a id="server-address-link" href="http://thedeep.io">DEEP</a></p>
+            <p><strong>Step 2:</strong>Open the site you want to add as the lead</p>
+            <p><strong>Step 3:</strong>Click on the <span>DEEP: Add Lead</span> extension icon ( <img src="img/deep-logo.png"> on top right of the chrome window )</p>
+            <p><strong>Step 4:</strong>Fill out the fields as the requirement, some fields like <span>Title</span>, <span>Date of publication</span>, <span>URL</span> will automatically get filled for most of the news sites or blogs</p>
+            <p><strong>Step 5:</strong><span>Submit</span> the lead, cheers!</p>
+        </section>
+        <section id="about" hidden>
+            <h2>About</h2>
+            <img src="img/deep-logo.png">
+            <p><strong>DEEP: Add Lead v2.0</strong><br>Create lead from current tab to the DEEP</p>
+        </section>
+    </main>
+</body>
+</html>

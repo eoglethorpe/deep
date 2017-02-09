@@ -1,0 +1,142 @@
+.text-input {
+    position: relative;
+    width: 100%;
+    min-height: 44px;
+    margin-bottom: 10px;
+}
+.text-input input,
+.text-input label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    letter-spacing: 0.05em;
+    padding: 6px 10px;
+    width: 100%;
+    transition: 0.2s all ease-in-out;
+    transform-origin: left;
+}
+.text-input input {
+    color: rgba(0, 0, 0, 0.9);
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    outline: none;
+    background-color: transparent;
+}
+.text-input input:focus {
+    border-bottom: 1px solid #008080;
+    color: rgba(0, 0, 0, 0.9);
+}
+.text-input label {
+    pointer-events: none;
+    color: rgba(0, 0, 0, 0.44);
+    text-transform: uppercase;
+}
+.text-input input:focus + label,
+.text-input .filled + label {
+    transform: translateY(-16px) translateX(2px) scale(0.77);
+    font-weight: bold;
+}
+.text-input input:focus + label {
+    color: #008080;
+}
+
+.select-input {
+    position: relative;
+    width: 100%;
+    min-height: 44px;
+    margin-bottom: 10px;
+    outline: none;
+}
+.select-input label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: rgba(0, 0, 0, 0.44);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transform-origin: left;
+}
+.select-input label.filled {
+    animation: labelAppear 0.2s forwards;
+}
+.select-input label.disappear {
+    animation: labelDisappear 0.2s forwards;
+}
+.select-input:focus label {
+    color: #008080;
+}
+@keyframes labelAppear {
+    from {
+        transform: translateY(0) translateX(0) scale(1);
+        font-weight: normal;
+    }
+    to {
+        transform: translateY(-24px) translateX(10px) scale(0.77);
+        font-weight: bold;
+    }
+}
+@keyframes labelDisappear {
+    from {
+        transform: translateY(-24px) translateX(10px) scale(0.77);
+        font-weight: bold;
+    }
+    to {
+        transform: translateY(0) translateX(0) scale(1);
+        font-weight: normal;
+    }
+}
+.select-input .dropdown-icon {
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+    color: rgba(0, 0, 0, 0.3);
+    transition: 0.2s all ease-in-out;
+}
+.select-input .select {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 6px 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease-in-out;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    outline: none;
+}
+.select-input:focus .select{
+    border-bottom: 1px solid #008080;
+}
+.select-input .hidden {
+    opacity: 0;
+}
+.select-input .select-filled {
+      text-transform: none;
+      color: rgba(0, 0, 0, 0.8);
+}
+.select-input .options {
+    background-color: rgba(255, 255, 255, 1);
+    color: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 3px 10px -3px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 48px;
+    z-index: 1;
+    width: 100%;
+    max-height: 240px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.select-input .options .option {
+    padding: 10px 16px;
+    cursor: pointer;
+}
+.select-input .options .option:not(:last-child) {
+}
+.select-input .options .option span {
+    width: 32px;
+}
+.select-input .options .option:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
