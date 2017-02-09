@@ -37,6 +37,6 @@ $(document).ready(function(){
         let dateInput = $('#publish-date');
         dateInput[0].type = 'date';
         dateInput[0].valueAsDate = new Date;
-        dateInput.focus();
+        dateInput.focus().addClass('filled');
     });
 });

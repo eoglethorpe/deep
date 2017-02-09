@@ -26,7 +26,8 @@ var materialSelect = {
         this.optionContainer.hide();
 
         let that = this;
-        this.selectInput.on('click', function(){
+        this.selectDiv.on('click', function(){
+            document.execCommand('selectAll', false, null);
             that.optionContainer.slideToggle('fast', function(){
                 if(that.optionContainer.is(":visible")){
                     dropdownIcon.css('transform', 'rotate(180deg)');
@@ -34,15 +35,19 @@ var materialSelect = {
                 } else{
                     dropdownIcon.css('transform', 'rotate(0deg)');
                     that.selectDiv.removeClass('select-active');
+                    that.refresh();
                 }
             });
         });
         this.selectInput.attr('tabIndex', 0);
         this.selectInput.focusout(function(){
-            that.optionContainer.slideUp('fast', function(){
-                dropdownIcon.css('transform', 'rotate(0deg)');
-                that.selectDiv.removeClass('select-active');
-            });
+            if (that.optionContainer.is(':visible')) {
+                that.optionContainer.slideUp('fast', function(){
+                    dropdownIcon.css('transform', 'rotate(0deg)');
+                    that.selectDiv.removeClass('select-active');
+                    that.refresh();
+                });
+            }
         });
 
         options.each(function(i){
@@ -63,11 +68,14 @@ var materialSelect = {
 
 
         // Make div editable and options searchable
-        this.selectDiv.click(function() {
-            document.execCommand('selectAll',false,null);
-        });
+        // this.selectDiv.click(function() {
+        //     document.execCommand('selectAll',false,null);
+        // });
         this.selectDiv.on('keydown keydown paste input', function(self) {
             return function() {
+                if (!self.optionContainer.is(':visible')) {
+                    self.selectDiv.trigger('click');
+                }
                 var text = self.selectDiv.text().trim().toLowerCase();
                 if (text.length == 0) {
                     self.optionContainer.find('.option').show();
@@ -85,7 +93,6 @@ var materialSelect = {
             return function(e) {
                 if (e.which == 13) {
                     self.selectOption(self.optionContainer.find('.option:visible:first'), true);
-                    self.selectDiv.blur();
                     e.preventDefault();
                 }
             }
@@ -117,6 +124,7 @@ var materialSelect = {
                 label.removeClass('filled');
             }, 200);
         }
+        this.selectDiv.blur();
     },
     getPlaceholder: function(){ return this.selectInput.data('placeholder')? this.selectInput.data('placeholder'): 'Select an option';
     }
