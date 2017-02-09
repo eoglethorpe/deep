@@ -236,11 +236,18 @@ function getTwoDigits(number) {
 
 // Try reformatting a text
 function reformatText(text) {
+    // Tab to space
     text = text.replace(/\t/gi, ' ');
+    // Anything except ascii TODO: support accents and other utf-8
     text = text.replace(/[^\x00-\x7F]/g, "");
+    // Single line break to space
     text = text.replace(/([^\n])[ \t]*\n[ \t]*(?!\n)/gi, '$1 ');
+    // Multiple spaces to single
     text = text.replace(/ +/gi, ' ');
+    // More than 3 line breaks to just 3 line breaks
     text = text.replace(/\n\s*\n\s*(\n\s*)+/gi, '\n\n\n');
+    // This weird -? text combo to just -
+    text = text.replace(/-\?/gi, '-');
     return text;
 }
 
