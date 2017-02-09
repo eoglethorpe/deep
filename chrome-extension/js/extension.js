@@ -6,13 +6,30 @@ var extension = {
     currentTabUrl: null,
     currentPage: null,
     tabId: null,
+    ajaxSubmitOptions: {
+        url: null,
+        beforeSubmit: function(data, form, options){
+            extension.showLoader();
+            $('#publish-date')[0].type = 'date';
+            options["url"] = deep.serverAddress + '/' + deep.currentEvent + '/leads/add/';
+        },
+        success: function(response) {
+            if (toString.call(response) === '[object Object]') {
+                chrome.tabs.create({ url: deep.serverAddress + response.url });
+            }
+            extension.showSuccessMsg('<i class="fa fa-check"></i>Successful', 'The lead has been added successfully');
+        },
+        error: function(response){
+            extension.showErrorMsg('<i class="fa fa-times"></i>Oh nose! Something is not right', 'Failed to add the lead');
+        }
+    },
 
     init: function(){
         extension.getCurrentTabUrl(function(){
             extension.loadUrl();
             extension.loadWebsite();
             extension.loadTitle();
-            extension.queryCurrentPage();
+            deep.queryCurrentPage();
             extension.restoreInputValues();
         });
         $('input').on('change textInput input', function(){
@@ -32,31 +49,6 @@ var extension = {
                 $('#title').val(article.title).addClass('filled');
             }
         }
-    },
-    // extracts and loads publication date and source of current page article
-    queryCurrentPage: function(){
-        return $.ajax({
-            type: 'GET',
-            // send the current tab url to the server (parsing of article is done server side)
-            url: deep.serverAddress + '/date/?link='+ extension.currentTabUrl,
-            success: function(response){
-                // date of publication
-                if(response.date){
-                    $('#publish-date').val(response.date).addClass('filled');
-                }
-
-                // source of the article/news
-                if(response.source != null){
-                    $('#source').val(response.source).addClass('filled');
-                }
-
-                if(response.lead_exists){
-                    // a lead from this url already exists
-                } else{
-                }
-
-            }
-        });
     },
     // fills the url input from current tab url
     loadUrl: function(){
@@ -100,27 +92,32 @@ var extension = {
             }
         });
     },
-
     restoreInputValues: function(){
         $('input').each(function(){
             extension.restoreInputValue($(this));
         });
+        extension.restoreInputValue($('#confidentiality'));
     },
-
-    ajaxSubmitOptions: {
-        url: null,
-        beforeSubmit: function(data, form, options){
-            options["url"] = deep.serverAddress + '/' + deep.currentEvent + '/leads/add/';
-        },
-        success: function(response) {
-            $('#add-lead-form').hide();
-            $('<p>'+response+'</p>').appendTo('body');
-        },
-        error: function(response){
-            console.log(response);
-            $('#add-lead-form').hide();
-
-            $('<p>'+$(response.responseText).find('body').text()+'</p>').appendTo('body');
-        }
+    showAddLeadForm: function(){
+        $('body > *').hide();
+        $('#add-lead-form').slideDown();
+    },
+    showLoader: function(){
+        $('body > *').hide();
+        $('#loader').fadeIn();
+    },
+    showErrorMsg: function(title, description){
+        $('body > *').hide();
+        $('#status-text')[0].className = 'error';
+        $('#status-text h2').html(title);
+        $('#status-text p').html(description);
+        $('#status-text').slideDown();
+    },
+    showSuccessMsg: function(title, description){
+        $('body > *').hide();
+        $('#status-text')[0].className = 'success';
+        $('#status-text h2').html(title);
+        $('#status-text p').html(description);
+        $('#status-text').slideDown();
     }
 };

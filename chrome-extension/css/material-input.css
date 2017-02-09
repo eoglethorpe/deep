@@ -1,7 +1,8 @@
 .text-input {
     position: relative;
     width: 100%;
-    min-height: 54px;
+    min-height: 44px;
+    margin-bottom: 10px;
 }
 .text-input input,
 .text-input label {
@@ -42,7 +43,8 @@
 .select-input {
     position: relative;
     width: 100%;
-    min-height: 54px;
+    min-height: 44px;
+    margin-bottom: 10px;
     outline: none;
 }
 .select-input label {
@@ -115,11 +117,10 @@
 .select-input .options {
     background-color: rgba(255, 255, 255, 1);
     color: rgba(0, 0, 0, 0.8);
-    box-shadow: 0 10px 24px -10px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 6px;
+    box-shadow: 0 3px 10px -3px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.2);
     position: absolute;
-    top: 32px;
+    top: 24px;
     z-index: 1;
     width: 100%;
     max-height: 240px;
@@ -127,7 +128,7 @@
     overflow-x: hidden;
 }
 .select-input .options .option {
-    padding: 10px 24px;
+    padding: 10px 16px;
     cursor: pointer;
 }
 .select-input .options .option:not(:last-child) {

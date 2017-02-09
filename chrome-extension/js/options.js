@@ -18,7 +18,8 @@ window.onload = function(){
 }
 
 function saveOptions(){
-    var serverAddress = document.getElementById('server-address').value;
+    // remove any trailing / from the address
+    var serverAddress = document.getElementById('server-address').value.replace(/\/\s*$/, "");
     chrome.storage.sync.set({'serverAddress': serverAddress}, function(){
         loadOptions();
         // Update status to let user know options were saved.

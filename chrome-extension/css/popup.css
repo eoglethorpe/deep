@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600');
+
+*{
+    font-family: 'Source Sans Pro', sans-serif;
+    box-sizing: border-box;
+}
+body{
+    width: 600px;
+    height: 588px;
+    font-size: 13px;
+    margin: 0;
+}
+a, a:visited, a:focus, a:active{
+    text-decoration: none;
+    color: #008080;
+    outline: none;
+    cursor: pointer;
+    font-weight: 400;
+}
+#add-lead-form{
+    padding: 24px 32px;
+}
+#duplicate-lead-warning{
+    margin: 0;
+    color: #d35400;
+    float: right;
+}
+#duplicate-lead-warning .fa{
+    margin-right: 10px;
+}
+h1{
+    margin: 0;
+    height: 54px;
+    font-size: 1.5em;
+    font-weight: 600;
+    color: #008080;
+}
+#action{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 54px;
+}
+#add-lead-form #action .fa{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+#action button{
+    outline: none;
+    background-color: none;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    text-transform: uppercase;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+#submit{
+    color: #008080;
+}
+#submit-and-add-entry{
+    color: #414141;
+}
+
+#status-text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+    padding: 48px;
+    position: relative;
+}
+#status-text .fa{
+    margin-right: 16px;
+}
+#status-text > div{
+    flex-basis: 60%;
+}
+#status-text h2, #status-text p, #status h1{
+    margin: 0;
+}
+#status-text img{
+    position: absolute;
+    width: 60%;
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: -1;
+}
+#status-text h2{
+    text-align: center;
+    font-size: 2em;
+    font-weight: 300;
+    margin-bottom: 24px;
+}
+#status-text p{
+    font-size: 1.2em;
+    font-weight: 300;
+    line-height: 1.8;
+    text-align: justify;
+}
+.error .fa, .error h2{
+    color: #e74c3c;
+}
+.success .fa, .success h2{
+    color: #27ae60;
+}

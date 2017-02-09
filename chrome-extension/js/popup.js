@@ -10,6 +10,7 @@ chrome.runtime.onMessage.addListener( function(request, sender) {
 });
 
 $(document).ready(function(){
+    $('#status-text').hide();
 
     $.when(deep.init()).done(function(){
         extension.init();
@@ -29,4 +30,7 @@ $(document).ready(function(){
         });
     });
 
+    $('#submit-and-add-entry').on('click', function(e){
+        $('#add-lead-form').append('<input type="hidden" name="redirect-url" value="true">');
+    });
 });

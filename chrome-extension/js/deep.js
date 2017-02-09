@@ -27,7 +27,12 @@ var deep = {
                 if(response && response.status == 'logged-in'){
                     deep.currentEvent = response.last_event;
                     deep.currentUser = response.user_id;
+                } else{
+                    extension.showErrorMsg('<i class="fa fa-user"></i>You are not logged in', 'Please log in to the DEEP first to use the extension'.replace(new RegExp('DEEP', 'g'), '<a target="_blank" href="'+deep.serverAddress+'">DEEP</a>'));
                 }
+            },
+            error: function(){
+                extension.showErrorMsg('<i class="fa fa-times"></i>Something seems to be broken :/', 'Cannot connect to the DEEP server, please make sure that you have correct link to the DEEP server in the settings page and the DEEP server is up and running'.replace(new RegExp('DEEP', 'g'), '<a target="_blank" href="'+deep.serverAddress+'">DEEP</a>'));
             }
         });
     },
@@ -78,5 +83,32 @@ var deep = {
                 }
             });
         }
+    },
+    // extracts and loads publication date and source of current page article
+    queryCurrentPage: function(){
+        return $.ajax({
+            type: 'GET',
+            // send the current tab url to the server (parsing of article is done server side)
+            url: deep.serverAddress + '/date/?link='+ extension.currentTabUrl,
+            success: function(response){
+                // date of publication
+                if(response.date){
+                    $('#publish-date').val(response.date).addClass('filled');
+                }
+
+                // source of the article/news
+                if(response.source != null){
+                    $('#source').val(response.source).addClass('filled');
+                }
+
+                if(response.lead_exists){
+                    // a lead from this url already exists
+                    $('#duplicate-lead-warning').slideDown();
+                } else{
+                    $('#duplicate-lead-warning').hide();
+                }
+
+            }
+        });
     }
 };
