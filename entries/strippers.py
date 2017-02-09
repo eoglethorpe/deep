@@ -76,7 +76,7 @@ class HtmlStripper:
 
         regex = re.compile('\n*', flags=re.IGNORECASE)
         html = regex.sub('', html)
-        return html
+        return "".join(filter(lambda x: x in string.printable, html))
 
 
 class PdfStripper:
