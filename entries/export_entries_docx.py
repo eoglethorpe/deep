@@ -1,12 +1,16 @@
 import string
+import datetime
 
 import docx
-from docx import RT
+# from docx import RT
 from docx.enum.dml import MSO_THEME_COLOR_INDEX
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
+# from docx.enum.style import WD_STYLE_TYPE
 
-from entries.models import *
+from entries import models as entry_model
+from leads import models as lead_model
+
 
 def valid_xml_char_ordinal(c):
     codepoint = ord(c)
@@ -18,12 +22,15 @@ def valid_xml_char_ordinal(c):
         0x10000 <= codepoint <= 0x10FFFF
     )
 
+
 def xstr(conv):
     """remove illegal characters from a string (errors from PDFs etc)"""
     s = "".join(filter(lambda x: x in string.printable, conv))
     return ''.join(c for c in s if valid_xml_char_ordinal(c))
 
-# See: https://github.com/python-openxml/python-docx/issues/74#issuecomment-215678765
+
+# See:
+# https://github.com/python-openxml/python-docx/issues/74#issuecomment-215678765
 def add_hyperlink(paragraph, url, text):
     """
     A function that places a hyperlink within a paragraph object.
@@ -34,9 +41,11 @@ def add_hyperlink(paragraph, url, text):
     :return: The hyperlink object
     """
 
-    # This gets access to the document.xml.rels file and gets a new relation id value
+    # This gets access to the document.xml.rels file
+    # and gets a new relation id value
     part = paragraph.part
-    r_id = part.relate_to(url, docx.opc.constants.RELATIONSHIP_TYPE.HYPERLINK, is_external=True)
+    r_id = part.relate_to(url, docx.opc.constants.RELATIONSHIP_TYPE.HYPERLINK,
+                          is_external=True)
 
     # Create the w:hyperlink tag and add needed values
     hyperlink = docx.oxml.shared.OxmlElement('w:hyperlink')
@@ -48,7 +57,8 @@ def add_hyperlink(paragraph, url, text):
     # Create a new w:rPr element
     rPr = docx.oxml.shared.OxmlElement('w:rPr')
 
-    # Join all the xml elements together add add the required text to the w:r element
+    # Join all the xml elements together add
+    # add the required text to the w:r element
     new_run.append(rPr)
     new_run.text = text
 
@@ -131,7 +141,8 @@ def add_excerpt_info(d, info):
     if info.entry.lead.url and info.entry.lead.url != "":
         add_hyperlink(ref, info.entry.lead.url, source_name)
 
-    elif Attachment.objects.filter(lead=info.entry.lead).count() > 0:
+    elif entry_model.Attachment.objects.filter(
+            lead=info.entry.lead).count() > 0:
         add_hyperlink(ref, info.entry.lead.attachment.upload.url, source_name)
 
     else:
@@ -141,14 +152,17 @@ def add_excerpt_info(d, info):
     if info.date:
         ref.add_run(", {}".format(info.date.strftime("%d/%m/%Y")), )
 
-
-    # d.add_paragraph("Reliability: {}\nSeverity: {}".format(info.reliability.name, info.severity.name))
+    # d.add_paragraph("Reliability: {}\nSeverity: {}"
+    #                  .format(info.reliability.name, info.severity.name))
 
     r = ref.add_run()
     r.add_text(' ')
-    r.add_picture('static/img/doc_export/sev_{}.png'.format(info.severity.level), height=docx.shared.Inches(.17))
+    r.add_picture('static/img/doc_export/sev_{}.png'
+                  .format(info.severity.level), height=docx.shared.Inches(.17))
     r.add_text(' ')
-    r.add_picture('static/img/doc_export/rel_{}.png'.format(info.reliability.level), height=docx.shared.Inches(.17))
+    r.add_picture('static/img/doc_export/rel_{}.png'
+                  .format(info.reliability.level),
+                  height=docx.shared.Inches(.17))
     r.add_text(' ')
 
     ref.add_run(")")
@@ -172,7 +186,6 @@ def export_docx(order, event, informations=None):
     set_style(d.styles["Heading 4"])
     set_style(d.styles["Heading 5"])
 
-
     # TODO: Hierarchy and filter
 
     # The leads for which excerpts we displayed
@@ -181,18 +194,21 @@ def export_docx(order, event, informations=None):
     # First the attributes with no sectors
 
     # Get each pillar
-    pillars = InformationPillar.objects.filter(contains_sectors=False)
+    pillars = entry_model.InformationPillar.objects.filter(
+                contains_sectors=False)
     for pillar in pillars:
         pillar_header_shown = False
 
         # Get each subpillar
         subpillars = pillar.informationsubpillar_set.all()
         for subpillar in subpillars:
-            attributes = InformationAttribute.objects.filter(subpillar=subpillar,
-                                                             sector=None,
-                                                             information__entry__lead__event__pk=event)
+            attributes = entry_model.InformationAttribute.objects.filter(
+                    subpillar=subpillar,
+                    sector=None,
+                    information__entry__lead__event__pk=event)
             if informations:
-                attributes = attributes.filter(information__pk__in=informations)
+                attributes = attributes.filter(
+                        information__pk__in=informations)
 
             if len(attributes) > 0:
                 if not pillar_header_shown:
@@ -210,22 +226,25 @@ def export_docx(order, event, informations=None):
     # Next the attributes containing sectors
 
     # Get each sector
-    for sector in Sector.objects.all():
+    for sector in entry_model.Sector.objects.all():
         sector_header_shown = False
 
         # Get each pillar
-        pillars = InformationPillar.objects.filter(contains_sectors=True)
+        pillars = entry_model.InformationPillar.objects.filter(
+                    contains_sectors=True)
         for pillar in pillars:
             pillar_header_shown = False
 
             # Get each subpillar
             subpillars = pillar.informationsubpillar_set.all()
             for subpillar in subpillars:
-                attributes = InformationAttribute.objects.filter(subpillar=subpillar,
-                                                                 sector=sector,
-                                                                 information__entry__lead__event__pk=event)
+                attributes = entry_model.InformationAttribute.objects.filter(
+                        subpillar=subpillar,
+                        sector=sector,
+                        information__entry__lead__event__pk=event)
                 if informations:
-                    attributes = attributes.filter(information__pk__in=informations)
+                    attributes = attributes.filter(
+                            information__pk__in=informations)
 
                 if len(attributes) > 0:
                     if not sector_header_shown:
@@ -243,16 +262,15 @@ def export_docx(order, event, informations=None):
                     add_excerpt_info(d, info)
                     leads_pk.append(info.entry.lead.pk)
 
-
     add_line(d.add_paragraph())
 
     # Bibliography
     d.add_paragraph()
-    h1 = d.add_heading("Bibliography", level=1)
+    d.add_heading("Bibliography", level=1)
     d.add_paragraph()
 
     leads_pk = list(set(leads_pk))
-    leads = Lead.objects.filter(pk__in=leads_pk)
+    leads = entry_model.Lead.objects.filter(pk__in=leads_pk)
     for lead in leads:
         p = d.add_paragraph()
         if lead.source_name and lead.source_name != "":
@@ -268,8 +286,9 @@ def export_docx(order, event, informations=None):
         if lead.url and lead.url != "":
             add_hyperlink(p, lead.url, lead.url)
 
-        elif Attachment.objects.filter(lead=lead).count() > 0:
-            add_hyperlink(p, lead.attachment.upload.url, lead.attachment.upload.url)
+        elif entry_model.Attachment.objects.filter(lead=lead).count() > 0:
+            add_hyperlink(p, lead.attachment.upload.url,
+                          lead.attachment.upload.url)
 
         else:
             p.add_run("Missing url.")
@@ -277,5 +296,407 @@ def export_docx(order, event, informations=None):
         d.add_paragraph()
 
     d.add_page_break()
+
+    return d
+
+
+def startNetwork_export_docx(order, event, informations=None):
+    """
+    Export As Specified in Issue
+
+    #259
+    New Export format in word - Briefing note template
+    """
+
+    d = docx.Document('static/doc_export/template_02.docx')
+
+    def add_info(xyz_info):
+        for info in xyz_info.all():
+            add_excerpt_info(d, info.information)
+
+    def add_heading(heading, level):
+        d.add_paragraph()
+        d.add_heading(heading, level=level)
+        d.add_paragraph()
+
+    section = d.sections[0]
+
+    # Already Changed in the template(template_02.docx)
+    """
+    # Page Orientation Change
+    section.orientation = docx.enum.section.WD_ORIENT.LANDSCAPE
+    new_width = section.page_width
+    section.page_width = section.page_height
+    section.page_height = new_width
+
+    # Divide Page into 2 col
+    sectPr = section._sectPr
+    cols = sectPr.xpath('./w:cols')[0]
+    cols.set(qn('w:num'), "2")
+    """
+
+    # Set document styles
+    set_style(d.styles["Normal"])
+    set_style(d.styles["Heading 1"])
+    set_style(d.styles["Heading 2"])
+    set_style(d.styles["Heading 3"])
+    set_style(d.styles["Heading 4"])
+    set_style(d.styles["Heading 5"])
+
+    # For Blank paragraph
+    BLANK = '--\n\n\n\n--'
+
+    # Define Style (Already Definded in Template)
+    """
+    d.styles.add_style('Title Briefing Text',
+                       WD_STYLE_TYPE.PARAGRAPH)
+    d.styles.add_style('Title Briefing Time',
+                       WD_STYLE_TYPE.CHARACTER)
+    d.styles.add_style('Title Country/Crisis Name',
+                       WD_STYLE_TYPE.PARAGRAPH)
+    d.styles.add_style('Notice',
+                       WD_STYLE_TYPE.PARAGRAPH)
+    d.styles.add_style('Limitations',
+                       WD_STYLE_TYPE.PARAGRAPH)
+    d.styles.add_style('Sector Impact Sector Name',
+                       WD_STYLE_TYPE.PARAGRAPH)
+    """
+
+    #                   Event/Crisis object
+    event = lead_model.Event.objects.get(pk=event)
+
+    p = d.add_paragraph('Briefing Note – ', style='Title Briefing Text')
+    p.add_run(datetime.datetime.now().strftime("%m %b %Y"),
+              style='Title Briefing Time')
+
+    # Already Added in the Template
+    """
+    d.add_paragraph().add_run(style='Title Logo')\
+        .add_picture('static/doc_export/acaps_logo.png',
+                     docx.shared.Inches(.75),
+                     docx.shared.Inches(.56))
+    d.paragraphs[-1].alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.RIGHT
+    d.add_paragraph().add_run(style='Title Logo')\
+        .add_picture('static/doc_export/startNetwork_logo.png',
+                     docx.shared.Inches(1.05),
+                     docx.shared.Inches(.51))
+    d.paragraphs[-1].alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.RIGHT
+    """
+
+    d.add_paragraph(
+            ', '.join([country[0]
+                       for country in event.countries.values_list('name')]),
+            style='Title Country/Crisis Name')
+    d.add_paragraph(event.name, style='Title Country/Crisis Name')
+
+    d.add_paragraph()
+
+    # Table after country and crisis Name
+    rows = [['Need for international assistance', 'Not required',
+             'Low', 'Moderate', 'Significant', 'Urgent'],
+            ['', '#FEFFB1', '#FECC5D', '#FD8C3E', '#F03B20', '#BD0026'],
+            ['Expected impact', 'Insignificant', 'Minor', 'Moderate',
+             'Significant', 'Major'],
+            ['', '#FEFFB1', '#FECC5D', '#FD8C3E', '#F03B20', '#BD0026']]
+    table = d.add_table(rows=len(rows), cols=len(rows[0]))
+    from docx.oxml.ns import nsdecls
+    from docx.oxml import parse_xml
+    import re
+    for index_row, row in enumerate(rows):
+        for index_col, cell_value in enumerate(row):
+            cell = table.cell(index_row, index_col)
+            if re.match('^#[\w\d]+$', cell_value):
+                shading_elm = parse_xml(
+                        r'<w:shd {} w:fill="{}"/>'
+                        .format(nsdecls('w'), cell_value.replace('#', '')))
+                cell._tc.get_or_add_tcPr().append(shading_elm)
+            else:
+                cell.text = str(cell_value)
+        if index_row % 2 == 1:
+            table.cell(index_row, 0).merge(table.cell(index_row-1, 0))
+    d.add_paragraph()
+
+    #                   Crisis overview
+    add_heading('Crisis overview', level=2)
+    context_info = entry_model.InformationAttribute.objects.filter(
+            subpillar__name__iregex=r'(Overview|developments)',
+            subpillar__pillar__name__iexact='Context',
+            information__entry__lead__event=event
+            ).all()
+
+    add_info(context_info)
+
+    cols = ['Affected groups', 'Affected area', 'Total figures',
+            '% of pop. affected']
+    rows = ['Resident pop.', 'Killed  ', 'Injured',
+            'Missing', 'Total IDPs', 'Total refugees',
+            'Total displaced', 'Etc.']
+    table = d.add_table(rows=len(rows)+4, cols=len(cols))
+    table.style = 'Light Shading'
+    for index, col in enumerate(cols):
+        table.cell(0, index).text = str(col)
+    for index, row in enumerate(rows):
+        table.cell(index+1, 0).text = str(row)
+        if row == 'Etc.':
+            table.cell(index+2, 0).merge(table.cell(index+1, 0))
+
+    #                   Key findings
+    d.add_paragraph()
+    add_heading('Key findings', level=2)
+
+    # Table
+    d.add_paragraph()
+    rows = ['Anticipated scope and scale',
+            'Priorities for humanitarian intervention',
+            'Humanitarian constraints']
+    table = d.add_table(rows=1, cols=2)
+    hdr_cells = table.rows[0].cells
+    hdr_cells[0].text = rows[0]
+    for row in rows[1:]:
+        row_cells = table.add_row().cells
+        row_cells[0].text = str(row)
+
+    d.add_paragraph()
+    p = d.add_paragraph(style='Limitations')
+    charac = p.add_run('Limitations')
+    charac.italic = True
+    charac.bold = True
+    p.add_run('\nDetail any limitations due to '
+              'missing/suspect data, issues with the scope of the'
+              ' report or with the findings.')
+    d.add_paragraph()
+
+    #                   Crisis impact
+    add_heading('Crisis impact', level=2)
+    d.add_heading('Overview', level=3)
+    context_info = entry_model.InformationAttribute.objects.filter(
+            subpillar__pillar__name__iregex=r'(Humanitarian conditions)',
+            sector__name__iexact='Cross',
+            information__entry__lead__event=event
+            )
+    add_info(context_info)
+
+    d.add_heading('Humanitarian profile', level=3)
+    context_info = entry_model.InformationAttribute.objects.filter(
+            subpillar__name__iregex=r'(Humanitarian profile|'
+                                    'population displacement)',
+            subpillar__pillar__name__iexact='Population Profile',
+            information__entry__lead__event=event
+            )
+    add_info(context_info)
+
+    d.add_heading('Sectoral impact', level=3)
+    sectors = ['Food', 'Livelihood', 'WASH', 'Health', 'Shelter',
+               'NFI', 'Protection', 'Education', 'Nutrition',
+               'Agriculture']
+    for sector in sectors:
+        d.add_paragraph(sector+' :', style='Sector Impact Sector Name')
+        sector_info = entry_model.InformationAttribute.objects.filter(
+            subpillar__pillar__name__iregex=r'(Humanitarian conditions)',
+            sector__name__iexact=sector,
+            information__entry__lead__event=event
+            )
+        add_info(sector_info)
+
+    d.add_heading('Impact on critical infrastructure', level=3)
+    context_info = entry_model.InformationAttribute.objects.filter(
+            subpillar__name__iregex=r'(Systems disruption|Damages|Losses)',
+            subpillar__pillar__name__iexact='Scope and scale',
+            information__entry__lead__event=event
+            )
+    add_info(context_info)
+
+    d.add_heading('Vulnerable groups affected', level=3)
+    context_info = entry_model.InformationAttribute.objects.filter(
+            subpillar__name__iregex=r'(vulnerabilities|risks)',
+            subpillar__pillar__name__iexact='Humanitarian conditions',
+            information__entry__lead__event=event
+            )
+    add_info(context_info)
+
+    context_info = entry_model.InformationAttribute.objects.filter(
+            subpillar__name__iexact='Population with specific needs',
+            subpillar__pillar__name__iexact='Population profile',
+            information__entry__lead__event=event
+            )
+    add_info(context_info)
+
+    d.add_heading('Humanitarian and operational constraints', level=3)
+    subpillars = ['Humanitarian access gaps', 'Relief to beneficiaries',
+                  'Beneficiaries to relief', 'Physical Constraints']
+    for subpillar in subpillars:
+        d.add_paragraph(subpillar+' :', style='Sector Impact Sector Name')
+        context_info = entry_model.InformationAttribute.objects.filter(
+                subpillar__name__iexact=subpillar,
+                subpillar__pillar__name__iexact='Humanitarian access',
+                information__entry__lead__event=event
+                )
+        add_info(context_info)
+
+    #                   Potential aggravating factors
+    add_heading('Potential aggravating factors', level=2)
+
+    d.add_heading('Seasonal information', level=3)
+    d.add_paragraph(BLANK)
+
+    d.add_heading('Other factors of vulnerability', level=3)
+    context_info = entry_model.InformationAttribute.objects.filter(
+            subpillar__pillar__name__iregex=r'(Humanitarian conditions|risks)',
+            sector__name__iexact='Cross',
+            information__entry__lead__event=event
+            )
+    add_info(context_info)
+
+    context_info = entry_model.InformationAttribute.objects.filter(
+            subpillar__name__iregex=r'(drivers|aggravating factors)',
+            subpillar__pillar__name__iexact='Context',
+            information__entry__lead__event=event
+            )
+    add_info(context_info)
+
+    #                   Contextual information
+    add_heading('Contextual information', level=2)
+
+    d.add_heading('Drivers of the current conflict', level=3)
+    context_info = entry_model.InformationAttribute.objects.filter(
+            subpillar__name__iregex=r'(Society and community|politics '
+                                    'and security|hazard developments)',
+            subpillar__pillar__name__iexact='Context',
+            information__entry__lead__event=event)
+    add_info(context_info)
+
+    d.add_heading('Relevant stakeholders', level=3)
+    context_info = entry_model.InformationAttribute.objects.filter(
+            subpillar__name__iexact='Stakeholders',
+            subpillar__pillar__name__iexact='Context',
+            information__entry__lead__event=event)
+    add_info(context_info)
+
+    d.add_heading('International and neighbouring countries’ relationship '
+                  'to the conflict ', level=3)
+    d.add_paragraph(BLANK)
+
+    d.add_heading('Past disasters or displacement', level=3)
+    d.add_paragraph('Graph might appear here!!')
+
+    #                   Key characteristics
+    add_heading('Key characteristics ', level=2)
+    cols = ['Demographic profile ', 'WASH statistics', 'Lighting and cooking',
+            'Key health statistics', 'Food', 'Nutrition', 'Literacy']
+    rows = ['Total population in country affected areas, gender'
+            ' and age distribution and rural vs urban.',
+            'Statistics: (access to improved sources of drinking water'
+            ', access to toilet facilities).',
+            'sources.', 'Infant mortality rate, under-5 mortality rate,'
+            ' maternal ', 'Mortality rate.', 'Figures.', 'Levels.', 'Levels.'
+            ]
+    for index, col in enumerate(cols):
+        p = d.add_paragraph(style="List Bullet")
+        p.add_run(col).bold = True
+        p.add_run(' '+rows[index]+'\n')
+
+    d.add_paragraph(
+            "Sources: National statistical systems, Global Population "
+            "Statistics, UNFPA country profiles, Population Stats, CIA"
+            " World Factbook, UNICEF/WHO JMP, WFP food security reports,"
+            " UNICEF country statistics, UNWATER country overview, GIEWS"
+            " country briefs, UN Standing Committee on Nutrition, WHO"
+            " Nutrition country profiles, WHO country statistics, UNICEF"
+            " state of world’s children, UNFPA country profiles,"
+            " World Bank Databank.")
+
+    #                   Response capacity
+    add_heading('Response capacity', level=2)
+
+    context_info = entry_model.InformationAttribute.objects.filter(
+            subpillar__name__iexact='response gaps',
+            subpillar__pillar__name__iexact='Capacities and response',
+            information__entry__lead__event=event)
+    add_info(context_info)
+
+    d.add_heading('Local and national response capacity', level=3)
+    context_info = entry_model.InformationAttribute.objects.filter(
+            subpillar__name__iexact='National response',
+            subpillar__pillar__name__iexact='Capacities and response',
+            information__entry__lead__event=event)
+    add_info(context_info)
+
+    d.add_heading('International response capacity', level=3)
+    context_info = entry_model.InformationAttribute.objects.filter(
+            subpillar__name__iexact='International response',
+            subpillar__pillar__name__iexact='Capacities and response',
+            information__entry__lead__event=event)
+    add_info(context_info)
+
+    d.add_heading('Population coping mechanisms', level=3)
+    context_info = entry_model.InformationAttribute.objects.filter(
+            subpillar__name__iexact='Copying mechanisms',
+            subpillar__pillar__name__iexact='Capacities and response',
+            information__entry__lead__event=event)
+    add_info(context_info)
+
+    d.add_heading('Market functionality', level=3)
+    context_info = entry_model.InformationAttribute.objects.filter(
+            subpillar__name__iexact='Market functionality',
+            subpillar__pillar__name__iexact='Capacities and response',
+            information__entry__lead__event=event)
+    add_info(context_info)
+
+    #                   Information gaps and needs
+    add_heading('Information gaps and needs', level=2)
+
+    context_info = entry_model.InformationAttribute.objects.filter(
+            subpillar__name__iregex='(Communication means|information '
+                                    'challenges|information needs'
+                                    '|Information gaps)',
+            subpillar__pillar__name__iexact='Communication',
+            information__entry__lead__event=event)
+    add_info(context_info)
+
+    #                   Lessons learned
+    add_heading('Lessons learned', level=2)
+
+    subpillars = ['Humanitarian conditions', 'Scope and Scale',
+                  'Capacities and response', 'Context']
+
+    for subpillar in subpillars:
+        d.add_heading(subpillar, level=3)
+        context_info = entry_model.InformationAttribute.objects.filter(
+                subpillar__name__iexact='lessons learnt',
+                subpillar__pillar__name__iexact=subpillar,
+                information__entry__lead__event=event)
+        add_info(context_info)
+
+    d.add_page_break()
+
+    #   #   #   #   #   #   #   #
+    # Divide Page into 1 col
+    section = d.add_section()
+    sectPr = section._sectPr
+    cols = sectPr.xpath('./w:cols')[0]
+    cols.set(qn('w:num'), "1")
+
+    #                   Key characteristics
+    add_heading('Key characteristics', level=2)
+
+    cols = ['Key indicators', 'Area 1', 'Area 2', 'Area 3']
+    rows = ['Total population', '% population in rural areas',
+            'Gender and age distribution of population',
+            'State capital', 'Lighting and cooking sources',
+            'WASH figures', 'Health figures',
+            'Food security', 'Nutrition levels',
+            'Literacy rates', 'Others']
+    d.add_paragraph()
+    table = d.add_table(rows=1, cols=len(cols))
+    table.style = 'Light Shading'
+    for index, col in enumerate(cols):
+        table.cell(0, index).text = col
+    for row in rows:
+        row_cells = table.add_row().cells
+        row_cells[0].text = str(row)
+    d.add_page_break()
+
+    #                   Map of affected area
+    add_heading('Map of affected area', level=2)
 
     return d
