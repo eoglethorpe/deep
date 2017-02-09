@@ -13,7 +13,7 @@ var materialSelect = {
         let options = this.select.find('option');
         this.select.hide();
 
-        this.selectDiv = $('<div class="select">' + this.getPlaceholder()+'</div>');
+        this.selectDiv = $('<div class="select" contenteditable="true">' + this.getPlaceholder()+'</div>');
         let label = $('<label>' + this.getPlaceholder()+'</label>');
         let dropdownIcon = $('<span class="dropdown-icon fa fa-chevron-down"></span>');
 
@@ -60,6 +60,36 @@ var materialSelect = {
         });
 
         this.selectOption(this.optionContainer.find('.option[data-val="'+this.select.val()+'"]'), false);
+
+
+        // Make div editable and options searchable
+        this.selectDiv.click(function() {
+            document.execCommand('selectAll',false,null);
+        });
+        this.selectDiv.on('keydown keydown paste input', function(self) {
+            return function() {
+                var text = self.selectDiv.text().trim().toLowerCase();
+                if (text.length == 0) {
+                    self.optionContainer.find('.option').show();
+                } else {
+                    self.optionContainer.find('.option').each(function() {
+                        if ($(this).text().toLowerCase().startsWith(text))
+                            $(this).show();
+                        else
+                            $(this).hide();
+                    })
+                }
+            }
+        }(this));
+        this.selectDiv.on('keyup', function(self) {
+            return function(e) {
+                if (e.which == 13) {
+                    self.selectOption(self.optionContainer.find('.option:visible:first'), true);
+                    self.selectDiv.blur();
+                    e.preventDefault();
+                }
+            }
+        }(this));
     },
     refresh: function(){
         this.selectOption(this.optionContainer.find('.option[data-val="'+this.select.val()+'"]'), false);
