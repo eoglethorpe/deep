@@ -118,6 +118,7 @@ function renderTimeline(){
         keyEvents.push({
             'value': $(this).find('.event-value').val(),
             'startDate': $(this).find('.start-date').val(),
+            'endDate': $(this).find('.end-date').val(),
             'category': $(this).find('.category-select').val()
         });
     });
@@ -126,11 +127,18 @@ function renderTimeline(){
     });
     var dateDiff = (new Date(keyEvents[0].startDate)).getTime() - (new Date(keyEvents[keyEvents.length-1].startDate)).getTime();
 
+    function getDateFromString(dateStr){
+        let monthNamesShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        let date = new Date(dateStr);
+        return date.getDate() + ' ' + monthNamesShort[date.getMonth()] + ' ' + date.getFullYear();
+    }
+
     for(var i=0; i<keyEvents.length; i++){
         var timeElement = timeElementTemplate.clone();
         timeElement.find('h3').text(keyEvents[i].value);
-        timeElement.find('date').text(keyEvents[i].startDate);
-        timeElement.find('p').text(timelineCategories[keyEvents[i].category-1]);
+        timeElement.find('date').text(getDateFromString(keyEvents[i].startDate) + (keyEvents[i].endDate? (' - ' + getDateFromString(keyEvents[i].endDate)): '') );
+        timeElement.addClass(timelineCategories[keyEvents[i].category-1].substr(0, 3).toLowerCase());
+        //timeElement.find('p').text(timelineCategories[keyEvents[i].category-1]);
         timeElement.appendTo(container);
         var currentMargin = 0;
         if(i > 0){

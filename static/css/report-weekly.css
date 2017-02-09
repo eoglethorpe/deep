@@ -337,7 +337,7 @@ main {
         left: calc(50% - 1px);
         background-color: #008080; }
       main #report-content #key-events #timeline-view .time-element {
-        width: calc(50% - 30px);
+        width: calc(40% - 30px);
         background-color: #f0f0f0;
         border-radius: 3px;
         border: 1px solid rgba(0, 0, 0, 0.05);
@@ -346,22 +346,19 @@ main {
         position: relative; }
         main #report-content #key-events #timeline-view .time-element h3 {
           margin: -10px -24px 10px -24px;
-          padding: 10px 24px;
+          padding: 16px 24px;
           border-top-left-radius: 3px;
           border-top-right-radius: 3px;
+          font-weight: 600;
           background-color: #008080;
           color: #fff; }
-        main #report-content #key-events #timeline-view .time-element date {
-          position: absolute;
-          top: 20px; }
         main #report-content #key-events #timeline-view .time-element p {
           margin: 0; }
-        main #report-content #key-events #timeline-view .time-element:nth-child(odd) {
+        main #report-content #key-events #timeline-view .time-element.con {
           clear: both;
-          float: left; }
-          main #report-content #key-events #timeline-view .time-element:nth-child(odd) date {
-            right: -108px; }
-          main #report-content #key-events #timeline-view .time-element:nth-child(odd):before {
+          float: left;
+          margin-left: 10%; }
+          main #report-content #key-events #timeline-view .time-element.con:before {
             display: inline-block;
             content: '';
             width: 30px;
@@ -370,12 +367,11 @@ main {
             position: absolute;
             right: -30px;
             top: 30px; }
-        main #report-content #key-events #timeline-view .time-element:nth-child(even) {
+        main #report-content #key-events #timeline-view .time-element.hum {
           clear: both;
-          float: right; }
-          main #report-content #key-events #timeline-view .time-element:nth-child(even) date {
-            left: -108px; }
-          main #report-content #key-events #timeline-view .time-element:nth-child(even):before {
+          float: right;
+          margin-right: 10%; }
+          main #report-content #key-events #timeline-view .time-element.hum:before {
             display: inline-block;
             content: '';
             width: 30px;

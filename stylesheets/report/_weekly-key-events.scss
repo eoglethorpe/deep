@@ -61,7 +61,7 @@
             background-color: $primary-color;
         }
         .time-element{
-            width: calc(50% - 30px);
+            width: calc(40% - 30px);
             background-color: #f0f0f0;
             border-radius: 3px;
             border: 1px solid rgba(0, 0, 0, 0.05);
@@ -71,27 +71,29 @@
 
             h3{
                 margin: -10px -24px 10px -24px;
-                padding: 10px 24px;
+                padding: 16px 24px;
                 border-top-left-radius: 3px;
                 border-top-right-radius: 3px;
+                font-weight: $font-weight-bold;
                 background-color: $primary-color;
                 color: #fff;
             }
-            date{
-                position: absolute;
-                top: 20px;
-            }
+            // date{
+            //     position: absolute;
+            //     top: 20px;
+            // }
             p{
                 margin: 0;
             }
 
-            &:nth-child(odd){
+            &.con{
                 clear: both;
                 float: left;
+                margin-left: 10%;
 
-                date{
-                    right: -108px;
-                }
+                // date{
+                //     right: -108px;
+                // }
                 &:before{
                     display: inline-block;
                     content: '';
@@ -103,13 +105,14 @@
                     top: 30px;
                 }
             }
-            &:nth-child(even){
+            &.hum{
                 clear: both;
                 float: right;
+                margin-right: 10%;
 
-                date{
-                    left: -108px;
-                }
+                // date{
+                //     left: -108px;
+                // }
                 &:before{
                     display: inline-block;
                     content: '';
