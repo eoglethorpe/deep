@@ -673,8 +673,13 @@ def startNetwork_export_docx(order, event, informations=None):
     # Divide Page into 1 col
     section = d.add_section()
     sectPr = section._sectPr
+    # Single Col
     cols = sectPr.xpath('./w:cols')[0]
     cols.set(qn('w:num'), "1")
+    # Width Fix
+    col_width = sectPr.xpath('./w:cols/w:col')[0]
+    col_width.set(qn('w:w'), "12534")
+    col_width.set(qn('w:space'), "720")
 
     #                   Key characteristics
     add_heading('Key characteristics', level=2)
