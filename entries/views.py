@@ -11,7 +11,7 @@ from leads.models import *
 from entries.models import *
 from entries.strippers import *
 # from . import export_xls, export_docx, export_fields
-from entries.export_entries_docx import export_docx
+from entries.export_entries_docx import export_docx, export_docx_new_format
 from entries.export_entries_xls import export_xls
 from entries.refresh_pcodes import *
 from leads.views import get_simplified_lead
@@ -59,7 +59,11 @@ class ExportDocx(View):
 
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
         response['Content-Disposition'] = 'attachment; filename = DEEP Entries-%s.docx' % time.strftime("%Y-%m-%d")
-        export_docx(order, int(event)).save(response)
+
+        if 'new-format' in request.GET:
+            export_docx_new_format(order, int(event)).save(response)
+        else:
+            export_docx(order, int(event)).save(response)
 
         return response
 
@@ -70,7 +74,11 @@ class ExportDocx(View):
 
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
         response['Content-Disposition'] = 'attachment; filename = DEEP Entries-%s.docx' % time.strftime("%Y-%m-%d")
-        export_docx(order, int(event), json.loads(request.POST["informations"])).save(response)
+
+        if 'new-format' in request.POST:
+            export_docx_new_format(order, int(event), json.loads(request.POST["informations"])).save(response)
+        else:
+            export_docx(order, int(event), json.loads(request.POST["informations"])).save(response)
 
         return response
 

@@ -34,7 +34,10 @@ DEEP | Export
             <form id="export-entries-doc-form" action="{% url 'entries:exportdocx' event=event.pk %}" method="post">
                 {% csrf_token %}
                 <h2>Word Export</h2>
-                <button type="submit" class="btn btn-info" ><i class="fa fa-file-word-o"></i>Export</button>
+                <div>
+                    <button type="submit" class="btn btn-info" ><i class="fa fa-file-word-o"></i>Export</button>
+                    <button type="submit" onclick="$('#export-entries-doc-form').append('<input type=\'hidden\' name=\'new-format\' value=\'true\'>'); console.log($('#export-entries-doc-form'));" class="btn btn-info"><i class="fa fa-file-word-o"></i>Export (new)</button>
+                </div>
             </form>
             <div>
                 <h3>Filters</h3>
@@ -42,7 +45,7 @@ DEEP | Export
                     {% include 'entries/export-entry-filters.html' %}
                 </div>
             </div>
-            <div>
+            <div style="margin-top: 32px;">
                 <h3>Hierarchy <span>(drag to rearrange)</span></h3>
                 <ul id="sortable">
                   <li class="ui-state-default" id="geoarea">Geo Area</li>

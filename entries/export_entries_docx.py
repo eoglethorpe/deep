@@ -300,7 +300,7 @@ def export_docx(order, event, informations=None):
     return d
 
 
-def startNetwork_export_docx(order, event, informations=None):
+def export_docx_new_format(order, event, informations=None):
     """
     Export As Specified in Issue
 
@@ -314,7 +314,6 @@ def startNetwork_export_docx(order, event, informations=None):
         """
         Filter with given `informations` if provided
         """
-        print(informations)
         if informations:
             xyz_info = xyz_info.filter(
                     information__pk__in=informations)
