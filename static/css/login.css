@@ -97,6 +97,8 @@ main {
           background-color: #fff; }
           main #wrapper form > div:nth-child(3) input:focus {
             border-color: #008080; }
+        main #wrapper form > div:nth-child(3) input:-webkit-autofill {
+          -webkit-box-shadow: 0 0 0px 1000px white inset; }
       main #wrapper form p {
         flex-basis: 60%; }
       main #wrapper form > div:last-child {
