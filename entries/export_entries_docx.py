@@ -310,7 +310,18 @@ def startNetwork_export_docx(order, event, informations=None):
 
     d = docx.Document('static/doc_export/template_02.docx')
 
+    def _filter_info(xyz_info):
+        """
+        Filter with given `informations` if provided
+        """
+        print(informations)
+        if informations:
+            xyz_info = xyz_info.filter(
+                    information__pk__in=informations)
+        return xyz_info
+
     def add_info(xyz_info):
+        xyz_info = _filter_info(xyz_info)
         for info in xyz_info.all():
             add_excerpt_info(d, info.information)
 
