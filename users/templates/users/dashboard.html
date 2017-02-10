@@ -108,38 +108,36 @@ DEEP | Dashboard
             </select>
         </div>
     </div>
-    <div class="container-fluid">
-        <div id="timeline-table-wrapper">
-            <div id="timeline-table-col0-container">
-                <table id="timeline-table-col0">
-                    <thead>
-                        <tr></tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-            <div id="timeline-table-container">
-                <table id="timeline-table">
-                    <thead>
-                        <tr>
-                            {% comment %}{% for weekly_report in weekly_reports %}
-                            <td class="week-id" data-toggle="tooltip" title="{{weekly_report.0|date:"d-m-Y"}} to {{weekly_report.1|date:"d-m-Y"}}">{{weekly_report.5}}</td>
-                            {% endfor %}{% endcomment %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% comment %}{% for country in countries %}
-                        <tr class="country-data">
-                            <td class="country-name">{{country.name}}</td>
-                            {% for weekly_report in weekly_reports %}
-                            <td class="weekly-report {% if country in weekly_report.2 %}active{% endif %}"></td>
-                            {% endfor %}
-                        </tr>
+    <div id="timeline-table-wrapper">
+        <div id="timeline-table-col0-container">
+            <table id="timeline-table-col0">
+                <thead>
+                    <tr></tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div id="timeline-table-container">
+            <table id="timeline-table">
+                <thead>
+                    <tr>
+                        {% comment %}{% for weekly_report in weekly_reports %}
+                        <td class="week-id" data-toggle="tooltip" title="{{weekly_report.0|date:"d-m-Y"}} to {{weekly_report.1|date:"d-m-Y"}}">{{weekly_report.5}}</td>
                         {% endfor %}{% endcomment %}
-                    </tbody>
-                </table>
-            </div>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% comment %}{% for country in countries %}
+                    <tr class="country-data">
+                        <td class="country-name">{{country.name}}</td>
+                        {% for weekly_report in weekly_reports %}
+                        <td class="weekly-report {% if country in weekly_report.2 %}active{% endif %}"></td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}{% endcomment %}
+                </tbody>
+            </table>
         </div>
     </div>
 </section>
