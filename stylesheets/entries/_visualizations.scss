@@ -331,6 +331,7 @@
             left: 5%;
             top: 0;
             border-left: 1px solid black;
+            pointer-events: none;
 
             .scale {
                 position: relative;

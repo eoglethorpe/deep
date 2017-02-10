@@ -160,7 +160,7 @@ body {
 aside {
   width: 30%;
   margin-left: 16px;
-  margin-right: 24px;
+  margin-right: 10px;
   float: left;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -243,12 +243,13 @@ main {
   margin-right: 24px; }
   main #navigator {
     height: 56px;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
     display: flex;
     align-items: stretch;
     justify-content: space-between;
     box-sizing: border-box;
-    padding: 0 10px; }
+    padding: 0 10px;
+    background-color: #fff;
+    box-shadow: 0 -2px 13px -3px rgba(0, 0, 0, 0.3); }
     main #navigator a {
       flex-grow: 1;
       text-align: center;
@@ -258,7 +259,10 @@ main {
       border-bottom: 2px solid #008080; }
   main #report-content {
     height: calc(100vh - 56px - 172px - 56px);
-    overflow-y: auto; }
+    padding: 0 16px;
+    overflow-y: auto;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 13px -3px rgba(0, 0, 0, 0.3); }
     main #report-content h5 {
       text-transform: uppercase; }
     main #report-content section {
