@@ -168,8 +168,7 @@ main {
       justify-content: space-between;
       align-items: center;
       padding: 0px 10px;
-      overflow-y: scroll;
-      overflow-x: hidden; }
+      border-bottom: 1px solid rgba(0, 0, 0, 0.16); }
       main #country-panel #country-list #country-list-header label {
         margin: 0; }
         main #country-panel #country-list #country-list-header label:nth-child(1) {
@@ -337,6 +336,15 @@ main {
             color: #e74c3c; }
         main #weekly-report-panel #weekly-report-list #weekly-reports .weekly-report:nth-child(odd) {
           background-color: #fff; }
+      main #weekly-report-panel #weekly-report-list #weekly-reports .empty-text {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        font-size: 3em;
+        color: rgba(0, 0, 0, 0.3); }
 
 .jqstooltip {
   box-sizing: content-box;
