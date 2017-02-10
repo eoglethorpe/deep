@@ -15,6 +15,9 @@ body{
     overflow: hidden;
 
     #map-section{
+        display: flex;
+        justify-content: space-between;
+
         h2{
             display: inline-block;
             font-size: 1.2em;
@@ -24,9 +27,11 @@ body{
         #the-map{
             background: transparent;
             height: 44vh;
+            flex-basis: 75%;
         }
         #overview{
             height: 44vh;
+            flex-basis: 25%;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -63,14 +68,37 @@ body{
         overflow-x: hidden;
 
         #header{
+            display: flex;
+            justify-content: flex-start;
             height: 48px;
             padding-top: 6px;
             z-index: 1;
 
             h3{
-                margin: 0;
+                margin: 0 16px;
                 text-transform: uppercase;
                 padding-top: 10px;
+            }
+            #filters{
+                flex-basis: 70%;
+                display: flex;
+                justify-content: center;
+
+                >div{
+                    flex-basis: 30%;
+                }
+                .selectize-control{
+                    margin-bottom: 10px;
+
+                    .selectize-input{
+                        min-height: 32px;
+                        border-radius: 3px;
+                        padding: 6px 4px;
+                    }
+                    .single{
+                        box-sizing: inherit;
+                    }
+                }
             }
         }
         #back-btn{
@@ -79,16 +107,20 @@ body{
         }
 
         #timeline-table-wrapper {
+            padding: 0 16px;
             width: 100%;
+            display: flex;
             overflow-x: hidden;
 
             #timeline-table-col0-container{
                 max-height: calc(56vh - #{$navbar-height} - 48px);
+                flex-basis: 15%;
                 overflow-y: hidden;
                 overflow-x: scroll;
             }
             #timeline-table-container{
                 max-height: calc(56vh - #{$navbar-height} - 48px);
+                flex-basis: 85%;
                 overflow-y: scroll;
             }
             #timeline-table-col0{
