@@ -361,11 +361,11 @@ function initEntryFilters() {
 
 function filterByTimeline() {
     if (isSelected) {
-        var w = timelineCanvas.width * 0.9;
-        var dateStart = (startPosition.x - timelineCanvas.width*0.05) * (maxDate.getTime() - minDate.getTime()) / w;
+        var w = timelineCanvas.width * 0.85;
+        var dateStart = (startPosition.x - timelineCanvas.width*0.1) * (maxDate.getTime() - minDate.getTime()) / w;
         dateStart = new Date(dateStart + minDate.getTime());
 
-        var dateEnd = (endPosition.x - timelineCanvas.width*0.05) * (maxDate.getTime() - minDate.getTime()) / w;
+        var dateEnd = (endPosition.x - timelineCanvas.width*0.1) * (maxDate.getTime() - minDate.getTime()) / w;
         dateEnd = new Date(dateEnd + minDate.getTime());
 
         timelineFilter = function(info) {

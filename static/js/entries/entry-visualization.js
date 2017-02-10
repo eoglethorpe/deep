@@ -424,6 +424,13 @@ $(document).ready(function() {
         endPosition = {x: mousePos.x, y: mousePos.y};
         canvasTracking = false;
 
+        // Make sure start < end
+        if (endPosition.x < startPosition.x) {
+            var tmp = startPosition.x;
+            startPosition.x = endPosition.x;
+            endPosition.x = tmp;
+        }
+
         isSelected = (startPosition.x != endPosition.x);
 
         filterByTimeline();
