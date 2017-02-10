@@ -189,13 +189,11 @@ nav {
             #main #export-entries #export-entries-doc #filters > div > input[type="text"]:focus, #main #export-entries #export-entries-doc #filters > div input[type="number"]:focus {
               border-color: #008080; }
           #main #export-entries #export-entries-doc #filters > div .selectize-control {
-            margin-bottom: 8px !important; }
+            margin-bottom: 8px; }
             #main #export-entries #export-entries-doc #filters > div .selectize-control .selectize-input {
               height: 32px;
-              border-radius: 3px; }
-              #main #export-entries #export-entries-doc #filters > div .selectize-control .selectize-input input {
-                margin-top: 4px !important;
-                padding: 0 4px !important; }
+              border-radius: 3px;
+              padding: 6px 4px; }
         #main #export-entries #export-entries-doc #filters #severity-filter-container, #main #export-entries #export-entries-doc #filters #reliability-filter-container {
           display: flex;
           flex-wrap: wrap;

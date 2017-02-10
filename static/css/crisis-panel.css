@@ -137,11 +137,12 @@ body {
     height: calc(100vh - 56px);
     padding: 10px 32px 0 32px;
     box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-    body main .selectize-input {
-      height: 32px;
-      border-radius: 3px; }
-      body main .selectize-input input {
-        margin-top: 4px !important; }
+    body main .selectize-control {
+      margin-bottom: 8px; }
+      body main .selectize-control .selectize-input {
+        height: 32px;
+        border-radius: 3px;
+        padding: 6px 4px; }
     body main form {
       padding: 10px 16px; }
       body main form h2 {
