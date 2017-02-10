@@ -24,154 +24,89 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 {% include 'navbar.html' %}
 
 <section id="main">
-    <div class="container">
-        <h2>{% if lead %}Edit{% else %}Add{% endif %} Lead</h2>
-        <div class="form-wrapper">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-1">
-                    <form id="attachment-dropzone" class="dropzone" method="post">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-md-3 label-container">
-                                <label>Name:</label>
-                            </div>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control" name="name" placeholder="Enter a descriptive name" {%if lead%}value="{{lead.name}}" {%endif%} required>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 label-container">
-                                <label>Source:</label>
-                            </div>
-                            <div class="col-md-9">
-                                <!--select id="source" name="source" placeholder="Select source type">
-                                    <option value="">Select source type</option>
-                                    {% for s in sources %}
-                                    <option value="{{s.pk}}" {% if lead and lead.source == s %} selected {% endif %}>{{s}}</option>
-                                    {% endfor %}
-                                </select-->
-                                <input type="text" class="form-control" name="source" placeholder="Enter source" {% if lead %}value="{{lead.source_name}}"{% endif %}>
-                            </div>
-                        </div>
-                        <div class="row" {%if lead %} {% else %} style="display: none;"{% endif %}>
-                            <div class="col-md-3 label-container">
-                                <label>Crisis:</label>
-                            </div>
-                            <div class="col-md-9">
-                                <select name="event" class="form-control" id="crisis-lead" placeholder="Select crisis">
-                                    <option value="">Select Crisis</option>
-                                    {% for e in events %}
-                                    <option value="{{e.pk}}" {% if e.pk == event.pk %}selected{% endif %}>{{e.name}}</option>
-                                    {% endfor %}
-                                </select>
-                                <!-- <input type="text" class="form-control" name="crisis-lead" placeholder="Enter crisis" {% if lead %}value="{{e.pk}}"{% endif %}> -->
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 label-container">
-                                <label>Confidentiality:</label>
-                            </div>
-                            <div class="col-md-9">
-                                <select id="confidentiality" name="confidentiality">
-                                    {% for c in confidentialities %}
-                                    <option value="{{c.0}}" {% if lead and lead.confidentiality == c.0 %} selected {% endif %}>{{c.1}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 label-container">
-                                <label>Assign to:</label>
-                            </div>
-                            <div class="col-md-9">
-                                <select id="assigned-to" name="assigned-to" placeholder="Select user">
-                                    <option value="">Select user</option>
-                                    {% for u in users %}
-                                    <option value="{{u.pk}}" {% if lead and lead.assigned_to == u %} selected {% endif %}}>
-                                    {{u.first_name}} {{u.last_name}}
-                                    </option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 label-container">
-                                <label>Publication date:</label>
-                            </div>
-                            <div class="col-md-9">
-                                <input type="date" class="form-control" name="publish-date" placeholder="yyyy-mm-dd" {% if lead %}value="{{lead.published_at|date:"Y-m-d"}}"{% endif %}>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 label-container">
-                                <label>Type:</label>
-                            </div>
-                            <div class="col-md-9">
-                                <label class="radio-inline"><input type="radio" name="lead-type" value="website" {% if not lead or lead.lead_type == 'URL' %} checked {% endif %}>Website</label>
-                                <label class="radio-inline"><input type="radio" name="lead-type" value="manual" {% if lead and lead.lead_type == 'MAN' %} checked {% endif %}>Manual Entry</label>
-                                <label class="radio-inline"><input type="radio" name="lead-type" value="attachment" {% if lead and lead.lead_type == 'ATT' %} checked {% endif %}>Attachment</label>
-                            </div>
-                        </div>
-                        <div class="row" id="description-row">
-                            <div class="col-md-3 label-container">
-                                <label>Description:</label>
-                            </div>
-                            <div class="col-md-9">
-                                <textarea class="form-control" name="description" placeholder="Enter description" rows="16">{% if lead %}{{lead.description}}{% endif %}</textarea>
-                            </div>
-                        </div>
-                        <div class="row" id="url-row">
-                            <div class="col-md-3 label-container">
-                                <label>URL</label>
-                            </div>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control" name="url" placeholder="Enter url" {% if lead %}value="{{lead.url}}"{% endif %}>
-                            </div>
-                        </div>
-                        <div class="row" id="website-row">
-                            <div class="col-md-3 label-container">
-                                <label>Website</label>
-                            </div>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control" name="website" placeholder="Enter website" {% if lead %}value="{{lead.website}}"{% endif %}>
-                            </div>
-                        </div>
-                        <div class="row" id="attachment-row">
-                            <div class="col-md-11 col-md-offset-1">
-                                <div class="label-container" id="attachment-label-container">
-                                    <label>
-                                        Attachment:
-                                        {% if lead and lead.attachment %}<br>
-                                        <a href="{{lead.attachment.upload.url}}">{{lead.attachment.upload.name}}</a>
-                                        <br>Upload new file to replace.
-                                        {% endif %}
-                                    </label>
-                                </div>
-
-                                <div class="dropzone-container">
-                                    <div class="dz-message"> Click or Drop file here </div>
-                                    <div class="dropzone-previews"></div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 actions">
-                                <!--button class="btn btn-default" name="post" value="save-and-another">Save and add another</button-->
-                                <a style="margin-right:16px" href="{% url 'leads:leads' event.pk %}" onclick="return confirm('All changes will be discarded. Are you sure?');" id="cancel-btn" class="btn btn-default">Cancel</a>
-                                <button class="submit-btn btn btn-primary" type="submit">Submit</button>
-                                <button name="add-entry" class="submit-btn btn btn-primary" type="submit">Submit and Add Entry</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+    <h2>{% if lead %}Edit{% else %}Add{% endif %} Lead</h2>
+    <form id="attachment-dropzone" class="dropzone" method="post">
+        {% csrf_token %}
+        <label>Name:</label>
+        <input type="text" name="name" placeholder="Enter a descriptive name" {%if lead%}value="{{lead.name}}" {%endif%} required>
+        <label>Source:</label>
+        <!--select id="source" name="source" placeholder="Select source type">
+            <option value="">Select source type</option>
+            {% for s in sources %}
+            <option value="{{s.pk}}" {% if lead and lead.source == s %} selected {% endif %}>{{s}}</option>
+            {% endfor %}
+        </select-->
+        <input type="text" name="source" placeholder="Enter source" {% if lead %}value="{{lead.source_name}}"{% endif %}>
+        <div {%if lead %} {% else %} style="display: none;"{% endif %}>
+            <label>Crisis:</label>
+            <select name="event" id="crisis-lead" placeholder="Select crisis">
+                <option value="">Select Crisis</option>
+                {% for e in events %}
+                <option value="{{e.pk}}" {% if e.pk == event.pk %}selected{% endif %}>{{e.name}}</option>
+                {% endfor %}
+            </select>
+            <!-- <input type="text" name="crisis-lead" placeholder="Enter crisis" {% if lead %}value="{{e.pk}}"{% endif %}> -->
+        </div>
+        <label>Confidentiality:</label>
+        <select id="confidentiality" name="confidentiality">
+            {% for c in confidentialities %}
+            <option value="{{c.0}}" {% if lead and lead.confidentiality == c.0 %} selected {% endif %}>{{c.1}}</option>
+            {% endfor %}
+        </select>
+        <label>Assign to:</label>
+        <select id="assigned-to" name="assigned-to" placeholder="Select user">
+            <option value="">Select user</option>
+            {% for u in users %}
+            <option value="{{u.pk}}" {% if lead and lead.assigned_to == u %} selected {% endif %}}>
+            {{u.first_name}} {{u.last_name}}
+            </option>
+            {% endfor %}
+        </select>
+        <label>Publication date:</label>
+        <div style="position:relative;">
+            <input type="date" name="publish-date" placeholder="yyyy-mm-dd" {% if lead %}value="{{lead.published_at|date:"Y-m-d"}}"{% endif %}>
+        </div>
+        <div id="radio-btn-container">
+            <label>Type:</label>
+            <label><input type="radio" name="lead-type" value="website" {% if not lead or lead.lead_type == 'URL' %} checked {% endif %}>Website</label>
+            <label><input type="radio" name="lead-type" value="manual" {% if lead and lead.lead_type == 'MAN' %} checked {% endif %}>Manual Entry</label>
+            <label><input type="radio" name="lead-type" value="attachment" {% if lead and lead.lead_type == 'ATT' %} checked {% endif %}>Attachment</label>
+        </div>
+        <div id="description-row">
+            <label>Description:</label><br>
+            <textarea name="description" placeholder="Enter description" rows="16">{% if lead %}{{lead.description}}{% endif %}</textarea>
+        </div>
+        <div id="url-row">
+            <label>URL</label>
+            <input type="text" name="url" placeholder="Enter url" {% if lead %}value="{{lead.url}}"{% endif %}>
+        </div>
+        <div id="website-row">
+            <label>Website</label>
+            <input type="text" name="website" placeholder="Enter website" {% if lead %}value="{{lead.website}}"{% endif %}>
+        </div>
+        <div id="attachment-row">
+            <label>
+                Attachment:
+                {% if lead and lead.attachment %}<br>
+                <a href="{{lead.attachment.upload.url}}">{{lead.attachment.upload.name}}</a>
+                <br>Upload new file to replace.
+                {% endif %}
+            </label>
+            <div class="dropzone-container">
+                <div class="dz-message"> Click or Drop file here </div>
+                <div class="dropzone-previews"></div>
             </div>
         </div>
-    </div>
+        <div class="actions">
+            <!--button class="btn btn-default" name="post" value="save-and-another">Save and add another</button-->
+            <a href="{% url 'leads:leads' event.pk %}" onclick="return confirm('All changes will be discarded. Are you sure?');" id="cancel-btn" class="btn btn-default">Cancel</a>
+            <button class="submit-btn btn btn-primary" type="submit">Submit</button>
+            <button name="add-entry" class="submit-btn btn btn-primary" type="submit">Submit and Add Entry</button>
+        </div>
+    </form>
 </section>
 
 <script>
-
 var url;
 {% if lead %}
 url = "{% url 'leads:edit' event=event.pk id=lead.pk %}";
@@ -232,7 +167,6 @@ Dropzone.options.attachmentDropzone = {
         });
     },
 };
-
 </script>
 
 {% endblock %}

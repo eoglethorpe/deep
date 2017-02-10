@@ -140,7 +140,7 @@ body {
     body main .selectize-control {
       margin-bottom: 8px; }
       body main .selectize-control .selectize-input {
-        height: 32px;
+        min-height: 32px;
         border-radius: 3px;
         padding: 6px 4px; }
     body main form {
