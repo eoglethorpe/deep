@@ -806,7 +806,7 @@ function autoCalculateScores() {
     if (under5MortalityRate >= 90)
         mortalityScore = 3;
 
-    $('#mortality-rate').val(under5MortalityRate);
+    $('#mortality-rate').val(Math.round(under5MortalityRate)+ "%");
     $('#mortality-rate-score').val(mortalityScore);
 
     // HDI
@@ -827,7 +827,7 @@ function autoCalculateScores() {
         hdiRank = "Very High";
     }
 
-    $('#hdi').val(hdi);
+    $('#hdi').val(hdi.toFixed(3));
     $('#hdi-rank').val(hdiRank);
     $('#hdi-score').val(hdiScore);
 
