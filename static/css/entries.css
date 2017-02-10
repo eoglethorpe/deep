@@ -393,7 +393,8 @@ main #visualizations {
       position: absolute;
       left: 5%;
       top: 0;
-      border-left: 1px solid black; }
+      border-left: 1px solid black;
+      pointer-events: none; }
       main #visualizations #entry-timeline-container .timeline-scale .scale {
         position: relative;
         display: inline-block;

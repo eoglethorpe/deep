@@ -853,7 +853,9 @@ $(document).ready(function(){
         redirectPost(window.location.pathname, data, csrf_token);
     });
     $('.cancel').unbind().click(function() {
-        window.location.href = cancelUrl;
+        if (confirm('Are you sure you want to cancel the changes?')) {
+            window.location.href = cancelUrl;
+        }
     });
 
     refreshExcerpts();
