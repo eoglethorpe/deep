@@ -75,8 +75,7 @@ main{
                 justify-content: space-between;
                 align-items: center;
                 padding: 0px 10px;
-                overflow-y: scroll;
-                overflow-x: hidden;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.16);
 
                 label{
                     margin: 0;
@@ -276,9 +275,18 @@ main{
                         }
                     }
 
-                    &:nth-child(odd){
-                        background-color: #fff;
-                    }
+
+                    &:nth-child(odd){ background-color: #fff; }
+                }
+                .empty-text{
+                    height: 100%;
+                    margin: 0;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    display: flex;
+                    font-size: 3em;
+                    color: rgba(0, 0, 0, 0.3);
                 }
             }
         }
