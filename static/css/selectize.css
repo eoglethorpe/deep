@@ -40,7 +40,6 @@ body {
 .selectize-control {
   position: relative;
   width: 100%;
-  line-height: 0;
   font-size: 13px; }
   .selectize-control.plugin-remove_button {
     position: relative; }
@@ -52,26 +51,26 @@ body {
   .selectize-control .selectize-input, .selectize-control.single, .selectize-control .selectize-input.input-active {
     background-color: #fff;
     cursor: text;
-    display: inline-block; }
+    display: inline-block;
+    box-sizing: border-box; }
   .selectize-control .selectize-input {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    padding: 3px 5px;
     width: 100%;
     z-index: 1;
-    box-sizing: border-box; }
+    box-sizing: border-box;
+    padding: 3px 5px;
+    border: 1px solid rgba(0, 0, 0, 0.1); }
     .selectize-control .selectize-input > * {
       vertical-align: baseline;
       display: inline;
       box-sizing: border-box;
       margin: 0 1px;
-      padding: 0 2px;
-      line-height: 1; }
+      padding: 0 2px; }
     .selectize-control .selectize-input > input {
       padding: 0;
       outline: none;
       border: none; }
-    .selectize-control .selectize-input > div {
-      background-color: #f0f0f0; }
+  .selectize-control.multi .selectize-input > div {
+    background-color: rgba(0, 0, 0, 0.1); }
   .selectize-control .selectize-dropdown {
     position: absolute;
     z-index: 11;
@@ -91,5 +90,17 @@ body {
       overflow-y: auto;
       overflow-x: hidden;
       max-height: 320px; }
+  .selectize-control.single .selectize-input:after {
+    content: ' ';
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    margin-top: -3px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 5px 4px 0 4px;
+    border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent; }
 
 /*# sourceMappingURL=selectize.css.map */

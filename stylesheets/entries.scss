@@ -31,14 +31,19 @@ main{
     #clear-filter-btn{
         font-size: 0.8em;
         outline: none;
+        float: right;
+        margin-right: 16px;
+        margin-top: -6px;
         @include btn-shadow-sm();
     }
     #toggle-panel{
-        text-align: left;
-        margin-bottom: 16px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 0 16px;
+
         a{
-            margin-left: 16px;
-            color: #969696;
+            margin-left: 10px;
+            color: rgba(0, 0, 0, 0.3);
             transition: all 0.2s ease-in-out;
         }
         .active{

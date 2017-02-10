@@ -105,3 +105,15 @@ h1{
 .success .fa, .success h2{
     color: #27ae60;
 }
+
+#publish-date{
+    padding-right: 32px;
+}
+#publish-date-container a{
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.3);
+    font-size: 16px;
+    position: absolute;
+    right: 4px;
+    bottom: 8px;
+}

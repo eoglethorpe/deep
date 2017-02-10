@@ -1,4 +1,3 @@
-@charset "UTF-8";
 ::-webkit-scrollbar-track {
   background-color: rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.04); }
@@ -127,289 +126,295 @@ main #filters {
 main #clear-filter-btn {
   font-size: 0.8em;
   outline: none;
+  float: right;
+  margin-right: 16px;
+  margin-top: -6px;
   box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
   main #clear-filter-btn:active {
     box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
 main #toggle-panel {
-  text-align: left;
-  margin-bottom: 16px; }
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 0 16px; }
   main #toggle-panel a {
-    margin-left: 16px;
-    color: #969696;
+    margin-left: 10px;
+    color: rgba(0, 0, 0, 0.3);
     transition: all 0.2s ease-in-out; }
   main #toggle-panel .active {
     color: #008080;
     transform: scale(1.41); }
-main #visualizations .visualization-block {
-  background-color: #fff;
-  margin-bottom: 4px;
-  box-sizing: border-box;
-  position: relative;
-  border: 2px solid rgba(0, 0, 0, 0.1); }
-  main #visualizations .visualization-block h3 {
-    margin: 0;
-    padding: 16px 16px 26px 16px;
-    text-transform: uppercase; }
-  main #visualizations .visualization-block .sort-buttons {
-    float: right;
-    margin-left: 10px;
-    padding-top: 16px; }
-main #visualizations #entry-timeline-wrapper {
-  width: calc(84% - 240px);
-  float: left;
-  padding-bottom: 38px; }
-main #visualizations #severity-legend {
-  width: 16%;
-  float: left;
-  padding-bottom: 38px; }
-  main #visualizations #severity-legend .inactive label {
-    color: #ccc; }
-  main #visualizations #severity-legend .inactive .severity {
-    filter: grayscale(100%); }
-  main #visualizations #severity-legend .severity {
-    display: inline-block;
-    height: 16px;
-    width: 24px;
-    margin-left: 24px;
-    cursor: pointer; }
-    main #visualizations #severity-legend .severity:hover {
-      box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.8); }
-  main #visualizations #severity-legend .severity-1 {
-    background-color: #fbd4d4; }
-  main #visualizations #severity-legend .severity-2 {
-    background-color: #f7a5a5; }
-  main #visualizations #severity-legend .severity-3 {
-    background-color: #f47575; }
-  main #visualizations #severity-legend .severity-4 {
-    background-color: #f04646; }
-  main #visualizations #severity-legend .severity-5 {
-    background-color: #ec1717; }
-  main #visualizations #severity-legend .severity-6 {
-    background-color: #c01010; }
-  main #visualizations #severity-legend label {
-    font-size: 14px;
-    margin-left: 10px;
-    vertical-align: super; }
-  main #visualizations #severity-legend p {
-    margin-bottom: 6px; }
-main #visualizations #pie-wrapper-container {
-  width: 240px;
-  float: left;
-  padding-bottom: 1px; }
-  main #visualizations #pie-wrapper-container #pie-wrapper {
-    width: 100%;
-    background-color: #fff; }
-    main #visualizations #pie-wrapper-container #pie-wrapper svg {
-      margin-top: -16px;
-      margin-left: 16px;
-      width: 208px;
-      height: 208px;
-      background: transparent;
-      border-radius: 50%; }
-      main #visualizations #pie-wrapper-container #pie-wrapper svg text {
-        color: #414141;
-        font-family: "monospace";
-        font-size: 24px; }
-    main #visualizations #pie-wrapper-container #pie-wrapper path {
-      cursor: pointer;
-      fill: transparent;
-      stroke-width: 56;
-      transition: all 0.2s ease-in-out; }
-      main #visualizations #pie-wrapper-container #pie-wrapper path:hover {
-        stroke-width: 64;
-        stroke-linecap: butt; }
-    main #visualizations #pie-wrapper-container #pie-wrapper .severity-1 {
-      stroke: #fbd4d4; }
-    main #visualizations #pie-wrapper-container #pie-wrapper .severity-2 {
-      stroke: #f7a5a5; }
-    main #visualizations #pie-wrapper-container #pie-wrapper .severity-3 {
-      stroke: #f47575; }
-    main #visualizations #pie-wrapper-container #pie-wrapper .severity-4 {
-      stroke: #f04646; }
-    main #visualizations #pie-wrapper-container #pie-wrapper .severity-5 {
-      stroke: #ec1717; }
-    main #visualizations #pie-wrapper-container #pie-wrapper .severity-6 {
-      stroke: #c01010; }
-main #visualizations #sectors-visualization {
-  float: left;
-  width: 30% !important;
-  height: 592px;
-  overflow-y: auto; }
-  main #visualizations #sectors-visualization label {
-    cursor: pointer; }
-  main #visualizations #sectors-visualization img {
-    height: 24px;
-    margin-right: 10px;
-    display: inline-block;
-    cursor: pointer; }
-  main #visualizations #sectors-visualization .inactive label {
-    color: #ccc; }
-  main #visualizations #sectors-visualization .inactive img {
-    filter: grayscale(100%); }
-  main #visualizations #sectors-visualization .inactive .severities {
-    filter: grayscale(100%); }
-  main #visualizations #sectors-visualization .attr-scale-container {
-    padding: 0; }
-    main #visualizations #sectors-visualization .attr-scale-container label {
-      cursor: inherit; }
-    main #visualizations #sectors-visualization .attr-scale-container .attr-scale .scale {
-      width: calc(240px/5); }
-main #visualizations .attr-visualization {
-  padding-bottom: 16px; }
-  main #visualizations .attr-visualization .attr {
-    padding: 6px; }
-    main #visualizations .attr-visualization .attr label {
-      padding-left: 10px;
-      margin-right: 8px;
-      width: 112px;
-      vertical-align: middle;
-      text-align: right;
-      line-height: 1; }
-    main #visualizations .attr-visualization .attr .severities {
+main #visualizations {
+  padding: 0 16px; }
+  main #visualizations .visualization-block {
+    background-color: #fff;
+    margin-bottom: 4px;
+    box-sizing: border-box;
+    position: relative;
+    border: 2px solid rgba(0, 0, 0, 0.1); }
+    main #visualizations .visualization-block h3 {
+      margin: 0;
+      padding: 16px 16px 26px 16px;
+      text-transform: uppercase; }
+    main #visualizations .visualization-block .sort-buttons {
+      float: right;
+      margin-left: 10px;
+      padding-top: 16px; }
+  main #visualizations #entry-timeline-wrapper {
+    width: calc(84% - 240px);
+    float: left;
+    padding-bottom: 38px; }
+  main #visualizations #severity-legend {
+    width: 16%;
+    float: left;
+    padding-bottom: 38px; }
+    main #visualizations #severity-legend .inactive label {
+      color: #ccc; }
+    main #visualizations #severity-legend .inactive .severity {
+      filter: grayscale(100%); }
+    main #visualizations #severity-legend .severity {
       display: inline-block;
+      height: 16px;
+      width: 24px;
+      margin-left: 24px;
+      cursor: pointer; }
+      main #visualizations #severity-legend .severity:hover {
+        box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.8); }
+    main #visualizations #severity-legend .severity-1 {
+      background-color: #fbd4d4; }
+    main #visualizations #severity-legend .severity-2 {
+      background-color: #f7a5a5; }
+    main #visualizations #severity-legend .severity-3 {
+      background-color: #f47575; }
+    main #visualizations #severity-legend .severity-4 {
+      background-color: #f04646; }
+    main #visualizations #severity-legend .severity-5 {
+      background-color: #ec1717; }
+    main #visualizations #severity-legend .severity-6 {
+      background-color: #c01010; }
+    main #visualizations #severity-legend label {
+      font-size: 14px;
+      margin-left: 10px;
+      vertical-align: super; }
+    main #visualizations #severity-legend p {
+      margin-bottom: 6px; }
+  main #visualizations #pie-wrapper-container {
+    width: 240px;
+    float: left;
+    padding-bottom: 1px; }
+    main #visualizations #pie-wrapper-container #pie-wrapper {
+      width: 100%;
+      background-color: #fff; }
+      main #visualizations #pie-wrapper-container #pie-wrapper svg {
+        margin-top: -16px;
+        margin-left: 16px;
+        width: 208px;
+        height: 208px;
+        background: transparent;
+        border-radius: 50%; }
+        main #visualizations #pie-wrapper-container #pie-wrapper svg text {
+          color: #414141;
+          font-family: "monospace";
+          font-size: 24px; }
+      main #visualizations #pie-wrapper-container #pie-wrapper path {
+        cursor: pointer;
+        fill: transparent;
+        stroke-width: 56;
+        transition: all 0.2s ease-in-out; }
+        main #visualizations #pie-wrapper-container #pie-wrapper path:hover {
+          stroke-width: 64;
+          stroke-linecap: butt; }
+      main #visualizations #pie-wrapper-container #pie-wrapper .severity-1 {
+        stroke: #fbd4d4; }
+      main #visualizations #pie-wrapper-container #pie-wrapper .severity-2 {
+        stroke: #f7a5a5; }
+      main #visualizations #pie-wrapper-container #pie-wrapper .severity-3 {
+        stroke: #f47575; }
+      main #visualizations #pie-wrapper-container #pie-wrapper .severity-4 {
+        stroke: #f04646; }
+      main #visualizations #pie-wrapper-container #pie-wrapper .severity-5 {
+        stroke: #ec1717; }
+      main #visualizations #pie-wrapper-container #pie-wrapper .severity-6 {
+        stroke: #c01010; }
+  main #visualizations #sectors-visualization {
+    float: left;
+    width: 30% !important;
+    height: 592px;
+    overflow-y: auto; }
+    main #visualizations #sectors-visualization label {
+      cursor: pointer; }
+    main #visualizations #sectors-visualization img {
       height: 24px;
-      vertical-align: middle; }
-      main #visualizations .attr-visualization .attr .severities .severity {
+      margin-right: 10px;
+      display: inline-block;
+      cursor: pointer; }
+    main #visualizations #sectors-visualization .inactive label {
+      color: #ccc; }
+    main #visualizations #sectors-visualization .inactive img {
+      filter: grayscale(100%); }
+    main #visualizations #sectors-visualization .inactive .severities {
+      filter: grayscale(100%); }
+    main #visualizations #sectors-visualization .attr-scale-container {
+      padding: 0; }
+      main #visualizations #sectors-visualization .attr-scale-container label {
+        cursor: inherit; }
+      main #visualizations #sectors-visualization .attr-scale-container .attr-scale .scale {
+        width: calc(240px/5); }
+  main #visualizations .attr-visualization {
+    padding-bottom: 16px; }
+    main #visualizations .attr-visualization .attr {
+      padding: 6px; }
+      main #visualizations .attr-visualization .attr label {
+        padding-left: 10px;
+        margin-right: 8px;
+        width: 112px;
+        vertical-align: middle;
+        text-align: right;
+        line-height: 1; }
+      main #visualizations .attr-visualization .attr .severities {
         display: inline-block;
         height: 24px;
-        cursor: pointer; }
-        main #visualizations .attr-visualization .attr .severities .severity:hover {
-          box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.8); }
-      main #visualizations .attr-visualization .attr .severities .severity-1 {
-        background-color: #fbd4d4; }
-      main #visualizations .attr-visualization .attr .severities .severity-2 {
-        background-color: #f7a5a5; }
-      main #visualizations .attr-visualization .attr .severities .severity-3 {
-        background-color: #f47575; }
-      main #visualizations .attr-visualization .attr .severities .severity-4 {
-        background-color: #f04646; }
-      main #visualizations .attr-visualization .attr .severities .severity-5 {
-        background-color: #ec1717; }
-      main #visualizations .attr-visualization .attr .severities .severity-6 {
-        background-color: #c01010; }
-  main #visualizations .attr-visualization .attr-scale-container {
-    margin-top: 16px;
-    padding: 6px; }
-    main #visualizations .attr-visualization .attr-scale-container label {
-      padding-left: 10px;
-      margin-right: 8px;
-      width: 112px; }
-    main #visualizations .attr-visualization .attr-scale-container .blank-space {
-      display: inline-block;
-      width: 24px;
-      height: 24px;
-      margin-right: 10px; }
-    main #visualizations .attr-visualization .attr-scale-container .attr-scale .scale {
-      position: relative;
-      border-top: 1px solid black;
-      display: inline-block;
-      width: calc(192px/5);
-      height: 24px; }
-      main #visualizations .attr-visualization .attr-scale-container .attr-scale .scale:after {
-        position: absolute;
-        left: 0;
-        content: '';
-        border-left: 1px solid black;
+        vertical-align: middle; }
+        main #visualizations .attr-visualization .attr .severities .severity {
+          display: inline-block;
+          height: 24px;
+          cursor: pointer; }
+          main #visualizations .attr-visualization .attr .severities .severity:hover {
+            box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.8); }
+        main #visualizations .attr-visualization .attr .severities .severity-1 {
+          background-color: #fbd4d4; }
+        main #visualizations .attr-visualization .attr .severities .severity-2 {
+          background-color: #f7a5a5; }
+        main #visualizations .attr-visualization .attr .severities .severity-3 {
+          background-color: #f47575; }
+        main #visualizations .attr-visualization .attr .severities .severity-4 {
+          background-color: #f04646; }
+        main #visualizations .attr-visualization .attr .severities .severity-5 {
+          background-color: #ec1717; }
+        main #visualizations .attr-visualization .attr .severities .severity-6 {
+          background-color: #c01010; }
+    main #visualizations .attr-visualization .attr-scale-container {
+      margin-top: 16px;
+      padding: 6px; }
+      main #visualizations .attr-visualization .attr-scale-container label {
+        padding-left: 10px;
+        margin-right: 8px;
+        width: 112px; }
+      main #visualizations .attr-visualization .attr-scale-container .blank-space {
         display: inline-block;
-        width: 100%;
-        height: 4px; }
-      main #visualizations .attr-visualization .attr-scale-container .attr-scale .scale:last-child:after {
-        border-right: 1px solid black; }
-    main #visualizations .attr-visualization .attr-scale-container .attr-scale .val, main #visualizations .attr-visualization .attr-scale-container .attr-scale .val-right {
-      margin-top: 8px;
-      font-family: 'Inconsolata', monospace;
-      color: #767676; }
-    main #visualizations .attr-visualization .attr-scale-container .attr-scale .val {
-      float: left; }
-    main #visualizations .attr-visualization .attr-scale-container .attr-scale .val-right {
-      float: right; }
-main #visualizations #attr-visualizations-container {
-  width: 100%;
-  clear: both; }
-  main #visualizations #attr-visualizations-container .attr-visualization {
-    width: 25% !important;
-    float: left; }
-main #visualizations #map-wrapper {
-  width: 70%;
-  float: left; }
-  main #visualizations #map-wrapper #the-map {
-    position: relative;
-    height: 540px;
-    box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-    main #visualizations #map-wrapper #the-map #map-shadow-overlay {
-      pointer-events: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 999;
-      box-shadow: inset 10px 0 15px -8px rgba(0, 0, 0, 0.5); }
-    main #visualizations #map-wrapper #the-map path {
-      stroke: #717171;
-      stroke-width: 1px;
-      stroke-linejoin: round; }
-    main #visualizations #map-wrapper #the-map .leaflet-top {
-      z-index: 1;
-      top: auto;
-      bottom: 24px;
-      left: 24px; }
-  main #visualizations #map-wrapper #map-controls {
-    box-sizing: border-box;
-    background-color: rgba(255, 255, 255, 0.88);
-    padding: 11px 0 12px 4px;
-    display: flex;
-    justify-content: space-between; }
-    main #visualizations #map-wrapper #map-controls #country-select-wrapper {
-      flex-basis: 25%;
-      box-sizing: border-box; }
-    main #visualizations #map-wrapper #map-controls #admin-level-buttons {
-      flex-basis: 75%;
-      text-align: center; }
-      main #visualizations #map-wrapper #map-controls #admin-level-buttons button {
-        margin: 0 4px;
-        box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-main #visualizations #entry-header {
-  padding: 16px 24px; }
-  main #visualizations #entry-header h3 {
-    text-transform: uppercase;
-    margin: 0; }
-main #visualizations #entry-timeline-container {
-  height: 160px;
-  cursor: crosshair;
-  position: relative; }
-  main #visualizations #entry-timeline-container #entry-timeline {
-    width: 100%;
-    height: 100%; }
-  main #visualizations #entry-timeline-container .timeline-scale {
-    height: 90%;
-    width: 5%;
-    display: inline-block;
-    position: absolute;
-    left: 5%;
-    top: 0;
-    border-left: 1px solid black; }
-    main #visualizations #entry-timeline-container .timeline-scale .scale {
-      position: relative;
-      display: inline-block;
-      width: 100%;
-      height: 20%; }
-      main #visualizations #entry-timeline-container .timeline-scale .scale:after {
-        position: absolute;
-        content: '';
-        top: 0;
-        left: -4px;
-        width: 4px;
-        height: 1px;
+        width: 24px;
+        height: 24px;
+        margin-right: 10px; }
+      main #visualizations .attr-visualization .attr-scale-container .attr-scale .scale {
+        position: relative;
+        border-top: 1px solid black;
         display: inline-block;
-        border-top: 1px solid black; }
-      main #visualizations #entry-timeline-container .timeline-scale .scale .val {
-        display: inline-block;
-        width: 100%;
+        width: calc(192px/5);
+        height: 24px; }
+        main #visualizations .attr-visualization .attr-scale-container .attr-scale .scale:after {
+          position: absolute;
+          left: 0;
+          content: '';
+          border-left: 1px solid black;
+          display: inline-block;
+          width: 100%;
+          height: 4px; }
+        main #visualizations .attr-visualization .attr-scale-container .attr-scale .scale:last-child:after {
+          border-right: 1px solid black; }
+      main #visualizations .attr-visualization .attr-scale-container .attr-scale .val, main #visualizations .attr-visualization .attr-scale-container .attr-scale .val-right {
+        margin-top: 8px;
         font-family: 'Inconsolata', monospace;
-        color: #767676;
-        text-align: right;
-        transform: translateY(-10px) translateX(-110%); }
+        color: #767676; }
+      main #visualizations .attr-visualization .attr-scale-container .attr-scale .val {
+        float: left; }
+      main #visualizations .attr-visualization .attr-scale-container .attr-scale .val-right {
+        float: right; }
+  main #visualizations #attr-visualizations-container {
+    width: 100%;
+    clear: both; }
+    main #visualizations #attr-visualizations-container .attr-visualization {
+      width: 25% !important;
+      float: left; }
+  main #visualizations #map-wrapper {
+    width: 70%;
+    float: left; }
+    main #visualizations #map-wrapper #the-map {
+      position: relative;
+      height: 538px;
+      box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+      main #visualizations #map-wrapper #the-map #map-shadow-overlay {
+        pointer-events: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 999;
+        box-shadow: inset 10px 0 15px -8px rgba(0, 0, 0, 0.5); }
+      main #visualizations #map-wrapper #the-map path {
+        stroke: #717171;
+        stroke-width: 1px;
+        stroke-linejoin: round; }
+      main #visualizations #map-wrapper #the-map .leaflet-top {
+        z-index: 1;
+        top: auto;
+        bottom: 24px;
+        left: 24px; }
+    main #visualizations #map-wrapper #map-controls {
+      box-sizing: border-box;
+      background-color: rgba(255, 255, 255, 0.88);
+      padding: 11px 0 12px 4px;
+      display: flex;
+      justify-content: space-between; }
+      main #visualizations #map-wrapper #map-controls #country-select-wrapper {
+        flex-basis: 25%;
+        box-sizing: border-box; }
+      main #visualizations #map-wrapper #map-controls #admin-level-buttons {
+        flex-basis: 75%;
+        text-align: center; }
+        main #visualizations #map-wrapper #map-controls #admin-level-buttons button {
+          margin: 0 4px;
+          box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  main #visualizations #entry-header {
+    padding: 16px 24px; }
+    main #visualizations #entry-header h3 {
+      text-transform: uppercase;
+      margin: 0; }
+  main #visualizations #entry-timeline-container {
+    height: 160px;
+    cursor: crosshair;
+    position: relative; }
+    main #visualizations #entry-timeline-container #entry-timeline {
+      width: 100%;
+      height: 100%; }
+    main #visualizations #entry-timeline-container .timeline-scale {
+      height: 90%;
+      width: 5%;
+      display: inline-block;
+      position: absolute;
+      left: 5%;
+      top: 0;
+      border-left: 1px solid black; }
+      main #visualizations #entry-timeline-container .timeline-scale .scale {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        height: 20%; }
+        main #visualizations #entry-timeline-container .timeline-scale .scale:after {
+          position: absolute;
+          content: '';
+          top: 0;
+          left: -4px;
+          width: 4px;
+          height: 1px;
+          display: inline-block;
+          border-top: 1px solid black; }
+        main #visualizations #entry-timeline-container .timeline-scale .scale .val {
+          display: inline-block;
+          width: 100%;
+          font-family: 'Inconsolata', monospace;
+          color: #767676;
+          text-align: right;
+          transform: translateY(-10px) translateX(-110%); }
 main #loading-animation {
   z-index: 1000;
   position: fixed;
@@ -476,119 +481,119 @@ main #entry-filters {
     main #entry-filters #right-block .filter {
       flex-basis: 50%;
       box-sizing: border-box; }
-main #entries .first-child {
-  padding-right: 2px; }
-main #entries .low-padding {
-  padding-left: 2px;
-  padding-right: 2px; }
-main #entries .last-child {
-  padding-left: 2px; }
-main #entries .entry {
-  background-color: #fff;
-  color: #414141;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 -2px 16px -5px rgba(0, 0, 0, 0.5);
-  margin-bottom: 10px; }
-  main #entries .entry .entry-title-extra {
-    margin-left: 16px;
-    text-transform: uppercase;
-    font-size: 0.8em; }
-    main #entries .entry .entry-title-extra i {
-      margin-right: 10px; }
-    main #entries .entry .entry-title-extra .created-by {
-      margin-right: 24px; }
-  main #entries .entry .btn-action {
-    float: right;
-    width: 40px;
-    margin: 10px;
-    margin-top: 16px;
-    box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-    main #entries .entry .btn-action:active {
-      box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-  main #entries .entry h2 {
-    margin-top: 16px;
-    margin-bottom: 8px;
-    margin-left: 16px;
-    font-size: 1.2em; }
-  main #entries .entry .information {
-    background-color: #f8f8f8;
-    padding: 10px 16px 0 16px; }
-    main #entries .entry .information label {
-      min-width: 72px;
-      margin-right: 10px;
-      vertical-align: middle; }
-    main #entries .entry .information .second-col {
-      padding: 0 10px 10px 10px; }
-      main #entries .entry .information .second-col hr {
-        margin: 16px 32px 16px 0;
-        border: 1px solid rgba(0, 0, 0, 0.05); }
-      main #entries .entry .information .second-col .reliability {
-        margin-bottom: 10px; }
-      main #entries .entry .information .second-col .severity span, main #entries .entry .information .second-col .reliability span {
+main #entries {
+  padding: 0 16px; }
+  main #entries .entry {
+    border: 1px solid rgba(0, 0, 0, 0.05); }
+    main #entries .entry .entry-header {
+      padding: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #008080;
+      color: #fff; }
+      main #entries .entry .entry-header h2 {
+        margin: 0;
+        flex-basis: 80%;
+        color: inherit; }
+      main #entries .entry .entry-header p {
+        margin: 0;
+        flex-basis: 100%; }
+        main #entries .entry .entry-header p .fa {
+          margin-right: 10px; }
+        main #entries .entry .entry-header p span {
+          margin-right: 16px; }
+      main #entries .entry .entry-header div a {
+        width: 48px;
+        height: 32px;
+        font-size: 18px;
+        padding-top: calc(calc(32px - 18px) / 2);
+        text-align: center;
+        margin-left: 10px;
+        background-color: #fff;
+        box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+        main #entries .entry .entry-header div a:active {
+          box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+      main #entries .entry .entry-header div .delete-btn {
+        color: red; }
+      main #entries .entry .entry-header div .edit-btn {
+        color: black; }
+  main #entries .information-list .information {
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+    background-color: #f5f5f5; }
+    main #entries .information-list .information:nth-child(odd) {
+      background-color: #fff; }
+    main #entries .information-list .information > * {
+      padding: 0 6px; }
+    main #entries .information-list .information .excerpt {
+      flex-basis: 25%;
+      text-align: justify; }
+    main #entries .information-list .information date {
+      font-family: 'Inconsolata', monospace; }
+    main #entries .information-list .information > div:nth-child(2) {
+      flex-basis: 10%;
+      flex-shrink: 0;
+      min-width: 174px; }
+      main #entries .information-list .information > div:nth-child(2) > div {
+        min-height: 48px; }
+        main #entries .information-list .information > div:nth-child(2) > div label {
+          min-width: 84px; }
+      main #entries .information-list .information > div:nth-child(2) .severity span, main #entries .information-list .information > div:nth-child(2) .reliability span {
         width: 8px;
         height: 16px;
-        background-color: #ccc;
         display: inline-block;
-        border: none;
         border-radius: 2px;
         margin-right: 1px; }
-      main #entries .entry .information .second-col .reliability ._1 {
-        background-color: #afb5f0; }
-      main #entries .entry .information .second-col .reliability ._2 {
-        background-color: #858de7; }
-      main #entries .entry .information .second-col .reliability ._3 {
-        background-color: #5a65df; }
-      main #entries .entry .information .second-col .reliability ._4 {
-        background-color: #2f3dd7; }
-      main #entries .entry .information .second-col .reliability ._5 {
-        background-color: #222eb1; }
-      main #entries .entry .information .second-col .reliability ._6 {
-        background-color: #1e299b; }
-      main #entries .entry .information .second-col .reliability .active {
+      main #entries .information-list .information > div:nth-child(2) .severity ._0, main #entries .information-list .information > div:nth-child(2) .reliability ._0 {
+        opacity: 0; }
+      main #entries .information-list .information > div:nth-child(2) .severity ._1, main #entries .information-list .information > div:nth-child(2) .reliability ._1 {
+        opacity: 0.2; }
+      main #entries .information-list .information > div:nth-child(2) .severity ._2, main #entries .information-list .information > div:nth-child(2) .reliability ._2 {
+        opacity: 0.4; }
+      main #entries .information-list .information > div:nth-child(2) .severity ._3, main #entries .information-list .information > div:nth-child(2) .reliability ._3 {
+        opacity: 0.6; }
+      main #entries .information-list .information > div:nth-child(2) .severity ._4, main #entries .information-list .information > div:nth-child(2) .reliability ._4 {
+        opacity: 0.8; }
+      main #entries .information-list .information > div:nth-child(2) .severity ._5, main #entries .information-list .information > div:nth-child(2) .reliability ._5 {
+        opacity: 1; }
+      main #entries .information-list .information > div:nth-child(2) .severity .active, main #entries .information-list .information > div:nth-child(2) .reliability .active {
         width: 12px;
         height: 24px;
         margin-bottom: -4px; }
-      main #entries .entry .information .second-col .severity ._1 {
-        background-color: #f7a5a5; }
-      main #entries .entry .information .second-col .severity ._2 {
-        background-color: #f47575; }
-      main #entries .entry .information .second-col .severity ._3 {
-        background-color: #f04646; }
-      main #entries .entry .information .second-col .severity ._4 {
-        background-color: #ec1717; }
-      main #entries .entry .information .second-col .severity ._5 {
-        background-color: #d81212; }
-      main #entries .entry .information .second-col .severity ._6 {
+      main #entries .information-list .information > div:nth-child(2) .reliability span {
+        background-color: #1A2386; }
+      main #entries .information-list .information > div:nth-child(2) .severity span {
         background-color: #c01010; }
-      main #entries .entry .information .second-col .severity .active {
-        width: 12px;
-        height: 24px;
-        margin-bottom: -4px; }
-    main #entries .entry .information .excerpt {
-      min-height: 96px;
-      white-space: pre-line;
-      padding: 0 16px 0 0;
-      margin-bottom: 0;
-      text-align: justify; }
-    main #entries .entry .information .affected-group {
-      color: #e74c3c; }
-    main #entries .entry .information date, main #entries .entry .information .number {
-      font-family: 'Inconsolata', monospace; }
-    main #entries .entry .information .affected-group, main #entries .entry .information .vulnerable-group {
-      min-height: 48px; }
-    main #entries .entry .information .geo-location, main #entries .entry .information .affected-group, main #entries .entry .information .vulnerable-group, main #entries .entry .information .specific-need-group {
-      padding-bottom: 10px; }
-      main #entries .entry .information .geo-location span, main #entries .entry .information .affected-group span, main #entries .entry .information .vulnerable-group span, main #entries .entry .information .specific-need-group span {
-        display: block; }
-        main #entries .entry .information .geo-location span:before, main #entries .entry .information .affected-group span:before, main #entries .entry .information .vulnerable-group span:before, main #entries .entry .information .specific-need-group span:before {
-          content: '•';
-          margin-right: 10px; }
-    main #entries .entry .information .pillar, main #entries .entry .information .sector {
-      font-weight: bold; }
-    main #entries .entry .information .sub-pillar, main #entries .entry .information .sub-sector {
-      font-size: 0.9em;
-      word-wrap: break-word; }
-  main #entries .entry .information:nth-child(even) {
-    background-color: #fff; }
+    main #entries .information-list .information > div:nth-child(3) {
+      flex-basis: 12%; }
+    main #entries .information-list .information > div:nth-child(4) {
+      flex-basis: 14%; }
+    main #entries .information-list .information > div:nth-child(5) {
+      flex-basis: 10%; }
+    main #entries .information-list .information > div:nth-child(6) {
+      flex-basis: 10%; }
+    main #entries .information-list .information > div:nth-child(7) {
+      flex-basis: 20%; }
+      main #entries .information-list .information > div:nth-child(7) .attribute {
+        display: flex !important; }
+        main #entries .information-list .information > div:nth-child(7) .attribute > * {
+          flex-basis: 50%; }
+        main #entries .information-list .information > div:nth-child(7) .attribute .pillar, main #entries .information-list .information > div:nth-child(7) .attribute .sector {
+          font-weight: 600; }
+        main #entries .information-list .information > div:nth-child(7) .attribute .sub-sector, main #entries .information-list .information > div:nth-child(7) .attribute .sub-pillar {
+          color: #767676; }
+    main #entries .information-list .information > div:nth-child(3) span, main #entries .information-list .information > div:nth-child(4) span, main #entries .information-list .information > div:nth-child(5) span, main #entries .information-list .information > div:nth-child(6) span, main #entries .information-list .information > div:nth-child(7) span {
+      display: block;
+      line-height: 1;
+      margin-bottom: 10px;
+      padding-left: 10px; }
+    main #entries .information-list .information > div:nth-child(3) label, main #entries .information-list .information > div:nth-child(4) label, main #entries .information-list .information > div:nth-child(5) label, main #entries .information-list .information > div:nth-child(6) label, main #entries .information-list .information > div:nth-child(7) label {
+      display: block;
+      padding: 6px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      margin-bottom: 10px; }
 
 /*# sourceMappingURL=entries.css.map */
