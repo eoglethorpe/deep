@@ -1,4 +1,5 @@
 import requests
+import string
 import html
 import tempfile
 
@@ -76,7 +77,8 @@ class HtmlStripper:
 
         regex = re.compile('\n*', flags=re.IGNORECASE)
         html = regex.sub('', html)
-        return "".join(filter(lambda x: x in string.printable, html))
+        x = "".join(filter(lambda x: x in string.printable, html))
+        return x
 
 
 class PdfStripper:
