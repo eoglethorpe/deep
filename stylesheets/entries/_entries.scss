@@ -50,7 +50,9 @@
     padding: 0 16px;
 
     .entry{
-        border: 1px solid rgba(0, 0, 0, 0.05);
+        //border: 1px solid rgba(0, 0, 0, 0.05);
+        margin-bottom: 16px;
+        box-shadow: 0 3px 10px 1px rgba(0, 0, 0, 0.3);
 
         .entry-header{
             padding: 16px;
@@ -58,7 +60,7 @@
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            background-color: $primary-color;
+            background-color: #555;
             color: #fff;
 
             h2{
@@ -82,7 +84,6 @@
                     text-align: center;
                     margin-left: 10px;
                     background-color: #fff;
-                    @include btn-shadow-sm;
                 }
                 .delete-btn{ color: red; }
                 .edit-btn{ color: black; }
