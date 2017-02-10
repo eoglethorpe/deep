@@ -105,16 +105,12 @@
                         }
                     }
                     .selectize-control{
-                        margin-bottom: 8px!important;
+                        margin-bottom: 8px;
 
                         .selectize-input{
                             height: 32px;
                             border-radius: 3px;
-
-                            input{
-                                margin-top: 4px!important;
-                                padding: 0 4px!important;
-                            }
+                            padding: 6px 4px;
                         }
                     }
                 }

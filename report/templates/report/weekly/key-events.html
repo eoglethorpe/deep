@@ -19,7 +19,6 @@
             <div class="col"><input type="date" class="end-date"></div>
             <div class="col">
                 <select class="category-select" placeholder="Select category">
-                    <option>Select category</option>
                     {% for category in category_timelines %}
                         <option value="{{category.pk}}">{{category}}</option>
                     {% endfor %}

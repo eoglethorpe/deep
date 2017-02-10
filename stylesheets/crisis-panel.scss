@@ -136,12 +136,13 @@ body{
         padding: 10px 32px 0 32px;
         @include shadow;
 
-        .selectize-input{
-            height: 32px;
-            border-radius: 3px;
+        .selectize-control{
+            margin-bottom: 8px;
 
-            input{
-                margin-top: 4px!important;
+            .selectize-input{
+                height: 32px;
+                border-radius: 3px;
+                padding: 6px 4px;
             }
         }
 
