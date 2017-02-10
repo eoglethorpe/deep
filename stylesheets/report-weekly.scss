@@ -36,7 +36,7 @@ body{
 aside{
     width: 30%;
     margin-left: 16px;
-    margin-right: 24px;
+    margin-right: 10px;
     float: left;
     background-color: #fff;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -125,34 +125,17 @@ aside{
 main{
     margin-right: 24px;
 
-    // .form-control, .selectize-input{
-    //     border: none;
-    //     border: 1px solid rgba(0, 0, 0, 0.1);
-    //     box-shadow: none;
-    //     border-radius: 3px;
-    //
-    //     &:active, &:focus {
-    //         border: 1px solid $primary-color;
-    //     }
-    // }
-    // .focus{
-    //     border: 1px solid $primary-color;
-    // }
-    // .selectize-dropdown-content{
-    //     .option{
-    //         color: $label-color;
-    //         padding: 10px;
-    //         line-height: 1;
-    //     }
-    // }
     #navigator{
         height: 56px;
-        border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+        //border-bottom: 2px solid rgba(0, 0, 0, 0.05);
         display: flex;
         align-items: stretch;
         justify-content: space-between;
         box-sizing: border-box;
         padding: 0 10px;
+        background-color: #fff;
+        box-shadow: 0 -2px 13px -3px rgba(0, 0, 0, 0.3);
+
 
         a{
             flex-grow: 1;
@@ -166,7 +149,10 @@ main{
     }
     #report-content{
         height: calc(100vh - #{$navbar-height} - #{$header-height} - 56px);
+        padding: 0 16px;
         overflow-y: auto;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 13px -3px rgba(0, 0, 0, 0.3);
 
         h5{
             text-transform: uppercase;

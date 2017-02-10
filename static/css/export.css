@@ -98,6 +98,8 @@ nav {
         border-style: solid;
         border-width: 5px 5px 0 5px;
         border-color: #808080 transparent transparent transparent; }
+    nav #crisis-wrapper a {
+      vertical-align: middle; }
   nav .dropdown ul li a {
     padding-top: 8px;
     padding-bottom: 8px; }
@@ -191,7 +193,7 @@ nav {
           #main #export-entries #export-entries-doc #filters > div .selectize-control {
             margin-bottom: 8px; }
             #main #export-entries #export-entries-doc #filters > div .selectize-control .selectize-input {
-              height: 32px;
+              min-height: 32px;
               border-radius: 3px;
               padding: 6px 4px; }
         #main #export-entries #export-entries-doc #filters #severity-filter-container, #main #export-entries #export-entries-doc #filters #reliability-filter-container {
