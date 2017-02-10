@@ -1,4 +1,6 @@
 #visualizations{
+    padding: 0 16px;
+
     .visualization-block{
         background-color: #fff;
         margin-bottom: 4px;
@@ -256,7 +258,7 @@
 
         #the-map {
             position: relative;
-            height: 540px;
+            height: 538px;
 
             #map-shadow-overlay{
                 pointer-events:none;
