@@ -397,21 +397,25 @@ main {
         box-shadow: none;
         border: 1px solid transparent;
         box-sizing: border-box;
-        padding: 6px 10px; }
+        padding: 3px 5px; }
       main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .sub, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .sub, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .sub {
         padding-left: 24px;
         font-weight: 400; }
       main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field > *, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield > *, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child > * {
         flex-basis: 23%;
         box-sizing: border-box;
-        margin: 10px 0; }
+        margin: 8px 0; }
       main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field > a, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield > a, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child > a {
         flex-basis: 24px;
         cursor: pointer; }
       main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field > div, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield > div, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child > div {
         flex-basis: 100%; }
-    main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child input {
-      border: 1px solid rgba(0, 0, 0, 0.2); }
+    main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child {
+      margin: 0 0 8px 0; }
+      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child input {
+        border: 1px solid rgba(0, 0, 0, 0.2); }
+      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child > * {
+        margin: 0 !important; }
     main #report-content #humanitarian-profile #humanitarian-profile-field-error {
       padding: 16px;
       text-align: center;
