@@ -375,7 +375,7 @@ $(document).ready(function(){
 
 
     // scroll to active country
-    $('#countries').scrollTop($('#countries .active').position().top - $('#countries .active').height());
+    $('#countries').scrollTop($('#countries .active').position().top - $('#countries .active').height()*2);
 
     // change event
     $('#select-event').change(function() {
