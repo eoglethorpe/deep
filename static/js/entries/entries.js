@@ -129,8 +129,10 @@ function renderEntries() {
 
         entryElement.find('.delete-btn').unbind().click(function(entry){
             return function() {
-                var data = { id: entry.id };
-                redirectPost("/" + eventId + "/entries/delete/", data, csrf_token);
+                if (confirm('Are you sure you want to delete the entry?')) {
+                    var data = { id: entry.id };
+                    redirectPost("/" + eventId + "/entries/delete/", data, csrf_token);
+                }
             }
         }(entry));
     }
