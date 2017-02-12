@@ -33,6 +33,8 @@ $(document).ready(function() {
         $('#last-modified').show();
         $('#last-modified').find('span').text(country.last_modified);
 
+        loadMediaSources(country.media_sources);
+
         $('.number').each(function(){
             formatNumber($(this));
         });
@@ -134,16 +136,13 @@ $(document).ready(function() {
         $('.number').each(function() {
             $(this).val(getNumberValue($(this)));
         });
+
+        $('#media-sources-input').val(JSON.stringify(getMediaSources()));
         return true;
     });
 
     $('#media-sources').on('click', '.add-new-source-btn', function(){
-        let container = $(this).parent().parent();
-        let mediaSourceElement = $('.media-source-template').clone();
-        mediaSourceElement.removeClass('media-source-template');
-        mediaSourceElement.addClass('media-source');
-        mediaSourceElement.appendTo(container);
-        mediaSourceElement.slideDown();
+        addMediaSource($(this).parent().parent());
     });
 
     $('#media-sources').on('click', '.remove-source-btn', function(){
@@ -177,6 +176,8 @@ function addNewCountry() {
     $('#population-source').val(null);
     $('#last-modified').hide();
     $('#last-modified').val(null);
+
+    loadMediaSources({});
 
     $('#admin-levels-container').empty();
     addNewAdminLevel();
@@ -262,4 +263,57 @@ function calculateUprootedScore() {
         uprootedScore = 3;
 
     $('#uprooted-geo-score').val(uprootedScore);
+}
+
+function addMediaSource(container) {
+    let firstSource = container.find('.media-source').length == 0;
+    let mediaSourceElement = $('.media-source-template').clone();
+    mediaSourceElement.removeClass('media-source-template');
+    mediaSourceElement.addClass('media-source');
+    mediaSourceElement.appendTo(container);
+
+    if (firstSource) {
+        mediaSourceElement.find('a').remove();
+    }
+    return mediaSourceElement;
+}
+
+function loadMediaSourcesFor(container, data, key) {
+    container.find('.media-source').remove();
+    if (!data[key] || data[key].length == 0) {
+        addMediaSource(container);
+    }
+    else {
+        for (let i=0; i<data[key].length; i++) {
+            let source = data[key][i];
+            let element = addMediaSource(container);
+            element.find('.name').val(source["name"]);
+            element.find('.link').val(source["link"]);
+        }
+    }
+}
+
+function loadMediaSources(data) {
+    loadMediaSourcesFor($('#specialized-sources'), data, 'Specialized');
+    loadMediaSourcesFor($('#newspaper-sources'), data, 'Newspaper');
+    loadMediaSourcesFor($('#twitter-sources'), data, 'Twitter');
+}
+
+function getMediaSOurcesFor(container, data, key) {
+    let elements = container.find('.media-source');
+    data[key] = [];
+    elements.each(function(){
+        data[key].push({
+            "name": $(this).find('.name').val(),
+            "link": $(this).find('.link').val()
+        })
+    });
+}
+
+function getMediaSources() {
+    let data = {};
+    getMediaSOurcesFor($('#specialized-sources'), data, 'Specialized');
+    getMediaSOurcesFor($('#newspaper-sources'), data, 'Newspaper');
+    getMediaSOurcesFor($('#twitter-sources'), data, 'Twitter');
+    return data;
 }

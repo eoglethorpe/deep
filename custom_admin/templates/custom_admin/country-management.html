@@ -39,6 +39,7 @@ DEEP | Country Panel
             inform_lack_of_coping_capacity: '{{country.inform_lack_of_coping_capacity}}',
             total_population: '{{country.total_population}}',
             last_modified: '{{country.modified_at|date:"Y-m-d h:i A"}}',
+            media_sources: JSON.parse("{{country.media_sources|escapejs}}"),
             // Admin areas
             admin_levels: [
                 {% for admin_level in country.adminlevel_set.all %}
@@ -214,39 +215,28 @@ DEEP | Country Panel
                 <h1>Seasonal-Calender</h1>
             </div>
             <div class="media-source-template" hidden>
-                <input class="specialized-name" name="specialized" type="text"  placeholder="Enter Source Name.." >
+                <input class="name" type="text"  placeholder="Enter Source Name.." >
                 <a class="remove-source-btn fa fa-minus"></a>
-                <input class="specialized-link" name="specialized" type="url"  placeholder="Enter Soure Link.." >
+                <input class="link" type="url"  placeholder="Enter Source Link.." >
             </div>
+            <input name="media-sources" id="media-sources-input" type="hidden">
             <div id="media-sources" hidden>
-                <div>
+                <div id="specialized-sources">
                     <div class="media-source-header">
                         <label>Specialized</label>
                         <a class="add-new-source-btn fa fa-plus"></a>
                     </div>
-                    <div class="media-source">
-                        <input class="specialized-name" name="specialized" type="text"  placeholder="Enter Source Name.." >
-                        <input class="specialized-link" name="specialized" type="url"  placeholder="Enter Soure Link.." >
-                    </div>
                 </div>
-                <div>
+                <div id="newspaper-sources">
                     <div class="media-source-header">
                         <label>Newspaper</label>
                         <a class="add-new-source-btn fa fa-plus"></a>
                     </div>
-                    <div class="media-source">
-                        <input class="newspaper-name" name="newspaper" type="text" placeholder="Enter Source Name.." >
-                        <input class="newspaper-link" name="newspaper" type="url" placeholder="Enter Soure Link.." >
-                    </div>
                 </div>
-                <div>
+                <div id="twitter-sources">
                     <div class="media-source-header">
                         <label>Twitter</label>
                         <a class="add-new-source-btn fa fa-plus"></a>
-                    </div>
-                    <div class="media-source">
-                        <input class="twitter-name" name="Twitter" type="text" placeholder="Enter Source Name.." >
-                        <input class="twitter-link" name="Twitter" type="url" placeholder="Enter Soure Link.." >
                     </div>
                 </div>
             </div>
