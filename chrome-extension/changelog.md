@@ -1,5 +1,9 @@
 ## Change log
 
+### v2.0.3
+
+* Fix synchronization issues
+
 ### v2.0.2
 
 * Add event auto selection based on country for reliefweb.net
