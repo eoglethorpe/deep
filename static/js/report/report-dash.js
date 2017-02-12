@@ -435,8 +435,8 @@ $(document).ready(function(){
         var countryList = $('#countries');
         var countryListItems = countryList.children('.country').get();
         countryListItems.sort(function(a, b){
-            var textA = $(a).find(sortQuery).text().toLowerCase().replace(/\s/g, '');
-            var textB = $(b).find(sortQuery).text().toLowerCase().replace(/\s/g, '');
+            var textA = $(a).find(sortQuery).text().replace(/\s/g, '');
+            var textB = $(b).find(sortQuery).text().replace(/\s/g, '');
             if( isNaN(parseFloat(textA)) ){
                 return sortAsc? ((textA > textB)? 1: (textB > textA)? -1: 0) : ((textB > textA)? 1: (textA > textB)? -1: 0);
             }
