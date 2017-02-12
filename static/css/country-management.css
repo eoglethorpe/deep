@@ -46,7 +46,7 @@ body {
     text-transform: uppercase;
     margin: 0;
     vertical-align: middle; }
-  body input[type="text"], body input[type="number"] {
+  body input[type="text"], body input[type="number"], body input[type="url"] {
     width: 100%;
     height: 32px;
     padding: 0 16px;
@@ -54,7 +54,7 @@ body {
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 3px;
     background-color: #fff; }
-    body input[type="text"]:focus, body input[type="number"]:focus {
+    body input[type="text"]:focus, body input[type="number"]:focus, body input[type="url"]:focus {
       border-color: #008080; }
   body header {
     flex-basis: 100%;
@@ -135,7 +135,7 @@ body {
       align-items: center;
       justify-content: space-between; }
       body main #navigator > div {
-        flex-basis: 50%; }
+        flex-basis: 60%; }
         body main #navigator > div:last-child {
           flex-basis: 23%; }
       body main #navigator a {
@@ -289,5 +289,38 @@ body {
       padding: 24px;
       overflow-y: scroll;
       overflow-x: hidden; }
+    body main #content-wrapper #media-sources {
+      background-color: #fff;
+      height: calc(100vh - 56px - 48px);
+      padding: 24px;
+      display: flex;
+      justify-content: space-between; }
+      body main #content-wrapper #media-sources > div {
+        flex-basis: 33%; }
+        body main #content-wrapper #media-sources > div .media-source-header {
+          padding: 10px 24px;
+          margin-bottom: 10px;
+          display: flex;
+          justify-content: space-between; }
+          body main #content-wrapper #media-sources > div .media-source-header a {
+            cursor: pointer;
+            margin: 0; }
+        body main #content-wrapper #media-sources > div label {
+          flex-basis: 100%; }
+        body main #content-wrapper #media-sources > div .media-source {
+          padding: 10px 24px;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          align-items: center; }
+          body main #content-wrapper #media-sources > div .media-source input {
+            flex-basis: 90%; }
+            body main #content-wrapper #media-sources > div .media-source input:not(:last-child) {
+              margin-bottom: 10px; }
+          body main #content-wrapper #media-sources > div .media-source a {
+            color: #e04756;
+            cursor: pointer; }
+          body main #content-wrapper #media-sources > div .media-source:nth-child(odd) {
+            background-color: #f0f0f0; }
 
 /*# sourceMappingURL=country-management.css.map */

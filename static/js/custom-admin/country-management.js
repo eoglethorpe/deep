@@ -79,6 +79,10 @@ $(document).ready(function() {
     $('#add-new-admin-level').click(function() {
         addNewAdminLevel();
     });
+    $('#add-new-source').click(function() {
+        addNewSource();
+    });
+
 
     if ($('.country.active').length > 0)
         $('.country.active').click();
@@ -131,6 +135,19 @@ $(document).ready(function() {
             $(this).val(getNumberValue($(this)));
         });
         return true;
+    });
+
+    $('#media-sources').on('click', '.add-new-source-btn', function(){
+        let container = $(this).parent().parent();
+        let mediaSourceElement = $('.media-source-template').clone();
+        mediaSourceElement.removeClass('media-source-template');
+        mediaSourceElement.addClass('media-source');
+        mediaSourceElement.appendTo(container);
+        mediaSourceElement.slideDown();
+    });
+
+    $('#media-sources').on('click', '.remove-source-btn', function(){
+        $(this).parent().remove();
     });
 });
 

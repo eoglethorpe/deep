@@ -84,6 +84,7 @@ DEEP | Country Panel
                 <a data-target="#key-figures">Key figures</a>
                 <a data-target="#population-data">Population Data</a>
                 <a data-target="#seasonal-calendar">Seasonal calendar</a>
+                <a data-target="#media-sources">Media Sources</a>
             </div>
             <div>
                 <button id="delete-btn" name="delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this country?');"><i class="fa fa-trash"></i>Delete country</button>
@@ -211,6 +212,43 @@ DEEP | Country Panel
             </div>
             <div id="seasonal-calendar" hidden>
                 <h1>Seasonal-Calender</h1>
+            </div>
+            <div class="media-source-template" hidden>
+                <input class="specialized-name" name="specialized" type="text"  placeholder="Enter Source Name.." >
+                <a class="remove-source-btn fa fa-minus"></a>
+                <input class="specialized-link" name="specialized" type="url"  placeholder="Enter Soure Link.." >
+            </div>
+            <div id="media-sources" hidden>
+                <div>
+                    <div class="media-source-header">
+                        <label>Specialized</label>
+                        <a class="add-new-source-btn fa fa-plus"></a>
+                    </div>
+                    <div class="media-source">
+                        <input class="specialized-name" name="specialized" type="text"  placeholder="Enter Source Name.." >
+                        <input class="specialized-link" name="specialized" type="url"  placeholder="Enter Soure Link.." >
+                    </div>
+                </div>
+                <div>
+                    <div class="media-source-header">
+                        <label>Newspaper</label>
+                        <a class="add-new-source-btn fa fa-plus"></a>
+                    </div>
+                    <div class="media-source">
+                        <input class="newspaper-name" name="newspaper" type="text" placeholder="Enter Source Name.." >
+                        <input class="newspaper-link" name="newspaper" type="url" placeholder="Enter Soure Link.." >
+                    </div>
+                </div>
+                <div>
+                    <div class="media-source-header">
+                        <label>Twitter</label>
+                        <a class="add-new-source-btn fa fa-plus"></a>
+                    </div>
+                    <div class="media-source">
+                        <input class="twitter-name" name="Twitter" type="text" placeholder="Enter Source Name.." >
+                        <input class="twitter-link" name="Twitter" type="url" placeholder="Enter Soure Link.." >
+                    </div>
+                </div>
             </div>
         </div>
     </form>
