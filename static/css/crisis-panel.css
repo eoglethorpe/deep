@@ -10,17 +10,17 @@
   background-color: rgba(0, 0, 0, 0.24); }
 
 body {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Roboto', sans-serif;
   background-color: #f0f0f0;
   color: #414141;
-  font-size: 14px;
-  line-height: 1.5; }
+  font-size: 13px;
+  line-height: 1.8; }
   body h1, body h2, body h3 {
     font-weight: 400; }
   body h1 {
-    font-size: 18px; }
+    font-size: 19px; }
   body h2 {
-    font-size: 16px; }
+    font-size: 17px; }
   body h3 {
     font-size: 15px; }
   body a, body a:hover, body a:active, body a:visited, body a:focus {
@@ -33,9 +33,9 @@ body {
     border-radius: 3px;
     transition: 0.2s all ease-in-out; }
   body label {
-    color: #767676;
+    color: #818181;
     text-transform: uppercase;
-    font-size: 12px; }
+    font-size: 11px; }
 
 body {
   display: flex;
@@ -72,8 +72,8 @@ body {
       border-bottom: 1px solid rgba(0, 0, 0, 0.3); }
       body aside #crisis-header h2 {
         flex-basis: 60%;
-        font-weight: 600;
-        font-size: 18px; }
+        font-weight: 500;
+        font-size: 19px; }
       body aside #crisis-header button {
         flex-basis: 30%;
         box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
@@ -108,7 +108,7 @@ body {
           padding: 6px 16px;
           margin-bottom: 0;
           cursor: pointer;
-          color: #767676;
+          color: #818181;
           vertical-align: bottom;
           user-select: none; }
         body aside #crisis-header #crisis-status-radio .active {
@@ -146,8 +146,8 @@ body {
     body main form {
       padding: 10px 16px; }
       body main form h2 {
-        font-weight: 600;
-        font-size: 18px;
+        font-weight: 500;
+        font-size: 19px;
         margin-bottom: 32px; }
       body main form > div {
         margin-bottom: 8px; }
@@ -180,7 +180,7 @@ body {
       body main form #crisis-status-wrapper label {
         margin-right: 16px;
         cursor: pointer;
-        color: #767676;
+        color: #818181;
         vertical-align: bottom; }
       body main form #crisis-status-wrapper .crisis-status {
         margin: 5px; }

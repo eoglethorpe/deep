@@ -11,17 +11,17 @@
   background-color: rgba(0, 0, 0, 0.24); }
 
 body {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Roboto', sans-serif;
   background-color: #f0f0f0;
   color: #414141;
-  font-size: 14px;
-  line-height: 1.5; }
+  font-size: 13px;
+  line-height: 1.8; }
   body h1, body h2, body h3 {
     font-weight: 400; }
   body h1 {
-    font-size: 18px; }
+    font-size: 19px; }
   body h2 {
-    font-size: 16px; }
+    font-size: 17px; }
   body h3 {
     font-size: 15px; }
   body a, body a:hover, body a:active, body a:visited, body a:focus {
@@ -34,9 +34,9 @@ body {
     border-radius: 3px;
     transition: 0.2s all ease-in-out; }
   body label {
-    color: #767676;
+    color: #818181;
     text-transform: uppercase;
-    font-size: 12px; }
+    font-size: 11px; }
 
 nav {
   background-color: #004d4d;
@@ -58,14 +58,14 @@ nav {
     color: rgba(255, 255, 255, 0.7);
     transition: 0.2s all ease-in-out;
     text-align: center;
-    font-size: 14px;
+    font-size: 13px;
     height: 56px;
     padding: 0 16px;
-    padding-top: calc(calc(56px - 14px - 8px) / 2); }
+    padding-top: calc(calc(56px - 13px - 8px) / 2); }
     nav .menu-item.active {
       border-bottom: 2px solid #fff;
       color: #fff;
-      font-weight: 600; }
+      font-weight: 500; }
   nav a:hover, nav a:active, nav button:hover, nav button:active {
     color: #fff; }
   nav button, nav button:visited {
@@ -73,7 +73,7 @@ nav {
     border: none;
     color: rgba(255, 255, 255, 0.7);
     font-weight: 400;
-    font-size: 14px; }
+    font-size: 13px; }
     nav button .fa, nav button:visited .fa {
       margin-right: 10px; }
     nav button .caret, nav button:visited .caret {
@@ -142,7 +142,7 @@ main {
         cursor: pointer;
         height: 100%;
         vertical-align: baseline;
-        padding-top: calc(calc(56px - 13px) / 2); }
+        padding-top: calc(calc(56px - 12px) / 2); }
       main #country-panel #country-panel-header #crisis-status .active {
         color: #008080;
         border-bottom: 2px solid #008080; }
@@ -194,6 +194,10 @@ main {
       overflow: hidden;
       overflow-y: scroll;
       backface-visibility: hidden; }
+      main #country-panel #country-list #countries .name {
+        font-weight: 500; }
+      main #country-panel #country-list #countries .events {
+        color: #818181; }
       main #country-panel #country-list #countries .country {
         min-height: 100px;
         display: flex;
@@ -220,7 +224,8 @@ main {
           flex-basis: 8%; }
           main #country-panel #country-list #countries .country .assigned-to span {
             display: block;
-            font-size: 13px; }
+            font-size: 11px;
+            color: #818181; }
             main #country-panel #country-list #countries .country .assigned-to span .fa {
               margin-right: 4px; }
         main #country-panel #country-list #countries .country .fa {
@@ -319,7 +324,7 @@ main {
         main #weekly-report-panel #weekly-report-list #weekly-reports .weekly-report h4 {
           flex-basis: 16%;
           margin: 0;
-          font-size: 14px; }
+          font-size: 13px; }
         main #weekly-report-panel #weekly-report-list #weekly-reports .weekly-report p {
           margin: 0; }
         main #weekly-report-panel #weekly-report-list #weekly-reports .weekly-report date {
