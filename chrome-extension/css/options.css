@@ -113,6 +113,9 @@ main #status-text i{
     float: left;
     margin-right: 24px;
 }
+#about #changelog-container {
+    margin-top: 56px;
+}
 #usage-guide img{
     width: 18px;
     vertical-align: sub;

@@ -28,7 +28,6 @@ function styleMapFeature(feature) {
             color_temp = '#3992fd';
         }
         else{
-            console.log(feature.properties.iso_a3);
             color_temp = '#f44336';
         }
     }

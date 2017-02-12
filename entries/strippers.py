@@ -1,8 +1,3 @@
-import requests
-import string
-import html
-import tempfile
-
 from django.conf import settings
 
 from readability.readability import Document
@@ -14,8 +9,14 @@ from pdfminer.layout import LAParams
 
 # import textract
 
+import requests
+import string
+import html
+import tempfile
+
 import re
 import shutil
+import unicodedata
 
 
 class StripError(Exception):
@@ -77,8 +78,7 @@ class HtmlStripper:
 
         regex = re.compile('\n*', flags=re.IGNORECASE)
         html = regex.sub('', html)
-        x = "".join(filter(lambda x: x in string.printable, html))
-        return x
+        return html
 
 
 class PdfStripper:

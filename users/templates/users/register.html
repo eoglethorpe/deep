@@ -12,53 +12,49 @@ DEEP | Register
 {% block body %}
 <div id="background"></div>
 <main>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div id="wrapper">
-                    <header>
-                        <img src="{% watchful_static_url 'img/deep-logo-header.png' %}">
-                    </header>
-                    <form method="post">
-                        {% csrf_token %}
-                        {% if error %}
-                            <div id="error">{{ error }}</div>
-                        {% endif %}
-                        <!-- The registration form -->
-                        <!-- TODO: Client side form validation: password matching, valid email etc. -->
+    <form method="post">
+        {% csrf_token %}
+        <header>
+            <h1>Data entry and extraction platform</h1>
+            <!-- <img src="{% watchful_static_url 'img/deep-logo-header.png' %}"> -->
+        </header>
+        {% if error %}
+            <div id="error"><i class="fa fa-exclamation-triangle"></i>{{ error }}</div>
+        {% endif %}
+        <!-- The registration form -->
+        <!-- TODO: Client side form validation: password matching, valid email etc. -->
 
-                        <div class="form-group">
-                            <label>First name</label>
-                            <input class="form-control" type="text" placeholder="First Name" name="first-name" {% if first_name %}value="{{first_name}}"{% endif %} required>
-                        </div>
-                        <div class="form-group">
-                            <label>Last name</label>
-                            <input class="form-control" type="text" placeholder="Last Name" name="last-name" {% if last_name %}value="{{last_name}}"{% endif %} required>
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input class="form-control" type="text" placeholder="Email" name="email" {% if email %}value="{{email}}"{% endif %} required>
-                        </div>
-                        <div class="form-group">
-                            <label>Organization</label>
-                            <input class="form-control" type="text" placeholder="Organization" name="organization" {% if organization %}value="{{organization}}"{% endif %}>
-                        </div>
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input class="form-control" type="password" placeholder="Password" name="password" required>
-                        <div class="form-group">
-                        </div>
-                            <label>Confirm password</label>
-                            <input class="form-control" type="password" placeholder="Retype Password" name="re-password" required>
-                        </div>
-                        <div class="action">
-                            <input type="submit" class="btn btn-primary" value="Register">
-                        </div>
-                    </form>
-                    <p>Register for new account or <a href="/login">Login</a></p>
-                </div>
-            </div>
+        <div>
+            <label>First name</label>
+            <input type="text" placeholder="First Name" name="first-name" {% if first_name %}value="{{first_name}}"{% endif %} required>
         </div>
-    </div>
+        <div>
+            <label>Last name</label>
+            <input type="text" placeholder="Last Name" name="last-name" {% if last_name %}value="{{last_name}}"{% endif %} required>
+        </div>
+        <div>
+            <label>Email</label>
+            <input type="text" placeholder="Email" name="email" {% if email %}value="{{email}}"{% endif %} required>
+        </div>
+        <div>
+            <label>Organization</label>
+            <input type="text" placeholder="Organization" name="organization" {% if organization %}value="{{organization}}"{% endif %}>
+        </div>
+        <div>
+            <label>Password</label>
+            <input type="password" placeholder="Password" name="password" required>
+        </div>
+        <div>
+            <label>Confirm password</label>
+            <input type="password" placeholder="Retype Password" name="re-password" required>
+        </div>
+        <div id="action-buttons">
+            <div></div>
+            <button type="submit">Register</button>
+        </div>
+        <div>
+            Already have an account? <a href="/login">Login</a>
+        </div>
+    </form>
 </main>
 {% endblock %}

@@ -347,7 +347,6 @@ class AddLead(View):
             context["error"] = error
             return render(request, "leads/add-lead.html",
                           context)
-        print(request.POST)
         if "redirect-url" in request.POST:
             return JsonResponse({
                 "url": reverse('entries:add', args=[event, lead.pk])
