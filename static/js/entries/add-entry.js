@@ -751,7 +751,11 @@ $(document).ready(function(){
     refreshExcerpts();
 
     // Excerpt text handler
-    $("#excerpt-text").on('paste drop change keyup', function() {
+    $("#excerpt-text").on('change input keyup', function() {
+        excerpts[selectedExcerpt].excerpt = $(this).val();
+        refreshExcerpts();
+    });
+    $("#excerpt-text").on('paste drop', function() {
         excerpts[selectedExcerpt].excerpt = reformatText($(this).val());
         refreshExcerpts();
     });

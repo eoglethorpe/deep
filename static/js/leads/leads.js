@@ -140,7 +140,7 @@ $(document).ready(function() {
 
             $('#confidentiality-filter').on('change', function(){
                 confidentiality_col
-                    .search( $(this).val() ? + '^.*' + $(this).val() + '.*$' : '')
+                    .search( $(this).val() ? '^'+$(this).val()+'$' : '', true, false )
                     .draw();
             });
 
@@ -177,8 +177,10 @@ $(document).ready(function() {
             });
 
             $('#date-created-filter').on('focus', function () {
+                last_date_filter = "#date-created-filter";
                 previous_date_created = $(this).val();
             }).change(function() {
+                last_date_filter = "#date-created-filter";
                 if($(this).val() == 'range'){
                     $("#date-range-input").modal('show');
                 } else {
@@ -187,8 +189,10 @@ $(document).ready(function() {
             });
 
             $('#date-published-filter').on('focus', function () {
+                last_date_filter = "#date-published-filter";
                 previous_date_created = $(this).val();
             }).change(function() {
+                last_date_filter = "#date-published-filter";
                 if($(this).val() == 'range'){
                     $("#date-range-input").modal('show');
                 } else {

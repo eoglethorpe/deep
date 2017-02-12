@@ -25,12 +25,14 @@ var extension = {
     },
 
     init: function(){
+        var defer = new $.Deferred();
         extension.getCurrentTabUrl(function(){
             extension.loadUrl();
             extension.loadWebsite();
             extension.loadTitle();
-            deep.queryCurrentPage();
+            // deep.queryCurrentPage();
             extension.restoreInputValues();
+            defer.resolve();
         });
         $('input').on('change textInput input', function(){
             extension.storeInputValue($(this));
@@ -41,6 +43,7 @@ var extension = {
                 deep.currentEvent = $(this).val();
             }
         });
+        defer.promise();
     },
     loadTitle: function(){
         if (extension.currentTabUrl && extension.currentPage) {

@@ -15,6 +15,13 @@ window.onload = function(){
     });
     document.getElementById('save-btn').addEventListener('click', saveOptions);
     loadOptions();
+
+    // Display changelog
+    var changelogObject = document.getElementById('changelog-md');
+    changelogObject.onload = function() {
+        var converter = new showdown.Converter();
+        document.getElementById('changelog-container').innerHTML = converter.makeHtml(changelogObject.contentDocument.querySelector('pre').innerText);
+    };
 }
 
 function saveOptions(){

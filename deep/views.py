@@ -45,10 +45,18 @@ class DateExtractorView(View):
         link = request.GET['link']
 
         # Also get the date and check if lead already exists for this link
-        date, source = date_extractor.extractArticlePublishedDate(link)
+        date, source, country = date_extractor.extractArticlePublishedDate(link)
         if not date:
             date = ""
         else:
             date = date.strftime("%Y-%m-%d")
+
+        event = None
+        if country:
+            try:
+                event = Event.objects.get(countries__name=country).pk
+            except:
+                event = None
+
         exists = Lead.objects.filter(url=link)
-        return JsonResponse({'date': date, 'source': source, 'lead_exists': exists.count()>0})
+        return JsonResponse({'date': date, 'source': source, 'lead_exists': exists.count()>0, 'event': event})

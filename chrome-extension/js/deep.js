@@ -108,6 +108,11 @@ var deep = {
                     $('#duplicate-lead-warning').hide();
                 }
 
+                // event for the country referenced in this page
+                if (response.event) {
+                    $('#event-select').val(response.event);
+                    refreshSelectInputs();
+                }
             }
         });
     }
