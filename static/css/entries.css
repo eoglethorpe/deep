@@ -487,15 +487,16 @@ main #entry-filters {
 main #entries {
   padding: 0 16px; }
   main #entries .entry {
+    border: 1px solid rgba(0, 0, 0, 0.1);
     margin-bottom: 16px;
     box-shadow: 0 3px 10px 1px rgba(0, 0, 0, 0.3); }
     main #entries .entry .entry-header {
-      padding: 16px;
+      padding: 10px 16px;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      background-color: #555;
+      background-color: #666;
       color: #fff; }
       main #entries .entry .entry-header h2 {
         margin: 0;
@@ -513,9 +514,15 @@ main #entries {
         height: 32px;
         font-size: 19px;
         padding-top: calc(calc(32px - 19px) / 2);
+        margin-top: 6px;
         text-align: center;
         margin-left: 10px;
-        background-color: #fff; }
+        background-color: #fff;
+        border-radius: 3px;
+        cursor: pointer;
+        box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+        main #entries .entry .entry-header div a:active {
+          box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
       main #entries .entry .entry-header div .delete-btn {
         color: red; }
       main #entries .entry .entry-header div .edit-btn {
