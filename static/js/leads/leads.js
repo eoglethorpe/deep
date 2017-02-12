@@ -140,7 +140,7 @@ $(document).ready(function() {
 
             $('#confidentiality-filter').on('change', function(){
                 confidentiality_col
-                    .search( $(this).val() ? + '^.*' + $(this).val() + '.*$' : '')
+                    .search( $(this).val() ? '^'+$(this).val()+'$' : '', true, false )
                     .draw();
             });
 
