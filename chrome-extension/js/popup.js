@@ -12,13 +12,13 @@ chrome.runtime.onMessage.addListener( function(request, sender) {
 $(document).ready(function(){
     $('#status-text').hide();
 
-    $.when(deep.init()).done(function(){
-        extension.init();
+    $.when(deep.init(), extension.init()).done(function(){
         $.when(deep.getUserStatus()).done(function(){
             // if user is logged in
             if(deep.currentUser != -1){
                 // load event & user list
                 $.when(deep.loadEvents(), deep.loadUsers()).done(function(){
+                    deep.queryCurrentPage();
                     enhanceSelectInputs();
 
                     // hide loader and show the form

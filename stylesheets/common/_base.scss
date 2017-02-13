@@ -15,7 +15,7 @@
 }
 
 body{
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Roboto', sans-serif;
     background-color: $body-background-color;
     color: $text-color;
     font-size: $text-size-md;
@@ -49,5 +49,21 @@ body{
         color: $label-color;
         text-transform: uppercase;
         font-size: $text-size-xs;
+    }
+
+     /*float-alert-toast - position it at the top-center of the screen*/
+    .float-alert-toast {
+        display: none; /* Hidden by default. Visible on click */
+        min-width: 250px; /* Set a default minimum width */
+        margin-left: -125px; /* Divide value of min-width by 2 */
+        background-color: #333; /* Black background color */
+        color: #fff; /* White text color */
+        text-align: center; /* Centered text */
+        border-radius: 2px; /* Rounded borders */
+        padding: 16px; /* Padding */
+        position: fixed; /* Sit on top of the screen */
+        z-index: 1; /* Add a z-index if needed */
+        right: 10%; /* Towards the right */
+        top: 30px; /* 30px from the top */
     }
 }

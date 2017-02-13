@@ -107,9 +107,9 @@ $(document).ready(function() {
             { data: null,width: "5%", render: function(data, type, row) { return statuses[data.status]; } },
             { data: null,width: "10%",render: function(data, type, row){
                 var getPendingBtn = function(){
-                    return (data.status == "PEN") ? '<a class="btn btn-default btn-action btn-mark-processed" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Mark Processed" onclick="markProcessed('+data.id+', \'PRO\');"><i class="fa fa-exclamation-triangle"></i>  </a>' : '<a class="btn btn-default btn-action btn-mark-pending" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Mark Pending" onclick="markProcessed('+data.id+', \'PEN\');"><i class="fa fa-check"></i></a>';
+                    return (data.status == "PEN") ? '<a class=" btn-action btn-mark-processed" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Mark Processed" onclick="markProcessed('+data.id+', \'PRO\');"><i class="fa fa-exclamation-triangle fa-lg"></i>  </a>' : '<a class=" btn-action btn-mark-pending" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Mark Pending" onclick="markProcessed('+data.id+', \'PEN\');"><i class="fa fa-check fa-lg"></i></a>';
                 };
-                return '<a class="btn btn-default btn-action btn-add-entry" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Add Entry" href="/'+currentEvent+'/entries/add/'+data.id+'"><i class="fa fa-share"></i></a> <a class="btn btn-default btn-action btn-edit" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Edit Lead" href="/'+currentEvent+'/leads/edit/'+data.id+'"><i class="fa fa-edit"></i></a>'+getPendingBtn();
+                return '<a class=" btn-action btn-add-entry" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Add Entry" href="/'+currentEvent+'/entries/add/'+data.id+'"><i class="fa fa-share fa-lg"></i></a> <a class=" btn-action btn-edit fa-lg" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Edit Lead" href="/'+currentEvent+'/leads/edit/'+data.id+'"><i class="fa fa-edit"></i></a>'+getPendingBtn();
 
             }}
         ],
@@ -140,7 +140,7 @@ $(document).ready(function() {
 
             $('#confidentiality-filter').on('change', function(){
                 confidentiality_col
-                    .search( $(this).val() ? + '^.*' + $(this).val() + '.*$' : '')
+                    .search( $(this).val() ? '^'+$(this).val()+'$' : '', true, false )
                     .draw();
             });
 
@@ -177,8 +177,10 @@ $(document).ready(function() {
             });
 
             $('#date-created-filter').on('focus', function () {
+                last_date_filter = "#date-created-filter";
                 previous_date_created = $(this).val();
             }).change(function() {
+                last_date_filter = "#date-created-filter";
                 if($(this).val() == 'range'){
                     $("#date-range-input").modal('show');
                 } else {
@@ -187,8 +189,10 @@ $(document).ready(function() {
             });
 
             $('#date-published-filter').on('focus', function () {
+                last_date_filter = "#date-published-filter";
                 previous_date_created = $(this).val();
             }).change(function() {
+                last_date_filter = "#date-published-filter";
                 if($(this).val() == 'range'){
                     $("#date-range-input").modal('show');
                 } else {

@@ -7,11 +7,17 @@ body{
 
 main{
     clear: both;
+    position: relative;
 
     #add-lead-btn{
-        @include btn-shadow-lg();
-        float: right;
+        @include btn-shadow-sm();
+        //background-color: $primary-color;
+        //padding: 10px 16px;
+        //1color: #fff;
+        //float: right;
         margin-top: 8px;
+        margin-bottom: 16px;
+        font-weight: $font-weight-bold;
     }
     h1{
         margin: 16px 0!important;
@@ -23,9 +29,12 @@ main{
     #filters{
         width: 80%;
         float: left;
-        margin-bottom: -40px;
+        position: absolute;
+        left: 16px;
+        top: 56px;
         display: flex;
         align-items: center;
+        z-index: 1;
         justify-content: flex-start;
 
         label{
@@ -47,79 +56,121 @@ main{
         }
     }
     #leads-table-wrapper{
-    }
-    thead{
-        tr{
-            th{
-                background-color: #fff;
+        input[type="search"]{
+            height: 28px;
+            padding: 0 8px;
+            outline: none;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+            background-color: #fff;
 
-                &:not(:last-child){
-                    border-right: 1px solid rgba(0, 0, 0, 0.03);
+            &:focus{
+                border-color: $primary-color;
+            }
+        }
+        .sorting {
+            background-image: url("../img/datatables/sort_both.png");
+        }
+        .sorting_asc {
+            background-image: url("../img/datatables/sort_asc.png");
+        }
+        .sorting_desc {
+            background-image: url("../img/datatables/sort_desc.png");
+        }
+        .sorting_asc_disabled {
+            background-image: url("../img/datatables/sort_asc_disabled.png");
+        }
+        .sorting_desc_disabled {
+            background-image: url("../img/datatables/sort_desc_disabled.png");
+        }
+        thead{
+            tr{
+                th{
+                    background-color: #fff;
+                    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+
+                    &:not(:last-child){
+                        border-right: 1px solid rgba(0, 0, 0, 0.03);
+                    }
                 }
             }
         }
-    }
-    #leads-table{
-        tbody{
-            tr[role="row"]{
-                cursor: pointer;
-                td:not(:last-child){
-                    border-right: 1px solid rgba(0, 0, 0, 0.03);
+        .dataTables_scrollBody{
+            border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+        }
+        #leads-table{
+            tbody{
+                tr[role="row"]{
+                    cursor: pointer;
+                    td:not(:last-child){
+                        border-right: 1px solid rgba(0, 0, 0, 0.03);
+                    }
                 }
-            }
-            .odd, .odd+tr:not(.even){
-                background-color: #f5f5f5;
-            }
-            .even, .even+tr:not(.odd){
-                background-color: #fff;
-            }
-            .btn-action{
-                margin: 2px;
-                @include btn-shadow-sm();
-            }
-            .row-detail{
-                padding: 10px 24px;
+                .odd, .odd+tr:not(.even){
+                    background-color: #f5f5f5;
+                }
+                .even, .even+tr:not(.odd){
+                    background-color: #fff;
+                }
+                .btn-action{
+                    margin: 4 px;
+                    //@include btn-shadow-sm();
+                    fa{
+                        margin: 10px;
+                    }
+                }
+                .row-detail{
+                    padding: 10px 24px;
 
-                .fa{
-                    margin-right: 10px;
-                }
-                .extra{
-                    span{
-                        margin-right: 24px;
+                    .fa{
+                        margin-right: 10px;
                     }
-                    margin-bottom: 16px;
-                }
-                label{
-                    margin-right: 10px;
-                    width: 100px;
-                }
-                .lead-content{
-                    white-space: pre-wrap;
-                }
-                button{
-                    margin: 4px;
-                    @include btn-shadow-sm();
-                }
-                .lead-content{
-                    a{
-                        text-transform: none;
+                    .extra{
+                        span{
+                            margin-right: 24px;
+                        }
+                        margin-bottom: 16px;
+                    }
+                    label{
+                        margin-right: 10px;
+                        width: 100px;
+                    }
+                    .lead-content{
+                        white-space: pre-wrap;
+                    }
+                    button{
+                        margin: 4px;
+                        @include btn-shadow-sm();
+                    }
+                    .lead-content{
+                        a{
+                            text-transform: none;
+                        }
                     }
                 }
-            }
-            .btn-add-entry .fa{
-                color: #8e44ad;
-            }
-            .btn-edit .fa{
-                color: #333399;
-            }
-            .btn-mark-processed .fa{
-                color: #cc6600;
-            }
-            .btn-mark-pending .fa{
-                color: #009900;
-            }
-            .btn-delete .fa{
-                color: #e74c3c;
+                .btn-add-entry .fa{
+                    margin-left: 4px;
+                    margin-right: 20px;
+                    color: #8e44ad;
+                }
+                .btn-edit .fa{
+                    margin-left: 4px;
+                    margin-right: 20px;
+                    color: #333399;
+                }
+                .btn-mark-processed .fa{
+                    margin-left: 4px;
+                    margin-right: 20px;
+                    color: #cc6600;
+                }
+                .btn-mark-pending .fa{
+                    margin-left: 4px;
+                    margin-right: 20px;
+                    color: #009900;
+                }
+                .btn-delete .fa{
+                    color: #e74c3c;
+                }
             }
         }
     }

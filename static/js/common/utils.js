@@ -239,7 +239,7 @@ function reformatText(text) {
     // Tab to space
     text = text.replace(/\t/gi, ' ');
     // Anything except ascii TODO: support accents and other utf-8
-    text = text.replace(/[^\x00-\x7F]/g, "");
+    // text = text.replace(/[^\x00-\x7F]/g, "");
     // Single line break to space
     text = text.replace(/([^\n])[ \t]*\n[ \t]*(?!\n)/gi, '$1 ');
     // Multiple spaces to single
@@ -248,7 +248,7 @@ function reformatText(text) {
     text = text.replace(/\n\s*\n\s*(\n\s*)+/gi, '\n\n\n');
     // This weird -? text combo to just -
     text = text.replace(/-\?/gi, '-');
-    return text;
+    return text.trim();
 }
 
 // Migrate object keys based on given model
@@ -266,4 +266,9 @@ function migrate(data, dataModel) {
             }
         }
     }
+}
+
+//TODO: Queue, Callback
+function showToast(msg){
+    $('.float-alert-toast').html(msg).fadeIn().delay(3000).fadeOut(400);
 }

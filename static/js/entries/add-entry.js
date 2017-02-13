@@ -751,7 +751,11 @@ $(document).ready(function(){
     refreshExcerpts();
 
     // Excerpt text handler
-    $("#excerpt-text").on('paste drop change keyup', function() {
+    $("#excerpt-text").on('change input keyup', function() {
+        excerpts[selectedExcerpt].excerpt = $(this).val();
+        refreshExcerpts();
+    });
+    $("#excerpt-text").on('paste drop', function() {
         excerpts[selectedExcerpt].excerpt = reformatText($(this).val());
         refreshExcerpts();
     });
@@ -849,7 +853,7 @@ $(document).ready(function(){
     // Save and cancel
 
     $('.save-excerpt').unbind().click(function() {
-        var data = { excerpts: JSON.stringify(excerpts) };
+        var data = { excerpts: JSON.stringify(excerpts), best_of_bullshits: $('#best-of-bullshits').val() };
         redirectPost(window.location.pathname, data, csrf_token);
     });
     $('.cancel').unbind().click(function() {

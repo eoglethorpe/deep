@@ -10,17 +10,18 @@
   background-color: rgba(0, 0, 0, 0.24); }
 
 body {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Roboto', sans-serif;
   background-color: #f0f0f0;
   color: #414141;
-  font-size: 14px;
-  line-height: 1.5; }
+  font-size: 13px;
+  line-height: 1.8;
+  /*float-alert-toast - position it at the top-center of the screen*/ }
   body h1, body h2, body h3 {
     font-weight: 400; }
   body h1 {
-    font-size: 18px; }
+    font-size: 19px; }
   body h2 {
-    font-size: 16px; }
+    font-size: 17px; }
   body h3 {
     font-size: 15px; }
   body a, body a:hover, body a:active, body a:visited, body a:focus {
@@ -33,9 +34,34 @@ body {
     border-radius: 3px;
     transition: 0.2s all ease-in-out; }
   body label {
-    color: #767676;
+    color: #818181;
     text-transform: uppercase;
-    font-size: 12px; }
+    font-size: 11px; }
+  body .float-alert-toast {
+    display: none;
+    /* Hidden by default. Visible on click */
+    min-width: 250px;
+    /* Set a default minimum width */
+    margin-left: -125px;
+    /* Divide value of min-width by 2 */
+    background-color: #333;
+    /* Black background color */
+    color: #fff;
+    /* White text color */
+    text-align: center;
+    /* Centered text */
+    border-radius: 2px;
+    /* Rounded borders */
+    padding: 16px;
+    /* Padding */
+    position: fixed;
+    /* Sit on top of the screen */
+    z-index: 1;
+    /* Add a z-index if needed */
+    right: 10%;
+    /* Towards the right */
+    top: 30px;
+    /* 30px from the top */ }
 
 #background {
   position: fixed;
@@ -44,12 +70,11 @@ body {
   width: 100%;
   height: 100%;
   z-index: -1;
-  background-color: #212121;
+  background-color: #008080;
   background-image: url("../img/bg.jpg");
   background-position: center center;
   background-size: cover;
-  background-blend-mode: soft-light;
-  filter: blur(7px); }
+  background-blend-mode: soft-light; }
 
 main {
   min-height: 100vh;
@@ -57,39 +82,69 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center; }
-  main #wrapper {
-    padding: 16px 32px;
-    background-color: #f0f0f0;
-    border: 3px solid #ccc;
+  main form {
+    width: 600px;
+    background-color: #fff;
+    box-sizing: border-box;
+    box-shadow: 0 5px 30px -3px rgba(0, 0, 0, 0.5);
     border-radius: 5px; }
-    main #wrapper header {
-      text-align: center; }
-    main #wrapper h1 {
+    main form > div, main form > header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+      padding: 0 32px; }
+      main form > div:last-child, main form > header:last-child {
+        min-height: 64px;
+        background-color: #f0f0f0;
+        margin-bottom: 0;
+        font-size: 15px; }
+    main form #error {
+      color: #e74c3c;
+      padding: 0 32px 16px 32px;
       margin: 0;
-      text-transform: uppercase; }
-    main #wrapper img {
-      display: inline-block;
-      width: 240px;
-      margin-right: 16px; }
-    main #wrapper p:last-child {
-      margin-top: -24px; }
-    main #wrapper form {
-      margin-top: 32px; }
-      main #wrapper form label {
-        width: 100px;
-        margin-right: 10px;
-        vertical-align: middle; }
-      main #wrapper form input[type="text"], main #wrapper form input[type="password"] {
-        width: calc(100% - 113px);
-        display: inline-block; }
-      main #wrapper form .action {
-        text-align: right; }
-        main #wrapper form .action input {
-          min-width: 100px;
-          box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
-          main #wrapper form .action input:active {
-            box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
-      main #wrapper form .form-group:not(:last-child) {
-        margin-bottom: 24px; }
+      text-align: center;
+      font-size: 15px; }
+      main form #error .fa {
+        margin-right: 10px; }
+    main form #action-buttons {
+      min-height: auto;
+      font-size: 15px;
+      justify-content: space-between; }
+    main form header {
+      min-height: 64px;
+      background-color: #008080;
+      color: #fff; }
+      main form header h1 {
+        margin: 0;
+        text-transform: uppercase; }
+    main form input[type="text"], main form input[type="password"] {
+      outline: none;
+      border: 1px solid transparent;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+      flex-basis: 100%;
+      padding: 0 10px 5 10px;
+      font-size: 15px; }
+      main form input[type="text"]:focus, main form input[type="password"]:focus {
+        border-bottom: 2px solid #008080; }
+    main form label {
+      flex-basis: 100%;
+      margin: 0;
+      color: rgba(0, 0, 0, 0.3); }
+    main form a {
+      margin-left: 4px;
+      cursor: pointer; }
+    main form button {
+      background-color: #f0f0f0;
+      padding: 6px 32px;
+      background-color: #008080;
+      color: #fff;
+      border-radius: 3px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border: none;
+      box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+      main form button:active {
+        box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
 
 /*# sourceMappingURL=register.css.map */

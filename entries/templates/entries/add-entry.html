@@ -198,22 +198,31 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         <button class="btn btn-danger cancel" data-toggle="tooltip" data-placement="bottom" title="Cancel"><i class="fa fa-times"></i></button>
                     </div>
                 </div>
-                <div style="position: relative;">
-                    <textarea class="form-control" id="excerpt-text" placeholder="Excerpt"></textarea>
-                    <a class="fa fa-circle" style="position: absolute; right: 30px; bottom: 10px; cursor: pointer;" onclick="reformatCurrentExcerpt();" title="Try reformatting this excerpt"></a>
-                </div>
-                <div id="matrix-one">
-                    {% for pillar in pillars_one %}
-                    <div class="pillar">
-                        <div class="pillar-header">{{pillar}}</div>
-                        <div class="sub-pillars">
-                            {% for subpillar in pillar.informationsubpillar_set.all %}
-                            <div class="sub-pillar" data-pillar-id="{{pillar.pk}}" data-bg-color="{{ pillar.background_color }}" data-subpillar-id="{{subpillar.pk}}">{{subpillar}}</div>
-                            {% endfor %}
+                <div class="row">
+                    <div class="col-md-9">
+                        <div style="position: relative;">
+                            <textarea class="form-control" id="excerpt-text" placeholder="Excerpt"></textarea>
+                            <a class="fa fa-circle" style="position: absolute; right: 30px; bottom: 10px; cursor: pointer;" onclick="reformatCurrentExcerpt();" title="Try reformatting this excerpt"></a>
                         </div>
+                        <div id="matrix-one">
+                            {% for pillar in pillars_one %}
+                            <div class="pillar">
+                                <div class="pillar-header">{{pillar}}</div>
+                                <div class="sub-pillars">
+                                    {% for subpillar in pillar.informationsubpillar_set.all %}
+                                    <div class="sub-pillar" data-pillar-id="{{pillar.pk}}" data-bg-color="{{ pillar.background_color }}" data-subpillar-id="{{subpillar.pk}}">{{subpillar}}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div></textarea>
                     </div>
-                    {% endfor %}
 
+                    <div class="col-md-3">
+                        <label>Best of bullshits:
+                        <textarea id="best-of-bullshits" style="width: 100%;" rows="12">{{entry.best_of_bullshits|safe}}</textarea>
+                        </label>
+                    </div>
                 </div>
                 <table id="matrix-two">
                     <thead>

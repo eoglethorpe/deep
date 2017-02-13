@@ -10,17 +10,18 @@
   background-color: rgba(0, 0, 0, 0.24); }
 
 body {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Roboto', sans-serif;
   background-color: #f0f0f0;
   color: #414141;
-  font-size: 14px;
-  line-height: 1.5; }
+  font-size: 13px;
+  line-height: 1.8;
+  /*float-alert-toast - position it at the top-center of the screen*/ }
   body h1, body h2, body h3 {
     font-weight: 400; }
   body h1 {
-    font-size: 18px; }
+    font-size: 19px; }
   body h2 {
-    font-size: 16px; }
+    font-size: 17px; }
   body h3 {
     font-size: 15px; }
   body a, body a:hover, body a:active, body a:visited, body a:focus {
@@ -33,9 +34,34 @@ body {
     border-radius: 3px;
     transition: 0.2s all ease-in-out; }
   body label {
-    color: #767676;
+    color: #818181;
     text-transform: uppercase;
-    font-size: 12px; }
+    font-size: 11px; }
+  body .float-alert-toast {
+    display: none;
+    /* Hidden by default. Visible on click */
+    min-width: 250px;
+    /* Set a default minimum width */
+    margin-left: -125px;
+    /* Divide value of min-width by 2 */
+    background-color: #333;
+    /* Black background color */
+    color: #fff;
+    /* White text color */
+    text-align: center;
+    /* Centered text */
+    border-radius: 2px;
+    /* Rounded borders */
+    padding: 16px;
+    /* Padding */
+    position: fixed;
+    /* Sit on top of the screen */
+    z-index: 1;
+    /* Add a z-index if needed */
+    right: 10%;
+    /* Towards the right */
+    top: 30px;
+    /* 30px from the top */ }
 
 nav {
   background-color: #004d4d;
@@ -57,14 +83,14 @@ nav {
     color: rgba(255, 255, 255, 0.7);
     transition: 0.2s all ease-in-out;
     text-align: center;
-    font-size: 14px;
+    font-size: 13px;
     height: 56px;
     padding: 0 16px;
-    padding-top: calc(calc(56px - 14px - 8px) / 2); }
+    padding-top: calc(calc(56px - 13px - 8px) / 2); }
     nav .menu-item.active {
       border-bottom: 2px solid #fff;
       color: #fff;
-      font-weight: 600; }
+      font-weight: 500; }
   nav a:hover, nav a:active, nav button:hover, nav button:active {
     color: #fff; }
   nav button, nav button:visited {
@@ -72,7 +98,7 @@ nav {
     border: none;
     color: rgba(255, 255, 255, 0.7);
     font-weight: 400;
-    font-size: 14px; }
+    font-size: 13px; }
     nav button .fa, nav button:visited .fa {
       margin-right: 10px; }
     nav button .caret, nav button:visited .caret {
@@ -115,7 +141,7 @@ body {
       margin: 0;
       padding-top: 10px;
       text-transform: uppercase;
-      font-weight: 600;
+      font-weight: 500;
       margin-bottom: 10px; }
       body header h1 span {
         font-weight: 400; }
@@ -141,7 +167,7 @@ body {
         flex-wrap: wrap; }
         body header #entry-filters #left-block > input[type="text"].filter {
           padding: 3px 5px;
-          font-size: 13px;
+          font-size: 12px;
           border: 1px solid rgba(0, 0, 0, 0.1); }
         body header #entry-filters #left-block .filter {
           flex-basis: calc(20% - 1px);
@@ -255,7 +281,7 @@ main {
     main #navigator a {
       flex-grow: 1;
       text-align: center;
-      padding-top: calc(calc(56px - 14px) / 2 - 4px);
+      padding-top: calc(calc(56px - 13px) / 2 - 4px);
       cursor: pointer; }
     main #navigator .active {
       border-bottom: 2px solid #008080; }
@@ -284,7 +310,7 @@ main {
         padding: 2px 5px;
         box-sizing: border-box;
         border: 1px solid rgba(0, 0, 0, 0.1);
-        font-size: 13px; }
+        font-size: 12px; }
       main #report-content #reporting-parameters span {
         font-family: 'Inconsolata', monospace;
         font-size: 1.2em;
@@ -355,7 +381,7 @@ main {
           padding: 16px 24px;
           border-top-left-radius: 3px;
           border-top-right-radius: 3px;
-          font-weight: 600;
+          font-weight: 500;
           background-color: #008080;
           color: #fff; }
         main #report-content #key-events #timeline-view .time-element p {

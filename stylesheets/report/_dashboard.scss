@@ -108,6 +108,12 @@ main{
                 overflow-y: scroll;
                 backface-visibility: hidden;
 
+                .name{
+                    font-weight: $font-weight-bold;
+                }
+                .events{
+                    color: $label-color;
+                }
                 .country{
                     min-height: 100px;
                     display: flex;
@@ -133,7 +139,8 @@ main{
 
                         span{
                             display: block;
-                            font-size: $text-size-sm;
+                            font-size: $text-size-xs;
+                            color: $label-color;
 
                             .fa{ margin-right: 4px; }
                         }
@@ -227,16 +234,11 @@ main{
                 align-items: center;
                 padding: 0 16px;
 
-                button{
-                    background-color: $primary-color;
+                i{
                     border: none;
-                    color: #fff;
-                    padding: 4px 10px;
-                    @include btn-shadow-sm;
+                    cursor: pointer;
 
-                    .fa{
-                        margin-right: 10px;
-                    }
+
                 }
             }
             #weekly-reports{

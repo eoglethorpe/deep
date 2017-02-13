@@ -24,7 +24,6 @@ def _extractFromURL(url):
     if m:
         return parseStrDate(m.group(0))
 
-
     return  None
 
 # def _extractFromLDJson(parsedHTML):
@@ -33,25 +32,25 @@ def _extractFromURL(url):
 #         script = parsedHTML.find('script', type='application/ld+json')
 #         if script is None:
 #             return None
-# 
+#
 #         data = json.loads(script.text)
-# 
+#
 #         try:
 #             jsonDate = parseStrDate(data['datePublished'])
 #         except e:
 #             pass
-# 
+#
 #         try:
 #             jsonDate = parseStrDate(data['dateCreated'])
 #         except e:
 #             pass
-# 
-# 
+#
+#
 #     except e:
 #         return None
-# 
-# 
-# 
+#
+#
+#
 #     return jsonDate
 
 
@@ -202,9 +201,16 @@ def _extractFromHTMLTag(parsedHTML):
 
 
 def _extractSource(parsedHTML):
-    sources = parsedHTML.findAll('span', class_=re.compile('field-source'))
-    if len(sources) > 0:
-        return sources[0].text.strip()
+    source = parsedHTML.find('span', class_='field-source')
+    if source:
+        return source.text.strip()
+    return None
+
+
+def _extractCountry(parsedHTML):
+    countryDiv = parsedHTML.find('div', class_='primary-country')
+    if countryDiv:
+        return countryDiv.find('div', class_='country').find('a').text.strip()
     return None
 
 
@@ -214,6 +220,7 @@ def extractArticlePublishedDate(articleLink, html = None):
 
     articleDate = None
     source = None
+    country = None
 
     try:
         articleDate = _extractFromURL(articleLink)
@@ -235,15 +242,16 @@ def extractArticlePublishedDate(articleLink, html = None):
 
         articleDate = possibleDate
         source = _extractSource(parsedHTML)
+        country = _extractCountry(parsedHTML)
 
     except Exception as e:
         pass
         # print("Exception in extractArticlePublishedDate for " + articleLink)
         # print(e.message, e.args)
 
-    return articleDate, source
+    return articleDate, source, country
 
 
 if __name__ == '__main__':
-    d, s = extractArticlePublishedDate("http://reliefweb.int/report/bangladesh/bangladesh-rohingya-refugees-trapped-limbo")
-    print(d, s)
+    d, s, c = extractArticlePublishedDate("http://reliefweb.int/report/bangladesh/bangladesh-rohingya-refugees-trapped-limbo")
+    print(d, s, c)

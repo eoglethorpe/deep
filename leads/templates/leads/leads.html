@@ -7,7 +7,6 @@ DEEP | Leads
 
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/datatables.min.css' %}"/>
-<link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/dataTables.bootstrap.min.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}"/>
 <link href="{% watchful_static_url 'css/leads.css' %}" type="text/css" rel="stylesheet">
 
@@ -53,8 +52,8 @@ DEEP | Leads
 
 <main>
     <div class="container-fluid">
-        <a class="btn btn-primary" id="add-lead-btn" href="{% url 'leads:add' event=event.pk %}" ><i class="fa fa-plus-square" style=" margin-right: 10px; font-size:1.2em"></i>Add Lead</a>
-        <h1>Leads</h1>
+        <a class="btn btn-primary" id="add-lead-btn" href="{% url 'leads:add' event=event.pk %}" ><i class="fa fa-plus" style=" margin-right: 10px; font-size:1.2em"></i>Add Lead</a>
+        <!-- <h1>Leads</h1> -->
 
         <div id="filters">
             <label>Apply filter:</label>
@@ -95,7 +94,7 @@ DEEP | Leads
             </select>
         </div>
         <div id="leads-table-wrapper">
-            <table id="leads-table" class="table" cellspacing="0" width="100%">
+            <table id="leads-table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
                         <th>Created on</th>

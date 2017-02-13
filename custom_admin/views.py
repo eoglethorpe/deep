@@ -134,6 +134,8 @@ class CountryManagementView(View):
             country.total_population = request.POST['total-population']
             country.population_soure = request.POST['population-source']
 
+            country.media_sources = request.POST['media-sources']
+
             country.save()
 
             # Admin areas

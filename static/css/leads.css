@@ -10,17 +10,18 @@
   background-color: rgba(0, 0, 0, 0.24); }
 
 body {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Roboto', sans-serif;
   background-color: #f0f0f0;
   color: #414141;
-  font-size: 14px;
-  line-height: 1.5; }
+  font-size: 13px;
+  line-height: 1.8;
+  /*float-alert-toast - position it at the top-center of the screen*/ }
   body h1, body h2, body h3 {
     font-weight: 400; }
   body h1 {
-    font-size: 18px; }
+    font-size: 19px; }
   body h2 {
-    font-size: 16px; }
+    font-size: 17px; }
   body h3 {
     font-size: 15px; }
   body a, body a:hover, body a:active, body a:visited, body a:focus {
@@ -33,9 +34,34 @@ body {
     border-radius: 3px;
     transition: 0.2s all ease-in-out; }
   body label {
-    color: #767676;
+    color: #818181;
     text-transform: uppercase;
-    font-size: 12px; }
+    font-size: 11px; }
+  body .float-alert-toast {
+    display: none;
+    /* Hidden by default. Visible on click */
+    min-width: 250px;
+    /* Set a default minimum width */
+    margin-left: -125px;
+    /* Divide value of min-width by 2 */
+    background-color: #333;
+    /* Black background color */
+    color: #fff;
+    /* White text color */
+    text-align: center;
+    /* Centered text */
+    border-radius: 2px;
+    /* Rounded borders */
+    padding: 16px;
+    /* Padding */
+    position: fixed;
+    /* Sit on top of the screen */
+    z-index: 1;
+    /* Add a z-index if needed */
+    right: 10%;
+    /* Towards the right */
+    top: 30px;
+    /* 30px from the top */ }
 
 nav {
   background-color: #004d4d;
@@ -57,14 +83,14 @@ nav {
     color: rgba(255, 255, 255, 0.7);
     transition: 0.2s all ease-in-out;
     text-align: center;
-    font-size: 14px;
+    font-size: 13px;
     height: 56px;
     padding: 0 16px;
-    padding-top: calc(calc(56px - 14px - 8px) / 2); }
+    padding-top: calc(calc(56px - 13px - 8px) / 2); }
     nav .menu-item.active {
       border-bottom: 2px solid #fff;
       color: #fff;
-      font-weight: 600; }
+      font-weight: 500; }
   nav a:hover, nav a:active, nav button:hover, nav button:active {
     color: #fff; }
   nav button, nav button:visited {
@@ -72,7 +98,7 @@ nav {
     border: none;
     color: rgba(255, 255, 255, 0.7);
     font-weight: 400;
-    font-size: 14px; }
+    font-size: 13px; }
     nav button .fa, nav button:visited .fa {
       margin-right: 10px; }
     nav button .caret, nav button:visited .caret {
@@ -110,13 +136,15 @@ body {
   background-color: #f0f0f0; }
 
 main {
-  clear: both; }
+  clear: both;
+  position: relative; }
   main #add-lead-btn {
-    box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7);
-    float: right;
-    margin-top: 8px; }
+    box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3);
+    margin-top: 8px;
+    margin-bottom: 16px;
+    font-weight: 500; }
     main #add-lead-btn:active {
-      box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
+      box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
   main h1 {
     margin: 16px 0 !important;
     text-transform: uppercase;
@@ -126,9 +154,12 @@ main {
   main #filters {
     width: 80%;
     float: left;
-    margin-bottom: -40px;
+    position: absolute;
+    left: 16px;
+    top: 56px;
     display: flex;
     align-items: center;
+    z-index: 1;
     justify-content: flex-start; }
     main #filters label {
       flex-basis: 400px;
@@ -142,52 +173,81 @@ main {
         border: 1px solid #008080; }
     main #filters .focus {
       border: 1px solid #008080; }
-  main thead tr th {
+  main #leads-table-wrapper input[type="search"] {
+    height: 28px;
+    padding: 0 8px;
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
     background-color: #fff; }
-    main thead tr th:not(:last-child) {
+    main #leads-table-wrapper input[type="search"]:focus {
+      border-color: #008080; }
+  main #leads-table-wrapper .sorting {
+    background-image: url("../img/datatables/sort_both.png"); }
+  main #leads-table-wrapper .sorting_asc {
+    background-image: url("../img/datatables/sort_asc.png"); }
+  main #leads-table-wrapper .sorting_desc {
+    background-image: url("../img/datatables/sort_desc.png"); }
+  main #leads-table-wrapper .sorting_asc_disabled {
+    background-image: url("../img/datatables/sort_asc_disabled.png"); }
+  main #leads-table-wrapper .sorting_desc_disabled {
+    background-image: url("../img/datatables/sort_desc_disabled.png"); }
+  main #leads-table-wrapper thead tr th {
+    background-color: #fff;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2); }
+    main #leads-table-wrapper thead tr th:not(:last-child) {
       border-right: 1px solid rgba(0, 0, 0, 0.03); }
-  main #leads-table tbody tr[role="row"] {
+  main #leads-table-wrapper .dataTables_scrollBody {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2); }
+  main #leads-table-wrapper #leads-table tbody tr[role="row"] {
     cursor: pointer; }
-    main #leads-table tbody tr[role="row"] td:not(:last-child) {
+    main #leads-table-wrapper #leads-table tbody tr[role="row"] td:not(:last-child) {
       border-right: 1px solid rgba(0, 0, 0, 0.03); }
-  main #leads-table tbody .odd, main #leads-table tbody .odd + tr:not(.even) {
+  main #leads-table-wrapper #leads-table tbody .odd, main #leads-table-wrapper #leads-table tbody .odd + tr:not(.even) {
     background-color: #f5f5f5; }
-  main #leads-table tbody .even, main #leads-table tbody .even + tr:not(.odd) {
+  main #leads-table-wrapper #leads-table tbody .even, main #leads-table-wrapper #leads-table tbody .even + tr:not(.odd) {
     background-color: #fff; }
-  main #leads-table tbody .btn-action {
-    margin: 2px;
-    box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-    main #leads-table tbody .btn-action:active {
-      box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-  main #leads-table tbody .row-detail {
+  main #leads-table-wrapper #leads-table tbody .btn-action {
+    margin: 4 px; }
+    main #leads-table-wrapper #leads-table tbody .btn-action fa {
+      margin: 10px; }
+  main #leads-table-wrapper #leads-table tbody .row-detail {
     padding: 10px 24px; }
-    main #leads-table tbody .row-detail .fa {
+    main #leads-table-wrapper #leads-table tbody .row-detail .fa {
       margin-right: 10px; }
-    main #leads-table tbody .row-detail .extra {
+    main #leads-table-wrapper #leads-table tbody .row-detail .extra {
       margin-bottom: 16px; }
-      main #leads-table tbody .row-detail .extra span {
+      main #leads-table-wrapper #leads-table tbody .row-detail .extra span {
         margin-right: 24px; }
-    main #leads-table tbody .row-detail label {
+    main #leads-table-wrapper #leads-table tbody .row-detail label {
       margin-right: 10px;
       width: 100px; }
-    main #leads-table tbody .row-detail .lead-content {
+    main #leads-table-wrapper #leads-table tbody .row-detail .lead-content {
       white-space: pre-wrap; }
-    main #leads-table tbody .row-detail button {
+    main #leads-table-wrapper #leads-table tbody .row-detail button {
       margin: 4px;
       box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-      main #leads-table tbody .row-detail button:active {
+      main #leads-table-wrapper #leads-table tbody .row-detail button:active {
         box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-    main #leads-table tbody .row-detail .lead-content a {
+    main #leads-table-wrapper #leads-table tbody .row-detail .lead-content a {
       text-transform: none; }
-  main #leads-table tbody .btn-add-entry .fa {
+  main #leads-table-wrapper #leads-table tbody .btn-add-entry .fa {
+    margin-left: 4px;
+    margin-right: 20px;
     color: #8e44ad; }
-  main #leads-table tbody .btn-edit .fa {
+  main #leads-table-wrapper #leads-table tbody .btn-edit .fa {
+    margin-left: 4px;
+    margin-right: 20px;
     color: #333399; }
-  main #leads-table tbody .btn-mark-processed .fa {
+  main #leads-table-wrapper #leads-table tbody .btn-mark-processed .fa {
+    margin-left: 4px;
+    margin-right: 20px;
     color: #cc6600; }
-  main #leads-table tbody .btn-mark-pending .fa {
+  main #leads-table-wrapper #leads-table tbody .btn-mark-pending .fa {
+    margin-left: 4px;
+    margin-right: 20px;
     color: #009900; }
-  main #leads-table tbody .btn-delete .fa {
+  main #leads-table-wrapper #leads-table tbody .btn-delete .fa {
     color: #e74c3c; }
 
 #drag-overlay {
@@ -213,7 +273,7 @@ main {
     text-align: right; }
   #add-lead-from-attachment .modal-content h3 {
     margin-bottom: 32px;
-    font-weight: 18px;
+    font-weight: 19px;
     text-transform: uppercase; }
   #add-lead-from-attachment .modal-content .wrapper {
     margin: 4px 0; }
@@ -226,7 +286,7 @@ main {
   padding: 16px; }
   #date-range-input .modal-content h3 {
     margin-bottom: 16px;
-    font-weight: 18px;
+    font-weight: 19px;
     text-transform: uppercase; }
   #date-range-input .modal-content #date-field-wrapper {
     display: flex;

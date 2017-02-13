@@ -12,31 +12,30 @@ DEEP | Sign in
 {% block body %}
 <div id="background"></div>
 <main>
-    <div id="wrapper">
+    <form method="post">
+        {% csrf_token %}
         <header>
-            <img src="{% watchful_static_url 'img/deep-logo-header.png' %}">
+            <h1>Data entry and extraction platform</h1>
+            <!-- <img src="{% watchful_static_url 'img/deep-logo-header.png' %}"> -->
         </header>
-        <form method="post">
-            {% csrf_token %}
-            {% if error %}
-                <div id="error">{{ error }}</div>
-            {% endif %}
-            <div>
-                <label>Email</label>
-                <br>
-                <br>
-                <label>Password</label>
-            </div>
-            <div>
-                <input type="text" placeholder="Email" name="email" {% if email %}value="{{email}}"{% endif %} required>
-                <br>
-                <input type="password" placeholder="Password" name="password" required>
-            </div>
-            <p>Sign in to get started or <a href="/register">Register</a></p>
-            <div>
-                <input type="submit" class="btn btn-primary" value="Sign in">
-            </div>
-        </form>
-    </div>
+        {% if error %}
+        <p id="error"><i class="fa fa-exclamation-triangle"></i>{{ error }}</p>
+        {% endif %}
+        <div>
+            <label>Email</label>
+            <input type="text" placeholder="Your email id (eg: john.doe@gmail.com)" name="email" {% if email %}value="{{email}}"{% endif %} required>
+        </div>
+        <div>
+            <label>Password</label>
+            <input type="password" placeholder="Enter your password" name="password" required>
+        </div>
+        <div id="action-buttons">
+            <div></div>
+            <button type="submit" >Sign in</button>
+        </div>
+        <div>
+            Don't have an account? <a href="/register">Register</a>
+        </div>
+    </form>
 </main>
 {% endblock %}
