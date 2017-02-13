@@ -88,6 +88,15 @@ $(document).ready(function() {
 
         return true;
     });
+
+    // Make tabs containing invalid inputs also invalid
+    $('input').on('input change', function() {
+        $('a.invalid').removeClass('invalid');
+        $('input:invalid').each(function() {
+            var index = $('#content-wrapper .tab').index($(this).closest('.tab'));
+            $('#navigator a').eq(index).addClass('invalid');
+        });
+    });
 });
 
 

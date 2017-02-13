@@ -48,39 +48,12 @@ var generalTab = {
     },
 
     onSubmit: function() {
-        return this.validateAdminLevels();
-    },
-
-    validateAdminLevels: function() {
-        let adminLevels = {};
-        let duplicates = [];
-
-        $('.admin-level-details').each(function(index, elem){
-            // Skip for Delete
-            if ($(elem).find('.delete-admin-level').is(':checked')) {
-                return;
-            }
-            
-            let adminLevelInput = $(elem).find("input.admin-level");
-            if(adminLevels.hasOwnProperty(adminLevelInput.val())){
-                duplicates.push(adminLevelInput);
-            };
-            adminLevels[adminLevelInput.val()] = true;
-        });
-
-        if(duplicates.length){
-            $(duplicates).each(function(index, dup){
-                //show error in input field
-                $(dup).fadeToggle().fadeToggle();
-            });
-            //show error message
-            showToast('Duplicate Admin Level');
-            return false;
-        };
         return true;
     },
 
     addNewAdminLevel: function() {
+        var that = this;
+
         var adminLevelView = $('.admin-level-details-template').clone();
         adminLevelView.appendTo($('#admin-levels-container'));
         adminLevelView.removeClass('admin-level-details-template');
@@ -95,7 +68,42 @@ var generalTab = {
         adminLevelView.find('.geojson').attr('id', 'geojson-file-input-'+this.adminLevelId);
         adminLevelView.find('.geojson-label').attr('for', 'geojson-file-input-'+this.adminLevelId);
 
+        adminLevelView.find('.admin-level').on('input change', function() {
+            that.validateAdminLevels();
+        });
+
         this.adminLevelId++;
         return adminLevelView;
-    }
+    },
+
+
+    validateAdminLevels: function() {
+        let adminLevels = {};
+        let duplicates = [];
+
+        $('input.admin-level').each(function(index, element) {
+            element.setCustomValidity('');
+        });;
+
+        $('.admin-level-details').each(function(index, elem){
+            // Skip for to-be-deleted element
+            if ($(elem).find('.delete-admin-level').is(':checked')) {
+                return;
+            }
+
+            let adminLevelInput = $(elem).find('input.admin-level');
+            if(adminLevels.hasOwnProperty(adminLevelInput.val())){
+                duplicates.push(adminLevelInput);
+            };
+            adminLevels[adminLevelInput.val()] = true;
+        });
+
+        if(duplicates.length){
+            $(duplicates).each(function(index, dup){
+                $(dup).get(0).setCustomValidity('Duplicate admin level');
+            });
+            return false;
+        };
+        return true;
+    },
 };
