@@ -189,12 +189,47 @@ def export_docx(order, event, informations=None):
     # The leads for which excerpts we displayed
     leads_pk = []
 
-    if len(informations) > 0:
-        # First the attributes with no sectors
+    # First the attributes with no sectors
+
+    # Get each pillar
+    pillars = entry_model.InformationPillar.objects.filter(
+                contains_sectors=False)
+    for pillar in pillars:
+        pillar_header_shown = False
+
+        # Get each subpillar
+        subpillars = pillar.informationsubpillar_set.all()
+        for subpillar in subpillars:
+            attributes = entry_model.InformationAttribute.objects.filter(
+                    subpillar=subpillar,
+                    sector=None,
+                    information__entry__lead__event__pk=event)
+            if informations is not None:
+                attributes = attributes.filter(
+                        information__pk__in=informations)
+
+            if len(attributes) > 0:
+                if not pillar_header_shown:
+                    d.add_heading(pillar.name, level=2)
+                    d.add_paragraph()
+                    pillar_header_shown = True
+                d.add_heading(subpillar.name, level=3)
+                d.add_paragraph()
+
+            for attr in attributes:
+                info = attr.information
+                add_excerpt_info(d, info)
+                leads_pk.append(info.entry.lead.pk)
+
+    # Next the attributes containing sectors
+
+    # Get each sector
+    for sector in entry_model.Sector.objects.all():
+        sector_header_shown = False
 
         # Get each pillar
         pillars = entry_model.InformationPillar.objects.filter(
-                    contains_sectors=False)
+                    contains_sectors=True)
         for pillar in pillars:
             pillar_header_shown = False
 
@@ -203,63 +238,27 @@ def export_docx(order, event, informations=None):
             for subpillar in subpillars:
                 attributes = entry_model.InformationAttribute.objects.filter(
                         subpillar=subpillar,
-                        sector=None,
+                        sector=sector,
                         information__entry__lead__event__pk=event)
-                if informations:
+                if informations is not None:
                     attributes = attributes.filter(
                             information__pk__in=informations)
 
                 if len(attributes) > 0:
+                    if not sector_header_shown:
+                        d.add_heading(sector.name, level=2)
+                        d.add_paragraph()
+                        sector_header_shown = True
                     if not pillar_header_shown:
-                        d.add_heading(pillar.name, level=2)
+                        d.add_heading(pillar.name, level=3)
                         d.add_paragraph()
                         pillar_header_shown = True
-                    d.add_heading(subpillar.name, level=3)
-                    d.add_paragraph()
+                    d.add_heading(subpillar.name+":", level=4)
 
                 for attr in attributes:
                     info = attr.information
                     add_excerpt_info(d, info)
                     leads_pk.append(info.entry.lead.pk)
-
-        # Next the attributes containing sectors
-
-        # Get each sector
-        for sector in entry_model.Sector.objects.all():
-            sector_header_shown = False
-
-            # Get each pillar
-            pillars = entry_model.InformationPillar.objects.filter(
-                        contains_sectors=True)
-            for pillar in pillars:
-                pillar_header_shown = False
-
-                # Get each subpillar
-                subpillars = pillar.informationsubpillar_set.all()
-                for subpillar in subpillars:
-                    attributes = entry_model.InformationAttribute.objects.filter(
-                            subpillar=subpillar,
-                            sector=sector,
-                            information__entry__lead__event__pk=event)
-                    if informations:
-                        attributes = attributes.filter(
-                                information__pk__in=informations)
-
-                    if len(attributes) > 0:
-                        if not sector_header_shown:
-                            d.add_heading(sector.name, level=2)
-                            d.add_paragraph()
-                            sector_header_shown = True
-                        if not pillar_header_shown:
-                            d.add_heading(pillar.name, level=3)
-                            d.add_paragraph()
-                            pillar_header_shown = True
-                        d.add_heading(subpillar.name+":", level=4)
-
-                    for attr in attributes:
-                        info = attr.information
-                        add_excerpt_info(d, info)
-                        leads_pk.append(info.entry.lead.pk)
 
     add_line(d.add_paragraph())
 
@@ -273,6 +272,7 @@ def export_docx(order, event, informations=None):
     else:
         leads_pk = list(set(leads_pk))
         leads = entry_model.Lead.objects.filter(pk__in=leads_pk)
+        
     for lead in leads:
         p = d.add_paragraph()
         if lead.source_name and lead.source_name != "":
@@ -316,7 +316,7 @@ def export_docx_new_format(order, event, informations=None):
         """
         Filter with given `informations` if provided
         """
-        if informations:
+        if informations is not None:
             xyz_info = xyz_info.filter(
                     information__pk__in=informations)
         return xyz_info
