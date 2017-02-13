@@ -55,9 +55,11 @@ def get_dict_from_csv(filename, key):
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         countries = Country.objects.all()
+        print('Loading Region List....')
         regions = get_dict_from_csv('static/files/region_list.csv', 'ISO3')
         for country in countries:
             region_data = regions.get(country.code)
             if region_data:
-                country.region = json.dumps(region_data)
+                country.regions = json.dumps(region_data)
+                print('Saving Region Data to country: '+country.name)
                 country.save()

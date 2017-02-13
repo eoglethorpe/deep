@@ -29,7 +29,7 @@ DEEP | Country Panel
         {% for country in countries %}
         '{{country.code}}': {
             name: '{{country.name|escapejs}}',
-            region: JSON.parse("{{country.region|escapejs}}"),
+            region: JSON.parse("{{country.regions|escapejs}}"),
             // Key figures
             hdi_index: '{{country.hdi_index}}',
             hdi_rank: '{{country.hdi_rank}}',
