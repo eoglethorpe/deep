@@ -19,6 +19,7 @@ var mediaSourcesTab = {
 
     onSubmit: function() {
         $('#media-sources-input').val(JSON.stringify(this.getMediaSources()));
+        return true;
     },
 
     loadForCountry: function(code, country) {

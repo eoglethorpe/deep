@@ -14,7 +14,8 @@ body {
   background-color: #f0f0f0;
   color: #414141;
   font-size: 13px;
-  line-height: 1.8; }
+  line-height: 1.8;
+  /*float-alert-toast - position it at the top-center of the screen*/ }
   body h1, body h2, body h3 {
     font-weight: 400; }
   body h1 {
@@ -36,6 +37,31 @@ body {
     color: #818181;
     text-transform: uppercase;
     font-size: 11px; }
+  body .float-alert-toast {
+    display: none;
+    /* Hidden by default. Visible on click */
+    min-width: 250px;
+    /* Set a default minimum width */
+    margin-left: -125px;
+    /* Divide value of min-width by 2 */
+    background-color: #333;
+    /* Black background color */
+    color: #fff;
+    /* White text color */
+    text-align: center;
+    /* Centered text */
+    border-radius: 2px;
+    /* Rounded borders */
+    padding: 16px;
+    /* Padding */
+    position: fixed;
+    /* Sit on top of the screen */
+    z-index: 1;
+    /* Add a z-index if needed */
+    right: 10%;
+    /* Towards the right */
+    top: 30px;
+    /* 30px from the top */ }
 
 #background {
   position: fixed;

@@ -48,7 +48,36 @@ var generalTab = {
     },
 
     onSubmit: function() {
+        return this.validateAdminLevels();
+    },
 
+    validateAdminLevels: function() {
+        let adminLevels = {};
+        let duplicates = [];
+
+        $('.admin-level-details').each(function(index, elem){
+            // Skip for Delete
+            if ($(elem).find('.delete-admin-level').is(':checked')) {
+                return;
+            }
+            
+            let adminLevelInput = $(elem).find("input.admin-level");
+            if(adminLevels.hasOwnProperty(adminLevelInput.val())){
+                duplicates.push(adminLevelInput);
+            };
+            adminLevels[adminLevelInput.val()] = true;
+        });
+
+        if(duplicates.length){
+            $(duplicates).each(function(index, dup){
+                //show error in input field
+                $(dup).fadeToggle().fadeToggle();
+            });
+            //show error message
+            showToast('Duplicate Admin Level');
+            return false;
+        };
+        return true;
     },
 
     addNewAdminLevel: function() {

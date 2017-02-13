@@ -82,7 +82,8 @@ $(document).ready(function() {
 
         // Preprocess on each tab
         for (var i=0; i<tabs.length; i++) {
-            tabs[i].onSubmit();
+            if (!tabs[i].onSubmit())
+                return false;
         }
 
         return true;

@@ -41,7 +41,7 @@ var keyFiguresTab = {
     },
 
     onSubmit: function() {
-
+        return true;
     },
 
     loadForCountry: function(code, country) {
