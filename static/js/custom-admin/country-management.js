@@ -131,8 +131,40 @@ $(document).ready(function() {
         }
     });
 
+    function validateAdminLevelUnique(){
+        let adminLevels = {};
+        let duplicates = [];
+
+        $('.admin-level-details').each(function(index, elem){
+            let adminLevelInput = $(elem).find("input[name='admin-level']");
+            //TODO: Skip for Delete
+            if(adminLevels.hasOwnProperty(adminLevelInput.val())){
+                duplicates.push(adminLevelInput);
+            };
+            adminLevels[adminLevelInput.val()] = true;
+        });
+
+        if(duplicates.length){
+            $(duplicates).each(function(index, dup){
+                //show error in input field
+                $(dup).fadeToggle().fadeToggle();
+            });
+            //show error message
+            showToast('Duplicate Admin Level');
+            return false;
+        };
+        return true;
+    }
+
     // Reformat number inputs before submitting
-    $('#country-form').submit(function() {
+    // validate
+    $('#country-form').submit(function(e) {
+        //validate unique admin levels
+        if(!validateAdminLevelUnique()){
+            return false
+        };
+
+        //Reformate number
         $('.number').each(function() {
             $(this).val(getNumberValue($(this)));
         });
