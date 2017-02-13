@@ -11,8 +11,12 @@ DEEP | Country Panel
 <link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}"/>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
-<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/country-management.js' %}"></script>
-<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/country-management-map.js' %}"></script>
+
+<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/country-management/map.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/country-management/general-tab.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/country-management/key-figures-tab.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/country-management/media-sources-tab.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/country-management/country-management.js' %}"></script>
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
@@ -274,7 +278,7 @@ DEEP | Country Panel
         if checkbox was not checked and both the checkbox and hidden values (1, 0) if it was.
     {% endcomment %}
     <div>
-        <label class="delete-admin-level"><input name="delete-admin-level" type="checkbox" class"delete-admin-level form-control" value="1"><span>Delete</span></label>
+        <label><input name="delete-admin-level" type="checkbox" class="delete-admin-level" value="1"><span>Delete</span></label>
         <input name="delete-admin-level" type="hidden" value="0">
     </div>
 </div>

@@ -267,3 +267,8 @@ function migrate(data, dataModel) {
         }
     }
 }
+
+//TODO: Queue, Callback
+function showToast(msg){
+    $('.float-alert-toast').html(msg).fadeIn().delay(3000).fadeOut(400);
+}

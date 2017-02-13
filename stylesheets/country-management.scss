@@ -225,7 +225,7 @@ body{
                         &:last-child{
                             flex-basis: 7%;
 
-                            .delete-admin-level{
+                            label{
                                 cursor: pointer;
                                 font-size: $text-size-lg;
                                 color: #e74c3c;

@@ -853,7 +853,7 @@ $(document).ready(function(){
     // Save and cancel
 
     $('.save-excerpt').unbind().click(function() {
-        var data = { excerpts: JSON.stringify(excerpts) };
+        var data = { excerpts: JSON.stringify(excerpts), best_of_bullshits: $('#best-of-bullshits').val() };
         redirectPost(window.location.pathname, data, csrf_token);
     });
     $('.cancel').unbind().click(function() {

@@ -165,6 +165,7 @@ class Entry(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
     modified_by = models.ForeignKey(User, default=None, null=True, blank=None)
     lead = models.ForeignKey(Lead)
+    best_of_bullshits = models.TextField(default="", blank=True)
 
     def __str__(self):
         return str(self.lead)
