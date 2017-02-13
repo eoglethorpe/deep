@@ -113,11 +113,12 @@ main {
   clear: both;
   position: relative; }
   main #add-lead-btn {
-    box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7);
-    float: right;
-    margin-top: 8px; }
+    box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3);
+    margin-top: 8px;
+    margin-bottom: 16px;
+    font-weight: 500; }
     main #add-lead-btn:active {
-      box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
+      box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
   main h1 {
     margin: 16px 0 !important;
     text-transform: uppercase;
@@ -181,10 +182,9 @@ main {
   main #leads-table-wrapper #leads-table tbody .even, main #leads-table-wrapper #leads-table tbody .even + tr:not(.odd) {
     background-color: #fff; }
   main #leads-table-wrapper #leads-table tbody .btn-action {
-    margin: 2px;
-    box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-    main #leads-table-wrapper #leads-table tbody .btn-action:active {
-      box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+    margin: 4 px; }
+    main #leads-table-wrapper #leads-table tbody .btn-action fa {
+      margin: 10px; }
   main #leads-table-wrapper #leads-table tbody .row-detail {
     padding: 10px 24px; }
     main #leads-table-wrapper #leads-table tbody .row-detail .fa {
@@ -206,12 +206,20 @@ main {
     main #leads-table-wrapper #leads-table tbody .row-detail .lead-content a {
       text-transform: none; }
   main #leads-table-wrapper #leads-table tbody .btn-add-entry .fa {
+    margin-left: 4px;
+    margin-right: 20px;
     color: #8e44ad; }
   main #leads-table-wrapper #leads-table tbody .btn-edit .fa {
+    margin-left: 4px;
+    margin-right: 20px;
     color: #333399; }
   main #leads-table-wrapper #leads-table tbody .btn-mark-processed .fa {
+    margin-left: 4px;
+    margin-right: 20px;
     color: #cc6600; }
   main #leads-table-wrapper #leads-table tbody .btn-mark-pending .fa {
+    margin-left: 4px;
+    margin-right: 20px;
     color: #009900; }
   main #leads-table-wrapper #leads-table tbody .btn-delete .fa {
     color: #e74c3c; }

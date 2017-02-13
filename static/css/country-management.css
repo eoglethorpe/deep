@@ -86,13 +86,6 @@ body {
         flex-basis: 60%;
         font-weight: 500;
         font-size: 19px; }
-      body aside #countries-header button {
-        flex-basis: 30%;
-        box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
-        body aside #countries-header button:active {
-          box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
-        body aside #countries-header button .fa {
-          margin-right: 10px; }
       body aside #countries-header #search-wrapper {
         flex-basis: 100%;
         position: relative;
@@ -296,7 +289,8 @@ body {
       display: flex;
       justify-content: space-between; }
       body main #content-wrapper #media-sources > div {
-        flex-basis: 33%; }
+        flex-basis: 33%;
+        overflow: auto; }
         body main #content-wrapper #media-sources > div .media-source-header {
           padding: 10px 24px;
           margin-bottom: 10px;

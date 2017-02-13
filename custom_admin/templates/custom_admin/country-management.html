@@ -63,7 +63,7 @@ DEEP | Country Panel
 <aside>
     <div id="countries-header">
         <h2>Countries</h2>
-        <button class="btn btn-primary" onclick="addNewCountry();"><i class="fa fa-plus"></i>Add new country</button>
+        <a class="data-toggle="tooltip" data-placement="bottom" title="Add New Country"" onclick="addNewCountry();"><i class="fa fa-plus fa-lg  "></i></a>
         <div id="search-wrapper">
             <input id="search-country" placeholder="Search country">
             <i class="fa fa-search"></i>
@@ -121,7 +121,7 @@ DEEP | Country Panel
             </div>
             <div id="key-figures" hidden>
                 <div class="key-figure">
-                    <h2><a href="http://www.hdr.undp.org/en/countries" target="_blank" >Human development index</a></h2>
+                    <h2><a href="http://www.hdr.undp.org/en/countries" target="_blank" >Human development index <span class="fa fa-external-link" style="margin-left: 8px;"></span></a></h2>
                     <div>
                         <label>Index</label>
                         <input id="hdi-index" name="hdi-index" type="number" step="any" max="1" min="0" placeholder="Index">
@@ -140,7 +140,7 @@ DEEP | Country Panel
                     </div>
                 </div>
                 <div class="key-figure">
-                    <h2><a href="http://www.inform-index.org/" target="_blank" >Under five mortality rate <span style="text-transform: none"> (per 1.000 live births)</span></a></h2>
+                    <h2><a href="http://www.inform-index.org/" target="_blank" >Under five mortality rate <span style="text-transform: none"> (per 1.000 live births)</span><span class="fa fa-external-link" style="margin-left: 8px;"></span></a></h2>
                     <div>
                         <label>U5M</label>
                         <input id="u5m" name="u5m" type="number" step="any" placeholder="U5M">
@@ -151,7 +151,7 @@ DEEP | Country Panel
                     </div>
                 </div>
                 <div class="key-figure" id="uprooted-people">
-                    <h2><a href="http://www.inform-index.org/" target="_blank">Uprooted people<span style="text-transform: none"> (refugees + IDPs + returned refugees)</span></a></h2>
+                    <h2><a href="http://www.inform-index.org/" target="_blank">Uprooted people<span style="text-transform: none"> (refugees + IDPs + returned refugees)</span><span class="fa fa-external-link" style="margin-left: 8px;"></span></a></h2>
                     <div>
                         <label>Number of refugees</label>
                         <input id="number-of-refugees" name="number-of-refugees" type="text" class="number form-control" placeholder="Number of refugees">
@@ -172,7 +172,7 @@ DEEP | Country Panel
                     </div>
                 </div>
                 <div class="key-figure">
-                    <h2><a href="http://www.inform-index.org/" target="_blank" >INFORM Score</a></h2>
+                    <h2><a href="http://www.inform-index.org/" target="_blank" >INFORM Score<span class="fa fa-external-link" style="margin-left: 8px;"></span></a></h2>
                     <div>
                         <label>Risk Class</label>
                         <input id="inform-score" name="inform-score" type="text" placeholder="Risk Class">
@@ -216,7 +216,7 @@ DEEP | Country Panel
             </div>
             <div class="media-source-template" hidden>
                 <input class="name" type="text"  placeholder="Enter Source Name.." >
-                <a class="remove-source-btn fa fa-minus"></a>
+                <a class="remove-source-btn fa fa-minus fa-lg data-toggle="tooltip" data-placement="bottom" title="Remove Source" "></a>
                 <input class="link" type="url"  placeholder="Enter Source Link.." >
             </div>
             <input name="media-sources" id="media-sources-input" type="hidden">
@@ -224,19 +224,19 @@ DEEP | Country Panel
                 <div id="specialized-sources">
                     <div class="media-source-header">
                         <label>Specialized</label>
-                        <a class="add-new-source-btn fa fa-plus"></a>
+                        <a class="add-new-source-btn fa fa-plus fa-lg data-toggle="tooltip" data-placement="bottom" title="Add New Source""></a>
                     </div>
                 </div>
                 <div id="newspaper-sources">
                     <div class="media-source-header">
                         <label>Newspaper</label>
-                        <a class="add-new-source-btn fa fa-plus"></a>
+                        <a class="add-new-source-btn fa fa-plus fa-lg data-toggle="tooltip" data-placement="bottom" title="Add New Source""></a>
                     </div>
                 </div>
                 <div id="twitter-sources">
                     <div class="media-source-header">
                         <label>Twitter</label>
-                        <a class="add-new-source-btn fa fa-plus"></a>
+                        <a class="add-new-source-btn fa fa-plus fa-lg data-toggle="tooltip" data-placement="bottom" title="Add New Source""></a>
                     </div>
                 </div>
             </div>

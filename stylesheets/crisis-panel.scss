@@ -49,9 +49,9 @@ body{
                 font-weight: $font-weight-bold;
                 font-size: $text-size-sl;
             }
-            button{
-                flex-basis: 30%;
-                @include btn-shadow-lg;
+            a{
+                //flex-basis: 30%;
+                //@include btn-shadow-lg;
 
                 .fa{
                     margin-right: 10px;

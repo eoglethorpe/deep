@@ -64,14 +64,14 @@ body{
                 font-weight: $font-weight-bold;
                 font-size: $text-size-sl;
             }
-            button{
-                flex-basis: 30%;
-                @include btn-shadow-lg;
-
-                .fa{
-                    margin-right: 10px;
-                }
-            }
+            // button{
+            //     flex-basis: 30%;
+            //     @include btn-shadow-lg;
+            //
+            //     .fa{
+            //         margin-right: 10px;
+            //     }
+            // }
             #search-wrapper{
                 flex-basis: 100%;
                 position: relative;
@@ -356,6 +356,7 @@ body{
 
                 >div{
                     flex-basis: 33%;
+                    overflow: auto;
 
                     .media-source-header{
                         padding: 10px 24px;

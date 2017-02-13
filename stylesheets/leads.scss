@@ -10,9 +10,14 @@ main{
     position: relative;
 
     #add-lead-btn{
-        @include btn-shadow-lg();
-        float: right;
+        @include btn-shadow-sm();
+        //background-color: $primary-color;
+        //padding: 10px 16px;
+        //1color: #fff;
+        //float: right;
         margin-top: 8px;
+        margin-bottom: 16px;
+        font-weight: $font-weight-bold;
     }
     h1{
         margin: 16px 0!important;
@@ -108,8 +113,11 @@ main{
                     background-color: #fff;
                 }
                 .btn-action{
-                    margin: 2px;
-                    @include btn-shadow-sm();
+                    margin: 4 px;
+                    //@include btn-shadow-sm();
+                    fa{
+                        margin: 10px;
+                    }
                 }
                 .row-detail{
                     padding: 10px 24px;
@@ -141,15 +149,23 @@ main{
                     }
                 }
                 .btn-add-entry .fa{
+                    margin-left: 4px;
+                    margin-right: 20px;
                     color: #8e44ad;
                 }
                 .btn-edit .fa{
+                    margin-left: 4px;
+                    margin-right: 20px;
                     color: #333399;
                 }
                 .btn-mark-processed .fa{
+                    margin-left: 4px;
+                    margin-right: 20px;
                     color: #cc6600;
                 }
                 .btn-mark-pending .fa{
+                    margin-left: 4px;
+                    margin-right: 20px;
                     color: #009900;
                 }
                 .btn-delete .fa{
