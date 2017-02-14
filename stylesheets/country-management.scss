@@ -64,14 +64,14 @@ body{
                 font-weight: $font-weight-bold;
                 font-size: $text-size-sl;
             }
-            button{
-                flex-basis: 30%;
-                @include btn-shadow-lg;
-
-                .fa{
-                    margin-right: 10px;
-                }
-            }
+            // button{
+            //     flex-basis: 30%;
+            //     @include btn-shadow-lg;
+            //
+            //     .fa{
+            //         margin-right: 10px;
+            //     }
+            // }
             #search-wrapper{
                 flex-basis: 100%;
                 position: relative;
@@ -140,9 +140,18 @@ body{
                 padding: 10px 24px 14px 24px;
                 font-size: 14px;
                 cursor: pointer;
-            }
-            .nav-active{
-                border-bottom: 2px solid $primary-color;
+
+                &.nav-active{
+                    border-bottom: 2px solid $primary-color;
+                }
+
+                &.invalid {
+                    color: red;
+
+                    &.nav-active {
+                        border-color: red;
+                    }
+                }
             }
             #save-btn, #delete-btn{
                 margin-left: 8px;
@@ -154,6 +163,10 @@ body{
             }
         }
         #content-wrapper{
+            :invalid {
+                border-color: red;
+            }
+
             #country-detail{
                 height: calc(100vh - #{$navbar-height} - 48px);
                 background-color: #fff;
@@ -225,7 +238,7 @@ body{
                         &:last-child{
                             flex-basis: 7%;
 
-                            .delete-admin-level{
+                            label{
                                 cursor: pointer;
                                 font-size: $text-size-lg;
                                 color: #e74c3c;
@@ -356,6 +369,7 @@ body{
 
                 >div{
                     flex-basis: 33%;
+                    overflow: auto;
 
                     .media-source-header{
                         padding: 10px 24px;

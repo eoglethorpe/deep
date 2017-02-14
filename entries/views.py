@@ -185,6 +185,7 @@ class AddEntry(View):
             entry = Entry(lead=lead)
 
         entry.modified_by = request.user
+        entry.best_of_bullshits = request.POST["best_of_bullshits"]
         entry.save()
 
         for excerpt in excerpts:

@@ -11,8 +11,12 @@ DEEP | Country Panel
 <link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}"/>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
-<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/country-management.js' %}"></script>
-<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/country-management-map.js' %}"></script>
+
+<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/country-management/map.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/country-management/general-tab.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/country-management/key-figures-tab.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/country-management/media-sources-tab.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/country-management/country-management.js' %}"></script>
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
@@ -25,6 +29,7 @@ DEEP | Country Panel
         {% for country in countries %}
         '{{country.code}}': {
             name: '{{country.name|escapejs}}',
+            region: JSON.parse("{{country.regions|escapejs}}"),
             // Key figures
             hdi_index: '{{country.hdi_index}}',
             hdi_rank: '{{country.hdi_rank}}',
@@ -63,7 +68,7 @@ DEEP | Country Panel
 <aside>
     <div id="countries-header">
         <h2>Countries</h2>
-        <button class="btn btn-primary" onclick="addNewCountry();"><i class="fa fa-plus"></i>Add new country</button>
+        <a class="data-toggle="tooltip" data-placement="bottom" title="Add New Country"" onclick="addNewCountry();"><i class="fa fa-plus fa-lg  "></i></a>
         <div id="search-wrapper">
             <input id="search-country" placeholder="Search country">
             <i class="fa fa-search"></i>
@@ -93,7 +98,7 @@ DEEP | Country Panel
             </div>
         </div>
         <div id="content-wrapper">
-            <div id="country-detail">
+            <div id="country-detail" class="tab">
                 {% csrf_token %}
                 <div id="country-details-map-wrapper">
                     <div id="country-detail-inputs">
@@ -105,6 +110,30 @@ DEEP | Country Panel
                         <div>
                             <label>Name</label>
                             <input name="country-name" type="text" id="country-name" placeholder="Enter country name" required>
+                        </div>
+                        <div>
+                            <label>WB region</label>
+                            <input name="country-wb-region" type="text" id="country-wb-region" placeholder="Enter WB Region">
+                        </div>
+                        <div>
+                            <label>WB income group</label>
+                            <input name="country-wb-income-group" type="text" id="country-wb-income-group" placeholder="Enter WB Income Group">
+                        </div>
+                        <div>
+                            <label>OCHA Region</label>
+                            <input name="country-ocha-region" type="text" id="country-ocha-region" placeholder="Enter OCHA Region">
+                        </div>
+                        <div>
+                            <label>ECHO Region</label>
+                            <input name="country-echo-region" type="text" id="country-echo-region" placeholder="Enter ECHO Region">
+                        </div>
+                        <div>
+                            <label>UN Geographical region</label>
+                            <input name="country-un-geographical-region" type="text" id="country-un-geographical-region" placeholder="Enter UN Geographical Region">
+                        </div>
+                        <div>
+                            <label>UN Geographical Sub Region</label>
+                            <input name="country-un-geographical-sub-region" type="text" id="country-un-geographical-sub-region" placeholder="Enter UN Geographical Sub Region">
                         </div>
                     </div>
                     <div>
@@ -119,9 +148,9 @@ DEEP | Country Panel
                 <div id="admin-levels-container"></div>
                 <button id="add-new-admin-level" class="btn btn-primary" type="button"><i class="fa fa-plus"></i>Add new admin level</button>
             </div>
-            <div id="key-figures" hidden>
+            <div id="key-figures" class="tab" hidden>
                 <div class="key-figure">
-                    <h2><a href="http://www.hdr.undp.org/en/countries" target="_blank" >Human development index</a></h2>
+                    <h2><a href="http://www.hdr.undp.org/en/countries" target="_blank" >Human development index <span class="fa fa-external-link" style="margin-left: 8px;"></span></a></h2>
                     <div>
                         <label>Index</label>
                         <input id="hdi-index" name="hdi-index" type="number" step="any" max="1" min="0" placeholder="Index">
@@ -140,7 +169,7 @@ DEEP | Country Panel
                     </div>
                 </div>
                 <div class="key-figure">
-                    <h2><a href="http://www.inform-index.org/" target="_blank" >Under five mortality rate <span style="text-transform: none"> (per 1.000 live births)</span></a></h2>
+                    <h2><a href="http://www.inform-index.org/" target="_blank" >Under five mortality rate <span style="text-transform: none"> (per 1.000 live births)</span><span class="fa fa-external-link" style="margin-left: 8px;"></span></a></h2>
                     <div>
                         <label>U5M</label>
                         <input id="u5m" name="u5m" type="number" step="any" placeholder="U5M">
@@ -151,7 +180,7 @@ DEEP | Country Panel
                     </div>
                 </div>
                 <div class="key-figure" id="uprooted-people">
-                    <h2><a href="http://www.inform-index.org/" target="_blank">Uprooted people<span style="text-transform: none"> (refugees + IDPs + returned refugees)</span></a></h2>
+                    <h2><a href="http://www.inform-index.org/" target="_blank">Uprooted people<span style="text-transform: none"> (refugees + IDPs + returned refugees)</span><span class="fa fa-external-link" style="margin-left: 8px;"></span></a></h2>
                     <div>
                         <label>Number of refugees</label>
                         <input id="number-of-refugees" name="number-of-refugees" type="text" class="number form-control" placeholder="Number of refugees">
@@ -172,7 +201,7 @@ DEEP | Country Panel
                     </div>
                 </div>
                 <div class="key-figure">
-                    <h2><a href="http://www.inform-index.org/" target="_blank" >INFORM Score</a></h2>
+                    <h2><a href="http://www.inform-index.org/" target="_blank" >INFORM Score<span class="fa fa-external-link" style="margin-left: 8px;"></span></a></h2>
                     <div>
                         <label>Risk Class</label>
                         <input id="inform-score" name="inform-score" type="text" placeholder="Risk Class">
@@ -195,7 +224,7 @@ DEEP | Country Panel
                     </div>
                 </div>
             </div>
-            <div id="population-data" hidden>
+            <div id="population-data" class="tab" hidden>
                 <div>
                     <div>
                         <label>Total Population of Country</label>
@@ -211,32 +240,32 @@ DEEP | Country Panel
                     </div>
                 </div>
             </div>
-            <div id="seasonal-calendar" hidden>
+            <div id="seasonal-calendar" class="tab" hidden>
                 <h1>Seasonal-Calender</h1>
             </div>
             <div class="media-source-template" hidden>
                 <input class="name" type="text"  placeholder="Enter Source Name.." >
-                <a class="remove-source-btn fa fa-minus"></a>
+                <a class="remove-source-btn fa fa-minus fa-lg data-toggle="tooltip" data-placement="bottom" title="Remove Source" "></a>
                 <input class="link" type="url"  placeholder="Enter Source Link.." >
             </div>
             <input name="media-sources" id="media-sources-input" type="hidden">
-            <div id="media-sources" hidden>
+            <div id="media-sources" class="tab" hidden>
                 <div id="specialized-sources">
                     <div class="media-source-header">
                         <label>Specialized</label>
-                        <a class="add-new-source-btn fa fa-plus"></a>
+                        <a class="add-new-source-btn fa fa-plus fa-lg data-toggle="tooltip" data-placement="bottom" title="Add New Source""></a>
                     </div>
                 </div>
                 <div id="newspaper-sources">
                     <div class="media-source-header">
                         <label>Newspaper</label>
-                        <a class="add-new-source-btn fa fa-plus"></a>
+                        <a class="add-new-source-btn fa fa-plus fa-lg data-toggle="tooltip" data-placement="bottom" title="Add New Source""></a>
                     </div>
                 </div>
                 <div id="twitter-sources">
                     <div class="media-source-header">
                         <label>Twitter</label>
-                        <a class="add-new-source-btn fa fa-plus"></a>
+                        <a class="add-new-source-btn fa fa-plus fa-lg data-toggle="tooltip" data-placement="bottom" title="Add New Source""></a>
                     </div>
                 </div>
             </div>
@@ -274,7 +303,7 @@ DEEP | Country Panel
         if checkbox was not checked and both the checkbox and hidden values (1, 0) if it was.
     {% endcomment %}
     <div>
-        <label class="delete-admin-level"><input name="delete-admin-level" type="checkbox" class"delete-admin-level form-control" value="1"><span>Delete</span></label>
+        <label><input name="delete-admin-level" type="checkbox" class="delete-admin-level" value="1"><span>Delete</span></label>
         <input name="delete-admin-level" type="hidden" value="0">
     </div>
 </div>

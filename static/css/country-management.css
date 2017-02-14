@@ -112,13 +112,6 @@ body {
         flex-basis: 60%;
         font-weight: 500;
         font-size: 19px; }
-      body aside #countries-header button {
-        flex-basis: 30%;
-        box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
-        body aside #countries-header button:active {
-          box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
-        body aside #countries-header button .fa {
-          margin-right: 10px; }
       body aside #countries-header #search-wrapper {
         flex-basis: 100%;
         position: relative;
@@ -168,8 +161,12 @@ body {
         padding: 10px 24px 14px 24px;
         font-size: 14px;
         cursor: pointer; }
-      body main #navigator .nav-active {
-        border-bottom: 2px solid #008080; }
+        body main #navigator a.nav-active {
+          border-bottom: 2px solid #008080; }
+        body main #navigator a.invalid {
+          color: red; }
+          body main #navigator a.invalid.nav-active {
+            border-color: red; }
       body main #navigator #save-btn, body main #navigator #delete-btn {
         margin-left: 8px;
         box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
@@ -177,6 +174,8 @@ body {
           box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
         body main #navigator #save-btn .fa, body main #navigator #delete-btn .fa {
           margin-right: 10px; }
+    body main #content-wrapper :invalid {
+      border-color: red; }
     body main #content-wrapper #country-detail {
       height: calc(100vh - 56px - 48px);
       background-color: #fff;
@@ -227,17 +226,17 @@ body {
             margin-top: 16px; }
           body main #content-wrapper #country-detail .admin-level-details > div:last-child {
             flex-basis: 7%; }
-            body main #content-wrapper #country-detail .admin-level-details > div:last-child .delete-admin-level {
+            body main #content-wrapper #country-detail .admin-level-details > div:last-child label {
               cursor: pointer;
               font-size: 15px;
               color: #e74c3c; }
-              body main #content-wrapper #country-detail .admin-level-details > div:last-child .delete-admin-level input {
+              body main #content-wrapper #country-detail .admin-level-details > div:last-child label input {
                 margin-right: 10px;
                 margin-top: 0;
                 vertical-align: middle;
                 border: none;
                 box-shadow: none; }
-              body main #content-wrapper #country-detail .admin-level-details > div:last-child .delete-admin-level span {
+              body main #content-wrapper #country-detail .admin-level-details > div:last-child label span {
                 display: inline-block; }
         body main #content-wrapper #country-detail .admin-level-details:nth-child(even) {
           background: #fafafa; }
@@ -322,7 +321,8 @@ body {
       display: flex;
       justify-content: space-between; }
       body main #content-wrapper #media-sources > div {
-        flex-basis: 33%; }
+        flex-basis: 33%;
+        overflow: auto; }
         body main #content-wrapper #media-sources > div .media-source-header {
           padding: 10px 24px;
           margin-bottom: 10px;

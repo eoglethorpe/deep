@@ -139,7 +139,7 @@ var humanAvailabilityFieldIds = [
             <div id="weekly-report-list-header">
                 <h3>Weekly reports</h3>
                 {% if new_week_date %}
-                <button id="add-weekly-report-btn" onclick="location.href='{% url 'report:weekly' country.pk event.pk %}?start_date={{new_week_date|date:"d-M-Y"}}';"><i class="fa fa-plus"></i>Add new report</button>
+                <a id="add-weekly-report-btn" onclick="location.href='{% url 'report:weekly' country.pk event.pk %}?start_date={{new_week_date|date:"d-M-Y"}}';"><i class="fa fa-plus fa-lg onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Add New Report" "></i></a>
                 {% endif %}
             </div>
             <div id="weekly-reports">
