@@ -201,11 +201,11 @@ main {
           flex-basis: 10%; }
         main #country-panel #country-list #country-list-header label:nth-child(2) {
           flex-basis: 15%; }
-        main #country-panel #country-list #country-list-header label:nth-child(3), main #country-panel #country-list #country-list-header label:nth-child(4), main #country-panel #country-list #country-list-header label:nth-child(5), main #country-panel #country-list #country-list-header label:nth-child(6) {
-          flex-basis: 12%; }
-        main #country-panel #country-list #country-list-header label:nth-child(7), main #country-panel #country-list #country-list-header label:nth-child(8) {
+        main #country-panel #country-list #country-list-header label:nth-child(3), main #country-panel #country-list #country-list-header label:nth-child(4), main #country-panel #country-list #country-list-header label:nth-child(5), main #country-panel #country-list #country-list-header label:nth-child(6), main #country-panel #country-list #country-list-header label:nth-child(7) {
           flex-basis: 11%; }
-        main #country-panel #country-list #country-list-header label:nth-child(9) {
+        main #country-panel #country-list #country-list-header label:nth-child(8), main #country-panel #country-list #country-list-header label:nth-child(9) {
+          flex-basis: 7.5%; }
+        main #country-panel #country-list #country-list-header label:nth-child(10) {
           flex-basis: 5%; }
         main #country-panel #country-list #country-list-header label[data-sort] {
           cursor: pointer; }
@@ -240,11 +240,11 @@ main {
             flex-basis: 10%; }
           main #country-panel #country-list #countries .country > div:nth-child(2) {
             flex-basis: 15%; }
-          main #country-panel #country-list #countries .country > div:nth-child(3), main #country-panel #country-list #countries .country > div:nth-child(4), main #country-panel #country-list #countries .country > div:nth-child(5), main #country-panel #country-list #countries .country > div:nth-child(6) {
-            flex-basis: 12%; }
-          main #country-panel #country-list #countries .country > div:nth-child(7), main #country-panel #country-list #countries .country > div:nth-child(8) {
+          main #country-panel #country-list #countries .country > div:nth-child(3), main #country-panel #country-list #countries .country > div:nth-child(4), main #country-panel #country-list #countries .country > div:nth-child(5), main #country-panel #country-list #countries .country > div:nth-child(6), main #country-panel #country-list #countries .country > div:nth-child(7) {
             flex-basis: 11%; }
-          main #country-panel #country-list #countries .country > div:nth-child(9) {
+          main #country-panel #country-list #countries .country > div:nth-child(8), main #country-panel #country-list #countries .country > div:nth-child(9) {
+            flex-basis: 7.5%; }
+          main #country-panel #country-list #countries .country > div:nth-child(10) {
             flex-basis: 5%; }
         main #country-panel #country-list #countries .country .assigned-to {
           flex-basis: 8%; }

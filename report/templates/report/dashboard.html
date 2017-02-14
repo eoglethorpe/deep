@@ -19,6 +19,11 @@ var affectedFieldIds = [
     {{ afid.pk }},
     {% endfor %}
 ];
+var displacedFieldIds = [
+    {% for dfid in displaced_field_id_list %}
+    {{ dfid.pk }},
+    {% endfor %}
+];
 var inNeedFieldIds = [
     {% for infid in in_need_field_id_list %}
     {{ infid.pk }},
@@ -60,6 +65,7 @@ var humanAvailabilityFieldIds = [
                 <label data-sort=".assigned-to" >Assigned to</label>
                 <label data-sort=".name">Name / Events</label>
                 <label data-sort=".affected .number">Affected</label>
+                <label data-sort=".displaced .number">Displaced</label>
                 <label data-sort=".in-need .number">In need</label>
                 <label data-sort=".access-constraints .number">Access contraints</label>
                 <label data-sort=".geo-ranking .number" >Geo ranking</label>
@@ -76,6 +82,10 @@ var humanAvailabilityFieldIds = [
                         <div class="events">{% for e in c.event_set.all %}{{ e }}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
                     </div>
                     <div class="affected">
+                        <i class="fa"></i><span class="number">N/A</span>
+                        <div class="viz"></div>
+                    </div>
+                    <div class="displaced">
                         <i class="fa"></i><span class="number">N/A</span>
                         <div class="viz"></div>
                     </div>
