@@ -30,19 +30,7 @@ DEEP | Country Panel
         '{{country.code}}': {
             name: '{{country.name|escapejs}}',
             region: JSON.parse("{{country.regions|escapejs}}"),
-            // Key figures
-            hdi_index: '{{country.hdi_index}}',
-            hdi_rank: '{{country.hdi_rank}}',
-            u5m: '{{country.u5m}}',
-            number_of_refugees: '{{country.number_of_refugees}}',
-            number_of_idps: '{{country.number_of_idps}}',
-            number_of_returned_refugees: '{{country.number_of_returned_refugees}}',
-            inform_score: '{{country.inform_score}}',
-            inform_risk_index: '{{country.inform_risk_index}}',
-            inform_vulnerability: '{{country.inform_vulnerability}}',
-            inform_hazard_and_exposure: '{{country.inform_hazard_and_exposure}}',
-            inform_lack_of_coping_capacity: '{{country.inform_lack_of_coping_capacity}}',
-            total_population: '{{country.total_population}}',
+            key_figures: JSON.parse("{{country.key_figures|escapejs}}"),
             last_modified: '{{country.modified_at|date:"Y-m-d h:i A"}}',
             media_sources: JSON.parse("{{country.media_sources|escapejs}}"),
             // Admin areas
@@ -151,6 +139,7 @@ DEEP | Country Panel
             <div id="key-figures" class="tab" hidden>
                 <div class="key-figure">
                     <h2><a href="http://www.hdr.undp.org/en/countries" target="_blank" >Human development index <span class="fa fa-external-link" style="margin-left: 8px;"></span></a></h2>
+                    <span class="last-checked-date">Last checked at: <date></date></span>
                     <div>
                         <label>Index</label>
                         <input id="hdi-index" name="hdi-index" type="number" step="any" max="1" min="0" placeholder="Index">
@@ -170,6 +159,7 @@ DEEP | Country Panel
                 </div>
                 <div class="key-figure">
                     <h2><a href="http://www.inform-index.org/" target="_blank" >Under five mortality rate <span style="text-transform: none"> (per 1.000 live births)</span><span class="fa fa-external-link" style="margin-left: 8px;"></span></a></h2>
+                    <span class="last-checked-date">Last checked at: <date></date></span>
                     <div>
                         <label>U5M</label>
                         <input id="u5m" name="u5m" type="number" step="any" placeholder="U5M">
@@ -181,6 +171,7 @@ DEEP | Country Panel
                 </div>
                 <div class="key-figure" id="uprooted-people">
                     <h2><a href="http://www.inform-index.org/" target="_blank">Uprooted people<span style="text-transform: none"> (refugees + IDPs + returned refugees)</span><span class="fa fa-external-link" style="margin-left: 8px;"></span></a></h2>
+                    <span class="last-checked-date">Last checked at: <date></date></span>
                     <div>
                         <label>Number of refugees</label>
                         <input id="number-of-refugees" name="number-of-refugees" type="text" class="number form-control" placeholder="Number of refugees">
@@ -202,6 +193,7 @@ DEEP | Country Panel
                 </div>
                 <div class="key-figure">
                     <h2><a href="http://www.inform-index.org/" target="_blank" >INFORM Score<span class="fa fa-external-link" style="margin-left: 8px;"></span></a></h2>
+                    <span class="last-checked-date">Last checked at: <date></date></span>
                     <div>
                         <label>Risk Class</label>
                         <input id="inform-score" name="inform-score" type="text" placeholder="Risk Class">
@@ -225,6 +217,7 @@ DEEP | Country Panel
                 </div>
             </div>
             <div id="population-data" class="tab" hidden>
+                <span class="last-checked-date">Last checked at: <date></date></span>
                 <div>
                     <div>
                         <label>Total Population of Country</label>
@@ -236,7 +229,7 @@ DEEP | Country Panel
                     </div>
                     <div id="last-modified" hidden>
                         <label>Last Updated</label>
-                        <span></span>
+                        <date></date>
                     </div>
                 </div>
             </div>

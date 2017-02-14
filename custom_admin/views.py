@@ -127,29 +127,33 @@ class CountryManagementView(View):
                 'UN Geographical Sub-Region':
                     request.POST.get('country-un-geographical-sub-region'),
             }
-            country.regions = json.dumps(region_data)
 
             # Key figures
-            country.hdi_index = request.POST['hdi-index']
-            country.hdi_rank = request.POST['hdi-rank']
-            country.u5m = request.POST['u5m']
+            key_figures = {
+                'hdi_index': request.POST['hdi-index'],
+                'hdi_rank': request.POST['hdi-rank'],
+                'u5m': request.POST['u5m'],
 
-            country.number_of_refugees = request.POST['number-of-refugees']
-            country.number_of_idps = request.POST['number-of-idps']
-            country.number_of_returned_refugees =\
-                request.POST['number-of-returned-refugees']
+                'number_of_refugees': request.POST['number-of-refugees'],
+                'number_of_idps': request.POST['number-of-idps'],
+                'number_of_returned_refugees':
+                    request.POST['number-of-returned-refugees'],
 
-            country.inform_score = request.POST['inform-score']
-            country.inform_risk_index = request.POST['inform-risk-index']
-            country.inform_hazard_and_exposure =\
-                request.POST['inform-hazard-and-exposure']
-            country.inform_vulnerability = request.POST['inform-vulnerability']
-            country.inform_lack_of_coping_capacity =\
-                request.POST['inform-lack-of-coping-capacity']
+                'inform_score': request.POST['inform-score'],
+                'inform_risk_index': request.POST['inform-risk-index'],
+                'inform_hazard_and_exposure':
+                    request.POST['inform-hazard-and-exposure'],
+                'inform_vulnerability':
+                    request.POST['inform-vulnerability'],
+                'inform_lack_of_coping_capacity':
+                    request.POST['inform-lack-of-coping-capacity'],
 
-            country.total_population = request.POST['total-population']
-            country.population_soure = request.POST['population-source']
+                'total_population': request.POST['total-population'],
+                'population_source': request.POST['population-source'],
+            }
 
+            country.regions = json.dumps(region_data)
+            country.key_figures = json.dumps(key_figures)
             country.media_sources = request.POST['media-sources']
 
             country.save()

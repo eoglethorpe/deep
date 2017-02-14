@@ -292,7 +292,7 @@ body {
         body main #content-wrapper #key-figures .key-figure h2 {
           font-weight: bold;
           flex-basis: 100%;
-          font-size: 19px;
+          font-size: 15px;
           margin-top: 10px;
           margin-bottom: 8px; }
         body main #content-wrapper #key-figures .key-figure input:read-only {
@@ -356,5 +356,8 @@ body {
             cursor: pointer; }
           body main #content-wrapper #media-sources > div .media-source:nth-child(odd) {
             background-color: #f0f0f0; }
+    body main #content-wrapper .last-checked-date {
+      color: #818181;
+      flex-basis: 100%; }
 
 /*# sourceMappingURL=country-management.css.map */
