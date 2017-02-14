@@ -831,6 +831,10 @@ $(document).ready(function(){
         refreshExcerpts();
     });
 
+    $("#clear-map-selections").unbind().click(function() {
+        mapSelections = [];
+        refreshMap();
+    });
     $("#apply-all-map").unbind().click(function() {
         for (var i=0; i<excerpts.length; ++i) {
             var excerpt = excerpts[i];
