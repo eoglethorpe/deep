@@ -1,15 +1,16 @@
-from django.core.management.base import BaseCommand, CommandError
-from leads.models import *
+from django.core.management.base import BaseCommand  # , CommandError
+from leads import models as leads_model
 
 import requests
 import json
+from datetime import datetime
 
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
-        countries = Country.objects.all()
-        for country in countries:
+        countries = leads_model.Country.objects.all()
 
+        for country in countries:
             print('Loading from: {} - {}'.format(country.name, country.code))
 
             # Get JSON data from INFORM API
@@ -29,46 +30,79 @@ class Command(BaseCommand):
                 continue
 
             # Get keyfigures
-            hdi_index = next((result for result in results if result['IndicatorId'] == 'HDI'), None)
+            key_figures = {}
+            key_figures['last_checked'] = datetime.now().date().\
+                strftime('%d-%m-%Y')
+
+            hdi_index = next((result for result in results
+                              if result['IndicatorId'] == 'HDI'),
+                             None)
             if hdi_index:
-                country.hdi_index = hdi_index['IndicatorScore']
+                key_figures['hdi_index'] = hdi_index['IndicatorScore']
 
-            u5m = next((result for result in results if result['IndicatorId'] == 'CM'), None)
+            u5m = next((result for result in results
+                        if result['IndicatorId'] == 'CM'),
+                       None)
             if u5m:
-                country.u5m = u5m['IndicatorScore']
+                key_figures['u5m'] = u5m['IndicatorScore']
 
-            refugees = next((result for result in results if result['IndicatorId'] == 'VU.VGR.UP.REF-TOT'), None)
+            refugees = next((result for result in results
+                             if result['IndicatorId'] == 'VU.VGR.UP.REF-TOT'),
+                            None)
             if refugees:
-                country.number_of_refugees = refugees['IndicatorScore']
+                key_figures['number_of_refugees'] = refugees['IndicatorScore']
 
-            idps = next((result for result in results if result['IndicatorId'] == 'VU.VGR.UP.IDP-TOT'), None)
+            idps = next((result for result in results
+                         if result['IndicatorId'] == 'VU.VGR.UP.IDP-TOT'),
+                        None)
             if idps:
-                country.number_of_idps = idps['IndicatorScore']
-                if country.number_of_idps == -99:
-                    country.number_of_idps = 0
+                key_figures['number_of_idps'] = idps['IndicatorScore']
+                if key_figures['number_of_idps'] == -99:
+                    key_figures['number_of_idps'] = 0
 
-            returned_refugees = next((result for result in results if result['IndicatorId'] == 'RET_REF'), None)
+            returned_refugees = next((result for result in results
+                                      if result['IndicatorId'] == 'RET_REF'),
+                                     None)
             if returned_refugees:
-                country.number_of_returned_refugees = returned_refugees['IndicatorScore']
+                key_figures['number_of_returned_refugees'] =\
+                    returned_refugees['IndicatorScore']
 
-            inform_risk_index = next((result for result in results if result['IndicatorId'] == 'INFORM'), None)
+            inform_risk_index = next((result for result in results
+                                      if result['IndicatorId'] == 'INFORM'),
+                                     None)
             if inform_risk_index:
-                country.inform_risk_index = inform_risk_index['IndicatorScore']
+                key_figures['inform_risk_index'] =\
+                    inform_risk_index['IndicatorScore']
 
-            inform_hazard_and_exposure = next((result for result in results if result['IndicatorId'] == 'HA'), None)
+            inform_hazard_and_exposure = next(
+                (result for result in results
+                 if result['IndicatorId'] == 'HA'),
+                None)
             if inform_hazard_and_exposure:
-                country.inform_hazard_and_exposure = inform_hazard_and_exposure['IndicatorScore']
+                key_figures['inform_hazard_and_exposure'] =\
+                    inform_hazard_and_exposure['IndicatorScore']
 
-            inform_vulnerability = next((result for result in results if result['IndicatorId'] == 'VU'), None)
+            inform_vulnerability = next((result for result in results
+                                         if result['IndicatorId'] == 'VU'),
+                                        None)
             if inform_vulnerability:
-                country.inform_vulnerability = inform_vulnerability['IndicatorScore']
+                key_figures['inform_vulnerability'] =\
+                    inform_vulnerability['IndicatorScore']
 
-            inform_lack_of_coping_capacity = next((result for result in results if result['IndicatorId'] == 'CC'), None)
+            inform_lack_of_coping_capacity = next(
+                    (result for result in results
+                     if result['IndicatorId'] == 'CC'),
+                    None)
             if inform_lack_of_coping_capacity:
-                country.inform_lack_of_coping_capacity = inform_lack_of_coping_capacity['IndicatorScore']
+                key_figures['inform_lack_of_coping_capacity'] =\
+                    inform_lack_of_coping_capacity['IndicatorScore']
 
-            total_population = next((result for result in results if result['IndicatorId'] == 'POP'), None)
+            total_population = next((result for result in results
+                                     if result['IndicatorId'] == 'POP'),
+                                    None)
             if total_population:
-                country.total_population = total_population['IndicatorScore']
+                key_figures['total_population'] =\
+                    total_population['IndicatorScore']
 
+            country.key_figures = json.dumps(key_figures)
             country.save()
