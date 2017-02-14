@@ -33,7 +33,9 @@ var keyFiguresTab = {
         $('#total-population').val(null);
         $('#population-source').val(null);
         $('#last-modified').hide();
-        $('#last-modified').val(null);
+        $('#last-modified').find('date').val(null);
+        $('.last-checked-date').hide();
+        $('.last-checked-date').find('date').val(null);
 
         this.calculateHdiScore();
         this.calculateU5mScore();
@@ -61,10 +63,12 @@ var keyFiguresTab = {
         $('#inform-lack-of-coping-capacity').val(keyFigures.inform_lack_of_coping_capacity);
         $('#total-population').val(keyFigures.total_population);
         $('#population-source').val(keyFigures.population_source);
-        $('#last-checked-date').text(keyFigures.last_checked);
+
+        $('.last-checked-date').show();
+        $('.last-checked-date').find('date').text(keyFigures.last_checked);
 
         $('#last-modified').show();
-        $('#last-modified').find('span').text(country.last_modified);
+        $('#last-modified').find('date').text(country.last_modified);
 
         this.calculateHdiScore();
         this.calculateU5mScore();

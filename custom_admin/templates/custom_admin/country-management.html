@@ -138,9 +138,8 @@ DEEP | Country Panel
             </div>
             <div id="key-figures" class="tab" hidden>
                 <div class="key-figure">
-                    <h2><a href="http://www.hdr.undp.org/en/countries" target="_blank" >Human development index <span class="fa fa-external-link" style="margin-left: 8px;"></span></a>
-                        <span style="font-size: 0.7em;">Last Checked: <span id="last-checked-date"></span></span>
-                    </h2>
+                    <h2><a href="http://www.hdr.undp.org/en/countries" target="_blank" >Human development index <span class="fa fa-external-link" style="margin-left: 8px;"></span></a></h2>
+                    <span class="last-checked-date">Last checked at: <date></date></span>
                     <div>
                         <label>Index</label>
                         <input id="hdi-index" name="hdi-index" type="number" step="any" max="1" min="0" placeholder="Index">
@@ -160,6 +159,7 @@ DEEP | Country Panel
                 </div>
                 <div class="key-figure">
                     <h2><a href="http://www.inform-index.org/" target="_blank" >Under five mortality rate <span style="text-transform: none"> (per 1.000 live births)</span><span class="fa fa-external-link" style="margin-left: 8px;"></span></a></h2>
+                    <span class="last-checked-date">Last checked at: <date></date></span>
                     <div>
                         <label>U5M</label>
                         <input id="u5m" name="u5m" type="number" step="any" placeholder="U5M">
@@ -171,6 +171,7 @@ DEEP | Country Panel
                 </div>
                 <div class="key-figure" id="uprooted-people">
                     <h2><a href="http://www.inform-index.org/" target="_blank">Uprooted people<span style="text-transform: none"> (refugees + IDPs + returned refugees)</span><span class="fa fa-external-link" style="margin-left: 8px;"></span></a></h2>
+                    <span class="last-checked-date">Last checked at: <date></date></span>
                     <div>
                         <label>Number of refugees</label>
                         <input id="number-of-refugees" name="number-of-refugees" type="text" class="number form-control" placeholder="Number of refugees">
@@ -192,6 +193,7 @@ DEEP | Country Panel
                 </div>
                 <div class="key-figure">
                     <h2><a href="http://www.inform-index.org/" target="_blank" >INFORM Score<span class="fa fa-external-link" style="margin-left: 8px;"></span></a></h2>
+                    <span class="last-checked-date">Last checked at: <date></date></span>
                     <div>
                         <label>Risk Class</label>
                         <input id="inform-score" name="inform-score" type="text" placeholder="Risk Class">
@@ -215,6 +217,7 @@ DEEP | Country Panel
                 </div>
             </div>
             <div id="population-data" class="tab" hidden>
+                <span class="last-checked-date">Last checked at: <date></date></span>
                 <div>
                     <div>
                         <label>Total Population of Country</label>
@@ -226,7 +229,7 @@ DEEP | Country Panel
                     </div>
                     <div id="last-modified" hidden>
                         <label>Last Updated</label>
-                        <span></span>
+                        <date></date>
                     </div>
                 </div>
             </div>
