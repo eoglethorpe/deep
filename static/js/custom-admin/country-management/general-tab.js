@@ -40,6 +40,7 @@ var generalTab = {
                 adminLevelView.find('.geojson-old').html('<b>Current: </b><a href="' + adminLevel.geojson + '">' + adminLevel.geojson + '</a>');
             }
         }
+        this.validateAdminLevels();
 
         loadCountryInMap(code);
     },
@@ -53,10 +54,11 @@ var generalTab = {
 
         $('#admin-levels-container').empty();
         this.addNewAdminLevel();
+        this.validateAdminLevels();
     },
 
     onSubmit: function() {
-        return true;
+        return this.validateAdminLevels();
     },
 
     addNewAdminLevel: function() {
@@ -94,12 +96,19 @@ var generalTab = {
         });;
 
         $('.admin-level-details').each(function(index, elem){
+
             // Skip for to-be-deleted element
             if ($(elem).find('.delete-admin-level').is(':checked')) {
                 return;
             }
 
             let adminLevelInput = $(elem).find('input.admin-level');
+
+            if (adminLevelInput.val() == null || adminLevelInput.val() == '') {
+                adminLevelInput.get(0).setCustomValidity('Please fill out this field');
+                return false;
+            }
+
             if(adminLevels.hasOwnProperty(adminLevelInput.val())){
                 duplicates.push(adminLevelInput);
             };
