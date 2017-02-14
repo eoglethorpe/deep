@@ -29,6 +29,7 @@ DEEP | Country Panel
         {% for country in countries %}
         '{{country.code}}': {
             name: '{{country.name|escapejs}}',
+            region: JSON.parse("{{country.regions|escapejs}}"),
             // Key figures
             hdi_index: '{{country.hdi_index}}',
             hdi_rank: '{{country.hdi_rank}}',
@@ -109,6 +110,30 @@ DEEP | Country Panel
                         <div>
                             <label>Name</label>
                             <input name="country-name" type="text" id="country-name" placeholder="Enter country name" required>
+                        </div>
+                        <div>
+                            <label>WB region</label>
+                            <input name="country-wb-region" type="text" id="country-wb-region" placeholder="Enter WB Region">
+                        </div>
+                        <div>
+                            <label>WB income group</label>
+                            <input name="country-wb-income-group" type="text" id="country-wb-income-group" placeholder="Enter WB Income Group">
+                        </div>
+                        <div>
+                            <label>OCHA Region</label>
+                            <input name="country-ocha-region" type="text" id="country-ocha-region" placeholder="Enter OCHA Region">
+                        </div>
+                        <div>
+                            <label>ECHO Region</label>
+                            <input name="country-echo-region" type="text" id="country-echo-region" placeholder="Enter ECHO Region">
+                        </div>
+                        <div>
+                            <label>UN Geographical region</label>
+                            <input name="country-un-geographical-region" type="text" id="country-un-geographical-region" placeholder="Enter UN Geographical Region">
+                        </div>
+                        <div>
+                            <label>UN Geographical Sub Region</label>
+                            <input name="country-un-geographical-sub-region" type="text" id="country-un-geographical-sub-region" placeholder="Enter UN Geographical Sub Region">
                         </div>
                     </div>
                     <div>

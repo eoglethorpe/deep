@@ -11,10 +11,18 @@ var generalTab = {
     },
 
     loadForCountry: function(code, country) {
-        $('#country-detail-inputs h1').text('Edit country details');
+        $('#country-detail-inputs h2').text('Edit country details');
         $('#country-name').val(country.name);
         $('#country-code').val(code);
         $('#country-code').attr('readonly', true);
+
+        let region = country['region'];
+        $('#country-wb-region').val(region['WB Region']);
+        $('#country-wb-income-group').val(region['WB IncomeGroup']);
+        $('#country-ocha-region').val(region['UN-OCHA Region']);
+        $('#country-echo-region').val(region['EC-ECHO Region']);
+        $('#country-un-geographical-region').val(region['UN Geographical Region']);
+        $('#country-un-geographical-sub-region').val(region['UN Geographical Sub-Region']);
 
         // Admin levels
         $('#admin-levels-container').empty();
@@ -38,7 +46,7 @@ var generalTab = {
 
     loadEmpty: function() {
         this.adminLevelId++;
-        $('#country-detail-inputs h1').text('Add new country');
+        $('#country-detail-inputs h2').text('Add new country');
         $('#country-code').val(null);
         $('#country-name').val(null);
         $('#country-code').attr('readonly', false);
@@ -68,7 +76,7 @@ var generalTab = {
         adminLevelView.find('.geojson').attr('id', 'geojson-file-input-'+this.adminLevelId);
         adminLevelView.find('.geojson-label').attr('for', 'geojson-file-input-'+this.adminLevelId);
 
-        adminLevelView.find('.admin-level').on('input change', function() {
+        adminLevelView.find('.admin-level,.delete-admin-level').on('input change', function() {
             that.validateAdminLevels();
         });
 
