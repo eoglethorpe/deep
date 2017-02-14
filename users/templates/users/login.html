@@ -15,7 +15,7 @@ DEEP | Sign in
     <form method="post">
         {% csrf_token %}
         <header>
-            <h1>Data entry and extraction platform</h1>
+            <h1>Data entry and exploration platform</h1>
             <!-- <img src="{% watchful_static_url 'img/deep-logo-header.png' %}"> -->
         </header>
         {% if error %}
@@ -23,7 +23,7 @@ DEEP | Sign in
         {% endif %}
         <div>
             <label>Email</label>
-            <input type="text" placeholder="Your email id (eg: john.doe@gmail.com)" name="email" {% if email %}value="{{email}}"{% endif %} required>
+            <input type="text" placeholder="Your email id (eg: john.cena@gmail.com)" name="email" {% if email %}value="{{email}}"{% endif %} required>
         </div>
         <div>
             <label>Password</label>
