@@ -116,20 +116,36 @@ class CountryManagementView(View):
 
             country.name = request.POST['country-name']
 
+            # Country Region Data
+            region_data = {
+                'WB Region': request.POST.get('country-wb-region'),
+                'WB IncomeGroup': request.POST.get('country-wb-income-group'),
+                'UN-OCHA Region': request.POST.get('country-ocha-region'),
+                'EC-ECHO Region': request.POST.get('country-echo-region'),
+                'UN Geographical Region':
+                    request.POST.get('country-un-geographical-region'),
+                'UN Geographical Sub-Region':
+                    request.POST.get('country-un-geographical-sub-region'),
+            }
+            country.regions = json.dumps(region_data)
+
             # Key figures
             country.hdi_index = request.POST['hdi-index']
-            country.hdi_rank= request.POST['hdi-rank']
+            country.hdi_rank = request.POST['hdi-rank']
             country.u5m = request.POST['u5m']
 
             country.number_of_refugees = request.POST['number-of-refugees']
             country.number_of_idps = request.POST['number-of-idps']
-            country.number_of_returned_refugees = request.POST['number-of-returned-refugees']
+            country.number_of_returned_refugees =\
+                request.POST['number-of-returned-refugees']
 
             country.inform_score = request.POST['inform-score']
             country.inform_risk_index = request.POST['inform-risk-index']
-            country.inform_hazard_and_exposure= request.POST['inform-hazard-and-exposure']
+            country.inform_hazard_and_exposure =\
+                request.POST['inform-hazard-and-exposure']
             country.inform_vulnerability = request.POST['inform-vulnerability']
-            country.inform_lack_of_coping_capacity = request.POST['inform-lack-of-coping-capacity']
+            country.inform_lack_of_coping_capacity =\
+                request.POST['inform-lack-of-coping-capacity']
 
             country.total_population = request.POST['total-population']
             country.population_soure = request.POST['population-source']

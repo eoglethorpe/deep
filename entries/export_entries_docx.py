@@ -186,8 +186,6 @@ def export_docx(order, event, informations=None):
     set_style(d.styles["Heading 4"])
     set_style(d.styles["Heading 5"])
 
-    # TODO: Hierarchy and filter
-
     # The leads for which excerpts we displayed
     leads_pk = []
 
@@ -206,7 +204,7 @@ def export_docx(order, event, informations=None):
                     subpillar=subpillar,
                     sector=None,
                     information__entry__lead__event__pk=event)
-            if informations:
+            if informations is not None:
                 attributes = attributes.filter(
                         information__pk__in=informations)
 
@@ -242,7 +240,7 @@ def export_docx(order, event, informations=None):
                         subpillar=subpillar,
                         sector=sector,
                         information__entry__lead__event__pk=event)
-                if informations:
+                if informations is not None:
                     attributes = attributes.filter(
                             information__pk__in=informations)
 
@@ -269,8 +267,12 @@ def export_docx(order, event, informations=None):
     d.add_heading("Bibliography", level=1)
     d.add_paragraph()
 
-    leads_pk = list(set(leads_pk))
-    leads = entry_model.Lead.objects.filter(pk__in=leads_pk)
+    if len(leads_pk) == 0:
+        leads = []
+    else:
+        leads_pk = list(set(leads_pk))
+        leads = entry_model.Lead.objects.filter(pk__in=leads_pk)
+        
     for lead in leads:
         p = d.add_paragraph()
         if lead.source_name and lead.source_name != "":
@@ -314,7 +316,7 @@ def export_docx_new_format(order, event, informations=None):
         """
         Filter with given `informations` if provided
         """
-        if informations:
+        if informations is not None:
             xyz_info = xyz_info.filter(
                     information__pk__in=informations)
         return xyz_info

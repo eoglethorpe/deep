@@ -161,8 +161,20 @@ body {
         padding: 10px 24px 14px 24px;
         font-size: 14px;
         cursor: pointer; }
-      body main #navigator .nav-active {
-        border-bottom: 2px solid #008080; }
+        body main #navigator a.nav-active {
+          border-bottom: 2px solid #008080; }
+        body main #navigator a.invalid {
+          color: #008080;
+          animation: blink 2s infinite linear; }
+@keyframes blink {
+  0% {
+    color: #008080; }
+  30% {
+    color: #e74c3c; }
+  70% {
+    color: #e74c3c; }
+  100% {
+    color: #008080; } }
       body main #navigator #save-btn, body main #navigator #delete-btn {
         margin-left: 8px;
         box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
@@ -170,6 +182,8 @@ body {
           box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
         body main #navigator #save-btn .fa, body main #navigator #delete-btn .fa {
           margin-right: 10px; }
+    body main #content-wrapper :invalid {
+      border-color: #e74c3c; }
     body main #content-wrapper #country-detail {
       height: calc(100vh - 56px - 48px);
       background-color: #fff;

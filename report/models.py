@@ -31,6 +31,7 @@ class HumanProfileField(models.Model):
     total_affected_field = models.BooleanField(default=False)
     dashboard_affected_field = models.BooleanField(default=False)
     dashboard_availability_field = models.BooleanField(default=False)
+    dashboard_displaced_field = models.BooleanField(default=False)
     severity_score_total_pin_field = models.BooleanField(default=False)
 
     def __str__(self):
