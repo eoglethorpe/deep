@@ -1,6 +1,7 @@
 var heirarchy;
 $(document).ready(function(){
 
+    $('#export-entries-doc-form button').attr('disabled', true);
     initEntryFilters();
 
     $( "#sortable" ).sortable({
@@ -26,7 +27,6 @@ $(document).ready(function(){
                 informationList.push(entries[i].informations[j].id);
             }
         }
-        // console.log(informationList);
         $("<input>").attr({
             'type': 'hidden',
             'name': 'informations',
@@ -38,4 +38,6 @@ $(document).ready(function(){
 
 
 // Needed by entries filter module
-function renderEntries() {}
+function renderEntries() {
+    $('#export-entries-doc-form button').attr('disabled', false);
+}
