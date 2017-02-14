@@ -51,65 +51,62 @@ DEEP | Leads
 {% include 'navbar.html' %}
 
 <main>
-    <div class="container-fluid">
-        <a class="btn btn-primary" id="add-lead-btn" href="{% url 'leads:add' event=event.pk %}" ><i class="fa fa-plus" style=" margin-right: 10px; font-size:1.2em"></i>Add Lead</a>
-        <!-- <h1>Leads</h1> -->
+    <a class="btn btn-primary" id="add-lead-btn" href="{% url 'leads:add' event=event.pk %}" ><i class="fa fa-plus" style=" margin-right: 10px; font-size:1.2em"></i>Add Lead</a>
 
-        <div id="filters">
-            <label>Apply filter:</label>
-            <select id="assigned-to-filter" placeholder="Assigned to">
-                <option value="">Assigned to</option>
-            </select>
-            <select id="date-created-filter" placeholder="Date Created">
-                <option value="">Date Created</option>
-                <option value="today">Today</option>
-                <option value="yesterday">Yesterday</option>
-                <option value="last-seven-days">Last 7 days</option>
-                <option value="this-week">This week</option>
-                <option value="last-thirty-days">Last 30 days</option>
-                <option value="this-month">This month</option>
-                <option value="range">Range</option>
-            </select>
-            <select id="date-published-filter" placeholder="Date Published">
-                <option value="">Date Published</option>
-                <option value="today">Today</option>
-                <option value="yesterday">Yesterday</option>
-                <option value="last-seven-days">Last 7 days</option>
-                <option value="this-week">This week</option>
-                <option value="last-thirty-days">Last 30 days</option>
-                <option value="this-month">This month</option>
-                <option value="range">Range</option>
-            </select>
-            <select id="confidentiality-filter" placeholder="Confidentiality">
-                <option value="">Confidentiality</option>
-                <option value="Unprotected">Unprotected</option>
-                <option value="Protected">Protected</option>
-                <option value="Restricted">Restricted</option>
-                <option value="Confidential">Confidential</option>
-            </select>
-            <select id="status-filter" placeholder="Status">
-                <option value="">Status</option>
-                <option value="Pending">Pending</option>
-                <option value="Processed">Processed</option>
-            </select>
-        </div>
-        <div id="leads-table-wrapper">
-            <table id="leads-table" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th>Created on</th>
-                        <th>Created by</th>
-                        <th>Assigned</th>
-                        <th>Name</th>
-                        <th>Published</th>
-                        <th>Confidentiality</th>
-                        <th>Source</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
+    <div id="filters">
+        <label>Apply filter:</label>
+        <select id="assigned-to-filter" placeholder="Assigned to">
+            <option value="">Assigned to</option>
+        </select>
+        <select id="date-created-filter" placeholder="Date Created">
+            <option value="">Date Created</option>
+            <option value="today">Today</option>
+            <option value="yesterday">Yesterday</option>
+            <option value="last-seven-days">Last 7 days</option>
+            <option value="this-week">This week</option>
+            <option value="last-thirty-days">Last 30 days</option>
+            <option value="this-month">This month</option>
+            <option value="range">Range</option>
+        </select>
+        <select id="date-published-filter" placeholder="Date Published">
+            <option value="">Date Published</option>
+            <option value="today">Today</option>
+            <option value="yesterday">Yesterday</option>
+            <option value="last-seven-days">Last 7 days</option>
+            <option value="this-week">This week</option>
+            <option value="last-thirty-days">Last 30 days</option>
+            <option value="this-month">This month</option>
+            <option value="range">Range</option>
+        </select>
+        <select id="confidentiality-filter" placeholder="Confidentiality">
+            <option value="">Confidentiality</option>
+            <option value="Unprotected">Unprotected</option>
+            <option value="Protected">Protected</option>
+            <option value="Restricted">Restricted</option>
+            <option value="Confidential">Confidential</option>
+        </select>
+        <select id="status-filter" placeholder="Status">
+            <option value="">Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Processed">Processed</option>
+        </select>
+    </div>
+    <div id="leads-table-wrapper">
+        <table id="leads-table" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Created on</th>
+                    <th>Created by</th>
+                    <th>Assigned to</th>
+                    <th>Name</th>
+                    <th>Published</th>
+                    <th>Confidentiality</th>
+                    <th>Source</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </main>
 

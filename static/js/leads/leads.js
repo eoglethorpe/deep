@@ -99,7 +99,7 @@ $(document).ready(function() {
                     return data.created_by_name;
                 }
             },
-            { data: "assigned_to_name",width: "6%"},
+            { data: "assigned_to_name",width: "7%"},
             { data: "name" , width: "35%"},
             { data: null,width: "5%", render: function(data, type, row) { if (data.published_at) return formatDate(data.published_at); else return ""; } },
             { data: null,width: "5%", render: function(data, type, row) { return confidentialities[data.confidentiality]; } },
@@ -107,9 +107,9 @@ $(document).ready(function() {
             { data: null,width: "5%", render: function(data, type, row) { return statuses[data.status]; } },
             { data: null,width: "10%",render: function(data, type, row){
                 var getPendingBtn = function(){
-                    return (data.status == "PEN") ? '<a class=" btn-action btn-mark-processed" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Mark Processed" onclick="markProcessed('+data.id+', \'PRO\');"><i class="fa fa-exclamation-triangle fa-lg"></i>  </a>' : '<a class=" btn-action btn-mark-pending" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Mark Pending" onclick="markProcessed('+data.id+', \'PEN\');"><i class="fa fa-check fa-lg"></i></a>';
+                    return (data.status == "PEN") ? '<a class=" btn-action btn-mark-processed" data-toggle="tooltip" data-placement="bottom" title="Mark Processed" onclick="markProcessed('+data.id+', \'PRO\');"><i class="fa fa-exclamation-triangle fa-lg"></i>  </a>' : '<a class=" btn-action btn-mark-pending" data-toggle="tooltip" data-placement="bottom" title="Mark Pending" onclick="markProcessed('+data.id+', \'PEN\');"><i class="fa fa-check fa-lg"></i></a>';
                 };
-                return '<a class=" btn-action btn-add-entry" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Add Entry" href="/'+currentEvent+'/entries/add/'+data.id+'"><i class="fa fa-share fa-lg"></i></a> <a class=" btn-action btn-edit fa-lg" onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Edit Lead" href="/'+currentEvent+'/leads/edit/'+data.id+'"><i class="fa fa-edit"></i></a>'+getPendingBtn();
+                return '<a class=" btn-action btn-add-entry" data-toggle="tooltip" data-placement="bottom" title="Add Entry" href="/'+currentEvent+'/entries/add/'+data.id+'"><i class="fa fa-share fa-lg"></i></a> <a class=" btn-action btn-edit fa-lg" data-toggle="tooltip" data-placement="bottom" title="Edit Lead" href="/'+currentEvent+'/leads/edit/'+data.id+'"><i class="fa fa-edit"></i></a>'+getPendingBtn();
 
             }}
         ],
@@ -203,13 +203,6 @@ $(document).ready(function() {
         }
     });
 
-
-    // $('#date-created-filter').on('change', function(){
-    //     if($(this).val() == 'range'){
-    //         $("#date-range-input").modal('show');
-    //     }
-    // });
-
     $('#leads-table tbody').on('click', '.btn-action', function(e){
         e.stopPropagation();
     });
@@ -261,37 +254,31 @@ $(document).ready(function() {
 
         // `data` is the original data object for the row
         return '<div class= "row-detail">' +
-                '<h3>' + data.name + '</h3>' +
-                '<div class="extra"><span><i class="fa fa-user"></i>' + data.created_by_name + '</span><span><i class="fa fa-calendar"></i>' + (new Date(data.created_at)).toLocaleDateString() + '</span></div>' +
-                '<div class="row">' +
-                    '<div class="col-md-6">' +
-                    // @TODO display url and website
-                        '<div class="details">' +
-                            '<div><label>status:</label> ' + statuses[data.status] + '</div>' +
-                            '<div><label>published at:</label> ' + data.published_at + '</div>' +
-                            '<div><label>source:</label> ' + data.source + '</div>' +
-                            '<div><label>confidentiality:</label> ' + confidentialities[data.confidentiality] + '</div>' +
-                            (data.website? '<div><label>website:</label>'+data.website+'</div>' : '') +
-                        '</div>' +
+                    '<h3>' + data.name + '</h3>' +
+                    '<div class="extra"><span><i class="fa fa-user"></i>' + data.created_by_name + '</span><span><i class="fa fa-calendar"></i>' + (new Date(data.created_at)).toLocaleDateString() + '</span></div>' +
+                    '<div class="actions">' +
+                        '<button class="btn-add-entry" onclick="window.location.href=\'/' + currentEvent + '/entries/add/' + data.id + '/\'"><i class="fa fa-share"></i>Add Entry</button>' +
+                        '<button class="btn-add-entry" onclick="window.location.href=\'/' + currentEvent + '/leads/add-sos/' + data.id + '/\'"><i class="fa fa-share"></i>Add Survey of Survey</button>' +
+                        '<button class="btn-edit" onclick="window.location.href=\'/' + currentEvent + '/leads/edit/' + data.id + '/\'"><i class="fa fa-edit"></i>Edit</button>' +
+                        (
+                            (data.status == "PEN") ?
+                            '<button class="btn-mark-processed" onclick="markProcessed('+data.id+', \'PRO\');"><i class="fa fa-check"></i>Mark Processed</button>' :
+                            '<button class="btn-mark-processed" onclick="markProcessed('+data.id+', \'PEN\');"><i class="fa fa-check"></i>Mark Pending</button>'
+                        ) +
+                        '<button class="btn-delete" onclick="deleteLead('+data.id+');"><i class="fa fa-trash"></i>Delete</button>' +
                     '</div>' +
-                    '<div class="col-md-6">' +
-                        '<div class="actions">' +
-                            '<button class="btn btn-default btn-add-entry" onclick="window.location.href=\'/' + currentEvent + '/entries/add/' + data.id + '/\'"><i class="fa fa-share"></i>Add Entry</button>' +
-                            '<button class="btn btn-default btn-add-entry" onclick="window.location.href=\'/' + currentEvent + '/leads/add-sos/' + data.id + '/\'"><i class="fa fa-share"></i>Add Survey of Survey</button>' +
-                            '<button class="btn btn-default btn-edit" onclick="window.location.href=\'/' + currentEvent + '/leads/edit/' + data.id + '/\'"><i class="fa fa-edit"></i>Edit</button>' +
-                            (
-                                (data.status == "PEN") ?
-                                '<button class="btn btn-default btn-mark-processed" onclick="markProcessed('+data.id+', \'PRO\');"><i class="fa fa-check"></i>Mark Processed</button>' :
-                                '<button class="btn btn-default btn-mark-processed" onclick="markProcessed('+data.id+', \'PEN\');"><i class="fa fa-check"></i>Mark Pending</button>'
-                            ) +
-                            '<button class="btn btn-default btn-delete" onclick="deleteLead('+data.id+');"><i class="fa fa-trash"></i>Delete</button>' +
-                        '</div>' +
+                    '<div class="details">' +
+                        '<div><label>status:</label>' + statuses[data.status] + '</div>' +
+                        '<div><label>published at:</label>' + data.published_at + '</div>' +
+                        '<div><label>source:</label>' + data.source + '</div>' +
+                        '<div><label>confidentiality:</label>' + confidentialities[data.confidentiality] + '</div>' +
+                        (data.website? '<div><label>website:</label>'+data.website+'</div>' : '') +
                     '</div>' +
-                    '<div class="col-md-12 lead-content">' +
+
+                    '<div class="lead-content">' +
                         getFormattedLeadContent(data) +
                     '</div>' +
-                '</div>' +
-            '</div>'
+                '</div>'
         ;
     }
 
