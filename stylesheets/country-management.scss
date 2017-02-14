@@ -146,10 +146,21 @@ body{
                 }
 
                 &.invalid {
-                    color: red;
-
-                    &.nav-active {
-                        border-color: red;
+                    color: $primary-color;
+                    animation: blink 2s infinite linear;
+                }
+                @keyframes blink{
+                    0% {
+                        color: $primary-color;
+                    }
+                    30% {
+                        color: $error-color;
+                    }
+                    70% {
+                        color: $error-color;
+                    }
+                    100% {
+                        color: $primary-color;
                     }
                 }
             }
@@ -164,7 +175,7 @@ body{
         }
         #content-wrapper{
             :invalid {
-                border-color: red;
+                border-color: $error-color;
             }
 
             #country-detail{
