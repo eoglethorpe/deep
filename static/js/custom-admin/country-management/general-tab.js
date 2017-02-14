@@ -76,7 +76,7 @@ var generalTab = {
         adminLevelView.find('.geojson').attr('id', 'geojson-file-input-'+this.adminLevelId);
         adminLevelView.find('.geojson-label').attr('for', 'geojson-file-input-'+this.adminLevelId);
 
-        adminLevelView.find('.admin-level').on('input change', function() {
+        adminLevelView.find('.admin-level,.delete-admin-level').on('input change', function() {
             that.validateAdminLevels();
         });
 

@@ -4,7 +4,7 @@ import csv
 import json
 
 
-def get_dict_from_csv(filename, key):
+def get_dict_from_csv(filename, key, field_ignore=[]):
     """
     convert csv to json
     key specifies field for each row
@@ -30,6 +30,8 @@ def get_dict_from_csv(filename, key):
         data = {}
         # key index in csv array[e.g: iso3 is Country Code]
         key_index = -1
+        # Ignore Fields(including key)
+        field_ignore.append(key)
 
         # Get all the fields and iso3 index from first row
         for index, field in enumerate(spamreader[0]):
@@ -45,7 +47,7 @@ def get_dict_from_csv(filename, key):
         for row in spamreader[1:]:
             _row = {}
             for index, field in enumerate(fields):
-                if field == key:
+                if field in field_ignore:
                     continue
                 _row[field] = row[index]
             data[row[key_index]] = _row
@@ -56,7 +58,8 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         countries = Country.objects.all()
         print('Loading Region List....')
-        regions = get_dict_from_csv('static/files/region_list.csv', 'ISO3')
+        regions = get_dict_from_csv('static/files/region_list.csv',
+                                    'ISO3', ['COUNTRY'])
         for country in countries:
             region_data = regions.get(country.code)
             if region_data:
