@@ -11,10 +11,18 @@ var generalTab = {
     },
 
     loadForCountry: function(code, country) {
-        $('#country-detail-inputs h1').text('Edit country details');
+        $('#country-detail-inputs h2').text('Edit country details');
         $('#country-name').val(country.name);
         $('#country-code').val(code);
         $('#country-code').attr('readonly', true);
+
+        let region = country['region'];
+        $('#country-wb-region').val(region['WB Region']);
+        $('#country-wb-income-group').val(region['WB IncomeGroup']);
+        $('#country-ocha-region').val(region['UN-OCHA Region']);
+        $('#country-echo-region').val(region['EC-ECHO Region']);
+        $('#country-un-geographical-region').val(region['UN Geographical Region']);
+        $('#country-un-geographical-sub-region').val(region['UN Geographical Sub-Region']);
 
         // Admin levels
         $('#admin-levels-container').empty();
@@ -38,7 +46,7 @@ var generalTab = {
 
     loadEmpty: function() {
         this.adminLevelId++;
-        $('#country-detail-inputs h1').text('Add new country');
+        $('#country-detail-inputs h2').text('Add new country');
         $('#country-code').val(null);
         $('#country-name').val(null);
         $('#country-code').attr('readonly', false);
@@ -48,39 +56,12 @@ var generalTab = {
     },
 
     onSubmit: function() {
-        return this.validateAdminLevels();
-    },
-
-    validateAdminLevels: function() {
-        let adminLevels = {};
-        let duplicates = [];
-
-        $('.admin-level-details').each(function(index, elem){
-            // Skip for Delete
-            if ($(elem).find('.delete-admin-level').is(':checked')) {
-                return;
-            }
-            
-            let adminLevelInput = $(elem).find("input.admin-level");
-            if(adminLevels.hasOwnProperty(adminLevelInput.val())){
-                duplicates.push(adminLevelInput);
-            };
-            adminLevels[adminLevelInput.val()] = true;
-        });
-
-        if(duplicates.length){
-            $(duplicates).each(function(index, dup){
-                //show error in input field
-                $(dup).fadeToggle().fadeToggle();
-            });
-            //show error message
-            showToast('Duplicate Admin Level');
-            return false;
-        };
         return true;
     },
 
     addNewAdminLevel: function() {
+        var that = this;
+
         var adminLevelView = $('.admin-level-details-template').clone();
         adminLevelView.appendTo($('#admin-levels-container'));
         adminLevelView.removeClass('admin-level-details-template');
@@ -95,7 +76,43 @@ var generalTab = {
         adminLevelView.find('.geojson').attr('id', 'geojson-file-input-'+this.adminLevelId);
         adminLevelView.find('.geojson-label').attr('for', 'geojson-file-input-'+this.adminLevelId);
 
+        adminLevelView.find('.admin-level,.delete-admin-level').on('input change', function() {
+            that.validateAdminLevels();
+        });
+
         this.adminLevelId++;
         return adminLevelView;
-    }
+    },
+
+
+    validateAdminLevels: function() {
+        let adminLevels = {};
+        let duplicates = [];
+
+        $('input.admin-level').each(function(index, element) {
+            element.setCustomValidity('');
+        });;
+
+        $('.admin-level-details').each(function(index, elem){
+            // Skip for to-be-deleted element
+            if ($(elem).find('.delete-admin-level').is(':checked')) {
+                return;
+            }
+
+            let adminLevelInput = $(elem).find('input.admin-level');
+            if(adminLevels.hasOwnProperty(adminLevelInput.val())){
+                duplicates.push(adminLevelInput);
+            };
+            adminLevels[adminLevelInput.val()] = true;
+        });
+
+        if(duplicates.length){
+            $(duplicates).each(function(index, dup){
+                $(dup).get(0).setCustomValidity('Duplicate admin level');
+            });
+            return false;
+        };
+
+        return true;
+    },
 };

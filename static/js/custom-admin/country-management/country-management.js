@@ -3,6 +3,14 @@ var tabs = [
     generalTab, keyFiguresTab, mediaSourcesTab,
 ];
 
+function invalidateValidations() {
+    $('a.invalid').removeClass('invalid');
+    $('input:invalid').each(function() {
+        var index = $('#content-wrapper .tab').index($(this).closest('.tab'));
+        $('#navigator a').eq(index).addClass('invalid');
+    });
+}
+
 $(document).ready(function() {
 
     $('.number').on('change input paste drop', function(){
@@ -31,6 +39,8 @@ $(document).ready(function() {
         // Set active state
         $('.active').removeClass('active');
         $(this).addClass('active');
+
+        invalidateValidations();
 
     });
 
@@ -88,6 +98,12 @@ $(document).ready(function() {
 
         return true;
     });
+
+    // Make tabs containing invalid inputs also invalid
+    $('body').on('input change', 'input', function() {
+        invalidateValidations();
+    });
+    invalidateValidations();
 });
 
 

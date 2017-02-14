@@ -140,9 +140,29 @@ body{
                 padding: 10px 24px 14px 24px;
                 font-size: 14px;
                 cursor: pointer;
-            }
-            .nav-active{
-                border-bottom: 2px solid $primary-color;
+
+                &.nav-active{
+                    border-bottom: 2px solid $primary-color;
+                }
+
+                &.invalid {
+                    color: $primary-color;
+                    animation: blink 2s infinite linear;
+                }
+                @keyframes blink{
+                    0% {
+                        color: $primary-color;
+                    }
+                    30% {
+                        color: $error-color;
+                    }
+                    70% {
+                        color: $error-color;
+                    }
+                    100% {
+                        color: $primary-color;
+                    }
+                }
             }
             #save-btn, #delete-btn{
                 margin-left: 8px;
@@ -154,6 +174,10 @@ body{
             }
         }
         #content-wrapper{
+            :invalid {
+                border-color: $error-color;
+            }
+
             #country-detail{
                 height: calc(100vh - #{$navbar-height} - 48px);
                 background-color: #fff;

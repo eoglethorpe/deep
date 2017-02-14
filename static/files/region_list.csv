@@ -1,0 +1,192 @@
+COUNTRY,ISO3,WB Region,WB IncomeGroup,UN-OCHA Region,EC-ECHO Region,UN Geographical Region,UN Geographical Sub-Region
+Afghanistan,AFG,South Asia,Low income,ROMENA,South Asia,Asia,Southern Asia
+Albania,ALB,Europe & Central Asia,Upper middle income,CRD,Caucasus & EU's Eastern Neighbourhood,Europe,Southern Europe
+Algeria,DZA,Middle East & North Africa,Upper middle income,ROMENA,Middle East & North Africa,Africa,Northern Africa
+Angola,AGO,Sub-Saharan Africa,Upper middle income,ROSA,Sub-Saharan Africa,Africa,Middle Africa
+Antigua and Barbuda,ATG,Latin America & Caribbean,High income: nonOECD,ROLAC,Central America & Caribbean,Americas,Caribbean
+Argentina,ARG,Latin America & Caribbean,Upper middle income,ROLAC,Latin America,Americas,South America
+Armenia,ARM,Europe & Central Asia,Lower middle income,ROCCA,Caucasus & EU's Eastern Neighbourhood,Asia,Western Asia
+Australia,AUS,East Asia & Pacific,High income: OECD,ROAP,East Asia & Pacific,Oceania,Australia and New Zealand
+Austria,AUT,Europe & Central Asia,High income: OECD,CRD,Europe EU,Europe,Western Europe
+Azerbaijan,AZE,Europe & Central Asia,Upper middle income,ROCCA,Caucasus & EU's Eastern Neighbourhood,Asia,Western Asia
+Bahamas,BHS,Latin America & Caribbean,High income: nonOECD,ROLAC,Central America & Caribbean,Americas,Caribbean
+Bahrain,BHR,Middle East & North Africa,High income: nonOECD,ROMENA,Middle East & North Africa,Asia,Western Asia
+Bangladesh,BGD,South Asia,Low income,ROAP,South Asia,Asia,Southern Asia
+Barbados,BRB,Latin America & Caribbean,High income: nonOECD,ROLAC,Central America & Caribbean,Americas,Caribbean
+Belarus,BLR,Europe & Central Asia,Upper middle income,CRD,Caucasus & EU's Eastern Neighbourhood,Europe,Eastern Europe
+Belgium,BEL,Europe & Central Asia,High income: OECD,CRD,Europe EU,Europe,Western Europe
+Belize,BLZ,Latin America & Caribbean,Upper middle income,ROLAC,Central America & Caribbean,Americas,Central America
+Benin,BEN,Sub-Saharan Africa,Low income,ROWCA,Sub-Saharan Africa,Africa,Western Africa
+Bhutan,BTN,South Asia,Lower middle income,ROAP,South Asia,Asia,Southern Asia
+Bolivia,BOL,Latin America & Caribbean,Lower middle income,ROLAC,Central America & Caribbean,Americas,South America
+Bosnia and Herzegovina,BIH,Europe & Central Asia,Upper middle income,CRD,Caucasus & EU's Eastern Neighbourhood,Europe,Southern Europe
+Botswana,BWA,Sub-Saharan Africa,Upper middle income,ROSA,Sub-Saharan Africa,Africa,Southern Africa
+Brazil,BRA,Latin America & Caribbean,Upper middle income,ROLAC,Latin America,Americas,South America
+Brunei Darussalam,BRN,East Asia & Pacific,High income: nonOECD,ROAP,East Asia & Pacific,Asia,South-Eastern Asia
+Bulgaria,BGR,Europe & Central Asia,Upper middle income,CRD,Europe EU,Europe,Eastern Europe
+Burkina Faso,BFA,Sub-Saharan Africa,Low income,ROWCA,Sub-Saharan Africa,Africa,Western Africa
+Burundi,BDI,Sub-Saharan Africa,Low income,ROCEA,Sub-Saharan Africa,Africa,Eastern Africa
+Cabo Verde,CPV,Sub-Saharan Africa,Lower middle income,ROWCA,Sub-Saharan Africa,Africa,Western Africa
+Cambodia,KHM,East Asia & Pacific,Low income,ROAP,East Asia & Pacific,Asia,South-Eastern Asia
+Cameroon,CMR,Sub-Saharan Africa,Lower middle income,ROWCA,Sub-Saharan Africa,Africa,Middle Africa
+Canada,CAN,North America,High income: OECD,CRD,North America,Americas,Northern America
+Central African Republic,CAF,Sub-Saharan Africa,Low income,ROWCA,Sub-Saharan Africa,Africa,Middle Africa
+Chad,TCD,Sub-Saharan Africa,Low income,ROWCA,Sub-Saharan Africa,Africa,Middle Africa
+Chile,CHL,Latin America & Caribbean,High income: OECD,ROLAC,Latin America,Americas,South America
+China,CHN,East Asia & Pacific,Upper middle income,ROAP,East Asia & Pacific,Asia,Eastern Asia
+Colombia,COL,Latin America & Caribbean,Upper middle income,ROLAC,Latin America,Americas,South America
+Comoros,COM,Sub-Saharan Africa,Low income,ROSA,Sub-Saharan Africa,Africa,Eastern Africa
+Congo,COG,Sub-Saharan Africa,Lower middle income,ROWCA,Sub-Saharan Africa,Africa,Middle Africa
+Congo DR,COD,Sub-Saharan Africa,Low income,ROWCA,Sub-Saharan Africa,Africa,Middle Africa
+Costa Rica,CRI,Latin America & Caribbean,Upper middle income,ROLAC,Central America & Caribbean,Americas,Central America
+Côte d'Ivoire,CIV,Sub-Saharan Africa,Lower middle income,ROWCA,Sub-Saharan Africa,Africa,Western Africa
+Croatia,HRV,Europe & Central Asia,High income: nonOECD,CRD,Europe EU,Europe,Southern Europe
+Cuba,CUB,Latin America & Caribbean,Upper middle income,ROLAC,Central America & Caribbean,Americas,Caribbean
+Cyprus,CYP,Europe & Central Asia,High income: nonOECD,CRD,Europe EU,Asia,Western Asia
+Czech Republic,CZE,Europe & Central Asia,High income: OECD,CRD,Europe EU,Europe,Eastern Europe
+Denmark,DNK,Europe & Central Asia,High income: OECD,CRD,Europe EU,Europe,Northern Europe
+Djibouti,DJI,Middle East & North Africa,Lower middle income,ROCEA,Middle East & North Africa,Africa,Eastern Africa
+Dominica,DMA,Latin America & Caribbean,Upper middle income,ROLAC,Central America & Caribbean,Americas,Caribbean
+Dominican Republic,DOM,Latin America & Caribbean,Upper middle income,ROLAC,Central America & Caribbean,Americas,Caribbean
+Ecuador,ECU,Latin America & Caribbean,Upper middle income,ROLAC,Central America & Caribbean,Americas,South America
+Egypt,EGY,Middle East & North Africa,Lower middle income,ROMENA,Middle East & North Africa,Africa,Northern Africa
+El Salvador,SLV,Latin America & Caribbean,Lower middle income,ROLAC,Central America & Caribbean,Americas,Central America
+Equatorial Guinea,GNQ,Sub-Saharan Africa,High income: nonOECD,ROWCA,Sub-Saharan Africa,Africa,Middle Africa
+Eritrea,ERI,Sub-Saharan Africa,Low income,ROCEA,Sub-Saharan Africa,Africa,Eastern Africa
+Estonia,EST,Europe & Central Asia,High income: OECD,CRD,Europe EU,Europe,Northern Europe
+Ethiopia,ETH,Sub-Saharan Africa,Low income,ROCEA,Sub-Saharan Africa,Africa,Eastern Africa
+Fiji,FJI,East Asia & Pacific,Upper middle income,ROP,East Asia & Pacific,Oceania,Melanesia
+Finland,FIN,Europe & Central Asia,High income: OECD,CRD,Europe EU,Europe,Northern Europe
+France,FRA,Europe & Central Asia,High income: OECD,CRD,Europe EU,Europe,Western Europe
+Gabon,GAB,Sub-Saharan Africa,Upper middle income,ROWCA,Sub-Saharan Africa,Africa,Middle Africa
+Gambia,GMB,Sub-Saharan Africa,Low income,ROWCA,Sub-Saharan Africa,Africa,Western Africa
+Georgia,GEO,Europe & Central Asia,Lower middle income,ROCCA,Caucasus & EU's Eastern Neighbourhood,Asia,Western Asia
+Germany,DEU,Europe & Central Asia,High income: OECD,CRD,Europe EU,Europe,Western Europe
+Ghana,GHA,Sub-Saharan Africa,Lower middle income,ROWCA,Sub-Saharan Africa,Africa,Western Africa
+Greece,GRC,Europe & Central Asia,High income: OECD,CRD,Europe EU,Europe,Southern Europe
+Grenada,GRD,Latin America & Caribbean,Upper middle income,ROLAC,Central America & Caribbean,Americas,Caribbean
+Guatemala,GTM,Latin America & Caribbean,Lower middle income,ROLAC,Central America & Caribbean,Americas,Central America
+Guinea,GIN,Sub-Saharan Africa,Low income,ROWCA,Sub-Saharan Africa,Africa,Western Africa
+Guinea-Bissau,GNB,Sub-Saharan Africa,Low income,ROWCA,Sub-Saharan Africa,Africa,Western Africa
+Guyana,GUY,Latin America & Caribbean,Lower middle income,ROLAC,Latin America,Americas,South America
+Haiti,HTI,Latin America & Caribbean,Low income,ROLAC,Central America & Caribbean,Americas,Caribbean
+Honduras,HND,Latin America & Caribbean,Lower middle income,ROLAC,Central America & Caribbean,Americas,Central America
+Hungary,HUN,Europe & Central Asia,Upper middle income,CRD,Europe EU,Europe,Eastern Europe
+Iceland,ISL,Europe & Central Asia,High income: OECD,CRD,Europe nonEU,Europe,Northern Europe
+India,IND,South Asia,Lower middle income,ROAP,South Asia,Asia,Southern Asia
+Indonesia,IDN,East Asia & Pacific,Lower middle income,ROAP,East Asia & Pacific,Asia,South-Eastern Asia
+Iran,IRN,Middle East & North Africa,Upper middle income,ROMENA,Middle East & North Africa,Asia,Southern Asia
+Iraq,IRQ,Middle East & North Africa,Upper middle income,ROMENA,Middle East & North Africa,Asia,Western Asia
+Ireland,IRL,Europe & Central Asia,High income: OECD,CRD,Europe EU,Europe,Northern Europe
+Israel,ISR,Middle East & North Africa,High income: OECD,ROMENA,Middle East & North Africa,Asia,Western Asia
+Italy,ITA,Europe & Central Asia,High income: OECD,CRD,Europe EU,Europe,Southern Europe
+Jamaica,JAM,Latin America & Caribbean,Upper middle income,ROLAC,Central America & Caribbean,Americas,Caribbean
+Japan,JPN,East Asia & Pacific,High income: OECD,ROAP,East Asia & Pacific,Asia,Eastern Asia
+Jordan,JOR,Middle East & North Africa,Upper middle income,ROMENA,Middle East & North Africa,Asia,Western Asia
+Kazakhstan,KAZ,Europe & Central Asia,Upper middle income,ROCCA,Central Asia,Asia,Central Asia
+Kenya,KEN,Sub-Saharan Africa,Low income,ROCEA,Sub-Saharan Africa,Africa,Eastern Africa
+Kiribati,KIR,East Asia & Pacific,Lower middle income,ROP,East Asia & Pacific,Oceania,Micronesia
+Korea DPR,PRK,East Asia & Pacific,Low income,ROAP,East Asia & Pacific,Asia,Eastern Asia
+Korea Republic of,KOR,East Asia & Pacific,High income: OECD,ROAP,East Asia & Pacific,Asia,Eastern Asia
+Kuwait,KWT,Middle East & North Africa,High income: nonOECD,ROMENA,Middle East & North Africa,Asia,Western Asia
+Kyrgyzstan,KGZ,Europe & Central Asia,Low income,ROCCA,Central Asia,Asia,Central Asia
+Lao PDR,LAO,East Asia & Pacific,Lower middle income,ROAP,East Asia & Pacific,Asia,South-Eastern Asia
+Latvia,LVA,Europe & Central Asia,High income: nonOECD,CRD,Europe EU,Europe,Northern Europe
+Lebanon,LBN,Middle East & North Africa,Upper middle income,ROMENA,Middle East & North Africa,Asia,Western Asia
+Lesotho,LSO,Sub-Saharan Africa,Lower middle income,ROSA,Sub-Saharan Africa,Africa,Southern Africa
+Liberia,LBR,Sub-Saharan Africa,Low income,ROWCA,Sub-Saharan Africa,Africa,Western Africa
+Libya,LBY,Middle East & North Africa,Upper middle income,ROMENA,Middle East & North Africa,Africa,Northern Africa
+Liechtenstein,LIE,Europe & Central Asia,High income: nonOECD,CRD,Europe nonEU,Europe,Western Europe
+Lithuania,LTU,Europe & Central Asia,High income: nonOECD,CRD,Europe EU,Europe,Northern Europe
+Luxembourg,LUX,Europe & Central Asia,High income: OECD,CRD,Europe EU,Europe,Western Europe
+The former Yugoslav Republic of Macedonia,MKD,Europe & Central Asia,Upper middle income,CRD,Caucasus & EU's Eastern Neighbourhood,Europe,Southern Europe
+Madagascar,MDG,Sub-Saharan Africa,Low income,ROSA,Sub-Saharan Africa,Africa,Eastern Africa
+Malawi,MWI,Sub-Saharan Africa,Low income,ROSA,Sub-Saharan Africa,Africa,Eastern Africa
+Malaysia,MYS,East Asia & Pacific,Upper middle income,ROAP,East Asia & Pacific,Asia,South-Eastern Asia
+Maldives,MDV,South Asia,Upper middle income,ROAP,South Asia,Asia,Southern Asia
+Mali,MLI,Sub-Saharan Africa,Low income,ROWCA,Sub-Saharan Africa,Africa,Western Africa
+Malta,MLT,Middle East & North Africa,High income: nonOECD,CRD,Europe EU,Europe,Southern Europe
+Marshall Islands,MHL,East Asia & Pacific,Upper middle income,ROP,East Asia & Pacific,Oceania,Micronesia
+Mauritania,MRT,Sub-Saharan Africa,Lower middle income,ROWCA,Sub-Saharan Africa,Africa,Western Africa
+Mauritius,MUS,Sub-Saharan Africa,Upper middle income,ROSA,Sub-Saharan Africa,Africa,Eastern Africa
+Mexico,MEX,Latin America & Caribbean,Upper middle income,ROLAC,Central America & Caribbean,Americas,Central America
+Micronesia,FSM,East Asia & Pacific,Lower middle income,ROP,East Asia & Pacific,Oceania,Micronesia
+Moldova Republic of,MDA,Europe & Central Asia,Lower middle income,CRD,Caucasus & EU's Eastern Neighbourhood,Europe,Eastern Europe
+Mongolia,MNG,East Asia & Pacific,Lower middle income,ROAP,East Asia & Pacific,Asia,Eastern Asia
+Montenegro,MNE,Europe & Central Asia,Upper middle income,CRD,Caucasus & EU's Eastern Neighbourhood,Europe,Southern Europe
+Morocco,MAR,Middle East & North Africa,Lower middle income,ROMENA,Middle East & North Africa,Africa,Northern Africa
+Mozambique,MOZ,Sub-Saharan Africa,Low income,ROSA,Sub-Saharan Africa,Africa,Eastern Africa
+Myanmar,MMR,East Asia & Pacific,Low income,ROAP,East Asia & Pacific,Asia,South-Eastern Asia
+Namibia,NAM,Sub-Saharan Africa,Upper middle income,ROSA,Sub-Saharan Africa,Africa,Southern Africa
+Nauru,NRU,East Asia & Pacific,,ROP,East Asia & Pacific,Oceania,Micronesia
+Nepal,NPL,South Asia,Low income,ROAP,South Asia,Asia,Southern Asia
+Netherlands,NLD,Europe & Central Asia,High income: OECD,CRD,Europe EU,Europe,Western Europe
+New Zealand,NZL,East Asia & Pacific,High income: OECD,ROAP,East Asia & Pacific,Oceania,Australia and New Zealand
+Nicaragua,NIC,Latin America & Caribbean,Lower middle income,ROLAC,Central America & Caribbean,Americas,Central America
+Niger,NER,Sub-Saharan Africa,Low income,ROWCA,Sub-Saharan Africa,Africa,Western Africa
+Nigeria,NGA,Sub-Saharan Africa,Lower middle income,ROWCA,Sub-Saharan Africa,Africa,Western Africa
+Norway,NOR,Europe & Central Asia,High income: OECD,CRD,Europe nonEU,Europe,Northern Europe
+Oman,OMN,Middle East & North Africa,High income: nonOECD,ROMENA,Middle East & North Africa,Asia,Western Asia
+Pakistan,PAK,South Asia,Lower middle income,ROMENA,South Asia,Asia,Southern Asia
+Palau,PLW,East Asia & Pacific,Upper middle income,ROP,East Asia & Pacific,Oceania,Micronesia
+Palestine,PSE,Middle East & North Africa,Lower middle income,ROMENA,Middle East & North Africa,Asia,Western Asia
+Panama,PAN,Latin America & Caribbean,Upper middle income,ROLAC,Central America & Caribbean,Americas,Central America
+Papua New Guinea,PNG,East Asia & Pacific,Lower middle income,ROAP,East Asia & Pacific,Oceania,Melanesia
+Paraguay,PRY,Latin America & Caribbean,Lower middle income,ROLAC,Latin America,Americas,South America
+Peru,PER,Latin America & Caribbean,Upper middle income,ROLAC,Latin America,Americas,South America
+Philippines,PHL,East Asia & Pacific,Lower middle income,ROAP,East Asia & Pacific,Asia,South-Eastern Asia
+Poland,POL,Europe & Central Asia,High income: OECD,CRD,Europe EU,Europe,Eastern Europe
+Portugal,PRT,Europe & Central Asia,High income: OECD,CRD,Europe EU,Europe,Southern Europe
+Qatar,QAT,Middle East & North Africa,High income: nonOECD,ROMENA,Middle East & North Africa,Asia,Western Asia
+Romania,ROU,Europe & Central Asia,Upper middle income,CRD,Europe EU,Europe,Eastern Europe
+Russian Federation,RUS,Europe & Central Asia,High income: nonOECD,CRD,Russia Federation,Europe,Eastern Europe
+Rwanda,RWA,Sub-Saharan Africa,Low income,ROCEA,Sub-Saharan Africa,Africa,Eastern Africa
+Saint Kitts and Nevis,KNA,Latin America & Caribbean,High income: nonOECD,ROLAC,Central America & Caribbean,Americas,Caribbean
+Saint Lucia,LCA,Latin America & Caribbean,Upper middle income,ROLAC,Central America & Caribbean,Americas,Caribbean
+Saint Vincent and the Grenadines,VCT,Latin America & Caribbean,Upper middle income,ROLAC,Central America & Caribbean,Americas,Caribbean
+Samoa,WSM,East Asia & Pacific,Lower middle income,ROP,East Asia & Pacific,Oceania,Polynesia
+Sao Tome and Principe,STP,Sub-Saharan Africa,Lower middle income,ROWCA,Sub-Saharan Africa,Africa,Middle Africa
+Saudi Arabia,SAU,Middle East & North Africa,High income: nonOECD,ROMENA,Middle East & North Africa,Asia,Western Asia
+Senegal,SEN,Sub-Saharan Africa,Lower middle income,ROWCA,Sub-Saharan Africa,Africa,Western Africa
+Serbia,SRB,Europe & Central Asia,Upper middle income,CRD,Caucasus & EU's Eastern Neighbourhood,Europe,Southern Europe
+Seychelles,SYC,Sub-Saharan Africa,Upper middle income,ROSA,Sub-Saharan Africa,Africa,Eastern Africa
+Sierra Leone,SLE,Sub-Saharan Africa,Low income,ROWCA,Sub-Saharan Africa,Africa,Western Africa
+Singapore,SGP,East Asia & Pacific,High income: nonOECD,ROAP,East Asia & Pacific,Asia,South-Eastern Asia
+Slovakia,SVK,Europe & Central Asia,High income: OECD,CRD,Europe EU,Europe,Eastern Europe
+Slovenia,SVN,Europe & Central Asia,High income: OECD,CRD,Europe EU,Europe,Southern Europe
+Solomon Islands,SLB,East Asia & Pacific,Lower middle income,ROP,East Asia & Pacific,Oceania,Melanesia
+Somalia,SOM,Sub-Saharan Africa,Low income,ROCEA,Sub-Saharan Africa,Africa,Eastern Africa
+South Africa,ZAF,Sub-Saharan Africa,Upper middle income,ROSA,Sub-Saharan Africa,Africa,Southern Africa
+South Sudan,SSD,Sub-Saharan Africa,Low income,ROCEA,Sub-Saharan Africa,Africa,Eastern Africa
+Spain,ESP,Europe & Central Asia,High income: OECD,CRD,Europe EU,Europe,Southern Europe
+Sri Lanka,LKA,South Asia,Lower middle income,ROAP,South Asia,Asia,Southern Asia
+Sudan,SDN,Sub-Saharan Africa,Lower middle income,ROCEA,Sub-Saharan Africa,Africa,Northern Africa
+Suriname,SUR,Latin America & Caribbean,Upper middle income,ROLAC,Latin America,Americas,South America
+Swaziland,SWZ,Sub-Saharan Africa,Lower middle income,ROSA,Sub-Saharan Africa,Africa,Southern Africa
+Sweden,SWE,Europe & Central Asia,High income: OECD,CRD,Europe EU,Europe,Northern Europe
+Switzerland,CHE,Europe & Central Asia,High income: OECD,CRD,Europe nonEU,Europe,Western Europe
+Syrian Arab Republic,SYR,Middle East & North Africa,Lower middle income,ROMENA,Middle East & North Africa,Asia,Western Asia
+Tajikistan,TJK,Europe & Central Asia,Low income,ROCCA,Central Asia,Asia,Central Asia
+Tanzania,TZA,Sub-Saharan Africa,Low income,ROSA,Sub-Saharan Africa,Africa,Eastern Africa
+Thailand,THA,East Asia & Pacific,Upper middle income,ROAP,East Asia & Pacific,Asia,South-Eastern Asia
+Timor-Leste,TLS,East Asia & Pacific,Lower middle income,ROAP,East Asia & Pacific,Asia,South-Eastern Asia
+Togo,TGO,Sub-Saharan Africa,Low income,ROWCA,Sub-Saharan Africa,Africa,Western Africa
+Tonga,TON,East Asia & Pacific,Upper middle income,ROP,East Asia & Pacific,Oceania,Polynesia
+Trinidad and Tobago,TTO,Latin America & Caribbean,High income: nonOECD,ROLAC,Central America & Caribbean,Americas,Caribbean
+Tunisia,TUN,Middle East & North Africa,Upper middle income,ROMENA,Middle East & North Africa,Africa,Northern Africa
+Turkey,TUR,Europe & Central Asia,Upper middle income,ROMENA,Caucasus & EU's Eastern Neighbourhood,Asia,Western Asia
+Turkmenistan,TKM,Europe & Central Asia,Upper middle income,ROCCA,Central Asia,Asia,Central Asia
+Tuvalu,TUV,East Asia & Pacific,Upper middle income,ROP,East Asia & Pacific,Oceania,Polynesia
+Uganda,UGA,Sub-Saharan Africa,Low income,ROCEA,Sub-Saharan Africa,Africa,Eastern Africa
+Ukraine,UKR,Europe & Central Asia,Lower middle income,CRD,Caucasus & EU's Eastern Neighbourhood,Europe,Eastern Europe
+United Arab Emirates,ARE,Middle East & North Africa,High income: nonOECD,ROMENA,Middle East & North Africa,Asia,Western Asia
+United Kingdom,GBR,Europe & Central Asia,High income: OECD,CRD,Europe EU,Europe,Northern Europe
+United States of America,USA,North America,High income: OECD,CRD,North America,Americas,Northern America
+Uruguay,URY,Latin America & Caribbean,High income: nonOECD,ROLAC,Latin America,Americas,South America
+Uzbekistan,UZB,Europe & Central Asia,Lower middle income,ROCCA,Central Asia,Asia,Central Asia
+Vanuatu,VUT,East Asia & Pacific,Lower middle income,ROP,East Asia & Pacific,Oceania,Melanesia
+Venezuela,VEN,Latin America & Caribbean,Upper middle income,ROLAC,Latin America,Americas,South America
+Viet Nam,VNM,East Asia & Pacific,Lower middle income,ROAP,East Asia & Pacific,Asia,South-Eastern Asia
+Yemen,YEM,Middle East & North Africa,Lower middle income,ROMENA,Middle East & North Africa,Asia,Western Asia
+Zambia,ZMB,Sub-Saharan Africa,Lower middle income,ROSA,Sub-Saharan Africa,Africa,Eastern Africa
+Zimbabwe,ZWE,Sub-Saharan Africa,Low income,ROSA,Sub-Saharan Africa,Africa,Eastern Africa

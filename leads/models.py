@@ -29,6 +29,7 @@ class Country(models.Model):
     inform_lack_of_coping_capacity = models.CharField(max_length=100, default='', blank=True)
 
     media_sources = models.TextField(default='{}')
+    regions = models.TextField(default='{}')
 
     modified_at = models.DateTimeField(auto_now=True)
 
