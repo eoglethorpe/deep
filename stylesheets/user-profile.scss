@@ -34,12 +34,16 @@ body{
         height: calc(100vh - #{$navbar-height});
 
         $header-height: 144px;
+
+
         header{
             flex-basis: 100%;
             height: $header-height;
             background-color: $primary-color;
             color: #fff;
-            padding: 0 24px;
+
+
+            padding: 0 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -64,43 +68,86 @@ body{
                 }
             }
         }
-        #projects{
+        #project-list{
             height: 50vh;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
-            h2{
-                padding: 24px;
+            #project-list-header{
                 background-color: #fff;
-            }
-
-            .header {
+                height: 48px;
+                padding: 0 16px;
                 display: flex;
+                align-items: center;
                 justify-content: space-between;
-                padding: 16px;
 
-                div {
-                    flex-basis: 20%;
-                    font-weight: $font-weight-bold;
+                button{
+                    height: 100%;
+                    background-color: $info-color;
+                    color: $text-color-light;
+                    border: none;
+                    margin-right: -16px;
+                    padding: 0 24px;
+
+                    .fa{
+                        margin-right: 10px;
+                    }
                 }
             }
-
-            .project {
+            .name{ flex-basis: 30%; }
+            .type{ flex-basis: 20%; }
+            .countries{flex-basis: 25%; }
+            .groups{flex-basis: 25%; }
+            #projects-header {
+                height: 36px;
                 display: flex;
-                justify-content: space-between;
-                padding: 16px;
-                background-color: $header-color-light;
-                cursor: pointer;
+                align-items: center;
+                justify-content: flex-start;
+                padding: 0 16px;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                margin-right: 12px;
 
-                &:nth-child(even) {
-                    background-color: $label-color-light;
-                }
+                label{
+                    margin: 0;
 
-                div {
-                    flex-basis: 20%;
+                    &[data-sort]{ cursor: pointer; }
+                    &.asc{
+                        &:after{
+                            content: '⇂';
+                            color: $primary-color;
+                        }
+                    }
+                    &.dsc{
+                        &:after{
+                            content: '↾';
+                            color: $primary-color;
+                        }
+                    }
                 }
             }
+            #projects{
+                height: calc(50vh - 48px - 36px);
+                overflow-y: scroll;
+                border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+
+                .project {
+                    min-height: 56px;
+                    padding: 10px 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    cursor: pointer;
+
+                    &:nth-child(even){
+                        background-color: #fff;
+                    }
+                    &:hover{
+                        background-color: rgba(0, 0, 0, 0.2);
+                    }
+                }
+            }
+
         }
-        #user-groups{
+        #user-group-list{
             height: calc(50vh - #{$header-height} - #{$navbar-height});
 
             h2{
