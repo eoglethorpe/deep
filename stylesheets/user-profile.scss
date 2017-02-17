@@ -127,7 +127,7 @@ body{
             #projects{
                 height: calc(50vh - 48px - 36px);
                 overflow-y: scroll;
-                border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+                border-bottom: 2px solid rgba(0, 0, 0, 0.05);
 
                 .project {
                     min-height: 56px;
@@ -150,9 +150,51 @@ body{
         #user-group-list{
             height: calc(50vh - #{$header-height} - #{$navbar-height});
 
-            h2{
-                padding: 24px;
+            #user-group-list-header{
+                height: 48px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0px 16px;
                 background-color: #fff;
+
+                button{
+                    height: 100%;
+                    background-color: $info-color;
+                    color: $text-color-light;
+                    border: none;
+                    margin-right: -16px;
+                    padding: 0 24px;
+
+                    .fa{
+                        margin-right: 10px;
+                    }
+                }
+            }
+            #user-groups{
+                height: calc(100% - 48px);
+                overflow-x: scroll;
+                display: flex;
+                align-items: center;
+                padding: 0 16px;
+
+                .user-group{
+                    height: 80%;
+                    width: 144px;
+                    background-color: #fff;
+                    display: flex;
+                    border: 1px solid rgba(0, 0, 0, 0.05);
+                    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.3);
+
+
+                    .name{
+                        align-self: flex-start;
+                        text-align: center;
+                        width: 100%;
+                        padding: 6px 10px;
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                    }
+                }
             }
         }
 

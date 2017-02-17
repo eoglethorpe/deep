@@ -227,7 +227,7 @@ body {
       body main #project-list #projects {
         height: calc(50vh - 48px - 36px);
         overflow-y: scroll;
-        border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
+        border-bottom: 2px solid rgba(0, 0, 0, 0.05); }
         body main #project-list #projects .project {
           min-height: 56px;
           padding: 10px 16px;
@@ -241,9 +241,41 @@ body {
             background-color: rgba(0, 0, 0, 0.2); }
     body main #user-group-list {
       height: calc(50vh - 144px - 56px); }
-      body main #user-group-list h2 {
-        padding: 24px;
+      body main #user-group-list #user-group-list-header {
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0px 16px;
         background-color: #fff; }
+        body main #user-group-list #user-group-list-header button {
+          height: 100%;
+          background-color: #3498db;
+          color: #fff;
+          border: none;
+          margin-right: -16px;
+          padding: 0 24px; }
+          body main #user-group-list #user-group-list-header button .fa {
+            margin-right: 10px; }
+      body main #user-group-list #user-groups {
+        height: calc(100% - 48px);
+        overflow-x: scroll;
+        display: flex;
+        align-items: center;
+        padding: 0 16px; }
+        body main #user-group-list #user-groups .user-group {
+          height: 80%;
+          width: 144px;
+          background-color: #fff;
+          display: flex;
+          border: 1px solid rgba(0, 0, 0, 0.05);
+          box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.3); }
+          body main #user-group-list #user-groups .user-group .name {
+            align-self: flex-start;
+            text-align: center;
+            width: 100%;
+            padding: 6px 10px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
   body aside {
     flex-basis: 24%;
     height: calc(100vh - 56px);

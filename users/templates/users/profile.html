@@ -46,7 +46,17 @@ DEEP | User Profile
         </div>
     </section>
     <section id="user-group-list">
-        <h2>User groups</h2>
+        <div id="user-group-list-header">
+            <h2>User groups</h2>
+            <button><i class="fa fa-plus"></i>Add new User group</button>
+        </div>
+        <div id="user-groups">
+            {% for usergroup in user.usergroup_set.all %}
+            <div class="user-group">
+                <a class="name" href="{% url 'usergroup:user_group_panel' usergroup.slug %}">{{ usergroup }}</a>
+            </div>
+            {% endfor %}
+        </div>
     </section>
 </main>
 <aside>
