@@ -1,3 +1,4 @@
+@charset "UTF-8";
 ::-webkit-scrollbar-track {
   background-color: rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.04); }
@@ -160,7 +161,7 @@ body {
       height: 144px;
       background-color: #008080;
       color: #fff;
-      padding: 0 24px;
+      padding: 0 16px;
       display: flex;
       justify-content: space-between;
       align-items: center; }
@@ -178,32 +179,69 @@ body {
         body main header .user-info .extra {
           font-size: 15px;
           color: rgba(255, 255, 255, 0.5); }
-    body main #projects {
+    body main #project-list {
       height: 50vh;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
-      body main #projects h2 {
-        padding: 24px;
-        background-color: #fff; }
-      body main #projects .header {
-        display: flex;
-        justify-content: space-between;
-        padding: 16px; }
-        body main #projects .header div {
-          flex-basis: 20%;
-          font-weight: 500; }
-      body main #projects .project {
-        display: flex;
-        justify-content: space-between;
-        padding: 16px;
+      body main #project-list #project-list-header {
         background-color: #fff;
-        cursor: pointer; }
-        body main #projects .project:nth-child(even) {
-          background-color: rgba(255, 255, 255, 0.5); }
-        body main #projects .project div {
-          flex-basis: 20%; }
-    body main #user-groups {
+        height: 48px;
+        padding: 0 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between; }
+        body main #project-list #project-list-header button {
+          height: 100%;
+          background-color: #3498db;
+          color: #fff;
+          border: none;
+          margin-right: -16px;
+          padding: 0 24px; }
+          body main #project-list #project-list-header button .fa {
+            margin-right: 10px; }
+      body main #project-list .name {
+        flex-basis: 30%; }
+      body main #project-list .type {
+        flex-basis: 20%; }
+      body main #project-list .countries {
+        flex-basis: 25%; }
+      body main #project-list .groups {
+        flex-basis: 25%; }
+      body main #project-list #projects-header {
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0 16px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        margin-right: 12px; }
+        body main #project-list #projects-header label {
+          margin: 0; }
+          body main #project-list #projects-header label[data-sort] {
+            cursor: pointer; }
+          body main #project-list #projects-header label.asc:after {
+            content: '⇂';
+            color: #008080; }
+          body main #project-list #projects-header label.dsc:after {
+            content: '↾';
+            color: #008080; }
+      body main #project-list #projects {
+        height: calc(50vh - 48px - 36px);
+        overflow-y: scroll;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
+        body main #project-list #projects .project {
+          min-height: 56px;
+          padding: 10px 16px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          cursor: pointer; }
+          body main #project-list #projects .project:nth-child(even) {
+            background-color: #fff; }
+          body main #project-list #projects .project:hover {
+            background-color: rgba(0, 0, 0, 0.2); }
+    body main #user-group-list {
       height: calc(50vh - 144px - 56px); }
-      body main #user-groups h2 {
+      body main #user-group-list h2 {
         padding: 24px;
         background-color: #fff; }
   body aside {

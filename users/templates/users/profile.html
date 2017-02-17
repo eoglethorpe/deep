@@ -23,24 +23,29 @@ DEEP | User Profile
             <div class="extra">{{ user.username }}</div>
         </div>
     </header>
-    <section id="projects">
-        <h2>Projects</h2>
-        <div class="header">
-            <div>Name</div>
-            <div>Type</div>
-            <div>Countries</div>
-            <div>Groups</div>
+    <section id="project-list">
+        <div id="project-list-header">
+            <h2>Projects</h2>
+            <button><i class="fa fa-plus"></i>Add new project</button>
         </div>
-        {% for crisis in user.event_set.all %}
-        <div class="project">
-            <div class="name">{{crisis.name}}</div>
-            <div class="type">{{crisis.disaster_type.name}}</div>
-            <div class="countries">{% for country in crisis.countries.all %}{{country}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
-            <div class="groups">TODO</div>
+        <div id="projects-header">
+            <label class="name" data-sort=".name">Name</label>
+            <label class="type" data-sort=".type">Type</label>
+            <label class="countries" data-sort=".countries">Countries</label>
+            <label class="groups" data-sort=".groups">Groups</label>
         </div>
-        {% endfor %}
+        <div id="projects">
+            {% for crisis in user.event_set.all %}
+            <div class="project">
+                <div class="name">{{crisis.name}}</div>
+                <div class="type">{{crisis.disaster_type.name}}</div>
+                <div class="countries">{% for country in crisis.countries.all %}{{country}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
+                <div class="groups">TODO</div>
+            </div>
+            {% endfor %}
+        </div>
     </section>
-    <section id="user-groups">
+    <section id="user-group-list">
         <h2>User groups</h2>
     </section>
 </main>
