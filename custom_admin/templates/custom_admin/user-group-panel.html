@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load watchful_url %}
+
+{% block title %}
+DEEP | User Group Panel
+{% endblock %}
+
+{% block head %}
+
+<link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}"/>
+<link href="{% watchful_static_url 'css/user-group-panel.css' %}" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/user-group-panel.js' %}"></script>
+
+{% endblock %}
+
+{% block body %}
+
+<nav>
+    <h1>User Group Management</h1>
+    <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to DEEP</a>
+</nav>
+
+<main>
+    <header>
+        <div id="navigator">
+            <a data-target="#members" class="nav-active">Members</a>
+            <a data-target="#projects">Projects</a>
+            <a data-target="#templates">Templates</a>
+        </div>
+    </header>
+
+    <section>
+        <div id="members">
+            Members
+        </div>
+        <div id="projects" hidden>
+            Projects
+        </div>
+        <div id="templates" hidden>
+            Templates
+        </div>
+    </section>
+</main>
+
+<aside>
+    <h2>Activities</h2>
+</aside>
+
+{% endblock %}
