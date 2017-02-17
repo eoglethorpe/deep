@@ -34,7 +34,7 @@ body {
     border-radius: 3px;
     transition: 0.2s all ease-in-out; }
   body label {
-    color: #818181;
+    color: rgba(0, 0, 0, 0.5);
     text-transform: uppercase;
     font-size: 11px; }
   body .float-alert-toast {
@@ -357,7 +357,7 @@ body {
           body main #content-wrapper #media-sources > div .media-source:nth-child(odd) {
             background-color: #f0f0f0; }
     body main #content-wrapper .last-checked-date {
-      color: #818181;
+      color: rgba(0, 0, 0, 0.5);
       flex-basis: 100%; }
 
 /*# sourceMappingURL=country-management.css.map */

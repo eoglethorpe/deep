@@ -274,3 +274,10 @@ class UserStatusView(View):
             except:
                 pass
         return JsonResponse({"status": "not logged-in"})
+
+
+class UserProfileView(View):
+    @method_decorator(login_required)
+    def get(self, request, user_id):
+        context = { 'user': User.objects.get(pk=user_id) }
+        return render(request, "users/profile.html", context)
