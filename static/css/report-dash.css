@@ -35,7 +35,7 @@ body {
     border-radius: 3px;
     transition: 0.2s all ease-in-out; }
   body label {
-    color: #818181;
+    color: rgba(0, 0, 0, 0.5);
     text-transform: uppercase;
     font-size: 11px; }
   body .float-alert-toast {
@@ -223,7 +223,7 @@ main {
       main #country-panel #country-list #countries .name {
         font-weight: 500; }
       main #country-panel #country-list #countries .events {
-        color: #818181; }
+        color: rgba(0, 0, 0, 0.5); }
       main #country-panel #country-list #countries .country {
         min-height: 100px;
         display: flex;
@@ -251,7 +251,7 @@ main {
           main #country-panel #country-list #countries .country .assigned-to span {
             display: block;
             font-size: 11px;
-            color: #818181; }
+            color: rgba(0, 0, 0, 0.5); }
             main #country-panel #country-list #countries .country .assigned-to span .fa {
               margin-right: 4px; }
         main #country-panel #country-list #countries .country .fa {

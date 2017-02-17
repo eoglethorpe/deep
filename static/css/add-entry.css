@@ -35,7 +35,7 @@ body {
     border-radius: 3px;
     transition: 0.2s all ease-in-out; }
   body label {
-    color: #818181;
+    color: rgba(0, 0, 0, 0.5);
     text-transform: uppercase;
     font-size: 11px; }
   body .float-alert-toast {
@@ -302,6 +302,19 @@ body {
             transform: scaleY(1.1), scaleX(1.02);
             background-color: #008080;
             color: #fff; }
+      body #page-one .split-pane #right-component #best-of-bullshits {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 64px;
+        background-color: #ddd;
+        font-size: 1.2em;
+        cursor: pointer;
+        -webkit-user-select: none; }
+        body #page-one .split-pane #right-component #best-of-bullshits.active {
+          background-color: #e04696;
+          color: #fff; }
       body #page-one .split-pane #right-component #matrix-two {
         width: 100%;
         border-spacing: 2px;

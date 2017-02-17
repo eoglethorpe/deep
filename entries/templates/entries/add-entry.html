@@ -100,10 +100,11 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         {% if attr.subsectors %}
                             [{% for ss in attr.subsectors.all %}{{ss.pk}}, {% endfor %}]
                         {% else %}null{% endif %}
-                    {% else %}null, subsector: null{% endif %}
+                    {% else %}null, subsector: null{% endif %},
                 },
                 {% endfor %}
             ],
+            bob: {% if excerpt.bob %}true{% else %}false{% endif %},
             reliability: {{excerpt.reliability.pk}},
             severity: {{excerpt.severity.pk}},
             date: {% if excerpt.date %}"{{excerpt.date|date:"Y-m-d"}}"{% else %}null{% endif %},
@@ -218,10 +219,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         </div></textarea>
                     </div>
 
-                    <div class="col-md-3">
-                        <label>Best of bullshits:
-                        <textarea id="best-of-bullshits" style="width: 100%;" rows="12">{{entry.best_of_bullshits|safe}}</textarea>
-                        </label>
+                    <div class="col-md-offset-1 col-md-2">
+                        <div id="best-of-bullshits"> BoB </div>
                     </div>
                 </div>
                 <table id="matrix-two">
@@ -302,6 +301,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         </div>
                     </div>
                     <div class="col-md-4">
+                        <a class="btn btn-sm" id="clear-map-selections">Clear all</a>
                         <div id="selected-location-list">
                             <p id="empty-text" hidden>No location added!</p>
                             <ul>

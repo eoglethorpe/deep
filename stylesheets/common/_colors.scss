@@ -1,8 +1,16 @@
 $primary-color: #008080;
+$danger-color: #e74c3c;
+$info-color: #3498db;
 
 $body-background-color: #f0f0f0;
 
 $text-color: #414141;
+$text-color-light: #fff;
+
 $header-color: #202020;
-$label-color: #818181;
+$header-color-light: #fff;
+
+$label-color: rgba(0, 0, 0, 0.5);
+$label-color-light: rgba(255, 255, 255, 0.5);
+
 $error-color: #e74c3c;

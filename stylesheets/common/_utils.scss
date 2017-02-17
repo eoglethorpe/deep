@@ -5,7 +5,13 @@
     box-shadow: 0 5px 15px 5px rgba(0, 0, 0, 0.3);
 }
 
+@mixin btn-shadow-md(){
+    box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5);
 
+    &:active{
+        box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5);
+    }
+}
 @mixin btn-shadow-lg(){
     box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7);
 

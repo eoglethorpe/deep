@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load watchful_url %}
+
+{% block title %}
+DEEP | User Profile
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% watchful_static_url 'css/user-profile.css' %}" >
+<script src="{% watchful_static_url 'js/users/profile.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+<nav>
+    <h1>User profile</h1>
+    <a href="{% url 'dashboard' %}"><i class="fa fa-long-arrow-left"></i>Back to deep</a>
+</nav>
+<main>
+    <header>
+        <img src="{% watchful_static_url 'img/default-avatar.png' %}">
+        <div class="user-info">
+            <h2 class="name">{{ user.get_full_name }}</h2>
+            <div class="extra">{{ user.username }}</div>
+        </div>
+    </header>
+    <section id="projects">
+        <h2>Projects</h2>
+    </section>
+    <section id="user-groups">
+        <h2>User groups</h2>
+    </section>
+</main>
+<aside>
+    <h2>Activity log</h2>
+</aside>
+{% endblock %}

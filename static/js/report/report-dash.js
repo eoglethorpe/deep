@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
     $('.assigned-to').each(function(){
         var alreadyThere = {};
         $(this).find('span').each(function(){
@@ -465,16 +464,6 @@ $(document).ready(function(){
             }
         });
         $.each(countryListItems, function(index, item){ countryList.append(item) });
-
-        //var countryList = $('#countries .country');
-        //var sortedCountries = $(countryList.toArray().sort());
-
-        //let countries = $('#countries');
-
-        // countryList.each(function(i){
-        //     $(this).after(sortedCountries.eq(i));
-        // });
-
 
         var asc = $('.asc');
         asc.data('sort-asc', null);

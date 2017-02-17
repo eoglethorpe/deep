@@ -33,7 +33,9 @@ var keyFiguresTab = {
         $('#total-population').val(null);
         $('#population-source').val(null);
         $('#last-modified').hide();
-        $('#last-modified').val(null);
+        $('#last-modified').find('date').val(null);
+        $('.last-checked-date').hide();
+        $('.last-checked-date').find('date').val(null);
 
         this.calculateHdiScore();
         this.calculateU5mScore();
@@ -45,22 +47,28 @@ var keyFiguresTab = {
     },
 
     loadForCountry: function(code, country) {
+        let keyFigures = country.key_figures;
+
         // Key figures
-        $('#hdi-index').val(country.hdi_index);
-        $('#hdi-rank').val(country.hdi_rank);
-        $('#u5m').val(country.u5m);
-        $('#number-of-refugees').val(country.number_of_refugees);
-        $('#number-of-idps').val(country.number_of_idps);
-        $('#number-of-returned-refugees').val(country.number_of_returned_refugees);
-        $('#inform-score').val(country.inform_score);
-        $('#inform-risk-index').val(country.inform_risk_index);
-        $('#inform-vulnerability').val(country.inform_vulnerability);
-        $('#inform-hazard-and-exposure').val(country.inform_hazard_and_exposure);
-        $('#inform-lack-of-coping-capacity').val(country.inform_lack_of_coping_capacity);
-        $('#total-population').val(country.total_population);
-        $('#population-source').val(country.population_source);
+        $('#hdi-index').val(keyFigures.hdi_index);
+        $('#hdi-rank').val(keyFigures.hdi_rank);
+        $('#u5m').val(keyFigures.u5m);
+        $('#number-of-refugees').val(keyFigures.number_of_refugees);
+        $('#number-of-idps').val(keyFigures.number_of_idps);
+        $('#number-of-returned-refugees').val(keyFigures.number_of_returned_refugees);
+        $('#inform-score').val(keyFigures.inform_score);
+        $('#inform-risk-index').val(keyFigures.inform_risk_index);
+        $('#inform-vulnerability').val(keyFigures.inform_vulnerability);
+        $('#inform-hazard-and-exposure').val(keyFigures.inform_hazard_and_exposure);
+        $('#inform-lack-of-coping-capacity').val(keyFigures.inform_lack_of_coping_capacity);
+        $('#total-population').val(keyFigures.total_population);
+        $('#population-source').val(keyFigures.population_source);
+
+        $('.last-checked-date').show();
+        $('.last-checked-date').find('date').text(keyFigures.last_checked);
+
         $('#last-modified').show();
-        $('#last-modified').find('span').text(country.last_modified);
+        $('#last-modified').find('date').text(country.last_modified);
 
         this.calculateHdiScore();
         this.calculateU5mScore();

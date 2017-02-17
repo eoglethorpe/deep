@@ -17,6 +17,7 @@ var excerpts = [
             'CountryCode:AdminLevel:SelectionName:SelectionPcode',
             'CountryCode:AdminLevel:SelectionName',
         ],
+        bob: false
     },
     ...
 ];
@@ -197,6 +198,13 @@ function refreshPageOne() {
     if (excerpt) {
         // Update excerpt text
         $("#excerpt-text").val(excerpt.excerpt);
+
+        // Best of bullshit
+        if (excerpt.bob) {
+            $('#best-of-bullshits').addClass('active');
+        } else {
+            $('#best-of-bullshits').removeClass('active');
+        }
 
         // Update attributes
         $("#matrix-one .sub-pillar").removeClass('active');
@@ -454,7 +462,8 @@ function addExcerpt(text) {
         reliability: defaultReliability, severity: defaultSeverity,
         date: defaultDate, number: null,
         affected_groups: [], vulnerable_groups: [], specific_needs_groups: [],
-        map_selections: []
+        map_selections: [],
+        bob: false
     };
     excerpts.push(excerpt);
 
@@ -485,9 +494,13 @@ function styleText(text) {
         var color = "#ccc";
         if (index >= 0) {
             // Create highlighting tag for this search
-            if (excerpts[i].attributes && excerpts[i].attributes.length > 0) {
+            if (excerpts[i].bob) {
+                color = '#e04696';
+            }
+            else if (excerpts[i].attributes && excerpts[i].attributes.length > 0) {
                 color = pillars[excerpts[i].attributes[0].pillar].bgColor;
             }
+
             text = text.slice(0, index) + '<span style="background-color:'+ color +'; color:'+ getContrastYIQ(color) +'" >'
                 + excerpt + '</span>'
                 + text.slice(index+excerpt.length)
@@ -666,6 +679,27 @@ $(document).ready(function(){
         simplifiedFrame.html(styleText(leadSimplified));
     });
 
+    // BOB selection
+    $('#best-of-bullshits').click(function() {
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+
+            if (excerpts[selectedExcerpt]) {
+                excerpts[selectedExcerpt].bob = false;
+            }
+        }
+        else {
+            $(this).addClass('active');
+
+            if (excerpts[selectedExcerpt]) {
+                excerpts[selectedExcerpt].bob = true;
+            }
+        }
+
+        var simplifiedFrame = $("#lead-simplified-preview");
+        simplifiedFrame.html(styleText(leadSimplified));
+    });
+
     // Drag drop
     var dropEvent = function(e) {
         var text = e.originalEvent.dataTransfer.getData('Text');
@@ -679,11 +713,12 @@ $(document).ready(function(){
         return false;
     };
 
-    $("#matrix-one .sub-pillar").bind('dragover', function(e) {
+    $("#matrix-one .sub-pillar, #best-of-bullshits").bind('dragover', function(e) {
         e.originalEvent.preventDefault();
         return false;
     });
     $("#matrix-one .sub-pillar").bind('drop', dropEvent);
+    $('#best-of-bullshits').bind('drop', dropEvent);
 
     // Matrix-one default color
     $("#matrix-one .sub-pillar").css("background-color", function(){ return $(this).data('bk-color'); });
@@ -831,6 +866,10 @@ $(document).ready(function(){
         refreshExcerpts();
     });
 
+    $("#clear-map-selections").unbind().click(function() {
+        mapSelections = [];
+        refreshMap();
+    });
     $("#apply-all-map").unbind().click(function() {
         for (var i=0; i<excerpts.length; ++i) {
             var excerpt = excerpts[i];
@@ -853,7 +892,7 @@ $(document).ready(function(){
     // Save and cancel
 
     $('.save-excerpt').unbind().click(function() {
-        var data = { excerpts: JSON.stringify(excerpts), best_of_bullshits: $('#best-of-bullshits').val() };
+        var data = { excerpts: JSON.stringify(excerpts) };
         redirectPost(window.location.pathname, data, csrf_token);
     });
     $('.cancel').unbind().click(function() {
