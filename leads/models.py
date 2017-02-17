@@ -5,6 +5,8 @@ from django.dispatch.dispatcher import receiver
 
 from datetime import datetime, date
 
+import json
+
 
 class Country(models.Model):
     code = models.CharField(max_length=5, primary_key=True)
@@ -18,6 +20,31 @@ class Country(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_total_population(self):
+        try:
+            return json.loads(self.key_figures)['total_population']
+        except:
+            return 0
+
+    def get_hdi_index(self):
+        try:
+            return json.loads(self.key_figures)['hdi_index']
+        except:
+            return 0
+
+    def get_u5m(self):
+        try:
+            return json.loads(self.key_figures)['u5m']
+        except:
+            return 0
+
+    def get_uprooted_people(self):
+        try:
+            data = json.loads(self.key_figures)
+            return data['number_of_refugees'] + data['number_of_idps'] + data['number_of_returned_refugees']
+        except:
+            return 0
 
     class Meta:
         ordering = ['name']

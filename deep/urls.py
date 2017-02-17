@@ -14,7 +14,6 @@ from leads.rest_views import *
 from entries.rest_views import *
 
 
-
 router = DefaultRouter()
 router.register(r'leads', LeadViewSet, base_name='lead')
 router.register(r'entries', EntryViewSet, base_name='entry')
@@ -52,5 +51,7 @@ urlpatterns = [
 
     url(r'^admin/', admin.site.urls),
     url(r'^api/v1/', include(router.urls)),
+    url(r'^api/v2/entries/', include('entries.api_urls')),
+    url(r'^api/v2/', include('leads.api_urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
