@@ -93,7 +93,7 @@ var hdi = +'{{country.hdi_index}}';
 var uprootedPeople = (+'{{country.number_of_refugees}}') + (+'{{country.number_of_idps}}') + (+'{{country.number_of_returned_refugees}}');
 var uprootedPercentage = 100.0 * uprootedPeople / (+'{{country.total_population}}');
 
-var totalPopulation = +'{{country.total_population}}';
+var totalPopulation = +'{{country.get_total_population}}';
 {% for field in human_profile_fields %}
 {% if field.total_field %}data['human']['number'][{{field.pk}}] = totalPopulation;{% endif %}
 {% endfor %}
