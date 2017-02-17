@@ -35,14 +35,16 @@ urlpatterns = [
     url(r'^load/countries/$', LoadCountries.as_view()),
 
     url(r'^dashboard/$', DashboardView.as_view(), name="dashboard"),
+
     url(r'^(?P<event>\d+)/dashboard/$', DashboardView.as_view(), name="dashboard"),
     url(r'^(?P<event>\d+)/leads/', include('leads.urls', namespace='leads')),
     url(r'^(?P<event>\d+)/entries/', include('entries.urls', namespace='entries')),
-
     url(r'^custom-admin/', include('custom_admin.urls', namespace='custom_admin')),
-
     url(r'^report/', include('report.urls', namespace='report')),
 
+    url(r'^user/(?P<user_id>\d+)', UserProfileView.as_view(), name="user_profile"),
+
+    # API for chrome extension
     url(r'user/status/', UserStatusView.as_view(), name="status"),
     url(r'date/', DateExtractorView.as_view(), name="date"),
 

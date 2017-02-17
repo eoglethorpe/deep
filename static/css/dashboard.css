@@ -34,7 +34,7 @@ body {
     border-radius: 3px;
     transition: 0.2s all ease-in-out; }
   body label {
-    color: #818181;
+    color: rgba(0, 0, 0, 0.5);
     text-transform: uppercase;
     font-size: 11px; }
   body .float-alert-toast {
@@ -177,7 +177,7 @@ body {
         margin-right: 10px;
         margin-left: 10px;
         font-size: 3em;
-        color: #818181;
+        color: rgba(0, 0, 0, 0.5);
         min-width: 4ch;
         font-family: 'Inconsolata', monospace; }
   body #body {
