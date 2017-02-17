@@ -22,6 +22,17 @@
                 window.location.href = $(this).val();
             }
         });
+
+        // HumanitarianId link
+        $('#link-with-hid').click(function() {
+            window.location.href = 'http://auth.dev.humanitarian.id/oauth/authorize?response_type=token&client_id=deep-dev&scope=profile&state=833912&redirect_uri=http://www.thedeep.io/login/';
+        });
+
+        if (window.location.hash.indexOf('access_token=') >= 0
+            && window.location.hash.indexOf('state=833912') >= 0)
+        {
+            window.location.href = '{% url "hid_access_token" %}' + '?' + window.location.hash.substr(1);
+        }
     });
 </script>
 {% endif %}
@@ -81,6 +92,11 @@
                 <li><a href="/admin"><i class="fa fa-user-secret"></i>Admin panel</a></li>
                 <li><a href="{% url 'custom_admin:country_management' %}"><i class="fa fa-globe"></i>Country Panel</a></li>
                 <li><a href="{% url 'custom_admin:crisis_panel' %}"><i class="fa fa-wrench"></i>Crisis Panel</a></li>
+                {% endif %}
+                {% if request.user.userprofile.hid %}
+                <!-- TODO: Maybe show link to official hid profile page -->
+                {% else %}
+                <li><a id="link-with-hid" href="#"><i class="fa fa-link"></i>Link with HID <small>(TEST)</small></a></li>
                 {% endif %}
                 <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a></li>
             </ul>

@@ -7,6 +7,11 @@ DEEP | Sign in
 
 {% block head %}
 <link href="{% watchful_static_url 'css/login.css' %}" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="{% watchful_static_url 'js/users/login.js' %}"></script>
+
+<script>
+let hid_access_token_url = '{% url "hid_access_token" %}';
+</script>
 {% endblock %}
 
 {% block body %}
@@ -34,7 +39,12 @@ DEEP | Sign in
             <button type="submit" >Sign in</button>
         </div>
         <div>
-            Don't have an account? <a href="/register">Register</a>
+            <div>
+                Don't have an account? <a href="/register">Register</a>
+            </div>
+            <a id="login-hid">
+                Login with HID <small>(TEST)</small>
+            </a>
         </div>
     </form>
 </main>

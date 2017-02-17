@@ -28,6 +28,7 @@ router.register(r'survey-of-surveys', SosViewSet, base_name='country')
 urlpatterns = [
     url(r'^$', IndexView.as_view()),
     url(r'^register/$', RegisterView.as_view(), name="register"),
+    url(r'^hid-access-token$', HidAccessToken.as_view(), name="hid_access_token"),
     url(r'^login/$', LoginView.as_view(), name="login"),
     url(r'^logout/$', LogoutView.as_view(), name="logout"),
     url(r'^extension/$', ExtensionView.as_view(), name="extension"),

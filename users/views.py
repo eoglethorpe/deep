@@ -5,13 +5,14 @@ from django.core.validators import validate_email
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django import forms
-
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 from users.models import *
 from leads.models import *
 from report.models import *
+from users.hid import *
 
 from datetime import datetime, timedelta, date
 
@@ -83,6 +84,7 @@ class LoginView(View):
     """
 
     def get(self, request):
+
         # If user is already logged in, redirect to dashboard.
         if request.user and request.user.is_active:
             try:
@@ -93,6 +95,27 @@ class LoginView(View):
                 return redirect("dashboard")
             except:
                 pass
+
+        # See if we have an access_token in session
+        # and try get the user details from hid
+        hid = HumanitarianId(request)
+        if hid.status:
+            # We have a valid hunitarian id
+            # If there's a user with this id, login with that user
+            hid_uid = hid.data['user_id']
+            try:
+                user = User.objects.get(userprofile__hid=hid_uid)
+                user.backend = settings.AUTHENTICATION_BACKENDS[0]
+            # If there's no user, create new one
+            except:
+                username, password = hid.create_user()
+                user = authenticate(username=username, password=hid.data['id'])
+
+            # update user data from hid
+            hid.save_user(user.userprofile)
+
+            login(request, user)
+            return redirect('login')
 
         # Return the login template.
         return render(request, "users/login.html")
@@ -216,6 +239,25 @@ class LogoutView(View):
 
     def get(self, request):
         logout(request)
+        return redirect('login')
+
+
+class HidAccessToken(View):
+    def get(self, request):
+        access_token = request.GET['access_token']
+        state = int(request.GET['state'])
+
+        request.session['hid_access_token'] = access_token
+        if state == 833912:  # DEEP12: link hid with current user
+            if request.user and request.user.userprofile.hid is None:
+                hid = HumanitarianId(request)
+                if hid.status:
+                    profile = request.user.userprofile
+                    profile.hid = hid.data['user_id']
+                    profile.save()
+
+        logout(request)
+        request.session['hid_access_token'] = access_token
         return redirect('login')
 
 
