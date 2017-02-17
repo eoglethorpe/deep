@@ -248,8 +248,10 @@ class HidAccessToken(View):
         state = int(request.GET['state'])
 
         request.session['hid_access_token'] = access_token
+        print(state)
+        print(state == 833912)
         if state == 833912:  # DEEP12: link hid with current user
-            if request.user and request.user.userprofile.hid is None:
+            if request.user and (request.user.userprofile.hid is None or request.user.userprofile.hid == ''):
                 hid = HumanitarianId(request)
                 if hid.status:
                     profile = request.user.userprofile

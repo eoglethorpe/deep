@@ -25,6 +25,20 @@ DEEP | User Profile
     </header>
     <section id="projects">
         <h2>Projects</h2>
+        <div class="header">
+            <div>Name</div>
+            <div>Type</div>
+            <div>Countries</div>
+            <div>Groups</div>
+        </div>
+        {% for crisis in user.event_set.all %}
+        <div class="project">
+            <div class="name">{{crisis.name}}</div>
+            <div class="type">{{crisis.disaster_type.name}}</div>
+            <div class="countries">{% for country in crisis.countries.all %}{{country}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
+            <div class="groups">TODO</div>
+        </div>
+        {% endfor %}
     </section>
     <section id="user-groups">
         <h2>User groups</h2>

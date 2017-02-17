@@ -184,6 +184,23 @@ body {
       body main #projects h2 {
         padding: 24px;
         background-color: #fff; }
+      body main #projects .header {
+        display: flex;
+        justify-content: space-between;
+        padding: 16px; }
+        body main #projects .header div {
+          flex-basis: 20%;
+          font-weight: 500; }
+      body main #projects .project {
+        display: flex;
+        justify-content: space-between;
+        padding: 16px;
+        background-color: #fff;
+        cursor: pointer; }
+        body main #projects .project:nth-child(even) {
+          background-color: rgba(255, 255, 255, 0.5); }
+        body main #projects .project div {
+          flex-basis: 20%; }
     body main #user-groups {
       height: calc(50vh - 144px - 56px); }
       body main #user-groups h2 {

@@ -72,6 +72,33 @@ body{
                 padding: 24px;
                 background-color: #fff;
             }
+
+            .header {
+                display: flex;
+                justify-content: space-between;
+                padding: 16px;
+
+                div {
+                    flex-basis: 20%;
+                    font-weight: $font-weight-bold;
+                }
+            }
+
+            .project {
+                display: flex;
+                justify-content: space-between;
+                padding: 16px;
+                background-color: $header-color-light;
+                cursor: pointer;
+
+                &:nth-child(even) {
+                    background-color: $label-color-light;
+                }
+
+                div {
+                    flex-basis: 20%;
+                }
+            }
         }
         #user-groups{
             height: calc(50vh - #{$header-height} - #{$navbar-height});
