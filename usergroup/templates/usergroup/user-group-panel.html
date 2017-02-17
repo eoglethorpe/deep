@@ -10,7 +10,7 @@ DEEP | User Group Panel
 <link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}"/>
 <link href="{% watchful_static_url 'css/user-group-panel.css' %}" type="text/css" rel="stylesheet">
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
-<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/user-group-panel.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/usergroup/user-group-panel.js' %}"></script>
 
 {% endblock %}
 
@@ -23,6 +23,7 @@ DEEP | User Group Panel
 
 <main>
     <header>
+        <h2>{{ usergroup.name }}</h2>
         <div id="navigator">
             <a data-target="#members" class="nav-active">Members</a>
             <a data-target="#projects">Projects</a>
@@ -32,7 +33,11 @@ DEEP | User Group Panel
 
     <section>
         <div id="members">
-            Members
+            {% for member in usergroup.members.all %}
+            <div class="member" data-url="{% url 'user_profile' member.pk %}">
+                {{member.get_full_name}}
+            </div>
+            {% endfor %}
         </div>
         <div id="projects" hidden>
             Projects

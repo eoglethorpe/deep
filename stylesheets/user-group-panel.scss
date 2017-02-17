@@ -42,6 +42,12 @@ body{
             height: 144px;
             background-color: $primary-color;
 
+            h2 {
+                margin: 16px;
+                font-size: $text-size-sl;
+                color: $text-color-light;
+            }
+
             #navigator{
                 flex-basis: 100%;
                 align-self: flex-end;
@@ -69,6 +75,25 @@ body{
         }
         section{
             height: calc(100vh - 144px - #{$navbar-height});
+
+            #members {
+                display: flex;
+                justify-content: space-around;
+                flex-wrap: wrap;
+                padding: 16px;
+
+                .member {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-basis: 22%;
+                    background-color: #fff;
+                    margin: 8px;
+                    height: 128px;
+                    font-weight: $font-weight-bold;
+                    cursor: pointer;
+                }
+            }
         }
     }
     aside{

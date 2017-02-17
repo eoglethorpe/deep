@@ -8,4 +8,8 @@ $(document).ready(function(){
         $($(this).data('target')).show();
         $(this).addClass('nav-active');
     });
+
+    $('.member').click(function() {
+        window.location.href = $(this).data('url');
+    });
 });

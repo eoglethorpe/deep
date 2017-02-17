@@ -95,6 +95,10 @@ body {
       flex-wrap: wrap;
       height: 144px;
       background-color: #008080; }
+      body main header h2 {
+        margin: 16px;
+        font-size: 19px;
+        color: #fff; }
       body main header #navigator {
         flex-basis: 100%;
         align-self: flex-end;
@@ -116,6 +120,21 @@ body {
             border-bottom: 2px solid #fff; }
     body main section {
       height: calc(100vh - 144px - 56px); }
+      body main section #members {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        padding: 16px; }
+        body main section #members .member {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-basis: 22%;
+          background-color: #fff;
+          margin: 8px;
+          height: 128px;
+          font-weight: 500;
+          cursor: pointer; }
   body aside {
     flex-basis: 24%;
     background-color: #fff;
