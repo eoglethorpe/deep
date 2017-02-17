@@ -185,13 +185,13 @@ class AddEntry(View):
             entry = Entry(lead=lead)
 
         entry.modified_by = request.user
-        entry.best_of_bullshits = request.POST["best_of_bullshits"]
         entry.save()
 
         for excerpt in excerpts:
             information = EntryInformation(entry=entry)
             information.excerpt = excerpt["excerpt"]
 
+            information.bob = excerpt['bob']
             information.reliability = Reliability.objects.get(pk=int(excerpt["reliability"]))
             information.severity = Severity.objects.get(pk=int(excerpt["severity"]))
             if excerpt["number"]:

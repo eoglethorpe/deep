@@ -208,6 +208,24 @@
                     }
                 }
             }
+
+            #best-of-bullshits {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 64px;
+                background-color: #ddd;
+                font-size: 1.2em;
+                cursor: pointer;
+                -webkit-user-select: none;
+
+                &.active {
+                    background-color: #e04696;
+                    color: #fff;
+                }
+            }
+
             #matrix-two{
                 width: 100%;
                 border-spacing: 2px;
