@@ -1,0 +1,81 @@
+@import 'common/base';
+
+body{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    h1,h2,h3,h4{
+        margin: 0;
+        text-transform: uppercase;
+    }
+    nav{
+        flex-basis: 100%;
+        height: $navbar-height;
+        background-color: darken($primary-color, 10%);
+        color: #fff;
+        display: flex;
+        z-index: 1;
+        justify-content: space-between;
+        padding: 0 16px;
+        align-items: center;
+        @include shadow;
+
+        a{
+            color: #fff;
+
+            .fa{
+                margin-right: 10px;
+            }
+            &:hover{
+                color: #fff;
+             }
+        }
+    }
+    main{
+        flex-basis: 76%;
+
+        header{
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            height: 144px;
+            background-color: $primary-color;
+
+            #navigator{
+                flex-basis: 100%;
+                align-self: flex-end;
+                background-color: transparent;
+                height: 48px;
+                display: flex;
+                align-items: stretch;
+                justify-content: flex-start;
+
+                a{
+                    flex-basis: 12%;
+                    text-align: center;
+                    padding-top: calc(calc(48px - #{$text-size-md}) / 2);
+                    font-size: $text-size-md;
+                    cursor: pointer;
+                    color: #fff;
+                    box-sizing: border-box;
+                    vertical-align: baseline;
+
+                    &.nav-active{
+                        border-bottom: 2px solid #fff;
+                    }
+                }
+            }
+        }
+        section{
+            height: calc(100vh - 144px - #{$navbar-height});
+        }
+    }
+    aside{
+        flex-basis: 24%;
+        background-color: #fff;
+        // border-left: 2px solid rgba(0, 0, 0, 0.3);
+        box-shadow: -5px 5px 15px -5px rgba(0,0,0,0.5);
+        padding: 8px 0 4px 8px;
+    }
+}
