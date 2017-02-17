@@ -89,13 +89,6 @@ class CrisisPanelView(View):
 
         return response
 
-class UserGroupPanelView(View):
-    @method_decorator(login_required)
-    def get(self, request):
-        context = {}
-        context["current_page"] = "user-group-panel"
-        return render(request, "custom_admin/user-group-panel.html", context)
-
 
 class CountryManagementView(View):
     @method_decorator(login_required)
