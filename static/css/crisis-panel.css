@@ -34,7 +34,7 @@ body {
     border-radius: 3px;
     transition: 0.2s all ease-in-out; }
   body label {
-    color: #818181;
+    color: rgba(0, 0, 0, 0.5);
     text-transform: uppercase;
     font-size: 11px; }
   body .float-alert-toast {
@@ -129,7 +129,7 @@ body {
           padding: 6px 16px;
           margin-bottom: 0;
           cursor: pointer;
-          color: #818181;
+          color: rgba(0, 0, 0, 0.5);
           vertical-align: bottom;
           user-select: none; }
         body aside #crisis-header #crisis-status-radio .active {
@@ -201,7 +201,7 @@ body {
       body main form #crisis-status-wrapper label {
         margin-right: 16px;
         cursor: pointer;
-        color: #818181;
+        color: rgba(0, 0, 0, 0.5);
         vertical-align: bottom; }
       body main form #crisis-status-wrapper .crisis-status {
         margin: 5px; }
