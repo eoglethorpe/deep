@@ -25,7 +25,7 @@ var generalTab = {
         $('#country-un-geographical-sub-region').val(region['UN Geographical Sub-Region']);
 
         // Admin levels
-        $('#admin-levels-container').empty();
+        $('#admin-levels').empty();
         for (var i=0; i<country.admin_levels.length; ++i) {
             var adminLevel = country.admin_levels[i];
             var adminLevelView = this.addNewAdminLevel();
@@ -52,7 +52,7 @@ var generalTab = {
         $('#country-name').val(null);
         $('#country-code').attr('readonly', false);
 
-        $('#admin-levels-container').empty();
+        $('#admin-levels').empty();
         this.addNewAdminLevel();
         this.validateAdminLevels();
     },
@@ -65,7 +65,7 @@ var generalTab = {
         var that = this;
 
         var adminLevelView = $('.admin-level-details-template').clone();
-        adminLevelView.appendTo($('#admin-levels-container'));
+        adminLevelView.appendTo($('#admin-levels'));
         adminLevelView.removeClass('admin-level-details-template');
         adminLevelView.addClass('admin-level-details');
         adminLevelView.show();

@@ -72,6 +72,7 @@ DEEP | Country Panel
 </aside>
 <main>
     <form id="country-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
         <div id="navigator">
             <div>
                 <a data-target="#country-detail" class="nav-active">General</a>
@@ -87,10 +88,11 @@ DEEP | Country Panel
         </div>
         <div id="content-wrapper">
             <div id="country-detail" class="tab">
-                {% csrf_token %}
-                <div id="country-details-map-wrapper">
-                    <div id="country-detail-inputs">
+                <div>
+                    <div id="country-detail-header">
                         <h2>Add new country</h2>
+                    </div>
+                    <div id="country-detail-inputs">
                         <div>
                             <label>Country code</label>
                             <input name="country-code" type="text" id="country-code" placeholder="Enter country code" required>
@@ -124,17 +126,21 @@ DEEP | Country Panel
                             <input name="country-un-geographical-sub-region" type="text" id="country-un-geographical-sub-region" placeholder="Enter UN Geographical Sub Region">
                         </div>
                     </div>
-                    <div>
+                    <div id="map-wrapper">
                         <div id="the-map">
                         </div>
                         <div id="map-controls">
                             <div id="admin-level-buttons"></div>
                         </div>
                     </div>
+                    <div id="admin-level-list">
+                        <div id="admin-level-list-header">
+                            <h3>Admin Levels</h3>
+                            <button id="add-new-admin-level" class="btn btn-primary" type="button"><i class="fa fa-plus"></i>Add new admin level</button>
+                        </div>
+                        <div id="admin-levels"></div>
+                    </div>
                 </div>
-                <h3>Admin Levels</h3>
-                <div id="admin-levels-container"></div>
-                <button id="add-new-admin-level" class="btn btn-primary" type="button"><i class="fa fa-plus"></i>Add new admin level</button>
             </div>
             <div id="key-figures" class="tab" hidden>
                 <div class="key-figure">
@@ -238,27 +244,29 @@ DEEP | Country Panel
             </div>
             <div class="media-source-template" hidden>
                 <input class="name" type="text"  placeholder="Enter Source Name.." >
-                <a class="remove-source-btn fa fa-minus fa-lg data-toggle="tooltip" data-placement="bottom" title="Remove Source" "></a>
+                <a class="remove-source-btn fa fa-minus fa-lg" data-toggle="tooltip" data-placement="bottom" title="Remove Source"></a>
                 <input class="link" type="url"  placeholder="Enter Source Link.." >
             </div>
             <input name="media-sources" id="media-sources-input" type="hidden">
             <div id="media-sources" class="tab" hidden>
-                <div id="specialized-sources">
-                    <div class="media-source-header">
-                        <label>Specialized</label>
-                        <a class="add-new-source-btn fa fa-plus fa-lg data-toggle="tooltip" data-placement="bottom" title="Add New Source""></a>
+                <div>
+                    <div id="specialized-sources">
+                        <div class="media-source-header">
+                            <label>Specialized</label>
+                            <a class="add-new-source-btn fa fa-plus fa-lg" data-toggle="tooltip" data-placement="bottom" title="Add New Source"></a>
+                        </div>
                     </div>
-                </div>
-                <div id="newspaper-sources">
-                    <div class="media-source-header">
-                        <label>Newspaper</label>
-                        <a class="add-new-source-btn fa fa-plus fa-lg data-toggle="tooltip" data-placement="bottom" title="Add New Source""></a>
+                    <div id="newspaper-sources">
+                        <div class="media-source-header">
+                            <label>Newspaper</label>
+                            <a class="add-new-source-btn fa fa-plus fa-lg" data-toggle="tooltip" data-placement="bottom" title="Add New Source"></a>
+                        </div>
                     </div>
-                </div>
-                <div id="twitter-sources">
-                    <div class="media-source-header">
-                        <label>Twitter</label>
-                        <a class="add-new-source-btn fa fa-plus fa-lg data-toggle="tooltip" data-placement="bottom" title="Add New Source""></a>
+                    <div id="twitter-sources">
+                        <div class="media-source-header">
+                            <label>Twitter</label>
+                            <a class="add-new-source-btn fa fa-plus fa-lg" data-toggle="tooltip" data-placement="bottom" title="Add New Source"></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -270,19 +278,19 @@ DEEP | Country Panel
     <input name="admin-level-pk" class="admin-level-pk" value="new" type="hidden">
     <div>
         <label>Admin level</label>
-        <input name="admin-level" type="number" min="0" step="1" class="form-control admin-level" placeholder="Enter admin level">
+        <input name="admin-level" type="number" min="0" step="1" class="admin-level" placeholder="Enter admin level">
     </div>
     <div>
         <label>Admin level name</label>
-        <input name="admin-level-name" type="text" class="form-control admin-level-name" placeholder="Enter admin level name">
+        <input name="admin-level-name" type="text" class="admin-level-name" placeholder="Enter admin level name">
     </div>
     <div>
         <label>Property name</label>
-        <input name="property-name" type="text" class="form-control property-name" placeholder="Enter property name">
+        <input name="property-name" type="text" class="property-name" placeholder="Enter property name">
     </div>
     <div>
         <label>Property pcode</label>
-        <input name="property-pcode" type="text" class="form-control property-pcode" placeholder="Enter property pcode">
+        <input name="property-pcode" type="text" class="property-pcode" placeholder="Enter property pcode">
     </div>
     <div>
         <label> GeoJSON file </label>
