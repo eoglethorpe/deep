@@ -360,6 +360,24 @@ function refreshPageTwo() {
         }(excerpt, entry, i));
 
         // Apply to all buttons
+        entry.find('.btn-date-apply-to-all').unbind().click(function(i) {
+            return function() {
+                var date = excerpts[i].date;
+                for (var d=0; d<excerpts.length; d++) {
+                    excerpts[d].date = date;
+                }
+                refreshPageTwo();
+            }
+        }(i));
+        entry.find('.btn-date-apply-to-all-below').unbind().click(function(i) {
+            return function() {
+                var date = excerpts[i].date;
+                for (var d=i+1; d<excerpts.length; d++) {
+                    excerpts[d].date = date;
+                }
+                refreshPageTwo();
+            }
+        }(i));
         entry.find('.btn-demographic-apply-to-all').unbind().click(function(i) {
             return function() {
                 var vg = excerpts[i].vulnerable_groups;
