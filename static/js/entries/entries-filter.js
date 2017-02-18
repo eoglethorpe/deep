@@ -102,7 +102,8 @@ function initEntryFilters() {
     selectizes.push($('#severities-min-filter').selectize({plugins: ['remove_button']}));
     selectizes.push($('#severities-max-filter').selectize({plugins: ['remove_button']}));
 
-    $.getJSON("/api/v1/entries/?event="+eventId, function(data){
+    $.getJSON("/api/v2/entries/?event="+eventId, function(data){
+        data = data.data;
         data.sort(function(e1, e2) {
             return new Date(e2.modified_at) - new Date(e1.modified_at);
         });
@@ -114,6 +115,7 @@ function initEntryFilters() {
         for (var i=0; i<entries.length; ++i) {
             for (var j=0; j<entries[i].informations.length; ++j) {
                 var info = entries[i].informations[j];
+                info.entryIndex = i;
                 for (var k=0; k<info.map_selections.length; ++k) {
                     var ms = info.map_selections[k];
                     areasSelectize[0].selectize.addOption({value:ms.name, text:ms.name});
@@ -126,18 +128,18 @@ function initEntryFilters() {
 
     // Filters
 
-    $('#lead-title-search').on('input paste change drop', function() {
+    $('#lead-title-search').on('input paste change drop', function(){
         var filterBy = $(this).val();
         leadTitleFilterText = filterBy;
         addFilter('lead-title', filterBy == "", function(info){
-            return info.lead_title.toLowerCase().includes(filterBy.toLowerCase());
+            return originalEntries[info.entryIndex].lead_title.toLowerCase().includes(filterBy.toLowerCase());
         });
     });
     $('#sources-filter').on('input paste change drop', function() {
         var filterBy = $(this).val();
         addFilter('source', filterBy == "", function(info){
-            if (info.lead_source)
-                return info.lead_source.toLowerCase().includes(filterBy.toLowerCase());
+            if (originalEntries[info.entryIndex].lead_source)
+                return originalEntries[info.entryIndex].lead_source.toLowerCase().includes(filterBy.toLowerCase());
             return false;
         });
     });
@@ -149,7 +151,7 @@ function initEntryFilters() {
                 var startDate = new Date($('#date-range-input #start-date').val());
                 var endDate = new Date($('#date-range-input #end-date').val());
                 addFilter('published-at', !startDate || !endDate, function(info) {
-                    var date = new Date(info.lead_published_at);
+                    var date = new Date(originalEntries[info.entryIndex].lead_published_at);
                     return dateInRange(date, startDate, endDate);
                 });
             });
@@ -158,8 +160,8 @@ function initEntryFilters() {
             });
         } else {
             addFilter('published-at', filterBy == "" || filterBy == null, function(info) {
-                if (info.lead_published_at)
-                    return filterDate(filterBy, new Date(info.lead_published_at));
+                if (originalEntries[info.entryIndex].lead_published_at)
+                    return filterDate(filterBy, new Date(originalEntries[info.entryIndex].lead_published_at));
                 return false;
             });
             previousPublishedDateFilterSelection = filterBy;
@@ -174,7 +176,7 @@ function initEntryFilters() {
                     var startDate = new Date($('#date-range-input #start-date').val());
                     var endDate = new Date($('#date-range-input #end-date').val());
                     addFilter('imported-at', !startDate || !endDate, function(info) {
-                        var date = new Date(info.modified_at);
+                        var date = new Date(originalEntries[info.entryIndex].modified_at);
                         return dateInRange(date, startDate, endDate);
                     });
                 });
@@ -183,8 +185,8 @@ function initEntryFilters() {
                 });
             } else {
                 addFilter('imported-at', filterBy == "" || filterBy == null, function(info) {
-                    if (info.modified_at) {
-                        return filterDate(filterBy, new Date(info.modified_at));
+                    if (originalEntries[info.entryIndex].modified_at) {
+                        return filterDate(filterBy, new Date(originalEntries[info.entryIndex].modified_at));
                     }
                     return false;
                 });
@@ -196,7 +198,7 @@ function initEntryFilters() {
     $('#users-filter').change(function() {
         var filterBy = $(this).val();
         addFilter('users', filterBy == null, function(info){
-            return filterBy.indexOf(info.modified_by) >= 0;
+            return filterBy.indexOf(originalEntries[info.entryIndex].modified_by+'') >= 0;
         });
     });
     $('#areas-filter').change(function() {
@@ -208,19 +210,19 @@ function initEntryFilters() {
     $('#affected-groups-filter').change(function() {
         var filterBy = $(this).val();
         addFilter('affected-groups', filterBy == null, function(info){
-            return info.affected_groups.filter(function(a){ return filterBy.indexOf(a.name) >= 0; }).length > 0;
+            return info.affected_groups.filter(function(a){ return filterBy.indexOf(a) >= 0; }).length > 0;
         });
     });
     $('#vulnerable-groups-filter').change(function() {
         var filterBy = $(this).val();
         addFilter('vulnerable-groups', filterBy == null, function(info){
-            return info.vulnerable_groups.filter(function(v){ return filterBy,indexOf(v.name) >= 0; }).length > 0;
+            return info.demographic_groups.filter(function(v){ return filterBy.indexOf(v) >= 0; }).length > 0;
         });
     });
     $('#specific-needs-groups-filter').change(function() {
         var filterBy = $(this).val();
         addFilter('specific-needs-groups', filterBy == null, function(info){
-            return info.specific_needs_groups.filter(function(s){ return filterBy.indexOf(s.name) >= 0; }).length > 0;
+            return info.specific_needs_groups.filter(function(s){ return filterBy.indexOf(s) >= 0; }).length > 0;
         });
     });
 
@@ -262,11 +264,11 @@ function initEntryFilters() {
                     if (a.subpillar == null)
                         return false;
 
-                    var index = pillarFilters.indexOf(a.subpillar.pillar.id);
+                    var index = pillarFilters.indexOf(a.pillar);
                     if (index < 0)
                         return false;
 
-                    if (subpillarFilters[index] == null || subpillarFilters[index] == a.subpillar.id)
+                    if (subpillarFilters[index] == null || subpillarFilters[index] == a.subpillar)
                         return true;
 
                     return false;
@@ -318,7 +320,7 @@ function initEntryFilters() {
                     if (a.sector == null)
                         return false;
 
-                    var index = sectorFilters.indexOf(a.sector.id);
+                    var index = sectorFilters.indexOf(a.sector);
                     if (index < 0)
                         return false;
 
@@ -327,9 +329,7 @@ function initEntryFilters() {
                             return true;
                     }
 
-                    if (subsectorFilters[index] == null || a.subsectors.filter(function(ss) {
-                        return ss.id == subsectorFilters[index];
-                    }).length > 0)
+                    if (subsectorFilters[index] == null || a.subsectors.indexOf(subsectorFilters[index]) >= 0)
                         return true;
 
                     return false;
@@ -345,7 +345,7 @@ function initEntryFilters() {
         var maxFilterBy = $('#reliabilities-max-filter').val();
 
         addFilter('reliabilities', minFilterBy == "" || maxFilterBy == "", function(info){
-            return info.reliability.level >= minFilterBy && info.reliability.level <= maxFilterBy;
+            return info.reliability >= minFilterBy && info.reliability <= maxFilterBy;
         });
     });
 
@@ -354,7 +354,7 @@ function initEntryFilters() {
         var maxFilterBy = $('#severities-max-filter').val();
 
         addFilter('severities', minFilterBy == "" || maxFilterBy == "", function(info){
-            return info.severity.level >= minFilterBy && info.severity.level <= maxFilterBy;
+            return info.severity >= minFilterBy && info.severity <= maxFilterBy;
         });
     });
 }
@@ -372,7 +372,7 @@ function filterByTimeline() {
             if (info.date)
                 return new Date(info.date) >= dateStart && new Date(info.date) <= dateEnd;
             else
-                return new Date(info.modified_at) >= dateStart && new Date(info.modified_at) <= dateEnd;
+                return new Date(originalEntries[info.entryIndex].modified_at) >= dateStart && new Date(originalEntries[info.entryIndex].modified_at) <= dateEnd;
         }
         filterEntries();
     } else {

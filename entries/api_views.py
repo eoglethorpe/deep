@@ -1,16 +1,17 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from deep.utils import JsonMethodNotAllowed, JsonResult
 from django.views.generic import View
 from .models import Entry
-from .api_serializers import entry_serializer
+from .api_serializers import EntrySerializer
+
+from deep.json_utils import *
 
 
 @method_decorator(csrf_exempt, name='dispatch')
 class EntryViewSet(View):
 
     def post(self, request):
-        return JsonMethodNotAllowed(request)
+        return JSON_METHOD_NOT_ALLOWED
 
     def get(self, request):
         # View Logic Starts
@@ -25,6 +26,6 @@ class EntryViewSet(View):
         # Iterate throught all objects
         for object in objects.all():
             # Push serialized entry to array
-            data.append(entry_serializer(object))
+            data.append(EntrySerializer(object).serialize())
         # Response as Json
         return JsonResult(data=data)

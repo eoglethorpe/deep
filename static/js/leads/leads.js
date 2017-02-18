@@ -83,8 +83,8 @@ $(document).ready(function() {
         ajax: {
             type: "GET",
             dataType: "json",
-            dataSrc: '',
-            url: "/api/v1/leads/?event=" + currentEvent,
+            dataSrc: 'data',
+            url: "/api/v2/leads/?event=" + currentEvent,
         },
         columns: [
             {
@@ -235,7 +235,7 @@ $(document).ready(function() {
         } else if(data.attachment){
             content += '<div class="lead-content">';
             content += '<label>attachment:</label>';
-            content += '<div><a href="' + data.attachment[1] + '">' + '<i class="fa fa-file"></i>'+ data.attachment[0] + '</a></div>';
+            content += '<div><a href="' + data.attachment.url + '">' + '<i class="fa fa-file"></i>'+ data.attachment.name + '</a></div>';
             content += '</div>';
         }
         return content;

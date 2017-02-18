@@ -1,5 +1,6 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 import json
+import pprint
 
 
 class JsonError(JsonResponse):
@@ -9,17 +10,10 @@ class JsonError(JsonResponse):
         }, status=status)
 
 
-class JsonMethodNotAllowed(JsonResponse):
-    def __init__(self, request):
-        super().__init__({
-            'detail': request.method+' Method Not Allowed'
-            }, status=405)
-
-
 class JsonResult(JsonResponse):
-    def __init__(self, data, status=200):
+    def __init__(self, data, extra=None, status=200):
         super().__init__({
-            'status': True, 'data': data
+            'status': True, 'data': data, 'extra': extra
         }, status=status)
 
 
@@ -31,4 +25,5 @@ def get_json_request(request):
 
 
 # Standard responses
-INVALID_JSON_REQUEST = JsonError("Not a valid json data")
+JSON_METHOD_NOT_ALLOWED = JsonError('Method not allowed', status=405)
+INVALID_JSON_REQUEST = JsonError('Not a valid json data')

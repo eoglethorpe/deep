@@ -28,6 +28,11 @@ DEEP | Entries
     var eventId = "{{event.pk}}";
     var csrf_token = "{% csrf_token %}";
 
+    var pillar_names = { {% for pillar in pillars %}{{pillar.pk}}: '{{pillar.name}}', {% endfor %} };
+    var subpillar_names = { {% for subpillar in subpillars %}{{subpillar.pk}}: '{{subpillar.name}}', {% endfor %} };
+    var sector_names = { {% for sector in sectors %}{{sector.pk}}: '{{sector.name}}', {% endfor %} };
+    var subsector_names = { {% for subsector in subsectors %}{{subsector.pk}}: '{{subsector.name}}', {% endfor %} };
+
     var sectors = [
         {% for sector in sectors %}
         {

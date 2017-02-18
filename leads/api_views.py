@@ -1,16 +1,17 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from deep.utils import JsonMethodNotAllowed, JsonResult
 from django.views.generic import View
 from .models import Lead, SurveyOfSurvey
-from .api_serializers import lead_serializer, survey_of_survey_serialzer
+from .api_serializers import LeadSerializer, SosSerializer
+
+from deep.json_utils import *
 
 
 @method_decorator(csrf_exempt, name='dispatch')
 class LeadViewSet(View):
 
     def post(self, request):
-        return JsonMethodNotAllowed(request)
+        return JSON_METHOD_NOT_ALLOWED
 
     def get(self, request):
         event = request.GET.get("event")
@@ -21,7 +22,7 @@ class LeadViewSet(View):
 
         data = []
         for object in objects.all():
-            data.append(lead_serializer(object))
+            data.append(LeadSerializer(object).serialize())
         return JsonResult(data=data)
 
 
@@ -43,6 +44,6 @@ class SurveyOfSurveyViewSet(View):
         # Iterate throught all objects
         for object in objects.all():
             # Push serialized lead to array
-            data.append(survey_of_survey_serialzer(object))
+            data.append(SosSerializer(object).serialize())
         # Response as Json
         return JsonResult(data=data)
