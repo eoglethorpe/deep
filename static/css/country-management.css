@@ -66,7 +66,6 @@ body {
 body {
   display: flex;
   justify-content: flex-start;
-  overflow-y: hidden;
   flex-wrap: wrap; }
   body h1, body h2, body h3, body h4 {
     text-transform: uppercase;
@@ -152,11 +151,14 @@ body {
       height: 48px;
       display: flex;
       align-items: center;
-      justify-content: space-between; }
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
       body main #navigator > div {
-        flex-basis: 60%; }
+        flex-basis: 70%; }
         body main #navigator > div:last-child {
-          flex-basis: 23%; }
+          text-align: right;
+          flex-basis: 30%;
+          padding: 0 24px; }
       body main #navigator a {
         padding: 10px 24px 14px 24px;
         font-size: 14px;
@@ -184,78 +186,91 @@ body {
           margin-right: 10px; }
     body main #content-wrapper :invalid {
       border-color: #e74c3c; }
-    body main #content-wrapper #country-detail {
-      height: calc(100vh - 56px - 48px);
-      background-color: #fff;
-      padding: 24px;
+    body main #content-wrapper #country-detail > div {
+      max-height: calc(100vh - 56px - 48px);
       overflow-y: auto;
-      overflow-x: hidden; }
-      body main #content-wrapper #country-detail h2 {
-        font-weight: bold;
-        font-size: 19px;
-        margin-bottom: 32px;
-        margin-top: 10px; }
-      body main #content-wrapper #country-detail #country-details-map-wrapper {
+      background-color: #fff;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start !important; }
+      body main #content-wrapper #country-detail > div h2, body main #content-wrapper #country-detail > div h3 {
+        margin: 0; }
+      body main #content-wrapper #country-detail > div #country-detail-header {
+        height: 48px;
+        flex-basis: 100%;
+        padding: 0 24px;
         display: flex;
-        justify-content: space-between; }
-        body main #content-wrapper #country-detail #country-details-map-wrapper #country-detail-inputs {
-          margin-bottom: 72px;
-          flex-basis: 25%; }
-        body main #content-wrapper #country-detail #country-details-map-wrapper > div:nth-child(2) {
-          flex-basis: 70%; }
-          body main #content-wrapper #country-detail #country-details-map-wrapper > div:nth-child(2) #the-map {
-            height: 400px;
+        align-items: center; }
+      body main #content-wrapper #country-detail > div #country-detail-inputs {
+        flex-basis: 40%;
+        align-self: flex-start;
+        padding: 0 10px 0 24px; }
+      body main #content-wrapper #country-detail > div #map-wrapper {
+        flex-basis: 60%;
+        padding: 0 24px 0 10px; }
+        body main #content-wrapper #country-detail > div #map-wrapper #the-map {
+          height: 440px;
+          box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+          body main #content-wrapper #country-detail > div #map-wrapper #the-map path {
+            stroke: #717171;
+            stroke-width: 1px;
+            stroke-linejoin: round; }
+        body main #content-wrapper #country-detail > div #map-wrapper #map-controls {
+          margin-top: 8px;
+          width: 100%;
+          display: inline-block;
+          background-color: rgba(255, 255, 255, 0.88); }
+          body main #content-wrapper #country-detail > div #map-wrapper #map-controls #admin-level-buttons button {
+            margin: 4px !important;
             box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-            body main #content-wrapper #country-detail #country-details-map-wrapper > div:nth-child(2) #the-map path {
-              stroke: #717171;
-              stroke-width: 1px;
-              stroke-linejoin: round; }
-          body main #content-wrapper #country-detail #country-details-map-wrapper > div:nth-child(2) #map-controls {
-            margin-top: 8px;
-            width: 100%;
-            display: inline-block;
-            background-color: rgba(255, 255, 255, 0.88); }
-            body main #content-wrapper #country-detail #country-details-map-wrapper > div:nth-child(2) #map-controls #admin-level-buttons button {
-              margin: 4px !important;
-              box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-      body main #content-wrapper #country-detail h3 {
-        margin-top: -10px;
-        margin-bottom: 16px; }
-      body main #content-wrapper #country-detail .admin-level-details {
+      body main #content-wrapper #country-detail > div #admin-level-list {
+        flex-basis: 100%; }
+      body main #content-wrapper #country-detail > div #admin-level-list-header {
+        display: flex;
+        justify-content: space-between;
+        height: 48px;
+        align-items: center;
+        padding: 0 24px;
+        border-top: 2px solid rgba(0, 0, 0, 0.05);
+        margin-top: 16px; }
+      body main #content-wrapper #country-detail > div .admin-level-details {
         background-color: #f0f0f0;
         padding: 16px 24px;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
         justify-content: space-between; }
-        body main #content-wrapper #country-detail .admin-level-details > div {
+        body main #content-wrapper #country-detail > div .admin-level-details > div {
           flex-basis: 24%; }
-          body main #content-wrapper #country-detail .admin-level-details > div:nth-child(6) {
+          body main #content-wrapper #country-detail > div .admin-level-details > div:nth-child(6) {
             margin-top: 16px; }
-          body main #content-wrapper #country-detail .admin-level-details > div:last-child {
+          body main #content-wrapper #country-detail > div .admin-level-details > div:last-child {
             flex-basis: 7%; }
-            body main #content-wrapper #country-detail .admin-level-details > div:last-child label {
+            body main #content-wrapper #country-detail > div .admin-level-details > div:last-child label {
               cursor: pointer;
               font-size: 15px;
               color: #e74c3c; }
-              body main #content-wrapper #country-detail .admin-level-details > div:last-child label input {
+              body main #content-wrapper #country-detail > div .admin-level-details > div:last-child label input {
                 margin-right: 10px;
                 margin-top: 0;
                 vertical-align: middle;
                 border: none;
                 box-shadow: none; }
-              body main #content-wrapper #country-detail .admin-level-details > div:last-child label span {
+              body main #content-wrapper #country-detail > div .admin-level-details > div:last-child label span {
                 display: inline-block; }
-        body main #content-wrapper #country-detail .admin-level-details:nth-child(even) {
+        body main #content-wrapper #country-detail > div .admin-level-details:nth-child(even) {
           background: #fafafa; }
-        body main #content-wrapper #country-detail .admin-level-details .file-input {
+        body main #content-wrapper #country-detail > div .admin-level-details .file-input {
           width: 0.1px;
           height: 0.1px;
           opacity: 0;
+          left: 0;
+          top: 0;
           overflow: hidden;
           position: absolute;
           z-index: -1; }
-        body main #content-wrapper #country-detail .admin-level-details .file-input + label {
+        body main #content-wrapper #country-detail > div .admin-level-details .file-input + label {
           margin-left: 10px;
           margin-right: 10px;
           padding: 6px 24px;
@@ -265,18 +280,17 @@ body {
           display: inline-block;
           cursor: pointer;
           box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-          body main #content-wrapper #country-detail .admin-level-details .file-input + label:active {
+          body main #content-wrapper #country-detail > div .admin-level-details .file-input + label:active {
             box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-          body main #content-wrapper #country-detail .admin-level-details .file-input + label i {
+          body main #content-wrapper #country-detail > div .admin-level-details .file-input + label i {
             margin-right: 10px; }
-        body main #content-wrapper #country-detail .admin-level-details .geojson-current {
+        body main #content-wrapper #country-detail > div .admin-level-details .geojson-current {
           display: inline-block; }
-      body main #content-wrapper #country-detail #add-new-admin-level {
-        margin-top: 16px;
+      body main #content-wrapper #country-detail > div #add-new-admin-level {
         box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-        body main #content-wrapper #country-detail #add-new-admin-level:active {
+        body main #content-wrapper #country-detail > div #add-new-admin-level:active {
           box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-        body main #content-wrapper #country-detail #add-new-admin-level i {
+        body main #content-wrapper #country-detail > div #add-new-admin-level i {
           margin-right: 10px; }
     body main #content-wrapper #key-figures {
       background-color: #fff;
@@ -322,39 +336,39 @@ body {
       padding: 24px;
       overflow-y: scroll;
       overflow-x: hidden; }
-    body main #content-wrapper #media-sources {
+    body main #content-wrapper #media-sources > div {
       background-color: #fff;
       height: calc(100vh - 56px - 48px);
       padding: 24px;
       display: flex;
       justify-content: space-between; }
-      body main #content-wrapper #media-sources > div {
+      body main #content-wrapper #media-sources > div > div {
         flex-basis: 33%;
         overflow: auto; }
-        body main #content-wrapper #media-sources > div .media-source-header {
+        body main #content-wrapper #media-sources > div > div .media-source-header {
           padding: 10px 24px;
           margin-bottom: 10px;
           display: flex;
           justify-content: space-between; }
-          body main #content-wrapper #media-sources > div .media-source-header a {
+          body main #content-wrapper #media-sources > div > div .media-source-header a {
             cursor: pointer;
             margin: 0; }
-        body main #content-wrapper #media-sources > div label {
+        body main #content-wrapper #media-sources > div > div label {
           flex-basis: 100%; }
-        body main #content-wrapper #media-sources > div .media-source {
+        body main #content-wrapper #media-sources > div > div .media-source {
           padding: 10px 24px;
           display: flex;
           flex-wrap: wrap;
           justify-content: space-between;
           align-items: center; }
-          body main #content-wrapper #media-sources > div .media-source input {
+          body main #content-wrapper #media-sources > div > div .media-source input {
             flex-basis: 90%; }
-            body main #content-wrapper #media-sources > div .media-source input:not(:last-child) {
+            body main #content-wrapper #media-sources > div > div .media-source input:not(:last-child) {
               margin-bottom: 10px; }
-          body main #content-wrapper #media-sources > div .media-source a {
+          body main #content-wrapper #media-sources > div > div .media-source a {
             color: #e04756;
             cursor: pointer; }
-          body main #content-wrapper #media-sources > div .media-source:nth-child(odd) {
+          body main #content-wrapper #media-sources > div > div .media-source:nth-child(odd) {
             background-color: #f0f0f0; }
     body main #content-wrapper .last-checked-date {
       color: rgba(0, 0, 0, 0.5);

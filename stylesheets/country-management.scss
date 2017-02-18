@@ -3,7 +3,7 @@
 body{
     display: flex;
     justify-content: flex-start;
-    overflow-y: hidden;
+    //overflow-y: hidden;
     flex-wrap: wrap;
 
     h1, h2, h3, h4{
@@ -128,12 +128,15 @@ body{
             display: flex;
             align-items: center;
             justify-content: space-between;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
             >div{
-                flex-basis: 60%;
+                flex-basis: 70%;
 
                 &:last-child{
-                    flex-basis: 23%;
+                    text-align: right;
+                    flex-basis: 30%;
+                    padding: 0 24px;
                 }
             }
             a{
@@ -178,59 +181,69 @@ body{
                 border-color: $error-color;
             }
 
-            #country-detail{
-                height: calc(100vh - #{$navbar-height} - 48px);
-                background-color: #fff;
-                padding: 24px;
+            #country-detail > div{
+                max-height: calc(100vh - #{$navbar-height} - 48px);
                 overflow-y: auto;
-                overflow-x: hidden;
+                background-color: #fff;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: flex-start!important;
 
-                h2{
-                    font-weight: bold;
-                    font-size: $text-size-sl;
-                    margin-bottom: 32px;
-                    margin-top: 10px;
+                h2, h3{
+                    margin: 0;
                 }
-                #country-details-map-wrapper{
+                #country-detail-header{
+                    height: 48px;
+                    flex-basis: 100%;
+                    padding: 0 24px;
                     display: flex;
-                    justify-content: space-between;
+                    align-items: center;
+                }
+                #country-detail-inputs{
+                    flex-basis: 40%;
+                    align-self: flex-start;
+                    padding: 0 10px 0 24px;
+                }
+                #map-wrapper{
+                    flex-basis: 60%;
+                    padding: 0 24px 0 10px;
 
-                    #country-detail-inputs{
-                        margin-bottom: 72px;
-                        flex-basis: 25%;
+                    #the-map{
+                        height: 440px;
+
+                        path {
+                            stroke: #717171;
+                            stroke-width: 1px;
+                            stroke-linejoin: round;
+                        }
+                        @include shadow();
                     }
-                    >div{
-                        &:nth-child(2){
-                            flex-basis: 70%;
-                            #the-map{
-                                height: 400px;
+                    #map-controls{
+                        margin-top: 8px;
+                        width: 100%;
+                        display: inline-block;
+                        background-color: rgba(255, 255, 255, 0.88);
 
-                                path {
-                                    stroke: #717171;
-                                    stroke-width: 1px;
-                                    stroke-linejoin: round;
-                                }
+                        #admin-level-buttons{
+                            button{
+                                margin: 4px!important;
                                 @include shadow();
-                            }
-                            #map-controls{
-                                margin-top: 8px;
-                                width: 100%;
-                                display: inline-block;
-                                background-color: rgba(255, 255, 255, 0.88);
-
-                                #admin-level-buttons{
-                                    button{
-                                        margin: 4px!important;
-                                        @include shadow();
-                                    }
-                                }
                             }
                         }
                     }
                 }
-                h3{
-                    margin-top: -10px;
-                    margin-bottom: 16px;
+                #admin-level-list{
+                    flex-basis: 100%;
+                }
+                #admin-level-list-header{
+                    display: flex;
+                    justify-content: space-between;
+                    height: 48px;
+                    align-items: center;
+                    padding: 0 24px;
+                    border-top: 2px solid rgba(0, 0, 0, 0.05);
+                    margin-top: 16px;
                 }
                 .admin-level-details{
                     background-color: #f0f0f0;
@@ -252,7 +265,7 @@ body{
                             label{
                                 cursor: pointer;
                                 font-size: $text-size-lg;
-                                color: #e74c3c;
+                                color: $error-color;
 
                                 input{
                                     margin-right: 10px;
@@ -276,6 +289,8 @@ body{
                         width: 0.1px;
                         height: 0.1px;
                         opacity: 0;
+                        left: 0;
+                        top: 0;
                         overflow: hidden;
                         position: absolute;
                         z-index: -1;
@@ -303,7 +318,6 @@ body{
                     }
                 }
                 #add-new-admin-level{
-                    margin-top: 16px;
                     @include btn-shadow-sm();
 
                     i{
@@ -370,7 +384,7 @@ body{
                 overflow-y: scroll;
                 overflow-x: hidden;
             }
-            #media-sources{
+            #media-sources > div{
                 background-color: #fff;
                 height: calc(100vh - #{$navbar-height} - 48px);
                 padding: 24px;
