@@ -1,9 +1,11 @@
 from django.conf.urls import url
-from .api_views import LeadViewSet, SurveyOfSurveyViewSet
+from leads.api_views import *
 
 
 urlpatterns = [
-        url(r'^leads/$', LeadViewSet.as_view(), name="leads"),
-        url(r'^survey-of-surveys/$', SurveyOfSurveyViewSet.as_view(),
+        url(r'^countries/$', CountryApiView.as_view(), name="countries"),
+        url(r'^events/$', EventApiView.as_view(), name="events"),
+        url(r'^leads/$', LeadApiView.as_view(), name="leads"),
+        url(r'^survey-of-surveys/$', SosApiView.as_view(),
             name="survey_of_surveys"),
     ]

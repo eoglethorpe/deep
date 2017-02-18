@@ -3,6 +3,57 @@ from deep.serializer import Serializer
 from leads.models import *
 
 
+class CountrySerializer(Serializer):
+    fields = {
+        'code': 'code',
+        'name': 'name',
+        'key_figures': 'key_figures',
+        'media_sources': 'media_sources',
+        'regions': 'regions',
+        'admin_levels': 'admin_levels',
+    }
+
+    def get_key_figures(self, country):
+        return json.loads(country.key_figures)
+
+    def get_media_sources(self, country):
+        return json.loads(country.media_sources)
+
+    def get_regions(self, country):
+        return json.loads(country.regions)
+
+    def get_admin_levels(self, country):
+        return [
+            {
+                'level': al.level, 'name': al.name,
+                'property_name': al.property_name,
+                'property_pcode': al.property_pcode,
+                'geojson': al.geojson.url,
+            } for al in country.adminlevel_set.all()
+        ]
+
+
+class EventSerializer(Serializer):
+    fields = {
+        'id': 'pk',
+        'name': 'name',
+        'countries': 'countries',
+        'disaster_type': 'disaster_type.name',
+        'assignee': 'assignee',
+        'glide_number': 'glide_number',
+        'spill_over': 'spill_over.pk',
+        'start_date': 'start_date',
+        'end_date': 'end_date',
+        'status': 'get_status_display',
+    }
+
+    def get_countries(self, event):
+        return [ country.code for country in event.countries.all() ]
+
+    def get_assignee(self, event):
+        return [ a.name for a in event.assignee.all() ]
+
+
 class LeadSerializer(Serializer):
     fields = {
         'id': 'pk',
@@ -74,7 +125,6 @@ class SosSerializer(Serializer):
         scs = json.loads(sos.sectors_covered)
         data = {}
         for sc in scs:
-            # TODO: check if values are default instead of "1"
             if (sc["quantification"] and not SectorQuantification.objects.get(pk=sc["quantification"]).is_default) \
                 or \
                 (sc["analytical_value"] and not SectorAnalyticalValue.objects.get(pk=sc["analytical_value"]).is_default):
@@ -89,85 +139,3 @@ class SosSerializer(Serializer):
 
     def get_areas_summary(self, sos):
         return ", ".join(list(set([s.name for s in sos.map_selections.all()])))
-
-
-
-
-
-
-# TODO: Navin code hataune :P
-
-def _getattr(object, attrs):
-    attrs = attrs.split('.')
-    # Avoiding Copy of Object(For Avoiding Reference)
-    value = getattr(object, attrs.pop(0), None)
-    if callable(value):
-        value = value()
-
-    for attr in attrs:
-        value = getattr(value, attr, None)
-        if callable(value):
-            value = value()
-    return value
-#
-#
-# def lead_serializer(lead):
-#     try:
-#         attachment = lead.attachment
-#         attachment = [
-#             os.path.basename(attachment.upload.name),
-#             attachment.upload.url
-#             ]
-#     except:
-#         attachment = None
-#
-#     return {
-#         "id": lead.pk,
-#         "name": lead.name,
-#         "source": lead.source_name,
-#         "assigned_to": _getattr(lead.assigned_to, 'pk'),
-#         "published_at": lead.published_at,
-#         "confidentiality": lead.confidentiality,
-#         "status": lead.status,
-#         "description": lead.description,
-#         "url": lead.url,
-#         "website": lead.website,
-#         "created_at": lead.created_at,
-#         "created_by": _getattr(lead.created_by, 'pk'),
-#         "attachment": attachment,
-#         "assigned_to_name": _getattr(lead.assigned_to, 'get_full_name'),
-#         "created_by_name": _getattr(lead.created_by, 'get_full_name'),
-#         "event": lead.event.id,
-#         "lead_type": lead.lead_type
-#     } if lead else None
-#
-#
-# def survey_of_survey_serializer(object):
-#     return {
-#         "id": object.pk,
-#         "created_at": object.created_at,
-#         "created_by_name": _getattr(object.created_by, 'get_full_name'),
-#         "title": object.title,
-#         "lead_organization": object.lead_organization,
-#         "partners": object.partners,
-#         "proximity_to_source": _getattr(object.proximity_to_source, 'name'),
-#         "unit_of_analysis": [
-#             unit.name for unit in object.unit_of_analysis.all()
-#         ],
-#         "start_data_collection": object.start_data_collection,
-#         "end_data_collection": object.end_data_collection,
-#         "data_collection_technique": [
-#             data_coll.name
-#             for data_coll in object.data_collection_technique.all()
-#         ],
-#         "sectors_covered": json.loads(object.sectors_covered),
-#         "sampling_type": _getattr(object.sampling_type, 'name'),
-#         "frequency": _getattr(object.frequency, 'name'),
-#         "status": _getattr(object.status, 'name'),
-#         "confidentiality": _getattr(object.confidentiality, 'name'),
-#         # "countries": {},
-#         # "areas_summary": '',
-#         "affected_groups": json.loads(object.affected_groups),
-#         "lead": lead_serializer(object.lead),
-#         "lead_id": _getattr(object.lead, 'pk')
-#     }

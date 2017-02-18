@@ -1,7 +1,7 @@
 from django.conf.urls import url
-from .api_views import EntryViewSet
+from entries.api_views import *
 
 
 urlpatterns = [
-        url(r'^$', EntryViewSet.as_view(), name="leads"),
+        url(r'^entries/$', EntryApiView.as_view(), name="events"),
     ]

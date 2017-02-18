@@ -4,9 +4,33 @@ from leads.models import *
 
 """
 Needed Extras:
-    AdminLevel,
     Subpillar, Pillar, Sector, Subector
 """
+
+class PillarSerializer(Serializer):
+    fields = {
+        'id': 'pk', 'name': 'name',
+        'has_sectors': 'contains_sectors',
+        'belongs_to': 'get_appear_in_display',
+    }
+
+
+class SubpillarSerializer(Serializer):
+    fields = {
+        'id': 'pk', 'name': 'name', 'pillar': 'pillar_pk'
+    }
+
+
+class SectorSerializer(Serializer):
+    fields = {
+        'id': 'pk', 'name': 'name', 'icon': 'icon.url'
+    }
+
+
+class SubsectorSerializer(Serializer):
+    fields = {
+        'id': 'pk', 'name': 'name', 'sector': 'sector.pk'
+    }
 
 
 class EntryInformationSerializer(Serializer):
@@ -26,7 +50,9 @@ class EntryInformationSerializer(Serializer):
     def get_map_selections(self, info):
         return [
             {
-                'name': ms.name, 'pcode': ms.pcode, 'admin_level': ms.admin_level.pk,
+                'name': ms.name, 'pcode': ms.pcode,
+                'country': ms.admin_level.country.code,
+                'level': ms.admin_level.level,
                 'keyword': ms.get_keyword()
             } for ms in info.map_selections.all()
         ]
