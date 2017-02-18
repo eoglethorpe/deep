@@ -80,6 +80,7 @@ class EntryInformationSerializer(Serializer):
 class EntrySerializer(Serializer):
     fields = {
         'id': 'pk',
+        'event': 'lead.event.pk',
         'modified_at': 'modified_at',
         'modified_by': 'modified_by.pk',
         'modified_by_name': 'modified_by.get_full_name',

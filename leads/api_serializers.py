@@ -39,7 +39,7 @@ class EventSerializer(Serializer):
         'name': 'name',
         'countries': 'countries',
         'disaster_type': 'disaster_type.name',
-        'assignee': 'assignee',
+        'assigned_to': 'assignee',
         'glide_number': 'glide_number',
         'spill_over': 'spill_over.pk',
         'start_date': 'start_date',
