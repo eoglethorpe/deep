@@ -209,5 +209,26 @@ body{
             padding: 24px;
             background-color: #f0f0f0;
         }
+
+        .activity {
+            padding: 10px;
+            margin-bottom: 6px;
+
+            date {
+                float: right;
+            }
+            h3 {
+                display: inline-block;
+                font-size: $text-size-md;
+                text-transform: uppercase;
+            }
+
+            a {
+                display: block;
+                text-transform: none;
+                cursor: pointer;
+                font-size: $text-size-sm;
+            }
+        }
     }
 }

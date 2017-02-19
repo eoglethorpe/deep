@@ -284,5 +284,19 @@ body {
     body aside h2 {
       padding: 24px;
       background-color: #f0f0f0; }
+    body aside .activity {
+      padding: 10px;
+      margin-bottom: 6px; }
+      body aside .activity date {
+        float: right; }
+      body aside .activity h3 {
+        display: inline-block;
+        font-size: 13px;
+        text-transform: uppercase; }
+      body aside .activity a {
+        display: block;
+        text-transform: none;
+        cursor: pointer;
+        font-size: 12px; }
 
 /*# sourceMappingURL=user-profile.css.map */

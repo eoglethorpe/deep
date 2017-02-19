@@ -3,6 +3,8 @@ from users.models import *
 # from entries.models import *
 # from report.models import *
 
+import json
+
 
 class Activity:
     def __init__(self, action):
@@ -21,7 +23,7 @@ class Activity:
         return self
 
     def log_for(self, user):
-        activity_log = ActivityLog(user=user, activity=self.data)
+        activity_log = ActivityLog(user=user, activity=json.dumps(self.data))
         activity_log.save()
 
 

@@ -1,3 +1,33 @@
+let activityLog = {
+    init: function() {
+        this.displayLog();
+    },
+
+    displayLog: function() {
+        $('#activity-log').empty();
+        for (let i=0; i<activities.length; i++) {
+            $('#activity-log').append(this.createLogElement(activities[i]));
+        }
+    },
+
+    createLogElement: function(activity) {
+        let activityElement = $('.activity-template').clone();
+        activityElement.removeClass('activity-template');
+        activityElement.addClass('activity');
+
+        activityElement.find('date').html(activity.timestamp.toLocaleString());
+        activityElement.find('h3').text(activity.action + ' ' + activity.target.type);
+        activityElement.find('a').text(activity.target.name);
+        if (activity.target.url) {
+            activityElement.find('a').attr('target', 'blank');
+            activityElement.find('a').attr('href', activity.target.url);
+        }
+        activityElement.show();
+
+        return activityElement;
+    },
+};
+
 $(document).ready(function(){
     $('label[data-sort]').on('click', function(){
         var sortQuery = $(this).data('sort');
@@ -31,4 +61,6 @@ $(document).ready(function(){
         $(this).data('sort-asc', sortAsc);
         $(this).addClass(sortAsc? 'asc' : 'dsc');
     });
+
+    activityLog.init();
 });
