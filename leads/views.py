@@ -191,7 +191,7 @@ class AddSoS(View):
 
         activity.set_target(
             'survey-of-survey', sos.pk, sos.title,
-            reverse('leads:edit_sos', args=[event, lead.pk, sos.pk])
+            reverse('leads:edit_sos', args=[event, sos.lead.pk, sos.pk])
         ).log_for(request.user)
 
         # Map selections
