@@ -1,0 +1,4 @@
+[client]
+client_id = deep2-dev
+client_name = DEEP
+development = True
