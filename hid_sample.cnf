@@ -2,3 +2,4 @@
 client_id = deep2-dev
 client_name = DEEP
 development = True
+redirect_url = http://deep.togglecorp.com/login/

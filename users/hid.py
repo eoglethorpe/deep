@@ -80,3 +80,4 @@ class HidConfig:
             self.client_id = self.config['client']['client_id']
             self.client_name = self.config['client']['client_name']
             self.development = self.config['client']['development'] == 'True'
+            self.redirect_url = self.config['client']['redirect_url']
