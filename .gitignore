@@ -1,6 +1,7 @@
 # Database
 db.sqlite3
 mysql.cnf
+hid.cnf
 
 *.css.map
 os
