@@ -4,6 +4,18 @@ from django.db import models
 from leads.models import Event
 
 
+class ActivityLog(models.Model):
+    user = models.ForeignKey(User)
+    activity = models.TextField(default='{}')
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.user) + ' at ' + str(self.timestamp)
+
+    class Meta:
+        ordering = ['-timestamp']
+
+
 class UserProfile(models.Model):
     """ User Profile Model
 

@@ -11,6 +11,7 @@ from datetime import datetime
 import json
 import os
 
+from users.log import *
 from users.models import *
 from leads.models import *
 from entries.models import *
@@ -159,8 +160,10 @@ class AddSoS(View):
     def post(self, request, event, lead_id, sos_id=None):
         if sos_id:
             sos = SurveyOfSurvey.objects.get(pk=sos_id)
+            activity = EditionActivity()
         else:
             sos = SurveyOfSurvey()
+            activity = CreationActivity()
 
         sos.lead = Lead.objects.get(pk=lead_id)
 
@@ -185,6 +188,11 @@ class AddSoS(View):
         sos.created_by = request.user
         sos.sectors_covered = request.POST["sectors_covered"]
         sos.save()
+
+        activity.set_target(
+            'survey-of-survey', sos.pk, sos.title,
+            reverse('leads:edit_sos', args=[event, sos.lead.pk, sos.pk])
+        ).log_for(request.user)
 
         # Map selections
         map_data = json.loads(request.POST["map_data"])
@@ -259,8 +267,10 @@ class AddLead(View):
         # Get editing lead or create new lead.
         if id:
             lead = Lead.objects.get(pk=id)
+            activity = EditionActivity()
         else:
             lead = Lead()
+            activity = CreationActivity()
 
         lead.name = request.POST["name"]
 
@@ -321,6 +331,11 @@ class AddLead(View):
 
         lead.save()
 
+        activity.set_target(
+            'lead', lead.pk, lead.name,
+            reverse('leads:edit', args=[event, lead.pk])
+        ).log_for(request.user)
+
         if lead.lead_type == Lead.ATTACHMENT_LEAD:
             for file in request.FILES:
                 Attachment.objects.filter(lead__pk=lead.pk).delete()
@@ -363,14 +378,34 @@ class MarkProcessed(View):
         lead = Lead.objects.get(pk=request.POST["id"])
         lead.status = request.POST["status"]
         lead.save()
+
+        activity = EditionActivity().set_target(
+            'lead', lead.pk, lead.name,
+            reverse('leads:edit', args=[lead.event.pk, lead.pk])
+        )
+
+        if lead.status == 'PRO':
+            activity.set_remarks('marked processed')
+        elif lead.status == 'PEN':
+            activity.set_remarks('marked pending')
+
+        activity.log_for(request.user)
+
         return redirect('leads:leads', event=event)
 
 
 class DeleteLead(View):
     @method_decorator(login_required)
     def post(self, request, event):
+
         lead = Lead.objects.get(pk=request.POST["id"])
+        activity = DeletionActivity().set_target(
+            'lead', lead.pk, lead.name
+        )
         lead.delete()
+
+        activity.log_for(request.user)
+
         # lead.status = Lead.DELETED
         # lead.save()
         return redirect('leads:leads', event=event)
