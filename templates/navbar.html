@@ -26,9 +26,9 @@
         // HumanitarianId link
         $('#link-with-hid').click(function() {
             {% if hid_config and hid_config.development %}
-            window.location.href = 'http://auth.dev.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id }}&scope=profile&state=833912&redirect_uri=http://www.thedeep.io/login/';
+            window.location.href = 'http://auth.dev.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id|safe }}&scope=profile&state=833912&redirect_uri={{ hid_config.redirect_url|safe }}';
             {% else %}
-            window.location.href = 'http://auth.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id }}&scope=profile&state=833912&redirect_uri=http://www.thedeep.io/login/';
+            window.location.href = 'http://auth.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id|safe }}&scope=profile&state=833912&redirect_uri={{ hid_config.redirect_url|safe }}';
             {% endif %}
         });
 
