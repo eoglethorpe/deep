@@ -18,4 +18,4 @@ class UserGroup(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
-        super().save(self, *args, **kwargs)
+        super(UserGroup, self).save(*args, **kwargs)
