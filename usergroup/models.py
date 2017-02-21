@@ -9,6 +9,7 @@ class UserGroup(models.Model):
     name = models.CharField(max_length=300)
     photo = models.FileField(upload_to="group-avatar/", null=True, blank=True, default=None)
     description = models.TextField(blank=True)
+    admins = models.ManyToManyField(User, related_name='groups_owned')
     members = models.ManyToManyField(User)
     projects = models.ManyToManyField(Event, blank=True)
     slug = models.SlugField(editable=False)

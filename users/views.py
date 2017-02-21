@@ -56,6 +56,7 @@ class RegisterView(View):
                 first_name=first_name,
                 last_name=last_name,
                 username=email,
+                email=email,
                 password=password
             )
             user.save()

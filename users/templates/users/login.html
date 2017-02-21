@@ -11,6 +11,13 @@ DEEP | Sign in
 
 <script>
 let hid_access_token_url = '{% url "hid_access_token" %}';
+
+{% if hid_config and hid_config.development %}
+let hid_login_url = 'http://auth.dev.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id|safe }}&scope=profile&state=12345&redirect_uri={{ hid_config.redirect_url|safe }}';
+{% else %}
+let hid_login_url = 'http://auth.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id|safe }}&scope=profile&state=12345&redirect_uri={{ hid_config.redirect_url|safe }}';
+{% endif %}
+
 </script>
 {% endblock %}
 
