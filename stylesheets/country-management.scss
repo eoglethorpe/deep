@@ -44,6 +44,7 @@ body{
             &:hover{
                 color: #fff;
              }
+
         }
     }
     aside{
@@ -167,14 +168,30 @@ body{
                     }
                 }
             }
-            #save-btn, #delete-btn{
-                margin-left: 8px;
-                @include btn-shadow-sm();
-
+             #delete-btn{
+                 margin-right: 10px;
+                 color: #fff;
+                 background-color: $danger-color;
+                 @include btn-shadow-md();
+                 min-width: 100px;
+                 padding: 4px 10px;
+                 height: 30px;
+                 .fa{
+                     margin-right: 10px;
+                 }
+            }
+            #save-btn{
+                margin-right: 10px;
+                color: #fff;
+                background-color: $info-color;
+                @include btn-shadow-md();
+                min-width: 100px;
+                padding: 4px 10px;
+                height: 30px;
                 .fa{
                     margin-right: 10px;
                 }
-            }
+           }
         }
         #content-wrapper{
             :invalid {

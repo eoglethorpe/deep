@@ -113,6 +113,7 @@ $(document).ready(function(){
                             return calculatedSeverityScore;
                         }
                     }
+                    return 0;
                 }
                 function getHumanAvailability(index){
                     var available = 0;

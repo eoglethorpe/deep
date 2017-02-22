@@ -53,7 +53,7 @@ var activities = [
                 <div class="name">{{crisis.name}}</div>
                 <div class="type">{{crisis.disaster_type.name}}</div>
                 <div class="countries">{% for country in crisis.countries.all %}{{country}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
-                <div class="groups">TODO</div>
+                <div class="groups">{% for usergroup in crisis.usergroup_set.all %}{{usergroup}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
             </div>
             {% endfor %}
         </div>

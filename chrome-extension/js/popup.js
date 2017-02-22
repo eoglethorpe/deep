@@ -18,7 +18,11 @@ $(document).ready(function(){
             if(deep.currentUser != -1){
                 // load event & user list
                 $.when(deep.loadEvents(), deep.loadUsers()).done(function(){
-                    deep.queryCurrentPage();
+                    deep.queryCurrentPage().then(function() {
+                        extension.restoreInputValues().then(function() {
+                            extension.startStoring();
+                        });
+                    });
                     enhanceSelectInputs();
 
                     // hide loader and show the form
@@ -38,5 +42,6 @@ $(document).ready(function(){
         dateInput[0].type = 'date';
         dateInput[0].valueAsDate = new Date;
         dateInput.focus().addClass('filled');
+        dateInput.trigger('change');
     });
 });

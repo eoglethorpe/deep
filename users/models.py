@@ -6,6 +6,8 @@ from leads.models import Event
 
 class ActivityLog(models.Model):
     user = models.ForeignKey(User)
+    group = models.ForeignKey('usergroup.UserGroup', default=None, null=True, blank=True)
+    event = models.ForeignKey('leads.Event', default=None, null=True, blank=True)
     activity = models.TextField(default='{}')
     timestamp = models.DateTimeField(auto_now_add=True)
 

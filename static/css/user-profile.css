@@ -103,7 +103,7 @@ body > nav {
   body > nav #report-link-wrapper {
     flex-basis: 10%; }
   body > nav #crisis-select-container {
-    flex-basis: 30%; }
+    flex-basis: 28%; }
     body > nav #crisis-select-container .selectize-control.single .selectize-input, body > nav #crisis-select-container .selectize-control.single.single, body > nav #crisis-select-container .selectize-control.single .selectize-input.input-active {
       background-color: transparent !important; }
     body > nav #crisis-select-container .selectize-input {
@@ -126,7 +126,7 @@ body > nav {
     body > nav #crisis-select-container a {
       vertical-align: middle; }
   body > nav #main-menu {
-    flex-basis: 30%; }
+    flex-basis: 32%; }
   body > nav #extra-menu {
     flex-basis: calc(20% - 96px);
     display: flex;
@@ -309,7 +309,8 @@ body {
             text-align: center;
             width: 100%;
             padding: 6px 10px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            color: #008080; }
   body aside {
     flex-basis: 24%;
     height: calc(100vh - 56px);
@@ -338,6 +339,7 @@ body {
           display: block;
           text-transform: none;
           cursor: pointer;
-          font-size: 12px; }
+          font-size: 12px;
+          color: #008080; }
 
 /*# sourceMappingURL=user-profile.css.map */

@@ -1,3 +1,37 @@
+let activityLog = {
+    init: function() {
+        this.displayLog();
+    },
+
+    displayLog: function() {
+        $('#activity-log').empty();
+        for (let i=0; i<activities.length; i++) {
+            $('#activity-log').append(this.createLogElement(activities[i]));
+        }
+    },
+
+    createLogElement: function(activity) {
+        let activityElement = $('.activity-template').clone();
+        activityElement.removeClass('activity-template');
+        activityElement.addClass('activity');
+
+        activityElement.find('date').html(activity.timestamp.toLocaleString());
+        activityElement.find('h3').text(activity.action + ' ' + activity.target.type);
+        if (activity.remarks && activity.remarks.length > 0)
+            activityElement.find('h3').append(' (' + activity.remarks + ')');
+            
+        activityElement.find('a').text(activity.target.name);
+        if (activity.target.url) {
+            activityElement.find('a').attr('target', 'blank');
+            activityElement.find('a').attr('href', activity.target.url);
+        }
+        activityElement.show();
+
+        return activityElement;
+    },
+};
+
+
 let members = {
     init: function() {
         let that = this;
@@ -40,7 +74,22 @@ let members = {
     getSelected: function() {
         return $('.member-selected').map(function() {
             return $(this).data('pk');
-        });
+        }).get();
+    },
+
+    removeSelected: function() {
+        let that = this;
+        $.post(window.location, JSON.stringify({
+            request: 'removeMembers',
+            members: that.getSelected(),
+        }), function(response) {
+            if (response.status && response.data.removedMembers) {
+                for (var i=0; i<response.data.removedMembers.length; i++) {
+                    $('.member-selected[data-pk="' + response.data.removedMembers[i] + '"]').remove();
+                }
+                that.clearSelection();
+            }
+        }, 'json');
     },
 
     getSelectionCount: function() {
@@ -49,6 +98,9 @@ let members = {
 };
 
 $(document).ready(function(){
+    // CSRF setup for ajax
+    setupCsrfForAjax();
+
     // Tab navigation
     $('#navigator').on('click', 'a', function(){
         var that = $('#navigator .nav-active');
@@ -65,6 +117,7 @@ $(document).ready(function(){
         $(this).addClass('nav-active');
     });
 
+    activityLog.init();
     members.init();
 
     //Clear selection button
@@ -114,11 +167,8 @@ $(document).ready(function(){
         var selection = $('#navigator .nav-active');
 
         if(selection.data('target') == '#members-wrapper'){
-            if($('.member').hasClass('member-selected')){
-                console.log('Delete');
-            }
-            else{
-                console.log('Members');
+            if (members.getSelectionCount() > 0) {
+                members.removeSelected();
             }
         }
         else if (selection.data('target') == '#projects-wrapper') {

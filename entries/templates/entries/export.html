@@ -12,8 +12,11 @@ DEEP | Export
 </script>
 <link href="{% watchful_static_url 'css/jquery-ui.min.css' %}" type="text/css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}"/>
+<link href="{% watchful_static_url 'css/modal.css' %}" type="text/css" rel="stylesheet">
 <link href="{% watchful_static_url 'css/export.css' %}" type="text/css" rel="stylesheet">
 <script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/jquery-ui.min.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/entries-filter.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/export.js' %}"></script>
@@ -35,8 +38,8 @@ DEEP | Export
                 {% csrf_token %}
                 <h2>Word Export</h2>
                 <div>
-                    <button type="submit" onclick="$('#new-format').remove();" class="btn btn-info" ><i class="fa fa-file-word-o"></i>Generic Export</button>
-                    <button type="submit" onclick="$('#export-entries-doc-form').append('<input id=\'new-format\' type=\'hidden\' name=\'new-format\' value=\'true\'>');" class="btn btn-info"><i class="fa fa-file-word-o"></i>Briefing Note</button>
+                    <button type="submit" onclick="$('#new-format').remove();" class="btn-info" ><i class="fa fa-file-word-o"></i>Generic Export</button>
+                    <button type="submit" onclick="$('#export-entries-doc-form').append('<input id=\'new-format\' type=\'hidden\' name=\'new-format\' value=\'true\'>');" class="btn-info"><i class="fa fa-file-word-o"></i>Briefing Note</button>
                 </div>
             </form>
             <div>
@@ -45,7 +48,7 @@ DEEP | Export
                     {% include 'entries/export-entry-filters.html' %}
                 </div>
             </div>
-            <div style="margin-top: 32px;">
+            <div id="hierarchy">
                 <h3>Hierarchy <span>(drag to rearrange)</span></h3>
                 <ul id="sortable">
                   <li class="ui-state-default" id="geoarea">Geo Area</li>
@@ -59,7 +62,7 @@ DEEP | Export
                 <h2>Excel Export</h2>
             </header>
             <form id="export-entries-excel-form" action="{% url 'entries:exportxls' event=event.pk %}">
-                <button type="submit" class="btn btn-primary" ><i class="fa fa-file-excel-o"></i>Export</button>
+                <button type="submit" class=" btn-primary" ><i class="fa fa-file-excel-o"></i>Export</button>
             </form>
         </div>
     </div>
@@ -69,9 +72,29 @@ DEEP | Export
             <header>
                 <h2>Excel Export</h2>
             </header>
-            <button id="export-sos-excel-btn" href="{% url 'leads:exportsosxls' event=event.pk %}" type="submit" class="btn btn-primary" ><i class="fa fa-file-excel-o"></i>Export</button>
+            <button id="export-sos-excel-btn" href="{% url 'leads:exportsosxls' event=event.pk %}" type="submit" class=" btn-primary" ><i class="fa fa-file-excel-o"></i>Export</button>
         </div>
     </div>
 </section>
+
+<div class="modal-container" hidden>
+    <div id="date-range-input" class="modal" hidden>
+        <header>
+            <h3 class="modal-title">Enter date range</h3>
+        </header>
+        <div class="input-container">
+            <label>start date:</label>
+            <input type="date" id="start-date" class="form-control">
+        </div>
+        <div class="input-container">
+            <label>end date:</label>
+            <input type="date" id="end-date" class="form-control">
+        </div>
+        <div class="action-buttons">
+            <button id="cancel-btn" class="cancel" data-action="dismiss"><i class="fa fa-times"></i>Cancel</button>
+            <button id="ok-btn" class="success" data-action="proceed"><i class="fa fa-check"></i>Ok</button>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

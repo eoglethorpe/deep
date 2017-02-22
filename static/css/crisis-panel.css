@@ -105,9 +105,13 @@ body {
       body aside #crisis-header h2 {
         flex-basis: 60%;
         font-weight: 500;
-        font-size: 19px; }
-      body aside #crisis-header a .fa {
-        margin-right: 10px; }
+        font-size: 19px;
+        color: #008080; }
+      body aside #crisis-header a {
+        cursor: pointer;
+        color: #008080; }
+        body aside #crisis-header a .fa {
+          margin-right: 10px; }
       body aside #crisis-header #search-wrapper {
         flex-basis: 100%;
         position: relative;
@@ -164,6 +168,12 @@ body {
     height: calc(100vh - 56px);
     padding: 10px 32px 0 32px;
     box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+    body main label {
+      margin-bottom: 6px;
+      font-weight: bold; }
+    body main a {
+      margin-bottom: 6px;
+      color: #008080; }
     body main .selectize-control {
       margin-bottom: 8px; }
       body main .selectize-control .selectize-input {
@@ -175,7 +185,8 @@ body {
       body main form h2 {
         font-weight: 500;
         font-size: 19px;
-        margin-bottom: 32px; }
+        margin-bottom: 32px;
+        color: #008080; }
       body main form > div {
         margin-bottom: 8px; }
         body main form > div > input[type="text"] {
@@ -215,14 +226,34 @@ body {
         outline: none;
         vertical-align: sub; }
       body main form #action-buttons {
-        text-align: right;
         margin-top: 32px; }
-        body main form #action-buttons button {
-          margin-left: 16px;
-          box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-          body main form #action-buttons button:active {
-            box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-          body main form #action-buttons button i {
+        body main form #action-buttons #save-btn {
+          display: inline-block;
+          width: 133px;
+          margin-right: 10px;
+          color: #fff;
+          background-color: #3498db;
+          box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5);
+          min-width: 100px;
+          padding: 4px 10px;
+          height: 30px; }
+          body main form #action-buttons #save-btn:active {
+            box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
+          body main form #action-buttons #save-btn .fa {
+            margin-right: 10px; }
+        body main form #action-buttons #delete-btn {
+          display: inline-block;
+          width: 133px;
+          margin-right: 10px;
+          color: #fff;
+          background-color: #e74c3c;
+          box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5);
+          min-width: 100px;
+          padding: 4px 10px;
+          height: 30px; }
+          body main form #action-buttons #delete-btn:active {
+            box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
+          body main form #action-buttons #delete-btn .fa {
             margin-right: 10px; }
 
 /*# sourceMappingURL=crisis-panel.css.map */

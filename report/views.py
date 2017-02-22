@@ -148,9 +148,9 @@ class WeeklyReportView(View):
 
         activity.set_target(
             'report', report.pk,
-            report.country.name + ' (' + report.event.name + ') for ' + report.start_date.strftime('%B %d, %Y'),
+            report.country.name + ' for ' + report.start_date.strftime('%B %d, %Y'),
             reverse('report:weekly', args=[report.country.code, report.event.pk, report.pk])
-        ).log_for(request.user)
+        ).log_for(request.user, event=report.event)
 
         return redirect(reverse("report:dashboard") + "?country=" + country_id + "&event=" + event_id)
 
@@ -160,10 +160,10 @@ class DeleteWeeklyReport(View):
         report = WeeklyReport.objects.get(country=country_id, event=event_id, pk=report_id)
         activity = DeletionActivity().set_target(
             'report', report.pk,
-            report.country.name + ' (' + report.event.name + ') for ' + report.start_date.strftime('%B %d, %Y')
+            report.country.name + ' for ' + report.start_date.strftime('%B %d, %Y')
         )
         report.delete()
-        activity.log_for(request.user)
+        activity.log_for(request.user, event=report.event)
         return redirect(reverse("report:dashboard") + "?country=" + country_id + "&event=" + event_id)
 
 class MonthlyReportView(View):

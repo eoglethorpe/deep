@@ -22,18 +22,27 @@
     }
     h3{
         font-size: $text-size-md;
+        margin-top: 10px;
         margin-bottom: 10px;
     }
+
+
+
     button{
-        @include btn-shadow-lg;
+        @include btn-shadow-md;
         min-width: 160px;
         padding: 6px 12px;
         height: 36px;
 
+
+
         i{
             margin-right: 8px;
         }
+
     }
+
+
     ul{
         list-style: none;
         padding-left: 0;
@@ -72,6 +81,9 @@
                 display: flex;
                 justify-content: space-between;
             }
+            label{
+                margin-bottom: 3px;
+            }
             >div:nth-child(2){
                 flex-basis: 60%;
             }
@@ -88,7 +100,7 @@
                     flex-basis: 49%;
 
                     &:last-child{
-                        flex-basis: 60%;
+                        flex-basis: 49%;
                     }
                     >input[type="text"],input[type="number"]{
                         width: 100%;
@@ -127,13 +139,39 @@
                     }
                 }
             }
+            .hierarchy{
+                margin-top: 32px;
+            }
 
+            button{
+                color: #fff;
+                background-color: #1E88E5;
+                @include btn-shadow-md;
+                min-width: 160px;
+                padding: 6px 12px;
+                height: 36px;
+                i{
+                    margin-right: 8px;
+                }
+            }
         }
         #export-entries-excel{
             flex-basis: 25%;
             padding: 16px;
             box-sizing: border-box;
             border: 1px solid rgba(0, 0, 0, 0.1);
+
+            button{
+                color: #fff;
+                background-color: #009688;
+                @include btn-shadow-md;
+                min-width: 160px;
+                padding: 6px 12px;
+                height: 36px;
+                i{
+                    margin-right: 8px;
+                }
+            }
         }
     }
     #sos-export{
@@ -143,6 +181,17 @@
             padding: 16px;
             box-sizing: border-box;
             border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        button{
+            color: #fff;
+            background-color: #009688;
+            @include btn-shadow-md;
+            min-width: 160px;
+            padding: 6px 12px;
+            height: 36px;
+            i{
+                margin-right: 8px;
+            }
         }
     }
 }
