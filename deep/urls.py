@@ -9,9 +9,9 @@ from users.views import *
 from deep.views import *
 from report.views import *
 
-# from users.rest_views import *
+from users.rest_views import *
 from leads.rest_views import *
-# from entries.rest_views import *
+from entries.rest_views import *
 
 
 router = DefaultRouter()
