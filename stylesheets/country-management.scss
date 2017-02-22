@@ -3,7 +3,6 @@
 body{
     display: flex;
     justify-content: flex-start;
-    //overflow-y: hidden;
     flex-wrap: wrap;
 
     h1, h2, h3, h4{
@@ -11,10 +10,16 @@ body{
         margin: 0;
         vertical-align: middle;
     }
-    input[type="text"],input[type="number"],input[type="url"]{
+    a{
+        color: $primary-color;
+        cursor: pointer;
+    }
+    label{
+        margin-bottom: 4px;
+    }
+    input[type="text"], input[type="number"], input[type="url"], input[type="search"]{
         width: 100%;
-        height: 32px;
-        padding: 0 16px;
+        padding: 6px 10px;
         outline: none;
         border: 1px solid rgba(0, 0, 0, 0.1);
         border-radius: 3px;
@@ -24,7 +29,7 @@ body{
             border-color: $primary-color;
         }
     }
-    header{
+    >header{
         flex-basis: 100%;
         height: $navbar-height;
         background-color: darken($primary-color, 10%);
@@ -65,14 +70,6 @@ body{
                 font-weight: $font-weight-bold;
                 font-size: $text-size-sl;
             }
-            // button{
-            //     flex-basis: 30%;
-            //     @include btn-shadow-lg;
-            //
-            //     .fa{
-            //         margin-right: 10px;
-            //     }
-            // }
             #search-wrapper{
                 flex-basis: 100%;
                 position: relative;
@@ -131,73 +128,55 @@ body{
             justify-content: space-between;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
-            >div{
-                flex-basis: 70%;
+            .tabs{
+                flex-basis: 64%;
 
-                &:last-child{
-                    text-align: right;
-                    flex-basis: 30%;
-                    padding: 0 24px;
-                }
-            }
-            a{
-                padding: 10px 24px 14px 24px;
-                font-size: 14px;
-                cursor: pointer;
+                a{
+                    font-size: $text-size-md;
+                    padding: 10px 16px 14px 16px;
+                    cursor: pointer;
 
-                &.nav-active{
-                    border-bottom: 2px solid $primary-color;
-                }
-
-                &.invalid {
-                    color: $primary-color;
-                    animation: blink 2s infinite linear;
-                }
-                @keyframes blink{
-                    0% {
+                    &.nav-active{
+                        border-bottom: 2px solid $primary-color;
+                    }
+                    &.invalid {
                         color: $primary-color;
+                        animation: blink 2s infinite linear;
                     }
-                    30% {
-                        color: $error-color;
-                    }
-                    70% {
-                        color: $error-color;
-                    }
-                    100% {
-                        color: $primary-color;
+                    @keyframes blink{
+                        0% { color: $primary-color; }
+                        30% { color: $error-color; }
+                        70% { color: $error-color; }
+                        100% { color: $primary-color; }
                     }
                 }
             }
-             #delete-btn{
-                 margin-right: 10px;
-                 color: #fff;
-                 background-color: $danger-color;
-                 @include btn-shadow-md();
-                 min-width: 100px;
-                 padding: 4px 10px;
-                 height: 30px;
-                 .fa{
-                     margin-right: 10px;
-                 }
-            }
-            #save-btn{
-                margin-right: 10px;
-                color: #fff;
-                background-color: $info-color;
-                @include btn-shadow-md();
-                min-width: 100px;
-                padding: 4px 10px;
-                height: 30px;
-                .fa{
-                    margin-right: 10px;
+            .action-buttons{
+                flex-basis: 36%;
+                text-align: right;
+                padding-right: 16px;
+
+                button{
+                    padding: 6px 16px;
+                    color: #fff;
+                    @include btn-shadow-sm();
+
+                    .fa{
+                        margin-right: 10px;
+                    }
                 }
-           }
+                #delete-btn{ background-color: $danger-color; }
+                #save-btn{
+                    margin-left: 10px;
+                    background-color: $info-color;
+                }
+
+            }
         }
         #content-wrapper{
             :invalid {
                 border-color: $error-color;
             }
-
             #country-detail > div{
                 max-height: calc(100vh - #{$navbar-height} - 48px);
                 overflow-y: auto;
@@ -221,6 +200,10 @@ body{
                     flex-basis: 40%;
                     align-self: flex-start;
                     padding: 0 10px 0 24px;
+
+                    > div{
+                        padding: 5px 0;
+                    }
                 }
                 #map-wrapper{
                     flex-basis: 60%;
@@ -237,15 +220,19 @@ body{
                         @include shadow();
                     }
                     #map-controls{
-                        margin-top: 8px;
-                        width: 100%;
-                        display: inline-block;
-                        background-color: rgba(255, 255, 255, 0.88);
-
                         #admin-level-buttons{
+                            margin-top: 10px;
+                            text-align: center;
+
                             button{
-                                margin: 4px!important;
-                                @include shadow();
+                                padding: 4px 10px;
+                                //margin: 4px;
+                                //@include shadow();
+
+                                &.active{
+                                    background-color: $primary-color;
+                                    color: #fff;
+                                }
                             }
                         }
                     }
@@ -274,15 +261,43 @@ body{
                         flex-basis: 24%;
 
                         &:nth-child(6){
+                            flex-basis: 80%;
                             margin-top: 16px;
+
+                            .file-input {
+                                width: 0.1px;
+                                height: 0.1px;
+                                opacity: 0;
+                                left: 0;
+                                top: 0;
+                                overflow: hidden;
+                                position: absolute;
+                                z-index: -1;
+                            }
+                            .file-input + label {
+                                margin-left: 10px;
+                                margin-right: 10px;
+                                padding: 6px 16px;
+                                background-color: #fff;
+                                font-size: 1em;
+                                border-radius: 3px;
+                                display: inline-block;
+                                cursor: pointer;
+                                @include btn-shadow-sm();
+
+                                i{
+                                    margin-right: 10px;
+                                }
+                            }
                         }
                         &:last-child{
-                            flex-basis: 7%;
+                            flex-basis: 20%;
+                            text-align: right;
 
                             label{
                                 cursor: pointer;
                                 font-size: $text-size-lg;
-                                color: $error-color;
+                                color: $danger-color;
 
                                 input{
                                     margin-right: 10px;
@@ -297,44 +312,17 @@ body{
                             }
                         }
                     }
-
                     &:nth-child(even){
                         background: #fafafa;
                     }
-
-                    .file-input {
-                        width: 0.1px;
-                        height: 0.1px;
-                        opacity: 0;
-                        left: 0;
-                        top: 0;
-                        overflow: hidden;
-                        position: absolute;
-                        z-index: -1;
-                    }
-                    .file-input + label {
-                        margin-left: 10px;
-                        margin-right: 10px;
-                        padding: 6px 24px;
-                        background-color: #fff;
-                        font-size: 1em;
-                        border-radius: 3px;
-                        display: inline-block;
-                        cursor: pointer;
-                        @include btn-shadow-sm();
-
-                        i{
-                            margin-right: 10px;
-                        }
-                    }
-                    .file-input:focus + label,
-                    .file-input + label:hover {
-                    }
                     .geojson-current{
-                        display: inline-block;
+                        flex-basis: 100%;
                     }
                 }
                 #add-new-admin-level{
+                    background-color: $primary-color;
+                    color: #fff;
+                    padding: 4px 10px;
                     @include btn-shadow-sm();
 
                     i{
@@ -368,6 +356,10 @@ body{
                     >div{
                         flex-basis: 30%;
                         padding: 0 8px;
+
+                        >div{
+                            padding: 6px 0;
+                        }
                     }
                 }
             }
@@ -459,6 +451,12 @@ body{
             .last-checked-date {
                 color: $label-color;
                 flex-basis: 100%;
+                margin-bottom: 16px;
+
+                date{
+                    color: $text-color;
+                    font-family: 'Inconsolata', monospace;
+                }
             }
         }
     }
