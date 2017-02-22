@@ -114,11 +114,11 @@ var timelineCategories = [{% for category in category_timelines %}"{{category}}"
 {% block body %}
 {% include 'navbar.html' %}
 <header>
+    <h1>Weekly Report / <span>{{event}}</span></h1>
     <div id="main-action-buttons">
         <button class=" btn-cancel" id="cancel-btn" onclick=" if (confirm('Are you sure you want to cancel the changes?')) location.href='{% url 'report:dashboard' %}{% if event %}?event={{event.pk}}&country={{event.countries.all.0.code}}{% endif %}';"><i class="fa fa-times"></i>Cancel</button>
         <button class="btn-save" id="save-btn"><i class="fa fa-save"></i>Save Changes</button>
     </div>
-    <h1>Weekly Report / <span>{{event}}</span></h1>
     <div id="filters">
         {% include 'entries/entry-filters.html' %}
     </div>

@@ -6,45 +6,47 @@ body{
     min-height: 100vh;
     header{
         height: $header-height;
-        padding: 16px 16px 0 16px;
+        //padding: 16px 16px 0 16px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 0 16px;
+        align-items: center;
 
         h1{
             margin: 0;
-            padding-top: 10px;
+            flex-basis: 60%;
             text-transform: uppercase;
             font-weight: $font-weight-bold;
-            margin-bottom: 10px;
-            color: $primary-color;
 
             span{
-                font-weight: $font-weight-normal;
+                font-weight: $font-weight-thin;
             }
         }
         #main-action-buttons{
-            float: right;
-        }
-        #cancel-btn{
-            margin-right: 10px;
-            color: #fff;
-            background-color: $danger-color;
-            @include btn-shadow-md();
-            min-width: 100px;
-            padding: 4px 10px;
-            height: 30px;
-            .fa{
+            flex-basis: 40%;
+            text-align: right;
+
+            button{
+                color: #fff;
+                padding: 6px 16px;
+                @include btn-shadow-md;
+
+                .fa{
+                    margin-right: 10px;
+                }
+            }
+            #cancel-btn{
                 margin-right: 10px;
+                background-color: $danger-color;
+            }
+            #save-btn{
+                background-color: $info-color;
             }
         }
-        #save-btn{
-            color: #fff;
-            background-color: $info-color;
-            @include btn-shadow-md;
-            min-width: 160px;
-            padding: 4px 10px;
-            height: 30px;
-            .fa{
-                margin-right: 10px;
-            }
+        #filters{
+            flex-basis: 100%;
+            box-sizing: border-box;
         }
         @import 'entries/entry-filters';
     }
@@ -202,6 +204,5 @@ main{
         @import 'report/weekly-people-in-need';
         @import 'report/weekly-humanitarian-access';
         @import 'report/weekly-severity-score';
-
     }
 }

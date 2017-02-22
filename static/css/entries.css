@@ -102,7 +102,7 @@ body > nav {
   body > nav #report-link-wrapper {
     flex-basis: 10%; }
   body > nav #crisis-select-container {
-    flex-basis: 30%; }
+    flex-basis: 28%; }
     body > nav #crisis-select-container .selectize-control.single .selectize-input, body > nav #crisis-select-container .selectize-control.single.single, body > nav #crisis-select-container .selectize-control.single .selectize-input.input-active {
       background-color: transparent !important; }
     body > nav #crisis-select-container .selectize-input {
@@ -125,7 +125,7 @@ body > nav {
     body > nav #crisis-select-container a {
       vertical-align: middle; }
   body > nav #main-menu {
-    flex-basis: 30%; }
+    flex-basis: 32%; }
   body > nav #extra-menu {
     flex-basis: calc(20% - 96px);
     display: flex;
@@ -534,13 +534,13 @@ main #entry-filters {
       font-size: 12px;
       border: 1px solid rgba(0, 0, 0, 0.1); }
     main #entry-filters #left-block .filter {
-      flex-basis: calc(20% - 1px);
+      flex-basis: 20%;
       outline: none;
       border: none; }
     main #entry-filters #left-block #search, main #entry-filters #left-block #lead-title-search {
-      flex-basis: calc(13% - 1px); }
+      flex-basis: 13%; }
     main #entry-filters #left-block #sources-filter {
-      flex-basis: calc(14% - 2px); }
+      flex-basis: 14%; }
   main #entry-filters #right-block {
     flex-basis: 20%;
     display: flex;

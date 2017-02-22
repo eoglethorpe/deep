@@ -102,7 +102,7 @@ body > nav {
   body > nav #report-link-wrapper {
     flex-basis: 10%; }
   body > nav #crisis-select-container {
-    flex-basis: 30%; }
+    flex-basis: 28%; }
     body > nav #crisis-select-container .selectize-control.single .selectize-input, body > nav #crisis-select-container .selectize-control.single.single, body > nav #crisis-select-container .selectize-control.single .selectize-input.input-active {
       background-color: transparent !important; }
     body > nav #crisis-select-container .selectize-input {
@@ -125,7 +125,7 @@ body > nav {
     body > nav #crisis-select-container a {
       vertical-align: middle; }
   body > nav #main-menu {
-    flex-basis: 30%; }
+    flex-basis: 32%; }
   body > nav #extra-menu {
     flex-basis: calc(20% - 96px);
     display: flex;
