@@ -210,10 +210,8 @@ function refreshMap() {
         onEachFeature: onEachMapFeature
     }).addTo(map);
 
-    $("#admin-level-buttons button").removeClass("btn-primary");
-    $("#admin-level-buttons button").addClass("btn-default");
-    $("#btn-lvl-"+currentLevel).removeClass("btn-default");
-    $("#btn-lvl-"+currentLevel).addClass("btn-primary");
+    $("#admin-level-buttons button").removeClass("active-btn");
+    $("#btn-lvl-"+currentLevel).addClass("active-btn");
 
     map.fitBounds(layer.getBounds());
 }
@@ -224,7 +222,7 @@ function refreshAdminLevels() {
     var totalWidth = 0;
     if (selectedCountry in adminLevels) {
         for (var i=0; i<adminLevelNames[selectedCountry].length; ++i) {
-            var btn = $("<button id='btn-lvl-" + i + "' class='btn btn-default btn-xs'>" + adminLevelNames[selectedCountry][i] + "</button>");
+            var btn = $("<button id='btn-lvl-" + i + "'>" + adminLevelNames[selectedCountry][i] + "</button>");
             btn.on('click', function(level) { return function() {   // closure shit
                 currentLevel = level;
                 refreshMap();

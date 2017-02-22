@@ -225,106 +225,6 @@ main #visualizations {
       float: right;
       margin-left: 10px;
       padding-top: 16px; }
-  main #visualizations #entry-timeline-wrapper {
-    width: calc(84% - 240px);
-    float: left;
-    padding-bottom: 38px; }
-  main #visualizations #severity-legend {
-    width: 16%;
-    float: left;
-    height: 262px;
-    overflow-y: auto; }
-    main #visualizations #severity-legend .inactive label {
-      color: #ccc; }
-    main #visualizations #severity-legend .inactive .severity {
-      filter: grayscale(100%); }
-    main #visualizations #severity-legend .severity {
-      display: inline-block;
-      height: 16px;
-      width: 24px;
-      margin-left: 24px;
-      cursor: pointer; }
-      main #visualizations #severity-legend .severity:hover {
-        box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.8); }
-    main #visualizations #severity-legend .severity-1 {
-      background-color: #fbd4d4; }
-    main #visualizations #severity-legend .severity-2 {
-      background-color: #f7a5a5; }
-    main #visualizations #severity-legend .severity-3 {
-      background-color: #f47575; }
-    main #visualizations #severity-legend .severity-4 {
-      background-color: #f04646; }
-    main #visualizations #severity-legend .severity-5 {
-      background-color: #ec1717; }
-    main #visualizations #severity-legend .severity-6 {
-      background-color: #c01010; }
-    main #visualizations #severity-legend label {
-      font-size: 13px;
-      margin-left: 10px; }
-    main #visualizations #severity-legend p {
-      margin-bottom: 6px; }
-  main #visualizations #pie-wrapper-container {
-    width: 240px;
-    float: left;
-    padding-bottom: 1px; }
-    main #visualizations #pie-wrapper-container #pie-wrapper {
-      width: 100%;
-      background-color: #fff; }
-      main #visualizations #pie-wrapper-container #pie-wrapper svg {
-        margin-top: -16px;
-        margin-left: 16px;
-        width: 208px;
-        height: 208px;
-        background: transparent;
-        border-radius: 50%; }
-        main #visualizations #pie-wrapper-container #pie-wrapper svg text {
-          color: #414141;
-          font-family: "monospace";
-          font-size: 24px; }
-      main #visualizations #pie-wrapper-container #pie-wrapper path {
-        cursor: pointer;
-        fill: transparent;
-        stroke-width: 56;
-        transition: all 0.2s ease-in-out; }
-        main #visualizations #pie-wrapper-container #pie-wrapper path:hover {
-          stroke-width: 64;
-          stroke-linecap: butt; }
-      main #visualizations #pie-wrapper-container #pie-wrapper .severity-1 {
-        stroke: #fbd4d4; }
-      main #visualizations #pie-wrapper-container #pie-wrapper .severity-2 {
-        stroke: #f7a5a5; }
-      main #visualizations #pie-wrapper-container #pie-wrapper .severity-3 {
-        stroke: #f47575; }
-      main #visualizations #pie-wrapper-container #pie-wrapper .severity-4 {
-        stroke: #f04646; }
-      main #visualizations #pie-wrapper-container #pie-wrapper .severity-5 {
-        stroke: #ec1717; }
-      main #visualizations #pie-wrapper-container #pie-wrapper .severity-6 {
-        stroke: #c01010; }
-  main #visualizations #sectors-visualization {
-    float: left;
-    width: 30%;
-    height: 600px;
-    overflow-y: auto; }
-    main #visualizations #sectors-visualization label {
-      cursor: pointer; }
-    main #visualizations #sectors-visualization img {
-      height: 24px;
-      margin-right: 10px;
-      display: inline-block;
-      cursor: pointer; }
-    main #visualizations #sectors-visualization .inactive label {
-      color: #ccc; }
-    main #visualizations #sectors-visualization .inactive img {
-      filter: grayscale(100%); }
-    main #visualizations #sectors-visualization .inactive .severities {
-      filter: grayscale(100%); }
-    main #visualizations #sectors-visualization .attr-scale-container {
-      padding: 0; }
-      main #visualizations #sectors-visualization .attr-scale-container label {
-        cursor: inherit; }
-      main #visualizations #sectors-visualization .attr-scale-container .attr-scale .scale {
-        width: calc(240px/5); }
   main #visualizations .attr-visualization {
     padding-bottom: 16px; }
     main #visualizations .attr-visualization .attr {
@@ -390,98 +290,209 @@ main #visualizations {
         margin-top: 8px;
         font-family: 'Inconsolata', monospace;
         color: rgba(0, 0, 0, 0.5); }
-      main #visualizations .attr-visualization .attr-scale-container .attr-scale .val {
-        float: left; }
       main #visualizations .attr-visualization .attr-scale-container .attr-scale .val-right {
         float: right; }
-  main #visualizations #attr-visualizations-container {
-    width: 100%;
-    clear: both; }
-    main #visualizations #attr-visualizations-container .attr-visualization {
-      width: 25% !important;
-      float: left; }
-  main #visualizations #map-wrapper {
-    width: 70%;
-    float: left; }
-    main #visualizations #map-wrapper #the-map {
-      position: relative;
-      height: 538px;
-      box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-      main #visualizations #map-wrapper #the-map #map-shadow-overlay {
-        pointer-events: none;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 999;
-        box-shadow: inset 10px 0 15px -8px rgba(0, 0, 0, 0.5); }
-      main #visualizations #map-wrapper #the-map path {
-        stroke: #717171;
-        stroke-width: 1px;
-        stroke-linejoin: round; }
-      main #visualizations #map-wrapper #the-map .leaflet-top {
-        z-index: 1;
-        top: auto;
-        bottom: 24px;
-        left: 24px; }
-    main #visualizations #map-wrapper #map-controls {
-      box-sizing: border-box;
-      background-color: rgba(255, 255, 255, 0.88);
-      padding: 11px 0 12px 4px;
-      display: flex;
-      justify-content: space-between; }
-      main #visualizations #map-wrapper #map-controls #country-select-wrapper {
-        flex-basis: 25%;
-        box-sizing: border-box; }
-      main #visualizations #map-wrapper #map-controls #admin-level-buttons {
-        flex-basis: 75%;
-        text-align: center; }
-        main #visualizations #map-wrapper #map-controls #admin-level-buttons button {
-          margin: 0 4px;
-          box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-  main #visualizations #entry-header {
-    padding: 16px 24px; }
-    main #visualizations #entry-header h3 {
-      text-transform: uppercase;
-      margin: 0; }
-  main #visualizations #entry-timeline-container {
-    height: 160px;
-    cursor: crosshair;
-    position: relative; }
-    main #visualizations #entry-timeline-container #entry-timeline {
-      width: 100%;
-      height: 100%; }
-    main #visualizations #entry-timeline-container .timeline-scale {
-      height: 90%;
-      width: 5%;
-      display: inline-block;
-      position: absolute;
-      left: 5%;
-      top: 0;
-      border-left: 1px solid black;
-      pointer-events: none; }
-      main #visualizations #entry-timeline-container .timeline-scale .scale {
-        position: relative;
-        display: inline-block;
-        width: 100%;
-        height: 20%; }
-        main #visualizations #entry-timeline-container .timeline-scale .scale:after {
-          position: absolute;
-          content: '';
-          top: 0;
-          left: -4px;
-          width: 4px;
-          height: 1px;
-          display: inline-block;
-          border-top: 1px solid black; }
-        main #visualizations #entry-timeline-container .timeline-scale .scale .val {
-          display: inline-block;
+  main #visualizations #first-row {
+    display: flex;
+    justify-content: flex-start; }
+    main #visualizations #first-row #entry-timeline-wrapper {
+      flex-basis: calc(84% - 240px);
+      padding-bottom: 38px; }
+      main #visualizations #first-row #entry-timeline-wrapper #entry-timeline-container {
+        height: 160px;
+        cursor: crosshair;
+        position: relative; }
+        main #visualizations #first-row #entry-timeline-wrapper #entry-timeline-container #entry-timeline {
           width: 100%;
-          font-family: 'Inconsolata', monospace;
-          color: rgba(0, 0, 0, 0.5);
-          text-align: right;
-          transform: translateY(-10px) translateX(-110%); }
+          height: 100%; }
+        main #visualizations #first-row #entry-timeline-wrapper #entry-timeline-container .timeline-scale {
+          height: 90%;
+          width: 5%;
+          display: inline-block;
+          position: absolute;
+          left: 5%;
+          top: 0;
+          border-left: 1px solid black;
+          pointer-events: none; }
+          main #visualizations #first-row #entry-timeline-wrapper #entry-timeline-container .timeline-scale .scale {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            height: 20%; }
+            main #visualizations #first-row #entry-timeline-wrapper #entry-timeline-container .timeline-scale .scale:after {
+              position: absolute;
+              content: '';
+              top: 0;
+              left: -4px;
+              width: 4px;
+              height: 1px;
+              display: inline-block;
+              border-top: 1px solid black; }
+            main #visualizations #first-row #entry-timeline-wrapper #entry-timeline-container .timeline-scale .scale .val {
+              display: inline-block;
+              width: 100%;
+              font-family: 'Inconsolata', monospace;
+              color: rgba(0, 0, 0, 0.5);
+              text-align: right;
+              transform: translateY(-10px) translateX(-110%); }
+    main #visualizations #first-row #severity-legend {
+      flex-basis: 16%;
+      height: 262px;
+      overflow-y: auto; }
+      main #visualizations #first-row #severity-legend .inactive label {
+        color: #ccc; }
+      main #visualizations #first-row #severity-legend .inactive .severity {
+        filter: grayscale(100%); }
+      main #visualizations #first-row #severity-legend .severity {
+        display: inline-block;
+        height: 16px;
+        width: 24px;
+        margin-left: 24px;
+        cursor: pointer; }
+        main #visualizations #first-row #severity-legend .severity:hover {
+          box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.8); }
+      main #visualizations #first-row #severity-legend .severity-1 {
+        background-color: #fbd4d4; }
+      main #visualizations #first-row #severity-legend .severity-2 {
+        background-color: #f7a5a5; }
+      main #visualizations #first-row #severity-legend .severity-3 {
+        background-color: #f47575; }
+      main #visualizations #first-row #severity-legend .severity-4 {
+        background-color: #f04646; }
+      main #visualizations #first-row #severity-legend .severity-5 {
+        background-color: #ec1717; }
+      main #visualizations #first-row #severity-legend .severity-6 {
+        background-color: #c01010; }
+      main #visualizations #first-row #severity-legend label {
+        font-size: 13px;
+        margin-left: 10px; }
+      main #visualizations #first-row #severity-legend p {
+        margin-bottom: 6px; }
+    main #visualizations #first-row #pie-wrapper-container {
+      flex-basis: 240px;
+      padding-bottom: 1px; }
+      main #visualizations #first-row #pie-wrapper-container #pie-wrapper {
+        width: 100%;
+        background-color: #fff; }
+        main #visualizations #first-row #pie-wrapper-container #pie-wrapper svg {
+          margin-top: -16px;
+          margin-left: 16px;
+          width: 208px;
+          height: 208px;
+          background: transparent;
+          border-radius: 50%; }
+          main #visualizations #first-row #pie-wrapper-container #pie-wrapper svg text {
+            color: #414141;
+            font-family: "monospace";
+            font-size: 24px; }
+        main #visualizations #first-row #pie-wrapper-container #pie-wrapper path {
+          cursor: pointer;
+          fill: transparent;
+          stroke-width: 56;
+          transition: all 0.2s ease-in-out; }
+          main #visualizations #first-row #pie-wrapper-container #pie-wrapper path:hover {
+            stroke-width: 64;
+            stroke-linecap: butt; }
+        main #visualizations #first-row #pie-wrapper-container #pie-wrapper .severity-1 {
+          stroke: #fbd4d4; }
+        main #visualizations #first-row #pie-wrapper-container #pie-wrapper .severity-2 {
+          stroke: #f7a5a5; }
+        main #visualizations #first-row #pie-wrapper-container #pie-wrapper .severity-3 {
+          stroke: #f47575; }
+        main #visualizations #first-row #pie-wrapper-container #pie-wrapper .severity-4 {
+          stroke: #f04646; }
+        main #visualizations #first-row #pie-wrapper-container #pie-wrapper .severity-5 {
+          stroke: #ec1717; }
+        main #visualizations #first-row #pie-wrapper-container #pie-wrapper .severity-6 {
+          stroke: #c01010; }
+  main #visualizations #second-row {
+    display: flex; }
+    main #visualizations #second-row #sectors-visualization {
+      flex-basis: 540px;
+      flex-grow: 0;
+      flex-shrink: 0;
+      height: 600px; }
+      main #visualizations #second-row #sectors-visualization .attr {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center; }
+        main #visualizations #second-row #sectors-visualization .attr label {
+          cursor: pointer; }
+        main #visualizations #second-row #sectors-visualization .attr img {
+          height: 24px;
+          margin-right: 10px;
+          display: inline-block;
+          cursor: pointer; }
+        main #visualizations #second-row #sectors-visualization .attr .inactive label {
+          color: #ccc; }
+        main #visualizations #second-row #sectors-visualization .attr .inactive img {
+          filter: grayscale(100%); }
+        main #visualizations #second-row #sectors-visualization .attr .inactive .severities {
+          filter: grayscale(100%); }
+      main #visualizations #second-row #sectors-visualization .attr-container {
+        height: 80%;
+        overflow-y: scroll; }
+      main #visualizations #second-row #sectors-visualization .attr-scale-container {
+        padding: 0; }
+        main #visualizations #second-row #sectors-visualization .attr-scale-container label {
+          cursor: inherit; }
+        main #visualizations #second-row #sectors-visualization .attr-scale-container .attr-scale .scale {
+          width: calc(240px/5); }
+    main #visualizations #second-row #map-wrapper {
+      flex-basis: calc(100% - 540px); }
+      main #visualizations #second-row #map-wrapper #the-map {
+        position: relative;
+        height: 538px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+        main #visualizations #second-row #map-wrapper #the-map #map-shadow-overlay {
+          pointer-events: none;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 999;
+          box-shadow: inset 10px 0 15px -8px rgba(0, 0, 0, 0.5); }
+        main #visualizations #second-row #map-wrapper #the-map path {
+          stroke: #717171;
+          stroke-width: 1px;
+          stroke-linejoin: round; }
+        main #visualizations #second-row #map-wrapper #the-map .leaflet-top {
+          z-index: 1;
+          top: auto;
+          bottom: 24px;
+          left: 24px; }
+      main #visualizations #second-row #map-wrapper #map-controls {
+        box-sizing: border-box;
+        background-color: rgba(255, 255, 255, 0.88);
+        padding: 11px 0 12px 4px;
+        display: flex;
+        justify-content: space-between; }
+        main #visualizations #second-row #map-wrapper #map-controls #country-select-wrapper {
+          flex-basis: 25%;
+          box-sizing: border-box; }
+        main #visualizations #second-row #map-wrapper #map-controls #admin-level-buttons {
+          flex-basis: 75%;
+          text-align: center; }
+          main #visualizations #second-row #map-wrapper #map-controls #admin-level-buttons button {
+            margin: 0 4px;
+            box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+            main #visualizations #second-row #map-wrapper #map-controls #admin-level-buttons button:active {
+              box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+          main #visualizations #second-row #map-wrapper #map-controls #admin-level-buttons .active-btn {
+            background-color: #008080;
+            color: #fff; }
+  main #visualizations #attr-visualizations-container {
+    flex-basis: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; }
+    main #visualizations #attr-visualizations-container .attr-visualization {
+      flex-basis: 25%;
+      height: 60vh; }
+      main #visualizations #attr-visualizations-container .attr-visualization .attr-container {
+        height: 80%;
+        overflow-y: scroll; }
 main #loading-animation {
   z-index: 1000;
   position: fixed;
