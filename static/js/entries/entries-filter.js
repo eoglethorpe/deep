@@ -146,18 +146,19 @@ function initEntryFilters() {
     $('#date-published-filter').change(function() {
         var filterBy = $(this).val();
         if (filterBy == 'range') {
-            $('#date-range-input').modal();
-            $('#date-range-input #ok-btn').unbind().click(function(){
-                var startDate = new Date($('#date-range-input #start-date').val());
-                var endDate = new Date($('#date-range-input #end-date').val());
-                addFilter('published-at', !startDate || !endDate, function(info) {
-                    var date = new Date(originalEntries[info.entryIndex].lead_published_at);
-                    return dateInRange(date, startDate, endDate);
-                });
+            dateRangeInputModal.show().then(function(){
+                if(dateRangeInputModal.action == 'proceed'){
+                    var startDate = new Date($('#date-range-input #start-date').val());
+                    var endDate = new Date($('#date-range-input #end-date').val());
+                    addFilter('published-at', !startDate || !endDate, function(info) {
+                        var date = new Date(originalEntries[info.entryIndex].lead_published_at);
+                        return dateInRange(date, startDate, endDate);
+                    });
+                } else{
+                    publishedDateSelectize[0].selectize.setValue(previousPublishedDateFilterSelection);
+                }
             });
-            $('#date-range-input #cancel-btn').unbind().click(function(){
-                publishedDateSelectize[0].selectize.setValue(previousPublishedDateFilterSelection);
-            });
+            
         } else {
             addFilter('published-at', filterBy == "" || filterBy == null, function(info) {
                 if (originalEntries[info.entryIndex].lead_published_at)

@@ -1,8 +1,8 @@
 {% load watchful_url %}
 
-{% if all_events %}
 <script>
     $(document).ready(function(){
+        {% if all_events %}
         var currentDropdownVal = $('#crisis-dropdown').val();
 
         var crisisDropdown = $('#crisis-dropdown').selectize({
@@ -22,6 +22,7 @@
                 window.location.href = $(this).val();
             }
         });
+        {% endif %}
 
         // HumanitarianId link
         $('#link-with-hid').click(function() {
@@ -33,24 +34,37 @@
         {
             window.location.href = '{% url "hid_access_token" %}' + '?' + window.location.hash.substr(1);
         }
+
+        $('body nav').on('click', '.dropdown-toggle', function(){
+            $(this).closest('.dropdown').find('.items').toggle();
+        });
+        $('body nav').on('blur', '.dropdown', function(){
+            $(this).find('.items').hide();
+        });
+
+        $('div[data-url]').click(function() {
+            window.location.href = $(this).data('url');
+        });
     });
 </script>
-{% endif %}
 
 <nav>
     <!-- DEEP logo -->
-    {% if event %}
-    <a href="{% url 'dashboard' event=event.pk%}"><img src="{% watchful_static_url 'img/deep-logo-white.png' %}"></a>
-    {% else %}
-    <a href="{% url 'dashboard' %}?last_event=1"><img src="{% watchful_static_url 'img/deep-logo-white.png' %}"></a>
-    {% endif %}
+    <div id="deep-logo-container">
+        {% if event %}
+        <a href="{% url 'dashboard' event=event.pk%}"><img src="{% watchful_static_url 'img/deep-logo-white.png' %}"></a>
+        {% else %}
+        <a href="{% url 'dashboard' %}?last_event=1"><img src="{% watchful_static_url 'img/deep-logo-white.png' %}"></a>
+        {% endif %}
+    </div>
 
     <!-- Report -->
-    <div id=report-wrapper>
+    <div id=report-link-container>
         <a class="{% if current_page == 'report' %}active{% endif %} menu-item" href="{% url 'report:dashboard' %}{% if event %}?event={{event.pk}}&country={{event.countries.all.0.code}}{% endif %}">Report</a>
     </div>
+
     <!-- Event selector -->
-    <div id="crisis-wrapper">
+    <div id="crisis-select-container">
         {% if all_events %}
         <select id="crisis-dropdown" placeholder="Select event">
             <option>Select event</option>
@@ -77,30 +91,30 @@
         <a class="{% if current_page == 'export' %}active{% endif %} menu-item" href="{% url 'entries:export' event=event.pk %}">Export</a>
         {% endif %}
     </div>
-
-    <div id="chrome-login-wrapper">
+    <div id="extra-menu">
         <!-- Chrome extension download -->
-        <a class="menu-item" style="padding-left: 0; padding-right: 0; color: #fff;" target="_blank" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="Download Chrome Extension" href="https://chrome.google.com/webstore/detail/deep-create-lead/ggplhkhciodfdkkonmhgniaopboeoopi"><i class="fa fa-chrome fa-spin" style="margin-right: 0"></i></a>
+        <a id="chrome-extension-download-link" target="_blank" title="Download Chrome Extension" href="https://chrome.google.com/webstore/detail/deep-create-lead/ggplhkhciodfdkkonmhgniaopboeoopi"><i class="fa fa-chrome fa-spin"></i></a>
 
         <!-- User menu -->
-        <span class="dropdown menu-item pull-right" id="user-menu">
-            <button class="dropdown-toggle" type="button" data-toggle="dropdown">
-                <i class="fa fa-user"></i>{{ user.first_name }}<span class="caret" style="margin-right: 0"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="{% url 'user_profile' user.pk %}"><i class="fa fa-user"></i>Profile</small></a></li>
+        <div class="dropdown" id="user-menu" tabindex="-1">
+            <a class="dropdown-toggle"><div class="name"><i class="fa fa-user"></i>{{ user.first_name }}</div><i class="fa fa-chevron-down"></i></a>
+            <div class="items" hidden>
+                <div data-url="{% url 'user_profile' user.pk %}"><i class="fa fa-user"></i>Profile</small></div>
+                <div data-url="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</div>
                 {% if request.user.is_superuser %}
-                <li><a href="/admin"><i class="fa fa-user-secret"></i>Admin panel</a></li>
-                <li><a href="{% url 'custom_admin:country_management' %}"><i class="fa fa-globe"></i>Country Panel</a></li>
-                <li><a href="{% url 'custom_admin:crisis_panel' %}"><i class="fa fa-wrench"></i>Crisis Panel</a></li>
+                <hr>
+                <div data-url="/admin"><i class="fa fa-user-secret"></i>Admin panel</div>
+                <div data-url="{% url 'custom_admin:country_management' %}"><i class="fa fa-globe"></i>Country Panel</div>
+                <div data-url="{% url 'custom_admin:crisis_panel' %}"><i class="fa fa-wrench"></i>Crisis Panel</div>
                 {% endif %}
                 {% if request.user.userprofile.hid %}
+                <hr>
                 <!-- TODO: Maybe show link to official hid profile page -->
                 {% else %}
-                <li><a id="link-with-hid" href="#"><i class="fa fa-link"></i>Link with HID <small>(TEST)</small></a></li>
+                <hr>
+                <div id="link-with-hid" data-url="#"><i class="fa fa-link"></i>Link with HID <small>(TEST)</small></div>
                 {% endif %}
-                <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a></li>
-            </ul>
-        </span>
+            </div>
+        </div>
     </div>
 </nav>

@@ -51,7 +51,7 @@
 
     .entry{
         margin-bottom: 10px;
-        box-shadow: 0 3px 10px -3px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 0 15px -3px rgba(0, 0, 0, 0.5);
 
         .entry-header{
             display: flex;
@@ -69,6 +69,9 @@
                 margin: 0;
                 flex-basis: 80%;
                 color: inherit;
+                margin-bottom: 5px;
+                font-size: $text-size-lg;
+                text-transform: none;
             }
             p{
                 margin: 0;
@@ -98,7 +101,6 @@
                 .delete-btn{ background-color: $danger-color; color: #fff;}
                 .edit-btn{ background-color: $info-color; color: #fff; }
             }
-
         }
     }
     .information-list{
@@ -113,9 +115,12 @@
             .excerpt{
                 flex-basis: 25%;
                 text-align: justify;
+                line-height: 1.5;
+                margin: 0;
             }
-            date{ font-family: 'Inconsolata', monospace; }
+            date{ font-family: 'Inconsolata', monospace; font-size: 1.2em; margin-top: 10px; display: inline-block;}
             > div{
+                // Severity, reliability, information date
                 &:nth-child(2){
                     flex-basis: 10%;
                     flex-shrink: 0;
@@ -123,9 +128,7 @@
 
                     > div{
                         min-height: 48px;
-                        label{
-                            min-width: 84px;
-                        }
+                        label{ min-width: 84px; }
                     }
                     .severity, .reliability{
                         span{
@@ -135,22 +138,12 @@
                             border-radius: 2px;
                             margin-right: 1px;
                         }
-                        @for $i from 0 through 5 {
-                            ._#{$i}{ opacity: ($i/5); }
-                        }
+                        @for $i from 0 through 5 { ._#{$i}{ opacity: ($i/5); } }
                         .active{ width: 12px; height: 24px; margin-bottom: -4px; }
                     }
                     $reliability-base: #1A2386;
-                    .reliability{
-                        span{
-                            background-color: $reliability-base;
-                        }
-                    }
-                    .severity{
-                        span{
-                            background-color: $severity-base;
-                        }
-                    }
+                    .reliability{ span{ background-color: $reliability-base; } }
+                    .severity{ span{ background-color: $severity-base; } }
                 }
                 &:nth-child(3){ flex-basis: 12%; }
                 &:nth-child(4){ flex-basis: 14%; }
@@ -179,7 +172,6 @@
                         padding-left: 10px;
                     }
                     label{
-                        display: block;
                         padding: 6px;
                         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
                         margin-bottom: 10px;

@@ -60,13 +60,13 @@ function addTodayButtons() {
     $('input[type="date"]').each(function() {
         var date = $(this);
         date.css('padding-left', '32px');
-        var today_btn = $('<a class="today-btn"><i class="fa fa-clock-o"></i></a>');
+        var today_btn = $('<a class="today-btn fa fa-clock-o"></a>');
         today_btn.appendTo(date.parent());
         today_btn.css('z-index', '10');
         date.css('position', 'relative');
         today_btn.css('position', 'absolute');
-        today_btn.css('left', date.position().left+9+'px');
-        today_btn.css('top', date.position().top+date.outerHeight()/2-10+'px');
+        today_btn.css('left', date.position().left+8+'px');
+        today_btn.css('top', date.position().top+date.outerHeight()/2-7+'px');
         today_btn.css('cursor', 'pointer');
 
         today_btn.on('click', function(date) {

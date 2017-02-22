@@ -23,6 +23,8 @@ var excerpts = [
 ];
 */
 
+var mapModal = null;
+var affectedGroupsModal = null;
 
 var selectedExcerpt = -1;
 var refreshing = false;
@@ -256,15 +258,15 @@ function refreshAttributes(entry, excerpt) {
 
             // Show selected subsectors
             for (var k=0; k<attr.subsectors.length; ++k) {
-                var element = $('<li>' + sector.subsectors[attr.subsectors[k]] + '</li>');
+                var element = $('<div>' + sector.subsectors[attr.subsectors[k]] + '</div>');
 
-                var deleteButton = $('<a href="#" class="fa fa-times"></a>');
+                var deleteButton = $('<a class="fa fa-times"></a>');
                 deleteButton.prependTo(element);
                 deleteButton.width('16px');
 
                 element.appendTo(subsectorList);
 
-                deleteButton.unbind().click(function(attr, k, entry, excerpt) {
+                deleteButton.click(function(attr, k, entry, excerpt) {
                     return function() {
                         attr.subsectors.splice(k, 1);
                         refreshAttributes(entry, excerpt);
@@ -278,9 +280,9 @@ function refreshAttributes(entry, excerpt) {
                 if (!inArray(attr.subsectors, ss)) {
                     hasMenu = true;
 
-                    var element = ($('<li><a>' + sector.subsectors[ss] + '</a></li>'));
+                    var element = ($('<a>' + sector.subsectors[ss] + '</a>'));
                     element.appendTo(subsectorMenu);
-                    element.unbind().click(function(attr, ss, sector, subsector, entry, excerpt) {
+                    element.click(function(attr, ss, sector, subsector, entry, excerpt) {
                         return function() {
                             attr.subsectors.push(ss);
                             refreshAttributes(entry, excerpt);
@@ -298,7 +300,7 @@ function refreshAttributes(entry, excerpt) {
         }
 
         attribute.appendTo(entry.find('.attribute-list'));
-        attribute.show();
+        //attribute.show();
     }
 }
 
@@ -325,42 +327,17 @@ function refreshPageTwo() {
         entry.find('.entry-number').val(excerpt.number);
 
         entry.find('.vulnerable-group-select').val(excerpt.vulnerable_groups);
-        entry.find('.vulnerable-group-select').selectize();
+        entry.find('.vulnerable-group-select').selectize({plugins: ['remove_button']});
         entry.find('.specific-need-group-select').val(excerpt.specific_needs_groups);
-        entry.find('.specific-need-group-select').selectize();
+        entry.find('.specific-need-group-select').selectize({plugins: ['remove_button']});
 
         entry.find('.reliability span[data-id="' + excerpt.reliability + '"]').addClass('active');
         entry.find('.severity span[data-id="' + excerpt.severity + '"]').addClass('active');
 
         refreshAttributes(entry, excerpt);
 
-        // Affected groups selections
-        entry.find('.btn-affected').unbind().click(function(excerpt, entry, i) {
-            return function() {
-                currentExcerptId = i;
-                currentExcerpt = excerpt;
-                currentEntry = entry;
-                selectedAffectedGroups = [];
-                for (var k=0; k<excerpt.affected_groups.length; ++k) {
-                    selectedAffectedGroups.push({column: null, row: agIdRowMap[excerpt.affected_groups[k]]});
-                }
-                affectedGroupsChart.setSelection(selectedAffectedGroups);
-            }
-        }(excerpt, entry, i));
-
-        // Map selections
-        entry.find('.btn-map').unbind().click(function(excerpt, entry, i) {
-            return function() {
-                currentExcerptId = i;
-                currentExcerpt = excerpt;
-                currentEntry = entry;
-                mapSelections = excerpt.map_selections;
-                refreshMap();
-            }
-        }(excerpt, entry, i));
-
         // Apply to all buttons
-        entry.find('.btn-date-apply-to-all').unbind().click(function(i) {
+        entry.find('.btn-date-apply-to-all').click(function(i) {
             return function() {
                 var date = excerpts[i].date;
                 for (var d=0; d<excerpts.length; d++) {
@@ -369,7 +346,7 @@ function refreshPageTwo() {
                 refreshPageTwo();
             }
         }(i));
-        entry.find('.btn-date-apply-to-all-below').unbind().click(function(i) {
+        entry.find('.btn-date-apply-to-all-below').click(function(i) {
             return function() {
                 var date = excerpts[i].date;
                 for (var d=i+1; d<excerpts.length; d++) {
@@ -378,7 +355,7 @@ function refreshPageTwo() {
                 refreshPageTwo();
             }
         }(i));
-        entry.find('.btn-demographic-apply-to-all').unbind().click(function(i) {
+        entry.find('.btn-demographic-apply-to-all').click(function(i) {
             return function() {
                 var vg = excerpts[i].vulnerable_groups;
                 for (var d=0; d<excerpts.length; d++) {
@@ -387,7 +364,7 @@ function refreshPageTwo() {
                 refreshPageTwo();
             }
         }(i));
-        entry.find('.btn-demographic-apply-to-all-below').unbind().click(function(i) {
+        entry.find('.btn-demographic-apply-to-all-below').click(function(i) {
             return function() {
                 var vg = excerpts[i].vulnerable_groups;
                 for (var d=i+1; d<excerpts.length; d++) {
@@ -396,7 +373,7 @@ function refreshPageTwo() {
                 refreshPageTwo();
             }
         }(i));
-        entry.find('.btn-specific-needs-apply-to-all').unbind().click(function(i) {
+        entry.find('.btn-specific-needs-apply-to-all').click(function(i) {
             return function() {
                 var sg = excerpts[i].specific_needs_groups;
                 for (var d=0; d<excerpts.length; d++) {
@@ -405,7 +382,7 @@ function refreshPageTwo() {
                 refreshPageTwo();
             }
         }(i));
-        entry.find('.btn-specific-needs-apply-to-all-below').unbind().click(function(i) {
+        entry.find('.btn-specific-needs-apply-to-all-below').click(function(i) {
             return function() {
                 var sg = excerpts[i].specific_needs_groups;
                 for (var d=i+1; d<excerpts.length; d++) {
@@ -416,18 +393,51 @@ function refreshPageTwo() {
         }(i));
 
         // Edit and delete buttons
-        entry.find('.edit-entry-btn').unbind().click(function(i) {
+        entry.find('.edit-entry-btn').click(function(i) {
             return function() {
                 selectedExcerpt = i;
                 $('#back-to-excerpts-btn').click();
             }
         }(i));
-        entry.find('.delete-entry-btn').unbind().click(function(i) {
+        entry.find('.delete-entry-btn').click(function(i) {
             return function() {
                 selectedExcerpt = i;
                 deleteExcerpt();
             }
-        }(i));
+        }());
+
+        // Map selections
+        entry.find('.map-modal-btn').click(function(excerpt, entry, i) {
+            return function() {
+                currentExcerptId = i;
+                currentExcerpt = excerpt;
+                currentEntry = entry;
+                mapSelections = excerpt.map_selections;
+                mapModal.show().then(function(){
+                    //
+                }, null, function(){
+                    map.invalidateSize();
+                    refreshMap();
+                });
+            }
+        }(excerpt, entry, i));
+
+        // Affected group selection
+        entry.find('.affected-groups-modal-btn').click(function(excerpt, entry, i) {
+            return function() {
+                currentExcerptId = i;
+                currentExcerpt = excerpt;
+                currentEntry = entry;
+                selectedAffectedGroups = [];
+                for (var k=0; k<excerpt.affected_groups.length; ++k) {
+                    selectedAffectedGroups.push({column: null, row: agIdRowMap[excerpt.affected_groups[k]]});
+                }
+                affectedGroupsChart.setSelection(selectedAffectedGroups);
+                affectedGroupsModal.show().then(function(){
+
+                });
+            }
+        }(excerpt, entry, i));
 
         entry.appendTo(entriesContainer);
         entry.show();
@@ -441,9 +451,8 @@ function refreshPageTwo() {
         currentExcerptId = -1;
         currentEntry = null;
         currentExcerpt = null;
-    }
 
-    addTodayButtons();
+    }
     $('.excerpt').change();
 }
 
@@ -571,6 +580,22 @@ function loadMultimedia(){
 }
 
 $(document).ready(function(){
+    mapModal = new Modal('#map-modal', true);
+    affectedGroupsModal = new Modal('#affected-groups-modal');
+
+    // subsector dropdown menu
+    $('#entries').on('click','.dropdown', function(){
+        $(this).find('.dropdown-menu').toggle();
+    });
+    $('#entries').on('blur', '.dropdown', function(){
+        $(this).find('.dropdown-menu').hide();
+    });
+
+    // simplified/original lead tab
+    $('input[type=radio][name=lead-view-option]').change(function(){
+        $('#lead-view-options label').removeClass('active');
+        $(this).closest('label').addClass('active');
+    });
 
     $('#matrix-two .pillar-header').each(function(i){
         $(this).css('color', getContrastYIQ( $(this).data('bg-color') ) );
@@ -649,7 +674,9 @@ $(document).ready(function(){
     $('#edit-entries-btn').on('click', function(){
         refreshExcerpts();
         $('#page-one').fadeOut(function(){
-            $('#page-two').fadeIn();
+            $('#page-two').fadeIn(function(){
+                addTodayButtons();
+            });
             $('.excerpt').change();
         });
     });
@@ -791,10 +818,10 @@ $(document).ready(function(){
     $("#matrix-two .attribute-block").bind('drop', dropEvent);
 
     // Add, remove and refresh excerpts
-    $("#add-excerpt").unbind().click(function() {
+    $("#add-excerpt").click(function() {
         addExcerpt("");
     });
-    $("#delete-excerpt").unbind().click(function() {
+    $("#delete-excerpt").click(function() {
         deleteExcerpt();
     });
     $("#select-excerpt").change(function() {
@@ -861,7 +888,7 @@ $(document).ready(function(){
     });
 
     // Apply to all buttons
-    $("#apply-all-affected").unbind().click(function() {
+    $("#apply-all-affected").click(function() {
         for (var i=0; i<excerpts.length; ++i) {
             var excerpt = excerpts[i];
             excerpt.affected_groups = [];
@@ -871,7 +898,7 @@ $(document).ready(function(){
         }
         refreshExcerpts();
     });
-    $("#apply-next-affected").unbind().click(function() {
+    $("#apply-next-affected").click(function() {
         if (currentExcerptId < 0)
             return;
         for (var i=currentExcerptId; i<excerpts.length; ++i) {
@@ -883,19 +910,18 @@ $(document).ready(function(){
         }
         refreshExcerpts();
     });
-
-    $("#clear-map-selections").unbind().click(function() {
+    $("#clear-map-selections").click(function() {
         mapSelections = [];
         refreshMap();
     });
-    $("#apply-all-map").unbind().click(function() {
+    $("#apply-all-map").click(function() {
         for (var i=0; i<excerpts.length; ++i) {
             var excerpt = excerpts[i];
             excerpt.map_selections = mapSelections.slice();
         }
         refreshExcerpts();
     });
-    $("#apply-next-map").unbind().click(function() {
+    $("#apply-next-map").click(function() {
         if (currentExcerptId < 0)
             return;
         for (var i=currentExcerptId; i<excerpts.length; ++i) {
@@ -909,11 +935,11 @@ $(document).ready(function(){
 
     // Save and cancel
 
-    $('.save-excerpt').unbind().click(function() {
+    $('.save-excerpt').click(function() {
         var data = { excerpts: JSON.stringify(excerpts) };
         redirectPost(window.location.pathname, data, csrf_token);
     });
-    $('.cancel').unbind().click(function() {
+    $('.cancel').click(function() {
         if (confirm('Are you sure you want to cancel the changes?')) {
             window.location.href = cancelUrl;
         }

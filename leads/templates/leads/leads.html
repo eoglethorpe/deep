@@ -8,6 +8,7 @@ DEEP | Leads
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/datatables.min.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}"/>
+<link href="{% watchful_static_url 'css/modal.css' %}" type="text/css" rel="stylesheet">
 <link href="{% watchful_static_url 'css/leads.css' %}" type="text/css" rel="stylesheet">
 
 <script>
@@ -18,41 +19,16 @@ DEEP | Leads
 <script type="text/javascript" src="{% watchful_static_url 'js/common/datatables.min.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/leads/leads.js' %}"></script>
 {% endblock %}
 
 {% block body %}
 
-<div id="date-range-input" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <h3 class="modal-title">Enter date range</h3>
-                <br>
-                <div id="date-field-wrapper">
-                    <div>
-                        <label>start date:</label><br>
-                        <div style="position: relative;"><input type="date" id="start-date" class="form-control"></div>
-                    </div>
-                    <div>
-                        <label>end date:</label><br>
-                        <div style="position: relative;"><input type="date" id="end-date" class="form-control"></div>
-                    </div>
-                </div>
-                <div style="margin-top: 24px; text-align: right;">
-                    <button type="button" class="btn btn-default" id="cancel-btn" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="ok-btn" style="min-width: 50px; margin-left: 16px;" >Ok</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 {% include 'navbar.html' %}
 
 <main>
-    <a class="btn btn-primary" id="add-lead-btn" href="{% url 'leads:add' event=event.pk %}" ><i class="fa fa-plus" style=" margin-right: 10px; font-size:1.2em"></i>Add Lead</a>
-
+    <a id="add-lead-btn" href="{% url 'leads:add' event=event.pk %}" ><i class="fa fa-plus"></i>Add new lead</a>
     <div id="filters">
         <label>Apply filter:</label>
         <select id="assigned-to-filter" placeholder="Assigned to">
@@ -109,61 +85,9 @@ DEEP | Leads
         </table>
     </div>
 </main>
-
 <div id="drag-overlay" hidden>
     <div id="border">
         Drop the file here to add a lead from attachment
-    </div>
-</div>
-
-<div id="add-lead-from-attachment" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <h3>Add Lead</h3>
-            <form id="add-lead-form">
-                {% csrf_token %}
-                <div class="wrapper">
-                    <label>Name</label>
-                    <input type="text" name="name" class="form-control" placeholder="Enter a descriptive name" required>
-                </div>
-                <div class="wrapper">
-                    <label>Source</label>
-                    <input class="form-control" id="source" name="source" placeholder="Select source type">
-                </div>
-                <div class="wrapper">
-                    <label>Confidentiality</label>
-                    <select id="confidentiality" name="confidentiality">
-                        {% for c in confidentialities %}
-                        <option value="{{c.0}}">{{c.1}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="wrapper">
-                    <label>Assign to</label>
-                    <select id="assigned-to" name="assigned-to" placeholder="Select user">
-                        <option value="">Select user</option>
-                        {% for u in users %}
-                        <option value="{{u.pk}}">{{u.first_name}} {{u.last_name}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="wrapper">
-                    <label>Published at</label>
-                    <div style="position:relative;"><input type="date" name="publish-date" class="form-control" placeholder="yyyy-mm-dd"></div>
-                </div>
-                <div class="attachment-row wrapper">
-                    <label>Attachments</label>
-                    <div id="attachments-list"></div>
-                </div>
-                <div class="manual-row wrapper">
-                    <label>Description</label>
-                    <br>
-                    <textarea id="manual-text"></textarea>
-                </div>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <input type="submit" class="btn btn-primary">
-            </form>
-        </div>
     </div>
 </div>
 
@@ -177,4 +101,74 @@ DEEP | Leads
     <input id="delete-id" name="id" type="text">
 </form>
 
+<div class="modal-container" hidden>
+    <div id="date-range-input" class="modal" hidden>
+        <header>
+            <h3 class="modal-title">Enter date range</h3>
+        </header>
+        <div class="input-container">
+            <label>start date:</label>
+            <input type="date" id="start-date" class="form-control">
+        </div>
+        <div class="input-container">
+            <label>end date:</label>
+            <input type="date" id="end-date" class="form-control">
+        </div>
+        <div class="action-buttons">
+            <button id="cancel-btn" class="cancel" data-action="dismiss"><i class="fa fa-times"></i>Cancel</button>
+            <button id="ok-btn" class="success" data-action="proceed"><i class="fa fa-check"></i>Ok</button>
+        </div>
+    </div>
+
+    <div id="add-lead-modal" class="modal" hidden>
+        <header>
+            <h3 class="modal-title">Add Lead</h3>
+        </header>
+        <form id="add-lead-form">
+            {% csrf_token %}
+            <div class="input-container">
+                <label>Name</label>
+                <input type="text" name="name" placeholder="Enter a descriptive name" required>
+            </div>
+            <div class="input-container">
+                <label>Source</label>
+                <input id="source" name="source" placeholder="Select source type">
+            </div>
+            <div class="select-container">
+                <label>Confidentiality</label>
+                <select id="confidentiality" name="confidentiality">
+                    {% for c in confidentialities %}
+                    <option value="{{c.0}}">{{c.1}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="select-container">
+                <label>Assign to</label>
+                <select id="assigned-to" name="assigned-to" placeholder="Select user">
+                    <option value="">Select user</option>
+                    {% for u in users %}
+                    <option value="{{u.pk}}">{{u.first_name}} {{u.last_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="input-container">
+                <label>Published at</label>
+                <input type="date" name="publish-date" placeholder="yyyy-mm-dd">
+            </div>
+            <div class="input-container attachment-row">
+                <label>Attachments</label>
+                <div id="attachments-list"></div>
+            </div>
+            <div class="textarea-container manual-row">
+                <label>Description</label>
+                <textarea id="manual-text"></textarea>
+            </div>
+            <input type="submit" style="width:0; height:0; opacity:0;">
+        </form>
+        <div class="action-buttons">
+            <button id="cancel-btn" class="cancel" data-action="dismiss"><i class="fa fa-times"></i>Cancel</button>
+            <button id="submit-btn" class="success" data-action="submit" data-persist="true"><i class="fa fa-check"></i>Submit</button>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,3 +1,15 @@
+// class WeeklyReport{
+//     constructor(countryIndex, reportIndex){
+//         this.report = reportGrouped[countryIndex].weeklyReports[reportIndex];
+//     }
+//     get getAffectedNumber(){
+//         let sum = 0;
+//         for(let i=0; i<affectedFieldIds.length; i++){
+//             let affected = parseInt()
+//         }
+//     }
+// }
+
 $(document).ready(function(){
     $('.assigned-to').each(function(){
         var alreadyThere = {};

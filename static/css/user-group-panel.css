@@ -10,13 +10,15 @@
   background-color: rgba(0, 0, 0, 0.24); }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  margin: 0;
   background-color: #f0f0f0;
   color: #414141;
   font-size: 13px;
-  line-height: 1.8;
   /*float-alert-toast - position it at the top-center of the screen*/ }
-  body h1, body h2, body h3 {
+  body * {
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box; }
+  body h1, body h2, body h3, body h4 {
     font-weight: 400; }
   body h1 {
     font-size: 19px; }
@@ -28,15 +30,19 @@ body {
     text-decoration: none; }
   body a, body button, body input[type="submit"], body input[type="button"], body .btn, body .btn:focus, body button:focus {
     text-transform: uppercase;
-    outline: none !important; }
-  body .btn, body .btn:hover, body .btn:visited, body .btn:focus {
-    border: none;
-    border-radius: 3px;
+    outline: none; }
+  body button {
+    background-color: #fff;
+    color: #414141;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
     transition: 0.2s all ease-in-out; }
   body label {
     color: rgba(0, 0, 0, 0.5);
     text-transform: uppercase;
-    font-size: 11px; }
+    font-size: 11px;
+    font-weight: 500;
+    display: inline-block; }
   body .float-alert-toast {
     display: none;
     /* Hidden by default. Visible on click */

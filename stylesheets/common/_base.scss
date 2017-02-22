@@ -15,40 +15,44 @@
 }
 
 body{
-    font-family: 'Roboto', sans-serif;
+    margin: 0;
     background-color: $body-background-color;
     color: $text-color;
     font-size: $text-size-md;
-    line-height: $line-height;
 
-    h1, h2, h3{
-        font-weight: 400;
+    *{
+        font-family: 'Roboto', sans-serif;
+        box-sizing: border-box;
     }
-    h1{
-        font-size: $text-size-sl;
-    }
-    h2{
-        font-size: $text-size-xl;
-    }
-    h3{
-        font-size: $text-size-lg;
-    }
+    h1, h2, h3, h4{ font-weight: $font-weight-normal; }
+    h1{ font-size: $text-size-sl; }
+    h2{ font-size: $text-size-xl; }
+    h3{ font-size: $text-size-lg; }
     a, a:hover, a:active, a:visited, a:focus{
         text-decoration: none;
+        //color: $primary-color;
     }
     a, button, input[type="submit"], input[type="button"], .btn, .btn:focus, button:focus{
         text-transform: uppercase;
-        outline: none!important;
+        outline: none;
     }
-    .btn, .btn:hover, .btn:visited, .btn:focus{
-        border: none;
-        border-radius: 3px;
+    button{
+        background-color: #fff;
+        color: $text-color;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        cursor: pointer;
         transition: 0.2s all ease-in-out;
     }
+    // .btn, .btn:hover, .btn:visited, .btn:focus{
+    //     border: none;
+    //     border-radius: 3px;
+    // }
     label{
         color: $label-color;
         text-transform: uppercase;
         font-size: $text-size-xs;
+        font-weight: $font-weight-bold;
+        display: inline-block;
     }
 
      /*float-alert-toast - position it at the top-center of the screen*/

@@ -3,42 +3,140 @@
 
 body{
     height: 100vh;
-    margin: 0;
-    padding: 0;
-
-    .fa-long-arrow-right{
-        margin-right: 0;
-        margin-left: 10px;
-    }
-    .fa-long-arrow-left{
-        margin-right: 10px;
-        margin-left: 0;
-    }
 
     @import 'entries/add-entries-page-one';
     @import 'entries/add-entries-page-two';
 
-    #chart-div{
-        table{
-            border-collapse: separate;
+
+
+    .modal-container{
+        #map-modal{
+            width: 800px;
+
+            #map-section{
+                #the-map{
+                    height: 40vh;
+
+                    path {
+                        stroke: #717171;
+                        stroke-width: 1px;
+                        stroke-linejoin: round;
+                    }
+                }
+                #admin-level-buttons{
+                    display: flex;
+                    justify-content: center;
+                    background-color: #f0f0f0;
+                    padding: 10px 0;
+                    border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+                    button{
+                        border: 1px solid rgba(0, 0, 0, 0.1);
+                        background-color: #fff;
+                        color: $text-color;
+                        padding: 3px 10px;
+
+                        &.active{
+                            background-color: $primary-color;
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+            #control-section{
+                display: flex;
+                min-height: 144px;
+
+                >div{
+                    flex-basis: 50%;
+                    padding: 16px;
+
+                    label{
+                        display: block;
+                        margin-bottom: 6px;
+                    }
+                    hr{
+                        margin: 16px 0;
+                        border: 1px solid transparent;
+                    }
+                }
+                #clear-map-selections{
+                    display: inline-block;
+                    background-color: $danger-color;
+                    color: #fff;
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                    cursor: pointer;
+                    padding: 3px 10px;
+                    margin-top: 10px;
+                }
+                #selected-location-list{
+                    height: 144px;
+                    overflow-y: scroll;
+                    border: 1px solid rgba(0, 0, 0, 0.05);
+                    background-color: #f0f0f0;
+
+                    ul{
+                        list-style: none;
+                        padding-left: 0;
+                        margin: 0;
+
+                        li{
+                            text-indent: -16px;
+                            padding: 3px 10px;
+                            padding-left: 32px;
+
+                            a{
+                                color: $danger-color;
+                                margin-left: 10px;
+                                cursor: pointer;
+
+                                .fa{
+                                    margin-right: 6px;
+                                }
+                            }
+
+                            &:nth-child(even){
+                                background-color: #fff;
+                            }
+                        }
+                    }
+                    #empty-text{
+                        text-align: center;
+                        margin-top: 32px;
+                        font-size: 1.2em;
+                        color: #aaa;
+                        text-transform: uppercase;
+                    }
+                }
+            }
+            .action-buttons{
+                #apply-all-map{ color: darken($warning-color, 10%); }
+                #apply-next-map{ color: $info-color; }
+            }
         }
-        .affected-group{
-            background-color: #f0f0f0;
-            padding: 4px 10px;
-            cursor: pointer;
-            font-size: 1em;
-        }
-        .active-affected-group{
-            background-color: $primary-color;
-            color: #fff;
+        #affected-groups-modal{
+            width: 800px;
+
+            #chart-div{
+                padding: 24px;
+                table{
+                    border-collapse: separate;
+                }
+                .affected-group{
+                    background-color: #f0f0f0;
+                    padding: 4px 10px;
+                    cursor: pointer;
+                    font-size: 1em;
+                }
+                .active-affected-group{
+                    background-color: $primary-color;
+                    color: #fff;
+                }
+            }
         }
     }
-    .modal{
-        h4{
-            text-transform: uppercase;
-        }
-    }
-    #map-modal{
+
+    #dummy-map-modal{
         #admin-level-buttons{
             margin-bottom: 16px;
         }
