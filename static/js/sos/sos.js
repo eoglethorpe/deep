@@ -36,12 +36,9 @@ $(document).ready(function(){
             {
                 data: null,
                 render: function(data, type, row){
-                    return '<a class="btn btn-default btn-action btn-edit" href="/'+currentEvent+'/leads/edit-sos/'+data.lead+"/"+data.id+'"><i class="fa fa-edit"></i></a>';
+                    return '<a class="btn-action btn-edit" href="/'+currentEvent+'/leads/edit-sos/'+data.lead+"/"+data.id+'"><i class="fa fa-edit"></i>Edit</a>';
                 }
             }
-
-
-
         ],
     });
 });
