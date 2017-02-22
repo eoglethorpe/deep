@@ -34,6 +34,10 @@ var extension = {
             // extension.restoreInputValues();
             defer.resolve();
         });
+
+        $('#event-select').change(function(){
+            deep.currentEvent = $(this).val();
+        });
         return defer.promise();
     },
     startStoring: function() {
@@ -42,9 +46,6 @@ var extension = {
         });
         $('select').change(function(){
             extension.storeInputValue($(this));
-            if($(this)[0].id == 'event-select'){
-                deep.currentEvent = $(this).val();
-            }
         });
     },
     loadTitle: function(){
@@ -105,10 +106,12 @@ var extension = {
     },
     restoreInputValues: function(){
         let promises = [];
-        $('input').each(function(){
+        $('input, select').each(function(){
             promises.push(extension.restoreInputValue($(this)));
         });
-        promises.push(extension.restoreInputValue($('#confidentiality')));
+        // promises.push(extension.restoreInputValue($('#confidentiality')));
+        // promises.push(extension.restoreInputValue($('#event-select')));
+        // promises.push(extension.restoreInputValue($('#user-select')));
         return $.when(...promises);
     },
     showAddLeadForm: function(){

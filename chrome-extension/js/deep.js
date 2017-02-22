@@ -47,7 +47,6 @@ var deep = {
                     for(i = 0; i < response.length; i++){
                         eventSelectElement.append('<option value="'+response[i].id+'"'+(response[i].id==deep.currentEvent?' selected>':'>')+response[i].name+'</option>');
                     }
-                    extension.restoreInputValue(eventSelectElement);
                     deep.getCSRFToken();
                 }
             },
@@ -63,7 +62,6 @@ var deep = {
                     for(i = 0; i < response.length; i++){
                         userSelectElement.append('<option value="'+response[i].id+'"'+(response[i].id == deep.currentUser? 'selected>':'>')+response[i].first_name+' '+ response[i].last_name+' (' + response[i].email +')'+ '</option>');
                     }
-                    extension.restoreInputValue(userSelectElement);
                 }
             }
         });
@@ -114,7 +112,8 @@ var deep = {
                     $('#event-select').val(response.event);
                     refreshSelectInputs();
                 }
-            }
+
+            },
         });
     }
 };
