@@ -34,6 +34,8 @@ let activityLog = {
 };
 
 $(document).ready(function(){
+    let newUserGroupModal = new Modal('#new-user-group-modal');
+
     $('label[data-sort]').on('click', function(){
         var sortQuery = $(this).data('sort');
         var sortAsc = true;
@@ -68,4 +70,39 @@ $(document).ready(function(){
     });
 
     activityLog.init();
+
+    $('#edit-user-info-btn').click(function(){
+        let parent = $(this).closest('header');
+        if($(this).hasClass('active')){
+            $(this).removeClass('active');
+            $(this).find('.fa').removeClass('fa-times').addClass('fa-edit');
+            parent.find('.name').prop('contenteditable', false);
+            parent.find('.name').text(parent.find('.name').data('prev-val'));
+            parent.find('img').prop('title', '');
+            parent.find('img').css('cursor', 'default');
+            $('#save-user-info-btn').hide();
+        }else{
+            $(this).addClass('active');
+            $(this).find('.fa').removeClass('fa-edit').addClass('fa-times');
+            parent.find('.name').prop('contenteditable', true);
+            parent.find('.name').data('prev-val', parent.find('.name').text());
+            parent.find('img').prop('title', 'Click to change avatar');
+            parent.find('img').css('cursor', 'pointer');
+            parent.find('img').unbind().click(function(){
+                console.log('open file dialog maybe');
+            });
+            $('#save-user-info-btn').show();
+        }
+    });
+    $('#save-user-info-btn').click(function(){
+        console.log('save the changes maybe');
+    });
+
+    $('#new-user-group-btn').click(function(){
+        newUserGroupModal.show().then(function(){
+            if(newUserGroupModal.action == 'proceed'){
+                console.log('create user group and navigate to it maybe');
+            }
+        });
+    });
 });
