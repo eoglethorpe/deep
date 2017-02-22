@@ -1,9 +1,9 @@
 class Modal{
-    constructor(elem, notify){
+    constructor(elem, notify=false){
         this.elem = elem;
         this.deferred = null;
         this.action = null;
-        this.notify = notify? true: false;
+        this.notify = notify;
 
         let that = this;
         $(this.elem).find('button[data-action]').on('click', function(){

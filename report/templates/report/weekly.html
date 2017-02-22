@@ -89,10 +89,10 @@ var editedAt = '{{report.last_edited_at|date:"Y-m-d"}}';
 // Some key figures to use in severity score
 var country_figures = JSON.parse("{{country.key_figures|escapejs}}");
 
-var under5MortalityRate = country_figures.u5m;
-var hdi = country_figures.hdi_index || 0;
+var under5MortalityRate = parseFloat(country_figures.u5m);
+var hdi = parseFloat(country_figures.hdi_index) || 0;
 
-var uprootedPeople = (country_figures.number_of_refugees || 0) + (country_figures.number_of_idps || 0) + (country_figures.number_of_returned_refugees || 0);
+var uprootedPeople = (parseFloat(country_figures.number_of_refugees) || 0) + (parseFloat(country_figures.number_of_idps) || 0) + (parseFloat(country_figures.number_of_returned_refugees) || 0);
 var uprootedPercentage = 100.0 * uprootedPeople / (country_figures.total_population || 0);
 
 var totalPopulation = country_figures.total_population || 0;
