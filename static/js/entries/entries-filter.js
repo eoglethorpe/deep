@@ -43,7 +43,7 @@ function clearFilters() {
 function filterEntries() {
     if (originalEntries.length == 0)
         return;
-        
+
     entries = [];
     entriesTimeline = [];
     for (var i=0; i<originalEntries.length; ++i) {
@@ -161,7 +161,7 @@ function initEntryFilters() {
                     publishedDateSelectize[0].selectize.setValue(previousPublishedDateFilterSelection);
                 }
             });
-            
+
         } else {
             addFilter('published-at', filterBy == "" || filterBy == null, function(info) {
                 if (originalEntries[info.entryIndex].lead_published_at)
@@ -175,17 +175,17 @@ function initEntryFilters() {
         $('#date-imported-filter').change(function() {
             var filterBy = $(this).val();
             if (filterBy == 'range') {
-                $('#date-range-input').modal();
-                $('#date-range-input #ok-btn').unbind().click(function(){
-                    var startDate = new Date($('#date-range-input #start-date').val());
-                    var endDate = new Date($('#date-range-input #end-date').val());
-                    addFilter('imported-at', !startDate || !endDate, function(info) {
-                        var date = new Date(originalEntries[info.entryIndex].modified_at);
-                        return dateInRange(date, startDate, endDate);
-                    });
-                });
-                $('#date-range-input #cancel-btn').unbind().click(function(){
-                    importedDateSelectize[0].selectize.setValue(previousImportedDateFilterSelection);
+                dateRangeInputModal.show().then(function(){
+                    if(dateRangeInputModal.action == 'proceed'){
+                        var startDate = new Date($('#date-range-input #start-date').val());
+                        var endDate = new Date($('#date-range-input #end-date').val());
+                        addFilter('imported-at', !startDate || !endDate, function(info) {
+                            var date = new Date(originalEntries[info.entryIndex].modified_at);
+                            return dateInRange(date, startDate, endDate);
+                        });
+                    } else {
+                        importedDateSelectize[0].selectize.setValue(previousImportedDateFilterSelection);
+                    }
                 });
             } else {
                 addFilter('imported-at', filterBy == "" || filterBy == null, function(info) {

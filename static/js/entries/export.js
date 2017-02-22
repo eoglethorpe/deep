@@ -1,5 +1,8 @@
 var heirarchy;
+var dateRangeInputModal;
+
 $(document).ready(function(){
+    dateRangeInputModal = new Modal('#date-range-input');
 
     $('#export-entries-doc-form button').attr('disabled', true);
     initEntryFilters();
@@ -32,7 +35,6 @@ $(document).ready(function(){
             'name': 'informations',
         }).val(JSON.stringify(informationList)).appendTo($(this));
     });
-
 
 });
 

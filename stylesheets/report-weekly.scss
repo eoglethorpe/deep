@@ -14,6 +14,7 @@ body{
             text-transform: uppercase;
             font-weight: $font-weight-bold;
             margin-bottom: 10px;
+            color: $primary-color;
 
             span{
                 font-weight: $font-weight-normal;
@@ -22,10 +23,25 @@ body{
         #main-action-buttons{
             float: right;
         }
-        button{
-            margin-left: 16px;
-            @include btn-shadow-lg();
-
+        #cancel-btn{
+            margin-right: 10px;
+            color: #fff;
+            background-color: $danger-color;
+            @include btn-shadow-md();
+            min-width: 100px;
+            padding: 4px 10px;
+            height: 30px;
+            .fa{
+                margin-right: 10px;
+            }
+        }
+        #save-btn{
+            color: #fff;
+            background-color: $info-color;
+            @include btn-shadow-md;
+            min-width: 160px;
+            padding: 4px 10px;
+            height: 30px;
             .fa{
                 margin-right: 10px;
             }
@@ -54,6 +70,10 @@ aside{
             margin: 0;
             text-transform: uppercase;
             font-size: 1.5em;
+            color:$primary-color;
+        }
+        a{
+            color: $primary-color;
         }
     }
     #entries{
@@ -61,7 +81,16 @@ aside{
         box-sizing: border-box;
         overflow-y: auto;
         overflow-x: hidden;
+        h4{
 
+            font-size: 18px;
+        }
+        label{
+            font-weight: bold;
+        }
+        a{
+            color:$primary-color;
+        }
         .entry{
             padding: 10px 16px;
             .severity, .reliability{
@@ -142,6 +171,7 @@ main{
             text-align: center;
             padding-top: calc(calc(56px - #{$text-size-md}) / 2 - 4px);
             cursor: pointer;
+            color:$primary-color;
         }
         .active{
             border-bottom: 2px solid $primary-color;
