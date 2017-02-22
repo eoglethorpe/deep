@@ -92,6 +92,15 @@ body{
                 box-sizing: border-box;
                 border-bottom: 1px solid $primary-color;
                 margin-right: 12px;
+
+                h4{
+                    color: $primary-color;
+
+                    .fa{
+                        margin-right: 10px;
+                        cursor: pointer;
+                    }
+                }
             }
             #reports{
                 height: calc(100vh - #{$navbar-height} - #{$map-height} - 48px - #{$min-col-height} - 12px);
@@ -99,6 +108,10 @@ body{
 
                 .report{
                     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+                    .aside{
+                        cursor: pointer;
+                    }
                     .weeks{
                         align-self: stretch;
 
@@ -106,6 +119,7 @@ body{
                             height: 100%;
 
                             &.active{
+                                cursor: pointer;
                                 border-right: 1px solid #fff;
                                 background-color: $primary-color;
                             }

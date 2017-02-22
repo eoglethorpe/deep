@@ -231,16 +231,24 @@ body #timeline {
     box-sizing: border-box;
     border-bottom: 1px solid #008080;
     margin-right: 12px; }
+    body #timeline #timeline-table > header h4 {
+      color: #008080; }
+      body #timeline #timeline-table > header h4 .fa {
+        margin-right: 10px;
+        cursor: pointer; }
   body #timeline #timeline-table #reports {
     height: calc(100vh - 56px - 44vh - 48px - 48px - 12px);
     overflow-y: scroll; }
     body #timeline #timeline-table #reports .report {
       border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+      body #timeline #timeline-table #reports .report .aside {
+        cursor: pointer; }
       body #timeline #timeline-table #reports .report .weeks {
         align-self: stretch; }
         body #timeline #timeline-table #reports .report .weeks .week {
           height: 100%; }
           body #timeline #timeline-table #reports .report .weeks .week.active {
+            cursor: pointer;
             border-right: 1px solid #fff;
             background-color: #008080; }
       body #timeline #timeline-table #reports .report:nth-child(odd) {
