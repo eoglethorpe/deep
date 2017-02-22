@@ -1,3 +1,4 @@
+var dateRangeInputModal = null;
 
 var statuses = {"PEN": "Pending", "PRO": "Processed", "DEL": "Deleted"};
 var confidentialities = {"UNP": "Unprotected", "PRO": "Protected", "RES": "Restricted", "CON": "Confidential", "PUB": "Unprotected"};
@@ -74,7 +75,11 @@ $.fn.dataTable.ext.search.push(
 );
 
 
-$(document).ready(function() {
+$(document).ready(function(){
+    dateRangeInputModal = new Modal('#date-range-input');
+    var addLeadModal = new Modal('#add-lead-modal');
+
+
     var leadsTable = $('#leads-table').DataTable( {
         "order": [[ 0, "desc" ]],
         "scrollY": function(){ return ($(window).height()-250)+'px';},
@@ -169,20 +174,19 @@ $(document).ready(function() {
                 }
             });
 
-            $("#date-range-input #ok-btn").on('click', function(){
-                start_date = new Date($('#date-range-input #start-date').val());
-                end_date = new Date($('#date-range-input #end-date').val());
-                $("#date-range-input").modal('hide');
-                that.api().draw();
-            });
-
             $('#date-created-filter').on('focus', function () {
                 last_date_filter = "#date-created-filter";
                 previous_date_created = $(this).val();
             }).change(function() {
                 last_date_filter = "#date-created-filter";
                 if($(this).val() == 'range'){
-                    $("#date-range-input").modal('show');
+                    dateRangeInputModal.show().then(function(){
+                        if(dateRangeInputModal.status == 'proceed'){
+                            start_date = new Date($('#date-range-input #start-date').val());
+                            end_date = new Date($('#date-range-input #end-date').val());
+                            that.api().draw();
+                        }
+                    });
                 } else {
                     previous_date_created = $(this).val();
                 }
@@ -194,7 +198,13 @@ $(document).ready(function() {
             }).change(function() {
                 last_date_filter = "#date-published-filter";
                 if($(this).val() == 'range'){
-                    $("#date-range-input").modal('show');
+                    dateRangeInputModal.show().then(function(){
+                        if(dateRangeInputModal.status == 'proceed'){
+                            start_date = new Date($('#date-range-input #start-date').val());
+                            end_date = new Date($('#date-range-input #end-date').val());
+                            that.api().draw();
+                        }
+                    });
                 } else {
                     previous_date_created = $(this).val();
                 }
@@ -240,7 +250,6 @@ $(document).ready(function() {
         }
         return content;
     }
-
 
     function format (data) {
         if (data.published_at == null)
@@ -320,15 +329,20 @@ $(document).ready(function() {
             $.each(droppedFiles, function(i, file) {
                 $('#attachments-list').append(file.name + " ");
             });
-            $('#add-lead-from-attachment').modal('show');
+            addLeadModal.show().then(null, null, function(){
+                $('#add-lead-form').find('input[type="submit"]').click();
+            });
         }
         else {
             var text = e.originalEvent.dataTransfer.getData("text");
             if (text && text.length > 0) {
                 $('.manual-row').show();
                 $('.attachment-row').hide();
-                $('#add-lead-from-attachment').modal('show');
                 $('#manual-text').text(text);
+
+                addLeadModal.show().then(null, null, function(){
+                    $('#add-lead-form').find('input[type="submit"]').click();
+                });
             }
         }
     });

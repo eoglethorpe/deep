@@ -1,4 +1,268 @@
 #page-two{
+    #page-two-header{
+        height: 48px;
+        padding: 10px 16px;
+        display: flex;
+        justify-content: flex-end;
+        background-color: #fff;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.3);
+
+        #excerpt-controls{
+            flex-basis: 60%;
+            display: flex;
+        }
+        .cancel{ background-color: $danger-color; }
+        .save-excerpt{ background-color: $info-color; }
+        .cancel, .save-excerpt, #back-to-excerpts-btn{
+            .fa{
+                margin-right: 10px;
+            }
+        }
+        #back-to-excerpts-btn{
+            background-color: $primary-color;
+            margin-left: 10px;
+        }
+        button{
+            height: 100%;
+            margin-left: 4px;
+            color: #fff;
+            border: none;
+            outline: none;
+            padding: 4px 10px;
+            cursor: pointer;
+            //@include btn-shadow-md;
+        }
+        select{
+            background-color: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            outline: none;
+            margin-right: 10px;
+            padding: 4px 10px;
+        }
+    }
+    #entries{
+        height: calc(100vh - #{$navbar-height} - 48px);
+        overflow-y: auto;
+
+        .entry{
+            display: flex;
+            justify-content: space-between;
+            //margin-bottom: 10px;
+            margin: 8px 0;
+            padding: 16px;
+            // background-color: #f0f0f0;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px -5px rgba(0, 0, 0, 0.5);
+
+            .excerpt{
+                flex-basis: 15%;
+                padding: 5px 10px;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                outline: none;
+                font-size: $text-size-lg;
+                color: $text-color;
+                line-height: 1.5;
+            }
+            > div:nth-child(2){   // severity, reliability, information date
+                flex-basis: 10%;
+                flex-shrink: 0;
+                min-width: 174px;
+
+                > div{
+                    min-height: 48px;
+                    label{
+                        display: inline-block;
+                        min-width: 84px;
+                    }
+                }
+                .severity, .reliability{
+                    span{
+                        width: 8px;
+                        height: 16px;
+                        display: inline-block;
+                        border-radius: 2px;
+                        margin-right: 1px;
+                    }
+                    @for $i from 0 through 5 { ._#{$i}{ opacity: ($i/5); } }
+                    .active{ width: 12px; height: 24px; margin-bottom: -4px; }
+                }
+                $reliability-base: #1A2386;
+                .reliability{ span{ background-color: $reliability-base; } }
+                $severity-base: #B71C1C;
+                .severity{ span{ background-color: $severity-base; } }
+                .information-date{
+                    display: flex;
+                    flex-wrap: wrap;
+                    position: relative;
+
+                    label{ flex-basis: 80%; }
+                    .action-buttons{
+                        flex-basis: 20%;
+                        display: flex;
+                        justify-content: space-around;
+                        cursor: pointer;
+
+                        .btn-date-apply-to-all{ color: $warning-color; }
+                        .btn-date-apply-to-all-below{ color: $info-color; }
+
+                    }
+                    input{
+                        flex-basis: 100%;
+                        align-self: flex-end;
+                        border: 1px solid rgba(0, 0, 0, 0.1);
+                        outline: none;
+                    }
+                }
+            }
+            .vulnerable-groups, .specific-need-groups{
+                flex-basis: 15%;
+                align-self: flex-start;
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+
+                label{
+                    flex-basis: 80%;
+                }
+                .action-buttons{
+                    flex-basis: 20%;
+                    display: flex;
+                    justify-content: space-around;
+                    cursor: pointer;
+                    margin-bottom: 10px;
+                }
+            }
+            .btn-demographic-apply-to-all, .btn-specific-needs-apply-to-all{
+                color: $warning-color;
+            }
+            .btn-demographic-apply-to-all-below, .btn-specific-needs-apply-to-all-below{
+                color: $info-color;
+            }
+            .affected-group, .geo-location{
+                flex-basis: 10%;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: center;
+                align-self: flex-start;
+
+                img{
+                    width: 24px;
+                    height: 24px;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    @include btn-shadow-md;
+                }
+                span{
+                    display: block;
+                    padding: 3px;
+                    word-break: break-all;
+                }
+            }
+            .affected-group{
+                .affected-group-list{
+                    flex-basis: 100%;
+                }
+            }
+            .geo-location{
+                .geo-locations-list{
+                    flex-basis: 100%;
+                }
+            }
+            .attribute-list{
+                flex-basis: 15%;
+                .attribute{
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 5px 0;
+
+                    > div{
+                        flex-basis: 50%;
+                    }
+                    .pillar, .sector{
+                        font-weight: $font-weight-bold;
+                    }
+                    .sub-pillar{
+                        color: $label-color;
+                        overflow: hidden;
+                    }
+                    .sub-sector{
+                        color: $primary-color;
+                    }
+                    .sub-sector-list{
+                        div{
+                            word-break: break-all;
+                            overflow: hidden;
+                            padding: 2px 0;
+                            color: $label-color;
+                        }
+                    }
+                    .fa-times{
+                        color: $danger-color;
+                    }
+                    .dropdown{
+                        position: relative;
+                        cursor: pointer;
+                        outline: none;
+
+                        .dropdown-menu{
+                            position: absolute;
+                            background-color: #fff;
+                            border: 1px solid rgba(0, 0, 0, 0.1);
+                            box-shadow: 0 3px 10px -3px rgba(0, 0, 0, 0.3);
+                            z-index: 1;
+                            top: 24px;
+                            right: 0;
+                            min-width: 240px;
+                            width: 100%;
+                            max-height: 256px;
+                            overflow-y: auto;
+                            overflow-x: hidden;
+
+                            a{
+                                display: block;
+                                padding: 5px 10px;
+                                text-transform: none;
+
+                                &:hover{
+                                    background-color: rgba(0, 0, 0, 0.05);
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+            > .action-buttons{
+                flex-basis: 32px;
+                flex-grow: 0;
+                flex-shrink: 0;
+
+                a{
+                    height: 32px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: #fff;
+                    cursor: pointer;
+                    @include btn-shadow-sm;
+
+                    &.edit-entry-btn{
+                        background-color: $info-color;
+                        margin-bottom: 10px;
+                    }
+                    &.delete-entry-btn{
+                        background-color: $danger-color;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+#bla-bla-page-two{
     padding-top: 24px;
 
     .first-child{

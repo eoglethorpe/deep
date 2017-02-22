@@ -13,7 +13,6 @@ nav{
     left: 0;
     z-index: 1001;
 }
-
 main{
     h2{
         text-transform: uppercase;
@@ -24,16 +23,17 @@ main{
     label{
         color: #717171;
     }
-
     #filters{
         padding: 10px 16px;
     }
     #clear-filter-btn{
-        font-size: 0.8em;
+        font-size: 0.9em;
         outline: none;
         float: right;
         margin-right: 16px;
         margin-top: -6px;
+        padding: 4px 10px;
+        background-color: #fff;
         @include btn-shadow-sm();
     }
     #toggle-panel{

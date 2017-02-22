@@ -18,10 +18,10 @@ function drawMap() {
     map = L.map('the-map');
     L.tileLayer('https://data.humdata.org/crisis-tiles/{z}/{x}/{y}.png').addTo(map);
 
-    $('#map-modal').on('shown.bs.modal', function() {
-        map.invalidateSize();
-        refreshMap();
-    });
+    // $('#map-modal').on('shown.bs.modal', function() {
+    //     map.invalidateSize();
+    //     refreshMap();
+    // });
 
     // On country selected, fetch the admin levels data.
     $("#country").on('change', function(e) {
@@ -177,10 +177,8 @@ function refreshMap() {
         onEachFeature: onEachMapFeature
     }).addTo(map);
 
-    $("#admin-level-buttons button").removeClass("btn-primary");
-    $("#admin-level-buttons button").addClass("btn-default");
-    $("#btn-lvl-"+currentLevel).removeClass("btn-default");
-    $("#btn-lvl-"+currentLevel).addClass("btn-primary");
+    $("#admin-level-buttons button").removeClass("active");
+    $("#btn-lvl-"+currentLevel).addClass("active");
 
     map.fitBounds(layer.getBounds());
     refreshLocations();
@@ -192,7 +190,7 @@ function refreshAdminLevels() {
 
     if (selectedCountry in adminLevels) {
         for (var i=0; i<adminLevelNames[selectedCountry].length; ++i) {
-            var btn = $("<button id='btn-lvl-" + i + "' class='btn btn-default btn-xs'>" + adminLevelNames[selectedCountry][i] + "</button>");
+            var btn = $("<button id='btn-lvl-" + i + "'>" + adminLevelNames[selectedCountry][i] + "</button>");
             btn.on('click', function(level) { return function() {   // closure shit
                 currentLevel = level;
                 refreshMap();

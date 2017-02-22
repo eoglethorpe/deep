@@ -1,7 +1,8 @@
-
 var mapLoaded = false;
+var dateRangeInputModal = null;
 
 $(document).ready(function() {
+    dateRangeInputModal = new Modal('#date-range-input');
     initEntryFilters();
 
     $('#toggle-panel').on('click', 'a', function(){

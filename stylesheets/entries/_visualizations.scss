@@ -1,6 +1,9 @@
 #visualizations{
     padding: 0 16px;
 
+    label{
+        display: inline-block;
+    }
     .visualization-block{
         background-color: #fff;
         margin-bottom: 4px;
@@ -27,7 +30,8 @@
     #severity-legend{
         width: 16%;
         float: left;
-        padding-bottom: 38px;
+        height: 262px;
+        overflow-y: auto;
 
         .inactive{
             label{
@@ -37,7 +41,6 @@
                 filter: grayscale(100%);
             }
         }
-
         .severity{
             display: inline-block;
             height: 16px;
@@ -58,7 +61,6 @@
         label{
             font-size: $text-size-md;
             margin-left: 10px;
-            vertical-align: super;
         }
         p{
             margin-bottom: 6px;
@@ -108,8 +110,8 @@
     }
     #sectors-visualization{
         float: left;
-        width: 30%!important;
-        height: 592px;
+        width: 30%;
+        height: 600px;
         overflow-y: auto;
 
         label{
