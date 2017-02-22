@@ -166,7 +166,7 @@ body{
                 color: $primary-color;
             }
             >div{
-                margin-bottom: 8px;
+                margin-bottom: 16px;
 
                 >input[type="text"]{
                     width: 100%;
@@ -221,37 +221,18 @@ body{
                 }
             }
             #action-buttons{
+                display: flex;
+                justify-content: space-between;
 
-                margin-top: 32px;
+                button{
+                    padding: 6px 16px;
+                    color: #fff;
+                    @include btn-shadow-md();
 
-                #save-btn{
-                    display: inline-block;
-                    width: 133px;
-                    margin-right: 10px;
-                    color: #fff;
-                    background-color: $info-color;
-                    @include btn-shadow-md();
-                    min-width: 100px;
-                    padding: 4px 10px;
-                    height: 30px;
-                    .fa{
-                        margin-right: 10px;
-                    }
+                    .fa{ margin-right: 10px; }
                 }
-                #delete-btn{
-                    display: inline-block;
-                    width: 133px;
-                    margin-right: 10px;
-                    color: #fff;
-                    background-color: $danger-color;
-                    @include btn-shadow-md();
-                    min-width: 100px;
-                    padding: 4px 10px;
-                    height: 30px;
-                    .fa{
-                        margin-right: 10px;
-                    }
-                }
+                #save-btn{ background-color: $info-color; }
+                #delete-btn{ background-color: $danger-color; }
             }
         }
     }

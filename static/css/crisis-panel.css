@@ -188,7 +188,7 @@ body {
         margin-bottom: 32px;
         color: #008080; }
       body main form > div {
-        margin-bottom: 8px; }
+        margin-bottom: 16px; }
         body main form > div > input[type="text"] {
           width: 100%;
           height: 32px;
@@ -226,34 +226,19 @@ body {
         outline: none;
         vertical-align: sub; }
       body main form #action-buttons {
-        margin-top: 32px; }
+        display: flex;
+        justify-content: space-between; }
+        body main form #action-buttons button {
+          padding: 6px 16px;
+          color: #fff;
+          box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5); }
+          body main form #action-buttons button:active {
+            box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
+          body main form #action-buttons button .fa {
+            margin-right: 10px; }
         body main form #action-buttons #save-btn {
-          display: inline-block;
-          width: 133px;
-          margin-right: 10px;
-          color: #fff;
-          background-color: #3498db;
-          box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5);
-          min-width: 100px;
-          padding: 4px 10px;
-          height: 30px; }
-          body main form #action-buttons #save-btn:active {
-            box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
-          body main form #action-buttons #save-btn .fa {
-            margin-right: 10px; }
+          background-color: #3498db; }
         body main form #action-buttons #delete-btn {
-          display: inline-block;
-          width: 133px;
-          margin-right: 10px;
-          color: #fff;
-          background-color: #e74c3c;
-          box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5);
-          min-width: 100px;
-          padding: 4px 10px;
-          height: 30px; }
-          body main form #action-buttons #delete-btn:active {
-            box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
-          body main form #action-buttons #delete-btn .fa {
-            margin-right: 10px; }
+          background-color: #e74c3c; }
 
 /*# sourceMappingURL=crisis-panel.css.map */
