@@ -120,10 +120,9 @@ body {
         align-items: stretch;
         justify-content: flex-start; }
         body main header #navigator a {
-          flex-basis: 12%;
           text-align: center;
-          padding-top: calc(calc(48px - 13px) / 2);
-          font-size: 13px;
+          padding: calc(calc(48px - 13px) / 2) 32px 0 32px;
+          font-size: 15px;
           cursor: pointer;
           color: #fff;
           box-sizing: border-box;
@@ -135,7 +134,7 @@ body {
       body main section .floating-btn {
         position: absolute;
         right: 28px;
-        top: -28px;
+        top: -32px;
         border-radius: 50%;
         height: 56px;
         width: 56px;
@@ -143,7 +142,7 @@ body {
         border: none;
         background-color: #3498db;
         color: #fff;
-        font-size: 32px;
+        font-size: 24px;
         box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3);
         transition: all 0.2s ease-in-out;
         transform: scale(1);
@@ -191,7 +190,7 @@ body {
         overflow-y: scroll;
         padding: 16px; }
         body main section #members-wrapper #members .member {
-          flex-basis: 22%;
+          flex-basis: 23%;
           background-color: #fff;
           margin: 8px;
           margin-top: 16px;
@@ -223,7 +222,8 @@ body {
               word-break: break-all; }
             body main section #members-wrapper #members .member .member-details .name {
               text-transform: uppercase;
-              font-weight: 500; }
+              font-weight: 500;
+              margin-bottom: 6px; }
             body main section #members-wrapper #members .member .member-details .extra {
               color: rgba(0, 0, 0, 0.5);
               font-weight: 300;
@@ -329,10 +329,12 @@ body {
         padding: 10px;
         margin-bottom: 6px; }
         body aside #activity-log .activity date {
-          float: right; }
+          float: right;
+          font-family: 'Inconsolata', monospace; }
         body aside #activity-log .activity h3 {
           display: inline-block;
           font-size: 13px;
+          font-weight: 500;
           text-transform: uppercase; }
         body aside #activity-log .activity a {
           display: block;
@@ -340,5 +342,7 @@ body {
           cursor: pointer;
           font-size: 12px;
           color: #008080; }
+        body aside #activity-log .activity:nth-child(even) {
+          background-color: #f5f5f5; }
 
 /*# sourceMappingURL=user-group-panel.css.map */
