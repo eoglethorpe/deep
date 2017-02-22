@@ -309,7 +309,8 @@ body {
             text-align: center;
             width: 100%;
             padding: 6px 10px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            color: #008080; }
   body aside {
     flex-basis: 24%;
     height: calc(100vh - 56px);
@@ -338,6 +339,7 @@ body {
           display: block;
           text-transform: none;
           cursor: pointer;
-          font-size: 12px; }
+          font-size: 12px;
+          color: #008080; }
 
 /*# sourceMappingURL=user-profile.css.map */

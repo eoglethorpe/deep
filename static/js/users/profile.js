@@ -6,6 +6,8 @@ let activityLog = {
     displayLog: function() {
         $('#activity-log').empty();
         for (let i=0; i<activities.length; i++) {
+            if (activities[i].group && activities[i].group.pk != userGroupPk)
+                continue;
             $('#activity-log').append(this.createLogElement(activities[i]));
         }
     },
@@ -17,6 +19,9 @@ let activityLog = {
 
         activityElement.find('date').html(activity.timestamp.toLocaleString());
         activityElement.find('h3').text(activity.action + ' ' + activity.target.type);
+        if (activity.remarks && activity.remarks.length > 0)
+            activityElement.find('h3').append(' (' + activity.remarks + ')');
+
         activityElement.find('a').text(activity.target.name);
         if (activity.target.url) {
             activityElement.find('a').attr('target', 'blank');

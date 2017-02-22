@@ -153,14 +153,18 @@ $(document).ready(function(){
     });
     var dateInputs = $('.text-input input[type="date"]');
     dateInputs.each(function(){
-        $(this)[0].type = 'text';
+        if(!$(this).val()){
+            $(this)[0].type = 'text';
+        }
     });
     dateInputs.on('focus', function(){
         $(this)[0].type = 'date';
     });
-    dateInputs.on('focusout', function(){
+    dateInputs.on('focusout change', function(){
         if(!$(this).val()){
             $(this)[0].type = 'text';
+        } else {
+            $(this)[0].type = 'date';            
         }
     });
 });
