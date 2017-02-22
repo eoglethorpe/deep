@@ -107,6 +107,13 @@ function buildFilters() {
 
 
 $(document).ready(function(){
+    $('#horizontal-scroll .weeks').scroll(function(){
+        //console.log($(this).scrollLeft());
+        $('#reports .weeks').scrollLeft($(this).scrollLeft());
+        $('#timeline-table header .weeks').scrollLeft($(this).scrollLeft());
+
+    });
+
     dateRangeInputModal = new Modal('#date-range-input');
 
     $('#timeline-table-container').on('scroll' ,function(){
@@ -271,6 +278,8 @@ function loadTimetable(tableFor) {
             reportElement.show();
         }
     }
+    console.log($('#timeline-table header .weeks .week').width()*weekly_reports.length);
+    $('#horizontal-scroll .weeks #scrollbar').width($('#timeline-table header .weeks .week').width()*weekly_reports.length);
 }
 
 // Checks if the date is in given range

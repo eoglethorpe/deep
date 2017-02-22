@@ -35,6 +35,7 @@ class SubsectorSerializer(Serializer):
 
 class EntryInformationSerializer(Serializer):
     fields = {
+        'id': 'pk',
         'excerpt': 'excerpt',
         'attributes': 'attributes',
         'map_selections': 'map_selections',

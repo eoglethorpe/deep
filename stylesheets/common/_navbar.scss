@@ -42,7 +42,7 @@ body{
             flex-basis: 10%;
         }
         #crisis-select-container{
-            flex-basis: 30%;
+            flex-basis: 28%;
 
             .selectize-control.single{
                 .selectize-input, &.single, .selectize-input.input-active{
@@ -74,7 +74,7 @@ body{
             }
         }
         #main-menu{
-            flex-basis: 30%;
+            flex-basis: 32%;
         }
         #extra-menu{
             flex-basis: calc(20% - #{$deep-logo-width});

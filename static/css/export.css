@@ -102,7 +102,7 @@ body > nav {
   body > nav #report-link-wrapper {
     flex-basis: 10%; }
   body > nav #crisis-select-container {
-    flex-basis: 30%; }
+    flex-basis: 28%; }
     body > nav #crisis-select-container .selectize-control.single .selectize-input, body > nav #crisis-select-container .selectize-control.single.single, body > nav #crisis-select-container .selectize-control.single .selectize-input.input-active {
       background-color: transparent !important; }
     body > nav #crisis-select-container .selectize-input {
@@ -125,7 +125,7 @@ body > nav {
     body > nav #crisis-select-container a {
       vertical-align: middle; }
   body > nav #main-menu {
-    flex-basis: 30%; }
+    flex-basis: 32%; }
   body > nav #extra-menu {
     flex-basis: calc(20% - 96px);
     display: flex;
@@ -182,14 +182,15 @@ body > nav {
     margin-bottom: 24px; }
   #main h3 {
     font-size: 13px;
+    margin-top: 10px;
     margin-bottom: 10px; }
   #main button {
-    box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5);
     min-width: 160px;
     padding: 6px 12px;
     height: 36px; }
     #main button:active {
-      box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
+      box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
     #main button i {
       margin-right: 8px; }
   #main ul {
@@ -226,6 +227,8 @@ body > nav {
         flex-basis: 100%;
         display: flex;
         justify-content: space-between; }
+      #main #export-entries #export-entries-doc label {
+        margin-bottom: 3px; }
       #main #export-entries #export-entries-doc > div:nth-child(2) {
         flex-basis: 60%; }
       #main #export-entries #export-entries-doc > div:last-child {
@@ -238,7 +241,7 @@ body > nav {
         #main #export-entries #export-entries-doc #filters > div {
           flex-basis: 49%; }
           #main #export-entries #export-entries-doc #filters > div:last-child {
-            flex-basis: 60%; }
+            flex-basis: 49%; }
           #main #export-entries #export-entries-doc #filters > div > input[type="text"], #main #export-entries #export-entries-doc #filters > div input[type="number"] {
             width: 100%;
             height: 32px;
@@ -264,16 +267,51 @@ body > nav {
             flex-basis: 100%; }
           #main #export-entries #export-entries-doc #filters #severity-filter-container > div, #main #export-entries #export-entries-doc #filters #reliability-filter-container > div {
             flex-basis: 48%; }
+      #main #export-entries #export-entries-doc .hierarchy {
+        margin-top: 32px; }
+      #main #export-entries #export-entries-doc button {
+        color: #fff;
+        background-color: #1E88E5;
+        box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5);
+        min-width: 160px;
+        padding: 6px 12px;
+        height: 36px; }
+        #main #export-entries #export-entries-doc button:active {
+          box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
+        #main #export-entries #export-entries-doc button i {
+          margin-right: 8px; }
     #main #export-entries #export-entries-excel {
       flex-basis: 25%;
       padding: 16px;
       box-sizing: border-box;
       border: 1px solid rgba(0, 0, 0, 0.1); }
+      #main #export-entries #export-entries-excel button {
+        color: #fff;
+        background-color: #009688;
+        box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5);
+        min-width: 160px;
+        padding: 6px 12px;
+        height: 36px; }
+        #main #export-entries #export-entries-excel button:active {
+          box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
+        #main #export-entries #export-entries-excel button i {
+          margin-right: 8px; }
   #main #sos-export {
     width: 25%; }
     #main #sos-export #sos-export-excel {
       padding: 16px;
       box-sizing: border-box;
       border: 1px solid rgba(0, 0, 0, 0.1); }
+    #main #sos-export button {
+      color: #fff;
+      background-color: #009688;
+      box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5);
+      min-width: 160px;
+      padding: 6px 12px;
+      height: 36px; }
+      #main #sos-export button:active {
+        box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
+      #main #sos-export button i {
+        margin-right: 8px; }
 
 /*# sourceMappingURL=export.css.map */
