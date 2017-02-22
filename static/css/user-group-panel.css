@@ -67,8 +67,10 @@ body {
 body {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start; }
-  body h1, body h2, body h3, body h4 {
+  justify-content: flex-start;
+  height: 100vh;
+  overflow: hidden; }
+  body h1, body h2, body h3, body h4, body a {
     margin: 0;
     text-transform: uppercase; }
   body nav {
@@ -91,6 +93,8 @@ body {
   body main {
     flex-basis: 76%; }
     body main header {
+      position: relative;
+      z-index: 5;
       display: flex;
       justify-content: flex-start;
       flex-wrap: wrap;
@@ -129,49 +133,141 @@ body {
         border-radius: 50%;
         height: 56px;
         width: 56px;
+        z-index: 6;
         border: none;
         background-color: #3498db;
         color: #fff;
         font-size: 32px;
-        box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-      body main section #members {
+        box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3);
+        transition: all 0.2s ease-in-out;
+        transform: scale(1);
+        opacity: 1; }
+      body main section .btn-animation {
+        transform: scale(0);
+        opacity: 0; }
+      body main section #clear-selection-toast {
+        position: absolute;
+        right: 35%;
+        bottom: -172px;
+        border-radius: 3px;
+        height: 64px;
+        width: 30%;
+        z-index: 6;
+        background-color: #414141;
+        color: #fff;
+        box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3);
+        transition: all 0.2s ease-in-out;
+        -webkit-user-select: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center; }
+        body main section #clear-selection-toast > div {
+          margin: 0 16px;
+          color: rgba(255, 255, 255, 0.7);
+          text-transform: uppercase; }
+          body main section #clear-selection-toast > div span {
+            margin-right: 8px;
+            text-transform: uppercase;
+            font-size: 1.2em;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8); }
+        body main section #clear-selection-toast .clear-btn {
+          cursor: pointer;
+          text-transform: uppercase;
+          color: #fff; }
+      body main section .clear-selection-show {
+        bottom: 0 !important; }
+      body main section #members-wrapper #members {
         height: calc(100vh - 144px - 56px);
         display: flex;
         justify-content: space-around;
         flex-wrap: wrap;
         overflow-y: scroll;
         padding: 16px; }
-        body main section #members .member {
-          z-index: -1;
+        body main section #members-wrapper #members .member {
           flex-basis: 22%;
           background-color: #fff;
           margin: 8px;
           margin-top: 16px;
-          height: 128px;
-          font-weight: 500;
-          cursor: pointer;
+          height: 96px;
+          box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.3);
+          box-sizing: border-box;
           display: flex;
-          justify-content: center;
-          flex-wrap: wrap;
+          justify-content: space-between;
           align-items: center; }
-          body main section #members .member i {
-            flex-basis: 100%;
-            color: rgba(0, 0, 0, 0.5);
-            transform: rotate(90deg);
-            font-size: 19px; }
-          body main section #members .member img {
-            height: 48px;
-            width: auto; }
+          body main section #members-wrapper #members .member .img-container {
+            flex-basis: 64px;
+            box-sizing: border-box;
+            padding: 0 4px;
+            flex-shrink: 0;
+            cursor: pointer;
+            flex-grow: 0; }
+            body main section #members-wrapper #members .member .img-container img {
+              margin: 8px;
+              width: 100%;
+              border: 2px solid #3498db;
+              border-radius: 50%;
+              -webkit-user-select: none;
+              background-color: #f0f0f0; }
+          body main section #members-wrapper #members .member .member-details {
+            padding: 0 24px;
+            cursor: pointer;
+            flex-basis: calc(100% - 56px - 32px); }
+            body main section #members-wrapper #members .member .member-details > * {
+              word-break: break-all; }
+            body main section #members-wrapper #members .member .member-details .name {
+              text-transform: uppercase;
+              font-weight: 500; }
+            body main section #members-wrapper #members .member .member-details .extra {
+              color: rgba(0, 0, 0, 0.5);
+              font-weight: 300;
+              font-size: 12px; }
+          body main section #members-wrapper #members .member .action-container {
+            align-self: flex-start;
+            flex-grow: 0;
+            flex-shrink: 0;
+            cursor: pointer;
+            flex-basis: 24px;
+            height: 24px;
+            align-items: center;
+            background-color: #fff;
+            border: 1px solid transparent;
+            transition: 0.2s all ease-in-out;
+            vertical-align: sub; }
+            body main section #members-wrapper #members .member .action-container .fa {
+              transform: scale(0);
+              font-size: 18px;
+              padding: 2px;
+              height: 24px;
+              font-weight: 300;
+              color: rgba(0, 0, 0, 0.3);
+              transition: 0.2s all ease-in-out; }
+          body main section #members-wrapper #members .member:hover {
+            box-shadow: 0 5px 15px -4px rgba(0, 0, 0, 0.4); }
+            body main section #members-wrapper #members .member:hover .action-container {
+              border: 1px solid rgba(0, 0, 0, 0.3); }
+              body main section #members-wrapper #members .member:hover .action-container .fa {
+                transform: scale(1); }
+        body main section #members-wrapper #members .member-selected {
+          background-color: rgba(0, 0, 0, 0.05);
+          box-shadow: 0 5px 15px -4px rgba(0, 0, 0, 0.4); }
+          body main section #members-wrapper #members .member-selected .action-container {
+            border: 1px solid #008080; }
+            body main section #members-wrapper #members .member-selected .action-container .fa {
+              transform: scale(1);
+              color: #008080; }
+          body main section #members-wrapper #members .member-selected:hover .action-container {
+            border: 1px solid #008080; }
       body main section #projects-wrapper {
         height: calc(100vh - 144px - 56px); }
         body main section #projects-wrapper .name {
           flex-basis: 30%; }
         body main section #projects-wrapper .type {
-          flex-basis: 20%; }
+          flex-basis: 30%; }
         body main section #projects-wrapper .countries {
           flex-basis: 25%; }
         body main section #projects-wrapper .start-date {
-          flex-basis: 25%; }
+          flex-basis: 15%; }
         body main section #projects-wrapper #projects-header {
           height: 48px;
           display: flex;
