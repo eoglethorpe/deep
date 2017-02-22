@@ -24,7 +24,22 @@ class UserGroupPanelView(View):
             return redirect('usergroup', args=[group_slug])
 
     def handle_json_request(self, request, group_slug):
-        # request is json
+        try:
+            group = UserGroup.objects.get(slug=group_slug)
+        except:
+            return JsonError('Cannot find user group')
+
         response = {}
+
+        # TODO check if user has permission for whatever request
+
+        if request['request'] == 'removeMembers':
+            response['removedMembers'] = []
+            for pk in request['members']:
+                try:
+                    group.members.remove(User.objects.get(pk=pk))
+                    response['removedMembers'].append(pk)
+                except:
+                    pass
 
         return JsonResult(data=response)
