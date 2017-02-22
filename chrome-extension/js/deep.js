@@ -94,6 +94,7 @@ var deep = {
                 // date of publication
                 if(response.date){
                     $('#publish-date').val(response.date).addClass('filled');
+                    $('#publish-date').trigger('change');
                 }
 
                 // source of the article/news

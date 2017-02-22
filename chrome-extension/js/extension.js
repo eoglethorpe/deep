@@ -31,9 +31,12 @@ var extension = {
             extension.loadWebsite();
             extension.loadTitle();
             // deep.queryCurrentPage();
-            extension.restoreInputValues();
+            // extension.restoreInputValues();
             defer.resolve();
         });
+        return defer.promise();
+    },
+    startStoring: function() {
         $('input').on('change textInput input', function(){
             extension.storeInputValue($(this));
         });
@@ -43,7 +46,6 @@ var extension = {
                 deep.currentEvent = $(this).val();
             }
         });
-        defer.promise();
     },
     loadTitle: function(){
         if (extension.currentTabUrl && extension.currentPage) {
@@ -87,6 +89,7 @@ var extension = {
         chrome.runtime.sendMessage({'msg': 'set', 'tab_id': extension.tabId, 'key': ip[0].id, 'val': ip.val() });
     },
     restoreInputValue: function(ip){
+        let defer = new $.Deferred();
         chrome.runtime.sendMessage({'msg': 'get', 'tab_id': extension.tabId, 'key': ip[0].id}, function(response){
             if(response && response.val){
                 if(ip.is('input')){
@@ -96,13 +99,17 @@ var extension = {
                     refreshSelectInputs();
                 }
             }
+            defer.resolve();
         });
+        return defer.promise();
     },
     restoreInputValues: function(){
+        let promises = [];
         $('input').each(function(){
-            extension.restoreInputValue($(this));
+            promises.push(extension.restoreInputValue($(this)));
         });
-        extension.restoreInputValue($('#confidentiality'));
+        promises.push(extension.restoreInputValue($('#confidentiality')));
+        return $.when(...promises);
     },
     showAddLeadForm: function(){
         $('body > *').hide();

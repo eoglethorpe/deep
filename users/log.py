@@ -22,8 +22,10 @@ class Activity:
         self.data['remarks'] = remarks
         return self
 
-    def log_for(self, user):
+    def log_for(self, user, group=None, event=None):
         activity_log = ActivityLog(user=user, activity=json.dumps(self.data))
+        activity_log.group = group
+        activity_log.event = event
         activity_log.save()
 
 
@@ -40,3 +42,13 @@ class EditionActivity(Activity):
 class DeletionActivity(Activity):
     def __init__(self):
         super().__init__('delete')
+
+
+class AdditionActivity(Activity):
+    def __init__(self):
+        super().__init__('remove')
+
+
+class RemovalActivity(Activity):
+    def __init__(self):
+        super().__init__('remove')

@@ -193,6 +193,7 @@ body{
                         width: 100%;
                         padding: 6px 10px;
                         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                        color: $primary-color;
                     }
                 }
             }
@@ -239,6 +240,7 @@ body{
                     text-transform: none;
                     cursor: pointer;
                     font-size: $text-size-sm;
+                    color: $primary-color;
                 }
             }
         }
