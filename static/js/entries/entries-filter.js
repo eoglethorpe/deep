@@ -41,6 +41,9 @@ function clearFilters() {
 
 
 function filterEntries() {
+    if (originalEntries.length == 0)
+        return;
+        
     entries = [];
     entriesTimeline = [];
     for (var i=0; i<originalEntries.length; ++i) {

@@ -205,9 +205,42 @@ body{
         border-left: 2px solid rgba(0, 0, 0, 0.1);
         background-color: #fff;
 
-        h2{
-            padding: 24px;
+        header{
+            height: 48px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
             background-color: #f0f0f0;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+
+            h2{
+            }
+        }
+
+        #activity-log {
+            height: calc(100vh - #{$navbar-height} - 48px);
+            overflow-y: auto;
+
+            .activity {
+                padding: 10px;
+                margin-bottom: 6px;
+
+                date {
+                    float: right;
+                }
+                h3 {
+                    display: inline-block;
+                    font-size: $text-size-md;
+                    text-transform: uppercase;
+                }
+
+                a {
+                    display: block;
+                    text-transform: none;
+                    cursor: pointer;
+                    font-size: $text-size-sm;
+                }
+            }
         }
     }
 }

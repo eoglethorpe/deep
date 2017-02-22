@@ -10,6 +10,17 @@ DEEP | User Profile
 <link rel="stylesheet" href="{% watchful_static_url 'css/modal.css' %}" >
 <script src="{% watchful_static_url 'js/users/profile.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/modal.js' %}"></script>
+<script src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script>
+var activities = [
+    {% for activity in user.activitylog_set.all %}
+    $.extend(
+        { timestamp: new Date('{{ activity.timestamp.isoformat }}'), },
+        JSON.parse('{{activity.activity|escapejs}}')
+    ),
+    {% endfor %}
+];
+</script>
 {% endblock %}
 
 {% block body %}
@@ -62,6 +73,16 @@ DEEP | User Profile
     </section>
 </main>
 <aside>
-    <h2>Activity log</h2>
+    <header>
+        <h2>Activity log</h2>
+    </header>
+    <div id='activity-log'>
+    </div>
+
+    <div class='activity-template' hidden>
+        <h3></h3>
+        <date></date>
+        <a></a>
+    </div>
 </aside>
 {% endblock %}

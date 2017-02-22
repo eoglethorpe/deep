@@ -30,7 +30,7 @@ class Command(BaseCommand):
                 continue
 
             # Get keyfigures
-            key_figures = {}
+            key_figures = json.loads(country.key_figures)
             key_figures['last_checked'] = datetime.now().date().\
                 strftime('%d-%m-%Y')
 
