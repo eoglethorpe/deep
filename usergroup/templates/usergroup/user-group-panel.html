@@ -10,6 +10,7 @@ DEEP | User Group Panel
 <link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}"/>
 <link href="{% watchful_static_url 'css/user-group-panel.css' %}" type="text/css" rel="stylesheet">
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/floating-button.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/usergroup/user-group-panel.js' %}"></script>
 
 <script>
@@ -39,11 +40,17 @@ let crisis_panel_url = '{% url "custom_admin:crisis_panel" %}';
         <div id="members-wrapper">
             <div id="members">
                 {% for member in usergroup.members.all %}
-                <div class="member" data-url="{% url 'user_profile' member.pk %}">
-                    <i>...</i>
-                    <img src="{% watchful_static_url 'img/default-avatar.png' %}"></img>
-                    <p>{{member.get_full_name}}</p>
-                    <p>{{member.username}}</p>
+                <div class="member" data-url="{% url 'user_profile' member.pk %}" data-pk="{{member.pk}}">
+                    <div class="img-container">
+                        <img src="{% watchful_static_url 'img/default-avatar.png' %}">
+                    </div>
+                    <div class="member-details">
+                        <div class="name">{{member.get_full_name}}</div>
+                        <div class="extra">{{member.username}}</div>
+                    </div>
+                    <div class="action-container">
+                        <i class="fa fa-check"></i>
+                    </div>
                 </div>
                 {% endfor %}
             </div>
@@ -70,6 +77,10 @@ let crisis_panel_url = '{% url "custom_admin:crisis_panel" %}';
             <div id="templates">
                 Templates
             </div>
+        </div>
+        <div id="clear-selection-toast">
+            <div><span></span>Selected</div>
+            <div class="clear-btn">Clear selection</div>
         </div>
         <button class="floating-btn" id="add-members">+</button>
     </section>
