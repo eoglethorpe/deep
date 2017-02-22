@@ -183,12 +183,29 @@ body {
     color: #e74c3c; }
   100% {
     color: #008080; } }
-      body main #navigator #save-btn, body main #navigator #delete-btn {
-        margin-left: 8px;
-        box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-        body main #navigator #save-btn:active, body main #navigator #delete-btn:active {
-          box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-        body main #navigator #save-btn .fa, body main #navigator #delete-btn .fa {
+      body main #navigator #delete-btn {
+        margin-right: 10px;
+        color: #fff;
+        background-color: #e74c3c;
+        box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5);
+        min-width: 100px;
+        padding: 4px 10px;
+        height: 30px; }
+        body main #navigator #delete-btn:active {
+          box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
+        body main #navigator #delete-btn .fa {
+          margin-right: 10px; }
+      body main #navigator #save-btn {
+        margin-right: 10px;
+        color: #fff;
+        background-color: #3498db;
+        box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5);
+        min-width: 100px;
+        padding: 4px 10px;
+        height: 30px; }
+        body main #navigator #save-btn:active {
+          box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
+        body main #navigator #save-btn .fa {
           margin-right: 10px; }
     body main #content-wrapper :invalid {
       border-color: #e74c3c; }

@@ -1,5 +1,6 @@
 var weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 var keyEvents = [];
+var dateRangeInputModal;
 
 
 function addKeyEvent(data) {
@@ -166,6 +167,8 @@ function hideTimeline(){
 }
 
 $(document).ready(function(){
+    dateRangeInputModal = new Modal('#date-range-input');
+
     $('#toggle-panel').on('click', 'a', function(){
         $('#loading-animation').show();
         var current = $('#toggle-panel .active');

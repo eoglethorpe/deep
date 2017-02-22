@@ -48,11 +48,13 @@ body{
                 flex-basis: 60%;
                 font-weight: $font-weight-bold;
                 font-size: $text-size-sl;
+                color: $primary-color;
             }
             a{
                 //flex-basis: 30%;
                 //@include btn-shadow-lg;
-
+                cursor: pointer;
+                color: $primary-color;
                 .fa{
                     margin-right: 10px;
                 }
@@ -130,6 +132,14 @@ body{
         }
     }
     main{
+        label {
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+        a {
+            margin-bottom: 6px;
+            color: $primary-color;
+        }
         flex-basis: 60%;
         background-color: #fff;
         height: calc(100vh - #{$navbar-height});
@@ -153,6 +163,7 @@ body{
                 font-weight: $font-weight-bold;
                 font-size: $text-size-sl;
                 margin-bottom: 32px;
+                color: $primary-color;
             }
             >div{
                 margin-bottom: 8px;
@@ -210,14 +221,34 @@ body{
                 }
             }
             #action-buttons{
-                text-align: right;
+
                 margin-top: 32px;
 
-                button{
-                    margin-left: 16px;
-                    @include btn-shadow-sm();
-
-                    i{
+                #save-btn{
+                    display: inline-block;
+                    width: 133px;
+                    margin-right: 10px;
+                    color: #fff;
+                    background-color: $info-color;
+                    @include btn-shadow-md();
+                    min-width: 100px;
+                    padding: 4px 10px;
+                    height: 30px;
+                    .fa{
+                        margin-right: 10px;
+                    }
+                }
+                #delete-btn{
+                    display: inline-block;
+                    width: 133px;
+                    margin-right: 10px;
+                    color: #fff;
+                    background-color: $danger-color;
+                    @include btn-shadow-md();
+                    min-width: 100px;
+                    padding: 4px 10px;
+                    height: 30px;
+                    .fa{
                         margin-right: 10px;
                     }
                 }

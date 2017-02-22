@@ -176,17 +176,34 @@ body {
       padding-top: 10px;
       text-transform: uppercase;
       font-weight: 500;
-      margin-bottom: 10px; }
+      margin-bottom: 10px;
+      color: #008080; }
       body header h1 span {
         font-weight: 400; }
     body header #main-action-buttons {
       float: right; }
-    body header button {
-      margin-left: 16px;
-      box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7); }
-      body header button:active {
-        box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
-      body header button .fa {
+    body header #cancel-btn {
+      margin-right: 10px;
+      color: #fff;
+      background-color: #e74c3c;
+      box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5);
+      min-width: 100px;
+      padding: 4px 10px;
+      height: 30px; }
+      body header #cancel-btn:active {
+        box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
+      body header #cancel-btn .fa {
+        margin-right: 10px; }
+    body header #save-btn {
+      color: #fff;
+      background-color: #3498db;
+      box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5);
+      min-width: 160px;
+      padding: 4px 10px;
+      height: 30px; }
+      body header #save-btn:active {
+        box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
+      body header #save-btn .fa {
         margin-right: 10px; }
     body header #entry-filters {
       display: flex;
@@ -237,12 +254,21 @@ aside {
     aside #entry-list-header h2 {
       margin: 0;
       text-transform: uppercase;
-      font-size: 1.5em; }
+      font-size: 1.5em;
+      color: #008080; }
+    aside #entry-list-header a {
+      color: #008080; }
   aside #entries {
     height: calc(100vh - 56px - 172px - 58px);
     box-sizing: border-box;
     overflow-y: auto;
     overflow-x: hidden; }
+    aside #entries h4 {
+      font-size: 18px; }
+    aside #entries label {
+      font-weight: bold; }
+    aside #entries a {
+      color: #008080; }
     aside #entries .entry {
       padding: 10px 16px; }
       aside #entries .entry .severity span, aside #entries .entry .reliability span {
@@ -316,7 +342,8 @@ main {
       flex-grow: 1;
       text-align: center;
       padding-top: calc(calc(56px - 13px) / 2 - 4px);
-      cursor: pointer; }
+      cursor: pointer;
+      color: #008080; }
     main #navigator .active {
       border-bottom: 2px solid #008080; }
   main #report-content {
