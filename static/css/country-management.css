@@ -77,17 +77,21 @@ body {
     text-transform: uppercase;
     margin: 0;
     vertical-align: middle; }
-  body input[type="text"], body input[type="number"], body input[type="url"] {
+  body a {
+    color: #008080;
+    cursor: pointer; }
+  body label {
+    margin-bottom: 4px; }
+  body input[type="text"], body input[type="number"], body input[type="url"], body input[type="search"] {
     width: 100%;
-    height: 32px;
-    padding: 0 16px;
+    padding: 6px 10px;
     outline: none;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 3px;
     background-color: #fff; }
-    body input[type="text"]:focus, body input[type="number"]:focus, body input[type="url"]:focus {
+    body input[type="text"]:focus, body input[type="number"]:focus, body input[type="url"]:focus, body input[type="search"]:focus {
       border-color: #008080; }
-  body header {
+  body > header {
     flex-basis: 100%;
     height: 56px;
     background-color: #004d4d;
@@ -97,11 +101,11 @@ body {
     padding: 0 16px;
     align-items: center;
     box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-    body header a {
+    body > header a {
       color: #fff; }
-      body header a .fa {
+      body > header a .fa {
         margin-right: 10px; }
-      body header a:hover {
+      body > header a:hover {
         color: #fff; }
   body aside {
     flex-basis: 25%; }
@@ -159,21 +163,17 @@ body {
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
-      body main #navigator > div {
-        flex-basis: 70%; }
-        body main #navigator > div:last-child {
-          text-align: right;
-          flex-basis: 30%;
-          padding: 0 24px; }
-      body main #navigator a {
-        padding: 10px 24px 14px 24px;
-        font-size: 14px;
-        cursor: pointer; }
-        body main #navigator a.nav-active {
-          border-bottom: 2px solid #008080; }
-        body main #navigator a.invalid {
-          color: #008080;
-          animation: blink 2s infinite linear; }
+      body main #navigator .tabs {
+        flex-basis: 64%; }
+        body main #navigator .tabs a {
+          font-size: 13px;
+          padding: 10px 16px 14px 16px;
+          cursor: pointer; }
+          body main #navigator .tabs a.nav-active {
+            border-bottom: 2px solid #008080; }
+          body main #navigator .tabs a.invalid {
+            color: #008080;
+            animation: blink 2s infinite linear; }
 @keyframes blink {
   0% {
     color: #008080; }
@@ -183,30 +183,23 @@ body {
     color: #e74c3c; }
   100% {
     color: #008080; } }
-      body main #navigator #delete-btn {
-        margin-right: 10px;
-        color: #fff;
-        background-color: #e74c3c;
-        box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5);
-        min-width: 100px;
-        padding: 4px 10px;
-        height: 30px; }
-        body main #navigator #delete-btn:active {
-          box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
-        body main #navigator #delete-btn .fa {
-          margin-right: 10px; }
-      body main #navigator #save-btn {
-        margin-right: 10px;
-        color: #fff;
-        background-color: #3498db;
-        box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5);
-        min-width: 100px;
-        padding: 4px 10px;
-        height: 30px; }
-        body main #navigator #save-btn:active {
-          box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
-        body main #navigator #save-btn .fa {
-          margin-right: 10px; }
+      body main #navigator .action-buttons {
+        flex-basis: 36%;
+        text-align: right;
+        padding-right: 16px; }
+        body main #navigator .action-buttons button {
+          padding: 6px 16px;
+          color: #fff;
+          box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+          body main #navigator .action-buttons button:active {
+            box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+          body main #navigator .action-buttons button .fa {
+            margin-right: 10px; }
+        body main #navigator .action-buttons #delete-btn {
+          background-color: #e74c3c; }
+        body main #navigator .action-buttons #save-btn {
+          margin-left: 10px;
+          background-color: #3498db; }
     body main #content-wrapper :invalid {
       border-color: #e74c3c; }
     body main #content-wrapper #country-detail > div {
@@ -229,6 +222,8 @@ body {
         flex-basis: 40%;
         align-self: flex-start;
         padding: 0 10px 0 24px; }
+        body main #content-wrapper #country-detail > div #country-detail-inputs > div {
+          padding: 5px 0; }
       body main #content-wrapper #country-detail > div #map-wrapper {
         flex-basis: 60%;
         padding: 0 24px 0 10px; }
@@ -239,14 +234,14 @@ body {
             stroke: #717171;
             stroke-width: 1px;
             stroke-linejoin: round; }
-        body main #content-wrapper #country-detail > div #map-wrapper #map-controls {
-          margin-top: 8px;
-          width: 100%;
-          display: inline-block;
-          background-color: rgba(255, 255, 255, 0.88); }
+        body main #content-wrapper #country-detail > div #map-wrapper #map-controls #admin-level-buttons {
+          margin-top: 10px;
+          text-align: center; }
           body main #content-wrapper #country-detail > div #map-wrapper #map-controls #admin-level-buttons button {
-            margin: 4px !important;
-            box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+            padding: 4px 10px; }
+            body main #content-wrapper #country-detail > div #map-wrapper #map-controls #admin-level-buttons button.active {
+              background-color: #008080;
+              color: #fff; }
       body main #content-wrapper #country-detail > div #admin-level-list {
         flex-basis: 100%; }
       body main #content-wrapper #country-detail > div #admin-level-list-header {
@@ -267,9 +262,34 @@ body {
         body main #content-wrapper #country-detail > div .admin-level-details > div {
           flex-basis: 24%; }
           body main #content-wrapper #country-detail > div .admin-level-details > div:nth-child(6) {
+            flex-basis: 80%;
             margin-top: 16px; }
+            body main #content-wrapper #country-detail > div .admin-level-details > div:nth-child(6) .file-input {
+              width: 0.1px;
+              height: 0.1px;
+              opacity: 0;
+              left: 0;
+              top: 0;
+              overflow: hidden;
+              position: absolute;
+              z-index: -1; }
+            body main #content-wrapper #country-detail > div .admin-level-details > div:nth-child(6) .file-input + label {
+              margin-left: 10px;
+              margin-right: 10px;
+              padding: 6px 16px;
+              background-color: #fff;
+              font-size: 1em;
+              border-radius: 3px;
+              display: inline-block;
+              cursor: pointer;
+              box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+              body main #content-wrapper #country-detail > div .admin-level-details > div:nth-child(6) .file-input + label:active {
+                box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+              body main #content-wrapper #country-detail > div .admin-level-details > div:nth-child(6) .file-input + label i {
+                margin-right: 10px; }
           body main #content-wrapper #country-detail > div .admin-level-details > div:last-child {
-            flex-basis: 7%; }
+            flex-basis: 20%;
+            text-align: right; }
             body main #content-wrapper #country-detail > div .admin-level-details > div:last-child label {
               cursor: pointer;
               font-size: 15px;
@@ -284,32 +304,12 @@ body {
                 display: inline-block; }
         body main #content-wrapper #country-detail > div .admin-level-details:nth-child(even) {
           background: #fafafa; }
-        body main #content-wrapper #country-detail > div .admin-level-details .file-input {
-          width: 0.1px;
-          height: 0.1px;
-          opacity: 0;
-          left: 0;
-          top: 0;
-          overflow: hidden;
-          position: absolute;
-          z-index: -1; }
-        body main #content-wrapper #country-detail > div .admin-level-details .file-input + label {
-          margin-left: 10px;
-          margin-right: 10px;
-          padding: 6px 24px;
-          background-color: #fff;
-          font-size: 1em;
-          border-radius: 3px;
-          display: inline-block;
-          cursor: pointer;
-          box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-          body main #content-wrapper #country-detail > div .admin-level-details .file-input + label:active {
-            box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-          body main #content-wrapper #country-detail > div .admin-level-details .file-input + label i {
-            margin-right: 10px; }
         body main #content-wrapper #country-detail > div .admin-level-details .geojson-current {
-          display: inline-block; }
+          flex-basis: 100%; }
       body main #content-wrapper #country-detail > div #add-new-admin-level {
+        background-color: #008080;
+        color: #fff;
+        padding: 4px 10px;
         box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
         body main #content-wrapper #country-detail > div #add-new-admin-level:active {
           box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
@@ -337,6 +337,8 @@ body {
         body main #content-wrapper #key-figures .key-figure > div {
           flex-basis: 30%;
           padding: 0 8px; }
+          body main #content-wrapper #key-figures .key-figure > div > div {
+            padding: 6px 0; }
     body main #content-wrapper #population-data {
       background-color: #fff;
       height: calc(100vh - 56px - 48px);
@@ -395,6 +397,10 @@ body {
             background-color: #f0f0f0; }
     body main #content-wrapper .last-checked-date {
       color: rgba(0, 0, 0, 0.5);
-      flex-basis: 100%; }
+      flex-basis: 100%;
+      margin-bottom: 16px; }
+      body main #content-wrapper .last-checked-date date {
+        color: #414141;
+        font-family: 'Inconsolata', monospace; }
 
 /*# sourceMappingURL=country-management.css.map */
