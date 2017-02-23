@@ -34,7 +34,11 @@
                 flex-wrap: wrap;
                 margin-bottom: 10px;
 
-                label{ width: 100%; }
+                label{
+                    margin-top: 10px;
+                    margin-bottom: 5px;
+                    width: 100%;
+                }
                 input{
                     margin-bottom: 6px;
 

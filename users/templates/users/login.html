@@ -41,17 +41,13 @@ let hid_login_url = 'http://auth.humanitarian.id/oauth/authorize?response_type=t
             <label>Password</label>
             <input type="password" placeholder="Enter your password" name="password" required>
         </div>
-        <div id="action-buttons">
+        <div id="submit-btn-container">
             <div></div>
             <button type="submit" >Sign in</button>
         </div>
-        <div>
-            <div>
-                Don't have an account? <a href="/register">Register</a>
-            </div>
-            <a id="login-hid">
-                Login with HID <small>(TEST)</small>
-            </a>
+        <div class="action-buttons">
+            <a id="register-link" href="/register">Register</a>
+            <a id="login-hid"><img src="{% watchful_static_url 'img/hid-logo.png' %}"></a>
         </div>
     </form>
 </main>

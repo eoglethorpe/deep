@@ -45,7 +45,12 @@ main{
                     color: $primary-color;
                     border-bottom: 2px solid $primary-color;
                 }
+
             }
+            .fa{
+                color: $primary-color;
+            }
+
 
             // search input
             >div:nth-child(2){
@@ -66,6 +71,7 @@ main{
                     border: none;
                 }
             }
+
         }
         #country-list{
             #country-list-header{
@@ -226,6 +232,7 @@ main{
             h3{
                 margin: 0;
                 text-transform: uppercase;
+                color: $primary-color;
             }
             #weekly-report-list-header{
                 height: 64px;
@@ -237,6 +244,7 @@ main{
                 i{
                     border: none;
                     cursor: pointer;
+                    color: $primary-color;
 
 
                 }
@@ -257,6 +265,7 @@ main{
                         flex-basis: 16%;
                         margin: 0;
                         font-size: $text-size-md;
+                        color: $primary-color;
                     }
                     p{ margin: 0; }
                     date{ font-family: 'Inconsolata', monospace; }
@@ -265,6 +274,7 @@ main{
                         flex-basis: 40%;
 
                         a{
+                            color: $primary-color;
                             margin-left: 24px;
                             cursor: pointer;
 
@@ -275,6 +285,7 @@ main{
                         .delete-btn{
                             color: #e74c3c;
                         }
+
                     }
 
 
