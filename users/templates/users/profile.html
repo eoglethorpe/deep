@@ -36,11 +36,11 @@ var activities = [
             <h2 id="full-name">
                 <div>
                     <label>First name:</label>
-                    <div id="first-name" class="name">{{ user.first_name }}</div>
+                    <div id="first-name" class="name" spellcheck="false">{{ user.first_name }}</div>
                 </div>
                 <div>
                     <label>Last name:</label>
-                    <div id="last-name" class="name">{{ user.last_name }}</div>
+                    <div id="last-name" class="name" spellcheck="false">{{ user.last_name }}</div>
                 </div>
             </h2>
             <div class="extra">{{ user.username }}</div>
@@ -106,15 +106,15 @@ var activities = [
         </header>
         <div class="input-container">
             <label>Name</label>
-            <input type="text" name="name">
+            <input type="text" name="name" id="new-user-group-name">
         </div>
         <div class="textarea-container">
             <label>Description</label>
-            <textarea name="description"></textarea>
+            <textarea name="description" id="new-user-group-description"></textarea>
         </div>
         <div class="action-buttons">
             <button data-action="dismiss">Cancel</button>
-            <button data-action="proceed">Create user group</button>
+            <button data-action="proceed" data-persist="true">Create user group</button>
         </div>
     </div>
 </div>
