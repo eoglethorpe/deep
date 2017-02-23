@@ -391,8 +391,11 @@ body {
             body main #content-wrapper #media-sources > div > div .media-source input:not(:last-child) {
               margin-bottom: 10px; }
           body main #content-wrapper #media-sources > div > div .media-source a {
-            color: #e04756;
             cursor: pointer; }
+            body main #content-wrapper #media-sources > div > div .media-source a.remove-source-btn {
+              color: #e04756; }
+            body main #content-wrapper #media-sources > div > div .media-source a.fa-twitter {
+              font-size: 1.2em; }
           body main #content-wrapper #media-sources > div > div .media-source:nth-child(odd) {
             background-color: #f0f0f0; }
     body main #content-wrapper .last-checked-date {

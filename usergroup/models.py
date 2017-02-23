@@ -6,7 +6,7 @@ from leads.models import Event
 
 
 class UserGroup(models.Model):
-    name = models.CharField(max_length=300)
+    name = models.CharField(max_length=255, unique=True)
     photo = models.FileField(upload_to="group-avatar/", null=True, blank=True, default=None)
     description = models.TextField(blank=True)
     admins = models.ManyToManyField(User, related_name='groups_owned')

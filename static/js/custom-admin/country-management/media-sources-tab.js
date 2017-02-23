@@ -19,7 +19,7 @@ var mediaSourcesTab = {
 
     onSubmit: function() {
         $('#media-sources-input').val(JSON.stringify(this.getMediaSources()));
-        return true;
+        return this.validateSources();
     },
 
     loadForCountry: function(code, country) {
@@ -29,15 +29,30 @@ var mediaSourcesTab = {
     },
 
     addMediaSource: function(container) {
+        let that = this;
+
         let firstSource = container.find('.media-source').length == 0;
         let mediaSourceElement = $('.media-source-template').clone();
         mediaSourceElement.removeClass('media-source-template');
         mediaSourceElement.addClass('media-source');
         mediaSourceElement.appendTo(container);
 
-        if (firstSource) {
-            mediaSourceElement.find('a').remove();
+        // Twitter link is id
+        if (container.attr('id') == 'twitter-sources') {
+            mediaSourceElement.find('.link').attr('type', 'text');
+            mediaSourceElement.find('.open-link-btn')
+                .removeClass('fa-external-link')
+                .addClass('fa-twitter');
+            invalidateValidations();
         }
+
+        if (firstSource) {
+            mediaSourceElement.find('.remove-source-btn').remove();
+        }
+
+        mediaSourceElement.find('.link').on('change input paste', function() {
+            that.validateSources();
+        });
         return mediaSourceElement;
     },
 
@@ -54,6 +69,7 @@ var mediaSourcesTab = {
                 element.find('.link').val(source["link"]);
             }
         }
+        this.validateSources();
     },
 
     getMediaSourcesFor: function(container, data, key) {
@@ -73,5 +89,35 @@ var mediaSourcesTab = {
         this.getMediaSourcesFor($('#newspaper-sources'), data, 'Newspaper');
         this.getMediaSourcesFor($('#twitter-sources'), data, 'Twitter');
         return data;
+    },
+
+    validateSources: function() {
+        let valid = true;
+        // $('#twitter-sources .link').each(function() {
+        //     let value = $(this).val().trim();
+        //     if (value.indexOf('@') != 0) {
+        //         valid = false;
+        //         $(this).get(0).setCustomValidity('Twitter id must begins with @');
+        //     } else {
+        //         $(this).get(0).setCustomValidity('');
+        //     }
+        // });
+
+        $('.media-source').each(function() {
+            let url = $(this).find('.link').val().trim();
+            if (url.length == 0) {
+                $(this).find('.open-link-btn').hide();
+            } else {
+                if ($(this).closest('#twitter-sources').length > 0) {
+                    url = 'http://twitter.com/' + url;
+                }
+
+                $(this).find('.open-link-btn').show();
+                $(this).find('.open-link-btn').unbind().click(function() {
+                    window.open(url, '_blank');
+                });
+            }
+        });
+        return valid;
     },
 };
