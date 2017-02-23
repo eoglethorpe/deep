@@ -14,6 +14,16 @@ var map;
 
 $(document).ready(function(){
     map = L.map('the-map');
+    // On country selected, fetch the admin levels data.
+    $("#country").on('change', function(e) {
+        var optionSelected = $("option:selected", this);
+        var valueSelected = this.value;
+        if (valueSelected != "") {
+            selectedCountry = valueSelected;
+            refreshAdminLevels();
+            getAdminLevels(valueSelected);
+        }
+    });
 });
 
 // $('#map-modal').on('shown.bs.modal', function() {
@@ -22,16 +32,6 @@ $(document).ready(function(){
 //     refreshMap();
 // });
 
-// On country selected, fetch the admin levels data.
-$("#country").on('change', function(e) {
-    var optionSelected = $("option:selected", this);
-    var valueSelected = this.value;
-    if (valueSelected != "") {
-        selectedCountry = valueSelected;
-        refreshAdminLevels();
-        getAdminLevels(valueSelected);
-    }
-});
 
 function getAdminLevels(countryCode) {
     $.getJSON("/api/v1/countries/"+countryCode, function(data) {
@@ -158,14 +158,9 @@ function refreshMap() {
         layer.clearLayers();
     }
 
-    if (!(selectedCountry in adminLevels)) {
+    if (!(selectedCountry in adminLevels) || (adminLevels[selectedCountry][currentLevel] == null)) {
         return;
     }
-
-    if (adminLevels[selectedCountry][currentLevel] == null) {
-        return;
-    }
-
 
     layer = L.geoJson(adminLevels[selectedCountry][currentLevel], {
         pointToLayer: function (feature, latlng) {

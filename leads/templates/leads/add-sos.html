@@ -130,7 +130,7 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                 </div>
                 <div>
                     <label>Assment frequency</label>
-                    <select class="save-data" id="assesment-frequency" placeholder="Assessment Frequency">
+                    <select class="save-data selectize-control" id="assesment-frequency" placeholder="Assessment Frequency">
                         <option>Select frequency</option>
                         {% for frequency in frequencies %}
                         <option value="{{frequency.pk}}" {% if sos and sos.frequency == frequency %}selected{% endif %}>{{frequency}}</option>
@@ -139,7 +139,7 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                 </div>
                 <div>
                     <label>Assessment Status</label>
-                    <select class="save-data" id="assesment-status" placeholder="Assessment Status">
+                    <select class="save-data selectize-control" id="assesment-status" placeholder="Assessment Status">
                         <option>Select status</option>
                         {% for status in statuses %}
                         <option value="{{status.pk}}" {% if sos and sos.status == status %}selected{% endif %}>{{status}}</option>

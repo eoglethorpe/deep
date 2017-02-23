@@ -187,15 +187,48 @@ body{
                     }
                     #selected-location-list{
                         height: 144px;
-                        overflow-y: auto;
+                        overflow-y: scroll;
                         border: 1px solid rgba(0, 0, 0, 0.05);
+                        background-color: #f0f0f0;
+
+                        ul{
+                            list-style: none;
+                            padding-left: 0;
+                            margin: 0;
+
+                            li{
+                                text-indent: -16px;
+                                padding: 3px 10px;
+                                padding-left: 32px;
+
+                                a{
+                                    color: $danger-color;
+                                    margin-left: 10px;
+                                    cursor: pointer;
+
+                                    .fa{
+                                        margin-right: 6px;
+                                    }
+                                }
+
+                                &:nth-child(even){
+                                    background-color: #fff;
+                                }
+                            }
+                        }
+                        #empty-text{
+                            text-align: center;
+                            margin-top: 32px;
+                            font-size: 1.2em;
+                            color: #aaa;
+                            text-transform: uppercase;
+                        }
                     }
                 }
             }
             #sector-block{
                 display: flex;
                 flex-wrap: wrap;
-                //padding: 0 16px;
 
                 header{
                     flex-basis: 100%;
@@ -300,11 +333,16 @@ body{
                 stroke-linejoin: round;
             }
         }
+        #admin-level-buttons{
+            text-align: center;
+
+            button{
+                padding: 4px 10px;
+                &.active{
+                    background-color: $primary-color;
+                    color: #fff;
+                }
+            }
+        }
     }
-    // #map-modal{
-    //     .modal-body{
-    //         padding: 0;
-    //
-    //
-    // }
 }

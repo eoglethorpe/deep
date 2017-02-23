@@ -110,10 +110,11 @@ function changeLeadPreview(simplified) {
 }
 
 $(document).ready(function(){
-    let mapModal = new Modal('#map-modal');
+    let mapModal = new Modal('#map-modal', true);
 
     $('#map-modal-btn').click(function(){
         mapModal.show().then(function(){
+        }, null, function(){
             map.invalidateSize();
             refreshMap();
         });
