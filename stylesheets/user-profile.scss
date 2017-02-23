@@ -32,9 +32,7 @@ body{
     main{
         flex-basis: 76%;
         height: calc(100vh - #{$navbar-height});
-
         $header-height: 144px;
-
 
         header{
             flex-basis: 100%;
@@ -47,8 +45,8 @@ body{
             align-items: center;
 
             img{
-                width: 72px;
-                height: 72px;
+                width: 80px;
+                height: 80px;
                 object-fit: contain;
                 background-color: #fff;
                 border-radius: 50%;
@@ -56,25 +54,59 @@ body{
             }
             .user-info{
                 flex-basis: calc(100% - 112px - 96px);
+                align-self: stretch;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
 
-                .name{
+
+                #full-name{
+                    flex-basis: 60%;
                     font-size: 32px;
-                    margin-bottom: 10px;
                     padding: 4px 16px;;
                     border-bottom: 2px solid rgba(0, 0, 0, 0);
-                    transition: all 0.2s;
+                    transition: all 0.2s ease-in-out;
 
-                    &[contenteditable="true"]{
-                        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-                        outline: none;
+                    display: flex;
+                    justify-content: flex-start;
 
-                        &:focus{
-                            border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+                    >div{
+                        padding: 0 10px;
+
+                        label{
+                            opacity: 0;
+                        }
+                        .name{
+                            position: relative;
+
+                            &[contenteditable="true"]{
+                                border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+                                outline: none;
+
+                                &:focus{
+                                    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+                                }
+                            }
+                        }
+                    }
+                    &.edit{
+                        justify-content: space-between;
+
+                        > div{
+                            flex-basis: 50%;
+
+                            label{
+                                opacity: 1;
+                            }
+                            .name{
+                                text-transform: none;
+                            }
                         }
                     }
                 }
                 .extra{
-                    padding: 0 16px;;
+                    flex-basis: 40%;
+                    padding: 0 26px;
                     font-size: $text-size-lg;
                     color: $label-color-light;
                 }
