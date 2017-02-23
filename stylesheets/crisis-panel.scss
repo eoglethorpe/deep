@@ -48,11 +48,13 @@ body{
                 flex-basis: 60%;
                 font-weight: $font-weight-bold;
                 font-size: $text-size-sl;
+                color: $primary-color;
             }
             a{
                 //flex-basis: 30%;
                 //@include btn-shadow-lg;
-
+                cursor: pointer;
+                color: $primary-color;
                 .fa{
                     margin-right: 10px;
                 }
@@ -130,6 +132,14 @@ body{
         }
     }
     main{
+        label {
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+        a {
+            margin-bottom: 6px;
+            color: $primary-color;
+        }
         flex-basis: 60%;
         background-color: #fff;
         height: calc(100vh - #{$navbar-height});
@@ -153,9 +163,10 @@ body{
                 font-weight: $font-weight-bold;
                 font-size: $text-size-sl;
                 margin-bottom: 32px;
+                color: $primary-color;
             }
             >div{
-                margin-bottom: 8px;
+                margin-bottom: 16px;
 
                 >input[type="text"]{
                     width: 100%;
@@ -210,17 +221,18 @@ body{
                 }
             }
             #action-buttons{
-                text-align: right;
-                margin-top: 32px;
+                display: flex;
+                justify-content: space-between;
 
                 button{
-                    margin-left: 16px;
-                    @include btn-shadow-sm();
+                    padding: 6px 16px;
+                    color: #fff;
+                    @include btn-shadow-md();
 
-                    i{
-                        margin-right: 10px;
-                    }
+                    .fa{ margin-right: 10px; }
                 }
+                #save-btn{ background-color: $info-color; }
+                #delete-btn{ background-color: $danger-color; }
             }
         }
     }

@@ -192,8 +192,8 @@ class AddEntry(View):
 
         activity.set_target(
             'entry', entry.pk, entry.lead.name,
-            reverse('entries:edit', args=[event, entry.pk])
-        ).log_for(request.user)
+            reverse('entries:edit', args=[entry.lead.event.pk, entry.pk])
+        ).log_for(request.user, event=entry.lead.event)
 
         for excerpt in excerpts:
             information = EntryInformation(entry=entry)
@@ -264,6 +264,7 @@ class DeleteEntry(View):
         activity = DeletionActivity().set_target(
             'entry', entry.pk, entry.lead.name
         )
+        event = entry.lead.event
         entry.delete()
-        activity.log_for(request.user)
+        activity.log_for(request.user, event=event)
         return redirect('entries:entries', event=event)

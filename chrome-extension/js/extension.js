@@ -31,19 +31,22 @@ var extension = {
             extension.loadWebsite();
             extension.loadTitle();
             // deep.queryCurrentPage();
-            extension.restoreInputValues();
+            // extension.restoreInputValues();
             defer.resolve();
         });
+
+        $('#event-select').change(function(){
+            deep.currentEvent = $(this).val();
+        });
+        return defer.promise();
+    },
+    startStoring: function() {
         $('input').on('change textInput input', function(){
             extension.storeInputValue($(this));
         });
         $('select').change(function(){
             extension.storeInputValue($(this));
-            if($(this)[0].id == 'event-select'){
-                deep.currentEvent = $(this).val();
-            }
         });
-        defer.promise();
     },
     loadTitle: function(){
         if (extension.currentTabUrl && extension.currentPage) {
@@ -87,22 +90,30 @@ var extension = {
         chrome.runtime.sendMessage({'msg': 'set', 'tab_id': extension.tabId, 'key': ip[0].id, 'val': ip.val() });
     },
     restoreInputValue: function(ip){
+        let defer = new $.Deferred();
         chrome.runtime.sendMessage({'msg': 'get', 'tab_id': extension.tabId, 'key': ip[0].id}, function(response){
             if(response && response.val){
                 if(ip.is('input')){
                     ip.val(response.val).addClass('filled');
                 } else if(ip.is('select')){
                     ip.val(response.val);
+                    ip.trigger('change');
                     refreshSelectInputs();
                 }
             }
+            defer.resolve();
         });
+        return defer.promise();
     },
     restoreInputValues: function(){
-        $('input').each(function(){
-            extension.restoreInputValue($(this));
+        let promises = [];
+        $('input, select').each(function(){
+            promises.push(extension.restoreInputValue($(this)));
         });
-        extension.restoreInputValue($('#confidentiality'));
+        // promises.push(extension.restoreInputValue($('#confidentiality')));
+        // promises.push(extension.restoreInputValue($('#event-select')));
+        // promises.push(extension.restoreInputValue($('#user-select')));
+        return $.when(...promises);
     },
     showAddLeadForm: function(){
         $('body > *').hide();

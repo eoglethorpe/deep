@@ -53,14 +53,17 @@ body{
             padding: 0 16px;
             background-color: #fff;
 
+
             #filters{
                 flex-basis: 60%;
                 display: flex;
             }
         }
         #timeline-table{
+            $min-col-height: 48px;
+
             > header, .report{
-                min-height: 32px;
+                min-height: $min-col-height;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -68,13 +71,18 @@ body{
 
                 .aside{
                     flex-basis: 20%;
+                    align-self: stretch;
+                    border-right: 1px solid $primary-color;
+                    padding-top: calc(calc(#{$min-col-height} - #{$text-size-md}) / 2);
                 }
                 .weeks{
                     flex-basis: 80%;
+                    overflow-x: hidden;
+                    display: flex;
 
                     .week{
+                        flex: none;
                         font-family: 'Inconsolata', monospace;
-                        display: inline-block;
                         text-align: center;
                         width: 48px;
                     }
@@ -83,14 +91,27 @@ body{
             > header{
                 box-sizing: border-box;
                 border-bottom: 1px solid $primary-color;
+                margin-right: 12px;
+
+                h4{
+                    color: $primary-color;
+
+                    .fa{
+                        margin-right: 10px;
+                        cursor: pointer;
+                    }
+                }
             }
             #reports{
-                height: calc(100vh - #{$navbar-height} - #{$map-height} - 48px - 32px - 12px);
-                overflow-x: scroll;
-                overflow: auto;
+                height: calc(100vh - #{$navbar-height} - #{$map-height} - 48px - #{$min-col-height} - 12px);
+                overflow-y: scroll;
 
                 .report{
                     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+                    .aside{
+                        cursor: pointer;
+                    }
                     .weeks{
                         align-self: stretch;
 
@@ -98,6 +119,7 @@ body{
                             height: 100%;
 
                             &.active{
+                                cursor: pointer;
                                 border-right: 1px solid #fff;
                                 background-color: $primary-color;
                             }
@@ -105,6 +127,26 @@ body{
                     }
                     &:nth-child(odd){
                         background-color: #fff;
+                    }
+                }
+            }
+            #horizontal-scroll{
+                height: 12px;
+                display: flex;
+                justify-content: space-between;
+                border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+                .aside{
+                    flex-basis: 20%;
+                }
+                .weeks{
+                    flex-basis: 80%;
+                    height: 100%;
+                    overflow-x: auto;
+
+                    #scrollbar{
+                        height: 12px;
+                        flex: none;
                     }
                 }
             }

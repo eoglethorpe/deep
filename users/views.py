@@ -13,6 +13,8 @@ from users.models import *
 from leads.models import *
 from report.models import *
 from users.hid import *
+from deep.json_utils import *
+from users.log import *
 
 from datetime import datetime, timedelta, date
 
@@ -284,3 +286,31 @@ class UserProfileView(View):
     def get(self, request, user_id):
         context = { 'user': User.objects.get(pk=user_id) }
         return render(request, "users/profile.html", context)
+
+    @method_decorator(login_required)
+    def post(self, request, user_id):
+        data_in = get_json_request(request)
+        if data_in:
+            return self.handle_json_request(request, data_in, user_id)
+        else:
+            return redirect('usergroup', args=[group_slug])
+
+    def handle_json_request(self, original_request, request, user_id):
+        try:
+            user = User.objects.get(pk=user_id)
+        except:
+            return JsonError('Cannot find user')
+
+        response = {}
+
+        # TODO check if user has permission for whatever request
+
+        # Edit profile
+        if request['request'] == 'edit-name':
+            response['done'] = False
+            user.first_name = request['firstName']
+            user.last_name = request['lastName']
+            user.save()
+            response['done'] = True
+
+        return JsonResult(data=response)

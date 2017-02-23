@@ -103,7 +103,6 @@ $(document).ready(function() {
     $('body').on('input change', 'input', function() {
         invalidateValidations();
     });
-    invalidateValidations();
 });
 
 
@@ -113,4 +112,5 @@ function addNewCountry() {
     for (var i=0; i<tabs.length; i++) {
         tabs[i].loadEmpty();
     }
+    invalidateValidations();
 }

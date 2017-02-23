@@ -6,29 +6,47 @@ body{
     min-height: 100vh;
     header{
         height: $header-height;
-        padding: 16px 16px 0 16px;
+        //padding: 16px 16px 0 16px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 0 16px;
+        align-items: center;
 
         h1{
             margin: 0;
-            padding-top: 10px;
+            flex-basis: 60%;
             text-transform: uppercase;
             font-weight: $font-weight-bold;
-            margin-bottom: 10px;
 
             span{
-                font-weight: $font-weight-normal;
+                font-weight: $font-weight-thin;
             }
         }
         #main-action-buttons{
-            float: right;
-        }
-        button{
-            margin-left: 16px;
-            @include btn-shadow-lg();
+            flex-basis: 40%;
+            text-align: right;
 
-            .fa{
-                margin-right: 10px;
+            button{
+                color: #fff;
+                padding: 6px 16px;
+                @include btn-shadow-md;
+
+                .fa{
+                    margin-right: 10px;
+                }
             }
+            #cancel-btn{
+                margin-right: 10px;
+                background-color: $danger-color;
+            }
+            #save-btn{
+                background-color: $info-color;
+            }
+        }
+        #filters{
+            flex-basis: 100%;
+            box-sizing: border-box;
         }
         @import 'entries/entry-filters';
     }
@@ -54,6 +72,10 @@ aside{
             margin: 0;
             text-transform: uppercase;
             font-size: 1.5em;
+            color:$primary-color;
+        }
+        a{
+            color: $primary-color;
         }
     }
     #entries{
@@ -61,7 +83,16 @@ aside{
         box-sizing: border-box;
         overflow-y: auto;
         overflow-x: hidden;
+        h4{
 
+            font-size: 18px;
+        }
+        label{
+            font-weight: bold;
+        }
+        a{
+            color:$primary-color;
+        }
         .entry{
             padding: 10px 16px;
             .severity, .reliability{
@@ -142,6 +173,7 @@ main{
             text-align: center;
             padding-top: calc(calc(56px - #{$text-size-md}) / 2 - 4px);
             cursor: pointer;
+            color:$primary-color;
         }
         .active{
             border-bottom: 2px solid $primary-color;
@@ -172,6 +204,5 @@ main{
         @import 'report/weekly-people-in-need';
         @import 'report/weekly-humanitarian-access';
         @import 'report/weekly-severity-score';
-
     }
 }

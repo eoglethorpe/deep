@@ -8,6 +8,7 @@ DEEP | User Profile
 {% block head %}
 <link rel="stylesheet" href="{% watchful_static_url 'css/user-profile.css' %}" >
 <link rel="stylesheet" href="{% watchful_static_url 'css/modal.css' %}" >
+
 <script src="{% watchful_static_url 'js/users/profile.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/utils.js' %}"></script>
@@ -26,14 +27,19 @@ var activities = [
 {% block body %}
 <nav>
     <h1>User profile</h1>
-    <a href="{% url 'dashboard' %}"><i class="fa fa-long-arrow-left"></i>Back to deep</a>
+    <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to deep</a>
 </nav>
 <main>
     <header>
         <img src="{% watchful_static_url 'img/default-avatar.png' %}">
         <div class="user-info">
-            <h2 class="name">{{ user.get_full_name }}</h2>
+            <h2><span id="first-name" class="name">{{ user.first_name }}</span><span id="last-name" class="name">{{ user.last_name }}</span></h2>
             <div class="extra">{{ user.username }}</div>
+        </div>
+        <div class="action-buttons">
+            <a id="save-user-info-btn" hidden><i class="fa fa-save"></i></a>
+            <a id="edit-user-info-btn" ><i class="fa fa-edit"></i></a>
+            <a id="save-user-info-progress-btn" hidden><i class="fa fa-spinner fa-pulse"></i></a>
         </div>
     </header>
     <section id="project-list">
@@ -53,7 +59,7 @@ var activities = [
                 <div class="name">{{crisis.name}}</div>
                 <div class="type">{{crisis.disaster_type.name}}</div>
                 <div class="countries">{% for country in crisis.countries.all %}{{country}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
-                <div class="groups">TODO</div>
+                <div class="groups">{% for usergroup in crisis.usergroup_set.all %}{{usergroup}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
             </div>
             {% endfor %}
         </div>
@@ -61,7 +67,7 @@ var activities = [
     <section id="user-group-list">
         <div id="user-group-list-header">
             <h2>User groups</h2>
-            <button><i class="fa fa-plus"></i>Add new User group</button>
+            <button id="new-user-group-btn"><i class="fa fa-plus"></i>Add new User group</button>
         </div>
         <div id="user-groups">
             {% for usergroup in user.usergroup_set.all %}
@@ -78,11 +84,29 @@ var activities = [
     </header>
     <div id='activity-log'>
     </div>
-
     <div class='activity-template' hidden>
         <h3></h3>
         <date></date>
         <a></a>
     </div>
 </aside>
+<div class="modal-container" hidden>
+    <div class="modal" id="new-user-group-modal" hidden>
+        <header>
+            <h3 class="modal-header">Add new user group</h3>
+        </header>
+        <div class="input-container">
+            <label>Name</label>
+            <input type="text" name="name">
+        </div>
+        <div class="textarea-container">
+            <label>Description</label>
+            <textarea name="description"></textarea>
+        </div>
+        <div class="action-buttons">
+            <button data-action="dismiss">Cancel</button>
+            <button data-action="proceed">Create user group</button>
+        </div>
+    </div>
+</div>
 {% endblock %}

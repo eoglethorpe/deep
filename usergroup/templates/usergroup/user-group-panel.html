@@ -18,6 +18,26 @@ DEEP | User Group Panel
 
 <script>
 let crisis_panel_url = '{% url "custom_admin:crisis_panel" %}';
+let userGroupPk = '{{ usergroup.pk }}';
+let activities = [
+    {% for activity in activities %}
+    $.extend(
+        {
+            timestamp: new Date('{{ activity.timestamp.isoformat }}'),
+            user: {
+                pk: '{{activity.user.pk}}', name: '{{activity.user.get_full_name}}'
+            },
+            {% if activity.group %}
+            group: {
+                pk: '{{activity.group.pk}}', name: '{{activity.group.name}}'
+            }
+            {% endif %}
+        },
+        JSON.parse('{{activity.activity|escapejs}}')
+    ),
+    {% endfor %}
+];
+
 </script>
 
 {% endblock %}
@@ -89,7 +109,16 @@ let crisis_panel_url = '{% url "custom_admin:crisis_panel" %}';
     </section>
 </main>
 <aside>
-    <h2>Activities</h2>
+    <header>
+        <h2>Activity log</h2>
+    </header>
+    <div id='activity-log'>
+    </div>
+    <div class='activity-template' hidden>
+        <h3></h3>
+        <date></date>
+        <a></a>
+    </div>
 </aside>
 <div class="modal-container" hidden>
     <div id="add-members-modal" class="modal" hidden>
@@ -98,7 +127,7 @@ let crisis_panel_url = '{% url "custom_admin:crisis_panel" %}';
         </header>
         <div class="input-container">
             <label>Search</label>
-            <input type="text">
+            <input id="search-users" type="text">
         </div>
         <div class="search-container">
             {% for user in users.all %}

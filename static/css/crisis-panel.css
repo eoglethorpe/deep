@@ -105,9 +105,13 @@ body {
       body aside #crisis-header h2 {
         flex-basis: 60%;
         font-weight: 500;
-        font-size: 19px; }
-      body aside #crisis-header a .fa {
-        margin-right: 10px; }
+        font-size: 19px;
+        color: #008080; }
+      body aside #crisis-header a {
+        cursor: pointer;
+        color: #008080; }
+        body aside #crisis-header a .fa {
+          margin-right: 10px; }
       body aside #crisis-header #search-wrapper {
         flex-basis: 100%;
         position: relative;
@@ -164,6 +168,12 @@ body {
     height: calc(100vh - 56px);
     padding: 10px 32px 0 32px;
     box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+    body main label {
+      margin-bottom: 6px;
+      font-weight: bold; }
+    body main a {
+      margin-bottom: 6px;
+      color: #008080; }
     body main .selectize-control {
       margin-bottom: 8px; }
       body main .selectize-control .selectize-input {
@@ -175,9 +185,10 @@ body {
       body main form h2 {
         font-weight: 500;
         font-size: 19px;
-        margin-bottom: 32px; }
+        margin-bottom: 32px;
+        color: #008080; }
       body main form > div {
-        margin-bottom: 8px; }
+        margin-bottom: 16px; }
         body main form > div > input[type="text"] {
           width: 100%;
           height: 32px;
@@ -215,14 +226,19 @@ body {
         outline: none;
         vertical-align: sub; }
       body main form #action-buttons {
-        text-align: right;
-        margin-top: 32px; }
+        display: flex;
+        justify-content: space-between; }
         body main form #action-buttons button {
-          margin-left: 16px;
-          box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+          padding: 6px 16px;
+          color: #fff;
+          box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5); }
           body main form #action-buttons button:active {
-            box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-          body main form #action-buttons button i {
+            box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
+          body main form #action-buttons button .fa {
             margin-right: 10px; }
+        body main form #action-buttons #save-btn {
+          background-color: #3498db; }
+        body main form #action-buttons #delete-btn {
+          background-color: #e74c3c; }
 
 /*# sourceMappingURL=crisis-panel.css.map */

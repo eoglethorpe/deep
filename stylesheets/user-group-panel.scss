@@ -38,7 +38,7 @@ body{
         width: 60%;
 
         .user{
-            flex-basis: 22%;
+            flex-basis: 30%;
             background-color: #fff;
             display: flex;
             margin: 8px;
@@ -108,7 +108,9 @@ body{
             height: 40vh;
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-around;
+            justify-content: flex-start;;
+            padding-left: calc(5% + 16px);
+            align-items: flex-start;
             overflow-y: auto;
             background-color: #f0f0f0;
             z-index: 5;
@@ -140,10 +142,12 @@ body{
                 height: 96px;
                 display: flex;
                 overflow-x: auto;
+                overflow-y: hidden;
                 flex-wrap: nowrap;
                 flex-direction: row;
                 justify-content: flex-start;
-                padding: 0 16px 8px 12px;
+                margin-left: 16px;
+                margin-right: 16px;
 
                 .user{
                     flex-shrink: 0;
@@ -191,10 +195,10 @@ body{
                 justify-content: flex-start;
 
                 a{
-                    flex-basis: 12%;
+                    //flex-basis: 12%;
                     text-align: center;
-                    padding-top: calc(calc(48px - #{$text-size-md}) / 2);
-                    font-size: $text-size-md;
+                    padding: calc(calc(48px - #{$text-size-md}) / 2) 32px 0 32px;
+                    font-size: $text-size-lg;
                     cursor: pointer;
                     color: #fff;
                     box-sizing: border-box;
@@ -212,7 +216,7 @@ body{
             .floating-btn{
                 position: absolute;
                 right: 28px;
-                top: -28px;
+                top: -32px;
                 border-radius: 50%;
                 height: 56px;
                 width: 56px;
@@ -220,7 +224,7 @@ body{
                 border: none;
                 background-color: $info-color;
                 color: $text-color-light;
-                font-size: 32px;
+                font-size: 24px;
                 @include shadow;
                 transition: all 0.2s ease-in-out;
                 transform: scale(1);
@@ -279,7 +283,7 @@ body{
                     padding: 16px;
 
                     .member {
-                        flex-basis: 22%;
+                        flex-basis: 23%;
                         background-color: #fff;
                         margin: 8px;
                         margin-top: 16px;
@@ -320,6 +324,7 @@ body{
                             .name{
                                 text-transform: uppercase;
                                 font-weight: $font-weight-bold;
+                                margin-bottom: 6px;
                             }
                             .extra{
                                 color: $label-color;
@@ -451,9 +456,47 @@ body{
         border-left: 2px solid rgba(0, 0, 0, 0.1);
         background-color: #fff;
 
-        h2{
-            padding: 24px;
+        header{
+            height: 48px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
             background-color: #f0f0f0;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+
+            h2{
+            }
+        }
+
+        #activity-log {
+            height: calc(100vh - #{$navbar-height} - 48px);
+            overflow-y: auto;
+
+            .activity {
+                padding: 10px;
+                margin-bottom: 6px;
+
+                date {
+                    float: right;
+                    font-family: 'Inconsolata', monospace;
+                }
+                h3 {
+                    display: inline-block;
+                    font-size: $text-size-md;
+                    font-weight: $font-weight-bold;
+                    text-transform: uppercase;
+                }
+                a {
+                    display: block;
+                    text-transform: none;
+                    cursor: pointer;
+                    font-size: $text-size-sm;
+                    color: $primary-color;
+                }
+                &:nth-child(even){
+                    background-color: #f5f5f5;
+                }
+            }
         }
     }
 }

@@ -41,8 +41,6 @@ body{
             height: $header-height;
             background-color: $primary-color;
             color: #fff;
-
-
             padding: 0 16px;
             display: flex;
             justify-content: space-between;
@@ -57,14 +55,41 @@ body{
                 border: 2px solid rgba(0, 0, 0, 0.3);
             }
             .user-info{
-                width: calc(100% - 112px);
+                flex-basis: calc(100% - 112px - 96px);
 
                 .name{
                     font-size: 32px;
+                    margin-bottom: 10px;
+                    padding: 4px 16px;;
+                    border-bottom: 2px solid rgba(0, 0, 0, 0);
+                    transition: all 0.2s;
+
+                    &[contenteditable="true"]{
+                        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+                        outline: none;
+
+                        &:focus{
+                            border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+                        }
+                    }
                 }
                 .extra{
+                    padding: 0 16px;;
                     font-size: $text-size-lg;
                     color: $label-color-light;
+                }
+            }
+            .action-buttons{
+                flex-basis: 96px;
+                font-size: 1.5em;
+                text-align: center;
+                align-self: flex-start;
+                padding: 16px;
+                display: flex;
+                justify-content: space-between;
+
+                a{
+                    cursor: pointer;
                 }
             }
         }
@@ -193,6 +218,7 @@ body{
                         width: 100%;
                         padding: 6px 10px;
                         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                        color: $primary-color;
                     }
                 }
             }
@@ -227,10 +253,12 @@ body{
 
                 date {
                     float: right;
+                    font-family: 'Inconsolata', monospace;
                 }
                 h3 {
                     display: inline-block;
                     font-size: $text-size-md;
+                    font-weight: $font-weight-bold;
                     text-transform: uppercase;
                 }
 
@@ -239,6 +267,11 @@ body{
                     text-transform: none;
                     cursor: pointer;
                     font-size: $text-size-sm;
+                    color: $primary-color;
+                }
+
+                &:nth-child(even){
+                    background-color: #f5f5f5;
                 }
             }
         }

@@ -192,7 +192,7 @@ class AddSoS(View):
         activity.set_target(
             'survey-of-survey', sos.pk, sos.title,
             reverse('leads:edit_sos', args=[event, sos.lead.pk, sos.pk])
-        ).log_for(request.user)
+        ).log_for(request.user, event=sos.lead.event)
 
         # Map selections
         map_data = json.loads(request.POST["map_data"])
@@ -333,8 +333,8 @@ class AddLead(View):
 
         activity.set_target(
             'lead', lead.pk, lead.name,
-            reverse('leads:edit', args=[event, lead.pk])
-        ).log_for(request.user)
+            reverse('leads:edit', args=[lead.event.pk, lead.pk])
+        ).log_for(request.user, event=lead.event)
 
         if lead.lead_type == Lead.ATTACHMENT_LEAD:
             for file in request.FILES:
@@ -389,7 +389,7 @@ class MarkProcessed(View):
         elif lead.status == 'PEN':
             activity.set_remarks('marked pending')
 
-        activity.log_for(request.user)
+        activity.log_for(request.user, event=lead.event)
 
         return redirect('leads:leads', event=event)
 
@@ -402,9 +402,10 @@ class DeleteLead(View):
         activity = DeletionActivity().set_target(
             'lead', lead.pk, lead.name
         )
+        event = lead.event
         lead.delete()
 
-        activity.log_for(request.user)
+        activity.log_for(request.user, event=event)
 
         # lead.status = Lead.DELETED
         # lead.save()

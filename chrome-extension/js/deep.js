@@ -47,7 +47,6 @@ var deep = {
                     for(i = 0; i < response.length; i++){
                         eventSelectElement.append('<option value="'+response[i].id+'"'+(response[i].id==deep.currentEvent?' selected>':'>')+response[i].name+'</option>');
                     }
-                    extension.restoreInputValue(eventSelectElement);
                     deep.getCSRFToken();
                 }
             },
@@ -63,7 +62,6 @@ var deep = {
                     for(i = 0; i < response.length; i++){
                         userSelectElement.append('<option value="'+response[i].id+'"'+(response[i].id == deep.currentUser? 'selected>':'>')+response[i].first_name+' '+ response[i].last_name+' (' + response[i].email +')'+ '</option>');
                     }
-                    extension.restoreInputValue(userSelectElement);
                 }
             }
         });
@@ -94,6 +92,7 @@ var deep = {
                 // date of publication
                 if(response.date){
                     $('#publish-date').val(response.date).addClass('filled');
+                    $('#publish-date').trigger('change');
                 }
 
                 // source of the article/news
@@ -111,9 +110,11 @@ var deep = {
                 // event for the country referenced in this page
                 if (response.event) {
                     $('#event-select').val(response.event);
+                    $('#event-select').trigger('change');
                     refreshSelectInputs();
                 }
-            }
+
+            },
         });
     }
 };
