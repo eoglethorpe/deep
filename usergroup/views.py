@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
 from django.views.generic import View, TemplateView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -13,6 +14,7 @@ class UserGroupPanelView(View):
     def get(self, request, group_slug):
         context = {}
         context['usergroup'] = UserGroup.objects.get(slug=group_slug)
+        context['users'] = User.objects.all()
         return render(request, 'usergroup/user-group-panel.html', context)
 
     @method_decorator(login_required)

@@ -64,10 +64,41 @@ let members = {
     },
 };
 
+let users = {
+    init: function(){
+        let that = this;
+        $('.user .action-container').click(function(){
+            if($(this).closest('.search-container').length > 0){
+                var element = $(this).parent().detach();
+                $('.selected-container').append(element);
+            }
+            else if($(this).closest('.selected-container').length > 0){
+                var element = $(this).parent().detach();
+                $('.search-container').append(element);
+            }
+
+            that.refresh();
+        });
+    },
+    refresh: function(){
+        $('.selected-container .user .action-container').html('<i class="fa fa-times"></i>');
+        $('.search-container .user .action-container').html('<i class="fa fa-check"></i>');
+    },
+    clear: function(){
+        $('.selected-container .user').each(function() {
+            let element = $(this).detach();
+            $('.search-container').append(element);
+        });
+        this.refresh();
+    }
+};
+
 $(document).ready(function(){
     // CSRF setup for ajax
     setupCsrfForAjax();
 
+    var addMembersModal = new Modal('#add-members-modal');
+    users.init();
     // Tab navigation
     $('#navigator').on('click', 'a', function(){
         var that = $('#navigator .nav-active');
@@ -135,6 +166,15 @@ $(document).ready(function(){
         if(selection.data('target') == '#members-wrapper'){
             if (members.getSelectionCount() > 0) {
                 members.removeSelected();
+            }
+            else{
+                addMembersModal.show().then(function(){
+                    if(addMembersModal.action == 'proceed'){
+                    }
+                    else{
+                    }
+                    users.clear();
+                });
             }
         }
         else if (selection.data('target') == '#projects-wrapper') {

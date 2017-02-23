@@ -9,7 +9,10 @@ DEEP | User Group Panel
 
 <link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}"/>
 <link href="{% watchful_static_url 'css/user-group-panel.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/modal.css' %}" type="text/css" rel="stylesheet">
+
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/floating-button.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/usergroup/user-group-panel.js' %}"></script>
 
@@ -46,7 +49,7 @@ let crisis_panel_url = '{% url "custom_admin:crisis_panel" %}';
                     </div>
                     <div class="member-details">
                         <div class="name">{{member.get_full_name}}</div>
-                        <div class="extra">{{member.username}}</div>
+                        <div class="extra">{{member.email}}</div>
                     </div>
                     <div class="action-container">
                         <i class="fa fa-check"></i>
@@ -85,9 +88,43 @@ let crisis_panel_url = '{% url "custom_admin:crisis_panel" %}';
         <button class="floating-btn" id="add-members">+</button>
     </section>
 </main>
-
 <aside>
     <h2>Activities</h2>
 </aside>
-
+<div class="modal-container" hidden>
+    <div id="add-members-modal" class="modal" hidden>
+        <header>
+            <h3 class="modal-title">Add Members</h3>
+        </header>
+        <div class="input-container">
+            <label>Search</label>
+            <input type="text">
+        </div>
+        <div class="search-container">
+            {% for user in users.all %}
+            <div class="user" data-pk="{{user.pk}}">
+                <div class="img-container">
+                    <img src="{% watchful_static_url 'img/default-avatar.png' %}">
+                </div>
+                <div class="user-details">
+                    <div class="name">{{user.get_full_name}}</div>
+                    <div class="extra">{{user.email}}</div>
+                </div>
+                <div class="action-container">
+                    <i class="fa fa-check"></i>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="selected-container-wrapper">
+            <h2>Selected</h2>
+            <div class="selected-container">
+            </div>
+        </div>
+        <div class="action-buttons">
+            <button id="cancel-btn" class="cancel" data-action="dismiss"><i class="fa fa-times"></i>Cancel</button>
+            <button id="ok-btn" class="success" data-action="proceed"><i class="fa fa-plus"></i>Add</button>
+        </div>
+    </div>
+</div>
 {% endblock %}
