@@ -110,6 +110,7 @@ var deep = {
                 // event for the country referenced in this page
                 if (response.event) {
                     $('#event-select').val(response.event);
+                    $('#event-select').trigger('change');
                     refreshSelectInputs();
                 }
 

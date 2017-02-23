@@ -37,6 +37,7 @@ class UserGroupPanelView(View):
 
         # TODO check if user has permission for whatever request
 
+        # Remove members
         if request['request'] == 'removeMembers':
             response['removedMembers'] = []
             for pk in request['members']:
