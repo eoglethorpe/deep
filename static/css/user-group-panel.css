@@ -97,7 +97,27 @@ body {
       body nav a:hover {
         color: #fff; }
   body #add-members-modal {
-    width: 60%; }
+    width: 960px; }
+    body #add-members-modal header {
+      justify-content: space-between; }
+      body #add-members-modal header #search-input-wrapper {
+        flex-basis: 50%;
+        padding: 10px;
+        background-color: #00b3b3; }
+        body #add-members-modal header #search-input-wrapper .fa {
+          width: 24px;
+          box-sizing: border-box;
+          color: rgba(0, 0, 0, 0.3); }
+        body #add-members-modal header #search-input-wrapper input {
+          font-size: 15px;
+          width: calc(100% - 28px);
+          box-sizing: border-box;
+          background-color: transparent;
+          color: #fff;
+          border: none;
+          outline: none; }
+        body #add-members-modal header #search-input-wrapper ::-webkit-input-placeholder {
+          color: rgba(0, 0, 0, 0.3); }
     body #add-members-modal .user {
       flex-basis: 30%;
       background-color: #fff;
@@ -152,6 +172,8 @@ body {
           font-weight: 300;
           color: rgba(0, 0, 0, 0.3);
           transition: 0.2s all ease-in-out; }
+    body #add-members-modal .input-container {
+      padding: 0; }
     body #add-members-modal .search-container {
       height: 40vh;
       display: flex;
@@ -172,13 +194,13 @@ body {
       position: relative;
       z-index: 6;
       background-color: #414141;
-      box-shadow: 0px -7px 36px -4px rgba(0, 0, 0, 0.3);
       height: 144px; }
-      body #add-members-modal .selected-container-wrapper h2 {
+      body #add-members-modal .selected-container-wrapper h4 {
         padding: 16px 0 8px 16px;
-        color: #fff; }
+        color: #fff;
+        height: 32px; }
       body #add-members-modal .selected-container-wrapper .selected-container {
-        height: 96px;
+        height: 112px;
         display: flex;
         overflow-x: auto;
         overflow-y: hidden;
@@ -187,6 +209,11 @@ body {
         justify-content: flex-start;
         margin-left: 16px;
         margin-right: 16px; }
+        body #add-members-modal .selected-container-wrapper .selected-container::-webkit-scrollbar-thumb {
+          background-color: rgba(255, 255, 255, 0.24); }
+        body #add-members-modal .selected-container-wrapper .selected-container::-webkit-scrollbar-track {
+          background-color: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(0, 0, 0, 0.04); }
         body #add-members-modal .selected-container-wrapper .selected-container .user {
           flex-shrink: 0;
           flex-grow: 0; }

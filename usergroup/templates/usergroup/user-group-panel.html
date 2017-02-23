@@ -124,11 +124,14 @@ let activities = [
     <div id="add-members-modal" class="modal" hidden>
         <header>
             <h3 class="modal-title">Add Members</h3>
+            <div id="search-input-wrapper">
+                <i class="fa fa-search"></i>
+                <input id="search-users" type="text" placeholder="Search for users">
+            </div>
         </header>
-        <div class="input-container">
+        <!-- <div class="input-container">
             <label>Search</label>
-            <input id="search-users" type="text">
-        </div>
+        </div> -->
         <div class="search-container">
             {% for user in users.all %}
             <div class="user" data-pk="{{user.pk}}">
@@ -146,13 +149,13 @@ let activities = [
             {% endfor %}
         </div>
         <div class="selected-container-wrapper">
-            <h2>Selected</h2>
+            <h4>Selected</h4>
             <div class="selected-container">
             </div>
         </div>
         <div class="action-buttons">
             <button id="cancel-btn" class="cancel" data-action="dismiss"><i class="fa fa-times"></i>Cancel</button>
-            <button id="ok-btn" class="success" data-action="proceed"><i class="fa fa-plus"></i>Add</button>
+            <button id="ok-btn" class="success" data-action="proceed"><i class="fa fa-plus"></i>Add selected</button>
         </div>
     </div>
 </div>
