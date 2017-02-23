@@ -7,11 +7,13 @@ from django.contrib.auth import authenticate, login, logout
 from django import forms
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
 
 from users.models import *
 from leads.models import *
 from report.models import *
+from usergroup.models import *
 from users.hid import *
 from deep.json_utils import *
 from users.log import *
@@ -293,7 +295,7 @@ class UserProfileView(View):
         if data_in:
             return self.handle_json_request(request, data_in, user_id)
         else:
-            return redirect('usergroup', args=[group_slug])
+            return redirect('user_profile', args=[user_id])
 
     def handle_json_request(self, original_request, request, user_id):
         try:
@@ -312,5 +314,23 @@ class UserProfileView(View):
             user.last_name = request['lastName']
             user.save()
             response['done'] = True
+
+        elif request['request'] == 'add-group':
+            response['done'] = False
+            try:
+                name = request['name']
+                description = request['description']
+                if UserGroup.objects.filter(name=name).count() > 0:
+                    response['nameExists'] = True
+                else:
+                    group = UserGroup(name=name, description=description)
+                    group.save()
+
+                    group.members.add(original_request.user)
+                    group.admins.add(original_request.user)
+                    response['url'] = reverse('usergroup:user_group_panel', args=[group.slug])
+                    response['done'] = True
+            except Exception as e:
+                raise e
 
         return JsonResult(data=response)

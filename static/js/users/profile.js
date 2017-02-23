@@ -145,9 +145,27 @@ $(document).ready(function(){
     editMode.init();
 
     $('#new-user-group-btn').click(function(){
-        newUserGroupModal.show().then(function(){
+        newUserGroupModal.show().then(null, null, function(){
             if(newUserGroupModal.action == 'proceed'){
-                console.log('create user group and navigate to it maybe');
+                let name = $('#new-user-group-name').val();
+                let description = $('#new-user-group-description').val();
+                ajax.request({
+                    request: 'add-group',
+                    name: name, description: description
+                }).done(function(response) {
+                    if (response.status && response.data.done) {
+                        let url = response.data.url;
+                        window.location.href = url;
+                    } else if (response.status && response.data.nameExists) {
+                        console.log('User group with this name already exists');
+                    } else {
+                        // Error
+                    }
+                }).fail(function() {
+                    // Error
+                }).always(function() {
+
+                });
             }
         });
     });
