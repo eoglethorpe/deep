@@ -208,7 +208,7 @@ body #timeline {
       flex-basis: 60%;
       display: flex; }
   body #timeline #timeline-table > header, body #timeline #timeline-table .report {
-    min-height: 32px;
+    min-height: 48px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -216,7 +216,8 @@ body #timeline {
     body #timeline #timeline-table > header .aside, body #timeline #timeline-table .report .aside {
       flex-basis: 20%;
       align-self: stretch;
-      border-right: 2px solid #008080; }
+      border-right: 1px solid #008080;
+      padding-top: calc(calc(48px - 13px) / 2); }
     body #timeline #timeline-table > header .weeks, body #timeline #timeline-table .report .weeks {
       flex-basis: 80%;
       overflow-x: hidden;
@@ -230,16 +231,24 @@ body #timeline {
     box-sizing: border-box;
     border-bottom: 1px solid #008080;
     margin-right: 12px; }
+    body #timeline #timeline-table > header h4 {
+      color: #008080; }
+      body #timeline #timeline-table > header h4 .fa {
+        margin-right: 10px;
+        cursor: pointer; }
   body #timeline #timeline-table #reports {
-    height: calc(100vh - 56px - 44vh - 48px - 32px - 12px);
+    height: calc(100vh - 56px - 44vh - 48px - 48px - 12px);
     overflow-y: scroll; }
     body #timeline #timeline-table #reports .report {
       border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+      body #timeline #timeline-table #reports .report .aside {
+        cursor: pointer; }
       body #timeline #timeline-table #reports .report .weeks {
         align-self: stretch; }
         body #timeline #timeline-table #reports .report .weeks .week {
           height: 100%; }
           body #timeline #timeline-table #reports .report .weeks .week.active {
+            cursor: pointer;
             border-right: 1px solid #fff;
             background-color: #008080; }
       body #timeline #timeline-table #reports .report:nth-child(odd) {

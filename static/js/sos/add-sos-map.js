@@ -10,26 +10,27 @@ var selectedCountry = "";
 var layer;
 var mapColors = ['#008080','#80d0d0','#FFEB3B'];
 
-var map = L.map('the-map'); //.setView([27.7, 85.3], 6);
-//L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
-L.tileLayer('https://data.humdata.org/crisis-tiles/{z}/{x}/{y}.png').addTo(map);
+var map;
 
-$('#map-modal').on('shown.bs.modal', function() {
-    //console.log("shown");
-    map.invalidateSize();
-    refreshMap();
+$(document).ready(function(){
+    map = L.map('the-map');
+    // On country selected, fetch the admin levels data.
+    $("#country").on('change', function(e) {
+        var optionSelected = $("option:selected", this);
+        var valueSelected = this.value;
+        if (valueSelected != "") {
+            selectedCountry = valueSelected;
+            refreshAdminLevels();
+            getAdminLevels(valueSelected);
+        }
+    });
 });
 
-// On country selected, fetch the admin levels data.
-$("#country").on('change', function(e) {
-    var optionSelected = $("option:selected", this);
-    var valueSelected = this.value;
-    if (valueSelected != "") {
-        selectedCountry = valueSelected;
-        refreshAdminLevels();
-        getAdminLevels(valueSelected);
-    }
-});
+// $('#map-modal').on('shown.bs.modal', function() {
+//     //console.log("shown");
+//     map.invalidateSize();
+//     refreshMap();
+// });
 
 
 function getAdminLevels(countryCode) {
@@ -149,19 +150,6 @@ function onEachMapFeature(feature, layer) {
     });
 
     layer.bindLabel(name);
-
-    // var polygonCenter = layer.getBounds().getCenter();
-    // L.marker(polygonCenter)
-    //     .bindLabel(name, { noHide: true })
-    //     .addTo(map);
-
-    // var label = L.marker(layer.getBounds().getCenter(), {
-    //   icon: L.divIcon({
-    //     className: 'label',
-    //     html: name,
-    //     iconSize: [100, 40]
-    //   })
-    // }).addTo(map);
 }
 
 
@@ -170,14 +158,9 @@ function refreshMap() {
         layer.clearLayers();
     }
 
-    if (!(selectedCountry in adminLevels)) {
+    if (!(selectedCountry in adminLevels) || (adminLevels[selectedCountry][currentLevel] == null)) {
         return;
     }
-
-    if (adminLevels[selectedCountry][currentLevel] == null) {
-        return;
-    }
-
 
     layer = L.geoJson(adminLevels[selectedCountry][currentLevel], {
         pointToLayer: function (feature, latlng) {
@@ -186,10 +169,8 @@ function refreshMap() {
         onEachFeature: onEachMapFeature
     }).addTo(map);
 
-    $("#admin-level-buttons button").removeClass("btn-primary");
-    $("#admin-level-buttons button").addClass("btn-default");
-    $("#btn-lvl-"+currentLevel).removeClass("btn-default");
-    $("#btn-lvl-"+currentLevel).addClass("btn-primary");
+    $("#admin-level-buttons button").removeClass("active");
+    $("#btn-lvl-"+currentLevel).addClass("active");
 
     map.fitBounds(layer.getBounds());
     refreshLocations();
@@ -201,13 +182,12 @@ function refreshAdminLevels() {
 
     if (selectedCountry in adminLevels) {
         for (var i=0; i<adminLevelNames[selectedCountry].length; ++i) {
-            var btn = $("<button id='btn-lvl-" + i + "' class='btn btn-default btn-xs'>" + adminLevelNames[selectedCountry][i] + "</button>");
+            var btn = $("<button id='btn-lvl-" + i + "'>" + adminLevelNames[selectedCountry][i] + "</button>");
             btn.on('click', function(level) { return function() {   // closure shit
                 currentLevel = level;
                 refreshMap();
             }}(i));
             $("#admin-level-buttons").append(btn);
-
         }
     }
 

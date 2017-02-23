@@ -6,14 +6,16 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
 {% endblock %}
 
 {% block head %}
-<link href="{% watchful_static_url 'css/add-sos.css' %}" type="text/css" rel="stylesheet">
 <link href="{% watchful_static_url 'css/selectize.css' %}" type="text/css" rel="stylesheet">
 <link href="{% watchful_static_url 'css/split-pane.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/modal.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/add-sos.css' %}" type="text/css" rel="stylesheet">
 
 
 <script src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/split-pane.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
@@ -22,9 +24,8 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
 <script src="{% watchful_static_url 'js/common/leaflet.label.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 
-<style>
-
-</style>
+<script src="{% watchful_static_url 'js/sos/add-sos-map.js' %}"></script>
+<script src="{% watchful_static_url 'js/sos/add-sos.js' %}"></script>
 
 <script>
     // Is simplified option selected?
@@ -83,37 +84,20 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
 {% block body %}
 {% include 'navbar.html' %}
 
-<div id="map-modal" class="modal fade" role="dialog" >
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Select locations</h4>
-            </div>
-            <div class="modal-body">
-                <div id="the-map" style="height:500px;"></div>
-            </div>
-            <div class="modal-footer">
-                <div id="admin-level-buttons"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="split-pane fixed-left">
     <div class="split-pane-component" id="left-component">
         {% if lead_simplified %}
         <div id="lead-options-container">
-            <div class="btn-group" data-toggle="buttons" {% if lead.lead_type == 'MAN' %} style="display:none;" {% endif %}>
-                <label class="btn btn-default radio-inline active"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
-                <label class="btn btn-default radio-inline"><input type="radio" name="lead-view-option" value="original">Original</label>
+            <div id="lead-view-options" {% if lead.lead_type == 'MAN' %}hidden{% endif %}>
+                <label class="active"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
+                <label ><input type="radio" name="lead-view-option" value="original">Original</label>
             </div>
-            <button class="btn btn-regular btn-zoom" id="zoom-out" data-toggle="tooltip" title="zoom out"><i class="fa fa-search-minus"></i></button>
-            <button class="btn btn-regular btn-zoom" id="zoom-in" data-toggle="tooltip" title="zoom in"><i class="fa fa-search-plus"></i></button>
-            <div id="tag-buttons" style="max-height:200px; overflow:auto;"></div>
+            <div id="zoom-buttons">
+                <button class="btn btn-regular btn-zoom" id="zoom-out" data-toggle="tooltip" title="zoom out"><i class="fa fa-search-minus"></i></button>
+                <button class="btn btn-regular btn-zoom" id="zoom-in" data-toggle="tooltip" title="zoom in"><i class="fa fa-search-plus"></i></button>
+            </div>
         </div>
         {% endif %}
-
         <div id="lead-preview-container">
             {% if lead.lead_type == 'URL' %}
             <iframe {% if is_pdf %}{% else %}sandbox="allow-scripts allow-same-origin"{% endif %} id="lead-preview" src="{{ lead.url }}"></iframe>
@@ -124,101 +108,136 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
             </div>
         </div>
     </div>
-
-    <div class="split-pane-divider" id="my-divider"></div>
-
+    <div class="split-pane-divider" id="divider"></div>
     <div class="split-pane-component" id="right-component">
-        <div id="sos-header">
-            <h2>Survey of Survey</h2>
+        <header>
+            <button id="cancel-btn" onclick="if (confirm('All changes will be discarded. Are you sure?')) location.href='{% url "leads:leads" event.pk %}'"><i class="fa fa-times"></i>Cancel</button>
+            <button id="save-btn"><i class="fa fa-save"></i>Save</button>
+        </header>
+        <section id="input-fields">
             <div>
-                <button class="btn btn-danger" id="cancel-btn" onclick="if (confirm('All changes will be discarded. Are you sure?')) location.href='{% url "leads:leads" event.pk %}'"><i class="fa fa-times"></i>Cancel</button>
-                <button class="btn btn-primary" id="save-btn"><i class="fa fa-plus"></i>Save</button>
-            </div>
-        </div>
-        <div>
-            <input type="text" class="save-data" id="assesment-title" placeholder="Title of assessment" {% if sos and sos.title %}value="{{sos.title}}"{% endif %}>
-            <input type="text" class="save-data" id="lead-organization" placeholder="Lead Organization" {% if sos and sos.lead_organization %}value="{{sos.lead_organization}}"{% endif %}>
-            <input type="text" class="save-data" id="other-assesment-partners" placeholder="Other assessment partners" {% if sos and sos.partners %}value="{{sos.partners}}"{% endif %}>
-            <select class="save-data selectize-control" id="assesment-frequency" placeholder="Assessment Frequency">
-                <option>Select frequency</option>
-                {% for frequency in frequencies %}
-                <option value="{{frequency.pk}}" {% if sos and sos.frequency == frequency %}selected{% endif %}>{{frequency}}</option>
-                {% endfor %}
-            </select>
-            <select class="save-data selectize-control" id="assesment-status" placeholder="Assessment Status">
-                <option>Select status</option>
-                {% for status in statuses %}
-                <option value="{{status.pk}}" {% if sos and sos.status == status %}selected{% endif %}>{{status}}</option>
-                {% endfor %}
-            </select>
-            <select class="save-data selectize-control" id="assesment-confidentiality" placeholder="Assessment Confidentiality">
-                <option>Select confidentiality</option>
-                {% for confidentiality in confidentialities %}
-                <option value="{{confidentiality.pk}}" {% if sos and sos.confidentiality == confidentiality %}selected{% endif %}>{{confidentiality}}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div>
-            <select class="save-data selectize-control" id="source-proximity"  placeholder="Proximity to the source">
-                <option>Select proximity to source</option>
-                {% for proximity in proximities %}
-                <option value="{{proximity.pk}}" {% if sos and sos.proximity_to_source == proximity %}selected{% endif %}>{{proximity}}</option>
-                {% endfor %}
-            </select>
-            <select class="save-data selectize-control" id="analysis-unit"  placeholder="Unit of analysis" multiple>
-                {% for unit in units_of_analysis %}
-                <option value="{{unit.pk}}" {% if sos and unit in sos.unit_of_analysis.all %}selected{% endif %}>{{unit}}</option>
-                {% endfor %}
-            </select>
-            <select class="save-data selectize-control" id="data-collection-technique"  placeholder="Data collection technique" multiple>
-                {% for dc in data_collection_techniques %}
-                <option value="{{dc.pk}}" {% if sos and dc in sos.data_collection_technique.all %}selected{% endif %}>{{dc}}</option>
-                {% endfor %}
-            </select>
-            <div id="date-fields-wrapper">
-                <div style="position: relative;">
-                    <label>Start date of data collection: </label>
-                    <input class="save-data" id="start-of-field" placeholder="Start of field data collection" type="date" {% if sos and sos.start_data_collection %}value="{{sos.start_data_collection|date:"Y-m-d"}}"{% endif %}>
+                <div>
+                    <label>Title of assessment</label>
+                    <input type="text" class="save-data" id="assesment-title" placeholder="Title of assessment" {% if sos and sos.title %}value="{{sos.title}}"{% endif %}>
                 </div>
-                <div style="position: relative;">
-                    <label>End date of data collection: </label>
-                    <input class="save-data" id="end-of-field" placeholder="End of field data collection" type="date" {% if sos and sos.end_data_collection %}value="{{sos.end_data_collection|date:"Y-m-d"}}"{% endif %}>
+                <div>
+                    <label>Lead organization</label>
+                    <input type="text" class="save-data" id="lead-organization" placeholder="Lead Organization" {% if sos and sos.lead_organization %}value="{{sos.lead_organization}}"{% endif %}>
+                </div>
+                <div>
+                    <label>Other assessment partners</label>
+                    <input type="text" class="save-data" id="other-assesment-partners" placeholder="Other assessment partners" {% if sos and sos.partners %}value="{{sos.partners}}"{% endif %}>
+                </div>
+                <div>
+                    <label>Assment frequency</label>
+                    <select class="save-data selectize-control" id="assesment-frequency" placeholder="Assessment Frequency">
+                        <option>Select frequency</option>
+                        {% for frequency in frequencies %}
+                        <option value="{{frequency.pk}}" {% if sos and sos.frequency == frequency %}selected{% endif %}>{{frequency}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label>Assessment Status</label>
+                    <select class="save-data selectize-control" id="assesment-status" placeholder="Assessment Status">
+                        <option>Select status</option>
+                        {% for status in statuses %}
+                        <option value="{{status.pk}}" {% if sos and sos.status == status %}selected{% endif %}>{{status}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label>Assessment Confidentiality</label>
+                    <select class="save-data selectize-control" id="assesment-confidentiality" placeholder="Assessment Confidentiality">
+                        <option>Select confidentiality</option>
+                        {% for confidentiality in confidentialities %}
+                        <option value="{{confidentiality.pk}}" {% if sos and sos.confidentiality == confidentiality %}selected{% endif %}>{{confidentiality}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
             </div>
-            <select class="save-data selectize-control" id="sampling-type" placeholder="Sampling type">
-                <option>Select sampling type</option>
-                {% for type in sampling_types %}
-                <option value="{{type.pk}}" {% if sos and sos.sampling_type == type %}selected{% endif %}>{{type}}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <!--div id="the-map" style="height:300px;"></div-->
-        <div>
-            <select name="country" id="country" placeholder="Select a country">
-                {% for country in event.countries.all %}
-                <option value="{{country.pk}}">{{country.name}}</option>
-                {% endfor %}
-            </select>
-            <div id="location-select-wrapper">
-                <select name="manual-location-input" id="manual-location-input" placeholder="Add a location">
-                    <option value="">Add a location</option>
-                </select>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#map-modal"><i class="fa fa-map"></i></button>
+            <div>
+                <div>
+                    <label>Proximity to the source</label>
+                    <select class="save-data selectize-control" id="source-proximity"  placeholder="Proximity to the source">
+                        <option>Select proximity to source</option>
+                        {% for proximity in proximities %}
+                        <option value="{{proximity.pk}}" {% if sos and sos.proximity_to_source == proximity %}selected{% endif %}>{{proximity}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label>Unit of analysis</label>
+                    <select class="save-data selectize-control" id="analysis-unit"  placeholder="Unit of analysis" multiple>
+                        {% for unit in units_of_analysis %}
+                        <option value="{{unit.pk}}" {% if sos and unit in sos.unit_of_analysis.all %}selected{% endif %}>{{unit}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label>Data collection technique</label>
+                    <select class="save-data selectize-control" id="data-collection-technique"  placeholder="Data collection technique" multiple>
+                        {% for dc in data_collection_techniques %}
+                        <option value="{{dc.pk}}" {% if sos and dc in sos.data_collection_technique.all %}selected{% endif %}>{{dc}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div id="date-fields-wrapper">
+                    <div>
+                        <label>Start date of data collection: </label>
+                        <input class="save-data" id="start-of-field" placeholder="Start of field data collection" type="date" {% if sos and sos.start_data_collection %}value="{{sos.start_data_collection|date:"Y-m-d"}}"{% endif %}>
+                    </div>
+                    <div>
+                        <label>End date of data collection: </label>
+                        <input class="save-data" id="end-of-field" placeholder="End of field data collection" type="date" {% if sos and sos.end_data_collection %}value="{{sos.end_data_collection|date:"Y-m-d"}}"{% endif %}>
+                    </div>
+                </div>
+                <div>
+                    <label>Sampling type</label>
+                    <select class="save-data selectize-control" id="sampling-type" placeholder="Sampling type">
+                        <option>Select sampling type</option>
+                        {% for type in sampling_types %}
+                        <option value="{{type.pk}}" {% if sos and sos.sampling_type == type %}selected{% endif %}>{{type}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
-            <label>Selected locations</label>
-            <div id="selected-location-list">
-                <p id="empty-text" hidden>No location added!</p>
-                <ul>
-                </ul>
+            <div>
+                <div>
+                    <label>Select a country</label>
+                    <select name="country" id="country" placeholder="Select a country">
+                        {% for country in event.countries.all %}
+                        <option value="{{country.pk}}">{{country.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label>Add a location</label>
+                    <select name="manual-location-input" id="manual-location-input" placeholder="Add a location">
+                        <option value="">Add a location</option>
+                    </select>
+                </div>
+                <div>
+                    <div id="map-select-wrapper">
+                        <label>Selected locations</label>
+                        <a id="map-modal-btn"><i  class="fa fa-map"></i>Open map</a>
+                    </div>
+                    <div id="selected-location-list">
+                        <p id="empty-text" hidden>No location added!</p>
+                        <ul>
+                        </ul>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div id="sector-block">
-            <h3>Sectors covered by the assesment</h3>
+        </section>
+        <section id="sector-block">
+            <header>
+                <h3>Sectors covered by the assesment</h3>
+            </header>
             <div id="sectors">
             </div>
             <div id="sector-input">
-                <h4 class="title"></h4>
+                <h4></h4>
                 <div>
                     <label>Quantification</label>
                     <select placeholder="Quantification" id="quantification">
@@ -236,14 +255,25 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                     </select>
                 </div>
             </div>
-            <div id="affected-group-wrapper">
+            <div id="affected-groups">
                 <h4>Affected Groups</h4>
                 <div id="chart-div"></div>
             </div>
+        </section>
+    </div>
+</div>
+<div class="modal-container" hidden>
+    <div id="map-modal" class="modal" hidden>
+        <header>
+            <h3 class="modal-title">Select locations</h3>
+        </header>
+        <div id="the-map"></div>
+        <div id="admin-level-buttons"></div>
+        <div class="action-buttons">
+            <span></span>
+            <button data-action="dismiss">Close</button>
         </div>
     </div>
 </div>
 
-<script src="{% watchful_static_url 'js/sos/add-sos.js' %}"></script>
-<script src="{% watchful_static_url 'js/sos/add-sos-map.js' %}"></script>
 {% endblock %}

@@ -166,57 +166,45 @@ body > nav {
           body > nav #extra-menu .dropdown .items div:hover {
             background-color: rgba(0, 0, 0, 0.1); }
 
-#main h2 {
-  color: #008080;
-  text-transform: uppercase;
-  font-size: 1.5em;
-  margin-bottom: 24px; }
-#main #sos-table thead tr th {
-  background-color: #fff; }
-  #main #sos-table thead tr th:not(:last-child) {
-    border-right: 1px solid rgba(0, 0, 0, 0.03); }
-#main #sos-table tbody tr[role="row"] {
-  cursor: pointer; }
+#main {
+  padding: 10px 16px; }
+  #main input {
+    outline: none; }
+  #main #sos-table thead tr th {
+    background-color: #fff; }
+    #main #sos-table thead tr th:not(:last-child) {
+      border-right: 1px solid rgba(0, 0, 0, 0.03); }
   #main #sos-table tbody tr[role="row"] td:not(:last-child) {
     border-right: 1px solid rgba(0, 0, 0, 0.03); }
-#main #sos-table tbody .odd, #main #sos-table tbody .odd + tr:not(.even) {
-  background-color: #f5f5f5; }
-#main #sos-table tbody .even, #main #sos-table tbody .even + tr:not(.odd) {
-  background-color: #fff; }
-#main #sos-table tbody .btn-action {
-  margin: 2px;
-  box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-  #main #sos-table tbody .btn-action:active {
-    box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-#main #sos-table tbody .row-detail {
-  padding: 10px 24px; }
-  #main #sos-table tbody .row-detail .fa {
-    margin-right: 10px; }
-  #main #sos-table tbody .row-detail .extra {
-    margin-bottom: 16px; }
-    #main #sos-table tbody .row-detail .extra span {
-      margin-right: 24px; }
-  #main #sos-table tbody .row-detail label {
-    margin-right: 10px;
-    width: 100px; }
-  #main #sos-table tbody .row-detail .lead-content {
-    white-space: pre-wrap; }
-  #main #sos-table tbody .row-detail button {
-    margin: 4px;
-    box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-    #main #sos-table tbody .row-detail button:active {
-      box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-  #main #sos-table tbody .row-detail .lead-content a {
-    text-transform: none; }
-#main #sos-table tbody .btn-add-entry .fa {
-  color: #8e44ad; }
-#main #sos-table tbody .btn-edit .fa {
-  color: #333399; }
-#main #sos-table tbody .btn-mark-processed .fa {
-  color: #cc6600; }
-#main #sos-table tbody .btn-mark-pending .fa {
-  color: #009900; }
-#main #sos-table tbody .btn-delete .fa {
-  color: #e74c3c; }
+  #main #sos-table tbody .odd, #main #sos-table tbody .odd + tr:not(.even) {
+    background-color: #f0f0f0; }
+  #main #sos-table tbody .even, #main #sos-table tbody .even + tr:not(.odd) {
+    background-color: #fff; }
+  #main #sos-table tbody .btn-action {
+    color: #3498db;
+    cursor: pointer; }
+    #main #sos-table tbody .btn-action .fa {
+      color: inherit;
+      margin-right: 10px; }
+  #main #sos-table tbody .row-detail {
+    padding: 10px 24px; }
+    #main #sos-table tbody .row-detail .fa {
+      margin-right: 10px; }
+    #main #sos-table tbody .row-detail .extra {
+      margin-bottom: 16px; }
+      #main #sos-table tbody .row-detail .extra span {
+        margin-right: 24px; }
+    #main #sos-table tbody .row-detail label {
+      margin-right: 10px;
+      width: 100px; }
+    #main #sos-table tbody .row-detail .lead-content {
+      white-space: pre-wrap; }
+    #main #sos-table tbody .row-detail button {
+      margin: 4px;
+      box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+      #main #sos-table tbody .row-detail button:active {
+        box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+    #main #sos-table tbody .row-detail .lead-content a {
+      text-transform: none; }
 
 /*# sourceMappingURL=sos.css.map */

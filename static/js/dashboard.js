@@ -278,8 +278,8 @@ function loadTimetable(tableFor) {
             reportElement.show();
         }
     }
-    console.log($('#timeline-table header .weeks .week').width()*weekly_reports.length);
-    $('#horizontal-scroll .weeks #scrollbar').width($('#timeline-table header .weeks .week').width()*weekly_reports.length);
+    //console.log($('#timeline-table header .weeks .week').outerWidth()*weekly_reports.length);
+    $('#horizontal-scroll .weeks #scrollbar').width($('#timeline-table header .weeks .week').outerWidth()*weekly_reports.length + 10);
 }
 
 // Checks if the date is in given range

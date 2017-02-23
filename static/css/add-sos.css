@@ -179,172 +179,229 @@ body {
     body .split-pane .split-pane-divider {
       background: rgba(0, 0, 0, 0.2); }
     body .split-pane #left-component {
+      height: 100%;
       width: 40em;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
-      background-color: #fff; }
-      body .split-pane #left-component .btn-zoom {
-        opacity: 75%;
-        font-size: 1.5em;
-        background-color: #fafafa;
-        float: right; }
-      body .split-pane #left-component #zoom-in {
-        right: 52px; }
-      body .split-pane #left-component #zoom-out {
-        right: 10px; }
+      box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3);
+      background-color: #f0f0f0;
+      overflow-x: hidden;
+      z-index: 11; }
       body .split-pane #left-component #lead-options-container {
-        padding: 8px; }
-        body .split-pane #left-component #lead-options-container button {
-          padding: 5px 10px;
-          border-radius: 0;
-          line-height: 1;
-          margin-right: 8px;
-          margin-bottom: 5px; }
-        body .split-pane #left-component #lead-options-container #tag-buttons {
-          margin-top: 10px; }
+        height: 48px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.3);
+        background-color: #fff; }
+        body .split-pane #left-component #lead-options-container #lead-view-options {
+          flex-basis: 60%; }
+          body .split-pane #left-component #lead-options-container #lead-view-options label {
+            display: inline-block;
+            cursor: pointer;
+            height: 48px;
+            font-weight: 500;
+            padding: calc(calc(48px - 12px) / 2) 16px 0 16px; }
+            body .split-pane #left-component #lead-options-container #lead-view-options label input {
+              display: none; }
+            body .split-pane #left-component #lead-options-container #lead-view-options label.active {
+              color: #008080;
+              border-bottom: 3px solid #008080; }
+        body .split-pane #left-component #lead-options-container #zoom-buttons {
+          flex-basis: 40%;
+          align-self: stretch;
+          display: flex;
+          justify-content: flex-end; }
+          body .split-pane #left-component #lead-options-container #zoom-buttons button {
+            width: 56px;
+            color: rgba(0, 0, 0, 0.5);
+            height: 100%;
+            border: none;
+            background-color: #fff;
+            color: rgba(0, 0, 0, 0.5);
+            font-size: 17px; }
       body .split-pane #left-component #lead-preview-container #lead-preview {
-        height: calc(100vh - 56px - 56px);
-        box-sizing: border-box;
-        border: none; }
+        height: calc(100vh - 56px - 48px); }
       body .split-pane #left-component #lead-preview-container iframe {
+        border: none;
         width: 100%; }
       body .split-pane #left-component #lead-preview-container #lead-simplified-preview {
-        height: calc(100vh - 144px);
+        height: calc(100vh - 56px - 48px);
         overflow-x: auto;
         padding: 16px; }
         body .split-pane #left-component #lead-preview-container #lead-simplified-preview pre {
-          white-space: pre-wrap;
           word-break: normal;
-          background: inherit;
-          color: inherit;
-          font: inherit;
-          border: inherit;
-          text-align: justify; }
-    body .split-pane #my-divider {
+          white-space: pre-wrap; }
+    body .split-pane #divider {
       left: 40em;
-      /* Same as left component width */
       width: 3px;
       background-color: transparent; }
     body .split-pane #right-component {
       left: 40em;
-      /* Same as left component width */
-      margin: 24px 16px;
-      padding-bottom: 48px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between; }
-      body .split-pane #right-component > div {
-        flex-basis: 32%; }
-        body .split-pane #right-component > div > input[type="text"], body .split-pane #right-component > div input[type="number"], body .split-pane #right-component > div input[type="date"] {
-          width: 100%;
-          height: 32px;
-          padding: 0 8px;
-          margin: 0 8px 8px 0;
-          outline: none;
-          border: 1px solid rgba(0, 0, 0, 0.1);
-          border-radius: 3px;
-          background-color: #fff; }
-          body .split-pane #right-component > div > input[type="text"]:focus, body .split-pane #right-component > div input[type="number"]:focus, body .split-pane #right-component > div input[type="date"]:focus {
-            border-color: #008080; }
-        body .split-pane #right-component > div .selectize-control {
-          margin-bottom: 8px; }
-          body .split-pane #right-component > div .selectize-control .selectize-input {
-            min-height: 32px;
-            border-radius: 3px;
-            padding: 6px 4px; }
-        body .split-pane #right-component > div #date-fields-wrapper {
-          display: flex;
-          justify-content: space-between; }
-          body .split-pane #right-component > div #date-fields-wrapper > div {
-            flex-basis: 49%; }
-        body .split-pane #right-component > div #location-select-wrapper {
-          display: flex;
-          justify-content: space-between;
-          flex-wrap: nowrap; }
-          body .split-pane #right-component > div #location-select-wrapper > div {
-            flex-basis: 80%; }
-          body .split-pane #right-component > div #location-select-wrapper button {
-            box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3);
-            height: 80%; }
-            body .split-pane #right-component > div #location-select-wrapper button:active {
-              box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-        body .split-pane #right-component > div #selected-location-list {
-          height: 150px;
-          overflow-y: scroll;
-          background-color: #f0f0f0; }
-          body .split-pane #right-component > div #selected-location-list ul {
-            list-style: none;
-            padding-left: 16px;
-            padding-top: 10px; }
-          body .split-pane #right-component > div #selected-location-list #empty-text {
-            text-align: center;
-            margin-top: 24px; }
-          body .split-pane #right-component > div #selected-location-list .fa {
-            margin-right: 10px;
-            color: #e74c3c; }
-      body .split-pane #right-component #sos-header {
-        flex-basis: 100%;
+      z-index: 1; }
+      body .split-pane #right-component > header {
+        height: 48px;
         display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between; }
-        body .split-pane #right-component #sos-header button {
-          box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7);
-          margin-left: 16px; }
-          body .split-pane #right-component #sos-header button:active {
-            box-shadow: 0 6px 3px -4px rgba(0, 0, 0, 0.7); }
-          body .split-pane #right-component #sos-header button i {
+        justify-content: flex-end;
+        align-items: center;
+        padding: 0 16px;
+        border: 2px solid rgba(0, 0, 0, 0.1); }
+        body .split-pane #right-component > header button {
+          padding: 6px 16px;
+          color: #fff;
+          box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5); }
+          body .split-pane #right-component > header button:active {
+            box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
+          body .split-pane #right-component > header button .fa {
             margin-right: 10px; }
-      body .split-pane #right-component h2 {
-        margin-bottom: 32px; }
-      body .split-pane #right-component #sector-block {
-        flex-basis: 100%;
+        body .split-pane #right-component > header #save-btn {
+          margin-left: 10px;
+          background-color: #3498db; }
+        body .split-pane #right-component > header #cancel-btn {
+          background-color: #e74c3c; }
+      body .split-pane #right-component #input-fields {
         display: flex;
-        justify-content: space-between;
+        padding: 0 8px; }
+        body .split-pane #right-component #input-fields > div {
+          flex-basis: 33%; }
+          body .split-pane #right-component #input-fields > div > div {
+            padding: 8px; }
+            body .split-pane #right-component #input-fields > div > div label {
+              width: 100%;
+              margin-bottom: 5px; }
+            body .split-pane #right-component #input-fields > div > div > input, body .split-pane #right-component #input-fields > div > div > select {
+              width: 100%;
+              outline: none;
+              border: 1px solid rgba(0, 0, 0, 0.1);
+              padding: 3px 10px;
+              background-color: #fff; }
+          body .split-pane #right-component #input-fields > div #date-fields-wrapper {
+            display: flex;
+            justify-content: space-between;
+            position: relative; }
+            body .split-pane #right-component #input-fields > div #date-fields-wrapper > div {
+              flex-basis: 49%; }
+              body .split-pane #right-component #input-fields > div #date-fields-wrapper > div > input {
+                width: 100%;
+                outline: none;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                padding: 3px 10px; }
+          body .split-pane #right-component #input-fields > div #map-select-wrapper {
+            display: flex;
+            justify-content: space-between; }
+            body .split-pane #right-component #input-fields > div #map-select-wrapper label {
+              flex-basis: 60%; }
+            body .split-pane #right-component #input-fields > div #map-select-wrapper a {
+              color: #008080;
+              cursor: pointer; }
+              body .split-pane #right-component #input-fields > div #map-select-wrapper a .fa {
+                margin-right: 10px; }
+          body .split-pane #right-component #input-fields > div #selected-location-list {
+            height: 144px;
+            overflow-y: scroll;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            background-color: #f0f0f0; }
+            body .split-pane #right-component #input-fields > div #selected-location-list ul {
+              list-style: none;
+              padding-left: 0;
+              margin: 0; }
+              body .split-pane #right-component #input-fields > div #selected-location-list ul li {
+                text-indent: -16px;
+                padding: 3px 10px;
+                padding-left: 32px; }
+                body .split-pane #right-component #input-fields > div #selected-location-list ul li a {
+                  color: #e74c3c;
+                  margin-left: 10px;
+                  cursor: pointer; }
+                  body .split-pane #right-component #input-fields > div #selected-location-list ul li a .fa {
+                    margin-right: 6px; }
+                body .split-pane #right-component #input-fields > div #selected-location-list ul li:nth-child(even) {
+                  background-color: #fff; }
+            body .split-pane #right-component #input-fields > div #selected-location-list #empty-text {
+              text-align: center;
+              margin-top: 32px;
+              font-size: 1.2em;
+              color: #aaa;
+              text-transform: uppercase; }
+      body .split-pane #right-component #sector-block {
+        display: flex;
         flex-wrap: wrap; }
-        body .split-pane #right-component #sector-block > * {
-          box-sizing: border-box; }
-        body .split-pane #right-component #sector-block h3 {
-          flex-basis: 100%; }
+        body .split-pane #right-component #sector-block header {
+          flex-basis: 100%;
+          height: 48px;
+          padding: 0 16px;
+          display: flex;
+          align-items: center;
+          background-color: #fff;
+          border-top: 1px solid rgba(0, 0, 0, 0.1); }
         body .split-pane #right-component #sector-block #sectors {
-          flex-basis: 25%; }
-          body .split-pane #right-component #sector-block #sectors .sector {
+          flex-basis: 20%;
+          background-color: #fff;
+          border: 1px solid rgba(0, 0, 0, 0.1); }
+          body .split-pane #right-component #sector-block #sectors a {
             display: block;
-            padding: 6px 24px;
-            text-align: right;
-            text-transform: uppercase;
-            cursor: pointer; }
+            padding: 6px 16px;
+            cursor: pointer;
+            position: relative; }
+            body .split-pane #right-component #sector-block #sectors a:hover {
+              background-color: rgba(0, 0, 0, 0.1); }
+            body .split-pane #right-component #sector-block #sectors a.active {
+              background-color: #008080;
+              color: #fff; }
+            body .split-pane #right-component #sector-block #sectors a.filled:after {
+              content: '';
+              display: inline-block;
+              position: absolute;
+              right: 6px;
+              top: 8px;
+              width: 8px;
+              height: 8px;
+              border-radius: 50%;
+              background-color: #3498db; }
         body .split-pane #right-component #sector-block #sector-input {
-          flex-basis: 25%; }
-          body .split-pane #right-component #sector-block #sector-input .title {
-            margin-bottom: 32px; }
-          body .split-pane #right-component #sector-block #sector-input label {
-            margin-bottom: 12px; }
-        body .split-pane #right-component #sector-block #affected-group-wrapper {
-          flex-basis: 40%; }
-          body .split-pane #right-component #sector-block #affected-group-wrapper .affected-group {
+          flex-basis: 30%;
+          padding: 16px; }
+          body .split-pane #right-component #sector-block #sector-input h4 {
+            margin-bottom: 16px; }
+          body .split-pane #right-component #sector-block #sector-input > div {
+            padding: 10px 0; }
+            body .split-pane #right-component #sector-block #sector-input > div label {
+              margin-bottom: 10px; }
+        body .split-pane #right-component #sector-block #affected-groups {
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          flex-basis: 50%;
+          min-width: 512px;
+          padding: 16px;
+          box-sizing: border-box; }
+          body .split-pane #right-component #sector-block #affected-groups h4 {
+            text-align: center;
+            margin-bottom: 24px; }
+          body .split-pane #right-component #sector-block #affected-groups .affected-group {
             background-color: #fff;
             cursor: pointer; }
-          body .split-pane #right-component #sector-block #affected-group-wrapper .active-affected-group {
+          body .split-pane #right-component #sector-block #affected-groups .active-affected-group {
             color: #fff;
             background-color: #008080; }
-          body .split-pane #right-component #sector-block #affected-group-wrapper .google-visualization-orgchart-linebottom {
+          body .split-pane #right-component #sector-block #affected-groups .google-visualization-orgchart-linebottom {
             border-bottom: 1px solid #008080 !important; }
-          body .split-pane #right-component #sector-block #affected-group-wrapper #chart-div {
+          body .split-pane #right-component #sector-block #affected-groups #chart-div {
             overflow: hidden; }
-        body .split-pane #right-component #sector-block .control-label {
-          padding-left: 6px; }
-        body .split-pane #right-component #sector-block .active {
-          background-color: rgba(0, 0, 0, 0.1); }
-        body .split-pane #right-component #sector-block .filled::after {
-          content: "\2713";
-          margin-right: -20px;
-          padding-left: 10px; }
-  body #map-modal .modal-body {
-    padding: 0; }
-    body #map-modal .modal-body #the-map {
+        body .split-pane #right-component #sector-block h4 {
+          font-weight: 300;
+          font-size: 19px; }
+  body #map-modal {
+    width: 800px; }
+    body #map-modal #the-map {
       height: 60vh; }
-      body #map-modal .modal-body #the-map path {
+      body #map-modal #the-map path {
         stroke: #717171;
         stroke-width: 1px;
         stroke-linejoin: round; }
+    body #map-modal #admin-level-buttons {
+      text-align: center; }
+      body #map-modal #admin-level-buttons button {
+        padding: 4px 10px; }
+        body #map-modal #admin-level-buttons button.active {
+          background-color: #008080;
+          color: #fff; }
 
 /*# sourceMappingURL=add-sos.css.map */

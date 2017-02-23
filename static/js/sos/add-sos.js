@@ -1,6 +1,5 @@
 var manual_location_input;
 
-
 function updateLocationSelections() {
     var container = $('#selected-location-list ul');
     var items = container.find('li');
@@ -111,6 +110,22 @@ function changeLeadPreview(simplified) {
 }
 
 $(document).ready(function(){
+    let mapModal = new Modal('#map-modal', true);
+
+    $('#map-modal-btn').click(function(){
+        mapModal.show().then(function(){
+        }, null, function(){
+            map.invalidateSize();
+            refreshMap();
+        });
+    });
+
+    // simplified/original lead tab
+    $('input[type=radio][name=lead-view-option]').change(function(){
+        $('#lead-view-options label').removeClass('active');
+        $(this).closest('label').addClass('active');
+    });
+
     $('.selectize-control').selectize();
     $('#country').selectize();
 
@@ -144,7 +159,7 @@ $(document).ready(function(){
             sector.prop('id', i);
             if(i == 0){
                 sector.addClass('active');
-                $('#sector-input').find('.title').text(sectorData[i].title);
+                $('#sector-input').find('h4').text(sectorData[i].title);
                 $('#sector-input').find('#quantification').selectize()[0].selectize.setValue(sectorData[i].quantification);
                 $('#sector-input').find('#analytical-value').selectize()[0].selectize.setValue(sectorData[i].analytical_value);
             }
@@ -184,7 +199,6 @@ $(document).ready(function(){
     $("#country").trigger('change');
 
     $("#save-btn").click(function() {
-
         var current = $('#sectors .active');
         sectorData[current.prop('id')].quantification = $('#sector-input').find('#quantification').val();
         sectorData[current.prop('id')].analytical_value = $('#sector-input').find('#analytical-value').val();
