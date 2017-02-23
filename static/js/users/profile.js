@@ -51,7 +51,11 @@ let editMode = {
             that.toggleMode(true);
         });
         $('#save-user-info-btn').click(function(){
-            $('#progress-btn').show();
+
+            $('#save-user-info-progress-btn').show();
+            $('#save-user-info-btn').hide();
+            $('#edit-user-info-btn').hide();
+
             ajax.request({
                 request: 'edit-name',
                 firstName: $('#first-name').text(),
@@ -63,34 +67,36 @@ let editMode = {
             }).fail(function() {
                 // ERROR
             }).always(function() {
-                $('#progress-btn').hide();
+                $('#save-user-info-progress-btn').hide();
             });
         });
     },
 
     toggleMode: function(reset) {
         let editButton = $('#edit-user-info-btn');
-        let parent = editButton.closest('header');
+        editButton.show();
 
+        let parent = editButton.closest('header');
         if(editButton.hasClass('edit')) {
             editButton.removeClass('edit');
             editButton.find('.fa').removeClass('fa-times').addClass('fa-edit');
             parent.find('.name').prop('contenteditable', false);
-            if (reset)
+            if (reset) {
                 parent.find('.name').each(function() { $(this).text($(this).data('prev-val')); });
-            parent.find('img').prop('title', '');
-            parent.find('img').css('cursor', 'default');
+            }
+            // parent.find('img').prop('title', '');
+            // parent.find('img').css('cursor', 'default');
             $('#save-user-info-btn').hide();
         } else {
             editButton.addClass('edit');
             editButton.find('.fa').removeClass('fa-edit').addClass('fa-times');
             parent.find('.name').prop('contenteditable', true);
             parent.find('.name').each(function() { $(this).data('prev-val', $(this).text()); });
-            parent.find('img').prop('title', 'Click to change avatar');
-            parent.find('img').css('cursor', 'pointer');
-            parent.find('img').unbind().click(function(){
-                console.log('open file dialog maybe');
-            });
+            // parent.find('img').prop('title', 'Click to change avatar');
+            // parent.find('img').css('cursor', 'pointer');
+            // parent.find('img').unbind().click(function(){
+            //     console.log('open file dialog maybe');
+            // });
             $('#save-user-info-btn').show();
         }
     },
