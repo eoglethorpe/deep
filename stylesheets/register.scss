@@ -32,7 +32,7 @@ main{
             align-items: center;
             justify-content: flex-start;
             flex-wrap: wrap;
-            margin-bottom: 24px;
+            margin-bottom: 32px;
             padding: 0 32px;
 
 
@@ -58,6 +58,7 @@ main{
             min-height: auto;
             font-size: $text-size-lg;
             justify-content: space-between;
+            margin-bottom: 24px;
         }
         header{
             min-height: 64px;
@@ -67,7 +68,6 @@ main{
             h1{
                 margin: 0;
                 text-transform: uppercase;
-                //color: $primary-color;
             }
         }
         input[type="text"], input[type="password"]{
@@ -84,23 +84,21 @@ main{
         }
         label{
             flex-basis: 100%;
-            margin: 0;
+            //margin: 0;
+            margin-bottom: 4px;
             color: rgba(0, 0, 0, 0.3);
-            //font-weight: $font-weight-normal;
-            //transform: scale(0.9);
         }
         a{
             margin-left: 4px;
             cursor: pointer;
+            color: $primary-color;
         }
         button{
             background-color: #f0f0f0;
-            padding: 6px 32px;
+            padding: 10px 32px;
             background-color: $primary-color;
             color: #fff;
-            border-radius: 3px;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            border: none;
+            font-size: $text-size-lg;
             @include btn-shadow-sm();
         }
         button, a{
