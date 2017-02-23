@@ -46,7 +46,7 @@ class DeletionActivity(Activity):
 
 class AdditionActivity(Activity):
     def __init__(self):
-        super().__init__('remove')
+        super().__init__('add')
 
 
 class RemovalActivity(Activity):

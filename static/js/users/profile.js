@@ -80,6 +80,7 @@ let editMode = {
         if(editButton.hasClass('edit')) {
             editButton.removeClass('edit');
             editButton.find('.fa').removeClass('fa-times').addClass('fa-edit');
+            parent.find('#full-name').removeClass('edit');
             parent.find('.name').prop('contenteditable', false);
             if (reset) {
                 parent.find('.name').each(function() { $(this).text($(this).data('prev-val')); });
@@ -90,6 +91,7 @@ let editMode = {
         } else {
             editButton.addClass('edit');
             editButton.find('.fa').removeClass('fa-edit').addClass('fa-times');
+            parent.find('#full-name').addClass('edit');
             parent.find('.name').prop('contenteditable', true);
             parent.find('.name').each(function() { $(this).data('prev-val', $(this).text()); });
             // parent.find('img').prop('title', 'Click to change avatar');

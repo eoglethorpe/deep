@@ -206,6 +206,8 @@ main {
       main #country-panel #country-panel-header #crisis-status .active {
         color: #008080;
         border-bottom: 2px solid #008080; }
+      main #country-panel #country-panel-header .fa {
+        color: #008080; }
       main #country-panel #country-panel-header > div:nth-child(2) {
         flex-basis: 320px;
         align-self: center;
@@ -354,7 +356,8 @@ main {
         flex-basis: 50%; }
     main #weekly-report-panel #weekly-report-list h3 {
       margin: 0;
-      text-transform: uppercase; }
+      text-transform: uppercase;
+      color: #008080; }
     main #weekly-report-panel #weekly-report-list #weekly-report-list-header {
       height: 64px;
       display: flex;
@@ -363,7 +366,8 @@ main {
       padding: 0 16px; }
       main #weekly-report-panel #weekly-report-list #weekly-report-list-header i {
         border: none;
-        cursor: pointer; }
+        cursor: pointer;
+        color: #008080; }
     main #weekly-report-panel #weekly-report-list #weekly-reports {
       height: calc(100vh - 56px - 48px - 64px - 64px);
       overflow: hidden;
@@ -377,7 +381,8 @@ main {
         main #weekly-report-panel #weekly-report-list #weekly-reports .weekly-report h4 {
           flex-basis: 16%;
           margin: 0;
-          font-size: 13px; }
+          font-size: 13px;
+          color: #008080; }
         main #weekly-report-panel #weekly-report-list #weekly-reports .weekly-report p {
           margin: 0; }
         main #weekly-report-panel #weekly-report-list #weekly-reports .weekly-report date {
@@ -386,6 +391,7 @@ main {
           text-align: right;
           flex-basis: 40%; }
           main #weekly-report-panel #weekly-report-list #weekly-reports .weekly-report .action-buttons a {
+            color: #008080;
             margin-left: 24px;
             cursor: pointer; }
             main #weekly-report-panel #weekly-report-list #weekly-reports .weekly-report .action-buttons a .fa {

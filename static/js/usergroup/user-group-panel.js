@@ -1,3 +1,13 @@
+let ajax = {
+    init: function() {
+        setupCsrfForAjax();
+    },
+
+    request: function(request) {
+        return $.post(window.location, JSON.stringify(request), null, 'json');
+    }
+};
+
 let activityLog = {
     init: function() {
         this.displayLog();
@@ -19,7 +29,7 @@ let activityLog = {
         activityElement.find('h3').text(activity.action + ' ' + activity.target.type);
         if (activity.remarks && activity.remarks.length > 0)
             activityElement.find('h3').append(' (' + activity.remarks + ')');
-            
+
         activityElement.find('a').text(activity.target.name);
         if (activity.target.url) {
             activityElement.find('a').attr('target', 'blank');
@@ -36,12 +46,12 @@ let members = {
     init: function() {
         let that = this;
 
-        $('.member .img-container, .member .member-details').click(function() {
+        $('#members').on('click', '.member .img-container, .member .member-details', function() {
             // window.location.href = $(this).parent('.member').data('url');
             window.open($(this).parent('.member').data('url'), '_blank');
         });
 
-        $('.member .action-container').click(function(){
+        $('#members').on('click', '.member .action-container', function(){
             that.toggleSelection($(this));
         });
     },
@@ -59,16 +69,20 @@ let members = {
             floatingButton.change('#3498db', '+', 'add');
             $('#clear-selection-toast').removeClass('clear-selection-show');
         }
+
+        $('#members').find('.member').sort(function(m1, m2) {
+            return $(m1).find('.name').text().toLowerCase() > $(m2).find('.name').text().toLowerCase() ? 1 : -1;
+        }).detach().appendTo('#members');
     },
 
     toggleSelection: function(element) {
         element.parent().toggleClass('member-selected');
-        this.refresh();
+        refresh();
     },
 
     clearSelection: function() {
         $('.member').removeClass('member-selected');
-        this.refresh();
+        refresh();
     },
 
     getSelected: function() {
@@ -79,17 +93,48 @@ let members = {
 
     removeSelected: function() {
         let that = this;
-        $.post(window.location, JSON.stringify({
+        ajax.request({
             request: 'removeMembers',
             members: that.getSelected(),
-        }), function(response) {
+        }).done(function(response) {
             if (response.status && response.data.removedMembers) {
                 for (var i=0; i<response.data.removedMembers.length; i++) {
                     $('.member-selected[data-pk="' + response.data.removedMembers[i] + '"]').remove();
                 }
                 that.clearSelection();
             }
-        }, 'json');
+        }).fail(function() {
+            // Error
+        }).always(function() {
+            refresh();
+        });
+    },
+
+    addMembers: function(users) {
+        let that = this;
+        ajax.request({
+            request: 'addMembers',
+            users: users
+        }).done(function(response) {
+            if (response.status && response.data.addedMembers) {
+                for (var i=0; i<response.data.addedMembers.length; i++) {
+                    let pk = response.data.addedMembers[i];
+                    let user = $('#add-members-modal .user[data-pk="' + pk + '"]');
+                    let member = user.clone();
+
+                    member.removeClass('user')
+                        .addClass('member');
+                    member.find('.user-details')
+                        .removeClass('user-details')
+                        .addClass('member-details');
+                    member.appendTo('#members');
+                }
+            }
+        }).fail(function() {
+            // Error
+        }).always(function() {
+            refresh();
+        });
     },
 
     getSelectionCount: function() {
@@ -97,10 +142,82 @@ let members = {
     },
 };
 
-$(document).ready(function(){
-    // CSRF setup for ajax
-    setupCsrfForAjax();
+let users = {
+    init: function(){
+        let that = this;
+        $('.user .action-container').click(function(){
+            if($(this).closest('.search-container').length > 0){
+                var element = $(this).parent().detach();
+                $('.selected-container').append(element);
+            }
+            else if($(this).closest('.selected-container').length > 0){
+                var element = $(this).parent().detach();
+                $('.search-container').append(element);
+            }
 
+            refresh();
+        });
+
+        $('#search-users').on('input paste change', function() {
+            refresh();
+        });
+    },
+
+    refresh: function(){
+        $('.user').unbind();
+        $('.selected-container .user .action-container').html('<i class="fa fa-times"></i>');
+        $('.search-container .user .action-container').html('<i class="fa fa-check"></i>');
+
+        $('.search-container .user').sort(function(a, b) {
+            return $(a).find('.name').text().toLowerCase() > $(b).find('.name').text().toLowerCase() ? 1 : -1;
+        }).detach().appendTo('.search-container');
+
+        let memberPks = $('.member').map(function() { return $(this).data('pk'); }).get();
+        let searchText = $('#search-users').val().toLowerCase().trim();
+        $('.search-container .user').each(function() {
+            if (memberPks.indexOf($(this).data('pk')) >= 0) {
+                $(this).hide();
+            } else {
+                if (searchText.length > 0) {
+                    let name = $(this).find('.name').text().toLowerCase();
+                    let extra = $(this).find('.extra').text().toLowerCase();
+
+                    if (name.indexOf(searchText) < 0 && extra.indexOf(searchText) < 0 ) {
+                        $(this).hide();
+                        return;
+                    }
+
+                }
+                $(this).show();
+            }
+        });
+    },
+
+    clear: function(){
+        $('.selected-container .user').each(function() {
+            let element = $(this).detach();
+            $('.search-container').append(element);
+        });
+        refresh();
+    },
+
+    getSelected: function() {
+        return $('.selected-container .user').map(function() {
+            return $(this).data('pk');
+        }).get();
+    },
+};
+
+function refresh() {
+    members.refresh();
+    users.refresh();
+}
+
+$(document).ready(function(){
+    ajax.init();
+
+    var addMembersModal = new Modal('#add-members-modal');
+    users.init();
     // Tab navigation
     $('#navigator').on('click', 'a', function(){
         var that = $('#navigator .nav-active');
@@ -170,6 +287,16 @@ $(document).ready(function(){
             if (members.getSelectionCount() > 0) {
                 members.removeSelected();
             }
+            else{
+                addMembersModal.show().then(function(){
+                    if(addMembersModal.action == 'proceed'){
+                        members.addMembers(users.getSelected());
+                    }
+                    else{
+                    }
+                    users.clear();
+                });
+            }
         }
         else if (selection.data('target') == '#projects-wrapper') {
             window.location.href = crisis_panel_url;
@@ -178,5 +305,7 @@ $(document).ready(function(){
             console.log('Templates');
         }
     });
+
+    refresh();
 
 });

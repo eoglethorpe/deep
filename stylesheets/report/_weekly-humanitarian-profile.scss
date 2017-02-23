@@ -34,6 +34,7 @@
             > a{
                 flex-basis: 24px;
                 cursor: pointer;
+                color: $primary-color;
             }
             > div {
                 flex-basis: 100%;
@@ -48,6 +49,10 @@
             }
             > *{
                 margin: 0!important;
+            }
+
+            .remove-child{
+                color: $danger-color;
             }
         }
     }
