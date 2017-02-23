@@ -287,11 +287,16 @@ main #visualizations {
         main #visualizations .attr-visualization .attr-scale-container .attr-scale .scale:last-child:after {
           border-right: 1px solid black; }
       main #visualizations .attr-visualization .attr-scale-container .attr-scale .val, main #visualizations .attr-visualization .attr-scale-container .attr-scale .val-right {
-        margin-top: 8px;
+        left: -6px;
+        position: absolute;
+        display: inline-block;
+        margin-top: 12px;
         font-family: 'Inconsolata', monospace;
-        color: rgba(0, 0, 0, 0.5); }
+        color: rgba(0, 0, 0, 0.5);
+        transform: rotate(-45deg); }
       main #visualizations .attr-visualization .attr-scale-container .attr-scale .val-right {
-        float: right; }
+        left: auto;
+        right: 0; }
   main #visualizations #first-row {
     display: flex;
     justify-content: flex-start; }
@@ -431,7 +436,7 @@ main #visualizations {
           filter: grayscale(100%); }
       main #visualizations #second-row #sectors-visualization .attr-container {
         height: 80%;
-        overflow-y: scroll; }
+        overflow-y: auto; }
       main #visualizations #second-row #sectors-visualization .attr-scale-container {
         padding: 0; }
         main #visualizations #second-row #sectors-visualization .attr-scale-container label {
@@ -492,7 +497,7 @@ main #visualizations {
       height: 60vh; }
       main #visualizations #attr-visualizations-container .attr-visualization .attr-container {
         height: 80%;
-        overflow-y: scroll; }
+        overflow-y: auto; }
 main #loading-animation {
   z-index: 1000;
   position: fixed;
