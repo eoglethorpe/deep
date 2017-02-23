@@ -34,10 +34,13 @@ DEEP | Crisis Manager
 {% endblock %}
 
 {% block body %}
-<header>
-    <h1>Crisis Management Panel</h1>
+<nav>
+    <header>
+        <a title="DEEP" href="{% url 'login' %}"><img class="deep-logo" src="{% watchful_static_url 'img/deep-logo-sm-white.png' %}"></a>
+        <h1>Crisis Management Panel</h1>
+    </header>
     <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to DEEP</a>
-</header>
+</nav>
 
 <aside>
     <div id="crisis-header">

@@ -20,8 +20,20 @@ body{
         align-items: center;
         color: #fff;
 
+        >header{
+            flex-basis: 60%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            .deep-logo{
+                width: $deep-logo-sm-width;
+                margin-right: 24px;
+            }
+        }
         a{
             color: #fff;
+            cursor: pointer;
 
             i{
                 margin-right: 10px;
@@ -34,7 +46,7 @@ body{
         height: calc(100vh - #{$navbar-height});
         $header-height: 144px;
 
-        header{
+        >header{
             flex-basis: 100%;
             height: $header-height;
             background-color: $primary-color;

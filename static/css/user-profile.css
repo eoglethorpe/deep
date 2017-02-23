@@ -183,14 +183,23 @@ body {
     justify-content: space-between;
     align-items: center;
     color: #fff; }
+    body nav > header {
+      flex-basis: 60%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start; }
+      body nav > header .deep-logo {
+        width: 32px;
+        margin-right: 24px; }
     body nav a {
-      color: #fff; }
+      color: #fff;
+      cursor: pointer; }
       body nav a i {
         margin-right: 10px; }
   body main {
     flex-basis: 76%;
     height: calc(100vh - 56px); }
-    body main header {
+    body main > header {
       flex-basis: 100%;
       height: 144px;
       background-color: #008080;
@@ -199,20 +208,20 @@ body {
       display: flex;
       justify-content: space-between;
       align-items: center; }
-      body main header img {
+      body main > header img {
         width: 80px;
         height: 80px;
         object-fit: contain;
         background-color: #fff;
         border-radius: 50%;
         border: 2px solid rgba(0, 0, 0, 0.3); }
-      body main header .user-info {
+      body main > header .user-info {
         flex-basis: calc(100% - 112px - 96px);
         align-self: stretch;
         display: flex;
         flex-direction: column;
         justify-content: flex-start; }
-        body main header .user-info #full-name {
+        body main > header .user-info #full-name {
           flex-basis: 60%;
           font-size: 32px;
           padding: 4px 16px;
@@ -220,31 +229,31 @@ body {
           transition: all 0.2s ease-in-out;
           display: flex;
           justify-content: flex-start; }
-          body main header .user-info #full-name > div {
+          body main > header .user-info #full-name > div {
             padding: 0 10px; }
-            body main header .user-info #full-name > div label {
+            body main > header .user-info #full-name > div label {
               opacity: 0; }
-            body main header .user-info #full-name > div .name {
+            body main > header .user-info #full-name > div .name {
               position: relative; }
-              body main header .user-info #full-name > div .name[contenteditable="true"] {
+              body main > header .user-info #full-name > div .name[contenteditable="true"] {
                 border-bottom: 2px solid rgba(0, 0, 0, 0.1);
                 outline: none; }
-                body main header .user-info #full-name > div .name[contenteditable="true"]:focus {
+                body main > header .user-info #full-name > div .name[contenteditable="true"]:focus {
                   border-bottom: 2px solid rgba(0, 0, 0, 0.3); }
-          body main header .user-info #full-name.edit {
+          body main > header .user-info #full-name.edit {
             justify-content: space-between; }
-            body main header .user-info #full-name.edit > div {
+            body main > header .user-info #full-name.edit > div {
               flex-basis: 50%; }
-              body main header .user-info #full-name.edit > div label {
+              body main > header .user-info #full-name.edit > div label {
                 opacity: 1; }
-              body main header .user-info #full-name.edit > div .name {
+              body main > header .user-info #full-name.edit > div .name {
                 text-transform: none; }
-        body main header .user-info .extra {
+        body main > header .user-info .extra {
           flex-basis: 40%;
           padding: 0 26px;
           font-size: 15px;
           color: rgba(255, 255, 255, 0.5); }
-      body main header .action-buttons {
+      body main > header .action-buttons {
         flex-basis: 96px;
         font-size: 1.5em;
         text-align: center;
@@ -252,7 +261,7 @@ body {
         padding: 16px;
         display: flex;
         justify-content: space-between; }
-        body main header .action-buttons a {
+        body main > header .action-buttons a {
           cursor: pointer; }
     body main #project-list {
       height: 50vh;
