@@ -90,8 +90,17 @@ body {
     padding: 0 16px;
     align-items: center;
     box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+    body nav > header {
+      flex-basis: 60%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start; }
+      body nav > header .deep-logo {
+        width: 32px;
+        margin-right: 24px; }
     body nav a {
-      color: #fff; }
+      color: #fff;
+      cursor: pointer; }
       body nav a .fa {
         margin-right: 10px; }
       body nav a:hover {
@@ -102,8 +111,8 @@ body {
       justify-content: space-between; }
       body #add-members-modal header #search-input-wrapper {
         flex-basis: 50%;
-        padding: 10px;
-        background-color: #00b3b3; }
+        padding: 8px 10px;
+        background-color: #f0f0f0; }
         body #add-members-modal header #search-input-wrapper .fa {
           width: 24px;
           box-sizing: border-box;
@@ -113,11 +122,8 @@ body {
           width: calc(100% - 28px);
           box-sizing: border-box;
           background-color: transparent;
-          color: #fff;
           border: none;
           outline: none; }
-        body #add-members-modal header #search-input-wrapper ::-webkit-input-placeholder {
-          color: rgba(0, 0, 0, 0.3); }
     body #add-members-modal .user {
       flex-basis: 30%;
       background-color: #fff;

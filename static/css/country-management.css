@@ -91,7 +91,7 @@ body {
     background-color: #fff; }
     body input[type="text"]:focus, body input[type="number"]:focus, body input[type="url"]:focus, body input[type="search"]:focus {
       border-color: #008080; }
-  body > header {
+  body > nav {
     flex-basis: 100%;
     height: 56px;
     background-color: #004d4d;
@@ -101,11 +101,20 @@ body {
     padding: 0 16px;
     align-items: center;
     box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-    body > header a {
-      color: #fff; }
-      body > header a .fa {
+    body > nav > header {
+      flex-basis: 60%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start; }
+      body > nav > header .deep-logo {
+        width: 32px;
+        margin-right: 24px; }
+    body > nav a {
+      color: #fff;
+      cursor: pointer; }
+      body > nav a .fa {
         margin-right: 10px; }
-      body > header a:hover {
+      body > nav a:hover {
         color: #fff; }
   body aside {
     flex-basis: 25%; }

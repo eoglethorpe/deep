@@ -23,8 +23,20 @@ body{
         align-items: center;
         @include shadow;
 
+        >header{
+            flex-basis: 60%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            .deep-logo{
+                width: $deep-logo-sm-width;
+                margin-right: 24px;
+            }
+        }
         a{
             color: #fff;
+            cursor: pointer;
 
             .fa{
                 margin-right: 10px;
@@ -42,8 +54,8 @@ body{
 
             #search-input-wrapper{
                 flex-basis: 50%;
-                padding: 10px;
-                background-color: lighten($primary-color, 10%);
+                padding: 8px 10px;
+                background-color: #f0f0f0;
 
                 .fa{
                     width: 24px;
@@ -56,13 +68,12 @@ body{
                     width: calc(100% - 28px);
                     box-sizing: border-box;
                     background-color: transparent;
-                    color: #fff;
                     border: none;
                     outline: none;
                 }
-                ::-webkit-input-placeholder {
-                    color: rgba(0, 0, 0, 0.3);
-                }
+                // ::-webkit-input-placeholder {
+                //     color: rgba(0, 0, 0, 0.3);
+                // }
 
             }
         }
