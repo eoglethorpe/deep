@@ -448,7 +448,12 @@ body{
                         }
 
                         a {
-                            color: #e04756;
+                            &.remove-source-btn {
+                                color: #e04756;
+                            }
+                            &.fa-twitter {
+                                font-size: 1.2em;
+                            }
                             cursor: pointer;
                         }
 

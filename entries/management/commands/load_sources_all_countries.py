@@ -54,6 +54,15 @@ def get_twitter(filename):
         return data
 
 
+def merge_lists(l1, l2):
+    if not l1:
+        return l2
+    if not l2:
+        return l1
+    # print(l1, l2)
+    return l1 + [x for x in l2 if x not in l1]
+
+
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         countries = Country.objects.all()
@@ -68,9 +77,14 @@ class Command(BaseCommand):
             twitter_data = twitter.get(country.name)
 
             if media_data:
-                country.media_sources = json.dumps({
-                         'Newspaper': media_data,
-                         'Twitter': twitter_data,
-                      })
+                # Try keeping existing data
+                try:
+                    data = json.loads(country.media_sources)
+                except:
+                    data = {}
+                data['Newspaper'] = merge_lists(media_data, data['Newspaper'] if 'Newspaper' in data else [])
+                data['Twitter'] = merge_lists(twitter_data, data['Twitter'] if 'Twitter' in data else [])
+
+                country.media_sources = json.dumps(data)
                 print('Saving Region Data to country: '+country.name)
                 country.save()
