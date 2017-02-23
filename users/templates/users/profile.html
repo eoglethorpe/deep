@@ -33,7 +33,16 @@ var activities = [
     <header>
         <img src="{% watchful_static_url 'img/default-avatar.png' %}">
         <div class="user-info">
-            <h2><span id="first-name" class="name">{{ user.first_name }}</span><span id="last-name" class="name">{{ user.last_name }}</span></h2>
+            <h2 id="full-name">
+                <div>
+                    <label>First name:</label>
+                    <div id="first-name" class="name">{{ user.first_name }}</div>
+                </div>
+                <div>
+                    <label>Last name:</label>
+                    <div id="last-name" class="name">{{ user.last_name }}</div>
+                </div>
+            </h2>
             <div class="extra">{{ user.username }}</div>
         </div>
         <div class="action-buttons">

@@ -200,27 +200,48 @@ body {
       justify-content: space-between;
       align-items: center; }
       body main header img {
-        width: 72px;
-        height: 72px;
+        width: 80px;
+        height: 80px;
         object-fit: contain;
         background-color: #fff;
         border-radius: 50%;
         border: 2px solid rgba(0, 0, 0, 0.3); }
       body main header .user-info {
-        flex-basis: calc(100% - 112px - 96px); }
-        body main header .user-info .name {
+        flex-basis: calc(100% - 112px - 96px);
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start; }
+        body main header .user-info #full-name {
+          flex-basis: 60%;
           font-size: 32px;
-          margin-bottom: 10px;
           padding: 4px 16px;
           border-bottom: 2px solid transparent;
-          transition: all 0.2s; }
-          body main header .user-info .name[contenteditable="true"] {
-            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-            outline: none; }
-            body main header .user-info .name[contenteditable="true"]:focus {
-              border-bottom: 2px solid rgba(0, 0, 0, 0.3); }
+          transition: all 0.2s ease-in-out;
+          display: flex;
+          justify-content: flex-start; }
+          body main header .user-info #full-name > div {
+            padding: 0 10px; }
+            body main header .user-info #full-name > div label {
+              opacity: 0; }
+            body main header .user-info #full-name > div .name {
+              position: relative; }
+              body main header .user-info #full-name > div .name[contenteditable="true"] {
+                border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+                outline: none; }
+                body main header .user-info #full-name > div .name[contenteditable="true"]:focus {
+                  border-bottom: 2px solid rgba(0, 0, 0, 0.3); }
+          body main header .user-info #full-name.edit {
+            justify-content: space-between; }
+            body main header .user-info #full-name.edit > div {
+              flex-basis: 50%; }
+              body main header .user-info #full-name.edit > div label {
+                opacity: 1; }
+              body main header .user-info #full-name.edit > div .name {
+                text-transform: none; }
         body main header .user-info .extra {
-          padding: 0 16px;
+          flex-basis: 40%;
+          padding: 0 26px;
           font-size: 15px;
           color: rgba(255, 255, 255, 0.5); }
       body main header .action-buttons {
