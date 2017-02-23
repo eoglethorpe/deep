@@ -1,3 +1,13 @@
+let ajax = {
+    init: function() {
+        setupCsrfForAjax();
+    },
+
+    request: function(request) {
+        return $.post(window.location, JSON.stringify(request), null, 'json');
+    }
+};
+
 let activityLog = {
     init: function() {
         this.displayLog();
@@ -30,6 +40,59 @@ let activityLog = {
         activityElement.show();
 
         return activityElement;
+    },
+};
+
+let editMode = {
+    init: function() {
+        let that = this;
+
+        $('#edit-user-info-btn').click(function(){
+            that.toggleMode(true);
+        });
+        $('#save-user-info-btn').click(function(){
+            $('#progress-btn').show();
+            ajax.request({
+                request: 'edit-name',
+                firstName: $('#first-name').text(),
+                lastName: $('#last-name').text()
+            }).done(function(response) {
+                if (response.status && response.data.done) {
+                    that.toggleMode(false);
+                }
+            }).fail(function() {
+                // ERROR
+            }).always(function() {
+                $('#progress-btn').hide();
+            });
+        });
+    },
+
+    toggleMode: function(reset) {
+        let editButton = $('#edit-user-info-btn');
+        let parent = editButton.closest('header');
+
+        if(editButton.hasClass('edit')) {
+            editButton.removeClass('edit');
+            editButton.find('.fa').removeClass('fa-times').addClass('fa-edit');
+            parent.find('.name').prop('contenteditable', false);
+            if (reset)
+                parent.find('.name').each(function() { $(this).text($(this).data('prev-val')); });
+            parent.find('img').prop('title', '');
+            parent.find('img').css('cursor', 'default');
+            $('#save-user-info-btn').hide();
+        } else {
+            editButton.addClass('edit');
+            editButton.find('.fa').removeClass('fa-edit').addClass('fa-times');
+            parent.find('.name').prop('contenteditable', true);
+            parent.find('.name').each(function() { $(this).data('prev-val', $(this).text()); });
+            parent.find('img').prop('title', 'Click to change avatar');
+            parent.find('img').css('cursor', 'pointer');
+            parent.find('img').unbind().click(function(){
+                console.log('open file dialog maybe');
+            });
+            $('#save-user-info-btn').show();
+        }
     },
 };
 
@@ -69,34 +132,9 @@ $(document).ready(function(){
         $(this).addClass(sortAsc? 'asc' : 'dsc');
     });
 
+    ajax.init();
     activityLog.init();
-
-    $('#edit-user-info-btn').click(function(){
-        let parent = $(this).closest('header');
-        if($(this).hasClass('active')){
-            $(this).removeClass('active');
-            $(this).find('.fa').removeClass('fa-times').addClass('fa-edit');
-            parent.find('.name').prop('contenteditable', false);
-            parent.find('.name').text(parent.find('.name').data('prev-val'));
-            parent.find('img').prop('title', '');
-            parent.find('img').css('cursor', 'default');
-            $('#save-user-info-btn').hide();
-        }else{
-            $(this).addClass('active');
-            $(this).find('.fa').removeClass('fa-edit').addClass('fa-times');
-            parent.find('.name').prop('contenteditable', true);
-            parent.find('.name').data('prev-val', parent.find('.name').text());
-            parent.find('img').prop('title', 'Click to change avatar');
-            parent.find('img').css('cursor', 'pointer');
-            parent.find('img').unbind().click(function(){
-                console.log('open file dialog maybe');
-            });
-            $('#save-user-info-btn').show();
-        }
-    });
-    $('#save-user-info-btn').click(function(){
-        console.log('save the changes maybe');
-    });
+    editMode.init();
 
     $('#new-user-group-btn').click(function(){
         newUserGroupModal.show().then(function(){

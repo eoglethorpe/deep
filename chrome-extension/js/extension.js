@@ -97,6 +97,7 @@ var extension = {
                     ip.val(response.val).addClass('filled');
                 } else if(ip.is('select')){
                     ip.val(response.val);
+                    ip.trigger('change');
                     refreshSelectInputs();
                 }
             }
