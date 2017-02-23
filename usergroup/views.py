@@ -37,6 +37,7 @@ class UserGroupPanelView(View):
 
         # TODO check if user has permission for whatever request
 
+        # Remove members
         if request['request'] == 'removeMembers':
             response['removedMembers'] = []
             for pk in request['members']:
@@ -46,6 +47,22 @@ class UserGroupPanelView(View):
                     response['removedMembers'].append(pk)
 
                     RemovalActivity().set_target(
+                        'member', user.pk, user.get_full_name(),
+                        reverse('user_profile', args=[pk])
+                    ).log_for(original_request.user, group=group)
+                except:
+                    pass
+
+        # Add members
+        elif request['request'] == 'addMembers':
+            response['addedMembers'] = []
+            for pk in request['users']:
+                try:
+                    user = User.objects.get(pk=pk)
+                    group.members.add(user)
+                    response['addedMembers'].append(pk)
+
+                    AdditionActivity().set_target(
                         'member', user.pk, user.get_full_name(),
                         reverse('user_profile', args=[pk])
                     ).log_for(original_request.user, group=group)

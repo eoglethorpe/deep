@@ -373,7 +373,8 @@ main {
         font-size: 1.2em;
         text-transform: uppercase; }
       main #report-content #reporting-parameters label {
-        margin-right: 10px; }
+        margin-right: 10px;
+        margin-bottom: 5px; }
     main #report-content #reporting-parameters > div {
       flex-basis: 30%;
       margin-bottom: 24px; }
@@ -389,7 +390,13 @@ main {
       main #report-content #key-events #toggle-panel .active {
         color: #008080; }
       main #report-content #key-events #toggle-panel button {
-        float: right; }
+        float: right;
+        color: #fff;
+        background-color: #008080;
+        padding: 6px 16px;
+        box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5); }
+        main #report-content #key-events #toggle-panel button:active {
+          box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
     main #report-content #key-events #table-view .col {
       position: relative;
       padding: 0 6px;
@@ -406,12 +413,19 @@ main {
       margin-bottom: 3px; }
     main #report-content #key-events #table-view .col > input {
       width: 100%;
+      height: 100%;
       border: 1px solid rgba(0, 0, 0, 0.1);
       padding: 1px 5px;
       outline: none; }
     main #report-content #key-events #table-view .key-event {
       margin-top: 16px;
       display: flex; }
+    main #report-content #key-events #table-view button {
+      border: none;
+      margin-top: 3px;
+      color: #e74c3c;
+      box-shadow: none;
+      background-color: transparent; }
     main #report-content #key-events #header {
       display: flex;
       height: 32px;
@@ -496,7 +510,8 @@ main {
         margin: 8px 0; }
       main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field > a, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield > a, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child > a {
         flex-basis: 24px;
-        cursor: pointer; }
+        cursor: pointer;
+        color: #008080; }
       main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field > div, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield > div, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child > div {
         flex-basis: 100%; }
     main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child {
@@ -505,6 +520,8 @@ main {
         border: 1px solid rgba(0, 0, 0, 0.2); }
       main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child > * {
         margin: 0 !important; }
+      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .remove-child {
+        color: #e74c3c; }
     main #report-content #humanitarian-profile #humanitarian-profile-field-error {
       padding: 16px;
       text-align: center;
@@ -602,6 +619,8 @@ main {
           flex-wrap: wrap;
           margin-bottom: 10px; }
           main #report-content #humanitarian-access > div #human-access-pin-field-list .human-access-pin-field label {
+            margin-top: 10px;
+            margin-bottom: 5px;
             width: 100%; }
           main #report-content #humanitarian-access > div #human-access-pin-field-list .human-access-pin-field input {
             margin-bottom: 6px; }
@@ -611,6 +630,9 @@ main {
               width: 65%; }
             main #report-content #humanitarian-access > div #human-access-pin-field-list .human-access-pin-field input:nth-child(4) {
               width: 100%; }
+    main #report-content #weekly-severity-score label {
+      margin-top: 10px;
+      margin-bottom: 5px; }
     main #report-content #weekly-severity-score > div {
       display: flex;
       justify-content: space-between;
