@@ -16,7 +16,9 @@ let activityLog = {
     displayLog: function() {
         $('#activity-log').empty();
         for (let i=0; i<activities.length; i++) {
-            $('#activity-log').append(this.createLogElement(activities[i]));
+            if (activities[i].group && activities[i].group.pk == userGroupPk) {
+                $('#activity-log').append(this.createLogElement(activities[i]));
+            }
         }
     },
 
@@ -128,6 +130,7 @@ let members = {
                         .removeClass('user-details')
                         .addClass('member-details');
                     member.appendTo('#members');
+                    member.show();
                 }
             }
         }).fail(function() {
