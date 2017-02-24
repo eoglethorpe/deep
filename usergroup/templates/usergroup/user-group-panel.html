@@ -45,7 +45,10 @@ let activities = [
 {% block body %}
 
 <nav>
-    <h1>User Group Management</h1>
+    <header>
+        <a title="DEEP" href="{% url 'login' %}"><img class="deep-logo" src="{% watchful_static_url 'img/deep-logo-sm-white.png' %}"></a>
+        <h1>User Group Management</h1>
+    </header>
     <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to DEEP</a>
 </nav>
 

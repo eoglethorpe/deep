@@ -29,7 +29,7 @@ body{
             border-color: $primary-color;
         }
     }
-    >header{
+    >nav{
         flex-basis: 100%;
         height: $navbar-height;
         background-color: darken($primary-color, 10%);
@@ -40,8 +40,20 @@ body{
         align-items: center;
         @include shadow;
 
+        >header{
+            flex-basis: 60%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            .deep-logo{
+                width: $deep-logo-sm-width;
+                margin-right: 24px;
+            }
+        }
         a{
             color: #fff;
+            cursor: pointer;
 
             .fa{
                 margin-right: 10px;

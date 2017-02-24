@@ -116,10 +116,10 @@ function renderSectors(total){
     var maxSeverity = Math.max(...totalSeverity);
 
     var scale = $('#sectors-visualization').find('.attr-scale');
-    scale.find('.scale-2 .val').text(parseInt(maxSeverity/5));
-    scale.find('.scale-3 .val').text(parseInt(maxSeverity/5*2));
-    scale.find('.scale-4 .val').text(parseInt(maxSeverity/5*3));
-    scale.find('.scale-5 .val').text(parseInt(maxSeverity/5*4));
+    scale.find('.scale-2 .val').text(maxSeverity<5? (maxSeverity/5).toFixed(1): Math.ceil(maxSeverity/5));
+    scale.find('.scale-3 .val').text(maxSeverity<5? (maxSeverity/5*2).toFixed(1): Math.ceil(maxSeverity/5*2));
+    scale.find('.scale-4 .val').text(maxSeverity<5? (maxSeverity/5*3).toFixed(1): Math.ceil(maxSeverity/5*3));
+    scale.find('.scale-5 .val').text(maxSeverity<5? (maxSeverity/5*4).toFixed(1): Math.ceil(maxSeverity/5*4));
     scale.find('.scale-5 .val-right').text(maxSeverity);
 
     if (maxSeverity == 0)
@@ -158,10 +158,10 @@ function renderAttrs(id, attrs, total) {
     var maxSeverity = Math.max(...totalSeverity);
 
     var scale = $('#'+id).find('.attr-scale');
-    scale.find('.scale-2 .val').text(parseInt(maxSeverity/5));
-    scale.find('.scale-3 .val').text(parseInt(maxSeverity/5*2));
-    scale.find('.scale-4 .val').text(parseInt(maxSeverity/5*3));
-    scale.find('.scale-5 .val').text(parseInt(maxSeverity/5*4));
+    scale.find('.scale-2 .val').text(maxSeverity<5? (maxSeverity/5).toFixed(1): Math.ceil(maxSeverity/5));
+    scale.find('.scale-3 .val').text(maxSeverity<5? (maxSeverity/5*2).toFixed(1): Math.ceil(maxSeverity/5*2));
+    scale.find('.scale-4 .val').text(maxSeverity<5? (maxSeverity/5*3).toFixed(1): Math.ceil(maxSeverity/5*3));
+    scale.find('.scale-5 .val').text(maxSeverity<5? (maxSeverity/5*4).toFixed(1): Math.ceil(maxSeverity/5*4));
     scale.find('.scale-5 .val-right').text(maxSeverity);
 
     if (maxSeverity == 0)
