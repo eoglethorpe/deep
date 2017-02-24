@@ -58,7 +58,7 @@ class HumanitarianId:
         user = User.objects.create_user(
             first_name=self.data['name_given'],
             last_name=self.data['name_family'],
-            email=seld.data['email'],
+            email=self.data['email'],
             username=username,
             password=password
         )
