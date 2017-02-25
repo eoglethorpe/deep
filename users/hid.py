@@ -15,7 +15,7 @@ class HumanitarianId:
             return
 
         config = HidConfig()
-        if not config.client_id or not config.development:
+        if not config.client_id:
             self.status = False
             return
 
