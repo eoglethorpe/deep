@@ -111,10 +111,16 @@ class LoginView(View):
             try:
                 user = User.objects.get(userprofile__hid=hid_uid)
                 user.backend = settings.AUTHENTICATION_BACKENDS[0]
-            # If there's no user, create new one
+            # If there's no user, check if one with same email exists
+            # and link the user, otherwise create new user
             except:
-                username, password = hid.create_user()
-                user = authenticate(username=username, password=hid.data['id'])
+                try:
+                    user = User.objects.get(email=hid.data['email'])
+                    user.userprofile.hid = hid_uid
+                    user.backend = settings.AUTHENTICATION_BACKENDS[0]
+                except:
+                    username, password = hid.create_user()
+                    user = authenticate(username=username, password=hid.data['id'])
 
             # update user data from hid
             hid.save_user(user.userprofile)
