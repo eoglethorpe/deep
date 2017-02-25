@@ -11,13 +11,15 @@
   background-color: rgba(0, 0, 0, 0.24); }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  margin: 0;
   background-color: #f0f0f0;
   color: #414141;
   font-size: 13px;
-  line-height: 1.8;
   /*float-alert-toast - position it at the top-center of the screen*/ }
-  body h1, body h2, body h3 {
+  body * {
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box; }
+  body h1, body h2, body h3, body h4 {
     font-weight: 400; }
   body h1 {
     font-size: 19px; }
@@ -29,15 +31,19 @@ body {
     text-decoration: none; }
   body a, body button, body input[type="submit"], body input[type="button"], body .btn, body .btn:focus, body button:focus {
     text-transform: uppercase;
-    outline: none !important; }
-  body .btn, body .btn:hover, body .btn:visited, body .btn:focus {
-    border: none;
-    border-radius: 3px;
+    outline: none; }
+  body button {
+    background-color: #fff;
+    color: #414141;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
     transition: 0.2s all ease-in-out; }
   body label {
     color: rgba(0, 0, 0, 0.5);
     text-transform: uppercase;
-    font-size: 11px; }
+    font-size: 11px;
+    font-weight: 500;
+    display: inline-block; }
   body .float-alert-toast {
     display: none;
     /* Hidden by default. Visible on click */
@@ -64,56 +70,48 @@ body {
     top: 30px;
     /* 30px from the top */ }
 
-nav {
+body > nav {
   background-color: #004d4d;
   height: 56px;
   z-index: 1010;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   padding: 0 16px;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-  nav img {
-    width: 96px; }
-  nav a, nav a:visited {
-    display: inline-block; }
-  nav #main-menu {
-    flex-basis: 40%; }
-  nav .menu-item {
+  body > nav a:hover, body > nav a:active {
+    color: #fff; }
+  body > nav .menu-item {
     font-weight: 400;
-    color: rgba(255, 255, 255, 0.7);
-    transition: 0.2s all ease-in-out;
-    text-align: center;
     font-size: 13px;
     height: 56px;
-    padding: 0 16px;
-    padding-top: calc(calc(56px - 13px - 8px) / 2); }
-    nav .menu-item.active {
-      border-bottom: 2px solid #fff;
-      color: #fff;
-      font-weight: 500; }
-  nav a:hover, nav a:active, nav button:hover, nav button:active {
-    color: #fff; }
-  nav button, nav button:visited {
-    background-color: transparent;
-    border: none;
+    display: inline-block;
+    padding: calc(calc(56px - 13px - 8px) / 2) 16px 0 16px;
     color: rgba(255, 255, 255, 0.7);
-    font-weight: 400;
-    font-size: 13px; }
-    nav button .fa, nav button:visited .fa {
-      margin-right: 10px; }
-    nav button .caret, nav button:visited .caret {
-      margin-left: 10px; }
-  nav #crisis-wrapper {
+    transition: 0.2s all ease-in-out; }
+    body > nav .menu-item.active {
+      font-weight: 500;
+      border-bottom: 2px solid #fff;
+      color: #fff; }
+  body > nav #deep-logo-container {
+    flex-basis: 96px;
+    flex-shrink: 0;
+    flex-grow: 0; }
+    body > nav #deep-logo-container img {
+      width: 100%; }
+  body > nav #report-link-wrapper {
+    flex-basis: 10%; }
+  body > nav #crisis-select-container {
     flex-basis: 28%; }
-    nav #crisis-wrapper .selectize-control.single .selectize-input, nav #crisis-wrapper .selectize-control.single.single, nav #crisis-wrapper .selectize-control.single .selectize-input.input-active {
+    body > nav #crisis-select-container .selectize-control.single .selectize-input, body > nav #crisis-select-container .selectize-control.single.single, body > nav #crisis-select-container .selectize-control.single .selectize-input.input-active {
       background-color: transparent !important; }
-    nav #crisis-wrapper .selectize-input {
+    body > nav #crisis-select-container .selectize-input {
       border: none; }
-      nav #crisis-wrapper .selectize-input > div, nav #crisis-wrapper .selectize-input input {
+      body > nav #crisis-select-container .selectize-input > div, body > nav #crisis-select-container .selectize-input input {
         background-color: transparent;
         color: #fff; }
-      nav #crisis-wrapper .selectize-input:after {
+      body > nav #crisis-select-container .selectize-input:after {
         content: ' ';
         display: block;
         position: absolute;
@@ -125,13 +123,49 @@ nav {
         border-style: solid;
         border-width: 5px 5px 0 5px;
         border-color: #808080 transparent transparent transparent; }
-    nav #crisis-wrapper a {
+    body > nav #crisis-select-container a {
       vertical-align: middle; }
-  nav .dropdown ul li a {
-    padding-top: 8px;
-    padding-bottom: 8px; }
-    nav .dropdown ul li a .fa {
+  body > nav #main-menu {
+    flex-basis: 32%; }
+  body > nav #extra-menu {
+    flex-basis: calc(20% - 96px);
+    display: flex;
+    justify-content: space-between; }
+    body > nav #extra-menu #chrome-extension-download-link {
+      flex-basis: 24px;
+      color: #fff; }
+    body > nav #extra-menu .name .fa {
       margin-right: 10px; }
+    body > nav #extra-menu .dropdown {
+      flex-basis: calc(90% - 24px);
+      position: relative;
+      cursor: pointer;
+      outline: none; }
+      body > nav #extra-menu .dropdown .dropdown-toggle {
+        color: rgba(255, 255, 255, 0.7);
+        display: flex;
+        justify-content: space-around; }
+      body > nav #extra-menu .dropdown .items {
+        position: absolute;
+        top: calc(8px + 56px / 2);
+        right: 0;
+        background-color: #fff;
+        width: 100%;
+        min-width: 200px;
+        z-index: 1011;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.3); }
+        body > nav #extra-menu .dropdown .items hr {
+          border: 1px solid rgba(0, 0, 0, 0.05);
+          margin: 0; }
+        body > nav #extra-menu .dropdown .items div {
+          padding: 16px;
+          text-transform: uppercase;
+          color: #414141; }
+          body > nav #extra-menu .dropdown .items div .fa {
+            width: 32px; }
+          body > nav #extra-menu .dropdown .items div:hover {
+            background-color: rgba(0, 0, 0, 0.1); }
 
 main {
   display: flex;
@@ -172,6 +206,8 @@ main {
       main #country-panel #country-panel-header #crisis-status .active {
         color: #008080;
         border-bottom: 2px solid #008080; }
+      main #country-panel #country-panel-header .fa {
+        color: #008080; }
       main #country-panel #country-panel-header > div:nth-child(2) {
         flex-basis: 320px;
         align-self: center;
@@ -320,7 +356,8 @@ main {
         flex-basis: 50%; }
     main #weekly-report-panel #weekly-report-list h3 {
       margin: 0;
-      text-transform: uppercase; }
+      text-transform: uppercase;
+      color: #008080; }
     main #weekly-report-panel #weekly-report-list #weekly-report-list-header {
       height: 64px;
       display: flex;
@@ -329,7 +366,8 @@ main {
       padding: 0 16px; }
       main #weekly-report-panel #weekly-report-list #weekly-report-list-header i {
         border: none;
-        cursor: pointer; }
+        cursor: pointer;
+        color: #008080; }
     main #weekly-report-panel #weekly-report-list #weekly-reports {
       height: calc(100vh - 56px - 48px - 64px - 64px);
       overflow: hidden;
@@ -343,7 +381,8 @@ main {
         main #weekly-report-panel #weekly-report-list #weekly-reports .weekly-report h4 {
           flex-basis: 16%;
           margin: 0;
-          font-size: 13px; }
+          font-size: 13px;
+          color: #008080; }
         main #weekly-report-panel #weekly-report-list #weekly-reports .weekly-report p {
           margin: 0; }
         main #weekly-report-panel #weekly-report-list #weekly-reports .weekly-report date {
@@ -352,6 +391,7 @@ main {
           text-align: right;
           flex-basis: 40%; }
           main #weekly-report-panel #weekly-report-list #weekly-reports .weekly-report .action-buttons a {
+            color: #008080;
             margin-left: 24px;
             cursor: pointer; }
             main #weekly-report-panel #weekly-report-list #weekly-reports .weekly-report .action-buttons a .fa {

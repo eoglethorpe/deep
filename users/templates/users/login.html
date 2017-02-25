@@ -7,6 +7,18 @@ DEEP | Sign in
 
 {% block head %}
 <link href="{% watchful_static_url 'css/login.css' %}" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="{% watchful_static_url 'js/users/login.js' %}"></script>
+
+<script>
+let hid_access_token_url = '{% url "hid_access_token" %}';
+
+{% if hid_config and hid_config.development %}
+let hid_login_url = 'http://auth.dev.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id|safe }}&scope=profile&state=12345&redirect_uri={{ hid_config.redirect_url|safe }}';
+{% else %}
+let hid_login_url = 'http://auth.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id|safe }}&scope=profile&state=12345&redirect_uri={{ hid_config.redirect_url|safe }}';
+{% endif %}
+
+</script>
 {% endblock %}
 
 {% block body %}
@@ -29,12 +41,13 @@ DEEP | Sign in
             <label>Password</label>
             <input type="password" placeholder="Enter your password" name="password" required>
         </div>
-        <div id="action-buttons">
+        <div id="submit-btn-container">
             <div></div>
             <button type="submit" >Sign in</button>
         </div>
-        <div>
-            Don't have an account? <a href="/register">Register</a>
+        <div class="action-buttons">
+            <a id="register-link" href="/register">Register</a>
+            <a id="login-hid"><img src="{% watchful_static_url 'img/hid-logo.png' %}"></a>
         </div>
     </form>
 </main>

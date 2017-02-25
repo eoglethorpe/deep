@@ -70,6 +70,8 @@ $(document).ready(function(){
             e.preventDefault();
         }
     });
+
+    addNewCrisis();
 });
 
 function addNewCrisis() {

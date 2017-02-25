@@ -14,7 +14,6 @@ from leads.rest_views import *
 from entries.rest_views import *
 
 
-
 router = DefaultRouter()
 router.register(r'leads', LeadViewSet, base_name='lead')
 router.register(r'entries', EntryViewSet, base_name='entry')
@@ -28,6 +27,7 @@ router.register(r'survey-of-surveys', SosViewSet, base_name='country')
 urlpatterns = [
     url(r'^$', IndexView.as_view()),
     url(r'^register/$', RegisterView.as_view(), name="register"),
+    url(r'^hid-access-token$', HidAccessToken.as_view(), name="hid_access_token"),
     url(r'^login/$', LoginView.as_view(), name="login"),
     url(r'^logout/$', LogoutView.as_view(), name="logout"),
     url(r'^extension/$', ExtensionView.as_view(), name="extension"),
@@ -39,6 +39,7 @@ urlpatterns = [
     url(r'^(?P<event>\d+)/dashboard/$', DashboardView.as_view(), name="dashboard"),
     url(r'^(?P<event>\d+)/leads/', include('leads.urls', namespace='leads')),
     url(r'^(?P<event>\d+)/entries/', include('entries.urls', namespace='entries')),
+    url(r'^usergroup/', include('usergroup.urls', namespace='usergroup')),
     url(r'^custom-admin/', include('custom_admin.urls', namespace='custom_admin')),
     url(r'^report/', include('report.urls', namespace='report')),
 
@@ -50,5 +51,7 @@ urlpatterns = [
 
     url(r'^admin/', admin.site.urls),
     url(r'^api/v1/', include(router.urls)),
+    url(r'^api/v2/', include('entries.api_urls', namespace='api')),
+    url(r'^api/v2/', include('leads.api_urls', namespace='api')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

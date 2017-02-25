@@ -23,13 +23,13 @@
         <div class="reliability">
             <label>Reliability:</label>
             {% for reliability in reliabilities %}
-            <span data-id="{{reliability.pk}}" class="_{{reliability.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{reliability}}"></span>
+            <span data-level="{{reliability.level}}" class="_{{reliability.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{reliability}}"></span>
             {% endfor %}
         </div>
         <div class="severity">
             <label>Severity:</label>
             {% for severity in severities %}
-            <span data-id="{{severity.pk}}" class="_{{severity.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{severity}}"></span>
+            <span data-level="{{severity.level}}" class="_{{severity.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{severity}}"></span>
             {% endfor %}
         </div>
         <div><label>Information's date:</label><br><date class="date"></date></div>

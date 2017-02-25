@@ -1,10 +1,10 @@
-# Data Entry and Extraction Platform
+# Data Entry and Exploration Platform
 
-TODO
+DEEP is a humanitarian tool to collect and analyze information from various publications and sources pertaining to events happening in different countries. It is meant to help the analysts easily generate reports of various events of the world.
 
-## API
+## Public API
 
-TODO
+The data collected by DEEP is publicly available. Read API.md for details on how to use the API.
 
 ## Deployment
 
@@ -31,17 +31,19 @@ $ apt-get install libjpeg-dev libmysqlclient-dev
 
 Copy or clone the project to a directory and cd into it.
 
-Next run ```setup.py``` to install remaining dependancies:
+Next you can use ```setup.py``` or ```pip``` to install remaining dependancies:
 
 ```bash
 $ python setup.py install
+or
+$ pip install -r requirements.txt
 ```
 
 
 
 ### Migration
 
-A MySQL database is required to use DEEP. Create one if it doesn't exist whose name matches ```DATABASE_NAME```.
+A MySQL database is required to use DEEP. Create one if it doesn't exist.
 
 Create a file 'mysql.cnf' and enter the database details as follows:
 
@@ -70,14 +72,11 @@ $ python manage.py runserver
 
 By default, the server should run at `localhost:8000`. Test the website locally by browsing to this address.
 
-### Deploying with uwsgi and nginx
-
-TODO
+The website is then ready to be deployed.
 
 ## Chrome Extension
 
 ### Installation
 [Chrome Store](https://chrome.google.com/webstore/detail/deep-create-lead/eolekcokhpndiemngdnnicfmgehdgplp/)
 
-### Usage
-Open the extension while browsing the page, fill out the required inputs and submit.
+You can open the *options* page of the extension, to change server url and read usage guide.

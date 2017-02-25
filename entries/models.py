@@ -40,6 +40,12 @@ class AdminLevelSelection(models.Model):
         else:
             return self.name + " (" + self.pcode + ")" + ", " + str(self.admin_level)
 
+    def get_keyword(self):
+        # "{{self.admin_level.country.code}}:{{self.admin_level.level|add:'-1'}}:{{self.name}}"
+        if self.pcode != '':
+            return str(self.admin_level.country.code) + ":" + str(self.admin_level.level) + ":" + str(self.name) + ":" + str(self.pcode)
+        return str(self.admin_level.country.code) + ":" + str(self.admin_level.level) + ":" + str(self.name)
+
     class Meta:
         unique_together = ('admin_level', 'name')
 

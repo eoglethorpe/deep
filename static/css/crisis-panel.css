@@ -10,13 +10,15 @@
   background-color: rgba(0, 0, 0, 0.24); }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  margin: 0;
   background-color: #f0f0f0;
   color: #414141;
   font-size: 13px;
-  line-height: 1.8;
   /*float-alert-toast - position it at the top-center of the screen*/ }
-  body h1, body h2, body h3 {
+  body * {
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box; }
+  body h1, body h2, body h3, body h4 {
     font-weight: 400; }
   body h1 {
     font-size: 19px; }
@@ -28,15 +30,19 @@ body {
     text-decoration: none; }
   body a, body button, body input[type="submit"], body input[type="button"], body .btn, body .btn:focus, body button:focus {
     text-transform: uppercase;
-    outline: none !important; }
-  body .btn, body .btn:hover, body .btn:visited, body .btn:focus {
-    border: none;
-    border-radius: 3px;
+    outline: none; }
+  body button {
+    background-color: #fff;
+    color: #414141;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
     transition: 0.2s all ease-in-out; }
   body label {
     color: rgba(0, 0, 0, 0.5);
     text-transform: uppercase;
-    font-size: 11px; }
+    font-size: 11px;
+    font-weight: 500;
+    display: inline-block; }
   body .float-alert-toast {
     display: none;
     /* Hidden by default. Visible on click */
@@ -70,7 +76,7 @@ body {
   body h1, body h2, body h3, body h4 {
     margin: 0;
     text-transform: uppercase; }
-  body header {
+  body nav {
     flex-basis: 100%;
     height: 56px;
     background-color: #004d4d;
@@ -80,11 +86,20 @@ body {
     padding: 0 16px;
     align-items: center;
     box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-    body header a {
-      color: #fff; }
-      body header a .fa {
+    body nav > header {
+      flex-basis: 60%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start; }
+      body nav > header .deep-logo {
+        width: 32px;
+        margin-right: 24px; }
+    body nav a {
+      color: #fff;
+      cursor: pointer; }
+      body nav a .fa {
         margin-right: 10px; }
-      body header a:hover {
+      body nav a:hover {
         color: #fff; }
   body aside {
     flex-basis: 27%; }
@@ -99,9 +114,13 @@ body {
       body aside #crisis-header h2 {
         flex-basis: 60%;
         font-weight: 500;
-        font-size: 19px; }
-      body aside #crisis-header a .fa {
-        margin-right: 10px; }
+        font-size: 19px;
+        color: #008080; }
+      body aside #crisis-header a {
+        cursor: pointer;
+        color: #008080; }
+        body aside #crisis-header a .fa {
+          margin-right: 10px; }
       body aside #crisis-header #search-wrapper {
         flex-basis: 100%;
         position: relative;
@@ -158,6 +177,12 @@ body {
     height: calc(100vh - 56px);
     padding: 10px 32px 0 32px;
     box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+    body main label {
+      margin-bottom: 6px;
+      font-weight: bold; }
+    body main a {
+      margin-bottom: 6px;
+      color: #008080; }
     body main .selectize-control {
       margin-bottom: 8px; }
       body main .selectize-control .selectize-input {
@@ -169,9 +194,10 @@ body {
       body main form h2 {
         font-weight: 500;
         font-size: 19px;
-        margin-bottom: 32px; }
+        margin-bottom: 32px;
+        color: #008080; }
       body main form > div {
-        margin-bottom: 8px; }
+        margin-bottom: 16px; }
         body main form > div > input[type="text"] {
           width: 100%;
           height: 32px;
@@ -209,14 +235,19 @@ body {
         outline: none;
         vertical-align: sub; }
       body main form #action-buttons {
-        text-align: right;
-        margin-top: 32px; }
+        display: flex;
+        justify-content: space-between; }
         body main form #action-buttons button {
-          margin-left: 16px;
-          box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+          padding: 6px 16px;
+          color: #fff;
+          box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5); }
           body main form #action-buttons button:active {
-            box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-          body main form #action-buttons button i {
+            box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
+          body main form #action-buttons button .fa {
             margin-right: 10px; }
+        body main form #action-buttons #save-btn {
+          background-color: #3498db; }
+        body main form #action-buttons #delete-btn {
+          background-color: #e74c3c; }
 
 /*# sourceMappingURL=crisis-panel.css.map */

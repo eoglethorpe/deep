@@ -6,8 +6,8 @@ $(document).ready(function(){
         ajax: {
             type: "GET",
             dataType: "json",
-            dataSrc: '',
-            url: "/api/v1/survey-of-surveys/?event=" + currentEvent + "&summary=1",
+            dataSrc: 'data',
+            url: "/api/v2/survey-of-surveys/?event=" + currentEvent,
         },
         columns: [
             {
@@ -36,12 +36,9 @@ $(document).ready(function(){
             {
                 data: null,
                 render: function(data, type, row){
-                    return '<a class="btn btn-default btn-action btn-edit" href="/'+currentEvent+'/leads/edit-sos/'+data.lead_id+"/"+data.id+'"><i class="fa fa-edit"></i></a>';
+                    return '<a class="btn-action btn-edit" href="/'+currentEvent+'/leads/edit-sos/'+data.lead+"/"+data.id+'"><i class="fa fa-edit"></i>Edit</a>';
                 }
             }
-
-
-
         ],
     });
 });

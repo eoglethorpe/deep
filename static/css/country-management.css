@@ -10,13 +10,15 @@
   background-color: rgba(0, 0, 0, 0.24); }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  margin: 0;
   background-color: #f0f0f0;
   color: #414141;
   font-size: 13px;
-  line-height: 1.8;
   /*float-alert-toast - position it at the top-center of the screen*/ }
-  body h1, body h2, body h3 {
+  body * {
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box; }
+  body h1, body h2, body h3, body h4 {
     font-weight: 400; }
   body h1 {
     font-size: 19px; }
@@ -28,15 +30,19 @@ body {
     text-decoration: none; }
   body a, body button, body input[type="submit"], body input[type="button"], body .btn, body .btn:focus, body button:focus {
     text-transform: uppercase;
-    outline: none !important; }
-  body .btn, body .btn:hover, body .btn:visited, body .btn:focus {
-    border: none;
-    border-radius: 3px;
+    outline: none; }
+  body button {
+    background-color: #fff;
+    color: #414141;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
     transition: 0.2s all ease-in-out; }
   body label {
     color: rgba(0, 0, 0, 0.5);
     text-transform: uppercase;
-    font-size: 11px; }
+    font-size: 11px;
+    font-weight: 500;
+    display: inline-block; }
   body .float-alert-toast {
     display: none;
     /* Hidden by default. Visible on click */
@@ -71,17 +77,21 @@ body {
     text-transform: uppercase;
     margin: 0;
     vertical-align: middle; }
-  body input[type="text"], body input[type="number"], body input[type="url"] {
+  body a {
+    color: #008080;
+    cursor: pointer; }
+  body label {
+    margin-bottom: 4px; }
+  body input[type="text"], body input[type="number"], body input[type="url"], body input[type="search"] {
     width: 100%;
-    height: 32px;
-    padding: 0 16px;
+    padding: 6px 10px;
     outline: none;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 3px;
     background-color: #fff; }
-    body input[type="text"]:focus, body input[type="number"]:focus, body input[type="url"]:focus {
+    body input[type="text"]:focus, body input[type="number"]:focus, body input[type="url"]:focus, body input[type="search"]:focus {
       border-color: #008080; }
-  body header {
+  body > nav {
     flex-basis: 100%;
     height: 56px;
     background-color: #004d4d;
@@ -91,11 +101,20 @@ body {
     padding: 0 16px;
     align-items: center;
     box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-    body header a {
-      color: #fff; }
-      body header a .fa {
+    body > nav > header {
+      flex-basis: 60%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start; }
+      body > nav > header .deep-logo {
+        width: 32px;
+        margin-right: 24px; }
+    body > nav a {
+      color: #fff;
+      cursor: pointer; }
+      body > nav a .fa {
         margin-right: 10px; }
-      body header a:hover {
+      body > nav a:hover {
         color: #fff; }
   body aside {
     flex-basis: 25%; }
@@ -153,21 +172,17 @@ body {
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
-      body main #navigator > div {
-        flex-basis: 70%; }
-        body main #navigator > div:last-child {
-          text-align: right;
-          flex-basis: 30%;
-          padding: 0 24px; }
-      body main #navigator a {
-        padding: 10px 24px 14px 24px;
-        font-size: 14px;
-        cursor: pointer; }
-        body main #navigator a.nav-active {
-          border-bottom: 2px solid #008080; }
-        body main #navigator a.invalid {
-          color: #008080;
-          animation: blink 2s infinite linear; }
+      body main #navigator .tabs {
+        flex-basis: 64%; }
+        body main #navigator .tabs a {
+          font-size: 13px;
+          padding: 10px 16px 14px 16px;
+          cursor: pointer; }
+          body main #navigator .tabs a.nav-active {
+            border-bottom: 2px solid #008080; }
+          body main #navigator .tabs a.invalid {
+            color: #008080;
+            animation: blink 2s infinite linear; }
 @keyframes blink {
   0% {
     color: #008080; }
@@ -177,13 +192,23 @@ body {
     color: #e74c3c; }
   100% {
     color: #008080; } }
-      body main #navigator #save-btn, body main #navigator #delete-btn {
-        margin-left: 8px;
-        box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-        body main #navigator #save-btn:active, body main #navigator #delete-btn:active {
-          box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-        body main #navigator #save-btn .fa, body main #navigator #delete-btn .fa {
-          margin-right: 10px; }
+      body main #navigator .action-buttons {
+        flex-basis: 36%;
+        text-align: right;
+        padding-right: 16px; }
+        body main #navigator .action-buttons button {
+          padding: 6px 16px;
+          color: #fff;
+          box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+          body main #navigator .action-buttons button:active {
+            box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+          body main #navigator .action-buttons button .fa {
+            margin-right: 10px; }
+        body main #navigator .action-buttons #delete-btn {
+          background-color: #e74c3c; }
+        body main #navigator .action-buttons #save-btn {
+          margin-left: 10px;
+          background-color: #3498db; }
     body main #content-wrapper :invalid {
       border-color: #e74c3c; }
     body main #content-wrapper #country-detail > div {
@@ -206,6 +231,8 @@ body {
         flex-basis: 40%;
         align-self: flex-start;
         padding: 0 10px 0 24px; }
+        body main #content-wrapper #country-detail > div #country-detail-inputs > div {
+          padding: 5px 0; }
       body main #content-wrapper #country-detail > div #map-wrapper {
         flex-basis: 60%;
         padding: 0 24px 0 10px; }
@@ -216,14 +243,14 @@ body {
             stroke: #717171;
             stroke-width: 1px;
             stroke-linejoin: round; }
-        body main #content-wrapper #country-detail > div #map-wrapper #map-controls {
-          margin-top: 8px;
-          width: 100%;
-          display: inline-block;
-          background-color: rgba(255, 255, 255, 0.88); }
+        body main #content-wrapper #country-detail > div #map-wrapper #map-controls #admin-level-buttons {
+          margin-top: 10px;
+          text-align: center; }
           body main #content-wrapper #country-detail > div #map-wrapper #map-controls #admin-level-buttons button {
-            margin: 4px !important;
-            box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+            padding: 4px 10px; }
+            body main #content-wrapper #country-detail > div #map-wrapper #map-controls #admin-level-buttons button.active {
+              background-color: #008080;
+              color: #fff; }
       body main #content-wrapper #country-detail > div #admin-level-list {
         flex-basis: 100%; }
       body main #content-wrapper #country-detail > div #admin-level-list-header {
@@ -244,9 +271,34 @@ body {
         body main #content-wrapper #country-detail > div .admin-level-details > div {
           flex-basis: 24%; }
           body main #content-wrapper #country-detail > div .admin-level-details > div:nth-child(6) {
+            flex-basis: 80%;
             margin-top: 16px; }
+            body main #content-wrapper #country-detail > div .admin-level-details > div:nth-child(6) .file-input {
+              width: 0.1px;
+              height: 0.1px;
+              opacity: 0;
+              left: 0;
+              top: 0;
+              overflow: hidden;
+              position: absolute;
+              z-index: -1; }
+            body main #content-wrapper #country-detail > div .admin-level-details > div:nth-child(6) .file-input + label {
+              margin-left: 10px;
+              margin-right: 10px;
+              padding: 6px 16px;
+              background-color: #fff;
+              font-size: 1em;
+              border-radius: 3px;
+              display: inline-block;
+              cursor: pointer;
+              box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+              body main #content-wrapper #country-detail > div .admin-level-details > div:nth-child(6) .file-input + label:active {
+                box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+              body main #content-wrapper #country-detail > div .admin-level-details > div:nth-child(6) .file-input + label i {
+                margin-right: 10px; }
           body main #content-wrapper #country-detail > div .admin-level-details > div:last-child {
-            flex-basis: 7%; }
+            flex-basis: 20%;
+            text-align: right; }
             body main #content-wrapper #country-detail > div .admin-level-details > div:last-child label {
               cursor: pointer;
               font-size: 15px;
@@ -261,32 +313,12 @@ body {
                 display: inline-block; }
         body main #content-wrapper #country-detail > div .admin-level-details:nth-child(even) {
           background: #fafafa; }
-        body main #content-wrapper #country-detail > div .admin-level-details .file-input {
-          width: 0.1px;
-          height: 0.1px;
-          opacity: 0;
-          left: 0;
-          top: 0;
-          overflow: hidden;
-          position: absolute;
-          z-index: -1; }
-        body main #content-wrapper #country-detail > div .admin-level-details .file-input + label {
-          margin-left: 10px;
-          margin-right: 10px;
-          padding: 6px 24px;
-          background-color: #fff;
-          font-size: 1em;
-          border-radius: 3px;
-          display: inline-block;
-          cursor: pointer;
-          box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-          body main #content-wrapper #country-detail > div .admin-level-details .file-input + label:active {
-            box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-          body main #content-wrapper #country-detail > div .admin-level-details .file-input + label i {
-            margin-right: 10px; }
         body main #content-wrapper #country-detail > div .admin-level-details .geojson-current {
-          display: inline-block; }
+          flex-basis: 100%; }
       body main #content-wrapper #country-detail > div #add-new-admin-level {
+        background-color: #008080;
+        color: #fff;
+        padding: 4px 10px;
         box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
         body main #content-wrapper #country-detail > div #add-new-admin-level:active {
           box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
@@ -314,6 +346,8 @@ body {
         body main #content-wrapper #key-figures .key-figure > div {
           flex-basis: 30%;
           padding: 0 8px; }
+          body main #content-wrapper #key-figures .key-figure > div > div {
+            padding: 6px 0; }
     body main #content-wrapper #population-data {
       background-color: #fff;
       height: calc(100vh - 56px - 48px);
@@ -366,12 +400,19 @@ body {
             body main #content-wrapper #media-sources > div > div .media-source input:not(:last-child) {
               margin-bottom: 10px; }
           body main #content-wrapper #media-sources > div > div .media-source a {
-            color: #e04756;
             cursor: pointer; }
+            body main #content-wrapper #media-sources > div > div .media-source a.remove-source-btn {
+              color: #e04756; }
+            body main #content-wrapper #media-sources > div > div .media-source a.fa-twitter {
+              font-size: 1.2em; }
           body main #content-wrapper #media-sources > div > div .media-source:nth-child(odd) {
             background-color: #f0f0f0; }
     body main #content-wrapper .last-checked-date {
       color: rgba(0, 0, 0, 0.5);
-      flex-basis: 100%; }
+      flex-basis: 100%;
+      margin-bottom: 16px; }
+      body main #content-wrapper .last-checked-date date {
+        color: #414141;
+        font-family: 'Inconsolata', monospace; }
 
 /*# sourceMappingURL=country-management.css.map */

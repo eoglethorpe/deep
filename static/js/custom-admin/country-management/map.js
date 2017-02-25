@@ -141,10 +141,10 @@ function refreshMap() {
         onEachFeature: onEachMapFeature
     }).addTo(map);
 
-    $("#admin-level-buttons button").removeClass("btn-primary");
-    $("#admin-level-buttons button").addClass("btn-default");
-    $("#btn-lvl-"+currentLevel).removeClass("btn-default");
-    $("#btn-lvl-"+currentLevel).addClass("btn-primary");
+    $("#admin-level-buttons button").removeClass("active");
+    // $("#admin-level-buttons button").addClass("btn-default");
+    // $("#btn-lvl-"+currentLevel).removeClass("btn-default");
+    $("#btn-lvl-"+currentLevel).addClass("active");
 
     map.fitBounds(layer.getBounds());
 }
@@ -163,8 +163,8 @@ function refreshAdminLevels() {
             $("#admin-level-buttons").append(btn);
             totalWidth += $("#btn-lvl-"+i).width();
         }
-        $("#map-controls").width(totalWidth+72);
-        $("#map-controls").css("left",($("#the-map").width()-$("#map-controls").width())/2);
+        // $("#map-controls").width(totalWidth+72);
+        // $("#map-controls").css("left",($("#the-map").width()-$("#map-controls").width())/2);
     }
     refreshMap();
 }

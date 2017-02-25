@@ -60,13 +60,13 @@ function addTodayButtons() {
     $('input[type="date"]').each(function() {
         var date = $(this);
         date.css('padding-left', '32px');
-        var today_btn = $('<a class="today-btn"><i class="fa fa-clock-o"></i></a>');
+        var today_btn = $('<a class="today-btn fa fa-clock-o"></a>');
         today_btn.appendTo(date.parent());
         today_btn.css('z-index', '10');
         date.css('position', 'relative');
         today_btn.css('position', 'absolute');
-        today_btn.css('left', date.position().left+9+'px');
-        today_btn.css('top', date.position().top+date.outerHeight()/2-10+'px');
+        today_btn.css('left', date.position().left+8+'px');
+        today_btn.css('top', date.position().top+date.outerHeight()/2-7+'px');
         today_btn.css('cursor', 'pointer');
 
         today_btn.on('click', function(date) {
@@ -138,6 +138,38 @@ function searchAndHighlight(content, searchString) {
         }
     }
     return text;
+}
+
+
+// get cookie
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function setupCsrfForAjax() {
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        }
+    });
 }
 
 

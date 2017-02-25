@@ -1,97 +1,135 @@
-nav{
-    background-color: darken($primary-color, 10%);
-    height: $navbar-height;
-    z-index: 1010;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
-    @include shadow();
-
-    img{
-        width: 96px;
-    }
-    a, a:visited{
-        display: inline-block;
-    }
-    #report-wrapper{
-    }
-    #main-menu{
-        flex-basis: 40%;
-    }
-    .menu-item{
-        font-weight: $font-weight-normal;
-        color: rgba(255, 255, 255, 0.7);
-        transition: 0.2s all ease-in-out;
-        text-align: center;
-        font-size: $text-size-md;
+body{
+    > nav{
+        background-color: darken($primary-color, 10%);
         height: $navbar-height;
+        z-index: 1010;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
         padding: 0 16px;
-        padding-top: calc(calc(#{$navbar-height} - #{$text-size-md} - 8px) / 2);
+        @include shadow();
+        $deep-logo-width: 96px;
 
-        &.active{
-            border-bottom: 2px solid #fff;
+        a:hover, a:active{
             color: #fff;
-            font-weight: $font-weight-bold;
         }
-    }
-    a:hover, a:active, button:hover, button:active{
-        color: #fff;
-    }
-    button, button:visited{
-        background-color: transparent;
-        border: none;
-        color: rgba(255, 255, 255, 0.7);
-        font-weight: $font-weight-normal;
-        font-size: $text-size-md;
+        .menu-item{
+            font-weight: $font-weight-normal;
+            font-size: $text-size-md;
+            height: $navbar-height;
+            display: inline-block;
+            padding: calc(calc(#{$navbar-height} - #{$text-size-md} - 8px) / 2) 16px 0 16px;
+            color: rgba(255, 255, 255, 0.7);
+            transition: 0.2s all ease-in-out;
 
-        .fa{
-            margin-right: 10px;
-        }
-        .caret{
-            margin-left: 10px;
-        }
-    }
-    #crisis-wrapper{
-        flex-basis: 28%;
-
-        .selectize-control.single{
-            .selectize-input, &.single, .selectize-input.input-active{
-                background-color: transparent!important;
-            }
-        }
-        .selectize-input{
-            border: none;
-            > div, input{
-                background-color: transparent;
+            &.active{
+                font-weight: $font-weight-bold;
+                border-bottom: 2px solid #fff;
                 color: #fff;
             }
-            &:after {
-                content: ' ';
-                display: block;
-                position: absolute;
-                top: 50%;
-                right: 15px;
-                margin-top: -3px;
-                width: 0;
-                height: 0;
-                border-style: solid;
-                border-width: 5px 5px 0 5px;
-                border-color: #808080 transparent transparent transparent;
+        }
+        #deep-logo-container{
+            flex-basis: 96px;
+            flex-shrink: 0;
+            flex-grow: 0;
+
+            img{
+                width: 100%;
             }
         }
-        a{
-            vertical-align: middle;
+        #report-link-wrapper{
+            flex-basis: 10%;
         }
-    }
-    .dropdown{
-        ul{
-            li{
-                a{
-                    padding-top: 8px;
-                    padding-bottom: 8px;
-                    .fa{
-                        margin-right: 10px;
+        #crisis-select-container{
+            flex-basis: 28%;
+
+            .selectize-control.single{
+                .selectize-input, &.single, .selectize-input.input-active{
+                    background-color: transparent!important;
+                }
+            }
+            .selectize-input{
+                border: none;
+                > div, input{
+                    background-color: transparent;
+                    color: #fff;
+                }
+                &:after {
+                    content: ' ';
+                    display: block;
+                    position: absolute;
+                    top: 50%;
+                    right: 15px;
+                    margin-top: -3px;
+                    width: 0;
+                    height: 0;
+                    border-style: solid;
+                    border-width: 5px 5px 0 5px;
+                    border-color: #808080 transparent transparent transparent;
+                }
+            }
+            a{
+                vertical-align: middle;
+            }
+        }
+        #main-menu{
+            flex-basis: 32%;
+        }
+        #extra-menu{
+            flex-basis: calc(20% - #{$deep-logo-width});
+            display: flex;
+            justify-content: space-between;
+
+            #chrome-extension-download-link{
+                flex-basis: 24px;
+                color: #fff;
+            }
+
+            .name{
+                .fa{
+                    margin-right: 10px;
+                }
+            }
+
+            .dropdown{
+                flex-basis: calc(90% - 24px);
+                position: relative;
+                cursor: pointer;
+                outline: none;
+
+                .dropdown-toggle{
+                    color: rgba(255, 255, 255, 0.7);
+                    display: flex;
+                    justify-content: space-around;
+                }
+
+                .items{
+                    position: absolute;
+                    top: calc(8px + #{$navbar-height} / 2);
+                    right: 0;
+                    background-color: #fff;
+                    width: 100%;
+                    min-width: 200px;
+                    z-index: 1011;
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.3);
+
+                    hr{
+                        border: 1px solid rgba(0, 0, 0, 0.05);
+                        margin: 0;
+                    }
+                    div{
+                        padding: 16px;
+                        text-transform: uppercase;
+                        color: $text-color;
+
+                        .fa{
+                            width: 32px;
+                        }
+                        &:hover{
+                            background-color: rgba(0, 0, 0, 0.1);
+                        }
                     }
                 }
             }

@@ -1,181 +1,153 @@
 @import 'common/base';
 @import 'common/navbar';
 
-nav{
-    top: 0;
-    position: fixed;
-    width: 100%;
-    z-index: 1001;
-}
-
 body{
-    margin-top: $navbar-height;
-    padding: 0;
-    background-color: #f5f5f5;
-    overflow: hidden;
+    $map-height: 44vh;
 
-    #map-section{
+    h1, h2, h3, h4{
+        margin: 0;
+        text-transform: uppercase;
+    }
+    #map{
         display: flex;
         justify-content: space-between;
 
-        h2{
-            display: inline-block;
-            font-size: 1.2em;
-            text-transform: uppercase;
-            margin: 24px 16px 16px 16px;
-        }
         #the-map{
-            background: transparent;
-            height: 44vh;
+            background-color: transparent;
+            height: $map-height;
             flex-basis: 75%;
         }
         #overview{
-            height: 44vh;
+            height: $map-height;
             flex-basis: 25%;
+            border-left: 1px solid rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             justify-content: center;
+            padding: 0 32px;
 
-            h1{
-                margin: 0;
-                text-transform: uppercase;
-                margin-bottom: 24px;
-                color: $primary-color;
-            }
-            div{
-            }
-            label{
-                color: $text-color;
-                font-size: $text-size-xl;
-                font-weight: $font-weight-thin;
-                vertical-align: super;
-            }
             .number{
+                font-family: 'Inconsolata', monospace;
+                font-size: 3em;
                 display: inline-block;
+                width: 5ex;
                 text-align: right;
                 margin-right: 10px;
-                margin-left: 10px;
-                font-size: 3em;
-                color: $label-color;
-                min-width: 4ch;
-                font-family: 'Inconsolata', monospace;
             }
-
+            label{
+                font-size: 1.2em;
+            }
+            > div{
+                padding: 10px 0;
+            }
         }
     }
-    #body{
-        box-shadow: 0 -2px 5px 1px rgba(0, 0, 0, 0.3);
-        overflow-x: hidden;
+    #timeline{
+        box-shadow: 0 -5px 15px -5px rgba(0, 0, 0, 0.3);
 
-        #header{
-            display: flex;
-            justify-content: flex-start;
+        > header{
             height: 48px;
-            padding-top: 6px;
-            z-index: 1;
-
-            h3{
-                margin: 0 16px;
-                text-transform: uppercase;
-                padding-top: 10px;
-            }
-            #filters{
-                flex-basis: 70%;
-                display: flex;
-                justify-content: center;
-
-                >div{
-                    flex-basis: 30%;
-                }
-                .selectize-control{
-                    margin-bottom: 10px;
-
-                    .selectize-input{
-                        min-height: 32px;
-                        border-radius: 3px;
-                        padding: 6px 4px;
-                    }
-                    .single{
-                        box-sizing: inherit;
-                    }
-                }
-            }
-        }
-        #back-btn{
-            margin-right: 10px;
-            cursor: pointer;
-        }
-
-        #timeline-table-wrapper {
-            padding: 0 16px;
-            width: 100%;
             display: flex;
-            overflow-x: hidden;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            background-color: #fff;
 
-            #timeline-table-col0-container{
-                max-height: calc(56vh - #{$navbar-height} - 48px);
-                flex-basis: 15%;
-                overflow-y: hidden;
-                overflow-x: scroll;
+
+            #filters{
+                flex-basis: 60%;
+                display: flex;
             }
-            #timeline-table-container{
-                max-height: calc(56vh - #{$navbar-height} - 48px);
-                flex-basis: 85%;
+        }
+        #timeline-table{
+            $min-col-height: 48px;
+
+            > header, .report{
+                min-height: $min-col-height;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 16px;
+
+                .aside{
+                    flex-basis: 20%;
+                    align-self: stretch;
+                    border-right: 1px solid $primary-color;
+                    padding-top: calc(calc(#{$min-col-height} - #{$text-size-md}) / 2);
+                }
+                .weeks{
+                    flex-basis: 80%;
+                    overflow-x: hidden;
+                    display: flex;
+
+                    .week{
+                        flex: none;
+                        font-family: 'Inconsolata', monospace;
+                        text-align: center;
+                        width: 48px;
+                    }
+                }
+            }
+            > header{
+                box-sizing: border-box;
+                border-bottom: 1px solid $primary-color;
+                margin-right: 12px;
+
+                h4{
+                    color: $primary-color;
+
+                    .fa{
+                        margin-right: 10px;
+                        cursor: pointer;
+                    }
+                }
+            }
+            #reports{
+                height: calc(100vh - #{$navbar-height} - #{$map-height} - 48px - #{$min-col-height} - 12px);
                 overflow-y: scroll;
-            }
-            #timeline-table-col0{
-                border-right: 1px solid $primary-color;
-            }
-            #timeline-table, #timeline-table-col0{
-                border-collapse: separate;
-                @include shadow();
 
-                thead{
-                    td{
-                        color: $primary-color;
-                        border-bottom: 1px solid $primary-color;
-                        text-transform: uppercase;
+                .report{
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+                    .aside{
+                        cursor: pointer;
+                    }
+                    .weeks{
+                        align-self: stretch;
+
+                        .week{
+                            height: 100%;
+
+                            &.active{
+                                cursor: pointer;
+                                border-right: 1px solid #fff;
+                                background-color: $primary-color;
+                            }
+                        }
+                    }
+                    &:nth-child(odd){
                         background-color: #fff;
                     }
                 }
-                td{
-                    padding: 16px;
-                    text-align: center;
-                    height: 56px;
-                    z-index: 0;
-                }
-                tr{
-                    background-color: #f8f8f8;
-                    &:nth-child(even){
-                        background-color: #fafafa;
-                    }
-                    &:not(:last-child){
-                        td{
-                            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-                        }
-                    }
-                }
-                .active{
-                    background-color: $primary-color;
-                    margin: 10px;
-                    cursor: pointer;
-                    color: #fff;
-                    transform: scale(0.98);
-                    .fa{
-                        transform: scale(2);
-                    }
-                }
-                .country-name{
-                    cursor: pointer;
-                }
             }
-        }
-    }
-    .country-details{
-        thead{
-            td{
-                &:first-child{
-                    font-weight: $font-weight-bold;
+            #horizontal-scroll{
+                height: 12px;
+                display: flex;
+                justify-content: space-between;
+                border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+                .aside{
+                    flex-basis: 20%;
+                }
+                .weeks{
+                    flex-basis: 80%;
+                    height: 100%;
+                    overflow-x: auto;
+
+                    #scrollbar{
+                        height: 12px;
+                        flex: none;
+                    }
                 }
             }
         }

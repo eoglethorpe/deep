@@ -7,8 +7,10 @@ DEEP | Entries
 
 {% block head %}
 
-<link href="{% watchful_static_url 'css/entries.css' %}" type="text/css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/modal.css' %}"/>
+<link href="{% watchful_static_url 'css/entries.css' %}" type="text/css" rel="stylesheet">
+
 <script type="text/javascript" src="{% watchful_static_url 'js/common/datatables.min.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/split.js' %}"></script>
@@ -16,6 +18,7 @@ DEEP | Entries
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/entries-filter.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/entry-visualization-map.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/entry-visualization.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/entries.js' %}"></script>
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
@@ -27,6 +30,11 @@ DEEP | Entries
 <script>
     var eventId = "{{event.pk}}";
     var csrf_token = "{% csrf_token %}";
+
+    var pillar_names = { {% for pillar in pillars %}{{pillar.pk}}: '{{pillar.name}}', {% endfor %} };
+    var subpillar_names = { {% for subpillar in subpillars %}{{subpillar.pk}}: '{{subpillar.name}}', {% endfor %} };
+    var sector_names = { {% for sector in sectors %}{{sector.pk}}: '{{sector.name}}', {% endfor %} };
+    var subsector_names = { {% for subsector in subsectors %}{{subsector.pk}}: '{{subsector.name}}', {% endfor %} };
 
     var sectors = [
         {% for sector in sectors %}
@@ -122,7 +130,6 @@ DEEP | Entries
         {% include 'entries/entry-filters.html' %}
     </div>
     <div >
-
         <button class="btn btn-default btn-sm" id="clear-filter-btn" onclick="clearFilters();">Clear filters</button>
         <div id="toggle-panel">
             <a href="#" data-target="#entries" class="fa fa-list active"></a>

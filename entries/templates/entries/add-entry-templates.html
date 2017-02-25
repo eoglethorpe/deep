@@ -1,92 +1,74 @@
 {% load watchful_url %}
 
 <div class="entry-template" hidden>
-    <div class="row">
-        <div class="col-md-3 first-child">
-            <textarea class="form-control excerpt" ></textarea>
+    <textarea class="excerpt" ></textarea>
+    <div>
+        <div class="reliability">
+            <label>Reliability:</label>
+            {% for reliability in reliabilities %}
+            <span data-id="{{reliability.pk}}" class="_{{reliability.level}}" title="{{reliability}}"></span>
+            {% endfor %}
         </div>
-        <div class="col-md-2 low-padding">
-                <div class="reliability">
-                    <label>Reliability:</label>
-                    {% for reliability in reliabilities %}
-                    <span data-id="{{reliability.pk}}" class="_{{reliability.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{reliability}}"></span>
-                    {% endfor %}
-                </div>
-                <div class="severity">
-                    <label>Severity:</label>
-                    {% for severity in severities %}
-                    <span data-id="{{severity.pk}}" class="_{{severity.level}}" onmouseover="$(this).tooltip('show')" data-toggle="tooltip" data-placement="bottom" title="{{severity}}"></span>
-                    {% endfor %}
-                </div>
-                <hr>
-                <div id="date-number">
-                    <div class="date">
-                        <label>Information's date:</label>
-                        <div style="position: relative;">
-                            <input type="date" class="entry-date form-control form-group" placeholder="Date">
-                        </div>
-                    </div>
-                    <div class="number" hidden>
-                        <label>Number:</label>
-                        <input type="number" step="1" min="0" class="entry-number form-control form-group" placeholder="Number">
-                    </div>
-                </div>
+        <div class="severity">
+            <label>Severity:</label>
+            {% for severity in severities %}
+            <span data-id="{{severity.pk}}" class="_{{severity.level}}" title="{{severity}}"></span>
+            {% endfor %}
         </div>
-        <div class="col-md-2 low-padding">
-            <div class="vulnerable-groups">
-                <label>Demographic groups:</label>
-                <a class="fa fa-circle btn-demographic-apply-to-all" title="Apply to all" style="color: #f39c12; cursor: pointer;"></a>
-                <a class="fa fa-circle btn-demographic-apply-to-all-below" title="Apply to all below" style="color: #3498db; cursor: pointer; margin-left: 5px; margin-right: 10px;"></a>
-                <select  style="width: 90%;" class="vulnerable-group-select" class="form-control form-group" placeholder="Select demographic group" multiple>
-                    {% for vg in vulnerable_groups %}
-                    <option value="{{vg.pk}}">{{vg}}</option>
-                    {% endfor %}
-                </select>
+        <div class="information-date">
+            <label>Information's date:</label>
+            <div class="action-buttons">
+                <a class="fa fa-circle btn-date-apply-to-all" title="Apply to all"></a>
+                <a class="fa fa-circle btn-date-apply-to-all-below" title="Apply to all below"></a>
             </div>
-            <div class="specific-need-groups">
-                <label>Specific need groups:</label>
-                <a class="fa fa-circle btn-specific-needs-apply-to-all" title="Apply to all" style="color: #f39c12; cursor: pointer;"></a>
-                <a class="fa fa-circle btn-specific-needs-apply-to-all-below" title="Apply to all below" style="color: #3498db; cursor: pointer; margin-left: 5px; margin-right: 10px;"></a>
-                <select style="width: 90%;" class="specific-need-group-select" class="form-control form-group" placeholder="Select specific need group" multiple>
-                    {% for sg in specific_needs_groups %}
-                    <option value="{{sg.pk}}">{{sg}}</option>
-                    {% endfor %}
-                </select>
-            </div>
+            <input type="date" class="entry-date" placeholder="Date">
         </div>
-        <div class="col-md-5 low-padding">
-            <div class="row">
-                <div class="col-md-3 first-child">
-                    <div class="affected-group">
-                        <label>Affected groups:</label><a class="btn-affected " data-toggle="modal" data-target="#affected-groups-modal"><img src="{% watchful_static_url 'img/organigram.png' %}"></a>
-                        <div class="affected-group-list"></div>
-                    </div>
-                </div>
-                <div class="col-md-3 low-padding">
-                    <div class="geo-location">
-                        <label>Geo locations:</label><a class="btn-map " data-toggle="modal" data-target="#map-modal"><img src="{% watchful_static_url 'img/mapicon.png' %}"></a>
-                        <div class="geo-locations-list"></div>
-                    </div>
-                </div>
-                <div class="col-md-5 low-padding">
-                    <div class="attribute-list">
-                    </div>
-                </div>
-                <div class="col-md-1 last-child">
-                    <a class="edit-entry-btn btn btn-primary btn-action" data-toggle="tooltip" data-placement="bottom" title="Edit Attributes"><i class="fa fa-edit"></i></a>
-                    <a class="delete-entry-btn btn btn-danger btn-action" data-toggle="tooltip" data-placement="bottom" title="Delete Entry"><i class="fa fa-times"></i></a>
-                </div>
-            </div>
+        <div class="number" hidden>
+            <label>Number:</label>
+            <input type="number" step="1" min="0" class="entry-number form-control form-group" placeholder="Number">
         </div>
+    </div>
+    <div class="vulnerable-groups">
+        <label>Demographic groups:</label>
+        <div class="action-buttons">
+            <a class="fa fa-circle btn-demographic-apply-to-all" title="Apply to all"></a>
+            <a class="fa fa-circle btn-demographic-apply-to-all-below" title="Apply to all below"></a>
+        </div>
+        <select class="vulnerable-group-select" class="form-control form-group" placeholder="Select demographic group" multiple>
+            {% for vg in vulnerable_groups %}
+            <option value="{{vg.pk}}">{{vg}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="specific-need-groups">
+        <label>Specific need groups:</label>
+        <div class="action-buttons">
+            <a class="fa fa-circle btn-specific-needs-apply-to-all" title="Apply to all"></a>
+            <a class="fa fa-circle btn-specific-needs-apply-to-all-below" title="Apply to all below"></a>
+        </div>
+        <select class="specific-need-group-select" class="form-control form-group" placeholder="Select specific need group" multiple>
+            {% for sg in specific_needs_groups %}
+            <option value="{{sg.pk}}">{{sg}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="affected-group">
+        <label>Affected groups:</label><a class="affected-groups-modal-btn"><img src="{% watchful_static_url 'img/organigram.png' %}"></a>
+        <div class="affected-group-list"></div>
+    </div>
+    <div class="geo-location">
+        <label>Geo locations:</label><a class="map-modal-btn"><img src="{% watchful_static_url 'img/mapicon.png' %}"></a>
+        <div class="geo-locations-list"></div>
+    </div>
+    <div class="attribute-list">
+    </div>
+    <div class="action-buttons">
+        <a class="edit-entry-btn fa fa-edit" title="Edit Attributes"></a>
+        <a class="delete-entry-btn fa fa-times" title="Delete Entry"></a>
     </div>
 </div>
-<div class="attribute-template" hidden>
-    <div class="row">
-        <div class="col-md-6 first-child">
-            <span class="pillar"></span> <br> <span class="sub-pillar"></span>
-        </div>
-        <div class="col-md-6 last-child">
-            <span class="sector"></span> <br> <span class="dropdown" ><span class='sub-sector-list'></span><a class="sub-sector" data-toggle="dropdown"></a><ul class="dropdown-menu pull-right"></ul></span>
-        </div>
-    </div>
+<div class="hidden">
+    <div class="attribute-template">
+        <div><div class="pillar"></div><div class="sub-pillar"></div></div>
+        <div><div class="sector"></div><div class="dropdown" tabindex="-1"><div class='sub-sector-list'></div><a class="sub-sector"></a> <div class="dropdown-menu" hidden></div></div></div></div>
 </div>

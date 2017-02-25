@@ -1,56 +1,58 @@
-<div id="entry-timeline-wrapper" class="visualization-block">
-    <h3>Entries by date<span class="entry-count"></span></h3>
-
-    <div id="entry-timeline-container">
-        <span class='timeline-scale'>
-            <span class='scale scale-1'>
-                <span class='val'>0</span>
-            </span><span class='scale scale-2'>
-                <span class='val'>0</span>
-            </span><span class='scale scale-3'>
-                <span class='val'>0</span>
-            </span><span class='scale scale-4'>
-                <span class='val'>0</span>
-            </span><span class='scale scale-5'>
-                <span class='val'>0</span>
+<div id="first-row">
+    <div id="entry-timeline-wrapper" class="visualization-block">
+        <h3>Entries by date<span class="entry-count"></span></h3>
+        <div id="entry-timeline-container">
+            <span class='timeline-scale'>
+                <span class='scale scale-1'>
+                    <span class='val'>0</span>
+                </span><span class='scale scale-2'>
+                    <span class='val'>0</span>
+                </span><span class='scale scale-3'>
+                    <span class='val'>0</span>
+                </span><span class='scale scale-4'>
+                    <span class='val'>0</span>
+                </span><span class='scale scale-5'>
+                    <span class='val'>0</span>
+                </span>
             </span>
-        </span>
-        <canvas id="entry-timeline"></canvas>
-    </div>
-</div>
-<div id="severity-legend" class="visualization-block">
-    <h3>Legend<span class="number"></span></h3>
-    <p data-id="1"><span class="severity severity-1"></span><label>No Problem</label></p>
-    <p data-id="2"><span class="severity severity-2"></span><label>Situation of Concern</label></p>
-    <p data-id="3"><span class="severity severity-3"></span><label>Situation of Major Concern</label></p>
-    <p data-id="4"><span class="severity severity-4"></span><label>Severe conditions</label></p>
-    <p data-id="5"><span class="severity severity-5"></span><label>Critical Situation</label></p>
-</div>
-<div id="pie-wrapper-container" class="visualization-block">
-    <h3>% of entries per severity<span class="number"></span></h3>
-    <div id="pie-wrapper">
-        <svg id="pies-container">
-        </svg>
-    </div>
-</div>
-<br>
-<div id="sectors-visualization" class="attr-visualization visualization-block">
-    <div class="sort-buttons">
-        <button class="btn btn-default sort-alpha" data-toggle="tooltip" title="Sort alphabetically" onclick="sortAlpha(sectors, 'sectors-visualization');"><i class="fa fa-sort-alpha-asc"></i></button>
-        <button class="btn btn-default sort-ascending" data-toggle="tooltip" title="Sort by entries in ascending" onclick="sortAsc(sectors, 'sectors-visualization');"><i class="fa fa-sort-numeric-asc"></i></button>
-        <button class="btn btn-default sort-descending" data-toggle="tooltip" title="Sort by entries in descending" onclick="sortDesc(sectors, 'sectors-visualization');"><i class="fa fa-sort-numeric-desc"></i></button>
-    </div>
-    <h3>Entries by sectors<span class="entry-count"></span></h3>
-    <div class="attr-container">
-        {% for sector in sectors %}
-        <div class="attr" data-id="{{sector.pk}}">
-            <label class="name">{{sector}}</label>
-            {% if sector.icon %}
-            <img src="{{sector.icon.url}}" >
-            {% endif %}
-            <span class="severities"></span>
+            <canvas id="entry-timeline"></canvas>
         </div>
-        {% endfor %}
+    </div>
+    <div id="severity-legend" class="visualization-block">
+        <h3>Legend<span class="number"></span></h3>
+        <p data-id="1"><span class="severity severity-1"></span><label>No Problem</label></p>
+        <p data-id="2"><span class="severity severity-2"></span><label>Situation of Concern</label></p>
+        <p data-id="3"><span class="severity severity-3"></span><label>Situation of Major Concern</label></p>
+        <p data-id="4"><span class="severity severity-4"></span><label>Severe conditions</label></p>
+        <p data-id="5"><span class="severity severity-5"></span><label>Critical Situation</label></p>
+    </div>
+    <div id="pie-wrapper-container" class="visualization-block">
+        <h3>% of entries per severity<span class="number"></span></h3>
+        <div id="pie-wrapper">
+            <svg id="pies-container">
+            </svg>
+        </div>
+    </div>
+</div>
+<div id="second-row">
+    <div id="sectors-visualization" class="attr-visualization visualization-block">
+        <div class="sort-buttons">
+            <button class="sort-alpha" title="Sort alphabetically" onclick="sortAlpha(sectors, 'sectors-visualization');"><i class="fa fa-sort-alpha-asc"></i></button>
+            <button class="sort-ascending" title="Sort by entries in ascending" onclick="sortAsc(sectors, 'sectors-visualization');"><i class="fa fa-sort-numeric-asc"></i></button>
+            <button class="sort-descending" title="Sort by entries in descending" onclick="sortDesc(sectors, 'sectors-visualization');"><i class="fa fa-sort-numeric-desc"></i></button>
+        </div>
+        <h3>Entries by sectors<span class="entry-count"></span></h3>
+        <div class="attr-container">
+            {% for sector in sectors %}
+            <div class="attr" data-id="{{sector.pk}}">
+                <label class="name">{{sector}}</label>
+                {% if sector.icon %}
+                <img src="{{sector.icon.url}}" >
+                {% endif %}
+                <span class="severities"></span>
+            </div>
+            {% endfor %}
+        </div>
         <div class="attr-scale-container">
             <label></label>
             <span class="blank-space"></span>
@@ -70,22 +72,21 @@
             </span>
         </div>
     </div>
-</div>
-<div id="map-wrapper" class="visualization-block">
-    <div id="the-map">
-    </div>
-    <div id="map-controls">
-        <div id="country-select-wrapper">
-            <select name="country" id="country" placeholder="Select a country">
-                {% for country in event.countries.all %}
-                <option value="{{country.pk}}">{{country.name}}</option>
-                {% endfor %}
-            </select>
+    <div id="map-wrapper" class="visualization-block">
+        <div id="the-map">
         </div>
-        <div id="admin-level-buttons"></div>
+        <div id="map-controls">
+            <div id="country-select-wrapper">
+                <select name="country" id="country" placeholder="Select a country">
+                    {% for country in event.countries.all %}
+                    <option value="{{country.pk}}">{{country.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div id="admin-level-buttons"></div>
+        </div>
     </div>
 </div>
-<br>
 <div id="attr-visualizations-container">
     <div id="affected-groups-visualization" class="visualization-block attr-visualization">
         <div class="sort-buttons">
@@ -101,23 +102,23 @@
                 <span class="severities"></span>
             </div>
             {% endfor %}
-            <div class="attr-scale-container">
-                <label></label>
-                <span class="attr-scale">
-                    <span class="scale scale-1">
-                        <span class="val">0</span>
-                    </span><span class="scale scale-2">
-                        <span class="val">0</span>
-                    </span><span class="scale scale-3">
-                        <span class="val">0</span>
-                    </span><span class="scale scale-4">
-                        <span class="val">0</span>
-                    </span><span class="scale scale-5">
-                        <span class="val">0</span>
-                        <span class="val-right">0</span>
-                    </span>
+        </div>
+        <div class="attr-scale-container">
+            <label></label>
+            <span class="attr-scale">
+                <span class="scale scale-1">
+                    <span class="val">0</span>
+                </span><span class="scale scale-2">
+                    <span class="val">0</span>
+                </span><span class="scale scale-3">
+                    <span class="val">0</span>
+                </span><span class="scale scale-4">
+                    <span class="val">0</span>
+                </span><span class="scale scale-5">
+                    <span class="val">0</span>
+                    <span class="val-right">0</span>
                 </span>
-            </div>
+            </span>
         </div>
     </div>
     <div id="vulnerable-groups-visualization" class="visualization-block attr-visualization">
@@ -134,23 +135,23 @@
                 <span class="severities"></span>
             </div>
             {% endfor %}
-            <div class="attr-scale-container">
-                <label></label>
-                <span class="attr-scale">
-                    <span class="scale scale-1">
-                        <span class="val">0</span>
-                    </span><span class="scale scale-2">
-                        <span class="val">0</span>
-                    </span><span class="scale scale-3">
-                        <span class="val">0</span>
-                    </span><span class="scale scale-4">
-                        <span class="val">0</span>
-                    </span><span class="scale scale-5">
-                        <span class="val">0</span>
-                        <span class="val-right">0</span>
-                    </span>
+        </div>
+        <div class="attr-scale-container">
+            <label></label>
+            <span class="attr-scale">
+                <span class="scale scale-1">
+                    <span class="val">0</span>
+                </span><span class="scale scale-2">
+                    <span class="val">0</span>
+                </span><span class="scale scale-3">
+                    <span class="val">0</span>
+                </span><span class="scale scale-4">
+                    <span class="val">0</span>
+                </span><span class="scale scale-5">
+                    <span class="val">0</span>
+                    <span class="val-right">0</span>
                 </span>
-            </div>
+            </span>
         </div>
     </div>
     <div id="specific-needs-groups-visualization"  class="visualization-block attr-visualization">
@@ -167,23 +168,23 @@
                 <span class="severities"></span>
             </div>
             {% endfor %}
-            <div class="attr-scale-container">
-                <label></label>
-                <span class="attr-scale">
-                    <span class="scale scale-1">
-                        <span class="val">0</span>
-                    </span><span class="scale scale-2">
-                        <span class="val">0</span>
-                    </span><span class="scale scale-3">
-                        <span class="val">0</span>
-                    </span><span class="scale scale-4">
-                        <span class="val">0</span>
-                    </span><span class="scale scale-5">
-                        <span class="val">0</span>
-                        <span class="val-right">0</span>
-                    </span>
+        </div>
+        <div class="attr-scale-container">
+            <label></label>
+            <span class="attr-scale">
+                <span class="scale scale-1">
+                    <span class="val">0</span>
+                </span><span class="scale scale-2">
+                    <span class="val">0</span>
+                </span><span class="scale scale-3">
+                    <span class="val">0</span>
+                </span><span class="scale scale-4">
+                    <span class="val">0</span>
+                </span><span class="scale scale-5">
+                    <span class="val">0</span>
+                    <span class="val-right">0</span>
                 </span>
-            </div>
+            </span>
         </div>
     </div>
     <div id="sources-visualization"  class="visualization-block attr-visualization">
@@ -200,23 +201,23 @@
                 <span class="severities"></span>
             </div>
             {% endfor %}
-            <div class="attr-scale-container">
-                <label></label>
-                <span class="attr-scale">
-                    <span class="scale scale-1">
-                        <span class="val">0</span>
-                    </span><span class="scale scale-2">
-                        <span class="val">0</span>
-                    </span><span class="scale scale-3">
-                        <span class="val">0</span>
-                    </span><span class="scale scale-4">
-                        <span class="val">0</span>
-                    </span><span class="scale scale-5">
-                        <span class="val">0</span>
-                        <span class="val-right">0</span>
-                    </span>
+        </div>
+        <div class="attr-scale-container">
+            <label></label>
+            <span class="attr-scale">
+                <span class="scale scale-1">
+                    <span class="val">0</span>
+                </span><span class="scale scale-2">
+                    <span class="val">0</span>
+                </span><span class="scale scale-3">
+                    <span class="val">0</span>
+                </span><span class="scale scale-4">
+                    <span class="val">0</span>
+                </span><span class="scale scale-5">
+                    <span class="val">0</span>
+                    <span class="val-right">0</span>
                 </span>
-            </div>
+            </span>
         </div>
     </div>
 </div>

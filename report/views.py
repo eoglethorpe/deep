@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
+from users.log import *
 from leads.models import *
 from entries.models import *
 from report.models import *
@@ -133,8 +134,10 @@ class WeeklyReportView(View):
 
         if report_id:
             report = WeeklyReport.objects.get(pk=report_id)
+            activity = EditionActivity()
         else:
             report = WeeklyReport()
+            activity = CreationActivity()
 
         report.start_date = datetime.strptime(request.POST["start_date"], '%d-%b-%Y')
         report.event = event
@@ -142,13 +145,25 @@ class WeeklyReportView(View):
         report.last_edited_by = request.user
         report.data = request.POST["data"]
         report.save()
+
+        activity.set_target(
+            'report', report.pk,
+            report.country.name + ' for ' + report.start_date.strftime('%B %d, %Y'),
+            reverse('report:weekly', args=[report.country.code, report.event.pk, report.pk])
+        ).log_for(request.user, event=report.event)
+
         return redirect(reverse("report:dashboard") + "?country=" + country_id + "&event=" + event_id)
 
 class DeleteWeeklyReport(View):
     @method_decorator(login_required)
     def get(self, request, country_id=None, event_id=None, report_id=None):
         report = WeeklyReport.objects.get(country=country_id, event=event_id, pk=report_id)
+        activity = DeletionActivity().set_target(
+            'report', report.pk,
+            report.country.name + ' for ' + report.start_date.strftime('%B %d, %Y')
+        )
         report.delete()
+        activity.log_for(request.user, event=report.event)
         return redirect(reverse("report:dashboard") + "?country=" + country_id + "&event=" + event_id)
 
 class MonthlyReportView(View):

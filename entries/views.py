@@ -6,6 +6,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse
 
+from users.log import *
 from users.models import *
 from leads.models import *
 from entries.models import *
@@ -171,9 +172,11 @@ class AddEntry(View):
     def post(self, request, event, lead_id=None, id=None):
         if not id:
             lead = Lead.objects.get(pk=lead_id)
+            activity = CreationActivity()
         else:
             entry = Entry.objects.get(pk=id)
             lead = entry.lead
+            activity = EditionActivity()
 
         excerpts = json.loads(request.POST["excerpts"]);
 
@@ -186,6 +189,11 @@ class AddEntry(View):
 
         entry.modified_by = request.user
         entry.save()
+
+        activity.set_target(
+            'entry', entry.pk, entry.lead.name,
+            reverse('entries:edit', args=[entry.lead.event.pk, entry.pk])
+        ).log_for(request.user, event=entry.lead.event)
 
         for excerpt in excerpts:
             information = EntryInformation(entry=entry)
@@ -253,5 +261,10 @@ class DeleteEntry(View):
     @method_decorator(login_required)
     def post(self, request, event):
         entry = Entry.objects.get(pk=request.POST["id"])
+        activity = DeletionActivity().set_target(
+            'entry', entry.pk, entry.lead.name
+        )
+        event = entry.lead.event
         entry.delete()
+        activity.log_for(request.user, event=event)
         return redirect('entries:entries', event=event)

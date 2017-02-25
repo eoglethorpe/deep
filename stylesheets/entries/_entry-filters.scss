@@ -18,15 +18,15 @@
             border: 1px solid rgba(0, 0, 0, 0.1);
         }
         .filter{
-            flex-basis: calc(20% - 1px);
+            flex-basis: 20%;
             outline: none;
             border: none;
         }
         #search, #lead-title-search{
-            flex-basis: calc(13% - 1px);
+            flex-basis: 13%;
         }
         #sources-filter{
-            flex-basis: calc(14% - 2px);
+            flex-basis: 14%;
         }
     }
     #right-block{

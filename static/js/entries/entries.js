@@ -1,7 +1,8 @@
-
 var mapLoaded = false;
+var dateRangeInputModal = null;
 
 $(document).ready(function() {
+    dateRangeInputModal = new Modal('#date-range-input');
     initEntryFilters();
 
     $('#toggle-panel').on('click', 'a', function(){
@@ -46,7 +47,7 @@ function renderEntries() {
         entryElement.addClass("entry");
 
         entryElement.find(".entry-title").html(searchAndHighlight(entry.lead_title, leadTitleFilterText));
-        entryElement.find(".created-by").text(entry.modified_by);
+        entryElement.find(".created-by").text(entry.modified_by_name);
         entryElement.find(".created-on").text(formatDate(new Date(entry.modified_at)));
 
         entryElement.appendTo($("#entries"));
@@ -61,26 +62,26 @@ function renderEntries() {
 
             informationElement.find('.excerpt').html(searchAndHighlight(information.excerpt, searchFilterText));
 
-            informationElement.find('.reliability').find('span[data-id=' + information.reliability.id + ']').addClass('active');
-            informationElement.find('.severity').find('span[data-id=' + information.severity.id + ']').addClass('active');
+            informationElement.find('.reliability').find('span[data-level=' + information.reliability + ']').addClass('active');
+            informationElement.find('.severity').find('span[data-level=' + information.severity + ']').addClass('active');
 
             informationElement.find('.date').text(information.date?formatDate(information.date):"");
-            informationElement.find('.number').text(information.number);
+            // informationElement.find('.number').text(information.number);
 
             informationElement.find('.vulnerable-groups').html(
-                information.vulnerable_groups.map(function(vg) {
-                    return '<span>'+vg.name+'</span>';
+                information.demographic_groups.map(function(vg) {
+                    return '<span>'+vg+'</span>';
                 }).join('')
             );
             informationElement.find('.sepecific-need-groups').html(
                 information.specific_needs_groups.map(function(sg) {
-                    return '<span>'+sg.name+'</span>';
+                    return '<span>'+sg+'</span>';
                 }).join('')
             );
 
             informationElement.find('.affected-group-list').html(
                 information.affected_groups.map(function(ag) {
-                    return '<span>'+ag.name+'</span>';
+                    return '<span>'+ag+'</span>';
                 }).join('')
             );
 
@@ -97,17 +98,17 @@ function renderEntries() {
                 attributeElement.removeClass('attribute-template');
                 attributeElement.addClass('attribute');
 
-                attributeElement.find('.pillar').text(attribute.subpillar.pillar.name);
-                attributeElement.find('.sub-pillar').text(attribute.subpillar.name);
+                attributeElement.find('.pillar').text(pillar_names[attribute.pillar]);
+                attributeElement.find('.sub-pillar').text(subpillar_names[attribute.subpillar]);
 
                 if (attribute.sector) {
-                    attributeElement.find(".sector").text(attribute.sector.name);
+                    attributeElement.find(".sector").text(sector_names[attribute.sector]);
 
                     if (attribute.subsectors) {
                         attributeElement.find(".sub-sector").text(
                             attribute.subsectors.reduce(function(a, b) {
-                                if (a) return a + ", " + b.name;
-                                else return b.name;
+                                if (a) return a + ", " + subsector_names[b];
+                                else return subsector_names[b];
                             }, null)
                         );
                     }

@@ -4,6 +4,20 @@ from django.db import models
 from leads.models import Event
 
 
+class ActivityLog(models.Model):
+    user = models.ForeignKey(User)
+    group = models.ForeignKey('usergroup.UserGroup', default=None, null=True, blank=True)
+    event = models.ForeignKey('leads.Event', default=None, null=True, blank=True)
+    activity = models.TextField(default='{}')
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.user) + ' at ' + str(self.timestamp)
+
+    class Meta:
+        ordering = ['-timestamp']
+
+
 class UserProfile(models.Model):
     """ User Profile Model
 
@@ -12,7 +26,9 @@ class UserProfile(models.Model):
     Django's User.
     """
 
+    photo = models.FileField(upload_to="group-avatar/", null=True, blank=True, default=None)
     user = models.OneToOneField(User, primary_key=True)
+    hid = models.TextField(default=None, null=True, blank=True)
     organization = models.CharField(max_length=150)
     last_event = models.ForeignKey(Event, default=None, null=True, blank=True,
                                    on_delete=models.SET_NULL)

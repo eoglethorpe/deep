@@ -1,11 +1,14 @@
+var dateRangeInputModal = null;
 
 var statuses = {"PEN": "Pending", "PRO": "Processed", "DEL": "Deleted"};
 var confidentialities = {"UNP": "Unprotected", "PRO": "Protected", "RES": "Restricted", "CON": "Confidential", "PUB": "Unprotected"};
 
 var date_created_filter = null;
 var date_published_filter = null;
-var start_date = null;
-var end_date = null;
+var created_start_date = null;
+var created_end_date = null;
+var published_start_date = null;
+var published_end_date = null;
 
 var previous_date_created = "";
 var last_date_filter = "#date-created-filter";
@@ -56,7 +59,7 @@ $.fn.dataTable.ext.search.push(
         var filter = $("#date-created-filter").val();
         date = new Date(data[0].substr(0, 10));
         if(filter == 'range'){
-            return dateInRange(date, start_date, end_date);
+            return dateInRange(date, created_start_date, created_end_date);
         }
         return filterDate(filter, date);
     }
@@ -65,16 +68,20 @@ $.fn.dataTable.ext.search.push(
 $.fn.dataTable.ext.search.push(
     function(settings, data, dataIndex) {
         var filter = $("#date-published-filter").val();
-        date = new Date(data[3]);
-        if(filter == 'range'){
-            return dateInRange(date, start_date, end_date);
+        date = new Date(data[4].substr(0, 10));
+        if(date && filter == 'range'){
+            return dateInRange(date, published_start_date, published_end_date);
         }
         return filterDate(filter, date);
     }
 );
 
 
-$(document).ready(function() {
+$(document).ready(function(){
+    dateRangeInputModal = new Modal('#date-range-input');
+    var addLeadModal = new Modal('#add-lead-modal');
+
+
     var leadsTable = $('#leads-table').DataTable( {
         "order": [[ 0, "desc" ]],
         "scrollY": function(){ return ($(window).height()-250)+'px';},
@@ -83,25 +90,34 @@ $(document).ready(function() {
         ajax: {
             type: "GET",
             dataType: "json",
-            dataSrc: '',
-            url: "/api/v1/leads/?event=" + currentEvent,
+            dataSrc: 'data',
+            url: "/api/v2/leads/?event=" + currentEvent,
         },
         columns: [
             {
-                data: null,width: "7%",
+                data: null, width: "7%",
                 render: function (data, type, row ) {
                     return "<span hidden>"+data.created_at+"</span> "+formatDate(data.created_at) + "<br>" + formatTime(data.created_at) + "<br>";
                 }
             },
             {
-                data: null,width: "7%",
+                data: null, width: "7%",
                 render: function (data, type, row ) {
                     return data.created_by_name;
                 }
             },
-            { data: "assigned_to_name",width: "7%"},
-            { data: "name" , width: "35%"},
-            { data: null,width: "5%", render: function(data, type, row) { if (data.published_at) return formatDate(data.published_at); else return ""; } },
+            { data: "assigned_to_name", width: "7%"},
+            { data: "name", width: "35%"},
+            {
+                data: null, width: "5%",
+                render: function(data, type, row) {
+                    if (data.published_at) {
+                        return "<span hidden>"+data.published_at+"</span> " + formatDate(data.published_at);
+                    } else {
+                        return "";
+                    }
+                }
+            },
             { data: null,width: "5%", render: function(data, type, row) { return confidentialities[data.confidentiality]; } },
             { data: "source",width: "20%"},
             { data: null,width: "5%", render: function(data, type, row) { return statuses[data.status]; } },
@@ -169,20 +185,19 @@ $(document).ready(function() {
                 }
             });
 
-            $("#date-range-input #ok-btn").on('click', function(){
-                start_date = new Date($('#date-range-input #start-date').val());
-                end_date = new Date($('#date-range-input #end-date').val());
-                $("#date-range-input").modal('hide');
-                that.api().draw();
-            });
-
             $('#date-created-filter').on('focus', function () {
                 last_date_filter = "#date-created-filter";
                 previous_date_created = $(this).val();
             }).change(function() {
                 last_date_filter = "#date-created-filter";
                 if($(this).val() == 'range'){
-                    $("#date-range-input").modal('show');
+                    dateRangeInputModal.show().then(function(){
+                        if(dateRangeInputModal.action == 'proceed'){
+                            created_start_date = new Date($('#date-range-input #start-date').val());
+                            created_end_date = new Date($('#date-range-input #end-date').val());
+                            that.api().draw();
+                        }
+                    });
                 } else {
                     previous_date_created = $(this).val();
                 }
@@ -194,7 +209,13 @@ $(document).ready(function() {
             }).change(function() {
                 last_date_filter = "#date-published-filter";
                 if($(this).val() == 'range'){
-                    $("#date-range-input").modal('show');
+                    dateRangeInputModal.show().then(function(){
+                        if(dateRangeInputModal.action == 'proceed'){
+                            published_start_date = new Date($('#date-range-input #start-date').val());
+                            published_end_date = new Date($('#date-range-input #end-date').val());
+                            that.api().draw();
+                        }
+                    });
                 } else {
                     previous_date_created = $(this).val();
                 }
@@ -235,12 +256,11 @@ $(document).ready(function() {
         } else if(data.attachment){
             content += '<div class="lead-content">';
             content += '<label>attachment:</label>';
-            content += '<div><a href="' + data.attachment[1] + '">' + '<i class="fa fa-file"></i>'+ data.attachment[0] + '</a></div>';
+            content += '<div><a href="' + data.attachment.url + '">' + '<i class="fa fa-file"></i>'+ data.attachment.name + '</a></div>';
             content += '</div>';
         }
         return content;
     }
-
 
     function format (data) {
         if (data.published_at == null)
@@ -320,15 +340,20 @@ $(document).ready(function() {
             $.each(droppedFiles, function(i, file) {
                 $('#attachments-list').append(file.name + " ");
             });
-            $('#add-lead-from-attachment').modal('show');
+            addLeadModal.show().then(null, null, function(){
+                $('#add-lead-form').find('input[type="submit"]').click();
+            });
         }
         else {
             var text = e.originalEvent.dataTransfer.getData("text");
             if (text && text.length > 0) {
                 $('.manual-row').show();
                 $('.attachment-row').hide();
-                $('#add-lead-from-attachment').modal('show');
                 $('#manual-text').text(text);
+
+                addLeadModal.show().then(null, null, function(){
+                    $('#add-lead-form').find('input[type="submit"]').click();
+                });
             }
         }
     });

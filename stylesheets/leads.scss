@@ -4,18 +4,14 @@
 body{
     background-color: #f0f0f0;
 }
-
+.dataTables_scrollHead{
+    background-color: #fff;
+}
 main{
     clear: both;
     position: relative;
     padding: 0 16px;
 
-    #add-lead-btn{
-        margin-top: 8px;
-        margin-bottom: 16px;
-        font-weight: $font-weight-bold;
-        @include btn-shadow-md();
-    }
     h1{
         margin: 16px 0!important;
         text-transform: uppercase;
@@ -23,12 +19,26 @@ main{
         color: $primary-color;
         font-size: 1.5em;
     }
+    #add-lead-btn{
+        display: inline-block;
+        font-weight: $font-weight-bold;
+        padding: 10px 16px;
+        background-color: $primary-color;
+        color: #fff;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        @include btn-shadow-md();
+
+        .fa{
+            margin-right: 10px;
+        }
+    }
     #filters{
         width: 80%;
         float: left;
         position: absolute;
         left: 16px;
-        top: 56px;
+        top: 58px;
         display: flex;
         align-items: center;
         z-index: 1;
@@ -147,25 +157,23 @@ main{
                             margin: 4px;
                             border: 1px solid rgba(0, 0, 0, 0.05);
                             background-color: #fff;
+                            padding: 6px;
                             @include btn-shadow-sm();
                         }
                     }
                     .details{
                         flex-basis: 100%;
+                        >div{
+                            padding: 6px 0;
+                        }
                     }
                     label{
+                        display: inline-block;
                         min-width: 112px;
                         margin-right: 10px;
                     }
-                    // label{
-                    //     margin-right: 10px;
-                    //     width: 100px;
-                    // }
-                    // .lead-content{
-                    //     white-space: pre-wrap;
-                    // }
-                    //
                     .lead-content{
+                        padding: 6px 0;
                         a{
                             text-transform: none;
                         }

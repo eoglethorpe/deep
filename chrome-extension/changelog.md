@@ -1,5 +1,11 @@
 ## Change log
 
+
+### v2.0.4
+
+* Fix issues regarding restoring values on extension reload
+* Fix problem of lead being submitted to wrong event
+
 ### v2.0.3
 
 * Fix synchronization issues

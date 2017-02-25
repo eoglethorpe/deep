@@ -9,7 +9,7 @@ function resetSeverities(attrs) {
 function recalculateSeverity(information, info_attrs, attrs) {
     var asdfg = $.grep(attrs, function(n, i) {
         var x = $.grep(info_attrs, function(n1, i1) {
-            return n1.id == n.id;
+            return n1 == n.name;
         });
         return x.length > 0;
     });
@@ -17,7 +17,7 @@ function recalculateSeverity(information, info_attrs, attrs) {
         for (var k=0; k<asdfg.length; ++k) {
             var a = asdfg[k];
             $.grep(a.severities, function(n, i) {
-                return n.id == information.severity.level;
+                return n.id == information.severity;
             })[0].value++;
         }
     }
@@ -28,7 +28,7 @@ function recalculateSeverity2(information, attrId, attrs) {
     })[0];
     if (asdfg) {
         $.grep(asdfg.severities, function(n, i) {
-            return n.id == information.severity.level;
+            return n.id == information.severity;
         })[0].value++;
     }
 }
@@ -58,13 +58,13 @@ function renderVisualizations() {
             for(var n=0; n<attributes.length; n++){
                 var attribute = attributes[n];
                 if(attribute.sector != null){
-                    recalculateSeverity2(information, attribute.sector.id, sectors);
+                    recalculateSeverity2(information, attribute.sector, sectors);
                 }
             }
 
             // Vulnerable group-severity
-            if (information.vulnerable_groups.length > 0) {
-                recalculateSeverity(information, information.vulnerable_groups, vulnerable_groups);
+            if (information.demographic_groups.length > 0) {
+                recalculateSeverity(information, information.demographic_groups, vulnerable_groups);
             }
 
             // Specific needs group-severity
@@ -73,8 +73,8 @@ function renderVisualizations() {
             }
 
             // Source-severity
-            if (information.lead_source) {
-                recalculateSeverity2(information, information.lead_source, sources);
+            if (originalEntries[information.entryIndex].lead_source) {
+                recalculateSeverity2(information, originalEntries[information.entryIndex].lead_source, sources);
             }
 
             // Affected group-severity
@@ -84,7 +84,7 @@ function renderVisualizations() {
 
             // Total severity
             $.grep(severities, function(n, i) {
-                return n.id == information.severity.level;
+                return n.id == information.severity;
             })[0].value++;
 
             ++informationCount;
@@ -116,10 +116,10 @@ function renderSectors(total){
     var maxSeverity = Math.max(...totalSeverity);
 
     var scale = $('#sectors-visualization').find('.attr-scale');
-    scale.find('.scale-2 .val').text(parseInt(maxSeverity/5));
-    scale.find('.scale-3 .val').text(parseInt(maxSeverity/5*2));
-    scale.find('.scale-4 .val').text(parseInt(maxSeverity/5*3));
-    scale.find('.scale-5 .val').text(parseInt(maxSeverity/5*4));
+    scale.find('.scale-2 .val').text(maxSeverity<5? (maxSeverity/5).toFixed(1): Math.ceil(maxSeverity/5));
+    scale.find('.scale-3 .val').text(maxSeverity<5? (maxSeverity/5*2).toFixed(1): Math.ceil(maxSeverity/5*2));
+    scale.find('.scale-4 .val').text(maxSeverity<5? (maxSeverity/5*3).toFixed(1): Math.ceil(maxSeverity/5*3));
+    scale.find('.scale-5 .val').text(maxSeverity<5? (maxSeverity/5*4).toFixed(1): Math.ceil(maxSeverity/5*4));
     scale.find('.scale-5 .val-right').text(maxSeverity);
 
     if (maxSeverity == 0)
@@ -158,10 +158,10 @@ function renderAttrs(id, attrs, total) {
     var maxSeverity = Math.max(...totalSeverity);
 
     var scale = $('#'+id).find('.attr-scale');
-    scale.find('.scale-2 .val').text(parseInt(maxSeverity/5));
-    scale.find('.scale-3 .val').text(parseInt(maxSeverity/5*2));
-    scale.find('.scale-4 .val').text(parseInt(maxSeverity/5*3));
-    scale.find('.scale-5 .val').text(parseInt(maxSeverity/5*4));
+    scale.find('.scale-2 .val').text(maxSeverity<5? (maxSeverity/5).toFixed(1): Math.ceil(maxSeverity/5));
+    scale.find('.scale-3 .val').text(maxSeverity<5? (maxSeverity/5*2).toFixed(1): Math.ceil(maxSeverity/5*2));
+    scale.find('.scale-4 .val').text(maxSeverity<5? (maxSeverity/5*3).toFixed(1): Math.ceil(maxSeverity/5*3));
+    scale.find('.scale-5 .val').text(maxSeverity<5? (maxSeverity/5*4).toFixed(1): Math.ceil(maxSeverity/5*4));
     scale.find('.scale-5 .val-right').text(maxSeverity);
 
     if (maxSeverity == 0)
@@ -278,7 +278,7 @@ function processTimeline(){
             if (entriesTimeline[i].informations[j].date)
                 entryDate = new Date(entriesTimeline[i].informations[j].date);
             else
-                entryDate = new Date(entriesTimeline[i].informations[j].modified_at);
+                entryDate = new Date(originalEntries[entriesTimeline[i].informations[j].entryIndex].modified_at);
 
             var dateExists = false;
             if(entryDate < minDate){
@@ -289,7 +289,7 @@ function processTimeline(){
             }
             for(var n=0; n<entryDates.length; n++){
                 if(isSameDay(entryDates[n].date, entryDate)){
-                    ++entryDates[n].severities[information[j].severity.level];
+                    ++entryDates[n].severities[information[j].severity];
                     ++entryDates[n].entriesCount;
                     dateExists = true;
                     break;
@@ -297,7 +297,7 @@ function processTimeline(){
             }
             if(!dateExists){
                 entryDates.push({date: entryDate, severities: $.extend(true, {}, dateSeveritiesTemplate), entriesCount: 1});
-                ++entryDates[n].severities[information[j].severity.level];
+                ++entryDates[n].severities[information[j].severity];
             }
         }
     }
@@ -547,7 +547,7 @@ function toggleSeverityFilter(level) {
     // Filter
     addFilter('severties', activeSeverities.length == 0, function(info){
         return activeSeverities.filter(function(s){
-            return s == info.severity.level;
+            return s == info.severity;
         }).length > 0;
     });
 }

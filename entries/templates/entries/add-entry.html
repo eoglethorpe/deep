@@ -9,10 +9,13 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <link href="{% watchful_static_url 'css/split-pane.css' %}" type="text/css" rel="stylesheet">
 <link href="{% watchful_static_url 'css/add-entry.css' %}" type="text/css" rel="stylesheet">
 <link href="{% watchful_static_url 'css/selectize.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/modal.css' %}" type="text/css" rel="stylesheet">
+
 <script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/split-pane.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/highlighter.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/add-entry.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/add-entry-map.js' %}"></script>
 
@@ -135,31 +138,17 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 {% block body %}
 {% include 'navbar.html' %}
 <div id="page-one">
-    <div id="multimedia-viewer" hidden>
-        <div id="viewer-wrapper">
-            <img tabindex="-1"></img><br>
-            <label></label>
-        </div>
-    </div>
     <div class="split-pane fixed-left">
         <div class="split-pane-component" id="left-component">
-
             {% if lead_simplified %}
             <div id="lead-options-container">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="btn-group" data-toggle="buttons" {% if lead.lead_type == 'MAN' %} style="display:none;" {% endif %}>
-                            <label class="btn btn-default radio-inline active"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
-                            <label class="btn btn-default radio-inline"><input type="radio" name="lead-view-option" value="original">Original</label>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div id="zoom-buttons">
-                            <button class="btn btn-regular btn-zoom" id="zoom-out" data-toggle="tooltip" title="zoom out"><i class="fa fa-search-minus"></i></button>
-                            <button class="btn btn-regular btn-zoom" id="zoom-in" data-toggle="tooltip" title="zoom in"><i class="fa fa-search-plus"></i></button>
-                            <div id="tag-buttons" style="max-height:200px; overflow:auto;"></div>
-                        </div>
-                    </div>
+                <div id="lead-view-options"{% if lead.lead_type == 'MAN' %}hidden{% endif %}>
+                    <label class="active"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
+                    <label><input type="radio" name="lead-view-option" value="original">Original</label>
+                </div>
+                <div id="zoom-buttons">
+                    <button class="btn-zoom" id="zoom-out" data-toggle="tooltip" title="zoom out"><i class="fa fa-search-minus"></i></button>
+                    <button class="btn-zoom" id="zoom-in" data-toggle="tooltip" title="zoom in"><i class="fa fa-search-plus"></i></button>
                 </div>
             </div>
             {% endif %}
@@ -173,173 +162,144 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 <div id="lead-simplified-preview">
                 </div>
             </div>
-            <!-- <div id="multimedia-pane">
-                <i id="expand-pane" class="fa fa-angle-up fa-2x"></i>
-                <div id="multimedia-container">
-                </div>
-            </div> -->
         </div>
         <div class="split-pane-divider" id="divider"></div>
         <div class="split-pane-component" id="right-component">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-5" style="padding-right: 0">
-                        <select class="form-control" placeholder="Select excerpt" id="select-excerpt">
-                            <option>Excerpt 1</option>
-                            <option>Excerpt 2</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <button class="btn btn-primary" id="add-excerpt"  data-toggle="tooltip" data-placement="bottom" title="Add Excerpt"><i class="fa fa-plus"></i></button>
-                        <button class="btn btn-danger" id="delete-excerpt"  data-toggle="tooltip" data-placement="bottom" title="Delete Excerpt"><i class="fa fa-minus"></i></button>
-                    </div>
-                    <div class="col-md-4">
-                        <button class="btn btn-primary" id="edit-entries-btn">Edit Entries <i class="fa fa-long-arrow-right"></i></button>
-                        <button class="btn btn-primary save-excerpt" data-toggle="tooltip" data-placement="bottom" title="Save Excerpt"><i class="fa fa-save"></i></button>
-                        <button class="btn btn-danger cancel" data-toggle="tooltip" data-placement="bottom" title="Cancel"><i class="fa fa-times"></i></button>
+            <div id="page-one-header">
+                <div id="excerpt-controls">
+                    <select placeholder="Select excerpt" id="select-excerpt">
+                    </select>
+                    <div class="action-buttons">
+                        <button id="add-excerpt" title="Add Excerpt"><i class="fa fa-plus"></i></button>
+                        <button id="delete-excerpt" title="Remove Excerpt"><i class="fa fa-minus"></i></button>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-9">
-                        <div style="position: relative;">
-                            <textarea class="form-control" id="excerpt-text" placeholder="Excerpt"></textarea>
-                            <a class="fa fa-circle" style="position: absolute; right: 30px; bottom: 10px; cursor: pointer;" onclick="reformatCurrentExcerpt();" title="Try reformatting this excerpt"></a>
-                        </div>
-                        <div id="matrix-one">
-                            {% for pillar in pillars_one %}
-                            <div class="pillar">
-                                <div class="pillar-header">{{pillar}}</div>
-                                <div class="sub-pillars">
-                                    {% for subpillar in pillar.informationsubpillar_set.all %}
-                                    <div class="sub-pillar" data-pillar-id="{{pillar.pk}}" data-bg-color="{{ pillar.background_color }}" data-subpillar-id="{{subpillar.pk}}">{{subpillar}}</div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div></textarea>
-                    </div>
-
-                    <div class="col-md-offset-1 col-md-2">
-                        <div id="best-of-bullshits"> BoB </div>
-                    </div>
+                <div class="page-controls">
+                    <button class="cancel" title="Cancel"><i class="fa fa-times"></i>Cancel</button>
+                    <button class="save-excerpt" title="Save Entry"><i class="fa fa-save"></i>Save entry</button>
+                    <button id="edit-entries-btn">Edit Entries <i class="fa fa-long-arrow-right"></i></button>
                 </div>
-                <table id="matrix-two">
-                    <thead>
-                        <td><strong>Pillar</strong></td><td><strong>Sub-pillar</strong></td>
-                        {% for sector in sectors %}
-                        <td class="sector">{{sector}}</td>
-                        {% endfor %}
-                    </thead>
-                    <tbody>
-                        {% for pillar in pillars_two %}
-                        {% for subpillar in pillar.informationsubpillar_set.all %}
-                        <tr>
-                            {% if forloop.first %}
-                            <td class="pillar-header" data-toggle="tooltip" title="{{pillar.tooltip}}" style="background-color:{{pillar.background_color}};" data-bg-color="{{pillar.background_color}}" rowspan="{{pillar.informationsubpillar_set.count}}">
-                                {{pillar}}
-                            </td>
-                            {% endif %}
-                            <td class="subpillar" data-toggle="tooltip" title="{{subpillar.tooltip}}" style="background-color:{{pillar.background_color}};" data-bg-color="{{pillar.background_color}}">{{subpillar}}</td>
-
-                            {% for sector in sectors %}<td class="attribute-block" data-pillar-id="{{pillar.pk}}" data-subpillar-id="{{subpillar.pk}}" data-sector-id="{{sector.pk}}" data-bk-color="{{pillar.background_color}}" data-active-bk-color="{{pillar.active_background_color}}"></td>{% endfor %}
-                        </tr>
-                        {% endfor %}
-                        {% endfor %}
-                    </tbody>
-                </table>
             </div>
+            <div id="excerpt-input-group">
+                <div id="excerpt-text-container">
+                    <textarea id="excerpt-text" placeholder="Excerpt"></textarea>
+                    <!-- <a class="fa fa-circle" onclick="reformatCurrentExcerpt();" title="Try reformatting this excerpt"></a> -->
+                </div>
+                <div id="best-of-bullshits">BoB</div>
+            </div>
+            <div id="matrix-one">
+                {% for pillar in pillars_one %}
+                <div class="pillar">
+                    <div class="pillar-header">{{pillar}}</div>
+                    <div class="sub-pillars">
+                        {% for subpillar in pillar.informationsubpillar_set.all %}
+                        <div class="sub-pillar" data-pillar-id="{{pillar.pk}}" data-bg-color="{{ pillar.background_color }}" data-subpillar-id="{{subpillar.pk}}">{{subpillar}}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <table id="matrix-two">
+                <thead>
+                    <td><strong>Pillar</strong></td><td><strong>Sub-pillar</strong></td>
+                    {% for sector in sectors %}
+                    <td class="sector">{{sector}}</td>
+                    {% endfor %}
+                </thead>
+                <tbody>
+                    {% for pillar in pillars_two %}
+                    {% for subpillar in pillar.informationsubpillar_set.all %}
+                    <tr>
+                        {% if forloop.first %}
+                        <td class="pillar-header" data-toggle="tooltip" title="{{pillar.tooltip}}" style="background-color:{{pillar.background_color}};" data-bg-color="{{pillar.background_color}}" rowspan="{{pillar.informationsubpillar_set.count}}">
+                            {{pillar}}
+                        </td>
+                        {% endif %}
+                        <td class="subpillar" data-toggle="tooltip" title="{{subpillar.tooltip}}" style="background-color:{{pillar.background_color}};" data-bg-color="{{pillar.background_color}}">{{subpillar}}</td>
+
+                        {% for sector in sectors %}<td class="attribute-block" data-pillar-id="{{pillar.pk}}" data-subpillar-id="{{subpillar.pk}}" data-sector-id="{{sector.pk}}" data-bk-color="{{pillar.background_color}}" data-active-bk-color="{{pillar.active_background_color}}"></td>{% endfor %}
+                    </tr>
+                    {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 <div id="page-two" hidden>
-    <div class="container-fluid">
-        <div style="text-align: right">
-            <button class="btn btn-danger cancel"  data-toggle="tooltip" data-placement="bottom" title="Cancel"><i class="fa fa-times"></i></button>
-            <button class="btn btn-primary save-excerpt"  data-toggle="tooltip" data-placement="bottom" title="Save Excerpt"><i class="fa fa-save"></i></button>
-            <button id="back-to-excerpts-btn"  class="btn btn-primary"><i class="fa fa-long-arrow-left"></i>Back to excerpts</button>
-        </div>
-        <div id="entries">
-        </div>
+    <div id="page-two-header">
+        <button class="cancel"title="Cancel"><i class="fa fa-times"></i>Cancel</button>
+        <button class="btn btn-primary save-excerpt"title="Save Entry"><i class="fa fa-save"></i>Save entry</button>
+        <button id="back-to-excerpts-btn"><i class="fa fa-long-arrow-left"></i>Back to excerpts</button>
+    </div>
+    <div id="entries">
     </div>
 </div>
 
 {% include 'entries/add-entry-templates.html' %}
 
 <!-- Modals -->
-<div id="map-modal" class="modal fade" role="dialog" >
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Select locations</h4>
-            </div>
-            <div class="modal-body">
-                <div id="the-map"></div>
-            </div>
-            <div class="modal-footer">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div id="admin-level-buttons"></div>
-                            </div>
-                            <div class="col-md-6">
-                                <!-- Country selection -->
-                                <select name="country" id="country" placeholder="Select a country">
-                                    {% for country in event.countries.all %}
-                                    <option value="{{country.pk}}">{{country.name}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <!-- Manual location input -->
-                                <select name="manual-location-input" id="manual-location-input" placeholder="Add a location">
-                                    <option value="">Add a location</option>
-                                </select>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <a class="btn btn-sm" id="clear-map-selections">Clear all</a>
-                        <div id="selected-location-list">
-                            <p id="empty-text" hidden>No location added!</p>
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+<div class="modal-container" hidden>
+    <div id="map-modal" class="modal" hidden>
+        <header>
+            <h3 class="modal-title">Select locations</h3>
+        </header>
+        <section id="map-section">
+            <div id="the-map"></div>
+            <div id="admin-level-buttons"></div>
+        </section>
+        <section id="control-section">
+            <div>
+                <!-- Country selection -->
+                <label>Select a country:</label>
+                <select name="country" id="country" placeholder="Select a country">
+                    {% for country in event.countries.all %}
+                    <option value="{{country.pk}}">{{country.name}}</option>
+                    {% endfor %}
+                </select>
                 <hr>
-                <div style="text-align: right">
-                    <a class="btn btn-warning" id="apply-all-map">Apply to all</a>
-                    <a class="btn btn-info" id="apply-next-map">Apply to all below</a>
-                    <a class="btn btn-primary" id="apply-current-map" data-dismiss="modal">Close</a>
-                </div>
+                <!-- Manual location input -->
+                <label>Add a location:</label>
+                <select name="manual-location-input" id="manual-location-input" placeholder="Add a location">
+                    <option value="">Add a location</option>
+                </select>
             </div>
+            <div>
+                <div id="selected-location-list">
+                    <p id="empty-text" hidden>No location added!</p>
+                    <ul>
+                    </ul>
+                </div>
+                <a id="clear-map-selections">Clear all</a>
+            </div>
+        </section>
+        <div class="action-buttons">
+            <button id="apply-all-map" data-action="apply-to-all">Apply to all</button>
+            <button id="apply-next-map" data-action="apply-to-all-below">Apply to all below</button>
+            <button id="apply-current-map" data-action="dismiss">Close</button>
         </div>
+    </div>
+    <div id="affected-groups-modal" class="modal" hidden>
+        <header>
+            <h3 class="modal-title">Select affected groups</h3>
+        </header>
+        <div id="chart-div"></div>
+        <div class="action-buttons">
+            <button id="apply-all-affected" data-action="apply-to-all">Apply to all</button>
+            <button id="apply-next-affected" data-action="apply-to-all-below">Apply to all below</button>
+            <button id="apply-current-affected" data-action="dismiss">Close</button>
+        </div
     </div>
 </div>
 
-<div id="affected-groups-modal" class="modal fade" role="dialog" >
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Select affected groups</h4>
-            </div>
-            <div class="modal-body">
-                <div id="chart-div"></div>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-warning apply-all-btn" id="apply-all-affected">Apply to all</a>
-                <a class="btn btn-info" id="apply-next-affected">Apply to all below</a>
-                <a class="btn btn-primary" id="apply-current-affected" data-dismiss="modal">Close</a>
-            </div
-        </div>
-    </div>
-</div>
-<div class="multimedia-template" hidden>
+<!-- <div class="multimedia-template">
     <img class="media-image" src=""></img><br>
     <label class="media-caption">Caption</label>
 </div>
+<div id="multimedia-viewer" hidden>
+    <div id="viewer-wrapper">
+        <img tabindex="-1"></img><br>
+        <label></label>
+    </div>
+</div> -->
 {% endblock %}
