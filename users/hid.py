@@ -15,7 +15,7 @@ class HumanitarianId:
             return
 
         config = HidConfig()
-        if not config.client_id or not config.development:
+        if not config.client_id:
             self.status = False
             return
 
@@ -58,7 +58,7 @@ class HumanitarianId:
         user = User.objects.create_user(
             first_name=self.data['name_given'],
             last_name=self.data['name_family'],
-            email=seld.data['email'],
+            email=self.data['email'],
             username=username,
             password=password
         )
