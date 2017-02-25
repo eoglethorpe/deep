@@ -396,7 +396,7 @@ $(document).ready(function(){
                     Math.max(...accessConstraintsList)
                 ]);
 
-                setTimeout(function(country, affectedList, sparkLineYMax) {
+                setTimeout(function(country, affectedList, displacedList, pinList, accessConstraintsList, geoRankList, sparkLineYMax) {
                     return function() {
                         country.find('.affected .viz').sparkline(affectedList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#2980b9', fillColor: 'rgba(0, 50, 255, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
                         country.find('.displaced .viz').sparkline(displacedList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#f00000', fillColor: 'rgba(255, 0, 0, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
@@ -404,7 +404,7 @@ $(document).ready(function(){
                         country.find('.access-constraints .viz').sparkline(accessConstraintsList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#212121', fillColor: 'rgba(0,0,0,0.3)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
                         country.find('.geo-ranking .viz').sparkline(geoRankList.reverse(), {type: 'bar', height: '48px ', chartRangeMin: 0, chartRangeMax: 3, width: '100%', barWidth: 12, barSpacing: 4, barColor: '#cc2d06'});
                     }
-                }(country, affectedList, sparkLineYMax), 0);
+                }(country, affectedList, displacedList, pinList, accessConstraintsList, geoRankList, sparkLineYMax), 0);
             }
         }
     }
