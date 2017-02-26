@@ -54,7 +54,17 @@ let activities = [
 
 <main>
     <header>
-        <h2>{{ usergroup.name }}</h2>
+        <input type="file" name="logo" id="logo-input" accept="image/*">
+        <img id="group-logo" src="{% watchful_static_url 'img/default-user-group.png' %}">
+        <div id="group-info">
+            <h2 id="group-name">{{ usergroup.name }}</h2>
+            <div class="extra">{{ usergroup.description }}</div>
+        </div>
+        <div class="action-buttons">
+            <a id="save-user-info-btn" hidden><i class="fa fa-save"></i></a>
+            <a id="edit-user-info-btn" ><i class="fa fa-edit"></i></a>
+            <a id="save-user-info-progress-btn" hidden><i class="fa fa-spinner fa-pulse"></i></a>
+        </div>
         <div id="navigator">
             <a data-target="#members-wrapper" class="nav-active">Members</a>
             <a data-target="#projects-wrapper">Projects</a>

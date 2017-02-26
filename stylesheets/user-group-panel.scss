@@ -224,18 +224,72 @@ body{
             position: relative;
             z-index: 5;
             display: flex;
-            justify-content: flex-start;
+            justify-content: space-between;
             flex-wrap: wrap;
-            height: 144px;
+            height: 168px;
             background-color: $primary-color;
             @include shadow;
 
-            h2 {
-                margin: 16px;
-                font-size: $text-size-ml;
-                color: $text-color-light;
-            }
 
+            #logo-input{
+                position: absolute;
+                height: 0;
+                width: 0;
+                opacity: 0;
+                left: -100px;
+                top: -100px;
+            }
+            #group-logo{
+                width: 112px;
+                height: 112px;
+                margin-left: 24px;
+                margin-right: 10px;
+                object-fit: cover;
+                object-position: center;
+                //background-color: #fff;
+                //border: 2px solid rgba(0, 0, 0, 0.3);
+            }
+            #group-info{
+                flex-basis: calc(100% - 144px - 112px);
+                align-self: stretch;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                h2 {
+                    font-size: $text-size-ml;
+                    color: $text-color-light;
+                    margin-bottom: 10px;
+                    padding: 4px 10px;
+                }
+                .extra{
+                    font-size: $text-size-lg;
+                    padding: 4px 10px;
+                    color: rgba(255, 255, 255, 0.5)
+                }
+                [contenteditable="true"]{
+                    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+                    outline: none;
+
+                    &:focus{
+                        border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+                    }
+                }
+
+            }
+            .action-buttons{
+                flex-basis: 96px;
+                font-size: 1.5em;
+                text-align: center;
+                align-self: flex-start;
+                padding: 16px;
+                display: flex;
+                justify-content: space-between;
+
+                a{
+                    cursor: pointer;
+                }
+            }
             #navigator{
                 flex-basis: 100%;
                 align-self: flex-end;

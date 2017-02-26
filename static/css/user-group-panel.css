@@ -235,15 +235,55 @@ body {
       position: relative;
       z-index: 5;
       display: flex;
-      justify-content: flex-start;
+      justify-content: space-between;
       flex-wrap: wrap;
-      height: 144px;
+      height: 168px;
       background-color: #008080;
       box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-      body main header h2 {
-        margin: 16px;
-        font-size: 32px;
-        color: #fff; }
+      body main header #logo-input {
+        position: absolute;
+        height: 0;
+        width: 0;
+        opacity: 0;
+        left: -100px;
+        top: -100px; }
+      body main header #group-logo {
+        width: 112px;
+        height: 112px;
+        margin-left: 24px;
+        margin-right: 10px;
+        object-fit: cover;
+        object-position: center; }
+      body main header #group-info {
+        flex-basis: calc(100% - 144px - 112px);
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; }
+        body main header #group-info h2 {
+          font-size: 32px;
+          color: #fff;
+          margin-bottom: 10px;
+          padding: 4px 10px; }
+        body main header #group-info .extra {
+          font-size: 15px;
+          padding: 4px 10px;
+          color: rgba(255, 255, 255, 0.5); }
+        body main header #group-info [contenteditable="true"] {
+          border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+          outline: none; }
+          body main header #group-info [contenteditable="true"]:focus {
+            border-bottom: 2px solid rgba(0, 0, 0, 0.3); }
+      body main header .action-buttons {
+        flex-basis: 96px;
+        font-size: 1.5em;
+        text-align: center;
+        align-self: flex-start;
+        padding: 16px;
+        display: flex;
+        justify-content: space-between; }
+        body main header .action-buttons a {
+          cursor: pointer; }
       body main header #navigator {
         flex-basis: 100%;
         align-self: flex-end;
