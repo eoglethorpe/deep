@@ -19,7 +19,7 @@ let ajax = {
             processData: false,
             contentType: false,
         });
-    }
+    },
 };
 
 let activityLog = {
@@ -77,7 +77,8 @@ let editMode = {
             }).done(function(response) {
                 if (response.status && response.data.done) {
 
-                    ajax.postImage('avatar', $('#avatar-input'))
+                    if ($('#avatar-input').files) {
+                        ajax.postImage('avatar', $('#avatar-input'))
                         .done(function(response) {
                             if (response.status && response.data.done) {
                                 that.toggleMode(false);
@@ -87,6 +88,10 @@ let editMode = {
                         }).always(function() {
                             $('#save-user-info-progress-btn').hide();
                         });
+                    } else {
+                        that.toggleMode(false);
+                        $('#save-user-info-progress-btn').hide();
+                    }
                 }
             }).fail(function() {
                 // ERROR
@@ -113,6 +118,7 @@ let editMode = {
             }
             parent.find('img').prop('title', '');
             parent.find('img').css('cursor', 'default');
+            parent.find('img').unbind();
 
             $('#save-user-info-btn').hide();
         } else {
@@ -173,10 +179,18 @@ $(document).ready(function(){
     editMode.init();
 
     $('#new-user-group-btn').click(function(){
+        $('#new-user-group-modal').find('.error').empty();
         newUserGroupModal.show().then(null, null, function(){
             if(newUserGroupModal.action == 'proceed'){
                 let name = $('#new-user-group-name').val();
                 let description = $('#new-user-group-description').val();
+
+                if (name.trim().length == 0) {
+                    $('#new-user-group-modal').find('.error')
+                        .text('Please enter a name');
+                    return;
+                }
+
                 ajax.request({
                     request: 'add-group',
                     name: name, description: description
@@ -185,14 +199,15 @@ $(document).ready(function(){
                         let url = response.data.url;
                         window.location.href = url;
                     } else if (response.status && response.data.nameExists) {
-                        console.log('User group with this name already exists');
+                        $('#new-user-group-modal').find('.error')
+                            .text('User group with this name already exists in DEEP');
                     } else {
-                        // Error
+                        $('#new-user-group-modal').find('.error')
+                            .text(response.message);
                     }
                 }).fail(function() {
-                    // Error
-                }).always(function() {
-
+                    $('#new-user-group-modal').find('.error')
+                        .text('Server error, check your connection and try again');
                 });
             }
         });

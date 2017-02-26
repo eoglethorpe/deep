@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden, Http404
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.views.generic import View, TemplateView
@@ -26,23 +26,23 @@ class UserGroupPanelView(View):
         data_in = get_json_request(request)
         if data_in:
             return self.handle_json_request(request, data_in, group_slug)
-
-        elif request.FILES and request.FILES.get('avatar'):
+        else:
             try:
                 group = UserGroup.objects.get(slug=group_slug)
             except:
-                return JsonError('Cannot find user group')
+                return Http404
 
             if group.admins.filter(pk=request.user.pk).count() == 0:
-                return JSON_NOT_PERMITTED
+                return HttpResponseForbidden()
 
-            group.photo = request.FILES.get('avatar')
-            group.save()
+            group.name = request.POST['name']
+            group.description = request.POST['description']
 
-            return JsonResult(data={'done': True})
+            if request.FILES and request.FILES.get('avatar'):
+                group.photo = request.FILES.get('avatar')
+                group.save()
 
-        else:
-            return redirect('usergroup', args=[group_slug])
+            return redirect('usergroup', args=[group.slug])
 
     def handle_json_request(self, original_request, request, group_slug):
         try:
@@ -61,13 +61,14 @@ class UserGroupPanelView(View):
             for pk in request['members']:
                 try:
                     user = User.objects.get(pk=pk)
-                    group.members.remove(user)
-                    response['removedMembers'].append(pk)
+                    if user != original_request.user:
+                        group.members.remove(user)
+                        response['removedMembers'].append(pk)
 
-                    RemovalActivity().set_target(
-                        'member', user.pk, user.get_full_name(),
-                        reverse('user_profile', args=[pk])
-                    ).log_for(original_request.user, group=group)
+                        RemovalActivity().set_target(
+                            'member', user.pk, user.get_full_name(),
+                            reverse('user_profile', args=[pk])
+                        ).log_for(original_request.user, group=group)
                 except:
                     pass
 
@@ -94,6 +95,7 @@ class UserGroupPanelView(View):
                         group.members.add(user)
                         group.admins.add(user)
                         response['addedMembers'].append(pk)
+                        response['addedAdmins'].append(pk)
 
                         AdditionActivity().set_target(
                             'member', user.pk, user.get_full_name(),
@@ -106,10 +108,37 @@ class UserGroupPanelView(View):
                     except:
                         pass
 
-        # elif request['request'] == 'setAdmins':
-        #     response['admins'] = []
-        #     for pk in request['users']:
-        #         try:
-        #         except:
+        # Add admins
+        elif request['request'] == 'addAdmins':
+            response['addedAdmins'] = []
+            for pk in request['users']:
+                try:
+                    user = User.objects.get(pk=pk)
+                    group.admins.add(user)
+                    response('addedAdmins').append(pk)
+
+                    AdditionActivity().set_target(
+                        'admin', user.pk, user.get_full_name(),
+                        reverse('user_profile', args=[pk])
+                    ).log_for(original_request.user, group=group)
+                except:
+                    pass
+
+        # Remove admins
+        elif request['request'] == 'removeAdmins':
+            response['removedAdmins'] = []
+            for pk in request['users']:
+                try:
+                    user = User.objects.get(pk=pk)
+                    if user != original_request.user:
+                        group.admins.remove(usre)
+                        response['removedAdmins'].append(pk)
+
+                        RemovalActivity().set_target(
+                            'admin', user.pk, user.get_full_name(),
+                            reverse('user_profile', args=[pk])
+                        ).log_for(original_request.user, group=group)
+                except:
+                    pass
 
         return JsonResult(data=response)
