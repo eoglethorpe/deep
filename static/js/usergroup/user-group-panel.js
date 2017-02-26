@@ -365,9 +365,20 @@ let editMode = {
         });
 
         $('#save-group-info-btn').click(function() {
-            $('#form-group-name').val($('#group-name').text());
-            $('#form-group-description').val($('#group-description').text());
-            $('#form-group-name').closest('form').submit();
+            ajax.request({
+                request: 'checkName',
+                name: $('#group-name').text(),
+            }).done(function(response) {
+                if (response.status) {
+                    if (response.data.nameExists) {
+                        alert('Name ' + $('#group-name').text() + ' already exists in DEEP');
+                    } else {
+                        $('#form-group-name').val($('#group-name').text());
+                        $('#form-group-description').val($('#group-description').text());
+                        $('#form-group-name').closest('form').submit();
+                    }
+                }
+            });
         });
     },
 

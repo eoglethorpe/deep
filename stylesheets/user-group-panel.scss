@@ -266,7 +266,6 @@ body{
             background-color: $primary-color;
             @include shadow;
 
-
             #logo-input{
                 position: absolute;
                 height: 0;
@@ -280,8 +279,7 @@ body{
                 height: 112px;
                 margin-left: 24px;
                 margin-right: 10px;
-                object-fit: cover;
-                object-position: center;
+                object-fit: contain;
                 //background-color: #fff;
                 //border: 2px solid rgba(0, 0, 0, 0.3);
             }
@@ -306,6 +304,7 @@ body{
                 [contenteditable="true"]{
                     border-bottom: 2px solid rgba(0, 0, 0, 0.1);
                     outline: none;
+                    text-transform: none;
 
                     &:focus{
                         border-bottom: 2px solid rgba(0, 0, 0, 0.3);
@@ -442,6 +441,7 @@ body{
                     display: flex;
                     justify-content: flex-start;;
                     flex-wrap: wrap;
+                    max-height: 100%;
                     overflow-y: auto;
                     padding: 16px;
 

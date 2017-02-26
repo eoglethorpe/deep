@@ -280,8 +280,7 @@ body {
         height: 112px;
         margin-left: 24px;
         margin-right: 10px;
-        object-fit: cover;
-        object-position: center; }
+        object-fit: contain; }
       body main header #group-info {
         flex-basis: calc(100% - 144px - 112px);
         align-self: stretch;
@@ -299,7 +298,8 @@ body {
           color: rgba(255, 255, 255, 0.5); }
         body main header #group-info [contenteditable="true"] {
           border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-          outline: none; }
+          outline: none;
+          text-transform: none; }
           body main header #group-info [contenteditable="true"]:focus {
             border-bottom: 2px solid rgba(0, 0, 0, 0.3); }
       body main header .action-buttons {
@@ -406,6 +406,7 @@ body {
           display: flex;
           justify-content: flex-start;
           flex-wrap: wrap;
+          max-height: 100%;
           overflow-y: auto;
           padding: 16px; }
           body main section #members-wrapper #members .member {
