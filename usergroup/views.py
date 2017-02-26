@@ -26,6 +26,21 @@ class UserGroupPanelView(View):
         data_in = get_json_request(request)
         if data_in:
             return self.handle_json_request(request, data_in, group_slug)
+
+        elif request.FILES and request.FILES.get('avatar'):
+            try:
+                group = UserGroup.objects.get(slug=group_slug)
+            except:
+                return JsonError('Cannot find user group')
+
+            if group.admins.filter(pk=request.user.pk).count() == 0:
+                return JSON_NOT_PERMITTED
+
+            group.photo = request.FILES.get('avatar')
+            group.save()
+
+            return JsonResult(data={'done': True})
+
         else:
             return redirect('usergroup', args=[group_slug])
 
@@ -35,9 +50,10 @@ class UserGroupPanelView(View):
         except:
             return JsonError('Cannot find user group')
 
-        response = {}
+        if group.admins.filter(pk=original_request.user.pk).count() == 0:
+            return JSON_NOT_PERMITTED
 
-        # TODO check if user has permission for whatever request
+        response = {}
 
         # Remove members
         if request['request'] == 'removeMembers':
@@ -70,5 +86,30 @@ class UserGroupPanelView(View):
                     ).log_for(original_request.user, group=group)
                 except:
                     pass
+
+            if request[admins]:
+                for pk in request['admins']:
+                    try:
+                        user = User.objects.get(pk=pk)
+                        group.members.add(user)
+                        group.admins.add(user)
+                        response['addedMembers'].append(pk)
+
+                        AdditionActivity().set_target(
+                            'member', user.pk, user.get_full_name(),
+                            reverse('user_profile', args=[pk])
+                        ).log_for(original_request.user, group=group)
+                        AdditionActivity().set_target(
+                            'admin', user.pk, user.get_full_name(),
+                            reverse('user_profile', args=[pk])
+                        ).log_for(original_request.user, group=group)
+                    except:
+                        pass
+
+        # elif request['request'] == 'setAdmins':
+        #     response['admins'] = []
+        #     for pk in request['users']:
+        #         try:
+        #         except:
 
         return JsonResult(data=response)

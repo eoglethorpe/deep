@@ -265,33 +265,55 @@ body {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
-      height: 144px;
+      height: 168px;
       background-color: #008080;
       box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-      body main header h2 {
-        flex-basis: 50%;
-        margin: 16px;
-        font-size: 32px;
-        color: #fff; }
-      body main header #search-items-wrapper {
-        flex-basis: 30%;
-        padding: 8px 10px;
-        height: 36px;
-        margin: 16px;
-        background-color: #f0f0f0; }
-        body main header #search-items-wrapper .fa {
-          width: 24px;
-          box-sizing: border-box;
-          color: rgba(0, 0, 0, 0.3); }
-        body main header #search-items-wrapper input {
+      body main header #logo-input {
+        position: absolute;
+        height: 0;
+        width: 0;
+        opacity: 0;
+        left: -100px;
+        top: -100px; }
+      body main header #group-logo {
+        width: 112px;
+        height: 112px;
+        margin-left: 24px;
+        margin-right: 10px;
+        object-fit: cover;
+        object-position: center; }
+      body main header #group-info {
+        flex-basis: calc(100% - 144px - 112px);
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; }
+        body main header #group-info h2 {
+          font-size: 32px;
+          color: #fff;
+          margin-bottom: 10px;
+          padding: 4px 10px; }
+        body main header #group-info .extra {
           font-size: 15px;
-          width: calc(100% - 28px);
-          box-sizing: border-box;
-          background-color: transparent;
-          border: none;
+          padding: 4px 10px;
+          color: rgba(255, 255, 255, 0.5); }
+        body main header #group-info [contenteditable="true"] {
+          border-bottom: 2px solid rgba(0, 0, 0, 0.1);
           outline: none; }
+          body main header #group-info [contenteditable="true"]:focus {
+            border-bottom: 2px solid rgba(0, 0, 0, 0.3); }
+      body main header .action-buttons {
+        flex-basis: 96px;
+        font-size: 1.5em;
+        text-align: center;
+        align-self: flex-start;
+        padding: 16px;
+        display: flex;
+        justify-content: space-between; }
+        body main header .action-buttons a {
+          cursor: pointer; }
       body main header #navigator {
-        flex-basis: 100%;
+        flex-basis: 60%;
         align-self: flex-end;
         background-color: transparent;
         height: 48px;
@@ -308,6 +330,23 @@ body {
           vertical-align: baseline; }
           body main header #navigator a.nav-active {
             border-bottom: 2px solid #fff; }
+      body main header #search-items-wrapper {
+        flex-basis: 30%;
+        padding: 8px 10px;
+        margin-right: 96px;
+        align-self: center;
+        background-color: #f0f0f0; }
+        body main header #search-items-wrapper .fa {
+          width: 24px;
+          box-sizing: border-box;
+          color: rgba(0, 0, 0, 0.3); }
+        body main header #search-items-wrapper input {
+          font-size: 15px;
+          width: calc(100% - 28px);
+          box-sizing: border-box;
+          background-color: transparent;
+          border: none;
+          outline: none; }
     body main section {
       position: relative; }
       body main section .floating-btn {
