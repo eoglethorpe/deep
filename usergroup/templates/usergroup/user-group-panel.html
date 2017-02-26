@@ -54,16 +54,21 @@ let activities = [
 
 <main>
     <header>
-        <input type="file" name="logo" id="logo-input" accept="image/*">
-        <img id="group-logo" src="{% watchful_static_url 'img/default-user-group.png' %}">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="logo" id="logo-input" accept="image/*">
+            <input id="form-group-name" name="name" type="hidden">
+            <input id="form-group-description" name="description" type="hidden">
+        </form>
+        <img id="group-logo" src="{% if usergroup.photo %}{{ usergroup.photo.url }}{% else %}{% watchful_static_url 'img/default-user-group.png' %}{% endif %}">
         <div id="group-info">
-            <h2 id="group-name">{{ usergroup.name }}</h2>
-            <div class="extra">{{ usergroup.description }}</div>
+            <h2 id="group-name" class="editable">{{ usergroup.name }}</h2>
+            <div id="group-description" class="extra editable">{{ usergroup.description }}</div>
         </div>
         <div class="action-buttons">
-            <a id="save-user-info-btn" hidden><i class="fa fa-save"></i></a>
-            <a id="edit-user-info-btn" ><i class="fa fa-edit"></i></a>
-            <a id="save-user-info-progress-btn" hidden><i class="fa fa-spinner fa-pulse"></i></a>
+            <a id="save-group-info-btn" hidden><i class="fa fa-save"></i></a>
+            <a id="edit-group-info-btn" ><i class="fa fa-edit"></i></a>
+            <a id="save-group-info-progress-btn" hidden><i class="fa fa-spinner fa-pulse"></i></a>
         </div>
         <div id="navigator">
             <a data-target="#members-wrapper" class="nav-active">Members</a>
@@ -146,7 +151,7 @@ let activities = [
             <h3 class="modal-title">Add Members</h3>
             <div id="search-input-wrapper">
                 <i class="fa fa-search"></i>
-                <input id="search-users" type="text" placeholder="Search for users">
+                <input id="search-users" name="logo" type="text" placeholder="Search for users">
             </div>
         </header>
         <div class="search-container">

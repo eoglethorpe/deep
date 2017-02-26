@@ -77,7 +77,7 @@ let editMode = {
             }).done(function(response) {
                 if (response.status && response.data.done) {
 
-                    if ($('#avatar-input').files) {
+                    if ($('#avatar-input')[0].files.length > 0) {
                         ajax.postImage('avatar', $('#avatar-input'))
                         .done(function(response) {
                             if (response.status && response.data.done) {
@@ -105,7 +105,7 @@ let editMode = {
         editButton.show();
 
         let parent = editButton.closest('header');
-        if(editButton.hasClass('edit')) {
+        if (editButton.hasClass('edit')) {
             editButton.removeClass('edit');
             editButton.find('.fa').removeClass('fa-times').addClass('fa-edit');
             parent.find('#full-name').removeClass('edit');
