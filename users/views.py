@@ -323,7 +323,7 @@ class UserProfileView(View):
         except:
             return JsonError('Cannot find user')
 
-        if user != request.user:
+        if user != original_request.user:
             return JSON_NOT_PERMITTED
 
         response = {}
