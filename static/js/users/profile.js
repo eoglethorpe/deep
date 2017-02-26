@@ -5,6 +5,20 @@ let ajax = {
 
     request: function(request) {
         return $.post(window.location, JSON.stringify(request), null, 'json');
+    },
+
+    postImage: function(name, element) {
+        let formData = new FormData();
+        formData.append(name, element[0].files[0]);
+
+        return $.ajax({
+            url: window.location,
+            type: 'POST',
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+        });
     }
 };
 
@@ -62,7 +76,15 @@ let editMode = {
                 lastName: $('#last-name').text()
             }).done(function(response) {
                 if (response.status && response.data.done) {
-                    that.toggleMode(false);
+
+                    ajax.postImage('avatar', $('#avatar-input'))
+                        .done(function(response) {
+                            if (response.status && response.data.done) {
+                                that.toggleMode(false);
+                            }
+                        }).fail(function() {
+                            // ERROR
+                        });
                 }
             }).fail(function() {
                 // ERROR
@@ -84,9 +106,13 @@ let editMode = {
             parent.find('.name').prop('contenteditable', false);
             if (reset) {
                 parent.find('.name').each(function() { $(this).text($(this).data('prev-val')); });
+                parent.find('img').attr('src', parent.find('img').data('prev-url'));
+                $('#avatar-input').wrap('<form>').closest('form').get(0).reset();
+                $('#avatar-input').unwrap();
             }
             parent.find('img').prop('title', '');
             parent.find('img').css('cursor', 'default');
+
             $('#save-user-info-btn').hide();
         } else {
             editButton.addClass('edit');
@@ -94,6 +120,7 @@ let editMode = {
             parent.find('#full-name').addClass('edit');
             parent.find('.name').prop('contenteditable', true);
             parent.find('.name').each(function() { $(this).data('prev-val', $(this).text()); });
+            parent.find('img').data('prev-url', parent.find('img').attr('src'));
             parent.find('img').prop('title', 'Click to change avatar');
             parent.find('img').css('cursor', 'pointer');
             parent.find('img').unbind().click(function(){

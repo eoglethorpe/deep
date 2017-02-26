@@ -35,7 +35,7 @@ var activities = [
 <main>
     <header>
         <input type="file" name="avatar" id="avatar-input" accept="image/*">
-        <img id="user-avatar" src="{% watchful_static_url 'img/default-avatar.png' %}">
+        <img id="user-avatar" src="{% if user.userprofile.photo %}{{ user.userprofile.photo.url }}{% else %}{% watchful_static_url 'img/default-avatar.png' %}{% endif %}">
         <div class="user-info">
             <h2 id="full-name">
                 <div>
