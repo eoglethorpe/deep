@@ -305,6 +305,9 @@ class UserProfileView(View):
             except:
                 return JsonError('Cannot find user')
 
+            if user != request.user:
+                return JSON_NOT_PERMITTED
+
             profile = user.userprofile;
             profile.photo = request.FILES.get('avatar')
             profile.save()
@@ -319,6 +322,9 @@ class UserProfileView(View):
             user = User.objects.get(pk=user_id)
         except:
             return JsonError('Cannot find user')
+
+        if user != original_request.user:
+            return JSON_NOT_PERMITTED
 
         response = {}
 
