@@ -50,7 +50,7 @@ class UserGroupPanelView(View):
         except:
             return JsonError('Cannot find user group')
 
-        if group.admins.filter(pk=request.user.pk).count() == 0:
+        if group.admins.filter(pk=original_request.user.pk).count() == 0:
             return JSON_NOT_PERMITTED
 
         response = {}
