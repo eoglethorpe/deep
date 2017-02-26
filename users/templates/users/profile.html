@@ -34,7 +34,8 @@ var activities = [
 </nav>
 <main>
     <header>
-        <img src="{% watchful_static_url 'img/default-avatar.png' %}">
+        <input type="file" name="avatar" id="avatar-input" accept="image/*">
+        <img id="user-avatar" src="{% watchful_static_url 'img/default-avatar.png' %}">
         <div class="user-info">
             <h2 id="full-name">
                 <div>

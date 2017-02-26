@@ -85,8 +85,8 @@ let editMode = {
             if (reset) {
                 parent.find('.name').each(function() { $(this).text($(this).data('prev-val')); });
             }
-            // parent.find('img').prop('title', '');
-            // parent.find('img').css('cursor', 'default');
+            parent.find('img').prop('title', '');
+            parent.find('img').css('cursor', 'default');
             $('#save-user-info-btn').hide();
         } else {
             editButton.addClass('edit');
@@ -94,11 +94,11 @@ let editMode = {
             parent.find('#full-name').addClass('edit');
             parent.find('.name').prop('contenteditable', true);
             parent.find('.name').each(function() { $(this).data('prev-val', $(this).text()); });
-            // parent.find('img').prop('title', 'Click to change avatar');
-            // parent.find('img').css('cursor', 'pointer');
-            // parent.find('img').unbind().click(function(){
-            //     console.log('open file dialog maybe');
-            // });
+            parent.find('img').prop('title', 'Click to change avatar');
+            parent.find('img').css('cursor', 'pointer');
+            parent.find('img').unbind().click(function(){
+                $('#avatar-input').trigger('click');
+            });
             $('#save-user-info-btn').show();
         }
     },
@@ -168,5 +168,16 @@ $(document).ready(function(){
                 });
             }
         });
+    });
+
+    $('#avatar-input').change(function(){
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#user-avatar').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(this.files[0]);
+        }
     });
 });
