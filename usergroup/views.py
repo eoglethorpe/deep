@@ -74,10 +74,13 @@ class UserGroupPanelView(View):
         # Add members
         elif request['request'] == 'addMembers':
             response['addedMembers'] = []
+            response['addedAdmins'] = []
             for pk in request['users']:
                 try:
                     user = User.objects.get(pk=pk)
                     group.members.add(user)
+                    if group.admins.filter(pk=pk).count() > 0:
+                        group.admins.remove(user)
                     response['addedMembers'].append(pk)
 
                     AdditionActivity().set_target(
@@ -87,7 +90,7 @@ class UserGroupPanelView(View):
                 except:
                     pass
 
-            if request[admins]:
+            if request['admins']:
                 for pk in request['admins']:
                     try:
                         user = User.objects.get(pk=pk)
@@ -114,7 +117,7 @@ class UserGroupPanelView(View):
                 try:
                     user = User.objects.get(pk=pk)
                     group.admins.add(user)
-                    response('addedAdmins').append(pk)
+                    response['addedAdmins'].append(pk)
 
                     AdditionActivity().set_target(
                         'admin', user.pk, user.get_full_name(),
@@ -130,7 +133,7 @@ class UserGroupPanelView(View):
                 try:
                     user = User.objects.get(pk=pk)
                     if user != original_request.user:
-                        group.admins.remove(usre)
+                        group.admins.remove(user)
                         response['removedAdmins'].append(pk)
 
                         RemovalActivity().set_target(

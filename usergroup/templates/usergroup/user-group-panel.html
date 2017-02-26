@@ -85,14 +85,14 @@ let activities = [
         <div id="members-wrapper">
             <div id="members">
                 {% for member in usergroup.members.all %}
-                <div class="member" data-url="{% url 'user_profile' member.pk %}" data-pk="{{member.pk}}">
+                <div class="member {% if member in usergroup.admins.all %}admin{% endif %} {% if member == request.user %}cannot-edit{% endif %}" data-url="{% url 'user_profile' member.pk %}" data-pk="{{member.pk}}">
                     <div class="img-container">
                         <img src="{% watchful_static_url 'img/default-avatar.png' %}">
                     </div>
                     <div class="member-details">
                         <div class="name">{{member.get_full_name}}</div>
                         <div class="extra">{{member.email}}</div>
-                        <div class="admin">admin</div>
+                        <div class="admin">Admin</div>
                     </div>
                     <div class="action-container">
                         <div class="check-action"><i class="fa fa-check"></i></div>
@@ -163,7 +163,7 @@ let activities = [
                 <div class="user-details">
                     <div class="name">{{user.get_full_name}}</div>
                     <div class="extra">{{user.email}}</div>
-                    <div class="admin">admin</div>
+                    <div class="admin">Admin</div>
                 </div>
                 <div class="action-container">
                 </div>
