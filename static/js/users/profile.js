@@ -84,13 +84,14 @@ let editMode = {
                             }
                         }).fail(function() {
                             // ERROR
+                        }).always(function() {
+                            $('#save-user-info-progress-btn').hide();
                         });
                 }
             }).fail(function() {
                 // ERROR
-            }).always(function() {
                 $('#save-user-info-progress-btn').hide();
-            });
+            })
         });
     },
 

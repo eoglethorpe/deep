@@ -25,5 +25,6 @@ def get_json_request(request):
 
 
 # Standard responses
+JSON_NOT_PERMITTED = JsonError('Permission denied', status=403)
 JSON_METHOD_NOT_ALLOWED = JsonError('Method not allowed', status=405)
 INVALID_JSON_REQUEST = JsonError('Not a valid json data')

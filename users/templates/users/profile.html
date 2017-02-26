@@ -50,15 +50,17 @@ var activities = [
             <div class="extra">{{ user.username }}</div>
         </div>
         <div class="action-buttons">
+            {% if user == request.user %}
             <a id="save-user-info-btn" hidden><i class="fa fa-save"></i></a>
             <a id="edit-user-info-btn" ><i class="fa fa-edit"></i></a>
             <a id="save-user-info-progress-btn" hidden><i class="fa fa-spinner fa-pulse"></i></a>
+            {% endif %}
         </div>
     </header>
     <section id="project-list">
         <div id="project-list-header">
             <h2>Projects</h2>
-            <button><i class="fa fa-plus"></i>Add new project</button>
+            {% if user == request.user %}<button><i class="fa fa-plus"></i>Add new project</button>{% endif %}
         </div>
         <div id="projects-header">
             <label class="name" data-sort=".name">Name</label>
@@ -80,7 +82,7 @@ var activities = [
     <section id="user-group-list">
         <div id="user-group-list-header">
             <h2>User groups</h2>
-            <button id="new-user-group-btn"><i class="fa fa-plus"></i>Add new User group</button>
+            {% if user == request.user %}<button id="new-user-group-btn"><i class="fa fa-plus"></i>Add new User group</button>{% endif %}
         </div>
         <div id="user-groups">
             {% for usergroup in user.usergroup_set.all %}
