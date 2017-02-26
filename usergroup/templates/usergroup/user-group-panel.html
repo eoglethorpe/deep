@@ -66,9 +66,11 @@ let activities = [
             <div id="group-description" class="extra editable">{{ usergroup.description }}</div>
         </div>
         <div class="action-buttons">
+            {% if request.user in usergroup.admins.all %}
             <a id="save-group-info-btn" hidden><i class="fa fa-save"></i></a>
             <a id="edit-group-info-btn" ><i class="fa fa-edit"></i></a>
             <a id="save-group-info-progress-btn" hidden><i class="fa fa-spinner fa-pulse"></i></a>
+            {% endif %}
         </div>
         <div id="navigator">
             <a data-target="#members-wrapper" class="nav-active">Members</a>
@@ -85,7 +87,7 @@ let activities = [
         <div id="members-wrapper">
             <div id="members">
                 {% for member in usergroup.members.all %}
-                <div class="member {% if member in usergroup.admins.all %}admin{% endif %} {% if member == request.user %}cannot-edit{% endif %}" data-url="{% url 'user_profile' member.pk %}" data-pk="{{member.pk}}">
+                <div class="member {% if member in usergroup.admins.all %}admin{% endif %} {% if member == request.user or request.user not in usergroup.admins.all %}cannot-edit{% endif %}" data-url="{% url 'user_profile' member.pk %}" data-pk="{{member.pk}}">
                     <div class="img-container">
                         <img src="{% watchful_static_url 'img/default-avatar.png' %}">
                     </div>
@@ -130,7 +132,7 @@ let activities = [
             <div><span></span>Selected</div>
             <div class="clear-btn">Clear selection</div>
         </div>
-        <button class="floating-btn" id="add-members">+</button>
+        {% if request.user in usergroup.admins.all %}<button class="floating-btn" id="add-members">+</button>{% endif %}
     </section>
 </main>
 <aside>
