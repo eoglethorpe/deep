@@ -77,7 +77,8 @@ let editMode = {
             }).done(function(response) {
                 if (response.status && response.data.done) {
 
-                    ajax.postImage('avatar', $('#avatar-input'))
+                    if ($('#avatar-input').files) {
+                        ajax.postImage('avatar', $('#avatar-input'))
                         .done(function(response) {
                             if (response.status && response.data.done) {
                                 that.toggleMode(false);
@@ -87,6 +88,10 @@ let editMode = {
                         }).always(function() {
                             $('#save-user-info-progress-btn').hide();
                         });
+                    } else {
+                        that.toggleMode(false);
+                        $('#save-user-info-progress-btn').hide();
+                    }
                 }
             }).fail(function() {
                 // ERROR

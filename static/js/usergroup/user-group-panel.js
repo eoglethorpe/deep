@@ -232,17 +232,6 @@ let users = {
     },
 };
 
-let editMode = {
-    init: function() {
-        let that = this;
-    },
-
-    toggleMode: function(reset) {
-        let that = this;
-
-
-    },
-};
 let projects = {
     init: function(){
         //Project Sorting
@@ -302,6 +291,18 @@ function refresh() {
     users.refresh();
     projects.refresh();
 }
+
+
+let editMode = {
+    init: function() {
+        let that = this;
+    },
+
+    toggleMode: function(reset) {
+        let that = this;
+
+    },
+};
 
 $(document).ready(function(){
     ajax.init();
