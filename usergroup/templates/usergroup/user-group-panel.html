@@ -70,6 +70,10 @@ let activities = [
             <a data-target="#projects-wrapper">Projects</a>
             <a data-target="#templates-wrapper">Templates</a>
         </div>
+        <div id="search-items-wrapper">
+            <i class="fa fa-search"></i>
+            <input id="search-items" type="text" placeholder="Search">
+        </div>
     </header>
 
     <section>
@@ -83,9 +87,12 @@ let activities = [
                     <div class="member-details">
                         <div class="name">{{member.get_full_name}}</div>
                         <div class="extra">{{member.email}}</div>
+                        <div class="admin">admin</div>
                     </div>
                     <div class="action-container">
-                        <i class="fa fa-check"></i>
+                        <div class="check-action"><i class="fa fa-check"></i></div>
+                        <div class="add-admin-action"><i class="fa fa-user-secret"></i></div>
+                        <div class="delete-action"><i class="fa fa-trash-o"></i></div>
                     </div>
                 </div>
                 {% endfor %}
@@ -142,9 +149,6 @@ let activities = [
                 <input id="search-users" type="text" placeholder="Search for users">
             </div>
         </header>
-        <!-- <div class="input-container">
-            <label>Search</label>
-        </div> -->
         <div class="search-container">
             {% for user in users.all %}
             <div class="user" data-pk="{{user.pk}}">
@@ -154,9 +158,9 @@ let activities = [
                 <div class="user-details">
                     <div class="name">{{user.get_full_name}}</div>
                     <div class="extra">{{user.email}}</div>
+                    <div class="admin">admin</div>
                 </div>
                 <div class="action-container">
-                    <i class="fa fa-check"></i>
                 </div>
             </div>
             {% endfor %}
