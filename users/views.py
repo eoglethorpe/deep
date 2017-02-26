@@ -315,7 +315,7 @@ class UserProfileView(View):
             return JsonResult(data={'done': True})
 
         else:
-            return redirect('user_profile', args=[user_id])
+            return redirect(reverse('user_profile', args=[user_id]))
 
     def handle_json_request(self, original_request, request, user_id):
         try:

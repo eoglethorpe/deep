@@ -296,11 +296,48 @@ function refresh() {
 let editMode = {
     init: function() {
         let that = this;
+
+        $('#edit-group-info-btn').click(function() {
+            that.toggleMode(true);
+        });
+
+        $('#save-group-info-btn').click(function() {
+            $('#form-group-name').val($('#group-name').text());
+            $('#form-group-description').val($('#group-description').text());
+            $('#form-group-name').closest('form').submit();
+        });
     },
 
     toggleMode: function(reset) {
         let that = this;
+        let editButton = $('#edit-group-info-btn');
+        editButton.show();
 
+        let parent = editButton.closest('header');
+        if (editButton.hasClass('edit')) {
+            editButton.removeClass('edit');
+            editButton.find('.fa').removeClass('fa-times').addClass('fa-edit');
+            parent.find('.editable').prop('contenteditable', false);
+            parent.find('.editable').each(function() { $(this).text($(this).data('prev-val')); });
+            parent.find('img').attr('src', parent.find('img').data('prev-url'));
+            parent.find('img').prop('title', '');
+            parent.find('img').css('cursor', 'default');
+            parent.find('img').unbind();
+            $('#logo-input').closest('form').get(0).reset();
+            $('#save-group-info-btn').hide();
+        } else {
+            editButton.addClass('edit');
+            editButton.find('.fa').removeClass('fa-edit').addClass('fa-times');
+            parent.find('.editable').prop('contenteditable', true);
+            parent.find('.editable').each(function() { $(this).data('prev-val', $(this).text()); });
+            parent.find('img').data('prev-url', parent.find('img').attr('src'));
+            parent.find('img').prop('title', 'Click to change avatar');
+            parent.find('img').css('cursor', 'pointer');
+            parent.find('img').unbind().click(function(){
+                $('#logo-input').trigger('click');
+            });
+            $('#save-group-info-btn').show();
+        }
     },
 };
 
@@ -369,6 +406,8 @@ $(document).ready(function(){
     });
 
     refresh();
+
+    editMode.init();
 
     $('#logo-input').change(function(){
         if (this.files && this.files[0]) {

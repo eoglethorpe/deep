@@ -37,12 +37,11 @@ class UserGroupPanelView(View):
 
             group.name = request.POST['name']
             group.description = request.POST['description']
+            if request.FILES and request.FILES.get('logo'):
+                group.photo = request.FILES.get('logo')
+            group.save()
 
-            if request.FILES and request.FILES.get('avatar'):
-                group.photo = request.FILES.get('avatar')
-                group.save()
-
-            return redirect('usergroup', args=[group.slug])
+            return redirect(reverse('usergroup:user_group_panel', args=[group.slug]))
 
     def handle_json_request(self, original_request, request, group_slug):
         try:
