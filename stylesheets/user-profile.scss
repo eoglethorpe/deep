@@ -329,4 +329,16 @@ body{
             }
         }
     }
+
+    #new-user-group-modal {
+        .error {
+            padding: 10px 24px;
+            color: $danger-color;
+            display: block;
+
+            &:empty {
+                display: none;
+            }
+        }
+    }
 }

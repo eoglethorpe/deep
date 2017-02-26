@@ -211,6 +211,18 @@ let users = {
     },
 };
 
+let editMode = {
+    init: function() {
+        let that = this;
+    },
+
+    toggleMode: function(reset) {
+        let that = this;
+
+        
+    },
+};
+
 function refresh() {
     members.refresh();
     users.refresh();
