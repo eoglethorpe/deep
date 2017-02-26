@@ -43,7 +43,6 @@ let activityLog = {
     },
 };
 
-
 let members = {
     init: function() {
         let that = this;
@@ -53,8 +52,11 @@ let members = {
             window.open($(this).parent('.member').data('url'), '_blank');
         });
 
-        $('#members').on('click', '.member .action-container', function(){
+        $('#members').on('click', '.member .action-container .check-action', function(){
             that.toggleSelection($(this));
+        });
+        $('#members').on('click', '.member .action-container .add-admin-action', function(){
+            $(this).parent().parent().addClass('admin');
         });
     },
 
@@ -75,10 +77,24 @@ let members = {
         $('#members').find('.member').sort(function(m1, m2) {
             return $(m1).find('.name').text().toLowerCase() > $(m2).find('.name').text().toLowerCase() ? 1 : -1;
         }).detach().appendTo('#members');
+
+        let searchText = $('#search-items').val().toLowerCase().trim();
+        $('.member').each(function() {
+            if (searchText.length > 0) {
+                let name = $(this).find('.name').text().toLowerCase();
+                let extra = $(this).find('.extra').text().toLowerCase();
+
+                if (name.indexOf(searchText) < 0 && extra.indexOf(searchText) < 0 ) {
+                    $(this).hide();
+                    return;
+                }
+            }
+            $(this).show();
+        });
     },
 
     toggleSelection: function(element) {
-        element.parent().toggleClass('member-selected');
+        element.parent().parent().toggleClass('member-selected');
         refresh();
     },
 
@@ -150,14 +166,19 @@ let users = {
         let that = this;
         $('.user .action-container').click(function(){
             if($(this).closest('.search-container').length > 0){
+                let isAdmin = $(this).find('.add-admin-btn').is(':hover');
+
                 var element = $(this).parent().detach();
                 $('.selected-container').append(element);
+                if (isAdmin) {
+                    element.addClass('admin');
+                }
             }
             else if($(this).closest('.selected-container').length > 0){
                 var element = $(this).parent().detach();
+                element.removeClass('admin');
                 $('.search-container').append(element);
             }
-
             refresh();
         });
 
@@ -169,7 +190,7 @@ let users = {
     refresh: function(){
         $('.user').unbind();
         $('.selected-container .user .action-container').html('<i class="fa fa-times"></i>');
-        $('.search-container .user .action-container').html('<i class="fa fa-check"></i>');
+        $('.search-container .user .action-container').html('<div class="add-admin-btn"><p class="fa fa-user-secret"></p><br><label>Add as admin</label></div><div class="add-member-btn"><p class="fa  fa-user"></p><br><label>Add as member</label></div>');
 
         $('.search-container .user').sort(function(a, b) {
             return $(a).find('.name').text().toLowerCase() > $(b).find('.name').text().toLowerCase() ? 1 : -1;
@@ -211,9 +232,63 @@ let users = {
     },
 };
 
+let projects = {
+    init: function(){
+        //Project Sorting
+        $('label[data-sort]').on('click', function(){
+            var sortQuery = $(this).data('sort');
+            var sortAsc = true;
+            if( $(this).data('sort-asc')){
+                sortAsc = false;
+            }
+
+            var projectList = $('#projects');
+            var projectListItems = projectList.children('.project').get();
+            projectListItems.sort(function(a, b){
+                var textA = $(a).find(sortQuery).text().replace(/\s/g, '');
+                var textB = $(b).find(sortQuery).text().replace(/\s/g, '');
+                if( isNaN(parseFloat(textA)) ){
+                    return sortAsc? ((textA > textB)? 1: (textB > textA)? -1: 0) : ((textB > textA)? 1: (textA > textB)? -1: 0);
+                }
+                else{
+                    return sortAsc? parseFloat(textA) - parseFloat(textB) : parseFloat(textB) - parseFloat(textA);
+                }
+            });
+            $.each(projectListItems, function(index, item){ projectList.append(item) });
+
+            var asc = $('.asc');
+            asc.data('sort-asc', null);
+            asc.removeClass('asc');
+
+            var dsc = $('.dsc');
+            dsc.data('sort-asc', null);
+            dsc.removeClass('dsc');
+
+            $(this).data('sort-asc', sortAsc);
+            $(this).addClass(sortAsc? 'asc' : 'dsc');
+        });
+    },
+    refresh: function(){
+        let searchText = $('#search-items').val().toLowerCase().trim();
+        $('.project').each(function() {
+            if (searchText.length > 0) {
+                let name = $(this).find('.name').text().toLowerCase();
+                let type = $(this).find('.type').text().toLowerCase();
+                let countries = $(this).find('.countries').text().toLowerCase();
+
+                if (name.indexOf(searchText) < 0 && type.indexOf(searchText) < 0 && countries.indexOf(searchText) < 0 ) {
+                    $(this).hide();
+                    return;
+                }
+            }
+            $(this).show();
+        });
+    },
+}
 function refresh() {
     members.refresh();
     users.refresh();
+    projects.refresh();
 }
 
 $(document).ready(function(){
@@ -249,39 +324,10 @@ $(document).ready(function(){
         window.location.href = $(this).data('url');
     });
 
-    //Project Sorting
-    $('label[data-sort]').on('click', function(){
-        var sortQuery = $(this).data('sort');
-        var sortAsc = true;
-        if( $(this).data('sort-asc')){
-            sortAsc = false;
-        }
-
-        var projectList = $('#projects');
-        var projectListItems = projectList.children('.project').get();
-        projectListItems.sort(function(a, b){
-            var textA = $(a).find(sortQuery).text().replace(/\s/g, '');
-            var textB = $(b).find(sortQuery).text().replace(/\s/g, '');
-            if( isNaN(parseFloat(textA)) ){
-                return sortAsc? ((textA > textB)? 1: (textB > textA)? -1: 0) : ((textB > textA)? 1: (textA > textB)? -1: 0);
-            }
-            else{
-                return sortAsc? parseFloat(textA) - parseFloat(textB) : parseFloat(textB) - parseFloat(textA);
-            }
-        });
-        $.each(projectListItems, function(index, item){ projectList.append(item) });
-
-        var asc = $('.asc');
-        asc.data('sort-asc', null);
-        asc.removeClass('asc');
-
-        var dsc = $('.dsc');
-        dsc.data('sort-asc', null);
-        dsc.removeClass('dsc');
-
-        $(this).data('sort-asc', sortAsc);
-        $(this).addClass(sortAsc? 'asc' : 'dsc');
+    $('#search-items').on('input paste change', function(){
+        refresh();
     });
+
 
     floatingButton.init(function(){
         var selection = $('#navigator .nav-active');
