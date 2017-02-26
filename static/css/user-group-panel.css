@@ -474,20 +474,22 @@ body {
                   font-weight: 300;
                   color: rgba(0, 0, 0, 0.3);
                   transition: 0.2s all ease-in-out; }
-            body main section #members-wrapper #members .member:hover {
+            body main section #members-wrapper #members .member:not(.cannot-edit):hover {
               box-shadow: 0 5px 15px -4px rgba(0, 0, 0, 0.4); }
-              body main section #members-wrapper #members .member:hover .action-container > div {
+              body main section #members-wrapper #members .member:not(.cannot-edit):hover .action-container > div {
                 border: 1px solid rgba(0, 0, 0, 0.3); }
-                body main section #members-wrapper #members .member:hover .action-container > div .fa {
+                body main section #members-wrapper #members .member:not(.cannot-edit):hover .action-container > div .fa {
                   transform: scale(1); }
-              body main section #members-wrapper #members .member:hover .action-container .check-action:hover .fa {
+              body main section #members-wrapper #members .member:not(.cannot-edit):hover .action-container .check-action:hover .fa {
                 color: #008080; }
-              body main section #members-wrapper #members .member:hover .action-container .add-admin-action:hover .fa {
+              body main section #members-wrapper #members .member:not(.cannot-edit):hover .action-container .add-admin-action:hover .fa {
                 color: #e74c3c; }
-              body main section #members-wrapper #members .member:hover .action-container .delete-action:hover .fa {
+              body main section #members-wrapper #members .member:not(.cannot-edit):hover .action-container .delete-action:hover .fa {
                 color: #e74c3c; }
             body main section #members-wrapper #members .member.admin .admin {
               display: inherit; }
+            body main section #members-wrapper #members .member.admin .img-container img {
+              border: 2px solid #e74c3c; }
           body main section #members-wrapper #members .member-selected {
             background-color: rgba(0, 0, 0, 0.05);
             box-shadow: 0 5px 15px -4px rgba(0, 0, 0, 0.4); }

@@ -55,8 +55,54 @@ let members = {
         $('#members').on('click', '.member .action-container .check-action', function(){
             that.toggleSelection($(this));
         });
+
         $('#members').on('click', '.member .action-container .add-admin-action', function(){
-            $(this).parent().parent().addClass('admin');
+            let member = $(this).closest('.member');
+
+            if (!member.hasClass('admin')) {
+                ajax.request({
+                    request: 'addAdmins',
+                    users: [ member.data('pk') ],
+                }).done(function(response) {
+                    if (response.status && response.data.addedAdmins) {
+                        for (var i=0; i<response.data.addedAdmins.length; i++) {
+                            $('.member[data-pk="' + response.data.addedAdmins[i] + '"]').addClass('admin');
+                        }
+                    }
+                }).always(function() {
+                    refresh();
+                });
+            } else {
+                ajax.request({
+                    request: 'removeAdmins',
+                    users: [ member.data('pk') ],
+                }).done(function(response) {
+                    if (response.status && response.data.removedAdmins) {
+                        for (var i=0; i<response.data.removedAdmins.length; i++) {
+                            $('.member[data-pk="' + response.data.removedAdmins[i] + '"]').removeClass('admin');
+                        }
+                    }
+                }).always(function() {
+                    refresh();
+                });
+            }
+        });
+
+
+        $('#members').on('click', '.member .action-container .delete-action', function(){
+            let member = $(this).closest('.member');
+            ajax.request({
+                request: 'removeMembers',
+                members: [ member.data('pk') ],
+            }).done(function(response) {
+                if (response.status && response.data.removedMembers) {
+                    for (var i=0; i<response.data.removedMembers.length; i++) {
+                        $('.member[data-pk="' + response.data.removedMembers[i] + '"]').remove();
+                    }
+                }
+            }).always(function() {
+                refresh();
+            });
         });
     },
 
@@ -117,7 +163,7 @@ let members = {
         }).done(function(response) {
             if (response.status && response.data.removedMembers) {
                 for (var i=0; i<response.data.removedMembers.length; i++) {
-                    $('.member-selected[data-pk="' + response.data.removedMembers[i] + '"]').remove();
+                    $('.member[data-pk="' + response.data.removedMembers[i] + '"]').remove();
                 }
                 that.clearSelection();
             }
@@ -128,11 +174,12 @@ let members = {
         });
     },
 
-    addMembers: function(users) {
+    addMembers: function(users, admins) {
         let that = this;
         ajax.request({
             request: 'addMembers',
-            users: users
+            users: users,
+            admins: admins,
         }).done(function(response) {
             if (response.status && response.data.addedMembers) {
                 for (var i=0; i<response.data.addedMembers.length; i++) {
@@ -140,11 +187,21 @@ let members = {
                     let user = $('#add-members-modal .user[data-pk="' + pk + '"]');
                     let member = user.clone();
 
+                    if (response.data.addedAdmins.indexOf(pk) >= 0) {
+                        member.addClass('admin');
+                    } else {
+                        member.removeClass('admin');
+                    }
+
                     member.removeClass('user')
                         .addClass('member');
                     member.find('.user-details')
                         .removeClass('user-details')
                         .addClass('member-details');
+
+                    member.find('.action-container').remove();
+                    member.append($('.member').eq(0).find('.action-container').clone());
+
                     member.appendTo('#members');
                     member.show();
                 }
@@ -225,8 +282,14 @@ let users = {
         refresh();
     },
 
-    getSelected: function() {
-        return $('.selected-container .user').map(function() {
+    getSelectedNotAdmin: function() {
+        return $('.selected-container .user:not(.admin)').map(function() {
+            return $(this).data('pk');
+        }).get();
+    },
+
+    getSelectedAdmin: function() {
+        return $('.selected-container .user.admin').map(function() {
             return $(this).data('pk');
         }).get();
     },
@@ -389,7 +452,7 @@ $(document).ready(function(){
             else{
                 addMembersModal.show().then(function(){
                     if(addMembersModal.action == 'proceed'){
-                        members.addMembers(users.getSelected());
+                        members.addMembers(users.getSelectedNotAdmin(), users.getSelectedAdmin());
                     }
                     else{
                     }
