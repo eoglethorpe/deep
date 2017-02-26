@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from leads.models import *
 from entries.models import *
 from report.models import *
+from usergroup.models import *
 
 
 class CrisisPanelView(View):
@@ -16,7 +17,17 @@ class CrisisPanelView(View):
     def get(self, request):
         context = {}
         context["current_page"] = "crisis-panel"
-        context["events"] = Event.objects.all().order_by('name')
+
+        # Either you are a super admin and can edit all crises
+        # Or you are admin of a usergroup who has this project
+
+        if request.user.is_superuser:
+            context["usergroups"] = UserGroup.objects.all()
+            context["events"] = Event.objects.all().order_by('name')
+        else:
+            context["usergroups"] = UserGroup.objects.filter(admins__pk=request.user.pk)
+            all_event_pks = list(set(context["usergroups"].values_list('projects__pk', flat=True)))
+            context["events"] = Event.objects.filter(pk__in=all_event_pks).order_by('name')
 
         context["countries"] = Country.objects.all()
         context["disaster_types"] = DisasterType.objects.all()
@@ -24,6 +35,9 @@ class CrisisPanelView(View):
 
         if "selected" in request.GET:
             context["selected_event"] = int(request.GET["selected"])
+
+        if "selected_group" in request.GET:
+            context["selected_group"] = int(request.GET["selected_group"])
 
         return render(request, "custom_admin/crisis-panel.html", context)
 
@@ -80,6 +94,14 @@ class CrisisPanelView(View):
             if "countries" in request.POST and request.POST["countries"]:
                 for country in request.POST.getlist("countries"):
                     event.countries.add(Country.objects.get(pk=country))
+
+            related_user_groups = event.usergroup_set.all()
+            for ug in related_user_groups:
+                ug.projects.remove(event)
+            if "user-groups" in request.POST and request.POST["user-groups"]:
+                for usergroup in request.POST.getlist("user-groups"):
+                    print(usergroup)
+                    UserGroup.objects.get(pk=usergroup).projects.add(event)
 
             response["Location"] += "?selected="+str(event.pk)
 

@@ -371,7 +371,7 @@ let editMode = {
             }).done(function(response) {
                 if (response.status) {
                     if (response.data.nameExists) {
-                        alert('Name ' + $('#group-name').text() + ' already exists in DEEP');
+                        alert('Group ' + $('#group-name').text() + ' already exists in DEEP');
                     } else {
                         $('#form-group-name').val($('#group-name').text());
                         $('#form-group-description').val($('#group-description').text());
@@ -472,7 +472,7 @@ $(document).ready(function(){
             }
         }
         else if (selection.data('target') == '#projects-wrapper') {
-            window.location.href = crisis_panel_url;
+            window.location.href = crisis_panel_url + '?selected_group=' + userGroupPk;
         }
         else if (selection.data('target') == '#templates-wrapper') {
             console.log('Templates');

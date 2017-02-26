@@ -9,9 +9,9 @@ DEEP | User Profile
 <link rel="stylesheet" href="{% watchful_static_url 'css/user-profile.css' %}" >
 <link rel="stylesheet" href="{% watchful_static_url 'css/modal.css' %}" >
 
-<script src="{% watchful_static_url 'js/users/profile.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script src="{% watchful_static_url 'js/users/profile.js' %}"></script>
 <script>
 var activities = [
     {% for activity in user.activitylog_set.all %}
@@ -30,7 +30,8 @@ var activities = [
         <a title="DEEP" href="{% url 'login' %}"><img class="deep-logo" src="{% watchful_static_url 'img/deep-logo-sm-white.png' %}"></a>
         <h1>User profile</h1>
     </header>
-    <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to deep</a>
+    <!-- <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to deep</a> -->
+    <a onclick="window.location.href = document.referrer;"><i class="fa fa-long-arrow-left"></i>Back</a>
 </nav>
 <main>
     <header>
@@ -60,7 +61,7 @@ var activities = [
     <section id="project-list">
         <div id="project-list-header">
             <h2>Projects</h2>
-            {% if user == request.user %}<button><i class="fa fa-plus"></i>Add new project</button>{% endif %}
+            {% if user == request.user %}<button onclick="window.location.href='{% url "custom_admin:crisis_panel" %}'"><i class="fa fa-plus"></i>Add new project</button>{% endif %}
         </div>
         <div id="projects-header">
             <label class="name" data-sort=".name">Name</label>

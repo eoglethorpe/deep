@@ -1,6 +1,7 @@
 var disasterTypeSelectize;
 var countriesSelectize;
 var assignedToSelectize;
+let userGroupsSelectize;
 var spilloverSelectize;
 
 function filterCrises() {
@@ -33,6 +34,7 @@ $(document).ready(function(){
     disasterTypeSelectize = $("#disaster-type").selectize();
     countriesSelectize = $("#countries").selectize();
     assignedToSelectize = $("#assigned-to").selectize();
+    userGroupsSelectize = $('#user-groups').selectize();
     spilloverSelectize = $("#spillover").selectize();
 
     $('.crisis').on('click', function() {
@@ -49,6 +51,7 @@ $(document).ready(function(){
         disasterTypeSelectize[0].selectize.setValue(crisis.disaster_type);
         countriesSelectize[0].selectize.setValue(crisis.countries);
         assignedToSelectize[0].selectize.setValue(crisis.assigned_to);
+        userGroupsSelectize[0].selectize.setValue(crisis.usergroups);
         spilloverSelectize[0].selectize.setValue(crisis.spillover);
 
         $("#crisis-start-date").val(crisis.start_date);
@@ -62,8 +65,6 @@ $(document).ready(function(){
         $(this).addClass('active');
     });
 
-    $('.crisis.active').click();
-
     // prevent enter key from pressing buttons
     $(window).keypress(function(e) {
         if(e.which == 13) {
@@ -71,7 +72,11 @@ $(document).ready(function(){
         }
     });
 
-    addNewCrisis();
+    if ($('.crisis.active').length > 0) {
+        $('.crisis.active').click();
+    } else {
+        addNewCrisis();
+    }
 });
 
 function addNewCrisis() {
@@ -85,6 +90,7 @@ function addNewCrisis() {
     disasterTypeSelectize[0].selectize.setValue("");
     countriesSelectize[0].selectize.setValue("");
     assignedToSelectize[0].selectize.setValue("");
+    userGroupsSelectize[0].selectize.setValue(defaultGroupSelection);
     spilloverSelectize[0].selectize.setValue("");
 
     $("#crisis-start-date").val("");
