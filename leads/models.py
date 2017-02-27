@@ -41,6 +41,8 @@ class Event(models.Model):
     countries = models.ManyToManyField(Country, blank=True)
     disaster_type = models.ForeignKey('report.DisasterType', null=True, blank=True, default=None)
 
+    admins = models.ManyToManyField(User, blank=True, related_name="events_owned")
+
     # TO DELETE
     assigned_to = models.ForeignKey(User, null=True, blank=True, default=None, related_name="event_donot_use", verbose_name="DO NOT USE")
 

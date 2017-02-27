@@ -19,16 +19,14 @@ class CrisisPanelView(View):
         context["current_page"] = "crisis-panel"
 
         # Either you are a super admin and can edit all crises
-        # Or you are admin of a usergroup who has this project
+        # Or you are admin of this project
 
         if request.user.is_superuser:
-            context["usergroups"] = UserGroup.objects.all()
             context["events"] = Event.objects.all().order_by('name')
         else:
-            context["usergroups"] = UserGroup.objects.filter(admins__pk=request.user.pk)
-            all_event_pks = list(set(context["usergroups"].values_list('projects__pk', flat=True)))
-            context["events"] = Event.objects.filter(pk__in=all_event_pks).order_by('name')
+            context["events"] = Event.objects.filter(admins__pk=request.user.pk).order_by('name')
 
+        context["usergroups"] = UserGroup.objects.all()
         context["countries"] = Country.objects.all()
         context["disaster_types"] = DisasterType.objects.all()
         context["users"] = User.objects.all()
@@ -89,6 +87,11 @@ class CrisisPanelView(View):
             if "assigned-to" in request.POST and request.POST["assigned-to"]:
                 for assigned_to in request.POST.getlist("assigned-to"):
                     event.assignee.add(User.objects.get(pk=int(assigned_to)))
+
+            event.admins.clear()
+            if "admins" in request.POST and request.POST["admins"]:
+                for admin in request.POST.getlist("admins"):
+                    event.admins.add(User.objects.get(pk=int(admin)))
 
             event.countries.clear()
             if "countries" in request.POST and request.POST["countries"]:
