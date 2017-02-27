@@ -10,6 +10,7 @@ from leads.models import *
 from entries.models import *
 from report.models import *
 from usergroup.models import *
+from users.log import *
 
 
 class CrisisPanelView(View):
@@ -19,16 +20,14 @@ class CrisisPanelView(View):
         context["current_page"] = "crisis-panel"
 
         # Either you are a super admin and can edit all crises
-        # Or you are admin of a usergroup who has this project
+        # Or you are admin of this project
 
         if request.user.is_superuser:
-            context["usergroups"] = UserGroup.objects.all()
             context["events"] = Event.objects.all().order_by('name')
         else:
-            context["usergroups"] = UserGroup.objects.filter(admins__pk=request.user.pk)
-            all_event_pks = list(set(context["usergroups"].values_list('projects__pk', flat=True)))
-            context["events"] = Event.objects.filter(pk__in=all_event_pks).order_by('name')
+            context["events"] = Event.objects.filter(admins__pk=request.user.pk).order_by('name')
 
+        context["usergroups"] = UserGroup.objects.all()
         context["countries"] = Country.objects.all()
         context["disaster_types"] = DisasterType.objects.all()
         context["users"] = User.objects.all()
@@ -50,8 +49,10 @@ class CrisisPanelView(View):
         if "save" in request.POST:
             if pk == "new":
                 event = Event()
+                activity = CreationActivity()
             else:
                 event = Event.objects.get(pk=int(pk))
+                activity = EditionActivity()
 
             event.name = request.POST["crisis-name"]
 
@@ -85,23 +86,49 @@ class CrisisPanelView(View):
 
             event.save()
 
+            activity.set_target(
+                'project', event.pk, event.name,
+                reverse('custom_admin:crisis_panel') + '?selected=' + str(event.pk)
+            ).log_for(request.user, event=event)
+
             event.assignee.clear()
             if "assigned-to" in request.POST and request.POST["assigned-to"]:
                 for assigned_to in request.POST.getlist("assigned-to"):
                     event.assignee.add(User.objects.get(pk=int(assigned_to)))
+
+            event.admins.clear()
+            if "admins" in request.POST and request.POST["admins"]:
+                for admin in request.POST.getlist("admins"):
+                    event.admins.add(User.objects.get(pk=int(admin)))
 
             event.countries.clear()
             if "countries" in request.POST and request.POST["countries"]:
                 for country in request.POST.getlist("countries"):
                     event.countries.add(Country.objects.get(pk=country))
 
-            related_user_groups = event.usergroup_set.all()
-            for ug in related_user_groups:
+            prev_groups = event.usergroup_set.all()
+            for ug in prev_groups:
                 ug.projects.remove(event)
+
+            new_groups = []
             if "user-groups" in request.POST and request.POST["user-groups"]:
-                for usergroup in request.POST.getlist("user-groups"):
-                    print(usergroup)
-                    UserGroup.objects.get(pk=usergroup).projects.add(event)
+                for pk in request.POST.getlist("user-groups"):
+                    usergroup = UserGroup.objects.get(pk=pk)
+                    usergroup.projects.add(event)
+
+                    new_groups.append(usergroup)
+                    if usergroup not in prev_groups:
+                        AdditionActivity().set_target(
+                            'project', event.pk, event.name,
+                            reverse('custom_admin:crisis_panel') + '?selected=' + str(event.pk)
+                        ).log_for(request.user, event=event, group=usergroup)
+
+            for ug in prev_groups:
+                if ug not in new_groups:
+                    RemovalActivity().set_target(
+                        'project', event.pk, event.name,
+                        reverse('custom_admin:crisis_panel') + '?selected=' + str(event.pk)
+                    ).log_for(request.user, event=event, group=ug)
 
             response["Location"] += "?selected="+str(event.pk)
 

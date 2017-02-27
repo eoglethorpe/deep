@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import pre_delete
+# from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
 
 from datetime import datetime, date
@@ -40,6 +40,8 @@ class Event(models.Model):
     name = models.CharField(max_length=100)
     countries = models.ManyToManyField(Country, blank=True)
     disaster_type = models.ForeignKey('report.DisasterType', null=True, blank=True, default=None)
+
+    admins = models.ManyToManyField(User, blank=True, related_name="events_owned")
 
     # TO DELETE
     assigned_to = models.ForeignKey(User, null=True, blank=True, default=None, related_name="event_donot_use", verbose_name="DO NOT USE")
@@ -163,9 +165,9 @@ class SimplifiedLead(models.Model):
     def __str__(self):
         return self.lead.name
 
-@receiver(pre_delete, sender=Attachment)
-def _attachment_delete(sender, instance, **kwargs):
-    instance.upload.delete(False)
+# @receiver(pre_delete, sender=Attachment)
+# def _attachment_delete(sender, instance, **kwargs):
+#     instance.upload.delete(False)
 
 
 """Survey of survey """

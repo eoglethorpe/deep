@@ -30,7 +30,7 @@ let activityLog = {
     displayLog: function() {
         $('#activity-log').empty();
         for (let i=0; i<activities.length; i++) {
-            if (activities[i].group && activities[i].group.pk != userGroupPk)
+            if (activities[i].group && activities[i].group.pk)
                 continue;
             $('#activity-log').append(this.createLogElement(activities[i]));
         }

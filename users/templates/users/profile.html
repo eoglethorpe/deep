@@ -16,7 +16,14 @@ DEEP | User Profile
 var activities = [
     {% for activity in user.activitylog_set.all %}
     $.extend(
-        { timestamp: new Date('{{ activity.timestamp.isoformat }}'), },
+        {
+            timestamp: new Date('{{ activity.timestamp.isoformat }}'),
+            {% if activity.group %}
+            group: {
+                pk: '{{activity.group.pk}}', name: '{{activity.group.name}}'
+            },
+            {% endif %}
+        },
         JSON.parse('{{activity.activity|escapejs}}')
     ),
     {% endfor %}
