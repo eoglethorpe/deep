@@ -52,7 +52,7 @@ function renderEntries(){
         entry.removeClass('entry-template');
         entry.addClass('entry');
         entry.find('h4').html(searchAndHighlight(entries[i].lead_title, leadTitleFilterText));
-        entry.find('.source').text(entries[i].lead_source_name!=null? entries[i].lead_source_name: 'Not specified');
+        entry.find('.source').text(entries[i].lead_source!=null? entries[i].lead_source: 'Not specified');
         if (entries[i].lead_url)
             entry.find('.source').prop('href', entries[i].lead_url);
 
@@ -266,7 +266,7 @@ $(document).ready(function(){
             return;
 
         e.preventDefault();
-        var text = entries[i].lead_source_name != null ? entries[i].lead_source_name : 'N/A';
+        var text = entries[i].lead_source!= null ? entries[i].lead_source: 'N/A';
         if (entries[i].lead_url)
             text += ' (' + entries[i].lead_url + ')'
         text += ' / ';

@@ -212,6 +212,7 @@ class DashboardView(View):
 
             weeks = max(int((monday2 - monday1).days/7 + 1), 14) + 2
 
+
             # For each week, store its date and the countries whose reports exist on that day
             for i in range(weeks):
                 dt = monday1 + timedelta(days=7*i)
@@ -234,12 +235,9 @@ class DashboardView(View):
                     })
                     report_created_dates.append(report.last_edited_at)
 
-
         # Get event for each country
         for country in context["countries"]:
-            context["crises_per_country"][country] = []
-            for crisis in Event.objects.filter(countries__pk=country.pk):
-                context["crises_per_country"][country].append(crisis)
+            context["crises_per_country"][country] = Event.objects.filter(countries__pk=country.pk)
 
         return render(request, "users/dashboard.html", context)
 
