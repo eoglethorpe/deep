@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import pre_delete
+# from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
 
 from leads.models import *
@@ -24,9 +24,9 @@ class AdminLevel(models.Model):
         unique_together = ('country', 'level')
 
 
-@receiver(pre_delete, sender=AdminLevel)
-def _admin_level_delete(sender, instance, **kwargs):
-    instance.geojson.delete(False)
+# @receiver(pre_delete, sender=AdminLevel)
+# def _admin_level_delete(sender, instance, **kwargs):
+#     instance.geojson.delete(False)
 
 
 class AdminLevelSelection(models.Model):
@@ -154,9 +154,9 @@ class Sector(models.Model):
         return self.name
 
 
-@receiver(pre_delete, sender=Sector)
-def _sector_delete(sender, instance, **kwargs):
-    instance.icon.delete(False)
+# @receiver(pre_delete, sender=Sector)
+# def _sector_delete(sender, instance, **kwargs):
+#     instance.icon.delete(False)
 
 
 class Subsector(models.Model):

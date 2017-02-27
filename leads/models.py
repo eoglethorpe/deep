@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import pre_delete
+# from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
 
 from datetime import datetime, date
@@ -165,9 +165,9 @@ class SimplifiedLead(models.Model):
     def __str__(self):
         return self.lead.name
 
-@receiver(pre_delete, sender=Attachment)
-def _attachment_delete(sender, instance, **kwargs):
-    instance.upload.delete(False)
+# @receiver(pre_delete, sender=Attachment)
+# def _attachment_delete(sender, instance, **kwargs):
+#     instance.upload.delete(False)
 
 
 """Survey of survey """
