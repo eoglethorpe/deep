@@ -546,9 +546,9 @@ main #entry-filters {
     align-items: center;
     flex-wrap: wrap; }
     main #entry-filters #left-block > input[type="text"].filter {
-      padding: 3px 5px;
-      font-size: 12px;
-      border: 1px solid rgba(0, 0, 0, 0.1); }
+      padding: 4px 6px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-sizing: border-box; }
     main #entry-filters #left-block .filter {
       flex-basis: 20%;
       outline: none;
