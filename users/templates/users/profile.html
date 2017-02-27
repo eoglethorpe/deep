@@ -9,14 +9,21 @@ DEEP | User Profile
 <link rel="stylesheet" href="{% watchful_static_url 'css/user-profile.css' %}" >
 <link rel="stylesheet" href="{% watchful_static_url 'css/modal.css' %}" >
 
-<script src="{% watchful_static_url 'js/users/profile.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script src="{% watchful_static_url 'js/users/profile.js' %}"></script>
 <script>
 var activities = [
     {% for activity in user.activitylog_set.all %}
     $.extend(
-        { timestamp: new Date('{{ activity.timestamp.isoformat }}'), },
+        {
+            timestamp: new Date('{{ activity.timestamp.isoformat }}'),
+            {% if activity.group %}
+            group: {
+                pk: '{{activity.group.pk}}', name: '{{activity.group.name}}'
+            },
+            {% endif %}
+        },
         JSON.parse('{{activity.activity|escapejs}}')
     ),
     {% endfor %}
@@ -30,11 +37,13 @@ var activities = [
         <a title="DEEP" href="{% url 'login' %}"><img class="deep-logo" src="{% watchful_static_url 'img/deep-logo-sm-white.png' %}"></a>
         <h1>User profile</h1>
     </header>
-    <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to deep</a>
+    <!-- <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to deep</a> -->
+    <a onclick="window.location.href = document.referrer;"><i class="fa fa-long-arrow-left"></i>Back</a>
 </nav>
 <main>
     <header>
-        <img src="{% watchful_static_url 'img/default-avatar.png' %}">
+        <input type="file" name="avatar" id="avatar-input" accept="image/*">
+        <img id="user-avatar" src="{% if user.userprofile.photo %}{{ user.userprofile.photo.url }}{% else %}{% watchful_static_url 'img/default-avatar.png' %}{% endif %}">
         <div class="user-info">
             <h2 id="full-name">
                 <div>
@@ -49,15 +58,17 @@ var activities = [
             <div class="extra">{{ user.username }}</div>
         </div>
         <div class="action-buttons">
+            {% if user == request.user %}
             <a id="save-user-info-btn" hidden><i class="fa fa-save"></i></a>
             <a id="edit-user-info-btn" ><i class="fa fa-edit"></i></a>
             <a id="save-user-info-progress-btn" hidden><i class="fa fa-spinner fa-pulse"></i></a>
+            {% endif %}
         </div>
     </header>
     <section id="project-list">
         <div id="project-list-header">
             <h2>Projects</h2>
-            <button><i class="fa fa-plus"></i>Add new project</button>
+            {% if user == request.user %}<button onclick="window.location.href='{% url "custom_admin:crisis_panel" %}'"><i class="fa fa-plus"></i>Add new project</button>{% endif %}
         </div>
         <div id="projects-header">
             <label class="name" data-sort=".name">Name</label>
@@ -79,7 +90,7 @@ var activities = [
     <section id="user-group-list">
         <div id="user-group-list-header">
             <h2>User groups</h2>
-            <button id="new-user-group-btn"><i class="fa fa-plus"></i>Add new User group</button>
+            {% if user == request.user %}<button id="new-user-group-btn"><i class="fa fa-plus"></i>Add new User group</button>{% endif %}
         </div>
         <div id="user-groups">
             {% for usergroup in user.usergroup_set.all %}
@@ -107,6 +118,7 @@ var activities = [
         <header>
             <h3 class="modal-header">Add new user group</h3>
         </header>
+        <div class="error"></div>
         <div class="input-container">
             <label>Name</label>
             <input type="text" name="name" id="new-user-group-name">

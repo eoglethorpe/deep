@@ -9,6 +9,8 @@ from django.core.urlresolvers import reverse
 from leads.models import *
 from entries.models import *
 from report.models import *
+from usergroup.models import *
+from users.log import *
 
 
 class CrisisPanelView(View):
@@ -16,14 +18,25 @@ class CrisisPanelView(View):
     def get(self, request):
         context = {}
         context["current_page"] = "crisis-panel"
-        context["events"] = Event.objects.all().order_by('name')
 
+        # Either you are a super admin and can edit all crises
+        # Or you are admin of this project
+
+        if request.user.is_superuser:
+            context["events"] = Event.objects.all().order_by('name')
+        else:
+            context["events"] = Event.objects.filter(admins__pk=request.user.pk).order_by('name')
+
+        context["usergroups"] = UserGroup.objects.all()
         context["countries"] = Country.objects.all()
         context["disaster_types"] = DisasterType.objects.all()
         context["users"] = User.objects.all()
 
         if "selected" in request.GET:
             context["selected_event"] = int(request.GET["selected"])
+
+        if "selected_group" in request.GET:
+            context["selected_group"] = int(request.GET["selected_group"])
 
         return render(request, "custom_admin/crisis-panel.html", context)
 
@@ -36,8 +49,10 @@ class CrisisPanelView(View):
         if "save" in request.POST:
             if pk == "new":
                 event = Event()
+                activity = CreationActivity()
             else:
                 event = Event.objects.get(pk=int(pk))
+                activity = EditionActivity()
 
             event.name = request.POST["crisis-name"]
 
@@ -71,15 +86,49 @@ class CrisisPanelView(View):
 
             event.save()
 
+            activity.set_target(
+                'project', event.pk, event.name,
+                reverse('custom_admin:crisis_panel') + '?selected=' + str(event.pk)
+            ).log_for(request.user, event=event)
+
             event.assignee.clear()
             if "assigned-to" in request.POST and request.POST["assigned-to"]:
                 for assigned_to in request.POST.getlist("assigned-to"):
                     event.assignee.add(User.objects.get(pk=int(assigned_to)))
 
+            event.admins.clear()
+            if "admins" in request.POST and request.POST["admins"]:
+                for admin in request.POST.getlist("admins"):
+                    event.admins.add(User.objects.get(pk=int(admin)))
+
             event.countries.clear()
             if "countries" in request.POST and request.POST["countries"]:
                 for country in request.POST.getlist("countries"):
                     event.countries.add(Country.objects.get(pk=country))
+
+            prev_groups = event.usergroup_set.all()
+            for ug in prev_groups:
+                ug.projects.remove(event)
+
+            new_groups = []
+            if "user-groups" in request.POST and request.POST["user-groups"]:
+                for pk in request.POST.getlist("user-groups"):
+                    usergroup = UserGroup.objects.get(pk=pk)
+                    usergroup.projects.add(event)
+
+                    new_groups.append(usergroup)
+                    if usergroup not in prev_groups:
+                        AdditionActivity().set_target(
+                            'project', event.pk, event.name,
+                            reverse('custom_admin:crisis_panel') + '?selected=' + str(event.pk)
+                        ).log_for(request.user, event=event, group=usergroup)
+
+            for ug in prev_groups:
+                if ug not in new_groups:
+                    RemovalActivity().set_target(
+                        'project', event.pk, event.name,
+                        reverse('custom_admin:crisis_panel') + '?selected=' + str(event.pk)
+                    ).log_for(request.user, event=event, group=ug)
 
             response["Location"] += "?selected="+str(event.pk)
 

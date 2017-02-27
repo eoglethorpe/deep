@@ -5,7 +5,21 @@ let ajax = {
 
     request: function(request) {
         return $.post(window.location, JSON.stringify(request), null, 'json');
-    }
+    },
+
+    postImage: function(name, element) {
+        let formData = new FormData();
+        formData.append(name, element[0].files[0]);
+
+        return $.ajax({
+            url: window.location,
+            type: 'POST',
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+        });
+    },
 };
 
 let activityLog = {
@@ -16,7 +30,7 @@ let activityLog = {
     displayLog: function() {
         $('#activity-log').empty();
         for (let i=0; i<activities.length; i++) {
-            if (activities[i].group && activities[i].group.pk != userGroupPk)
+            if (activities[i].group && activities[i].group.pk)
                 continue;
             $('#activity-log').append(this.createLogElement(activities[i]));
         }
@@ -62,13 +76,27 @@ let editMode = {
                 lastName: $('#last-name').text()
             }).done(function(response) {
                 if (response.status && response.data.done) {
-                    that.toggleMode(false);
+
+                    if ($('#avatar-input')[0].files.length > 0) {
+                        ajax.postImage('avatar', $('#avatar-input'))
+                        .done(function(response) {
+                            if (response.status && response.data.done) {
+                                that.toggleMode(false);
+                            }
+                        }).fail(function() {
+                            // ERROR
+                        }).always(function() {
+                            $('#save-user-info-progress-btn').hide();
+                        });
+                    } else {
+                        that.toggleMode(false);
+                        $('#save-user-info-progress-btn').hide();
+                    }
                 }
             }).fail(function() {
                 // ERROR
-            }).always(function() {
                 $('#save-user-info-progress-btn').hide();
-            });
+            })
         });
     },
 
@@ -77,16 +105,21 @@ let editMode = {
         editButton.show();
 
         let parent = editButton.closest('header');
-        if(editButton.hasClass('edit')) {
+        if (editButton.hasClass('edit')) {
             editButton.removeClass('edit');
             editButton.find('.fa').removeClass('fa-times').addClass('fa-edit');
             parent.find('#full-name').removeClass('edit');
             parent.find('.name').prop('contenteditable', false);
             if (reset) {
                 parent.find('.name').each(function() { $(this).text($(this).data('prev-val')); });
+                parent.find('img').attr('src', parent.find('img').data('prev-url'));
+                $('#avatar-input').wrap('<form>').closest('form').get(0).reset();
+                $('#avatar-input').unwrap();
             }
-            // parent.find('img').prop('title', '');
-            // parent.find('img').css('cursor', 'default');
+            parent.find('img').prop('title', '');
+            parent.find('img').css('cursor', 'default');
+            parent.find('img').unbind();
+
             $('#save-user-info-btn').hide();
         } else {
             editButton.addClass('edit');
@@ -94,11 +127,12 @@ let editMode = {
             parent.find('#full-name').addClass('edit');
             parent.find('.name').prop('contenteditable', true);
             parent.find('.name').each(function() { $(this).data('prev-val', $(this).text()); });
-            // parent.find('img').prop('title', 'Click to change avatar');
-            // parent.find('img').css('cursor', 'pointer');
-            // parent.find('img').unbind().click(function(){
-            //     console.log('open file dialog maybe');
-            // });
+            parent.find('img').data('prev-url', parent.find('img').attr('src'));
+            parent.find('img').prop('title', 'Click to change avatar');
+            parent.find('img').css('cursor', 'pointer');
+            parent.find('img').unbind().click(function(){
+                $('#avatar-input').trigger('click');
+            });
             $('#save-user-info-btn').show();
         }
     },
@@ -145,10 +179,18 @@ $(document).ready(function(){
     editMode.init();
 
     $('#new-user-group-btn').click(function(){
+        $('#new-user-group-modal').find('.error').empty();
         newUserGroupModal.show().then(null, null, function(){
             if(newUserGroupModal.action == 'proceed'){
                 let name = $('#new-user-group-name').val();
                 let description = $('#new-user-group-description').val();
+
+                if (name.trim().length == 0) {
+                    $('#new-user-group-modal').find('.error')
+                        .text('Please enter a name');
+                    return;
+                }
+
                 ajax.request({
                     request: 'add-group',
                     name: name, description: description
@@ -157,16 +199,28 @@ $(document).ready(function(){
                         let url = response.data.url;
                         window.location.href = url;
                     } else if (response.status && response.data.nameExists) {
-                        console.log('User group with this name already exists');
+                        $('#new-user-group-modal').find('.error')
+                            .text('User group with this name already exists in DEEP');
                     } else {
-                        // Error
+                        $('#new-user-group-modal').find('.error')
+                            .text(response.message);
                     }
                 }).fail(function() {
-                    // Error
-                }).always(function() {
-
+                    $('#new-user-group-modal').find('.error')
+                        .text('Server error, check your connection and try again');
                 });
             }
         });
+    });
+
+    $('#avatar-input').change(function(){
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#user-avatar').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(this.files[0]);
+        }
     });
 });

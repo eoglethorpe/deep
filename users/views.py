@@ -298,14 +298,33 @@ class UserProfileView(View):
         data_in = get_json_request(request)
         if data_in:
             return self.handle_json_request(request, data_in, user_id)
+
+        elif request.FILES and request.FILES.get('avatar'):
+            try:
+                user = User.objects.get(pk=user_id)
+            except:
+                return JsonError('Cannot find user')
+
+            if user != request.user:
+                return JSON_NOT_PERMITTED
+
+            profile = user.userprofile;
+            profile.photo = request.FILES.get('avatar')
+            profile.save()
+
+            return JsonResult(data={'done': True})
+
         else:
-            return redirect('user_profile', args=[user_id])
+            return redirect(reverse('user_profile', args=[user_id]))
 
     def handle_json_request(self, original_request, request, user_id):
         try:
             user = User.objects.get(pk=user_id)
         except:
             return JsonError('Cannot find user')
+
+        if user != original_request.user:
+            return JSON_NOT_PERMITTED
 
         response = {}
 

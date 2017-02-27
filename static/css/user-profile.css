@@ -208,10 +208,18 @@ body {
       display: flex;
       justify-content: space-between;
       align-items: center; }
+      body main > header #avatar-input {
+        position: absolute;
+        height: 0;
+        width: 0;
+        opacity: 0;
+        left: -100px;
+        top: -100px; }
       body main > header img {
         width: 80px;
         height: 80px;
-        object-fit: contain;
+        object-fit: cover;
+        object-position: center;
         background-color: #fff;
         border-radius: 50%;
         border: 2px solid rgba(0, 0, 0, 0.3); }
@@ -395,5 +403,11 @@ body {
           color: #008080; }
         body aside #activity-log .activity:nth-child(even) {
           background-color: #f5f5f5; }
+  body #new-user-group-modal .error {
+    padding: 10px 24px;
+    color: #e74c3c;
+    display: block; }
+    body #new-user-group-modal .error:empty {
+      display: none; }
 
 /*# sourceMappingURL=user-profile.css.map */

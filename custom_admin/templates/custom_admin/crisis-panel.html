@@ -14,21 +14,26 @@ DEEP | Crisis Manager
 <script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/crisis-panel.js' %}"></script>
 
 <script>
-    var crises = {
-        {% for event in events %}
-        "{{event.pk}}": {
-            name: "{{event.name|escapejs}}", countries: [{% for country in event.countries.all %}"{{country.pk}}",{%endfor%}],
-            start_date: "{{event.start_date|date:'Y-m-d'}}", end_date: "{{event.end_date|date:'Y-m-d'}}",
-            status: "{{event.status}}",
-            disaster_type: "{{event.disaster_type.pk}}",
-            assigned_to: [
-                {% for assigned_to in event.assignee.all %}"{{assigned_to.pk}}", {% endfor %}
-            ],
-            glide_number: "{{event.glide_number}}",
-            spillover: {% if event.spill_over %}"{{event.spill_over.pk}}"{% else %}null{% endif %},
-        },
-        {% endfor %}
-    };
+var crises = {
+    {% for event in events %}
+    "{{event.pk}}": {
+        name: "{{event.name|escapejs}}", countries: [{% for country in event.countries.all %}"{{country.pk}}",{%endfor%}],
+        start_date: "{{event.start_date|date:'Y-m-d'}}", end_date: "{{event.end_date|date:'Y-m-d'}}",
+        status: "{{event.status}}",
+        disaster_type: "{{event.disaster_type.pk}}",
+        assigned_to: [
+            {% for assigned_to in event.assignee.all %}"{{assigned_to.pk}}", {% endfor %}
+        ],
+        glide_number: "{{event.glide_number}}",
+        spillover: {% if event.spill_over %}"{{event.spill_over.pk}}"{% else %}null{% endif %},
+        usergroups: [{% for group in event.usergroup_set.all %}"{{group.pk}}", {% endfor %}],
+        admins: [{% for admin in event.admins.all %}"{{admin.pk}}", {% endfor %}],
+    },
+    {% endfor %}
+};
+
+var defaultGroupSelection = {% if selected_group %}["{{selected_group}}"]{% else %}""{% endif %};
+var defaultAdminSelection = ["{{request.user.pk}}"];
 </script>
 
 {% endblock %}
@@ -39,7 +44,8 @@ DEEP | Crisis Manager
         <a title="DEEP" href="{% url 'login' %}"><img class="deep-logo" src="{% watchful_static_url 'img/deep-logo-sm-white.png' %}"></a>
         <h1>Crisis Management Panel</h1>
     </header>
-    <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to DEEP</a>
+    <!-- <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to DEEP</a> -->
+    <a onclick="window.location.href = document.referrer;"><i class="fa fa-long-arrow-left"></i>Back</a>
 </nav>
 
 <aside>
@@ -118,9 +124,29 @@ DEEP | Crisis Manager
                 </div>
             </div>
             <div>
+                <label>User groups</label>
+                <select name="user-groups" id="user-groups" placeholder="User groups" multiple>
+                    <option value="">User groups</option>
+                    {% for group in usergroups %}
+                    <option value="{{group.pk}}">{{group.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
                 <label> Assigned To </label>
                 <select name="assigned-to" id="assigned-to" placeholder="Assigned to" multiple>
                     <option value="">Assigned to</option>
+                    {% for u in users %}
+                    {% if u.first_name != "" %}
+                    <option value="{{u.pk}}">{{u.get_full_name}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label>Admins</label>
+                <select name="admins" id="admins" placeholder="Admins" multiple>
+                    <option value="">Admins</option>
                     {% for u in users %}
                     {% if u.first_name != "" %}
                     <option value="{{u.pk}}">{{u.get_full_name}}</option>

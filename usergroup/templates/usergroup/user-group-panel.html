@@ -49,16 +49,38 @@ let activities = [
         <a title="DEEP" href="{% url 'login' %}"><img class="deep-logo" src="{% watchful_static_url 'img/deep-logo-sm-white.png' %}"></a>
         <h1>User Group Management</h1>
     </header>
-    <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to DEEP</a>
+    <!-- <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to DEEP</a> -->
+    <a onclick="window.location.href = document.referrer;"><i class="fa fa-long-arrow-left"></i>Back</a>
 </nav>
 
 <main>
     <header>
-        <h2>{{ usergroup.name }}</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="logo" id="logo-input" accept="image/*">
+            <input id="form-group-name" name="name" type="hidden">
+            <input id="form-group-description" name="description" type="hidden">
+        </form>
+        <img id="group-logo" src="{% if usergroup.photo %}{{ usergroup.photo.url }}{% else %}{% watchful_static_url 'img/default-user-group.png' %}{% endif %}">
+        <div id="group-info">
+            <h2 id="group-name" class="editable">{{ usergroup.name }}</h2>
+            <div id="group-description" class="extra editable">{{ usergroup.description }}</div>
+        </div>
+        <div class="action-buttons">
+            {% if request.user in usergroup.admins.all %}
+            <a id="save-group-info-btn" hidden><i class="fa fa-save"></i></a>
+            <a id="edit-group-info-btn" ><i class="fa fa-edit"></i></a>
+            <a id="save-group-info-progress-btn" hidden><i class="fa fa-spinner fa-pulse"></i></a>
+            {% endif %}
+        </div>
         <div id="navigator">
             <a data-target="#members-wrapper" class="nav-active">Members</a>
             <a data-target="#projects-wrapper">Projects</a>
             <a data-target="#templates-wrapper">Templates</a>
+        </div>
+        <div id="search-items-wrapper">
+            <i class="fa fa-search"></i>
+            <input id="search-items" type="text" placeholder="Search">
         </div>
     </header>
 
@@ -66,16 +88,19 @@ let activities = [
         <div id="members-wrapper">
             <div id="members">
                 {% for member in usergroup.members.all %}
-                <div class="member" data-url="{% url 'user_profile' member.pk %}" data-pk="{{member.pk}}">
+                <div class="member {% if member in usergroup.admins.all %}admin{% endif %} {% if member == request.user or request.user not in usergroup.admins.all %}cannot-edit{% endif %}" data-url="{% url 'user_profile' member.pk %}" data-pk="{{member.pk}}">
                     <div class="img-container">
                         <img src="{% watchful_static_url 'img/default-avatar.png' %}">
                     </div>
                     <div class="member-details">
                         <div class="name">{{member.get_full_name}}</div>
                         <div class="extra">{{member.email}}</div>
+                        <div class="admin">Admin</div>
                     </div>
                     <div class="action-container">
-                        <i class="fa fa-check"></i>
+                        <div class="check-action"><i class="fa fa-check"></i></div>
+                        <div class="add-admin-action"><i class="fa fa-user-secret"></i></div>
+                        <div class="delete-action"><i class="fa fa-trash-o"></i></div>
                     </div>
                 </div>
                 {% endfor %}
@@ -108,7 +133,7 @@ let activities = [
             <div><span></span>Selected</div>
             <div class="clear-btn">Clear selection</div>
         </div>
-        <button class="floating-btn" id="add-members">+</button>
+        {% if request.user in usergroup.admins.all %}<button class="floating-btn" id="add-members">+</button>{% endif %}
     </section>
 </main>
 <aside>
@@ -129,12 +154,9 @@ let activities = [
             <h3 class="modal-title">Add Members</h3>
             <div id="search-input-wrapper">
                 <i class="fa fa-search"></i>
-                <input id="search-users" type="text" placeholder="Search for users">
+                <input id="search-users" name="logo" type="text" placeholder="Search for users">
             </div>
         </header>
-        <!-- <div class="input-container">
-            <label>Search</label>
-        </div> -->
         <div class="search-container">
             {% for user in users.all %}
             <div class="user" data-pk="{{user.pk}}">
@@ -144,9 +166,9 @@ let activities = [
                 <div class="user-details">
                     <div class="name">{{user.get_full_name}}</div>
                     <div class="extra">{{user.email}}</div>
+                    <div class="admin">Admin</div>
                 </div>
                 <div class="action-container">
-                    <i class="fa fa-check"></i>
                 </div>
             </div>
             {% endfor %}

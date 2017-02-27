@@ -1,7 +1,11 @@
 var disasterTypeSelectize;
 var countriesSelectize;
 var assignedToSelectize;
+var userGroupsSelectize;
+var adminsSelectize;
 var spilloverSelectize;
+
+let lastAdminSelection;
 
 function filterCrises() {
     var crisisStatus = $('input[type=radio][name=crisis-status-radio]:checked').val();
@@ -33,6 +37,8 @@ $(document).ready(function(){
     disasterTypeSelectize = $("#disaster-type").selectize();
     countriesSelectize = $("#countries").selectize();
     assignedToSelectize = $("#assigned-to").selectize();
+    userGroupsSelectize = $('#user-groups').selectize();
+    adminsSelectize = $('#admins').selectize();
     spilloverSelectize = $("#spillover").selectize();
 
     $('.crisis').on('click', function() {
@@ -49,6 +55,9 @@ $(document).ready(function(){
         disasterTypeSelectize[0].selectize.setValue(crisis.disaster_type);
         countriesSelectize[0].selectize.setValue(crisis.countries);
         assignedToSelectize[0].selectize.setValue(crisis.assigned_to);
+        userGroupsSelectize[0].selectize.setValue(crisis.usergroups);
+        lastAdminSelection = null;
+        adminsSelectize[0].selectize.setValue(crisis.admins);
         spilloverSelectize[0].selectize.setValue(crisis.spillover);
 
         $("#crisis-start-date").val(crisis.start_date);
@@ -62,8 +71,6 @@ $(document).ready(function(){
         $(this).addClass('active');
     });
 
-    $('.crisis.active').click();
-
     // prevent enter key from pressing buttons
     $(window).keypress(function(e) {
         if(e.which == 13) {
@@ -71,7 +78,27 @@ $(document).ready(function(){
         }
     });
 
-    addNewCrisis();
+    if ($('.crisis.active').length > 0) {
+        $('.crisis.active').click();
+    } else {
+        addNewCrisis();
+    }
+
+    $('#admins').change(function(){
+        let currentSelection = $(this).val();
+        if (lastAdminSelection != null && lastAdminSelection != "") {
+            let myPk = defaultAdminSelection[0];
+            if (lastAdminSelection.indexOf(myPk) >= 0 &&
+                (currentSelection == null || currentSelection == "" || currentSelection.indexOf(myPk) < 0))
+            {
+                if (!confirm("You are about to remove yourself as admin, are you sure?")) {
+                    adminsSelectize[0].selectize.setValue(lastAdminSelection);
+                    return;
+                }
+            }
+        }
+        lastAdminSelection = currentSelection;
+    });
 });
 
 function addNewCrisis() {
@@ -85,6 +112,9 @@ function addNewCrisis() {
     disasterTypeSelectize[0].selectize.setValue("");
     countriesSelectize[0].selectize.setValue("");
     assignedToSelectize[0].selectize.setValue("");
+    userGroupsSelectize[0].selectize.setValue(defaultGroupSelection);
+    lastAdminSelection = null;
+    adminsSelectize[0].selectize.setValue(defaultAdminSelection);
     spilloverSelectize[0].selectize.setValue("");
 
     $("#crisis-start-date").val("");

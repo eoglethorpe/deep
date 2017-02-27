@@ -56,10 +56,19 @@ body{
             justify-content: space-between;
             align-items: center;
 
+            #avatar-input{
+                position: absolute;
+                height: 0;
+                width: 0;
+                opacity: 0;
+                left: -100px;
+                top: -100px;
+            }
             img{
                 width: 80px;
                 height: 80px;
-                object-fit: contain;
+                object-fit: cover;
+                object-position: center;
                 background-color: #fff;
                 border-radius: 50%;
                 border: 2px solid rgba(0, 0, 0, 0.3);
@@ -317,6 +326,18 @@ body{
                 &:nth-child(even){
                     background-color: #f5f5f5;
                 }
+            }
+        }
+    }
+
+    #new-user-group-modal {
+        .error {
+            padding: 10px 24px;
+            color: $danger-color;
+            display: block;
+
+            &:empty {
+                display: none;
             }
         }
     }
