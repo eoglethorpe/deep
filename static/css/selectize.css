@@ -79,7 +79,8 @@ body {
     z-index: 1;
     width: 16px;
     margin-left: 3px;
-    text-align: center; }
+    text-align: center;
+    color: #e74c3c; }
   .selectize-control .selectize-input, .selectize-control.single, .selectize-control .selectize-input.input-active {
     background-color: #fff;
     cursor: text;
@@ -89,20 +90,28 @@ body {
     width: 100%;
     z-index: 1;
     box-sizing: border-box;
-    padding: 3px 5px;
+    padding: 4px 6px;
     border: 1px solid rgba(0, 0, 0, 0.1); }
     .selectize-control .selectize-input > * {
       vertical-align: baseline;
-      display: inline;
-      box-sizing: border-box;
-      margin: 0 1px;
-      padding: 0 2px; }
+      display: inline-block;
+      box-sizing: border-box; }
     .selectize-control .selectize-input > input {
       padding: 0;
       outline: none;
       border: none; }
   .selectize-control.multi .selectize-input > div {
-    background-color: rgba(0, 0, 0, 0.1); }
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 1px 4px 2px 4px; }
+  .selectize-control .selectize-input.has-items > input {
+    font-size: 13px;
+    padding: 0;
+    margin: 0; }
+    .selectize-control .selectize-input.has-items > input:focus {
+      font-size: 12px; }
+  .selectize-control.multi .selectize-input.has-items {
+    padding: 2px 6px; }
   .selectize-control .selectize-dropdown {
     position: absolute;
     z-index: 11;
@@ -111,7 +120,6 @@ body {
     background-color: #fff;
     box-sizing: border-box; }
     .selectize-control .selectize-dropdown [data-selectable] {
-      line-height: 1;
       cursor: pointer;
       overflow: hidden;
       padding: 6px 10px; }

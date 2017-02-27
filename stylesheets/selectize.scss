@@ -13,6 +13,7 @@
         width: 16px;
         margin-left: 3px;
         text-align: center;
+        color: $danger-color;
     }
     .selectize-input, &.single, .selectize-input.input-active{
         background-color: #fff;
@@ -24,28 +25,36 @@
         width: 100%;
         z-index: 1;
         box-sizing: border-box;
-        padding: 3px 5px;
+        padding: 4px 6px;
         border: 1px solid rgba(0, 0, 0, 0.1);
 
         > * {
             vertical-align: baseline;
-            display: inline;
+            display: inline-block;
             box-sizing: border-box;
-            margin: 0 1px;
-            padding: 0 2px;
         }
-
         > input{
             padding: 0;
             outline: none;
             border: none;
         }
-        > div{
-            //background-color: #f0f0f0;
-        }
     }
     &.multi .selectize-input > div{
-        background-color: rgba(0, 0, 0, 0.1);
+        background-color: rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 1px 4px 2px 4px;
+    }
+    .selectize-input.has-items > input{
+        font-size: $text-size-md;
+        padding: 0;
+        margin: 0;
+
+        &:focus{
+            font-size: $text-size-sm;
+        }
+    }
+    &.multi .selectize-input.has-items{
+        padding: 2px 6px;
     }
     .selectize-dropdown{
         position: absolute;
@@ -56,7 +65,6 @@
         box-sizing: border-box;
 
         [data-selectable]{
-            line-height: 1;
             cursor: pointer;
             overflow: hidden;
             padding: 6px 10px;

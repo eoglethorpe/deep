@@ -229,7 +229,9 @@ class DashboardView(View):
                     countries.append(report.country)
                     crises.append(report.event)
                     report_ids.append(report.pk)
-                    report_data.append(report.data)
+                    report_data.append({
+                        "disaster_type": json.loads(report.data)["disaster_type"],
+                    })
                     report_created_dates.append(report.last_edited_at)
 
 
