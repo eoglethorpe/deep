@@ -54,7 +54,7 @@ class DateExtractorView(View):
         event = None
         if country:
             try:
-                event = Event.objects.get(countries__name=country).pk
+                event = Event.objects.filter(countries__name__iexact=country)[0].pk
             except:
                 event = None
 
