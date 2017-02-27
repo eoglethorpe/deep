@@ -1,16 +1,16 @@
 @import 'common/base';
 @import 'common/navbar';
 
+
+$word-color: $info-color;
+$excel-color: $primary-color;
+
 #main{
     padding: 24px 16px 0 16px;
 
-    hr{
-        border: 1px solid rgba(0, 0, 0, 0.05);
-    }
     h1, h2, h3, h4{
-        text-transform: uppercase;
-        vertical-align: middle;
         margin: 0;
+        text-transform: uppercase;
     }
     h1{
         color: $primary-color;
@@ -25,24 +25,6 @@
         margin-top: 10px;
         margin-bottom: 10px;
     }
-
-
-
-    button{
-        @include btn-shadow-md;
-        min-width: 160px;
-        padding: 6px 12px;
-        height: 36px;
-
-
-
-        i{
-            margin-right: 8px;
-        }
-
-    }
-
-
     ul{
         list-style: none;
         padding-left: 0;
@@ -102,14 +84,13 @@
                     &:last-child{
                         flex-basis: 49%;
                     }
-                    >input[type="text"],input[type="number"]{
+                    >input[type="text"], input[type="number"]{
                         width: 100%;
-                        height: 32px;
-                        padding: 0 8px;
-                        margin: 0 8px 8px 0;
                         outline: none;
+                        padding: 4px 6px;
+                        margin-bottom: 8px;
                         border: 1px solid rgba(0, 0, 0, 0.1);
-                        border-radius: 3px;
+                        box-sizing: border-box;
                         background-color: #fff;
 
                         &:focus{
@@ -118,12 +99,6 @@
                     }
                     .selectize-control{
                         margin-bottom: 8px;
-
-                        .selectize-input{
-                            min-height: 32px;
-                            border-radius: 3px;
-                            padding: 6px 4px;
-                        }
                     }
                 }
                 #severity-filter-container,#reliability-filter-container{
@@ -145,11 +120,10 @@
 
             button{
                 color: #fff;
-                background-color: #1E88E5;
+                background-color: $word-color;
+                padding: 6px 10px;
                 @include btn-shadow-md;
-                min-width: 160px;
-                padding: 6px 12px;
-                height: 36px;
+
                 i{
                     margin-right: 8px;
                 }
@@ -162,14 +136,13 @@
             border: 1px solid rgba(0, 0, 0, 0.1);
 
             button{
+                background-color: $excel-color;
                 color: #fff;
-                background-color: #009688;
+                padding: 6px 10px;
                 @include btn-shadow-md;
-                min-width: 160px;
-                padding: 6px 12px;
-                height: 36px;
-                i{
-                    margin-right: 8px;
+
+                .fa{
+                    margin-right: 10px;
                 }
             }
         }
@@ -183,13 +156,12 @@
             border: 1px solid rgba(0, 0, 0, 0.1);
         }
         button{
+            background-color: $excel-color;
             color: #fff;
-            background-color: #009688;
-            @include btn-shadow-md;
-            min-width: 160px;
             padding: 6px 12px;
-            height: 36px;
-            i{
+            @include btn-shadow-md;
+
+            .fa{
                 margin-right: 8px;
             }
         }

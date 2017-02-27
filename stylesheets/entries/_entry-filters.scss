@@ -13,9 +13,9 @@
         flex-wrap: wrap;
 
         >input[type="text"].filter{
-            padding: 3px 5px;
-            font-size: $text-size-sm;
+            padding: 4px 6px;
             border: 1px solid rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
         }
         .filter{
             flex-basis: 20%;
