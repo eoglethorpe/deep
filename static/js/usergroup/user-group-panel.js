@@ -90,30 +90,36 @@ let members = {
 
 
         $('#members').on('click', '.member .action-container .delete-action', function(){
-            let member = $(this).closest('.member');
-            ajax.request({
+            if (confirm("Are you sure you want to delete this member??")) {
+
+                let member = $(this).closest('.member');
+                ajax.request({
                 request: 'removeMembers',
                 members: [ member.data('pk') ],
-            }).done(function(response) {
+                }).done(function(response) {
                 if (response.status && response.data.removedMembers) {
-                    for (var i=0; i<response.data.removedMembers.length; i++) {
-                        $('.member[data-pk="' + response.data.removedMembers[i] + '"]').remove();
-                    }
+                for (var i=0; i<response.data.removedMembers.length; i++) {
+                $('.member[data-pk="' + response.data.removedMembers[i] + '"]').remove();
                 }
-            }).always(function() {
+                }
+                }).always(function() {
                 refresh();
-            });
+                });
+            }
         });
     },
 
     refresh: function() {
+
         if(this.getSelectionCount() > 0){
+
             var count = this.getSelectionCount();
             if (floatingButton.getFlag() != 'delete') {
                 floatingButton.change('#e74c3c', '<i class="fa fa-trash-o"></i>', 'delete');
             }
             $('#clear-selection-toast span').html(count);
             $('#clear-selection-toast').addClass('clear-selection-show');
+
         }
         else{
             floatingButton.change('#3498db', '+', 'add');
@@ -391,6 +397,7 @@ let editMode = {
         if (editButton.hasClass('edit')) {
             editButton.removeClass('edit');
             editButton.find('.fa').removeClass('fa-times').addClass('fa-edit');
+            editButton.prop('title', 'Click to Edit');
             parent.find('.editable').prop('contenteditable', false);
             parent.find('.editable').each(function() { $(this).text($(this).data('prev-val')); });
             parent.find('img').attr('src', parent.find('img').data('prev-url'));
@@ -402,6 +409,7 @@ let editMode = {
         } else {
             editButton.addClass('edit');
             editButton.find('.fa').removeClass('fa-edit').addClass('fa-times');
+            editButton.prop('title', 'Click to Cancel');
             parent.find('.editable').prop('contenteditable', true);
             parent.find('.editable').each(function() { $(this).data('prev-val', $(this).text()); });
             parent.find('img').data('prev-url', parent.find('img').attr('src'));

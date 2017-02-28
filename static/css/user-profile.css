@@ -237,6 +237,8 @@ body {
           transition: all 0.2s ease-in-out;
           display: flex;
           justify-content: flex-start; }
+          body main > header .user-info #full-name label {
+            color: white; }
           body main > header .user-info #full-name > div {
             padding: 0 10px; }
             body main > header .user-info #full-name > div label {
@@ -409,5 +411,9 @@ body {
     display: block; }
     body #new-user-group-modal .error:empty {
       display: none; }
+  body #new-user-group-modal .cancel-button {
+    color: #e74c3c; }
+  body #new-user-group-modal .proceed-button {
+    color: #3498db; }
 
 /*# sourceMappingURL=user-profile.css.map */

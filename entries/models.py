@@ -196,6 +196,14 @@ class EntryInformation(models.Model):
         return self.excerpt
 
 
+class EntryImage(models.Model):
+    information = models.ForeignKey(EntryInformation)
+    image = models.FileField(upload_to='entry_images/')
+
+    def __str__(self):
+        return self.image.url
+
+
 class InformationAttribute(models.Model):
     information = models.ForeignKey(EntryInformation)
     subpillar = models.ForeignKey(InformationSubpillar)
