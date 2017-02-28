@@ -35,6 +35,9 @@ def get_simplified_lead(lead, context):
             elif doc.pdf:
                 context["lead_simplified"] = \
                     PdfStripper(doc.pdf).simplify()
+            elif doc.docx:
+                context["lead_simplified"] = \
+                    DocxStripper(doc.docx).simplify()
 
         elif lead.lead_type == "MAN":
             context["lead_simplified"] = lead.description
@@ -51,6 +54,9 @@ def get_simplified_lead(lead, context):
             elif extension in [".html", ".htm"]:
                 context["lead_simplified"] = \
                     HtmlStripper(attachment.upload.read()).simplify()
+            elif extension in [".docx", ]:
+                context["lead_simplified"] = \
+                    DocxStripper(attachment.upload).simplify()
             else:
                 context["lead_simplified"] = attachment.upload.read()
     except Exception as e:
