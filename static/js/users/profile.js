@@ -108,6 +108,7 @@ let editMode = {
         if (editButton.hasClass('edit')) {
             editButton.removeClass('edit');
             editButton.find('.fa').removeClass('fa-times').addClass('fa-edit');
+            editButton.prop('title', 'Click to Edit');
             parent.find('#full-name').removeClass('edit');
             parent.find('.name').prop('contenteditable', false);
             if (reset) {
@@ -123,7 +124,8 @@ let editMode = {
             $('#save-user-info-btn').hide();
         } else {
             editButton.addClass('edit');
-            editButton.find('.fa').removeClass('fa-edit').addClass('fa-times');
+            editButton.find('.fa').removeClass('fa-edit').addClass('fa-times ');
+            editButton.prop('title', 'Click to Cancel');
             parent.find('#full-name').addClass('edit');
             parent.find('.name').prop('contenteditable', true);
             parent.find('.name').each(function() { $(this).data('prev-val', $(this).text()); });

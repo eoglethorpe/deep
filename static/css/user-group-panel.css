@@ -311,7 +311,8 @@ body {
         display: flex;
         justify-content: space-between; }
         body main header .action-buttons a {
-          cursor: pointer; }
+          cursor: pointer;
+          color: white; }
       body main header #navigator {
         flex-basis: 60%;
         align-self: flex-end;
