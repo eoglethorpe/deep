@@ -2,6 +2,8 @@
 from deep.serializer import Serializer
 from leads.models import *
 
+import os
+
 
 class CountrySerializer(Serializer):
     fields = {
@@ -82,7 +84,7 @@ class LeadSerializer(Serializer):
                 'name': os.path.basename(attachment.upload.name),
                 'url': attachment.upload.url
             }
-        except:
+        except Exception as e:
             return None
 
 
