@@ -37,7 +37,7 @@ def get_simplified_lead(lead, context):
                     PdfStripper(doc.pdf).simplify()
             elif doc.docx:
                 context["lead_simplified"] = \
-                    PdfStripper(doc.docx).simplify()
+                    DocxStripper(doc.docx).simplify()
 
         elif lead.lead_type == "MAN":
             context["lead_simplified"] = lead.description
