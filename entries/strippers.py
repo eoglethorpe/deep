@@ -140,6 +140,5 @@ class DocxStripper:
             raise StripError("Not a web document")
 
         content, images = docx_simplify(self.docx)
-        print(content)
 
         return content
