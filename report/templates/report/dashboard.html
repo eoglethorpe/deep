@@ -149,7 +149,7 @@ var humanAvailabilityFieldIds = [
                     <p><date>{{report.start_date|date:"d-m-Y"}}</date> to <date>{{report.end_date|date:"d-m-Y"}}</date></p>
                     <div class="action-buttons">
                         <a class="delete-btn" onclick="if(confirm('Are you sure you want to delete the report?')) location.href='{% url 'report:delete_weekly' country.pk event.pk report.pk %}';"><i class="fa fa-trash"></i>Delete</a>
-                        <a onclick="location.href='{% url 'report:weekly' country.pk event.pk report.pk %}';"><i class="edit-btn fa fa-edit"></i>Edit</a>
+                        <a href="{% url 'report:weekly' country.pk event.pk report.pk %}"><i class="edit-btn fa fa-edit"></i>Edit</a>
                     </div>
                 </div>
                 {% empty %}
