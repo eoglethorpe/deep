@@ -584,6 +584,8 @@ main #entries {
         margin-bottom: 5px;
         font-size: 15px;
         text-transform: none; }
+        main #entries .entry .entry-header h2 a {
+          color: #fff; }
       main #entries .entry .entry-header p {
         margin: 0;
         flex-basis: 100%; }
