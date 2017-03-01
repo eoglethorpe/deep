@@ -84,12 +84,22 @@ $(document).ready(function(){
                 }
                 // returns the number of people in need from current report
                 function getInNeedNumber(index){
-                    var sum = 0;
+                    // var sum = 0;
+                    // for(var i=0; i<inNeedFieldIds.length; i++){
+                    //     var inNeed = parseInt(current.weeklyReports[index].data.people.total[inNeedFieldIds[i]]);
+                    //     sum += isNaN(inNeed)? 0: inNeed;
+                    // }
+                    // return sum;
+
+                    // changed for #306
+                    let max = 0;
                     for(var i=0; i<inNeedFieldIds.length; i++){
                         var inNeed = parseInt(current.weeklyReports[index].data.people.total[inNeedFieldIds[i]]);
-                        sum += isNaN(inNeed)? 0: inNeed;
+                        if(!isNaN(inNeed) && inNeed > max){
+                            max = inNeed;
+                        }
                     }
-                    return sum;
+                    return max;
                 }
                 // returns the number of people with access constraints from current report
                 function getAccessConstraintsNumber(index){
