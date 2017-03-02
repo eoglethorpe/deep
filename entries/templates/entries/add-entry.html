@@ -167,6 +167,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     <iframe id="lead-preview" src="{{ lead.attachment.upload.url }}"></iframe>
                     {% endif %}
                 {% endif %}
+                <button id="process-button" class="btn" title="Mark Processed"><i class="fa fa-check fa-md"></i></button>
+                <button id="pending-button" class="btn" title="Mark Pending"><i class="fa fa-exclamation-triangle fa-md"></i></button>
                 <div id="lead-simplified-preview">
                 </div>
             </div>
@@ -184,7 +186,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 </div>
                 <div class="page-controls">
                     <button class="cancel" title="Cancel"><i class="fa fa-times"></i>Cancel</button>
-                    <button class="save-excerpt" title="Save Entry"><i class="fa fa-save"></i>Save entry</button>
+                    <button class="save-excerpt" title="Save Entry"><i class="fa fa-save"></i>Save</button>
+                    <button class="save-and-next" title="Save and Next"><i class="fa fa-arrow-right"></i>Save and Go Next Lead </button>
                     <button id="edit-entries-btn">Edit Entries <i class="fa fa-long-arrow-right"></i></button>
                 </div>
             </div>
