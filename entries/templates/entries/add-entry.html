@@ -154,7 +154,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
             {% endif %}
 
             <div id="lead-preview-container">
-                {% if format == 'pdf' or format == 'docx' %}
+                {% if format == 'pdf' or format == 'docx' or format == 'pptx' %}
                     {% if lead.lead_type == 'URL' %}
                     <iframe id="lead-preview" src="https://docs.google.com/viewer?url={{ lead.url|urlencode }}&embedded=true&chrome=false&dov=1"></iframe>
                     {% elif lead.lead_type == 'ATT' %}
