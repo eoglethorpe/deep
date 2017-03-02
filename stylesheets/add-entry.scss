@@ -3,11 +3,8 @@
 
 body{
     height: 100vh;
-
     @import 'entries/add-entries-page-one';
     @import 'entries/add-entries-page-two';
-
-
 
     .modal-container{
         #map-modal{
@@ -135,7 +132,6 @@ body{
             }
         }
     }
-
     #dummy-map-modal{
         #admin-level-buttons{
             margin-bottom: 16px;
