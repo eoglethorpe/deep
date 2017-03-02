@@ -35,6 +35,12 @@ def get_simplified_lead(lead, context):
             elif doc.pdf:
                 context["lead_simplified"] = \
                     PdfStripper(doc.pdf).simplify()
+            elif doc.docx:
+                context["lead_simplified"] = \
+                    DocxStripper(doc.docx).simplify()
+            elif doc.pptx:
+                context["lead_simplified"] = \
+                    PptxStripper(doc.pptx).simplify()
 
         elif lead.lead_type == "MAN":
             context["lead_simplified"] = lead.description
@@ -51,6 +57,12 @@ def get_simplified_lead(lead, context):
             elif extension in [".html", ".htm"]:
                 context["lead_simplified"] = \
                     HtmlStripper(attachment.upload.read()).simplify()
+            elif extension in [".docx", ]:
+                context["lead_simplified"] = \
+                    DocxStripper(attachment.upload).simplify()
+            elif extension in [".pptx", ]:
+                context["lead_simplified"] = \
+                    PptxStripper(attachment.upload).simplify()
             else:
                 context["lead_simplified"] = attachment.upload.read()
     except Exception as e:
@@ -119,10 +131,16 @@ class AddSoS(View):
             if "lead_simplified" in context:
                 SimplifiedLead(lead=lead, text=context["lead_simplified"]).save()
 
-        if lead.lead_type == 'URL' and lead.url.endswith('.pdf'):
-            context["is_pdf"] = True
-        else:
-            context["is_pdf"] = False
+        if lead.lead_type == 'URL':
+            if lead.url.endswith('.pdf'):
+                context["format"] = 'pdf'
+            elif lead.url.endswith('.docx'):
+                context["format"] = 'docx'
+        elif lead.lead_type == 'ATT':
+            if lead.attachment.url.endswith('.pdf'):
+                context["format"] = 'pdf'
+            elif lead.attachment.url.endswith('.docx'):
+                context["format"] = 'docx'
 
         # Get fields options
         context["proximities"] = ProximityToSource.objects.all()

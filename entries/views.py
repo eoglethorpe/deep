@@ -154,10 +154,20 @@ class AddEntry(View):
         context["severities"] = Severity.objects.all().order_by('level')
         context["affected_groups"] = AffectedGroup.objects.all()
 
-        if lead.lead_type == 'URL' and lead.url.endswith('.pdf'):
-            context["is_pdf"] = True
-        else:
-            context["is_pdf"] = False
+        if lead.lead_type == 'URL':
+            if lead.url.endswith('.pdf'):
+                context["format"] = 'pdf'
+            elif lead.url.endswith('.docx'):
+                context["format"] = 'docx'
+            elif lead.url.endswith('.pptx'):
+                context["format"] = 'pptx'
+        elif lead.lead_type == 'ATT':
+            if lead.attachment.upload.url.endswith('.pdf'):
+                context["format"] = 'pdf'
+            elif lead.attachment.upload.url.endswith('.docx'):
+                context["format"] = 'docx'
+            elif lead.attachment.upload.url.endswith('.pptx'):
+                context["format"] = 'pptx'
 
         try:
             context["default_reliability"] = Reliability.objects.get(is_default=True)

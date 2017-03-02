@@ -155,11 +155,21 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
             {% endif %}
 
             <div id="lead-preview-container">
-                {% if lead.lead_type == 'URL' %}
-                <iframe {% if is_pdf %}{% else %}sandbox="allow-scripts allow-same-origin"{% endif %} id="lead-preview" src="{{ lead.url }}"></iframe>
-                {% elif lead.lead_type == 'ATT' %}
-                <iframe id="lead-preview" src="{{ lead.attachment.upload.url }}"></iframe>
+                {% if format == 'pdf' or format == 'docx' or format == 'pptx' %}
+                    {% if lead.lead_type == 'URL' %}
+                    <iframe id="lead-preview" src="https://docs.google.com/viewer?url={{ lead.url|urlencode }}&embedded=true&chrome=false&dov=1"></iframe>
+                    {% elif lead.lead_type == 'ATT' %}
+                    <iframe id="lead-preview" src="https://docs.google.com/viewer?url={{ request.get_host|urlencode }}{{ lead.attachment.upload.url|urlencode }}&embedded=true&chrome=false&dov=1"></iframe>
+                    {% endif %}
+                {% else %}
+                    {% if lead.lead_type == 'URL' %}
+                    <iframe sandbox="allow-scripts allow-same-origin" id="lead-preview" src="{{ lead.url }}"></iframe>
+                    {% elif lead.lead_type == 'ATT' %}
+                    <iframe id="lead-preview" src="{{ lead.attachment.upload.url }}"></iframe>
+                    {% endif %}
                 {% endif %}
+                <button id="process-button" class="btn" title="Mark Processed"><i class="fa fa-check fa-md"></i></button>
+                <button id="pending-button" class="btn" title="Mark Pending"><i class="fa fa-exclamation-triangle fa-md"></i></button>
                 <div id="lead-simplified-preview">
                 </div>
                 <div id="lead-images-preview">
@@ -189,7 +199,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 </div>
                 <div class="page-controls">
                     <button class="cancel" title="Cancel"><i class="fa fa-times"></i>Cancel</button>
-                    <button class="save-excerpt" title="Save Entry"><i class="fa fa-save"></i>Save entry</button>
+                    <button class="save-excerpt" title="Save Entry"><i class="fa fa-save"></i>Save</button>
+                    <button class="save-and-next" title="Save and Next"><i class="fa fa-arrow-right"></i>Save and Go Next Lead </button>
                     <button id="edit-entries-btn">Edit Entries <i class="fa fa-long-arrow-right"></i></button>
                 </div>
             </div>
@@ -197,7 +208,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 <div id="excerpt-text-container">
                     <label>Text</label>
                     <textarea id="excerpt-text" placeholder="Excerpt"></textarea>
-                    <!-- <a class="fa fa-circle" onclick="reformatCurrentExcerpt();" title="Try reformatting this excerpt"></a> -->
+                    <a class="fa fa-circle" onclick="reformatCurrentExcerpt();" title="Try reformatting this excerpt"></a>
                 </div>
                 <div id="excerpt-image-wrapper">
                     <label>Images</label>
@@ -250,7 +261,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     <div id="page-two-header">
         <button class="cancel"title="Cancel"><i class="fa fa-times"></i>Cancel</button>
         <button class="btn btn-primary save-excerpt"title="Save Entry"><i class="fa fa-save"></i>Save entry</button>
-        <button id="back-to-excerpts-btn"><i class="fa fa-long-arrow-left"></i>Back to excerpts</button>
+        <button id="back-to-excerpts-btn"><i class="fa fa-long-arrow-left"></i>Back to Entries</button>
     </div>
     <div id="entries">
     </div>
