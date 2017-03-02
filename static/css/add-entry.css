@@ -282,12 +282,19 @@ body {
         align-items: center;
         padding: 16px; }
         body #page-one .split-pane #right-component #excerpt-input-group #excerpt-text-container {
-          flex-basis: 80%; }
+          flex-basis: 80%;
+          position: relative; }
           body #page-one .split-pane #right-component #excerpt-input-group #excerpt-text-container textarea {
             width: 100%;
             outline: none;
             border: 1px solid rgba(0, 0, 0, 0.1);
             padding: 5px 10px; }
+          body #page-one .split-pane #right-component #excerpt-input-group #excerpt-text-container a {
+            position: absolute;
+            right: 24px;
+            bottom: 16px;
+            color: #27ae60;
+            cursor: pointer; }
         body #page-one .split-pane #right-component #excerpt-input-group #best-of-bullshits {
           flex-basis: 16%;
           align-self: flex-end;
