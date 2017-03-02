@@ -15,7 +15,9 @@ Usage:
     text, images = process(doc) -> images for tempfile
 """
 
-nsmap = {'w': 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
+nsmap = {'w': 'http://schemas.openxmlformats.org/wordprocessingml/2006/main',
+         'p': 'http://schemas.openxmlformats.org/presentationml/2006/main',
+         'a': 'http://schemas.openxmlformats.org/drawingml/2006/main'}
 
 
 def process_args():
@@ -54,7 +56,7 @@ def qn(tag):
     return '{{{}}}{}'.format(uri, tagroot)
 
 
-def xml2text(xml):
+def xml2text(xml, pptx=False):
     """
     A string representing the textual content of this run, with content
     child elements like ``<w:tab/>`` translated to their Python
@@ -63,20 +65,32 @@ def xml2text(xml):
     """
     text = u''
     root = ET.fromstring(xml)
-    for child in root.iter():
-        if child.tag == qn('w:t'):
-            t_text = child.text
-            text += t_text if t_text is not None else ''
-        elif child.tag == qn('w:tab'):
-            text += '\t'
-        elif child.tag in (qn('w:br'), qn('w:cr')):
-            text += '\n'
-        elif child.tag == qn("w:p"):
-            text += '\n\n'
+    if pptx is False:
+        for child in root.iter():
+            if child.tag == qn('w:t'):
+                t_text = child.text
+                text += t_text if t_text is not None else ''
+            elif child.tag == qn('w:tab'):
+                text += '\t'
+            elif child.tag in (qn('w:br'), qn('w:cr')):
+                text += '\n'
+            elif child.tag == qn("w:p"):
+                text += '\n\n'
+    else:
+        for child in root.iter():
+            if child.tag == qn('a:t'):
+                t_text = child.text
+                text += t_text if t_text is not None else ''
+            elif child.tag == qn('a:tab'):
+                text += '\t'
+            elif child.tag in (qn('a:br'), qn('a:cr')):
+                text += '\n'
+            elif child.tag in (qn("a:p"), qn("a:bodyPr"), qn("a:fld")):
+                text += '\n\n'
     return text
 
 
-def process(docx, img_dir=None):
+def process(docx, pptx=False, img_dir=None):
     text = u''
 
     # unzip the docx in memory
@@ -86,18 +100,23 @@ def process(docx, img_dir=None):
 
     # get header text
     # there can be 3 header files in the zip
-    header_xmls = 'word/header[0-9]*.xml'
+    header_xmls = 'ppt/header[0-9]*.xml' if pptx else 'word/header[0-9]*.xml'
     for fname in filelist:
         if re.match(header_xmls, fname):
             text += xml2text(zipf.read(fname))
 
     # get main text
-    doc_xml = 'word/document.xml'
-    text += xml2text(zipf.read(doc_xml))
+    doc_xml = 'ppt/slides/slide[0-9]*.xml' if pptx else 'word/document.xml'
+    if pptx:
+        for fname in filelist:
+            if re.match(doc_xml, fname):
+                text += xml2text(zipf.read(fname), pptx=pptx)
+    else:
+        text += xml2text(zipf.read(doc_xml))
 
     # get footer text
     # there can be 3 footer files in the zip
-    footer_xmls = 'word/footer[0-9]*.xml'
+    footer_xmls = 'ppt/footer[0-9]*.xml' if pptx else 'word/footer[0-9]*.xml'
     for fname in filelist:
         if re.match(footer_xmls, fname):
             text += xml2text(zipf.read(fname))
