@@ -40,6 +40,7 @@ class WebDocument:
         self.html = None
         self.pdf = None
         self.docx = None
+        self.pptx = None
 
         try:
             r = requests.head(url)
@@ -70,6 +71,14 @@ class WebDocument:
             r = requests.get(url, stream=True)
             write_file(r, fp)
             self.docx = fp
+
+        elif any(x in r.headers["content-type"]
+                 for x in ['application/vnd.openxmlformats-officedocument'
+                           '.presentationml.presentation', ]):
+            fp = tempfile.NamedTemporaryFile(dir=settings.BASE_DIR)
+            r = requests.get(url, stream=True)
+            write_file(r, fp)
+            self.pptx = fp
 
 
 class HtmlStripper:
@@ -129,7 +138,7 @@ class PdfStripper:
 
 
 class DocxStripper:
-    """Stripper class to simplify PDF documents.
+    """Stripper class to simplify Docx documents.
     """
 
     def __init__(self, docx):
@@ -137,8 +146,24 @@ class DocxStripper:
 
     def simplify(self):
         if not self.docx:
-            raise StripError("Not a web document")
+            raise StripError("Not a docx document")
 
         content, images = docx_simplify(self.docx)
+
+        return content
+
+
+class PptxStripper:
+    """Stripper class to simplify PPTX documents.
+    """
+
+    def __init__(self, pptx):
+        self.pptx = pptx
+
+    def simplify(self):
+        if not self.pptx:
+            raise StripError("Not a pptx document")
+
+        content, images = docx_simplify(self.pptx, pptx=True)
 
         return content

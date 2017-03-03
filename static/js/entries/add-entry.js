@@ -538,44 +538,52 @@ function styleText(text) {
     return "<pre>" + text + "</pre>";
 }
 
-function changeLeadPreview(simplified) {
-    isSimplified = simplified;
-    var frame = $("#lead-preview");
-    var simplifiedFrame = $("#lead-simplified-preview");
+function loadImages(){
+    $('#lead-images-container').empty();
+    var imageArray = [{"source":"http://i.imgur.com/Ubes2bx.jpg"},
+            {"source":"http://i.imgur.com/f4o74J5.jpg"},
+            {"source":"http://i.imgur.com/E3aTXSF.jpg"},
+            {"source":"http://i.imgur.com/30s5oaY.jpg"},
+            {"source":"http://i.imgur.com/BUOfqte.jpg"},
+        ];
+    for(var i = 0; i < imageArray.length; i++){
+        var imageElement = $('.image-template').clone();
+        imageElement.removeClass('image-template');
+        imageElement.addClass('image');
 
-    if (simplified) {
-        simplifiedFrame.css("display", "inherit");
-        $('#multimedia-pane').show();
-        frame.css("display", "none");
-        $(".btn-zoom").show();
-    }
-    else {
-        simplifiedFrame.css("display", "none");
-        $('#multimedia-pane').hide();
-        frame.css("display", "inherit");
-        selectedTags = {};
-        $(".btn-zoom").hide();
+        imageElement.find('.media-image').attr('src',imageArray[i].source);
+        imageElement.find('.media-caption').text(imageArray[i].caption);
+
+        imageElement.appendTo($('#lead-images-container'));
+        imageElement.show();
     }
 }
 
-function loadMultimedia(){
-    $('#multimedia-container').empty();
-    var multimediaArray = [{"source":"http://i.imgur.com/Ubes2bx.jpg","caption":"Test 1"},
-            {"source":"http://i.imgur.com/f4o74J5.jpg","caption":"Test 2"},
-            {"source":"http://i.imgur.com/PyLIGi5.jpg","caption":"Test 3"},
-            {"source":"http://i.imgur.com/30s5oaY.jpg","caption":"Test 4"},
-            {"source":"http://i.imgur.com/BUOfqte.jpg","caption":"Test 5"},
-        ];
-    for(var i = 0; i < multimediaArray.length; i++){
-        var multimediaElement = $('.multimedia-template').clone();
-        multimediaElement.removeClass('multimedia-template');
-        multimediaElement.addClass('multimedia');
+function changeLeadPreview(type) {
+    isSimplified = (type == "simplified");
+    var originalFrame = $("#lead-preview");
+    var simplifiedFrame = $("#lead-simplified-preview");
+    var imagesFrame = $("#lead-images-preview");
 
-        multimediaElement.find('.media-image').attr('src',multimediaArray[i].source);
-        multimediaElement.find('.media-caption').text(multimediaArray[i].caption);
-
-        multimediaElement.appendTo($('#multimedia-container'));
-        multimediaElement.show();
+    if (type == 'simplified') {
+        simplifiedFrame.css("display", "inherit");
+        originalFrame.css("display", "none");
+        imagesFrame.css("display", "none");
+        $(".btn-zoom").show();
+    }
+    else if (type == 'original') {
+        simplifiedFrame.css("display", "none");
+        originalFrame.css("display", "inherit");
+        imagesFrame.css("display", "none");
+        selectedTags = {};
+        $(".btn-zoom").hide();
+    }
+    else if (type == 'images') {
+        simplifiedFrame.css("display", "none");
+        originalFrame.css("display", "none");
+        loadImages();
+        imagesFrame.css("display", "inherit");
+        $(".btn-zoom").show();
     }
 }
 
@@ -607,23 +615,17 @@ $(document).ready(function(){
     google.charts.load('current', {packages:["orgchart"]});
     google.charts.setOnLoadCallback(drawChart);
 
-    //Multimedia Pane
-    // $('#expand-pane').click(function(){
-    //     $('#multimedia-pane').toggleClass('open');
-    // });
-    // loadMultimedia();
-    //
-    // $('.multimedia').click(function(){
-    //     var source = $(this).find('.media-image').attr('src');
-    //     var caption = $(this).find('.media-caption').text();
-    //     $('#multimedia-viewer img').attr('src',source);
-    //     $('#multimedia-viewer label').text(caption);
-    //     $('#multimedia-viewer').show();
-    //     $('#viewer-wrapper img').focus();
-    // });
-    // $('#viewer-wrapper img').focusout(function(){
-    //     $('#multimedia-viewer').hide();
-    // });
+    var image_height;
+    $('#lead-images-preview').on('click','.image',function(){
+        var source = $(this).find('.media-image').attr('src');
+        $('.image-viewer img').attr('src',source);
+        $('.image-viewer').show();
+        image_height=$("#lead-images-preview .image-viewer img").height();
+    });
+    $('.viewer-close-btn').click(function(){
+        $("#lead-images-preview .image-viewer img").height(image_height);
+        $('.image-viewer').hide();
+    });
 
     // Map
     drawMap();
@@ -647,27 +649,43 @@ $(document).ready(function(){
 
     // Split screen for preview
     $('.split-pane').splitPane();
+    $('.split-pane').on('splitpaneresize',function(){
+        var width = $('#left-component').width();
+        console.log(width);
+        $('.image-viewer').width(width);
+    });
 
     // Change lead preview
     $('div.split-pane').splitPane();
     $('input[type=radio][name=lead-view-option]').change(function() {
-        changeLeadPreview(this.value=='simplified');
+        changeLeadPreview(this.value);
     });
-    changeLeadPreview(leadSimplified!="");
+    changeLeadPreview(leadSimplified!=""?"simplified":"original");
 
     // Zoom buttons
     $('#zoom-in').click(function(){
-
-        var font_size=$("#lead-preview-container").css('font-size');
-        font_size=parseInt(font_size)+1+'px';
-        $("#lead-preview-container").css('font-size',font_size);
+        if($('input[type="radio"][name=lead-view-option]:checked').val() == 'simplified'){
+            var font_size=$("#lead-preview-container").css('font-size');
+            font_size=parseInt(font_size)+1+'px';
+            $("#lead-preview-container").css('font-size',font_size);
+        }
+        else if (($('input[type="radio"][name=lead-view-option]:checked').val() == 'images') && $('.image-viewer').is(':visible')) {
+            var image_height=$("#lead-images-preview .image-viewer img").height();
+            image_height=parseInt(image_height)*1.1+'px';
+            $("#lead-images-preview .image-viewer img").css('height',image_height);
+        }
     });
-
     $('#zoom-out').click(function(){
-
-        var font_size=$("#lead-preview-container").css('font-size');
-        font_size=parseInt(font_size)-1+'px';
-        $("#lead-preview-container").css('font-size',font_size);
+        if($('input[type="radio"][name=lead-view-option]:checked').val() == 'simplified'){
+            var font_size=$("#lead-preview-container").css('font-size');
+            font_size=parseInt(font_size)-1+'px';
+            $("#lead-preview-container").css('font-size',font_size);
+        }
+        else if (($('input[type="radio"][name=lead-view-option]:checked').val() == 'images') && $('.image-viewer').is(':visible')) {
+            var image_height=$("#lead-images-preview .image-viewer img").height();
+            image_height=parseInt(image_height)*0.9+'px';
+            $("#lead-images-preview .image-viewer img").css('height',image_height);
+        }
     });
 
     // Navigation buttons between pages
@@ -932,11 +950,36 @@ $(document).ready(function(){
     });
 
 
+    setupCsrfForAjax();
+    // Mark processed
+    $('#pending-button').click(function() {
+        $.post(markProcessedUrl, {
+            id: leadId,
+            status: 'PRO',
+        }).done(function() {
+            $('#pending-button').hide();
+            $('#process-button').show();
+        });
+    });
+    $('#process-button').click(function() {
+        $.post(markProcessedUrl, {
+            id: leadId,
+            status: 'PEN',
+        }).done(function() {
+            $('#pending-button').show();
+            $('#process-button').hide();
+        });
+    });
+
 
     // Save and cancel
 
     $('.save-excerpt').click(function() {
         var data = { excerpts: JSON.stringify(excerpts) };
+        redirectPost(window.location.pathname, data, csrf_token);
+    });
+    $('.save-and-next').click(function() {
+        var data = { excerpts: JSON.stringify(excerpts), 'next_pending': true };
         redirectPost(window.location.pathname, data, csrf_token);
     });
     $('.cancel').click(function() {

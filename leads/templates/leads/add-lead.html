@@ -100,8 +100,8 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
         <div class="actions">
             <!--button class="btn btn-default" name="post" value="save-and-another">Save and add another</button-->
             <a href="{% url 'leads:leads' event.pk %}" onclick="return confirm('All changes will be discarded. Are you sure?');" id="cancel-btn" class="btn btn-default">Cancel</a>
-            <button class="submit-btn btn btn-primary" type="submit">Submit</button>
-            <button name="add-entry" class="submit-btn btn btn-primary" type="submit">Submit and Add Entry</button>
+            <button class="submit-btn" type="submit">Submit</button>
+            <button name="add-entry" class="submit-btn" type="submit">Submit and Add Entry</button>
         </div>
     </form>
 </section>
