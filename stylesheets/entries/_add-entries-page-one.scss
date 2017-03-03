@@ -64,44 +64,13 @@
                 #lead-preview{
                     height: calc(100vh - #{$navbar-height} - #{$lead-options-container-height});
                 }
+
                 iframe{
                     border: none;
                     width: 100%;
                 }
 
-                #process-button{
-
-                    z-index: auto;
-                    position: absolute;
-                    bottom: 15px;
-                    right: 75px;
-                    height: 35px;
-                    width: 35px;
-                    border-radius: 30px;
-                    border: 1px solid #fff;
-                    background-color: rgba(256, 256, 256,.8);
-                    @include shadow;
-
-                    i{
-                            color: rgba(0, 0, 0,0.4);
-                    }
-
-                    &:hover{
-                        .fa{
-                            color: #009900;
-                        }
-                    }
-
-                    &:focus{
-                        .fa{
-                            color: #009900;
-                        }
-
-                    }
-
-                }
-                #pending-button{
-
+                #pending-button, #process-button{
                     z-index: auto;
                     position: absolute;
                     bottom: 15px;
@@ -112,20 +81,27 @@
                     border: 1px solid #fff;
                     background-color: rgba(256, 256, 256,0.8);
                     @include shadow;
+                }
 
-                    i{
+                #pending-button {
+                    i {
                             color: rgba(0, 0, 0,0.4);
                     }
                     &:hover{
-                        .fa{
+                        i {
                             color: #cc6600;
                         }
                     }
                     &:focus{
-                        .fa{
+                        i {
                             color: #cc6600;
                         }
 
+                    }
+                }
+                #process-button{
+                    i{
+                        color: #009900;
                     }
                 }
 

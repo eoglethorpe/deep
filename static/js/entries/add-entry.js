@@ -945,11 +945,36 @@ $(document).ready(function(){
     });
 
 
+    setupCsrfForAjax();
+    // Mark processed
+    $('#pending-button').click(function() {
+        $.post(markProcessedUrl, {
+            id: leadId,
+            status: 'PRO',
+        }).done(function() {
+            $('#pending-button').hide();
+            $('#process-button').show();
+        });
+    });
+    $('#process-button').click(function() {
+        $.post(markProcessedUrl, {
+            id: leadId,
+            status: 'PEN',
+        }).done(function() {
+            $('#pending-button').show();
+            $('#process-button').hide();
+        });
+    });
+
 
     // Save and cancel
 
     $('.save-excerpt').click(function() {
         var data = { excerpts: JSON.stringify(excerpts) };
+        redirectPost(window.location.pathname, data, csrf_token);
+    });
+    $('.save-and-next').click(function() {
+        var data = { excerpts: JSON.stringify(excerpts), 'next_pending': true };
         redirectPost(window.location.pathname, data, csrf_token);
     });
     $('.cancel').click(function() {
