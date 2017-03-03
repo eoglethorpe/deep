@@ -186,6 +186,11 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         </div>
                     </div>
                     <div id="lead-images-container">
+                        {% for image in lead.leadimage_set.all %}
+                        <div class="image">
+                            <img class="media-image" src="{{ image.image.url }}"></img>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

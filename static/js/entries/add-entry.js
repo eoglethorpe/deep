@@ -538,26 +538,6 @@ function styleText(text) {
     return "<pre>" + text + "</pre>";
 }
 
-function loadImages(){
-    $('#lead-images-container').empty();
-    var imageArray = [{"source":"http://i.imgur.com/Ubes2bx.jpg"},
-            {"source":"http://i.imgur.com/f4o74J5.jpg"},
-            {"source":"http://i.imgur.com/E3aTXSF.jpg"},
-            {"source":"http://i.imgur.com/30s5oaY.jpg"},
-            {"source":"http://i.imgur.com/BUOfqte.jpg"},
-        ];
-    for(var i = 0; i < imageArray.length; i++){
-        var imageElement = $('.image-template').clone();
-        imageElement.removeClass('image-template');
-        imageElement.addClass('image');
-
-        imageElement.find('.media-image').attr('src',imageArray[i].source);
-        imageElement.find('.media-caption').text(imageArray[i].caption);
-
-        imageElement.appendTo($('#lead-images-container'));
-        imageElement.show();
-    }
-}
 
 function changeLeadPreview(type) {
     isSimplified = (type == "simplified");
@@ -581,7 +561,6 @@ function changeLeadPreview(type) {
     else if (type == 'images') {
         simplifiedFrame.css("display", "none");
         originalFrame.css("display", "none");
-        loadImages();
         imagesFrame.css("display", "inherit");
         $(".btn-zoom").show();
     }

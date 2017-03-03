@@ -8,8 +8,11 @@ class SimplifiedLead(admin.StackedInline):
 class AttachmentInline(admin.StackedInline):
     model = Attachment
 
+class LeadImage(admin.StackedInline):
+    model = LeadImage
+
 class LeadAdmin(admin.ModelAdmin):
-    inlines = [AttachmentInline, SimplifiedLead]
+    inlines = [AttachmentInline, SimplifiedLead, LeadImage]
 
 
 admin.site.register(Source)
