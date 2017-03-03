@@ -28,6 +28,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script>
+    let leadId = '{{ lead.pk }}';
     var cancelUrl = "{% url 'entries:entries' event.pk %}";
 
     // Simplified version of the lead.
@@ -131,6 +132,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
     // Default date
     var defaultDate = {% if lead.published_at %}"{{lead.published_at|date:"Y-m-d"}}"{% else %}null{% endif %};
+
+    // Some urls
+    let markProcessedUrl = '{% url "leads:mark_processed" event.pk %}';
 </script>
 
 {% endblock %}
@@ -168,8 +172,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     <iframe id="lead-preview" src="{{ lead.attachment.upload.url }}"></iframe>
                     {% endif %}
                 {% endif %}
-                <button id="process-button" class="btn" title="Mark Processed"><i class="fa fa-check fa-md"></i></button>
-                <button id="pending-button" class="btn" title="Mark Pending"><i class="fa fa-exclamation-triangle fa-md"></i></button>
+                <button id="process-button" class="btn" title="Processed. Click to mark pending" {% if lead.status != 'PRO' %}hidden{% endif %}><i class="fa fa-check fa-md"></i></button>
+                <button id="pending-button" class="btn" title="Click to mark Processed" {% if lead.status == 'PRO' %}hidden{% endif %}><i class="fa fa-exclamation-triangle fa-md"></i></button>
                 <div id="lead-simplified-preview">
                 </div>
                 <div id="lead-images-preview">
@@ -200,7 +204,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 <div class="page-controls">
                     <button class="cancel" title="Cancel"><i class="fa fa-times"></i>Cancel</button>
                     <button class="save-excerpt" title="Save Entry"><i class="fa fa-save"></i>Save</button>
-                    <button class="save-and-next" title="Save and Next"><i class="fa fa-arrow-right"></i>Save and Go Next Lead </button>
+                    <button class="save-and-next" title="Save and go to next pending lead"><i class="fa fa-arrow-right"></i>Save and Next Lead </button>
                     <button id="edit-entries-btn">Edit Entries <i class="fa fa-long-arrow-right"></i></button>
                 </div>
             </div>

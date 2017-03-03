@@ -219,22 +219,7 @@ body {
         body #page-one .split-pane #left-component #lead-preview-container iframe {
           border: none;
           width: 100%; }
-        body #page-one .split-pane #left-component #lead-preview-container #process-button {
-          z-index: auto;
-          position: absolute;
-          bottom: 15px;
-          right: 75px;
-          height: 35px;
-          width: 35px;
-          border-radius: 30px;
-          border: 1px solid #fff;
-          background-color: rgba(255, 255, 255, 0.8);
-          box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-          body #page-one .split-pane #left-component #lead-preview-container #process-button i {
-            color: rgba(0, 0, 0, 0.4); }
-          body #page-one .split-pane #left-component #lead-preview-container #process-button:hover .fa, body #page-one .split-pane #left-component #lead-preview-container #process-button:focus .fa {
-            color: #009900; }
-        body #page-one .split-pane #left-component #lead-preview-container #pending-button {
+        body #page-one .split-pane #left-component #lead-preview-container #pending-button, body #page-one .split-pane #left-component #lead-preview-container #process-button {
           z-index: auto;
           position: absolute;
           bottom: 15px;
@@ -245,10 +230,14 @@ body {
           border: 1px solid #fff;
           background-color: rgba(255, 255, 255, 0.8);
           box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-          body #page-one .split-pane #left-component #lead-preview-container #pending-button i {
-            color: rgba(0, 0, 0, 0.4); }
-          body #page-one .split-pane #left-component #lead-preview-container #pending-button:hover .fa, body #page-one .split-pane #left-component #lead-preview-container #pending-button:focus .fa {
-            color: #cc6600; }
+        body #page-one .split-pane #left-component #lead-preview-container #pending-button i {
+          color: rgba(0, 0, 0, 0.4); }
+        body #page-one .split-pane #left-component #lead-preview-container #pending-button:hover i {
+          color: #cc6600; }
+        body #page-one .split-pane #left-component #lead-preview-container #pending-button:focus i {
+          color: #cc6600; }
+        body #page-one .split-pane #left-component #lead-preview-container #process-button i {
+          color: #009900; }
         body #page-one .split-pane #left-component #lead-preview-container #lead-simplified-preview {
           height: calc(100vh - 56px - 48px);
           overflow-x: auto;

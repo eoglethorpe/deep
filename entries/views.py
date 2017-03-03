@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 
 from users.log import *
 from users.models import *
@@ -263,7 +264,10 @@ class AddEntry(View):
                     for subsector in attr["subsectors"]:
                         ia.subsectors.add(Subsector.objects.get(pk=int(subsector)))
 
-
+        if 'next_pending' in request.POST:
+            next_pending = Lead.objects.filter(~Q(pk=lead.pk), event__pk=event, status='PEN').order_by('-created_at')
+            if next_pending.count() > 0:
+                return redirect('entries:add', event=event, lead_id=next_pending[0].pk)
         return redirect('entries:entries', event)
 
 
