@@ -69,7 +69,6 @@
                     border: none;
                     width: 100%;
                 }
-
                 #pending-button, #process-button{
                     z-index: auto;
                     position: absolute;
@@ -82,7 +81,6 @@
                     background-color: rgba(256, 256, 256,0.8);
                     @include shadow;
                 }
-
                 #pending-button {
                     i {
                             color: rgba(0, 0, 0,0.4);
@@ -104,7 +102,6 @@
                         color: #009900;
                     }
                 }
-
                 #lead-simplified-preview{
                     height: calc(100vh - #{$navbar-height} - #{$lead-options-container-height});
                     overflow-x: auto;
@@ -121,6 +118,7 @@
 
                     .image-viewer{
                         position: absolute;
+                        width: $left-component-width;
                         left: 0;
                         top: 0;
                         z-index: 101;
@@ -146,7 +144,7 @@
                             display: flex;
                             align-items: center;
                             height: calc(100vh - #{$navbar-height} - #{$lead-options-container-height});
-                            width: $left-component-width;
+                            width: 100%;
                             overflow-x: auto;
                             margin: auto;
                             overflow-y: auto;
