@@ -649,6 +649,11 @@ $(document).ready(function(){
 
     // Split screen for preview
     $('.split-pane').splitPane();
+    $('.split-pane').on('splitpaneresize',function(){
+        var width = $('#left-component').width();
+        console.log(width);
+        $('.image-viewer').width(width);
+    });
 
     // Change lead preview
     $('div.split-pane').splitPane();

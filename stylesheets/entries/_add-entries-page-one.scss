@@ -68,9 +68,7 @@
                     border: none;
                     width: 100%;
                 }
-
                 #process-button{
-
                     z-index: auto;
                     position: absolute;
                     bottom: 15px;
@@ -85,23 +83,13 @@
                     i{
                             color: rgba(0, 0, 0,0.4);
                     }
-
-                    &:hover{
+                    &:hover,&:focus{
                         .fa{
                             color: #009900;
                         }
                     }
-
-                    &:focus{
-                        .fa{
-                            color: #009900;
-                        }
-
-                    }
-
                 }
                 #pending-button{
-
                     z-index: auto;
                     position: absolute;
                     bottom: 15px;
@@ -112,23 +100,15 @@
                     border: 1px solid #fff;
                     background-color: rgba(256, 256, 256,0.8);
                     @include shadow;
-
                     i{
                             color: rgba(0, 0, 0,0.4);
                     }
-                    &:hover{
+                    &:hover,&:focus{
                         .fa{
                             color: #cc6600;
                         }
-                    }
-                    &:focus{
-                        .fa{
-                            color: #cc6600;
-                        }
-
                     }
                 }
-
                 #lead-simplified-preview{
                     height: calc(100vh - #{$navbar-height} - #{$lead-options-container-height});
                     overflow-x: auto;
@@ -145,6 +125,7 @@
 
                     .image-viewer{
                         position: absolute;
+                        width: $left-component-width;
                         left: 0;
                         top: 0;
                         z-index: 101;
@@ -170,7 +151,7 @@
                             display: flex;
                             align-items: center;
                             height: calc(100vh - #{$navbar-height} - #{$lead-options-container-height});
-                            width: $left-component-width;
+                            width: 100%;
                             overflow-x: auto;
                             margin: auto;
                             overflow-y: auto;

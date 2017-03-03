@@ -232,9 +232,7 @@ body {
           box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
           body #page-one .split-pane #left-component #lead-preview-container #process-button i {
             color: rgba(0, 0, 0, 0.4); }
-          body #page-one .split-pane #left-component #lead-preview-container #process-button:hover .fa {
-            color: #009900; }
-          body #page-one .split-pane #left-component #lead-preview-container #process-button:focus .fa {
+          body #page-one .split-pane #left-component #lead-preview-container #process-button:hover .fa, body #page-one .split-pane #left-component #lead-preview-container #process-button:focus .fa {
             color: #009900; }
         body #page-one .split-pane #left-component #lead-preview-container #pending-button {
           z-index: auto;
@@ -249,9 +247,7 @@ body {
           box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
           body #page-one .split-pane #left-component #lead-preview-container #pending-button i {
             color: rgba(0, 0, 0, 0.4); }
-          body #page-one .split-pane #left-component #lead-preview-container #pending-button:hover .fa {
-            color: #cc6600; }
-          body #page-one .split-pane #left-component #lead-preview-container #pending-button:focus .fa {
+          body #page-one .split-pane #left-component #lead-preview-container #pending-button:hover .fa, body #page-one .split-pane #left-component #lead-preview-container #pending-button:focus .fa {
             color: #cc6600; }
         body #page-one .split-pane #left-component #lead-preview-container #lead-simplified-preview {
           height: calc(100vh - 56px - 48px);
@@ -265,6 +261,7 @@ body {
           height: calc(100vh - 56px - 48px); }
           body #page-one .split-pane #left-component #lead-preview-container #lead-images-preview .image-viewer {
             position: absolute;
+            width: 33vw;
             left: 0;
             top: 0;
             z-index: 101;
@@ -286,7 +283,7 @@ body {
               display: flex;
               align-items: center;
               height: calc(100vh - 56px - 48px);
-              width: 33vw;
+              width: 100%;
               overflow-x: auto;
               margin: auto;
               overflow-y: auto; }
