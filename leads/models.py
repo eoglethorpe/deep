@@ -165,6 +165,14 @@ class SimplifiedLead(models.Model):
     def __str__(self):
         return self.lead.name
 
+
+class LeadImage(models.Model):
+    lead = models.ForeignKey(Lead)
+    image = models.FileField(Lead, upload_to='leadimages/')
+
+    def __str__(self):
+        return self.lead.name
+
 # @receiver(pre_delete, sender=Attachment)
 # def _attachment_delete(sender, instance, **kwargs):
 #     instance.upload.delete(False)

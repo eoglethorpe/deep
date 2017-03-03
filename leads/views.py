@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
 from django.conf import settings
+from django.core.files import File
 
 from datetime import datetime
 import json
@@ -26,20 +27,21 @@ def get_simplified_lead(lead, context):
     # Make sure to catch any exception.
 
     try:
+        images = None
         if lead.lead_type == "URL":
             doc = WebDocument(lead.url)
 
             if doc.html:
-                context["lead_simplified"] = \
+                context["lead_simplified"], images = \
                     HtmlStripper(doc.html).simplify()
             elif doc.pdf:
-                context["lead_simplified"] = \
+                context["lead_simplified"], images = \
                     PdfStripper(doc.pdf).simplify()
             elif doc.docx:
-                context["lead_simplified"] = \
+                context["lead_simplified"], images = \
                     DocxStripper(doc.docx).simplify()
             elif doc.pptx:
-                context["lead_simplified"] = \
+                context["lead_simplified"], images = \
                     PptxStripper(doc.pptx).simplify()
 
         elif lead.lead_type == "MAN":
@@ -52,21 +54,29 @@ def get_simplified_lead(lead, context):
             except:
                 name, extension = attachment.upload.name, ""
             if extension == ".pdf":
-                context["lead_simplified"] = \
+                context["lead_simplified"], images = \
                     PdfStripper(attachment.upload).simplify()
             elif extension in [".html", ".htm"]:
-                context["lead_simplified"] = \
+                context["lead_simplified"], images = \
                     HtmlStripper(attachment.upload.read()).simplify()
             elif extension in [".docx", ]:
-                context["lead_simplified"] = \
+                context["lead_simplified"], images = \
                     DocxStripper(attachment.upload).simplify()
             elif extension in [".pptx", ]:
-                context["lead_simplified"] = \
+                context["lead_simplified"], images = \
                     PptxStripper(attachment.upload).simplify()
             else:
                 context["lead_simplified"] = attachment.upload.read()
+
+            LeadImage.objects.filter(lead=lead).delete()
+            if images:
+                for image in images:
+                    lead_image = LeadImage(lead=lead)
+                    lead_image.image.save(os.path.basename(image.name), File(image), True)
+                    lead_image.save()
+
     except Exception as e:
-        # raise e
+        raise e
         # print(e)
         # print("Error while simplifying")
         pass
