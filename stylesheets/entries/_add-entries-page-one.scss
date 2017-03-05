@@ -64,7 +64,6 @@
                 #lead-preview{
                     height: calc(100vh - #{$navbar-height} - #{$lead-options-container-height});
                 }
-
                 iframe{
                     border: none;
                     width: 100%;
@@ -181,6 +180,12 @@
                             }
                         }
                     }
+                }
+                #image-cropper-canvas{
+                    position: fixed;
+                    left: 0;
+                    top: 50px;
+                    background-color: rgba(0, 0, 0, 0.5);
                 }
             }
         }

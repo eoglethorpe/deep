@@ -17,6 +17,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <script type="text/javascript" src="{% watchful_static_url 'js/common/highlighter.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/add-entry.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entries/image-cropper.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/add-entry-map.js' %}"></script>
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
@@ -193,6 +194,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         {% endfor %}
                     </div>
                 </div>
+                <!-- <canvas id="image-cropper-canvas"></canvas> -->
             </div>
         </div>
         <div class="split-pane-divider" id="divider"></div>

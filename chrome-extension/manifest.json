@@ -17,5 +17,9 @@
 
     "options_page": "options.html",
 
-    "permissions": ["activeTab", "<all_urls>", "storage"]
+    "permissions": ["activeTab", "<all_urls>", "storage"],
+
+    "externally_connectable": {
+        "matches": ["http://localhost/*"]
+    }
 }
