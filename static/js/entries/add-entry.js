@@ -591,6 +591,37 @@ $(document).ready(function(){
     mapModal = new Modal('#map-modal', true);
     affectedGroupsModal = new Modal('#affected-groups-modal');
 
+    // chrome.runtime.sendMessage('fjngeainkajljhgoijoefbenbofcicco', { msg: 'screenshot' }, function(response){
+    //     if(response && response.image){
+    //         //console.log(response.image);
+    //         //$('#image-cropper-canvas').attr('src', response.image);
+    //         let canvas = $('#image-cropper-canvas')[0];
+    //         let ctx = canvas.getContext('2d');
+    //         let img = new Image();
+    //
+    //         img.onload = function() {
+    //             canvas.height = this.height;
+    //             // console.log(this.width+' '+canvas.width);
+    //             // console.log(this.height+' '+canvas.height);
+    //
+    //             ctx.drawImage(this, this.width-canvas.width, 0, canvas.width, this.height, 0, 0, canvas.width,  canvas.height);
+    //         }
+    //         img.src = response.image;
+    //     }
+    // });
+    // $('#image-cropper-canvas').width(function(){
+    //     $(this)[0].width = $(this).parent().innerWidth();
+    //     return $(this).parent().innerWidth();
+    // });
+    // $('#image-cropper-canvas').height($(window).height()-50);
+
+    // let imageCropper = new ImageCropper('image-cropper-canvas');
+    // imageCropper.start();
+    // setTimeout(function(){imageCropper.end();}, 10000);
+
+
+
+
     // subsector dropdown menu
     $('#entries').on('click','.dropdown', function(){
         $(this).find('.dropdown-menu').toggle();
