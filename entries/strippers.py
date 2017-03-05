@@ -98,7 +98,7 @@ class HtmlStripper:
 
         regex = re.compile('\n*', flags=re.IGNORECASE)
         html = regex.sub('', html)
-        return html
+        return html, None
 
 
 class PdfStripper:
@@ -128,7 +128,7 @@ class PdfStripper:
         content = outfp.read()
         outfp.close()
 
-        return content
+        return content, None
 
         # html = HtmlStripper(content).simplify()
         # regex = re.compile('\n*', flags=re.IGNORECASE)
@@ -150,7 +150,7 @@ class DocxStripper:
 
         content, images = docx_simplify(self.docx)
 
-        return content
+        return content, images
 
 
 class PptxStripper:
@@ -166,4 +166,4 @@ class PptxStripper:
 
         content, images = docx_simplify(self.pptx, pptx=True)
 
-        return content
+        return content, images

@@ -250,6 +250,7 @@ body {
           height: calc(100vh - 56px - 48px); }
           body #page-one .split-pane #left-component #lead-preview-container #lead-images-preview .image-viewer {
             position: absolute;
+            width: 33vw;
             left: 0;
             top: 0;
             z-index: 101;
@@ -271,7 +272,7 @@ body {
               display: flex;
               align-items: center;
               height: calc(100vh - 56px - 48px);
-              width: 33vw;
+              width: 100%;
               overflow-x: auto;
               margin: auto;
               overflow-y: auto; }
