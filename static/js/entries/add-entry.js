@@ -549,26 +549,71 @@ function changeLeadPreview(type) {
         simplifiedFrame.css("display", "inherit");
         originalFrame.css("display", "none");
         imagesFrame.css("display", "none");
-        $(".btn-zoom").show();
+        $("#zoom-buttons").show();
+        $('#screenshot-btn').hide();
     }
     else if (type == 'original') {
         simplifiedFrame.css("display", "none");
         originalFrame.css("display", "inherit");
         imagesFrame.css("display", "none");
         selectedTags = {};
-        $(".btn-zoom").hide();
+        $("#zoom-buttons").hide();
+        $('#screenshot-btn').show();
+
     }
     else if (type == 'images') {
         simplifiedFrame.css("display", "none");
         originalFrame.css("display", "none");
         imagesFrame.css("display", "inherit");
-        $(".btn-zoom").show();
+        $("#zoom-buttons").show();
+        $('#screenshot-btn').hide();
     }
+}
+
+function getScreenshot(){
+    let extensionId = 'ffgmijphijplhcfmfijfkfngdpgfljkd';
+    chrome.runtime.sendMessage(extensionId, { msg: 'screenshot' }, function(response){
+        if(response && response.image){
+            let img = new Image();
+            img.onload = function(){
+                $('#image-cropper-canvas-container').show();
+                let imageCropper = new ImageCropper('image-cropper-canvas', this, {x: 0, y: 104, w: $('#image-cropper-canvas').innerWidth()-12, h: $('#image-cropper-canvas').innerHeight()-12});
+                imageCropper.start();
+                $('#screenshot-cancel-btn').one('click', function(){
+                    imageCropper.stop();
+                    $('#image-cropper-canvas-container').hide();
+                });
+                $('#screenshot-done-btn').one('click', function(){
+                    let img = $('<img>');
+                    img.attr('src', imageCropper.getCroppedImage());
+                    let imgContainer = $('<div class="image"></div>');
+                    img.appendTo(imgContainer);
+                    imgContainer.appendTo($('#excerpt-image-container'));
+                    imageCropper.stop();
+                    $('#image-cropper-canvas-container').hide();
+                });
+            }
+            img.src = response.image;
+        }
+    });
+}
+
+function resizeCanvas(){
+    $('#image-cropper-canvas-container').width(function(){
+        return $(this).parent().innerWidth();
+    });
+    $('#image-cropper-canvas-container').height($(window).height()-50);
 }
 
 $(document).ready(function(){
     mapModal = new Modal('#map-modal', true);
     affectedGroupsModal = new Modal('#affected-groups-modal');
+
+    $('#screenshot-btn').click(function(){
+        getScreenshot();
+    })
+
+    resizeCanvas();
 
     // subsector dropdown menu
     $('#entries').on('click','.dropdown', function(){
@@ -601,9 +646,19 @@ $(document).ready(function(){
         $('.image-viewer').show();
         image_width=$("#lead-images-preview .image-viewer img").width();
     });
-    $('.viewer-close-btn').click(function(){
+    $('#lead-images-preview .viewer-close-btn').click(function(){
         $("#lead-images-preview .image-viewer img").width(image_width);
         $('.image-viewer').hide();
+    });
+
+    //Image Viewer Main
+    $('#excerpt-image-container').on('click','.image',function(){
+        var source = $(this).find('img').attr('src');
+        $('.image-viewer-main img').attr('src',source);
+        $('.image-viewer-main').show();
+    });
+    $('.viewer-close-btn-main').click(function(){
+        $('.image-viewer-main').hide();
     });
 
     // Map
@@ -633,6 +688,7 @@ $(document).ready(function(){
         $('.image-viewer').width(width);
         width = width-48;
         $('.image-viewer .image-wrapper img').width(width);
+        resizeCanvas();
     });
 
     // Change lead preview

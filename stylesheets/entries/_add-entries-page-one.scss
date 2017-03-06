@@ -1,4 +1,60 @@
 #page-one{
+    .image-viewer-main{
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        left: 0;
+        top: 0;
+        z-index: 101;
+        background-color: rgba(0,0,0,0.96);
+
+        .viewer-close-btn-main{
+            position: absolute;
+            right: 12px;
+            top: 0;
+            height: 48px;
+            width: 48px;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            cursor: pointer;
+            float: right;
+            text-align: center;
+
+            .fa{
+                margin-top: 12px;
+            }
+        }
+        .image-align-wrapper{
+            display: flex;
+            align-items: center;
+            height: calc(100% - 96px);
+            width: calc(100% - 96px);
+            overflow-x: auto;
+            margin: auto;
+            overflow-y: auto;
+
+            .image-wrapper{
+                flex: none;
+                margin: auto;
+                height: inherit;
+                width: inherit;
+
+                img{
+                    height: 100%;
+                    width: 100%;
+                    object-fit: contain;
+                    object-position: center;
+                }
+            }
+        }
+        ::-webkit-scrollbar-track{
+            background-color: #f0f0f0;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+    }
     .split-pane{
         height: calc(100vh - #{$navbar-height});
         $left-component-width: 33vw;
@@ -34,7 +90,6 @@
                         input{
                             display: none;
                         }
-
                         &.active{
                             color: $primary-color;
                             border-bottom: 3px solid $primary-color;
@@ -57,6 +112,10 @@
                         font-size: $text-size-xl;
                     }
                 }
+                #screenshot-btn{
+                    flex-basis: 40%;
+                    align-self: stretch;
+                }
             }
             #lead-preview-container{
                 position: relative;
@@ -64,7 +123,6 @@
                 #lead-preview{
                     height: calc(100vh - #{$navbar-height} - #{$lead-options-container-height});
                 }
-
                 iframe{
                     border: none;
                     width: 100%;
@@ -188,6 +246,37 @@
                         }
                     }
                 }
+                #image-cropper-canvas-container{
+                    position: fixed;
+                    left: 0;
+                    top: $navbar-height;
+                    background-color: rgba(0, 0, 0, 0.5);
+
+                    #screenshot-actions{
+                        height: $lead-options-container-height;
+                        display: flex;
+                        justify-content: flex-end;
+                        align-items: stretch;
+                        background-color: #fff;
+
+                        button{
+                            flex-basis: 24%;
+
+                            .fa{
+                                margin-right: 10px;
+                            }
+                            &#screenshot-done-btn .fa{ color: $success-color; }
+                            &#screenshot-cancel-btn .fa{ color: $danger-color; }
+                        }
+
+                    }
+                    canvas{
+                        width: 100%;
+                        padding: 0 12px 12px 0;
+                        height: calc(100% - #{$lead-options-container-height} - 12px);
+                        cursor: crosshair;
+                    }
+                }
             }
         }
         #divider{
@@ -205,18 +294,21 @@
                 justify-content: space-between;
 
                 #excerpt-controls{
-                    flex-basis: 50%;
+                    flex-basis: 44%;
                     display: flex;
 
                     .action-buttons{
+                        flex-basis: 20%;
                         color: #fff;
                         #add-excerpt{ background-color: $info-color; }
                         #delete-excerpt{ background-color: $danger-color; }
-
+                    }
+                    #select-excerpt{
+                        width: 80%;
                     }
                 }
                 .page-controls{
-                    flex-basis: 50%;
+                    flex-basis: 56%;
                     display: flex;
                     justify-content: flex-end;
 
@@ -262,7 +354,7 @@
                 padding: 16px;
 
                 #excerpt-text-container{
-                    flex-basis: 60%;
+                    flex-basis: 78%;
                     position: relative;
 
                     textarea{
@@ -281,8 +373,8 @@
                     }
                 }
                 #excerpt-image-wrapper{
-                    width: 38%;
-                    flex: none;
+                    width: 20%;
+                    //flex: none;
 
                     #excerpt-image-container{
                         background-color: #fff;
@@ -294,11 +386,12 @@
 
                         .image{
                             text-align: center;
-                            padding: 2px 8px;
                             cursor: pointer;
+                            height: 100%;
+                            overflow: hidden;
 
                             img{
-                                max-height: 48px;
+                                height: 100%;
                                 width: auto;
                             }
                         }

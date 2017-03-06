@@ -39,16 +39,29 @@ var materialSelect = {
                 }
             });
         });
-        this.selectInput.attr('tabIndex', 0);
-        this.selectInput.focusout(function(){
-            if (that.optionContainer.is(':visible')) {
-                that.optionContainer.slideUp('fast', function(){
-                    dropdownIcon.css('transform', 'rotate(0deg)');
-                    that.selectDiv.removeClass('select-active');
-                    that.refresh();
-                });
+
+        // Fix the click issue
+        $(document).mouseup(function (e){
+            if (!that.selectDiv.is(e.target) && that.selectDiv.has(e.target).length === 0) {
+                if (that.optionContainer.is(':visible')) {
+                    that.optionContainer.slideUp('fast', function(){
+                        dropdownIcon.css('transform', 'rotate(0deg)');
+                        that.selectDiv.removeClass('select-active');
+                        that.refresh();
+                    });
+                }
             }
         });
+        //this.selectInput.attr('tabIndex', -1);
+        // this.selectInput.focusout(function(){
+        //     if (that.optionContainer.is(':visible')) {
+        //         that.optionContainer.slideUp('fast', function(){
+        //             dropdownIcon.css('transform', 'rotate(0deg)');
+        //             that.selectDiv.removeClass('select-active');
+        //             that.refresh();
+        //         });
+        //     }
+        // });
 
         options.each(function(i){
             function getSpan(_class){
@@ -126,8 +139,7 @@ var materialSelect = {
         }
         this.selectDiv.blur();
     },
-    getPlaceholder: function(){ return this.selectInput.data('placeholder')? this.selectInput.data('placeholder'): 'Select an option';
-    }
+    getPlaceholder: function(){ return this.selectInput.data('placeholder')? this.selectInput.data('placeholder'): 'Select an option'; }
 };
 
 var materialSelects = [];
@@ -164,7 +176,7 @@ $(document).ready(function(){
         if(!$(this).val()){
             $(this)[0].type = 'text';
         } else {
-            $(this)[0].type = 'date';            
+            $(this)[0].type = 'date';
         }
     });
 });
