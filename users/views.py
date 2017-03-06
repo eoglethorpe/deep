@@ -169,7 +169,6 @@ class DashboardView(View):
 
     @method_decorator(login_required)
     def get(self, request, event=None):
-
         if not event and "last_event" in request.GET and request.GET["last_event"]:
             last_event = UserProfile.get_last_event(request)
             if last_event:
@@ -212,7 +211,6 @@ class DashboardView(View):
 
             weeks = max(int((monday2 - monday1).days/7 + 1), 14) + 2
 
-
             # For each week, store its date and the countries whose reports exist on that day
             for i in range(weeks):
                 dt = monday1 + timedelta(days=7*i)
@@ -238,7 +236,6 @@ class DashboardView(View):
         # Get event for each country
         for country in context["countries"]:
             context["crises_per_country"][country] = Event.objects.filter(countries__pk=country.pk)
-
         return render(request, "users/dashboard.html", context)
 
 

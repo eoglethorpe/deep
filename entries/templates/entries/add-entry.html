@@ -96,6 +96,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     {% if entry %}{% for excerpt in entry.entryinformation_set.all %}
         {
             excerpt: "{{excerpt.excerpt|escapejs}}",
+            image: '',
             attributes: [
                 {% for attr in excerpt.informationattribute_set.all %}
                 {

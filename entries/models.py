@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 # from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
+from django.utils import timezone
 
 from leads.models import *
 
@@ -169,7 +170,9 @@ class Subsector(models.Model):
 
 class Entry(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
-    modified_by = models.ForeignKey(User, default=None, null=True, blank=None)
+    modified_by = models.ForeignKey(User, default=None, null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    created_by = models.ForeignKey(User, default=None, null=True, blank=True, related_name='entries_created')
     lead = models.ForeignKey(Lead)
 
     def __str__(self):
