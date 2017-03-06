@@ -68,12 +68,11 @@ def get_simplified_lead(lead, context):
             else:
                 context["lead_simplified"] = attachment.upload.read()
 
-            LeadImage.objects.filter(lead=lead).delete()
-            if images:
-                for image in images:
-                    lead_image = LeadImage(lead=lead)
-                    lead_image.image.save(os.path.basename(image.name), File(image), True)
-                    lead_image.save()
+        LeadImage.objects.filter(lead=lead).delete()
+        for image in images:
+            lead_image = LeadImage(lead=lead)
+            lead_image.image.save(os.path.basename(image.name), File(image), True)
+            lead_image.save()
 
     except Exception as e:
         # raise e
