@@ -24,20 +24,20 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='entry',
-            name='created_at',
-            field=models.DateTimeField(default=django.utils.timezone.now),
-        ),
-        migrations.AddField(
-            model_name='entry',
-            name='created_by',
-            field=models.ForeignKey(blank=True, default=None, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='entries_created', to=settings.AUTH_USER_MODEL),
-        ),
-        migrations.AlterField(
-            model_name='entry',
-            name='modified_by',
-            field=models.ForeignKey(blank=True, default=None, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
-        ),
+        # migrations.AddField(
+        #     model_name='entry',
+        #     name='created_at',
+        #     field=models.DateTimeField(default=django.utils.timezone.now),
+        # ),
+        # migrations.AddField(
+        #     model_name='entry',
+        #     name='created_by',
+        #     field=models.ForeignKey(blank=True, default=None, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='entries_created', to=settings.AUTH_USER_MODEL),
+        # ),
+        # migrations.AlterField(
+        #     model_name='entry',
+        #     name='modified_by',
+        #     field=models.ForeignKey(blank=True, default=None, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+        # ),
         migrations.RunPython(migrate_created),
     ]
