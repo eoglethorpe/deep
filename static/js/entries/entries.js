@@ -46,9 +46,13 @@ function renderEntries() {
         entryElement.removeClass("entry-template");
         entryElement.addClass("entry");
 
-        entryElement.find(".entry-title").html(searchAndHighlight(entry.lead_title, leadTitleFilterText));
-        entryElement.find(".created-by").text(entry.created_by_name);
-        entryElement.find(".created-on").text(formatDate(new Date(entry.created_at)));
+        entryElement.find(".entry-title").html(
+            '<a' + (entry.lead_url ? ' target="_blank" href="' + entry.lead_url + '"' : '') + '>'
+            + entryElement.find('.entry-title').html()
+            + '</a>'
+        );
+        entryElement.find(".created-by").text(entry.modified_by_name);
+        entryElement.find(".created-on").text(formatDate(new Date(entry.modified_at)));
 
         entryElement.appendTo($("#entries"));
         entryElement.show();
