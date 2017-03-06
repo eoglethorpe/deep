@@ -599,10 +599,10 @@ $(document).ready(function(){
         var source = $(this).find('.media-image').attr('src');
         $('.image-viewer img').attr('src',source);
         $('.image-viewer').show();
-        image_height=$("#lead-images-preview .image-viewer img").height();
+        image_width=$("#lead-images-preview .image-viewer img").width();
     });
     $('.viewer-close-btn').click(function(){
-        $("#lead-images-preview .image-viewer img").height(image_height);
+        $("#lead-images-preview .image-viewer img").width(image_width);
         $('.image-viewer').hide();
     });
 
@@ -630,8 +630,9 @@ $(document).ready(function(){
     $('.split-pane').splitPane();
     $('.split-pane').on('splitpaneresize',function(){
         var width = $('#left-component').width();
-        console.log(width);
         $('.image-viewer').width(width);
+        width = width-48;
+        $('.image-viewer .image-wrapper img').width(width);
     });
 
     // Change lead preview
@@ -649,9 +650,9 @@ $(document).ready(function(){
             $("#lead-preview-container").css('font-size',font_size);
         }
         else if (($('input[type="radio"][name=lead-view-option]:checked').val() == 'images') && $('.image-viewer').is(':visible')) {
-            var image_height=$("#lead-images-preview .image-viewer img").height();
-            image_height=parseInt(image_height)*1.1+'px';
-            $("#lead-images-preview .image-viewer img").css('height',image_height);
+            var image_width=$("#lead-images-preview .image-viewer img").width();
+            image_width=parseInt(image_width)*1.1+'px';
+            $("#lead-images-preview .image-viewer img").css('width',image_width);
         }
     });
     $('#zoom-out').click(function(){
@@ -661,9 +662,9 @@ $(document).ready(function(){
             $("#lead-preview-container").css('font-size',font_size);
         }
         else if (($('input[type="radio"][name=lead-view-option]:checked').val() == 'images') && $('.image-viewer').is(':visible')) {
-            var image_height=$("#lead-images-preview .image-viewer img").height();
-            image_height=parseInt(image_height)*0.9+'px';
-            $("#lead-images-preview .image-viewer img").css('height',image_height);
+            var image_width=$("#lead-images-preview .image-viewer img").width();
+            image_width=parseInt(image_width)*0.9+'px';
+            $("#lead-images-preview .image-viewer img").css('width',image_width);
         }
     });
 

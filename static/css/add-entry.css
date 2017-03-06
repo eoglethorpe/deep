@@ -280,8 +280,8 @@ body {
                 flex: none;
                 margin: auto; }
                 body #page-one .split-pane #left-component #lead-preview-container #lead-images-preview .image-viewer .image-align-wrapper .image-wrapper img {
-                  height: calc(100vh - 56px - 48px - 64px);
-                  width: auto; }
+                  height: auto;
+                  width: calc(33vw - 16px); }
             body #page-one .split-pane #left-component #lead-preview-container #lead-images-preview .image-viewer ::-webkit-scrollbar-track {
               background-color: #f0f0f0;
               border: 1px solid rgba(0, 0, 0, 0.1); }
