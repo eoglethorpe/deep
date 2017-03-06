@@ -37,6 +37,7 @@ class EntryInformationSerializer(Serializer):
     fields = {
         'id': 'pk',
         'excerpt': 'excerpt',
+        'image': 'image',
         'attributes': 'attributes',
         'map_selections': 'map_selections',
         # 'number': 'number',
@@ -85,7 +86,7 @@ class EntrySerializer(Serializer):
         'modified_at': 'modified_at',
         'modified_by': 'modified_by.pk',
         'modified_by_name': 'modified_by.get_full_name',
-        
+
         'created_at': 'created_at',
         'created_by': 'created_by.pk',
         'created_by_name': 'created_by.get_full_name',

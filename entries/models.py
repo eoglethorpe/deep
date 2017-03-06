@@ -185,6 +185,7 @@ class Entry(models.Model):
 class EntryInformation(models.Model):
     entry = models.ForeignKey(Entry)
     excerpt = models.TextField(blank=True)
+    image = models.TextField(blank=True, default='')
     date = models.DateField(blank=True, default=None, null=True)
     reliability = models.ForeignKey(Reliability)
     severity = models.ForeignKey(Severity)
@@ -197,14 +198,6 @@ class EntryInformation(models.Model):
 
     def __str__(self):
         return self.excerpt
-
-
-class EntryImage(models.Model):
-    information = models.ForeignKey(EntryInformation)
-    image = models.FileField(upload_to='entry_images/')
-
-    def __str__(self):
-        return self.image.url
 
 
 class InformationAttribute(models.Model):
