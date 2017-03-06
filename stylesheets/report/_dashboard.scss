@@ -147,6 +147,9 @@ main{
                             display: block;
                             font-size: $text-size-xs;
                             color: $label-color;
+                            word-break: break-all;
+                            text-indent: -8px;
+                            margin-left: 8px;
 
                             .fa{ margin-right: 4px; }
                         }
@@ -271,7 +274,7 @@ main{
                     date{ font-family: 'Inconsolata', monospace; }
                     .action-buttons{
                         text-align: right;
-                        flex-basis: 40%;
+                        flex-basis: 44%;
 
                         a{
                             color: $primary-color;
@@ -287,8 +290,6 @@ main{
                         }
 
                     }
-
-
                     &:nth-child(odd){ background-color: #fff; }
                 }
                 .empty-text{

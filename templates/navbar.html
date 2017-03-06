@@ -8,13 +8,13 @@
         var crisisDropdown = $('#crisis-dropdown').selectize({
             onDropdownOpen: function(dropdown) {
                 crisisDropdown.clear();
-                dropdown.stop().hide().slideToggle();
+                //dropdown.stop().hide().slideToggle();
             },
             onDropdownClose: function(dropdown) {
                 if(crisisDropdown.getValue() == ''){
                     crisisDropdown.setValue(currentDropdownVal);
                 }
-                dropdown.stop().show().slideToggle();
+                //dropdown.stop().show().slideToggle();
             }
         })[0].selectize;
         $('#crisis-dropdown').change(function() {
@@ -79,7 +79,7 @@
         </select>
         {% else %}
         {% if event %}
-        <a href="#" style="color: #fff; font-weight: bold; width: 100%; overflow: hidden;"><span class="fa fa-location-arrow" style="margin-right: 8px;"></span>{{event}}</a>
+        <div id="crisis-dropdown-alt"><span class="fa fa-location-arrow"></span>{{event}}</div>
         {% endif %}
         {% endif %}
     </div>

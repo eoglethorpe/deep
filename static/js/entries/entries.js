@@ -60,7 +60,16 @@ function renderEntries() {
             informationElement.removeClass("information-template");
             informationElement.addClass("information");
 
-            informationElement.find('.excerpt').html(searchAndHighlight(information.excerpt, searchFilterText));
+            if(information.image.length == 0){
+                informationElement.find('.excerpt-text').html(searchAndHighlight(information.excerpt, searchFilterText));
+                informationElement.find('.excerpt-text').show();
+                informationElement.find('.excerpt-image').hide();
+            } else{
+                informationElement.find('.excerpt-image').attr('src', information.image);
+                informationElement.find('.excerpt-image').show();
+                informationElement.find('.excerpt-text').hide();
+            }
+
 
             informationElement.find('.reliability').find('span[data-level=' + information.reliability + ']').addClass('active');
             informationElement.find('.severity').find('span[data-level=' + information.severity + ']').addClass('active');

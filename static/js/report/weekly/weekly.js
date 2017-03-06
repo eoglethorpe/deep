@@ -63,11 +63,20 @@ function renderEntries(){
             information.removeClass('information-template');
             information.addClass('information');
 
-            information.find('.excerpt').html(searchAndHighlight(entries[i].informations[j].excerpt, searchFilterText));
-            if (entries[i].informations[j].date)
+            if(entries[i].informations[j].image.length == 0){
+                information.find('.excerpt-text').html(searchAndHighlight(entries[i].informations[j].excerpt, searchFilterText));
+                information.find('.excerpt-image').hide();
+                information.find('.excerpt-text').show();
+            } else{
+                information.find('.excerpt-image').attr('src', entries[i].informations[j].image);
+                information.find('.excerpt-text').hide();
+                information.find('.excerpt-image').show();
+            }
+            if (entries[i].informations[j].date){
                 information.find('date').text(formatDate(new Date(entries[i].informations[j].date)));
-            else
+            } else{
                 information.find('date').text("N/A");
+            }
 
             information.find(".reliability").find('._'+entries[i].informations[j].reliability.level).addClass('active');
             information.find(".severity").find('._'+entries[i].informations[j].severity.level).addClass('active');

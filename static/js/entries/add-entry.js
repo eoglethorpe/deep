@@ -339,7 +339,15 @@ function refreshPageTwo() {
         entry.data('entry-id', i);
 
         // Load values
-        entry.find('.excerpt').val(excerpt.excerpt);
+        if(excerpt.image.length == 0){
+            entry.find('.excerpt-text').val(excerpt.excerpt);
+            entry.find('.excerpt-image').hide();
+            entry.find('.excerpt-text').show();
+        } else{
+            entry.find('.excerpt-image').attr('src', excerpt.image)
+            entry.find('.excerpt-text').hide();
+            entry.find('.excerpt-image').show();
+        }
         entry.find('.entry-date').val(excerpt.date);
         entry.find('.entry-number').val(excerpt.number);
 
@@ -470,7 +478,7 @@ function refreshPageTwo() {
         currentExcerpt = null;
 
     }
-    $('.excerpt').change();
+    $('.excerpt-text').change();
 }
 
 function refreshExcerpts() {
@@ -786,7 +794,7 @@ $(document).ready(function(){
             $('#page-two').fadeIn(function(){
                 addTodayButtons();
             });
-            $('.excerpt').change();
+            $('.excerpt-text').change();
         });
     });
     $('#back-to-excerpts-btn').on('click', function(){
@@ -957,13 +965,13 @@ $(document).ready(function(){
     // Page 2
 
     // Excerpt, date and number
-    $(document).on('input paste drop change', '.entry .excerpt', function() {
+    $(document).on('input paste drop change', '.entry .excerpt-text', function() {
         var excerpt = excerpts[parseInt($(this).closest('.entry').data('entry-id'))];
         excerpt.excerpt = $(this).val();
 
         var excerptDom = $(this)[0];
         excerptDom.style.height = '1px';
-        excerptDom.style.height = (20+excerptDom.scrollHeight)+'px';
+        excerptDom.style.height = (2+excerptDom.scrollHeight)+'px';
     });
     $(document).on('input paste drop change', '.entry .entry-date', function() {
         var excerpt = excerpts[parseInt($(this).closest('.entry').data('entry-id'))];
