@@ -108,7 +108,7 @@ function initEntryFilters() {
     $.getJSON("/api/v2/entries/?event="+eventId, function(data){
         data = data.data;
         data.sort(function(e1, e2) {
-            return new Date(e2.modified_at) - new Date(e1.modified_at);
+            return new Date(e2.created_at) - new Date(e1.created_at);
         });
         originalEntries = data;
         entries = data;
@@ -180,7 +180,7 @@ function initEntryFilters() {
                         var startDate = new Date($('#date-range-input #start-date').val());
                         var endDate = new Date($('#date-range-input #end-date').val());
                         addFilter('imported-at', !startDate || !endDate, function(info) {
-                            var date = new Date(originalEntries[info.entryIndex].modified_at);
+                            var date = new Date(originalEntries[info.entryIndex].created_at);
                             return dateInRange(date, startDate, endDate);
                         });
                     } else {
@@ -189,8 +189,8 @@ function initEntryFilters() {
                 });
             } else {
                 addFilter('imported-at', filterBy == "" || filterBy == null, function(info) {
-                    if (originalEntries[info.entryIndex].modified_at) {
-                        return filterDate(filterBy, new Date(originalEntries[info.entryIndex].modified_at));
+                    if (originalEntries[info.entryIndex].created_at) {
+                        return filterDate(filterBy, new Date(originalEntries[info.entryIndex].created_at));
                     }
                     return false;
                 });
@@ -202,7 +202,7 @@ function initEntryFilters() {
     $('#users-filter').change(function() {
         var filterBy = $(this).val();
         addFilter('users', filterBy == null, function(info){
-            return filterBy.indexOf(originalEntries[info.entryIndex].modified_by+'') >= 0;
+            return filterBy.indexOf(originalEntries[info.entryIndex].created_by+'') >= 0;
         });
     });
     $('#areas-filter').change(function() {
@@ -376,7 +376,7 @@ function filterByTimeline() {
             if (info.date)
                 return new Date(info.date) >= dateStart && new Date(info.date) <= dateEnd;
             else
-                return new Date(originalEntries[info.entryIndex].modified_at) >= dateStart && new Date(originalEntries[info.entryIndex].modified_at) <= dateEnd;
+                return new Date(originalEntries[info.entryIndex].created_at) >= dateStart && new Date(originalEntries[info.entryIndex].created_at) <= dateEnd;
         }
         filterEntries();
     } else {

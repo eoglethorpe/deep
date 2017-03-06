@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 # from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
+from django.utils import timezone
 
 from leads.models import *
 
@@ -169,7 +170,9 @@ class Subsector(models.Model):
 
 class Entry(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
-    modified_by = models.ForeignKey(User, default=None, null=True, blank=None)
+    modified_by = models.ForeignKey(User, default=None, null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    created_by = models.ForeignKey(User, default=None, null=True, blank=True, related_name='entries_created')
     lead = models.ForeignKey(Lead)
 
     def __str__(self):
@@ -182,6 +185,7 @@ class Entry(models.Model):
 class EntryInformation(models.Model):
     entry = models.ForeignKey(Entry)
     excerpt = models.TextField(blank=True)
+    image = models.TextField(blank=True, default='')
     date = models.DateField(blank=True, default=None, null=True)
     reliability = models.ForeignKey(Reliability)
     severity = models.ForeignKey(Severity)
@@ -194,14 +198,6 @@ class EntryInformation(models.Model):
 
     def __str__(self):
         return self.excerpt
-
-
-class EntryImage(models.Model):
-    information = models.ForeignKey(EntryInformation)
-    image = models.FileField(upload_to='entry_images/')
-
-    def __str__(self):
-        return self.image.url
 
 
 class InformationAttribute(models.Model):

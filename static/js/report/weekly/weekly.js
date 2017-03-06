@@ -39,7 +39,7 @@ function renderEntries(){
 
     for(var i=0; i<entries.length; i++){
         if (!sevenDaysLater &&
-                !filterDate('last-seven-days', new Date(entries[i].modified_at)))
+                !filterDate('last-seven-days', new Date(entries[i].created_at)))
         {
             sevenDaysLater = true;
             if (i != 0) {
@@ -207,7 +207,7 @@ $(document).ready(function(){
         } else {
             $(this).addClass('active');
             addFilter('last-seven-days', false, function(info) {
-                return filterDate('last-seven-days', new Date(info.modified_at));
+                return filterDate('last-seven-days', new Date(info.created_at));
             });
             $(this).text('Show all entries')
         }
@@ -275,6 +275,7 @@ $(document).ready(function(){
         else
             text += 'N/A';
         $(this).val(text);
+        $(this).trigger('change');
     });
 
     autoCalculateScores();
@@ -568,14 +569,14 @@ function getInputData() {
 function checkRules() {
 
     // check for decay
-    $('.human-comment').on('paste change input', function(){
+    $('.human-comment').on('drop paste change input', function(){
         humanitarianProfileDecay.updateHumanComment($(this));
     });
-    $('.human-source').on('paste change input', function(){
+    $('.human-source').on('drop paste change input', function(){
         humanitarianProfileDecay.updateHumanSource($(this));
     });
 
-    $('.human-number').on('paste change input', function(){
+    $('.human-number').on('drop paste change input', function(){
         humanitarianProfileDecay.updateHumanNumber($(this));    // check for decay as well
 
         var errors = "";
@@ -630,61 +631,61 @@ function checkRules() {
             $('#humanitarian-profile-field-error').hide();
     });
 
-    $(".people-total").on('paste change input', function() {
+    $(".people-total").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["total"][$(this).data("people-pk")]);
     });
-    $(".people-at-risk").on('paste change input', function() {
+    $(".people-at-risk").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["at-risk"][$(this).data("people-pk")]);
     });
-    $(".people-moderate").on('paste change input', function() {
+    $(".people-moderate").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["moderate"][$(this).data("people-pk")]);
     });
-    $(".people-severe").on('paste change input', function() {
+    $(".people-severe").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["severe"][$(this).data("people-pk")]);
     });
-    $(".people-planned").on('paste change input', function() {
+    $(".people-planned").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["planned"][$(this).data("people-pk")]);
     });
 
-    $(".people-total-source").on('paste change input', function() {
+    $(".people-total-source").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["total-source"][$(this).data("people-pk")]);
     });
-    $(".people-at-risk-source").on('paste change input', function() {
+    $(".people-at-risk-source").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["at-risk-source"][$(this).data("people-pk")]);
     });
-    $(".people-moderate-source").on('paste change input', function() {
+    $(".people-moderate-source").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["moderate-source"][$(this).data("people-pk")]);
     });
-    $(".people-severe-source").on('paste change input', function() {
+    $(".people-severe-source").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["severe-source"][$(this).data("people-pk")]);
     });
-    $(".people-planned-source").on('paste change input', function() {
+    $(".people-planned-source").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["planned-source"][$(this).data("people-pk")]);
     });
 
-    $(".people-total-comment").on('paste change input', function() {
+    $(".people-total-comment").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["total-comment"][$(this).data("people-pk")]);
     });
-    $(".people-at-risk-comment").on('paste change input', function() {
+    $(".people-at-risk-comment").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["at-risk-comment"][$(this).data("people-pk")]);
     });
-    $(".people-moderate-comment").on('paste change input', function() {
+    $(".people-moderate-comment").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["moderate-comment"][$(this).data("people-pk")]);
     });
-    $(".people-severe-comment").on('paste change input', function() {
+    $(".people-severe-comment").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["severe-comment"][$(this).data("people-pk")]);
     });
-    $(".people-planned-comment").on('paste change input', function() {
+    $(".people-planned-comment").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["planned-comment"][$(this).data("people-pk")]);
     });
 
-    $(".access-pin-number").on('paste change input', function(){
+    $(".access-pin-number").on('drop paste change input', function(){
         humanitarianAccessDecay.update($(this), data['access-pin']['numberDecay'][$(this).data('access-pin-pk')]);
     });
-    $(".access-pin-source").on('paste change input', function(){
+    $(".access-pin-source").on('drop paste change input', function(){
         humanitarianAccessDecay.update($(this), data['access-pin']['sourceDecay'][$(this).data('access-pin-pk')]);
     });
-    $(".access-pin-comment").on('paste change input', function(){
+    $(".access-pin-comment").on('drop paste change input', function(){
         humanitarianAccessDecay.update($(this), data['access-pin']['commentDecay'][$(this).data('access-pin-pk')]);
     });
     $(".access-select").change(function(){

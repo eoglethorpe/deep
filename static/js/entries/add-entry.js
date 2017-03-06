@@ -4,6 +4,7 @@ Data structure
 var excerpts = [
     {
         excerpt: "",
+        image: "",
         attributes: [
             { pillar: pid, subpillar: spid, sector: secid, subsectors: [ssecid,] },
             { pillar: pid, subpillar: spid, sector: secid, subsectors: [ssecid,] },
@@ -187,6 +188,9 @@ function refreshPageOne() {
         else if (excerpt.excerpt.length>100){
             temp = temp.substr(0,72)+"...";
         }
+        else if (excerpt.image.length > 0) {
+            temp = 'Image';
+        }
         else {
             temp= "Add Excerpt";
         }
@@ -200,6 +204,11 @@ function refreshPageOne() {
     if (excerpt) {
         // Update excerpt text
         $("#excerpt-text").val(excerpt.excerpt);
+
+        // Upate excerpt image
+        $('#excerpt-image-container').html(
+            '<div class="image"><img src="' + excerpt.image + '"></div>'
+        );
 
         // Best of bullshit
         if (excerpt.bob) {
@@ -465,7 +474,7 @@ function refreshExcerpts() {
         if (excerpts.length > 0) {
             selectedExcerpt = 0;
         } else {
-            addExcerpt("");
+            addExcerpt('', '');
             return;
         }
     }
@@ -479,12 +488,13 @@ function refreshExcerpts() {
 }
 
 
-function addExcerpt(text) {
+function addExcerpt(text, image) {
     text = reformatText(text);
 
     // Create new excerpt and refresh
     var excerpt = {
         excerpt: text,
+        image: image,
         attributes: [],
         reliability: defaultReliability, severity: defaultSeverity,
         date: defaultDate, number: null,
@@ -495,6 +505,42 @@ function addExcerpt(text) {
     excerpts.push(excerpt);
 
     selectedExcerpt = excerpts.length - 1;
+    refreshExcerpts();
+}
+
+function addOrReplaceExcerpt(text, image) {
+    let index = findExcerpt(text, image);
+    if (index >= 0) {
+        replaceExcerpt(index, text, image);
+    }
+    else if (checkExcerptEmpty(selectedExcerpt)) {
+        replaceExcerpt(selectedExcerpt, text, image);
+    }
+    else {
+        addExcerpt(text, image);
+    }
+}
+
+function checkExcerptEmpty(index) {
+    return (
+        (excerpts[index].excerpt.trim().length == 0) &&
+        (excerpts[index].image.trim().length == 0)
+    );
+}
+
+function findExcerpt(text, image) {
+    for (let i=0; i<excerpts.length; i++) {
+        if (excerpts[i].excerpt == text && excerpts[i].image == image) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+function replaceExcerpt(index, text, image) {
+    excerpts[index].excerpt = text;
+    excerpts[index].image = image;
+    selectedExcerpt = index;
     refreshExcerpts();
 }
 
@@ -549,26 +595,72 @@ function changeLeadPreview(type) {
         simplifiedFrame.css("display", "inherit");
         originalFrame.css("display", "none");
         imagesFrame.css("display", "none");
-        $(".btn-zoom").show();
+        $("#zoom-buttons").show();
+        $('#screenshot-btn').hide();
     }
     else if (type == 'original') {
         simplifiedFrame.css("display", "none");
         originalFrame.css("display", "inherit");
         imagesFrame.css("display", "none");
         selectedTags = {};
-        $(".btn-zoom").hide();
+        $("#zoom-buttons").hide();
+        $('#screenshot-btn').show();
+
     }
     else if (type == 'images') {
         simplifiedFrame.css("display", "none");
         originalFrame.css("display", "none");
         imagesFrame.css("display", "inherit");
-        $(".btn-zoom").show();
+        $("#zoom-buttons").show();
+        $('#screenshot-btn').hide();
     }
+}
+
+function getScreenshot(){
+    let extensionId = 'ggplhkhciodfdkkonmhgniaopboeoopi';
+    chrome.runtime.sendMessage(extensionId, { msg: 'screenshot' }, function(response){
+        if(response && response.image){
+            let img = new Image();
+            img.onload = function(){
+                $('#image-cropper-canvas-container').show();
+                let imageCropper = new ImageCropper('image-cropper-canvas', this, {x: 0, y: 104, w: $('#image-cropper-canvas').innerWidth()-12, h: $('#image-cropper-canvas').innerHeight()-12});
+                imageCropper.start();
+                $('#screenshot-cancel-btn').one('click', function(){
+                    imageCropper.stop();
+                    $('#image-cropper-canvas-container').hide();
+                });
+                $('#screenshot-done-btn').one('click', function(){
+                    // let img = $('<img>');
+                    // img.attr('src', imageCropper.getCroppedImage());
+                    // let imgContainer = $('<div class="image"></div>');
+                    // img.appendTo(imgContainer);
+                    // imgContainer.appendTo($('#excerpt-image-container'));
+                    addOrReplaceExcerpt('', imageCropper.getCroppedImage());
+                    imageCropper.stop();
+                    $('#image-cropper-canvas-container').hide();
+                });
+            }
+            img.src = response.image;
+        }
+    });
+}
+
+function resizeCanvas(){
+    $('#image-cropper-canvas-container').width(function(){
+        return $(this).parent().innerWidth();
+    });
+    $('#image-cropper-canvas-container').height($(window).height()-50);
 }
 
 $(document).ready(function(){
     mapModal = new Modal('#map-modal', true);
     affectedGroupsModal = new Modal('#affected-groups-modal');
+
+    $('#screenshot-btn').click(function(){
+        getScreenshot();
+    })
+
+    resizeCanvas();
 
     // subsector dropdown menu
     $('#entries').on('click','.dropdown', function(){
@@ -595,6 +687,12 @@ $(document).ready(function(){
     google.charts.setOnLoadCallback(drawChart);
 
     var image_height;
+    $('#lead-images-preview').on('click','.image',function(){
+        var source = $(this).find('.media-image').attr('src');
+        $('.image-viewer img').attr('src',source);
+        $('.image-viewer').show();
+        image_height=$("#lead-images-preview .image-viewer img").height();
+    });
     $('#lead-images-preview').on('click','.image',function(){
         var source = $(this).find('.media-image').attr('src');
         $('.image-viewer img').attr('src',source);
@@ -630,8 +728,8 @@ $(document).ready(function(){
     $('.split-pane').splitPane();
     $('.split-pane').on('splitpaneresize',function(){
         var width = $('#left-component').width();
-        console.log(width);
         $('.image-viewer').width(width);
+        resizeCanvas();
     });
 
     // Change lead preview
@@ -744,10 +842,15 @@ $(document).ready(function(){
 
     // Drag drop
     var dropEvent = function(e) {
-        var text = e.originalEvent.dataTransfer.getData('Text');
-        if (excerpts[selectedExcerpt].excerpt.trim().length == 0 || excerpts[selectedExcerpt].excerpt == text)
-            excerpts = [];
-        addExcerpt(e.originalEvent.dataTransfer.getData('Text'));
+        let html = e.originalEvent.dataTransfer.getData('text/html');
+        let text = e.originalEvent.dataTransfer.getData('Text');
+        let image = '';
+        if ($(html).is('img')) {
+            image = text;
+            text = '';
+        }
+
+        addOrReplaceExcerpt(text, image);
 
         $(this).click();
         refreshExcerpts();
@@ -816,7 +919,7 @@ $(document).ready(function(){
 
     // Add, remove and refresh excerpts
     $("#add-excerpt").click(function() {
-        addExcerpt("");
+        addExcerpt('', '');
     });
     $("#delete-excerpt").click(function() {
         deleteExcerpt();

@@ -17,6 +17,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <script type="text/javascript" src="{% watchful_static_url 'js/common/highlighter.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/add-entry.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entries/image-cropper.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/add-entry-map.js' %}"></script>
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
@@ -95,6 +96,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     {% if entry %}{% for excerpt in entry.entryinformation_set.all %}
         {
             excerpt: "{{excerpt.excerpt|escapejs}}",
+            image: '{{excerpt.image|escapejs}}',
             attributes: [
                 {% for attr in excerpt.informationattribute_set.all %}
                 {
@@ -155,6 +157,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     <button class="btn-zoom" id="zoom-out" data-toggle="tooltip" title="zoom out"><i class="fa fa-search-minus"></i></button>
                     <button class="btn-zoom" id="zoom-in" data-toggle="tooltip" title="zoom in"><i class="fa fa-search-plus"></i></button>
                 </div>
+                <button id="screenshot-btn" hidden>Screenshot</button>
             </div>
             {% endif %}
 
@@ -192,6 +195,13 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         </div>
                         {% endfor %}
                     </div>
+                </div>
+                <div id="image-cropper-canvas-container" hidden>
+                    <div id="screenshot-actions">
+                        <button id="screenshot-cancel-btn"><i class="fa fa-times"></i>Cancel</button>
+                        <button id="screenshot-done-btn"><i class="fa fa-check"></i>Done</button>
+                    </div>
+                    <canvas id="image-cropper-canvas" ></canvas>
                 </div>
             </div>
         </div>

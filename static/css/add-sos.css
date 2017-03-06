@@ -99,8 +99,6 @@ body > nav {
     flex-grow: 0; }
     body > nav #deep-logo-container img {
       width: 100%; }
-  body > nav #report-link-wrapper {
-    flex-basis: 10%; }
   body > nav #crisis-select-container {
     flex-basis: 28%; }
     body > nav #crisis-select-container .selectize-control.single .selectize-input, body > nav #crisis-select-container .selectize-control.single.single, body > nav #crisis-select-container .selectize-control.single .selectize-input.input-active {
@@ -127,7 +125,7 @@ body > nav {
   body > nav #main-menu {
     flex-basis: 32%; }
   body > nav #extra-menu {
-    flex-basis: calc(20% - 96px);
+    flex-basis: calc(15% - 96px);
     display: flex;
     justify-content: space-between; }
     body > nav #extra-menu #chrome-extension-download-link {

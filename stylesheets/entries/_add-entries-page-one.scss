@@ -34,7 +34,6 @@
                         input{
                             display: none;
                         }
-
                         &.active{
                             color: $primary-color;
                             border-bottom: 3px solid $primary-color;
@@ -57,6 +56,10 @@
                         font-size: $text-size-xl;
                     }
                 }
+                #screenshot-btn{
+                    flex-basis: 40%;
+                    align-self: stretch;
+                }
             }
             #lead-preview-container{
                 position: relative;
@@ -64,7 +67,6 @@
                 #lead-preview{
                     height: calc(100vh - #{$navbar-height} - #{$lead-options-container-height});
                 }
-
                 iframe{
                     border: none;
                     width: 100%;
@@ -85,16 +87,10 @@
                     i {
                             color: rgba(0, 0, 0,0.4);
                     }
-                    &:hover{
+                    &:hover, &:focus{
                         i {
                             color: #cc6600;
                         }
-                    }
-                    &:focus{
-                        i {
-                            color: #cc6600;
-                        }
-
                     }
                 }
                 #process-button{
@@ -188,6 +184,37 @@
                         }
                     }
                 }
+                #image-cropper-canvas-container{
+                    position: fixed;
+                    left: 0;
+                    top: $navbar-height;
+                    background-color: rgba(0, 0, 0, 0.5);
+
+                    #screenshot-actions{
+                        height: $lead-options-container-height;
+                        display: flex;
+                        justify-content: flex-end;
+                        align-items: stretch;
+                        background-color: #fff;
+
+                        button{
+                            flex-basis: 24%;
+
+                            .fa{
+                                margin-right: 10px;
+                            }
+                            &#screenshot-done-btn .fa{ color: $success-color; }
+                            &#screenshot-cancel-btn .fa{ color: $danger-color; }
+                        }
+
+                    }
+                    canvas{
+                        width: 100%;
+                        padding: 0 12px 12px 0;
+                        height: calc(100% - #{$lead-options-container-height} - 12px);
+                        cursor: crosshair;
+                    }
+                }
             }
         }
         #divider{
@@ -205,18 +232,21 @@
                 justify-content: space-between;
 
                 #excerpt-controls{
-                    flex-basis: 50%;
+                    flex-basis: 44%;
                     display: flex;
 
                     .action-buttons{
+                        flex-basis: 20%;
                         color: #fff;
                         #add-excerpt{ background-color: $info-color; }
                         #delete-excerpt{ background-color: $danger-color; }
-
+                    }
+                    #select-excerpt{
+                        width: 80%;
                     }
                 }
                 .page-controls{
-                    flex-basis: 50%;
+                    flex-basis: 56%;
                     display: flex;
                     justify-content: flex-end;
 
@@ -262,7 +292,7 @@
                 padding: 16px;
 
                 #excerpt-text-container{
-                    flex-basis: 60%;
+                    flex-basis: 78%;
                     position: relative;
 
                     textarea{
@@ -281,8 +311,8 @@
                     }
                 }
                 #excerpt-image-wrapper{
-                    width: 38%;
-                    flex: none;
+                    width: 20%;
+                    //flex: none;
 
                     #excerpt-image-container{
                         background-color: #fff;
@@ -294,11 +324,12 @@
 
                         .image{
                             text-align: center;
-                            padding: 2px 8px;
                             cursor: pointer;
+                            height: 100%;
+                            overflow: hidden;
 
                             img{
-                                max-height: 48px;
+                                height: 100%;
                                 width: auto;
                             }
                         }
@@ -403,52 +434,3 @@
         height: 96px;
     }
 }
-
-// #multimedia-pane{
-//     position: fixed;
-//     left: 0;
-//     bottom: -236px;
-//     width: inherit;
-//     background-color: #1d1f21;
-//     transform: translateZ(0);
-//     min-height: 284px;
-//     text-align: right;
-//     color: #fff;
-//     transition: 0.2s all ease-in-out;
-//
-//     #expand-pane{
-//         color: #fff;
-//         cursor: pointer;
-//         padding: 10px 16px;
-//         transition: 0.2s all ease-in-out;
-//     }
-//     #multimedia-container{
-//         display: flex;
-//         overflow-x: auto;
-//         flex-wrap: nowrap;
-//         flex-direction: row;
-//         justify-content: space-between;
-//
-//         .multimedia{
-//             text-align: center;
-//             padding: 2px 8px;
-//             cursor: pointer;
-//
-//             img{
-//                 max-height: 180px;
-//                 width: auto;
-//             }
-//             label{
-//                 height: 36px;
-//                 vertical-align: sub;
-//             }
-//         }
-//     }
-// }
-// .open{
-//     bottom: 0!important;
-//
-//     #expand-pane{
-//         transform: rotate(180deg);
-//     }
-// }
