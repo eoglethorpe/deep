@@ -63,9 +63,7 @@
     </div>
 
     <!-- Report -->
-    <div id=report-link-container>
-        <a class="{% if current_page == 'report' %}active{% endif %} menu-item" href="{% url 'report:dashboard' %}{% if event %}?event={{event.pk}}&country={{event.countries.all.0.code}}{% endif %}">Report</a>
-    </div>
+
 
     <!-- Event selector -->
     <div id="crisis-select-container">
@@ -91,7 +89,8 @@
         {% if event %}
         <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' event=event.pk %}">Leads</a>
         <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' event=event.pk %}">Entries</a>
-        <a class="{% if current_page == 'sos' %}active{% endif %} menu-item" href="{% url 'leads:sos' event=event.pk %}">Survey of surveys</a>
+        <a class="{% if current_page == 'sos' %}active{% endif %} menu-item" href="{% url 'leads:sos' event=event.pk %}">Assessment Registry</a>
+        <a class="{% if current_page == 'report' %}active{% endif %} menu-item" href="{% url 'report:dashboard' %}{% if event %}?event={{event.pk}}&country={{event.countries.all.0.code}}{% endif %}">Weekly Snapshot</a>
         <a class="{% if current_page == 'export' %}active{% endif %} menu-item" href="{% url 'entries:export' event=event.pk %}">Export</a>
         {% endif %}
     </div>

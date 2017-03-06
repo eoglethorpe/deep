@@ -34,7 +34,6 @@
                         input{
                             display: none;
                         }
-
                         &.active{
                             color: $primary-color;
                             border-bottom: 3px solid $primary-color;
@@ -56,6 +55,10 @@
                         color: $label-color;
                         font-size: $text-size-xl;
                     }
+                }
+                #screenshot-btn{
+                    flex-basis: 40%;
+                    align-self: stretch;
                 }
             }
             #lead-preview-container{
@@ -181,11 +184,36 @@
                         }
                     }
                 }
-                #image-cropper-canvas{
+                #image-cropper-canvas-container{
                     position: fixed;
                     left: 0;
-                    top: 50px;
+                    top: $navbar-height;
                     background-color: rgba(0, 0, 0, 0.5);
+
+                    #screenshot-actions{
+                        height: $lead-options-container-height;
+                        display: flex;
+                        justify-content: flex-end;
+                        align-items: stretch;
+                        background-color: #fff;
+
+                        button{
+                            flex-basis: 24%;
+
+                            .fa{
+                                margin-right: 10px;
+                            }
+                            &#screenshot-done-btn .fa{ color: $success-color; }
+                            &#screenshot-cancel-btn .fa{ color: $danger-color; }
+                        }
+
+                    }
+                    canvas{
+                        width: 100%;
+                        padding: 0 12px 12px 0;
+                        height: calc(100% - #{$lead-options-container-height} - 12px);
+                        cursor: crosshair;
+                    }
                 }
             }
         }
@@ -204,18 +232,21 @@
                 justify-content: space-between;
 
                 #excerpt-controls{
-                    flex-basis: 50%;
+                    flex-basis: 44%;
                     display: flex;
 
                     .action-buttons{
+                        flex-basis: 20%;
                         color: #fff;
                         #add-excerpt{ background-color: $info-color; }
                         #delete-excerpt{ background-color: $danger-color; }
-
+                    }
+                    #select-excerpt{
+                        width: 80%;
                     }
                 }
                 .page-controls{
-                    flex-basis: 50%;
+                    flex-basis: 56%;
                     display: flex;
                     justify-content: flex-end;
 
@@ -261,7 +292,7 @@
                 padding: 16px;
 
                 #excerpt-text-container{
-                    flex-basis: 60%;
+                    flex-basis: 78%;
                     position: relative;
 
                     textarea{
@@ -280,8 +311,8 @@
                     }
                 }
                 #excerpt-image-wrapper{
-                    width: 38%;
-                    flex: none;
+                    width: 20%;
+                    //flex: none;
 
                     #excerpt-image-container{
                         background-color: #fff;
@@ -293,11 +324,12 @@
 
                         .image{
                             text-align: center;
-                            padding: 2px 8px;
                             cursor: pointer;
+                            height: 100%;
+                            overflow: hidden;
 
                             img{
-                                max-height: 48px;
+                                height: 100%;
                                 width: auto;
                             }
                         }
