@@ -98,10 +98,13 @@ class HtmlStripper:
         images = []
 
         for img in html_body.reverse_tags(html_body.html, 'img'):
-            fp = tempfile.NamedTemporaryFile(dir=settings.BASE_DIR)
-            r = requests.get(img.get('src'), stream=True)
-            write_file(r, fp)
-            images.append(fp)
+            try:
+                fp = tempfile.NamedTemporaryFile(dir=settings.BASE_DIR)
+                r = requests.get(img.get('src'), stream=True)
+                write_file(r, fp)
+                images.append(fp)
+            except:
+                pass
 
         html = "<h1>" + title + "</h1>" + summary
 
