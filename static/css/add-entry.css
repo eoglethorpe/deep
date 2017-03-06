@@ -124,7 +124,7 @@ body > nav {
     body > nav #crisis-select-container a {
       vertical-align: middle; }
   body > nav #main-menu {
-    flex-basis: 32%; }
+    flex-basis: 40%; }
   body > nav #extra-menu {
     flex-basis: calc(15% - 96px);
     display: flex;
@@ -167,6 +167,50 @@ body > nav {
 
 body {
   height: 100vh; }
+  body #page-one .image-viewer-main {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 101;
+    background-color: rgba(0, 0, 0, 0.96); }
+    body #page-one .image-viewer-main .viewer-close-btn-main {
+      position: absolute;
+      right: 12px;
+      top: 0;
+      height: 48px;
+      width: 48px;
+      background-color: rgba(0, 0, 0, 0.9);
+      color: #fff;
+      cursor: pointer;
+      float: right;
+      text-align: center; }
+      body #page-one .image-viewer-main .viewer-close-btn-main .fa {
+        margin-top: 12px; }
+    body #page-one .image-viewer-main .image-align-wrapper {
+      display: flex;
+      align-items: center;
+      height: calc(100% - 96px);
+      width: calc(100% - 96px);
+      overflow-x: auto;
+      margin: auto;
+      overflow-y: auto; }
+      body #page-one .image-viewer-main .image-align-wrapper .image-wrapper {
+        flex: none;
+        margin: auto;
+        height: inherit;
+        width: inherit; }
+        body #page-one .image-viewer-main .image-align-wrapper .image-wrapper img {
+          height: 100%;
+          width: 100%;
+          object-fit: contain;
+          object-position: center; }
+    body #page-one .image-viewer-main ::-webkit-scrollbar-track {
+      background-color: #f0f0f0;
+      border: 1px solid rgba(0, 0, 0, 0.1); }
+    body #page-one .image-viewer-main ::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.3); }
   body #page-one .split-pane {
     height: calc(100vh - 56px); }
     body #page-one .split-pane #left-component {
@@ -233,9 +277,7 @@ body {
           box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
         body #page-one .split-pane #left-component #lead-preview-container #pending-button i {
           color: rgba(0, 0, 0, 0.4); }
-        body #page-one .split-pane #left-component #lead-preview-container #pending-button:hover i {
-          color: #cc6600; }
-        body #page-one .split-pane #left-component #lead-preview-container #pending-button:focus i {
+        body #page-one .split-pane #left-component #lead-preview-container #pending-button:hover i, body #page-one .split-pane #left-component #lead-preview-container #pending-button:focus i {
           color: #cc6600; }
         body #page-one .split-pane #left-component #lead-preview-container #process-button i {
           color: #009900; }
@@ -281,8 +323,8 @@ body {
                 flex: none;
                 margin: auto; }
                 body #page-one .split-pane #left-component #lead-preview-container #lead-images-preview .image-viewer .image-align-wrapper .image-wrapper img {
-                  height: calc(100vh - 56px - 48px - 64px);
-                  width: auto; }
+                  height: auto;
+                  width: calc(33vw - 16px); }
             body #page-one .split-pane #left-component #lead-preview-container #lead-images-preview .image-viewer ::-webkit-scrollbar-track {
               background-color: #f0f0f0;
               border: 1px solid rgba(0, 0, 0, 0.1); }

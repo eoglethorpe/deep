@@ -210,6 +210,14 @@ function refreshPageOne() {
             '<div class="image"><img src="' + excerpt.image + '"></div>'
         );
 
+        if (excerpt.image.length != 0 && excerpt.excerpt.length == 0) {
+            $("#excerpt-text").attr('disabled', true);
+            $('#excerpt-image-container').attr('disabled', false);
+        } else if (excerpt.image.length == 0 && excerpt.excerpt.length != 0){
+            $("#excerpt-text").attr('disabled', false);
+            $('#excerpt-image-container').attr('disabled', true);
+        }
+
         // Best of bullshit
         if (excerpt.bob) {
             $('#best-of-bullshits').addClass('active');
@@ -691,17 +699,21 @@ $(document).ready(function(){
         var source = $(this).find('.media-image').attr('src');
         $('.image-viewer img').attr('src',source);
         $('.image-viewer').show();
-        image_height=$("#lead-images-preview .image-viewer img").height();
+        image_width=$("#lead-images-preview .image-viewer img").width();
     });
-    $('#lead-images-preview').on('click','.image',function(){
-        var source = $(this).find('.media-image').attr('src');
-        $('.image-viewer img').attr('src',source);
-        $('.image-viewer').show();
-        image_height=$("#lead-images-preview .image-viewer img").height();
-    });
-    $('.viewer-close-btn').click(function(){
-        $("#lead-images-preview .image-viewer img").height(image_height);
+    $('#lead-images-preview .viewer-close-btn').click(function(){
+        $("#lead-images-preview .image-viewer img").width(image_width);
         $('.image-viewer').hide();
+    });
+
+    //Image Viewer Main
+    $('#excerpt-image-container').on('click','.image',function(){
+        var source = $(this).find('img').attr('src');
+        $('.image-viewer-main img').attr('src',source);
+        $('.image-viewer-main').show();
+    });
+    $('.viewer-close-btn-main').click(function(){
+        $('.image-viewer-main').hide();
     });
 
     // Map
@@ -729,6 +741,8 @@ $(document).ready(function(){
     $('.split-pane').on('splitpaneresize',function(){
         var width = $('#left-component').width();
         $('.image-viewer').width(width);
+        width = width-48;
+        $('.image-viewer .image-wrapper img').width(width);
         resizeCanvas();
     });
 
@@ -747,9 +761,9 @@ $(document).ready(function(){
             $("#lead-preview-container").css('font-size',font_size);
         }
         else if (($('input[type="radio"][name=lead-view-option]:checked').val() == 'images') && $('.image-viewer').is(':visible')) {
-            var image_height=$("#lead-images-preview .image-viewer img").height();
-            image_height=parseInt(image_height)*1.1+'px';
-            $("#lead-images-preview .image-viewer img").css('height',image_height);
+            var image_width=$("#lead-images-preview .image-viewer img").width();
+            image_width=parseInt(image_width)*1.1+'px';
+            $("#lead-images-preview .image-viewer img").css('width',image_width);
         }
     });
     $('#zoom-out').click(function(){
@@ -759,9 +773,9 @@ $(document).ready(function(){
             $("#lead-preview-container").css('font-size',font_size);
         }
         else if (($('input[type="radio"][name=lead-view-option]:checked').val() == 'images') && $('.image-viewer').is(':visible')) {
-            var image_height=$("#lead-images-preview .image-viewer img").height();
-            image_height=parseInt(image_height)*0.9+'px';
-            $("#lead-images-preview .image-viewer img").css('height',image_height);
+            var image_width=$("#lead-images-preview .image-viewer img").width();
+            image_width=parseInt(image_width)*0.9+'px';
+            $("#lead-images-preview .image-viewer img").css('width',image_width);
         }
     });
 

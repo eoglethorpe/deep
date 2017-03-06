@@ -1,4 +1,60 @@
 #page-one{
+    .image-viewer-main{
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        left: 0;
+        top: 0;
+        z-index: 101;
+        background-color: rgba(0,0,0,0.96);
+
+        .viewer-close-btn-main{
+            position: absolute;
+            right: 12px;
+            top: 0;
+            height: 48px;
+            width: 48px;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            cursor: pointer;
+            float: right;
+            text-align: center;
+
+            .fa{
+                margin-top: 12px;
+            }
+        }
+        .image-align-wrapper{
+            display: flex;
+            align-items: center;
+            height: calc(100% - 96px);
+            width: calc(100% - 96px);
+            overflow-x: auto;
+            margin: auto;
+            overflow-y: auto;
+
+            .image-wrapper{
+                flex: none;
+                margin: auto;
+                height: inherit;
+                width: inherit;
+
+                img{
+                    height: 100%;
+                    width: 100%;
+                    object-fit: contain;
+                    object-position: center;
+                }
+            }
+        }
+        ::-webkit-scrollbar-track{
+            background-color: #f0f0f0;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+    }
     .split-pane{
         height: calc(100vh - #{$navbar-height});
         $left-component-width: 33vw;
@@ -150,8 +206,8 @@
                                 margin: auto;
 
                                 img{
-                                    height: calc(100vh - #{$navbar-height} - #{$lead-options-container-height} - 64px);
-                                    width: auto;
+                                    height: auto;
+                                    width: calc(#{$left-component-width} - 16px);
                                 }
                             }
                         }

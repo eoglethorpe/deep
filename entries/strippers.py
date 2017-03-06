@@ -20,6 +20,12 @@ import re
 # import unicodedata
 
 
+def write_file(r, fp):
+            for chunk in r.iter_content(chunk_size=1024):
+                if chunk:
+                    fp.write(chunk)
+            return fp
+
 class StripError(Exception):
     def __init__(self, *args, **kwargs):
         super(StripError, self).__init__(*args, **kwargs)
@@ -30,12 +36,6 @@ class WebDocument:
     """
 
     def __init__(self, url):
-
-        def write_file(r, fp):
-            for chunk in r.iter_content(chunk_size=1024):
-                if chunk:
-                    fp.write(chunk)
-            return fp
 
         self.html = None
         self.pdf = None
@@ -92,13 +92,22 @@ class HtmlStripper:
         if not self.doc:
             raise StripError("Not a html document")
 
-        summary = Document(self.doc).summary()
-        title = Document(self.doc).short_title()
+        html_body = Document(self.doc)
+        summary = html_body.summary()
+        title = html_body.short_title()
+        images = []
+
+        for img in html_body.reverse_tags(html_body.html, 'img'):
+            fp = tempfile.NamedTemporaryFile(dir=settings.BASE_DIR)
+            r = requests.get(img.get('src'), stream=True)
+            write_file(r, fp)
+            images.append(fp)
+
         html = "<h1>" + title + "</h1>" + summary
 
         regex = re.compile('\n*', flags=re.IGNORECASE)
         html = regex.sub('', html)
-        return html, None
+        return html, images
 
 
 class PdfStripper:

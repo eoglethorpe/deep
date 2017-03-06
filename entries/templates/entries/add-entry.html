@@ -144,6 +144,14 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 {% block body %}
 {% include 'navbar.html' %}
 <div id="page-one">
+    <div class="image-viewer-main" hidden>
+        <div class="viewer-close-btn-main"><i class="fa fa-times fa-2x"></i></div>
+        <div class="image-align-wrapper">
+            <div class="image-wrapper">
+                <img tabindex="-1"></img><br>
+            </div>
+        </div>
+    </div>
     <div class="split-pane fixed-left">
         <div class="split-pane-component" id="left-component">
             {% if lead_simplified %}
@@ -230,7 +238,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     <a class="fa fa-circle" onclick="reformatCurrentExcerpt();" title="Try reformatting this excerpt"></a>
                 </div>
                 <div id="excerpt-image-wrapper">
-                    <label>Images</label>
+                    <label>Image</label>
                     <div id="excerpt-image-container"></div>
                 </div>
             </div>
