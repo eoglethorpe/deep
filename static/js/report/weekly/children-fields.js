@@ -102,6 +102,7 @@ var childrenFields = {
                 // If last element, move value up to the parent
                 if (data['human-children'][pk].length == 1) {
                     parentDiv.find('.human-number').val(childElement.find('.human-profile-child-number').val());
+                    parentDiv.find('.human-number').attr('readonly', false);
                     parentDiv.find('.human-number').trigger('change');
 
                     parentDiv.find('.human-source').val(childElement.find('.human-profile-child-source').val());
@@ -113,6 +114,7 @@ var childrenFields = {
 
                 childElement.remove();
                 data['human-children'][pk].splice(index, 1);
+                childrenFields.refreshParent(pk);
             }
         }(parentDiv, childElement, pk, index));
 
