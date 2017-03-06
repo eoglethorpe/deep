@@ -209,6 +209,7 @@ class AddEntry(View):
         for excerpt in excerpts:
             information = EntryInformation(entry=entry)
             information.excerpt = excerpt["excerpt"]
+            information.image = excerpt['image']
 
             information.bob = excerpt['bob']
             information.reliability = Reliability.objects.get(pk=int(excerpt["reliability"]))

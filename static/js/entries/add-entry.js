@@ -4,6 +4,7 @@ Data structure
 var excerpts = [
     {
         excerpt: "",
+        image: "",
         attributes: [
             { pillar: pid, subpillar: spid, sector: secid, subsectors: [ssecid,] },
             { pillar: pid, subpillar: spid, sector: secid, subsectors: [ssecid,] },
@@ -187,6 +188,9 @@ function refreshPageOne() {
         else if (excerpt.excerpt.length>100){
             temp = temp.substr(0,72)+"...";
         }
+        else if (excerpt.image.length > 0) {
+            temp = 'Image';
+        }
         else {
             temp= "Add Excerpt";
         }
@@ -200,6 +204,11 @@ function refreshPageOne() {
     if (excerpt) {
         // Update excerpt text
         $("#excerpt-text").val(excerpt.excerpt);
+
+        // Upate excerpt image
+        $('#excerpt-image-container').html(
+            '<div class="image"><img src="' + excerpt.image + '"></div>'
+        );
 
         // Best of bullshit
         if (excerpt.bob) {
@@ -465,7 +474,7 @@ function refreshExcerpts() {
         if (excerpts.length > 0) {
             selectedExcerpt = 0;
         } else {
-            addExcerpt("");
+            addExcerpt('', '');
             return;
         }
     }
@@ -479,12 +488,13 @@ function refreshExcerpts() {
 }
 
 
-function addExcerpt(text) {
+function addExcerpt(text, image) {
     text = reformatText(text);
 
     // Create new excerpt and refresh
     var excerpt = {
         excerpt: text,
+        image: image,
         attributes: [],
         reliability: defaultReliability, severity: defaultSeverity,
         date: defaultDate, number: null,
@@ -495,6 +505,42 @@ function addExcerpt(text) {
     excerpts.push(excerpt);
 
     selectedExcerpt = excerpts.length - 1;
+    refreshExcerpts();
+}
+
+function addOrReplaceExcerpt(text, image) {
+    let index = findExcerpt(text, image);
+    if (index >= 0) {
+        replaceExcerpt(index, text, image);
+    }
+    else if (checkExcerptEmpty(selectedExcerpt)) {
+        replaceExcerpt(selectedExcerpt, text, image);
+    }
+    else {
+        addExcerpt(text, image);
+    }
+}
+
+function checkExcerptEmpty(index) {
+    return (
+        (excerpts[index].excerpt.trim().length == 0) &&
+        (excerpts[index].image.trim().length == 0)
+    );
+}
+
+function findExcerpt(text, image) {
+    for (let i=0; i<excerpts.length; i++) {
+        if (excerpts[i].excerpt == text && excerpts[i].image == image) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+function replaceExcerpt(index, text, image) {
+    excerpts[index].excerpt = text;
+    excerpts[index].image = image;
+    selectedExcerpt = index;
     refreshExcerpts();
 }
 
@@ -571,7 +617,7 @@ function changeLeadPreview(type) {
 }
 
 function getScreenshot(){
-    let extensionId = 'ffgmijphijplhcfmfijfkfngdpgfljkd';
+    let extensionId = 'ggplhkhciodfdkkonmhgniaopboeoopi';
     chrome.runtime.sendMessage(extensionId, { msg: 'screenshot' }, function(response){
         if(response && response.image){
             let img = new Image();
@@ -584,11 +630,12 @@ function getScreenshot(){
                     $('#image-cropper-canvas-container').hide();
                 });
                 $('#screenshot-done-btn').one('click', function(){
-                    let img = $('<img>');
-                    img.attr('src', imageCropper.getCroppedImage());
-                    let imgContainer = $('<div class="image"></div>');
-                    img.appendTo(imgContainer);
-                    imgContainer.appendTo($('#excerpt-image-container'));
+                    // let img = $('<img>');
+                    // img.attr('src', imageCropper.getCroppedImage());
+                    // let imgContainer = $('<div class="image"></div>');
+                    // img.appendTo(imgContainer);
+                    // imgContainer.appendTo($('#excerpt-image-container'));
+                    addOrReplaceExcerpt('', imageCropper.getCroppedImage());
                     imageCropper.stop();
                     $('#image-cropper-canvas-container').hide();
                 });
@@ -801,10 +848,15 @@ $(document).ready(function(){
 
     // Drag drop
     var dropEvent = function(e) {
-        var text = e.originalEvent.dataTransfer.getData('Text');
-        if (excerpts[selectedExcerpt].excerpt.trim().length == 0 || excerpts[selectedExcerpt].excerpt == text)
-            excerpts = [];
-        addExcerpt(e.originalEvent.dataTransfer.getData('Text'));
+        let html = e.originalEvent.dataTransfer.getData('text/html');
+        let text = e.originalEvent.dataTransfer.getData('Text');
+        let image = '';
+        if ($(html).is('img')) {
+            image = text;
+            text = '';
+        }
+
+        addOrReplaceExcerpt(text, image);
 
         $(this).click();
         refreshExcerpts();
@@ -873,7 +925,7 @@ $(document).ready(function(){
 
     // Add, remove and refresh excerpts
     $("#add-excerpt").click(function() {
-        addExcerpt("");
+        addExcerpt('', '');
     });
     $("#delete-excerpt").click(function() {
         deleteExcerpt();

@@ -76,7 +76,7 @@ def get_simplified_lead(lead, context):
                     lead_image.save()
 
     except Exception as e:
-        raise e
+        # raise e
         # print(e)
         # print("Error while simplifying")
         pass

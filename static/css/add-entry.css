@@ -277,9 +277,7 @@ body {
           box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
         body #page-one .split-pane #left-component #lead-preview-container #pending-button i {
           color: rgba(0, 0, 0, 0.4); }
-        body #page-one .split-pane #left-component #lead-preview-container #pending-button:hover i {
-          color: #cc6600; }
-        body #page-one .split-pane #left-component #lead-preview-container #pending-button:focus i {
+        body #page-one .split-pane #left-component #lead-preview-container #pending-button:hover i, body #page-one .split-pane #left-component #lead-preview-container #pending-button:focus i {
           color: #cc6600; }
         body #page-one .split-pane #left-component #lead-preview-container #process-button i {
           color: #009900; }

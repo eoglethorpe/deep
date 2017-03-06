@@ -143,16 +143,10 @@
                     i {
                             color: rgba(0, 0, 0,0.4);
                     }
-                    &:hover{
+                    &:hover, &:focus{
                         i {
                             color: #cc6600;
                         }
-                    }
-                    &:focus{
-                        i {
-                            color: #cc6600;
-                        }
-
                     }
                 }
                 #process-button{
