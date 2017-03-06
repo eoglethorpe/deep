@@ -38,9 +38,6 @@ body{
                 width: 100%;
             }
         }
-        #report-link-wrapper{
-            flex-basis: 10%;
-        }
         #crisis-select-container{
             flex-basis: 28%;
 
@@ -77,7 +74,7 @@ body{
             flex-basis: 32%;
         }
         #extra-menu{
-            flex-basis: calc(20% - #{$deep-logo-width});
+            flex-basis: calc(15% - #{$deep-logo-width});
             display: flex;
             justify-content: space-between;
 
