@@ -210,6 +210,14 @@ function refreshPageOne() {
             '<div class="image"><img src="' + excerpt.image + '"></div>'
         );
 
+        if (excerpt.image.length != 0 && excerpt.excerpt.length == 0) {
+            $("#excerpt-text").attr('disabled', true);
+            $('#excerpt-image-container').attr('disabled', false);
+        } else if (excerpt.image.length == 0 && excerpt.excerpt.length != 0){
+            $("#excerpt-text").attr('disabled', false);
+            $('#excerpt-image-container').attr('disabled', true);
+        }
+
         // Best of bullshit
         if (excerpt.bob) {
             $('#best-of-bullshits').addClass('active');

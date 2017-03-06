@@ -1,5 +1,9 @@
 ## Change log
 
+### v2.0.6
+
+* Fix permissions for screenshots
+
 ### v2.0.5
 
 * Fix the problem in which events sometimes couldn't be selected
