@@ -156,18 +156,16 @@ class AddEntry(View):
         context["affected_groups"] = AffectedGroup.objects.all()
 
         if lead.lead_type == 'URL':
-            if lead.url.endswith('.pdf'):
-                context["format"] = 'pdf'
-            elif lead.url.endswith('.docx'):
-                context["format"] = 'docx'
-            elif lead.url.endswith('.pptx'):
-                context["format"] = 'pptx'
+            context['lead_url'] = lead.url
         elif lead.lead_type == 'ATT':
-            if lead.attachment.upload.url.endswith('.pdf'):
+            context['lead_url'] = request.get_host() + lead.attachment.upload.url
+
+        if context.get('lead_url'):
+            if context['lead_url'].endswith('.pdf'):
                 context["format"] = 'pdf'
-            elif lead.attachment.upload.url.endswith('.docx'):
+            elif context['lead_url'].endswith('.docx'):
                 context["format"] = 'docx'
-            elif lead.attachment.upload.url.endswith('.pptx'):
+            elif context['lead_url'].endswith('.pptx'):
                 context["format"] = 'pptx'
 
         try:
