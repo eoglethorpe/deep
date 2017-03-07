@@ -64,6 +64,9 @@ DEEP | Export
             <form id="export-entries-excel-form" action="{% url 'entries:exportxls' event=event.pk %}">
                 <button type="submit" class=" btn-primary" ><i class="fa fa-file-excel-o"></i>Export</button>
             </form>
+            <form id="export-entries-excel-weekly-form" action="{% url 'entries:exportxls_weekly' event=event.pk %}">
+                <button type="submit" class=" btn-primary" ><i class="fa fa-file-excel-o"></i>Export Weekly(Beta)</button>
+            </form>
         </div>
     </div>
     <div id="sos-export">

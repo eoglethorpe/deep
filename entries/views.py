@@ -15,6 +15,7 @@ from entries.strippers import *
 # from . import export_xls, export_docx, export_fields
 from entries.export_entries_docx import export_docx, export_docx_new_format
 from entries.export_entries_xls import export_xls
+from report.export_xls import export_xls as export_xls_weekly
 from entries.refresh_pcodes import *
 from leads.views import get_simplified_lead
 
@@ -51,6 +52,12 @@ class ExportXls(View):
     @method_decorator(login_required)
     def get(self, request, event):
         return export_xls('DEEP Entries-%s' % time.strftime("%Y-%m-%d"), int(event))
+
+
+class ExportXlsWeekly(View):
+    @method_decorator(login_required)
+    def get(self, request, event):
+        return export_xls_weekly('DEEP Entries-%s' % time.strftime("%Y-%m-%d"))
 
 
 class ExportDocx(View):
