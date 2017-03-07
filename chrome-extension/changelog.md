@@ -1,5 +1,9 @@
 ## Change log
 
+### v2.0.7
+
+* Fix manifest error
+
 ### v2.0.6
 
 * Fix permissions for screenshots

@@ -3,7 +3,7 @@
 
     "name": "DEEP: Add Lead",
     "description": "Submit a lead from current tab to the DEEP",
-    "version": "2.0.6",
+    "version": "2.0.7",
 
     "browser_action": {
         "default_icon": "img/deep-logo.png",
@@ -20,6 +20,6 @@
     "permissions": ["activeTab", "<all_urls>", "storage"],
 
     "externally_connectable": {
-        "matches": ["*"]
+        "matches": ["*://www.thedeep.io/*", "*://*.togglecorp.com/*", "*://localhost:*/*"]
     }
 }
