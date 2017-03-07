@@ -262,13 +262,14 @@ body {
           flex-basis: 40%;
           align-self: stretch; }
       body #page-one .split-pane #left-component #lead-preview-container {
-        position: relative; }
+        position: relative;
+        overflow: hidden; }
         body #page-one .split-pane #left-component #lead-preview-container #lead-preview {
           height: calc(100vh - 56px - 48px); }
         body #page-one .split-pane #left-component #lead-preview-container iframe {
           border: none;
           width: 100%; }
-        body #page-one .split-pane #left-component #lead-preview-container #pending-button, body #page-one .split-pane #left-component #lead-preview-container #process-button {
+        body #page-one .split-pane #left-component #lead-preview-container .lead-status-btn {
           z-index: auto;
           position: absolute;
           bottom: 15px;
@@ -279,6 +280,15 @@ body {
           border: 1px solid #fff;
           background-color: rgba(255, 255, 255, 0.8);
           box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+          body #page-one .split-pane #left-component #lead-preview-container .lead-status-btn.hiding {
+            animation: lead-status-btn-hide-animation 0.6s cubic-bezier(0.47, 0.82, 0.31, -0.63); }
+@keyframes lead-status-btn-hide-animation {
+  from {
+    transform: scale(1);
+    opacity: 1; }
+  to {
+    transform: scale(16);
+    opacity: 0; } }
         body #page-one .split-pane #left-component #lead-preview-container #pending-button i {
           color: rgba(0, 0, 0, 0.4); }
         body #page-one .split-pane #left-component #lead-preview-container #pending-button:hover i, body #page-one .split-pane #left-component #lead-preview-container #pending-button:focus i {
@@ -293,8 +303,7 @@ body {
             word-break: normal;
             white-space: pre-wrap; }
         body #page-one .split-pane #left-component #lead-preview-container #lead-images-preview {
-          position: relative;
-          height: calc(100vh - 56px - 48px); }
+          position: relative; }
           body #page-one .split-pane #left-component #lead-preview-container #lead-images-preview .image-viewer {
             position: absolute;
             width: 33vw;
@@ -341,7 +350,8 @@ body {
             align-items: flex-start;
             padding: 5px 10px;
             overflow-x: none;
-            overflow-y: auto; }
+            overflow-y: auto;
+            height: calc(100vh - 56px - 48px); }
             body #page-one .split-pane #left-component #lead-preview-container #lead-images-preview #lead-images-container .image {
               text-align: center;
               padding: 2px 8px;
