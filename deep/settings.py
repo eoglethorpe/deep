@@ -33,7 +33,7 @@ EMAIL_HOST_USER = 'deepnotifications1@gmail.com'
 EMAIL_HOST_PASSWORD = 'deep1234'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-ADMINS = [()]
+ADMINS = [('Ewan','ewanogle@gmail.com')]
 
 # Application definition
 
