@@ -136,7 +136,7 @@ Dropzone.options.attachmentDropzone = {
         });
 
         var dz = this;
-        this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
+        $("button[type=submit]").on("click", function(e) {
             // if (!confirm("Are you sure you want to save these changes?")) {
             //    e.preventDefault();
             //    e.stopPropagation();
@@ -157,7 +157,11 @@ Dropzone.options.attachmentDropzone = {
 
         // for multiple, successmultiple
         this.on("success", function(files, response) {
-            window.location.href = url; //"{% url 'leads:leads' event=event.pk %}";
+            if (response.url) {
+                window.location.href = response.url;
+            } else {
+                window.location.href = url;
+            }
         });
 
         // for multiple, errormultiple
