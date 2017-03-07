@@ -394,6 +394,8 @@ class AddLead(View):
                 "url": reverse('entries:add', args=[event, lead.pk])
             })
         if "add-entry" in request.POST:
+            if lead.lead_type == Lead.ATTACHMENT_LEAD:
+                return JsonResponse({'url': reverse('entries:add', args=[event, lead.pk])})
             return redirect('entries:add', event, lead.pk)
 
         return redirect("leads:leads", event=event)

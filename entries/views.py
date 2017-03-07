@@ -158,7 +158,7 @@ class AddEntry(View):
         if lead.lead_type == 'URL':
             context['lead_url'] = lead.url
         elif lead.lead_type == 'ATT':
-            context['lead_url'] = request.get_host() + lead.attachment.upload.url
+            context['lead_url'] = request.build_absolute_uri(lead.attachment.upload.url)
 
         if context.get('lead_url'):
             if context['lead_url'].endswith('.pdf'):
