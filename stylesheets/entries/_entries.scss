@@ -72,6 +72,10 @@
                 margin-bottom: 5px;
                 font-size: $text-size-lg;
                 text-transform: none;
+
+                a {
+                    color: #fff;
+                }
             }
             p{
                 margin: 0;
@@ -117,6 +121,11 @@
                 text-align: justify;
                 line-height: 1.5;
                 margin: 0;
+
+                .excerpt-image{
+                    width: 100%;
+                    border: 2px dashed $primary-color;
+                }
             }
             date{ font-family: 'Inconsolata', monospace; font-size: 1.2em; margin-top: 10px; display: inline-block;}
             > div{
@@ -141,7 +150,6 @@
                         @for $i from 0 through 5 { ._#{$i}{ opacity: ($i/5); } }
                         .active{ width: 12px; height: 24px; margin-bottom: -4px; }
                     }
-                    $reliability-base: #1A2386;
                     .reliability{ span{ background-color: $reliability-base; } }
                     .severity{ span{ background-color: $severity-base; } }
                 }

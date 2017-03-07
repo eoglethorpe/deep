@@ -100,7 +100,7 @@ body > nav {
     body > nav #deep-logo-container img {
       width: 100%; }
   body > nav #crisis-select-container {
-    flex-basis: 28%; }
+    flex-basis: 20%; }
     body > nav #crisis-select-container .selectize-control.single .selectize-input, body > nav #crisis-select-container .selectize-control.single.single, body > nav #crisis-select-container .selectize-control.single .selectize-input.input-active {
       background-color: transparent !important; }
     body > nav #crisis-select-container .selectize-input {
@@ -120,12 +120,16 @@ body > nav {
         border-style: solid;
         border-width: 5px 5px 0 5px;
         border-color: #808080 transparent transparent transparent; }
-    body > nav #crisis-select-container a {
-      vertical-align: middle; }
+    body > nav #crisis-select-container #crisis-dropdown-alt {
+      vertical-align: middle;
+      color: #fff;
+      font-size: 12px; }
+      body > nav #crisis-select-container #crisis-dropdown-alt .fa {
+        width: 16px; }
   body > nav #main-menu {
-    flex-basis: 40%; }
+    flex-basis: 50%; }
   body > nav #extra-menu {
-    flex-basis: calc(15% - 96px);
+    flex-basis: calc(20% - 96px);
     display: flex;
     justify-content: space-between; }
     body > nav #extra-menu #chrome-extension-download-link {
@@ -582,6 +586,8 @@ main #entries {
         margin-bottom: 5px;
         font-size: 15px;
         text-transform: none; }
+        main #entries .entry .entry-header h2 a {
+          color: #fff; }
       main #entries .entry .entry-header p {
         margin: 0;
         flex-basis: 100%; }
@@ -624,6 +630,9 @@ main #entries {
       text-align: justify;
       line-height: 1.5;
       margin: 0; }
+      main #entries .information-list .information .excerpt .excerpt-image {
+        width: 100%;
+        border: 2px dashed #008080; }
     main #entries .information-list .information date {
       font-family: 'Inconsolata', monospace;
       font-size: 1.2em;
@@ -660,7 +669,7 @@ main #entries {
         height: 24px;
         margin-bottom: -4px; }
       main #entries .information-list .information > div:nth-child(2) .reliability span {
-        background-color: #1A2386; }
+        background-color: #1a2386; }
       main #entries .information-list .information > div:nth-child(2) .severity span {
         background-color: #c01010; }
     main #entries .information-list .information > div:nth-child(3) {

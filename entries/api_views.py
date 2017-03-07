@@ -14,7 +14,7 @@ class EntryApiView(View):
         return JSON_METHOD_NOT_ALLOWED
 
     def get(self, request):
-        entries = Entry.objects.all()
+        entries = Entry.objects.all().order_by('-created_at')
 
         event = request.GET.get('event')
         if event:
@@ -23,6 +23,13 @@ class EntryApiView(View):
         entry_id = request.GET.get('id')
         if entry_id:
             entries = entries.filter(pk=entry_id)
+
+        index = request.GET.get('index')
+        if index:
+            entries = entries[int(index):]
+        count = request.GET.get('count')
+        if count:
+            entries = entries[:int(count)]
 
         data = []
         for entry in entries:

@@ -2,10 +2,6 @@ from deep.serializer import Serializer
 from entries.models import *
 from leads.models import *
 
-"""
-Needed Extras:
-    Subpillar, Pillar, Sector, Subector
-"""
 
 class PillarSerializer(Serializer):
     fields = {

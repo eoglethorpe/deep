@@ -65,7 +65,7 @@ class PeopleInNeedField(models.Model):
     parent = models.ForeignKey('PeopleInNeedField', default=None, null=True, blank=True)
 
     total_field = models.BooleanField(default=False)
-    dashboard_in_need_field = models.BooleanField(default=False)
+    dashboard_in_need_field = models.BooleanField(default=True)
 
     severity_score_total_pin_field = models.BooleanField(default=False)
 

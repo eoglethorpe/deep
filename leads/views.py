@@ -436,7 +436,7 @@ class DeleteLead(View):
 
         # lead.status = Lead.DELETED
         # lead.save()
-        return redirect('leads:leads', event=event)
+        return redirect('leads:leads', event=event.pk)
 
 
 class ExportSosXls(View):

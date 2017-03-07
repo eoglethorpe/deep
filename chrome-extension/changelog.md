@@ -1,5 +1,13 @@
 ## Change log
 
+### v2.0.8
+
+* Fix readability issue for extracting title
+
+### v2.0.7
+
+* Fix manifest error
+
 ### v2.0.6
 
 * Fix permissions for screenshots

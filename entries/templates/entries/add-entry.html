@@ -154,12 +154,15 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     </div>
     <div class="split-pane fixed-left">
         <div class="split-pane-component" id="left-component">
-            {% if lead_simplified %}
             <div id="lead-options-container">
                 <div id="lead-view-options"{% if lead.lead_type == 'MAN' %}hidden{% endif %}>
+                    {% if lead_simplified %}
                     <label class="active"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
                     <label><input type="radio" name="lead-view-option" value="original">Original</label>
                     <label><input type="radio" name="lead-view-option" value="images">Images</label>
+                    {% else %}
+                    <label class="active"><input type="radio" name="lead-view-option" value="original" checked>Original</label>
+                    {% endif %}
                 </div>
                 <div id="zoom-buttons">
                     <button class="btn-zoom" id="zoom-out" data-toggle="tooltip" title="zoom out"><i class="fa fa-search-minus"></i></button>
@@ -167,24 +170,17 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 </div>
                 <button id="screenshot-btn" hidden>Screenshot</button>
             </div>
-            {% endif %}
 
             <div id="lead-preview-container">
-                {% if format == 'pdf' or format == 'docx' or format == 'pptx' %}
-                    {% if lead.lead_type == 'URL' %}
-                    <iframe id="lead-preview" src="https://docs.google.com/viewer?url={{ lead.url|urlencode }}&embedded=true&chrome=false&dov=1"></iframe>
-                    {% elif lead.lead_type == 'ATT' %}
-                    <iframe id="lead-preview" src="https://docs.google.com/viewer?url={{ request.get_host|urlencode }}{{ lead.attachment.upload.url|urlencode }}&embedded=true&chrome=false&dov=1"></iframe>
-                    {% endif %}
+                {% if format == 'pdf' %}
+                    <iframe id="lead-preview" src="{{ lead_url }}"></iframe>
+                {% elif format == 'docx' or format == 'pptx' %}
+                    <iframe id="lead-preview" src="https://docs.google.com/viewer?url={{ lead_url|urlencode }}&embedded=true&chrome=false&dov=1"></iframe>
                 {% else %}
-                    {% if lead.lead_type == 'URL' %}
-                    <iframe sandbox="allow-scripts allow-same-origin" id="lead-preview" src="{{ lead.url }}"></iframe>
-                    {% elif lead.lead_type == 'ATT' %}
-                    <iframe id="lead-preview" src="{{ lead.attachment.upload.url }}"></iframe>
-                    {% endif %}
+                    <iframe sandbox="allow-scripts allow-same-origin" id="lead-preview" src="{{ lead_url }}"></iframe>
                 {% endif %}
-                <button id="process-button" class="btn" title="Processed. Click to mark pending" {% if lead.status != 'PRO' %}hidden{% endif %}><i class="fa fa-check fa-md"></i></button>
-                <button id="pending-button" class="btn" title="Click to mark Processed" {% if lead.status == 'PRO' %}hidden{% endif %}><i class="fa fa-exclamation-triangle fa-md"></i></button>
+                <button id="process-button" class="lead-status-btn" title="Processed. Click to mark pending" {% if lead.status != 'PRO' %}hidden{% endif %}><i class="fa fa-check fa-md"></i></button>
+                <button id="pending-button" class="lead-status-btn" title="Click to mark Processed" {% if lead.status == 'PRO' %}hidden{% endif %}><i class="fa fa-exclamation-triangle fa-md"></i></button>
                 <div id="lead-simplified-preview">
                 </div>
                 <div id="lead-images-preview">

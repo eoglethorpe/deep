@@ -20,6 +20,13 @@ class CountryApiView(View):
         if code:
             countries = countries.filter(code=code)
 
+        index = request.GET.get('index')
+        if index:
+            countries = countries[int(index):]
+        count = request.GET.get('count')
+        if count:
+            countries = countries[:int(count)]
+
         data = []
         for country in countries:
             data.append(CountrySerializer(country).serialize())
@@ -38,6 +45,13 @@ class EventApiView(View):
         event_id = request.GET.get('id')
         if event_id:
             events = events.filter(pk=event_id)
+
+        index = request.GET.get('index')
+        if index:
+            events = events[int(index):]
+        count = request.GET.get('count')
+        if count:
+            events = events[:int(count)]
 
         data = []
         for event in events:
@@ -62,6 +76,13 @@ class LeadApiView(View):
         if lead_id:
             leads = leads.filter(pk=lead_id)
 
+        index = request.GET.get('index')
+        if index:
+            leads = leads[int(index):]
+        count = request.GET.get('count')
+        if count:
+            leads = leads[:int(count)]
+
         data = []
         for lead in leads:
             data.append(LeadSerializer(lead).serialize())
@@ -85,6 +106,13 @@ class SosApiView(View):
         sos_id = request.GET.get('id')
         if sos_id:
             soses = soses.filter(pk=sos_id)
+
+        index = request.GET.get('index')
+        if index:
+            soses = soses[int(index):]
+        count = request.GET.get('count')
+        if count:
+            soses = soses[:int(count)]
 
         data = []
         for sos in soses:

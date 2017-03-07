@@ -82,8 +82,6 @@ $(document).ready(function(){
     addTodayButtons();
 });
 
-
-
 function formatDate(date) {
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
@@ -139,7 +137,6 @@ function searchAndHighlight(content, searchString) {
     }
     return text;
 }
-
 
 // get cookie
 function getCookie(name) {
