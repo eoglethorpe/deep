@@ -40,6 +40,8 @@ $(document).ready(function(){
 
 
 // Needed by entries filter module
-function renderEntries() {
-    $('#export-entries-doc-form button').attr('disabled', false);
+function renderEntries(completed) {
+    if (completed) {
+        $('#export-entries-doc-form button').attr('disabled', false);
+    }
 }

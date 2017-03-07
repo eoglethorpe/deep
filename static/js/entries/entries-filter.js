@@ -52,11 +52,12 @@ function readEntries() {
         $.getJSON("/api/v2/entries/?event="+eventId+'&index='+index+'&count='+count, function(data){
             loadEntriesData(data);
             filterEntries();
-            renderEntries();
+            renderEntries(false);
 
-            console.log(data.data.length);
             if (data.data.length >= 5) {
                 updateEntries(index+count, count);
+            } else {
+                renderEntries(true);
             }
         });
     };
