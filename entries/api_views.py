@@ -24,6 +24,13 @@ class EntryApiView(View):
         if entry_id:
             entries = entries.filter(pk=entry_id)
 
+        index = request.GET.get('index')
+        if index:
+            entries = entries[int(index):]
+        count = request.GET.get('count')
+        if count:
+            entries = entries[:int(count)]
+
         data = []
         for entry in entries:
             data.append(EntrySerializer(entry).serialize())

@@ -53,5 +53,6 @@ urlpatterns = [
     url(r'^api/v1/', include(router.urls)),
     url(r'^api/v2/', include('entries.api_urls', namespace='api')),
     url(r'^api/v2/', include('leads.api_urls', namespace='api')),
+    url(r'^api/v2/', include('report.api_urls', namespace='api')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
