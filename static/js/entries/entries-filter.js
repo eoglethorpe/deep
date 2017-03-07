@@ -24,6 +24,46 @@ var activeSeverities  = [];
 var searchFilterText = "";
 var leadTitleFilterText = "";
 
+
+function loadEntriesData(data) {
+    data = data.data;
+
+    // TODO only append entries whose pk are not present
+    originalEntries = originalEntries.concat(data);
+    originalEntries.sort(function(e1, e2) {
+        return new Date(e2.created_at) - new Date(e1.created_at);
+    });
+
+    // Get areas options
+    for (var i=0; i<data.length; ++i) {
+        for (var j=0; j<data[i].informations.length; ++j) {
+            var info = data[i].informations[j];
+            info.entryIndex = i;
+            for (var k=0; k<info.map_selections.length; ++k) {
+                var ms = info.map_selections[k];
+                areasSelectize[0].selectize.addOption({value:ms.name, text:ms.name});
+            }
+        }
+    }
+}
+
+function readEntries() {
+    function updateEntries(index, count) {
+        $.getJSON("/api/v2/entries/?event="+eventId+'&index='+index+'&count='+count, function(data){
+            loadEntriesData(data);
+            filterEntries();
+            renderEntries();
+
+            console.log(data.data.length);
+            if (data.data.length >= 5) {
+                updateEntries(index+count, count);
+            }
+        });
+    };
+
+    updateEntries(0, 5);
+}
+
 function clearFilters() {
     filters = {};
     $('input').val('');
@@ -105,29 +145,7 @@ function initEntryFilters() {
     selectizes.push($('#severities-min-filter').selectize({plugins: ['remove_button']}));
     selectizes.push($('#severities-max-filter').selectize({plugins: ['remove_button']}));
 
-    $.getJSON("/api/v2/entries/?event="+eventId, function(data){
-        data = data.data;
-        data.sort(function(e1, e2) {
-            return new Date(e2.created_at) - new Date(e1.created_at);
-        });
-        originalEntries = data;
-        entries = data;
-        entriesTimeline = data;
-
-        // Get areas options
-        for (var i=0; i<entries.length; ++i) {
-            for (var j=0; j<entries[i].informations.length; ++j) {
-                var info = entries[i].informations[j];
-                info.entryIndex = i;
-                for (var k=0; k<info.map_selections.length; ++k) {
-                    var ms = info.map_selections[k];
-                    areasSelectize[0].selectize.addOption({value:ms.name, text:ms.name});
-                }
-            }
-        }
-
-        renderEntries();
-    });
+    readEntries();
 
     // Filters
 
