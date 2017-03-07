@@ -263,6 +263,9 @@ body > nav {
           box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
         #main #export-entries #export-entries-doc button i {
           margin-right: 8px; }
+        #main #export-entries #export-entries-doc button:disabled {
+          background-color: rgba(0, 0, 0, 0.4);
+          cursor: inherit; }
     #main #export-entries #export-entries-excel {
       flex-basis: 25%;
       padding: 16px;
