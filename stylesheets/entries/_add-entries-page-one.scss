@@ -119,6 +119,7 @@
             }
             #lead-preview-container{
                 position: relative;
+                overflow:   hidden;
 
                 #lead-preview{
                     height: calc(100vh - #{$navbar-height} - #{$lead-options-container-height});
@@ -127,7 +128,7 @@
                     border: none;
                     width: 100%;
                 }
-                #pending-button, #process-button{
+                .lead-status-btn{
                     z-index: auto;
                     position: absolute;
                     bottom: 15px;
@@ -138,10 +139,18 @@
                     border: 1px solid #fff;
                     background-color: rgba(256, 256, 256,0.8);
                     @include shadow;
+
+                    &.hiding{
+                        animation: lead-status-btn-hide-animation 0.6s cubic-bezier(.47,.82,.31,-0.63);
+                    }
+                    @keyframes lead-status-btn-hide-animation {
+                        from{ transform: scale(1); opacity: 1 }
+                        to{ transform: scale(16); opacity: 0}
+                    }
                 }
                 #pending-button {
                     i {
-                            color: rgba(0, 0, 0,0.4);
+                        color: rgba(0, 0, 0,0.4);
                     }
                     &:hover, &:focus{
                         i {
@@ -166,7 +175,6 @@
                 }
                 #lead-images-preview{
                     position: relative;
-                    height: calc(100vh - #{$navbar-height} - #{$lead-options-container-height});
 
                     .image-viewer{
                         position: absolute;
@@ -227,6 +235,7 @@
                         padding: 5px 10px;
                         overflow-x: none;
                         overflow-y: auto;
+                        height: calc(100vh - #{$navbar-height} - #{$lead-options-container-height});
 
                         .image{
                             text-align: center;

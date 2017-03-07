@@ -706,9 +706,34 @@ $(document).ready(function(){
     google.charts.load('current', {packages:["orgchart"]});
     google.charts.setOnLoadCallback(drawChart);
 
+    //Processed after scroll hits bottom
+    let leadSimplifiedPageScrollDeltaY = 0;
+    let leadSimplifiedPageLastScrollY = -1;
+    $('#lead-simplified-preview').on('scroll', function() {
+        if(leadSimplifiedPageLastScrollY != -1){
+            leadSimplifiedPageScrollDeltaY = $(this).scrollTop() - leadSimplifiedPageLastScrollY;
+        }
+        leadSimplifiedPageLastScrollY = $(this).scrollTop();
+
+        if($('#lead-simplified-preview').scrollTop() + $('#lead-simplified-preview').height() > $('#lead-simplified-preview pre').height()) {
+
+            if($('#pending-button').is(':visible') && leadSimplifiedPageScrollDeltaY > 0){
+                $.post(markProcessedUrl, {
+                    id: leadId,
+                    status: 'PRO',
+                }).done(function() {
+                    $('#pending-button').click();
+                    // $('#pending-button').hide();
+                    // $('#process-button').show();
+                    $('#lead-simplified-preview').off('scroll');
+                });
+            }
+        }
+    });
+
     var image_height;
     $('#lead-images-preview').on('click','.image',function(){
-        var source = $(this).find('.media-image').attr('src');
+        var source = $(this).find('img').attr('src');
         $('.image-viewer img').attr('src',source);
         $('.image-viewer').show();
         image_width=$("#lead-images-preview .image-viewer img").width();
@@ -1065,8 +1090,12 @@ $(document).ready(function(){
             id: leadId,
             status: 'PRO',
         }).done(function() {
-            $('#pending-button').hide();
-            $('#process-button').show();
+            $('#pending-button').addClass('hiding');
+            setTimeout(function(){
+                $('#pending-button').hide();
+                $('#process-button').show();
+                $('#pending-button').removeClass('hiding');
+            }, 600);
         });
     });
     $('#process-button').click(function() {
@@ -1074,8 +1103,13 @@ $(document).ready(function(){
             id: leadId,
             status: 'PEN',
         }).done(function() {
-            $('#pending-button').show();
-            $('#process-button').hide();
+            // $('#process-button').hide();
+            $('#process-button').addClass('hiding');
+            setTimeout(function(){
+                $('#process-button').hide();
+                $('#pending-button').show();
+                $('#process-button').removeClass('hiding');
+            }, 600);
         });
     });
 

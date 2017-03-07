@@ -179,8 +179,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 {% else %}
                     <iframe sandbox="allow-scripts allow-same-origin" id="lead-preview" src="{{ lead_url }}"></iframe>
                 {% endif %}
-                <button id="process-button" class="btn" title="Processed. Click to mark pending" {% if lead.status != 'PRO' %}hidden{% endif %}><i class="fa fa-check fa-md"></i></button>
-                <button id="pending-button" class="btn" title="Click to mark Processed" {% if lead.status == 'PRO' %}hidden{% endif %}><i class="fa fa-exclamation-triangle fa-md"></i></button>
+                <button id="process-button" class="lead-status-btn" title="Processed. Click to mark pending" {% if lead.status != 'PRO' %}hidden{% endif %}><i class="fa fa-check fa-md"></i></button>
+                <button id="pending-button" class="lead-status-btn" title="Click to mark Processed" {% if lead.status == 'PRO' %}hidden{% endif %}><i class="fa fa-exclamation-triangle fa-md"></i></button>
                 <div id="lead-simplified-preview">
                 </div>
                 <div id="lead-images-preview">
