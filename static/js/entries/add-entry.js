@@ -206,14 +206,18 @@ function refreshPageOne() {
         $("#excerpt-text").val(excerpt.excerpt);
 
         // Upate excerpt image
-        $('#excerpt-image-container').html(
-            '<div class="image"><img src="' + excerpt.image + '"></div>'
-        );
+        if (excerpt.image.length == 0) {
+            $('#excerpt-image-container').html('');
+        } else {
+            $('#excerpt-image-container').html(
+                '<div class="image"><img src="' + excerpt.image + '"></div>'
+            );
+        }
 
         if (excerpt.image.length != 0 && excerpt.excerpt.length == 0) {
             $("#excerpt-text").attr('disabled', true);
             $('#excerpt-image-container').attr('disabled', false);
-        } else if (excerpt.image.length == 0 && excerpt.excerpt.length != 0){
+        } else {
             $("#excerpt-text").attr('disabled', false);
             $('#excerpt-image-container').attr('disabled', true);
         }

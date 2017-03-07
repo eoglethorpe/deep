@@ -8,7 +8,7 @@ var tabId;
 chrome.tabs.executeScript(null, {code: 'chrome.runtime.sendMessage({ currentPageHtml: document.documentElement.innerHTML });' });
 chrome.runtime.onMessage.addListener( function(request, sender) {
     if(request.currentPageHtml){
-        extension.currentPage = '<html>'+request.data+'</html>';
+        extension.currentPage = '<html>'+request.currentPageHtml+'</html>';
         extension.loadTitle();
     }
 });
