@@ -2,7 +2,7 @@ from django.http import HttpResponse
 
 from openpyxl import Workbook
 from openpyxl.writer.excel import save_virtual_workbook
-from openpyxl.styles import Font
+# from openpyxl.styles import Font
 
 
 class ExcelWriter:
@@ -14,8 +14,10 @@ class ExcelWriter:
 
     def get_http_response(self, title):
         vwb = save_virtual_workbook(self.wb)
-        response = HttpResponse(content=vwb, content_type='application/vnd.ms-excel')
-        response['Content-Disposition'] = 'attachment; filename = %s' % (title+".xlsx")
+        response = HttpResponse(content=vwb,
+                                content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = 'attachment; filename = %s' %\
+                                          (title+".xlsx")
         return response
 
     def auto_fit_cells_in_row(self, row_id, ws=None):
@@ -23,7 +25,9 @@ class ExcelWriter:
             ws = self.get_active()
         row = list(ws.rows)[row_id-1]
         for cell in row:
-            ws.column_dimensions[cell.column].width = max(len(cell.value), 15)
+            if cell.value:
+                ws.column_dimensions[cell.column].width =\
+                        max(len(cell.value), 15)
 
     def append(self, rows, ws=None):
         if ws is None:
@@ -57,7 +61,7 @@ class RowCollection:
         for i in range(0, n):
             for j in range(0, len(oldrows)):
                 self.rows[i*len(oldrows)+j].append(str(values[i]))
-        
+
         self.group_rows.append(', '.join(map(str, values)))
 
     def permute_and_add_list(self, values_list):
@@ -81,7 +85,7 @@ class RowCollection:
                     self.rows[i*len(oldrows)+j].append(str(values_list[i][k]))
 
         for values in values_list:
-            self.group_rows.append(', '.join(map(str,values)))
+            self.group_rows.append(', '.join(map(str, values)))
 
     def add_value(self, value):
         for row in self.rows:
