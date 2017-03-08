@@ -1,4 +1,4 @@
-appdirs==1.4.0
+appdirs==1.4.3
 beautifulsoup4==4.5.3
 chardet==2.3.0
 cssselect==1.0.1
