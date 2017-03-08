@@ -41,9 +41,9 @@ class ReportDashboardView(View):
         dt = datetime.now()
         context["new_week_date"] = dt - timedelta(days=dt.weekday()+7)       # starting from monday, but previous week
         context["new_week_date_end"] = context["new_week_date"] + timedelta(days=6)
-        # if weekly_reports.count() > 0 and \
-        #         weekly_reports.first().start_date >= context["new_week_date"].date():
-        #     context["new_week_date"] = None
+        if weekly_reports.count() > 0 and \
+                weekly_reports.first().start_date >= context["new_week_date"].date():
+            context["new_week_date"] = None
 
         for report in context["weekly_reports"]:
             report.end_date = report.start_date + timedelta(days=6)
