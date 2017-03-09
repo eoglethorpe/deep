@@ -604,6 +604,23 @@ function styleText(text) {
     return "<pre>" + text + "</pre>";
 }
 
+function sortLeadImages(sortType){
+    let imageContainer = $('#lead-images-container');
+    var imageList = imageContainer.find('.image').get();
+    imageList.sort(function(a,b){
+        let imgA = $(a).find('img');
+        let imgB = $(b).find('img');
+
+        if(sortType == 'asc'){
+            return imgA[0].naturalWidth*imgA[0].naturalHeight - imgB[0].naturalWidth*imgB[0].naturalHeight;
+        } else if(sortType == 'dsc'){
+            return imgB[0].naturalWidth*imgB[0].naturalHeight - imgA[0].naturalWidth*imgA[0].naturalHeight;
+        } else{
+            return parseInt(imgA.data('default-order')) - parseInt(imgB.data('default-order'));
+        }
+    });
+    $.each(imageList, function(index, item){ imageContainer.append(item); });
+}
 
 function changeLeadPreview(type) {
     isSimplified = (type == "simplified");
@@ -615,6 +632,7 @@ function changeLeadPreview(type) {
         simplifiedFrame.css("display", "inherit");
         originalFrame.css("display", "none");
         imagesFrame.css("display", "none");
+        $('#sort-images-wrapper').hide();
         $("#zoom-buttons").show();
         $('#screenshot-btn').hide();
     }
@@ -623,6 +641,7 @@ function changeLeadPreview(type) {
         originalFrame.css("display", "inherit");
         imagesFrame.css("display", "none");
         selectedTags = {};
+        $('#sort-images-wrapper').hide();
         $("#zoom-buttons").hide();
         $('#screenshot-btn').show();
 
@@ -631,6 +650,7 @@ function changeLeadPreview(type) {
         simplifiedFrame.css("display", "none");
         originalFrame.css("display", "none");
         imagesFrame.css("display", "inherit");
+        $('#sort-images-wrapper').show();
         $("#zoom-buttons").show();
         $('#screenshot-btn').hide();
     }
@@ -1113,6 +1133,22 @@ $(document).ready(function(){
         });
     });
 
+    //Sort images
+    $('#sort-images').selectize();
+    $('#sort-images').change(function(){
+        if ($(this).find(':selected').val() === 'size-asc') {
+            console.log('a');
+            sortLeadImages('asc');
+        }
+        else if ($(this).find(':selected').val() === 'size-dsc') {
+            console.log('de');
+            sortLeadImages('dsc');
+        }
+        else if ($(this).find(':selected').val() === 'def-asc') {
+            console.log('d');
+            sortLeadImages('aa');
+        }
+    });
 
     // Save and cancel
 

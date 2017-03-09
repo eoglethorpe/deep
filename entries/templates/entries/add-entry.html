@@ -164,6 +164,14 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     <label class="active"><input type="radio" name="lead-view-option" value="original" checked>Original</label>
                     {% endif %}
                 </div>
+                <div id="sort-images-wrapper">
+                    <label>Sorted by:</label>
+                    <select id="sort-images" placeholder="Sort Images">
+                        <option value="def-asc">Default</option>
+                        <option value="size-asc">Size Ascending</option>
+                        <option value="size-dsc">Size descending</option>
+                    </select>
+                </div>
                 <div id="zoom-buttons">
                     <button class="btn-zoom" id="zoom-out" data-toggle="tooltip" title="zoom out"><i class="fa fa-search-minus"></i></button>
                     <button class="btn-zoom" id="zoom-in" data-toggle="tooltip" title="zoom in"><i class="fa fa-search-plus"></i></button>
@@ -194,8 +202,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                     </div>
                     <div id="lead-images-container">
                         {% for image in lead.leadimage_set.all %}
-                        <div class="image">
-                            <img class="media-image" src="{{ image.image.url }}"></img>
+                        <div class="image" >
+                            <img class="media-image" src="{{ image.image.url }}" data-default-order="{{ forloop.counter0 }}"></img>
                         </div>
                         {% endfor %}
                     </div>
