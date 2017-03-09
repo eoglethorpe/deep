@@ -34,6 +34,7 @@ DEEP | Dashboard
         },{% endfor %}
     ];
 
+    {% comment %}
     var weekly_reports = [
         {% for report in weekly_reports %}
         {
@@ -47,6 +48,7 @@ DEEP | Dashboard
         },
         {% endfor %}
     ]
+    {% endcomment %}
 
     var countries = {
         {% for country in countries %}

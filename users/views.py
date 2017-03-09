@@ -94,6 +94,8 @@ class LoginView(View):
         if request.user and request.user.is_active:
             try:
                 last_event = UserProfile.get_last_event(request)
+                # if request.GET.get('next'):
+                #     return redirect(request.GET['next'])
                 if last_event:
                     return redirect("dashboard", last_event.pk)
                 profile = UserProfile.objects.get(user=request.user)
@@ -148,6 +150,8 @@ class LoginView(View):
                 try:
                     profile = UserProfile.objects.get(user=user)
                     login(request, user)
+                    # if request.GET.get('next'):
+                    #     return redirect(request.GET['next'])
                     last_event = UserProfile.get_last_event(request)
                     if last_event:
                         return redirect("dashboard", last_event.pk)

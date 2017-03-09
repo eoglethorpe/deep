@@ -737,7 +737,7 @@ $(document).ready(function(){
 
         if($('#lead-simplified-preview').scrollTop() + $('#lead-simplified-preview').height() > $('#lead-simplified-preview pre').height()) {
 
-            if($('#pending-button').is(':visible') && leadSimplifiedPageScrollDeltaY > 0){
+            if(!(excerpts.length == 1 && checkExcerptEmpty(0)) && $('#pending-button').is(':visible') && leadSimplifiedPageScrollDeltaY > 0){
                 $.post(markProcessedUrl, {
                     id: leadId,
                     status: 'PRO',

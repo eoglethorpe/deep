@@ -23,13 +23,22 @@ $(document).ready(function(){
     });
 
     $('#select-event').selectize();
-    fillCountryDetails();
+    //fillCountryDetails();
+
+    var reports = null;
+    $.getJSON("/api/v2/reports", function(data){
+        //console.log('woohoo!');
+        if(data.status == true){
+            reports = data.data;
+            fillCountryDetails();
+        }
+    });
 
     function fillCountryDetails(){
         // sort report according to countries
         reports.sort(function(a, b){
-            var ca = a.country.toUpperCase();
-            var cb = b.country.toUpperCase();
+            var ca = a.country.name.toUpperCase();
+            var cb = b.country.name.toUpperCase();
             return (ca < cb)? -1: (ca > cb)? 1: 0;
         });
         var reportGrouped = [];
@@ -37,16 +46,16 @@ $(document).ready(function(){
         var currentReport = null;
         for(var i=0; i<reports.length; i++){
             var report = reports[i];
-            if(currentCountry != report.country){
-                currentCountry = report.country;
+            if(currentCountry != report.country.name){
+                currentCountry = report.country.name;
                 currentReport = {'country': report.country, 'weeklyReports': []};
                 reportGrouped.push(currentReport);
             }
-            currentReport.weeklyReports.push({'startDate': report.startDate, 'data': report.data});
+            currentReport.weeklyReports.push({'startDate': report.start_date, 'data': report.data});
         }
         for(var i=0; i<reportGrouped.length; i++){
             var current = reportGrouped[i];
-            var country = $('#countries .country[data-pk="'+current.country+'"]');
+            var country = $('#countries .country[data-pk="'+current.country.code+'"]');
             current.weeklyReports.sort(function(a, b){
                 return (new Date(a.startDate)) < (new Date(b.startDate));
             });

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load watchful_url %}
+
+{% block title %}
+DEEP | 500 Error
+{% endblock %}
+
+{% block head %}
+<link href="{% watchful_static_url 'css/500.css' %}" type="text/css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+<h1>
+    <a href="{% url 'login' %}">error: 500</a>
+</h1>
+
+<p>
+<small>
+    The server has encountered an internal error.<br>The admins of the server has been informed.
+</small>
+</p>
+<p><a href="{% url 'login' %}">Go back to <span>deep</span></a></p>
+
+{% endblock %}

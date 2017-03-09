@@ -25,15 +25,16 @@ SECRET_KEY = '2egrwk!cwh6y$6lzpvmc6+lsgp417@)g0c=u^cguz(n9#-!p75'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 #Email
 EMAIL_HOST='smtp.gmail.com'
 EMAIL_HOST_USER = 'deepnotifications1@gmail.com'
 EMAIL_HOST_PASSWORD = 'deep1234'
 EMAIL_USE_TLS = True
+EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-ADMINS = [('Ewan','ewanogle@gmail.com')]
+ADMINS = [('Ewan','ewanogle@gmail.com'), ('Togglecorp','info@togglecorp.com')]
 
 # Application definition
 
@@ -47,7 +48,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'corsheaders',
-    'django_cleanup', 
+    'django_cleanup',
     'users',
     'leads',
     'entries',
