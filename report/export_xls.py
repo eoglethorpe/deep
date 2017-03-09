@@ -13,6 +13,8 @@ def get_dict(data, fields, default=''):
     _data = data
     fields = fields.split('.')
     for field in fields:
+        if not isinstance(_data, dict):
+            return _data
         _data = _data.get(field)
         if _data is None:
             return default
@@ -140,13 +142,14 @@ def export_xls(title):
             for field in hpf:
                 row.extend([
                     get_dict(data, 'human.number.'+str(field.pk)),
-                    get_dict(data, 'human.source.'+str(field.pk)),
+                    get_dict(data, 'human.source.'+str(field.pk)+'.old'),
                     get_dict(data, 'human.comment.'+str(field.pk))
                 ])
                 for ch_field in field.humanprofilefield_set.all():
                     row.extend([
                         get_dict(data, 'human.number.'+str(ch_field.pk)),
-                        get_dict(data, 'human.source.'+str(ch_field.pk)),
+                        get_dict(data, 'human.source.' +
+                                 str(ch_field.pk)+'.old'),
                         get_dict(data, 'human.comment.'+str(ch_field.pk))
                     ])
 
@@ -159,7 +162,7 @@ def export_xls(title):
                     _data.extend([
                         get_dict(data, 'people.'+_field+'.'+str(field.pk)),
                         get_dict(data, 'people.'+_field +
-                                 '-source.'+str(field.pk)),
+                                 '-source.'+str(field.pk)+'.old'),
                         get_dict(data, 'people.'+_field +
                                  '-comment.'+str(field.pk)),
                         ])
@@ -171,7 +174,7 @@ def export_xls(title):
                             get_dict(data, 'people.'+_field +
                                      str(ch_field.pk)),
                             get_dict(data, 'people.'+_field +
-                                     '-source.'+str(ch_field.pk)),
+                                     '-source.'+str(ch_field.pk)+'.old'),
                             get_dict(data, 'people'+_field +
                                      '-comment'+str(ch_field.pk)),
                             ])
@@ -184,7 +187,8 @@ def export_xls(title):
             for field in haf:
                 row.extend([
                     get_dict(data, 'access.'+str(field.pk)),
-                    get_dict(data, 'access-extra.source.'+str(field.pk)),
+                    get_dict(data, 'access-extra.source.' +
+                             str(field.pk)+'.old'),
                     get_dict(data, 'access-extra.comment.'+str(field.pk)),
                     ])
 
@@ -192,7 +196,7 @@ def export_xls(title):
             for field in hapf:
                 row.extend([
                     get_dict(data, 'access-pin.number.'+str(field.pk)),
-                    get_dict(data, 'access-pin.source.'+str(field.pk)),
+                    get_dict(data, 'access-pin.source.'+str(field.pk)+'.old'),
                     get_dict(data, 'access-pin.comment.'+str(field.pk)),
                     ])
             #                   Add to Row Collection
