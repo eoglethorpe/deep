@@ -440,7 +440,11 @@ $(document).ready(function(){
 
     // change country
     $('.country').on('click', function(){
-        window.location.href = $(this).data('href');u
+        window.location.href = $(this).data('href');
+    });
+
+    $('.delete-btn').on('click', function(){
+        if(confirm('Are you sure you want to delete the report?')) location.href=$(this).data('target');
     });
 
     // format number to 1 000 format

@@ -9,11 +9,6 @@
 <script src="{% watchful_static_url 'js/report/report-dash.js' %}"></script>
 
 <script>
-var reports = [
-    {% for report in weekly_reports_all %}
-    {'country': '{{ report.country.pk }}', 'startDate': '{{ report.start_date }}', 'data': JSON.parse("{{ report.data|escapejs }}")},
-    {% endfor %}
-];
 var affectedFieldIds = [
     {% for afid in affected_field_id_list %}
     {{ afid.pk }},
@@ -148,7 +143,7 @@ var humanAvailabilityFieldIds = [
                     <h4>Week #<span class="number">{{report.start_date|date:"W"}}</span></h4>
                     <p><date>{{report.start_date|date:"d-m-Y"}}</date> to <date>{{report.end_date|date:"d-m-Y"}}</date></p>
                     <div class="action-buttons">
-                        <a class="delete-btn" onclick="if(confirm('Are you sure you want to delete the report?')) location.href='{% url 'report:delete_weekly' country.pk event.pk report.pk %}';"><i class="fa fa-trash"></i>Delete</a>
+                        <a class="delete-btn" data-target="{% url 'report:delete_weekly' country.pk event.pk report.pk %}"><i class="fa fa-trash"></i>Delete</a>
                         <a href="{% url 'report:weekly' country.pk event.pk report.pk %}"><i class="edit-btn fa fa-edit"></i>Edit</a>
                     </div>
                 </div>
