@@ -144,6 +144,7 @@ $excel-color: $primary-color;
                 background-color: $excel-color;
                 color: #fff;
                 padding: 6px 10px;
+                margin-bottom: 8px;
                 @include btn-shadow-md;
 
                 .fa{
