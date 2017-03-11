@@ -1,3 +1,6 @@
+# Git
+id_rsa*
+
 # Database
 db.sqlite3
 mysql.cnf
