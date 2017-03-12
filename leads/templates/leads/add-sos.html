@@ -99,10 +99,12 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
         </div>
         {% endif %}
         <div id="lead-preview-container">
-            {% if lead.lead_type == 'URL' %}
-            <iframe {% if is_pdf %}{% else %}sandbox="allow-scripts allow-same-origin"{% endif %} id="lead-preview" src="{{ lead.url }}"></iframe>
-            {% elif lead.lead_type == 'ATT' %}
-            <iframe id="lead-preview" src="{{ lead.attachment.upload.url }}"></iframe>
+            {% if format == 'pdf' %}
+                <iframe id="lead-preview" src="{{ lead_url }}"></iframe>
+            {% elif format == 'docx' or format == 'pptx' %}
+                <iframe id="lead-preview" src="https://docs.google.com/viewer?url={{ lead_url|urlencode }}&embedded=true&chrome=false&dov=1"></iframe>
+            {% else %}
+                <iframe sandbox="allow-scripts allow-same-origin" id="lead-preview" src="{{ lead_url }}"></iframe>
             {% endif %}
             <div id="lead-simplified-preview">
             </div>

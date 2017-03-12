@@ -141,15 +141,17 @@ class AddSoS(View):
                 SimplifiedLead(lead=lead, text=context["lead_simplified"]).save()
 
         if lead.lead_type == 'URL':
-            if lead.url.endswith('.pdf'):
-                context["format"] = 'pdf'
-            elif lead.url.endswith('.docx'):
-                context["format"] = 'docx'
+            context['lead_url'] = lead.url
         elif lead.lead_type == 'ATT':
-            if lead.attachment.url.endswith('.pdf'):
+            context['lead_url'] = request.build_absolute_uri(lead.attachment.upload.url)
+
+        if context.get('lead_url'):
+            if context['lead_url'].endswith('.pdf'):
                 context["format"] = 'pdf'
-            elif lead.attachment.url.endswith('.docx'):
+            elif context['lead_url'].endswith('.docx'):
                 context["format"] = 'docx'
+            elif context['lead_url'].endswith('.pptx'):
+                context["format"] = 'pptx'
 
         # Get fields options
         context["proximities"] = ProximityToSource.objects.all()
