@@ -329,7 +329,7 @@ $(document).ready(function(){
                             let accessPin = report['access-pin'];
                             let human = report.human;
                             let people = report.people;
-                            return [report.access, accessPin.number, accessPin.source.old, accessPin.comment, human.number, human.source.old, human.comment, report.ipc, people['at-risk'], people['at-risk-source'], people['at-risk-comment'], people['moderate'], people['moderate-source'], people['moderate-comment'], people['planned'], people['planned-source'], people['planned-comment'], people['severe'], people['severe-source'], people['severe-comment'], people['total'], people['total-source'], people['total-comment'], report['final-severity-score']];
+                            return [report.access, accessPin.number, accessPin.source, accessPin.comment, human.number, human.source, human.comment, report.ipc, people['at-risk'], people['at-risk-source'], people['at-risk-comment'], people['moderate'], people['moderate-source'], people['moderate-comment'], people['planned'], people['planned-source'], people['planned-comment'], people['severe'], people['severe-source'], people['severe-comment'], people['total'], people['total-source'], people['total-comment'], report['final-severity-score']];
                         }
 
                         let fieldsWeek0 = getFields(0);
@@ -341,7 +341,16 @@ $(document).ready(function(){
                             if(fieldsWeek0[i]){
                                 let keys = Object.keys(fieldsWeek0[i]);
                                 for(let j=0; j<keys.length; j++){
-                                    if(fieldsWeek0[i][keys[j]] != fieldsWeek1[i][keys[j]]){
+
+                                    // Check if object
+                                    let value0 = fieldsWeek0[i][keys[j]];
+                                    let value1 = fieldsWeek1[i][keys[j]];
+                                    if (value0 instanceof Object) {
+                                        if (JSON.stringify(value0) != JSON.stringify(value1)) {
+                                            ++change;
+                                        }
+                                    }
+                                    else if(value0 != value1){
                                         ++change;
                                     }
                                     ++total;
