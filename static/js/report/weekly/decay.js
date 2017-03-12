@@ -88,7 +88,7 @@ var humanitarianProfileDecay = {
         }
     },
     updateHumanSource: function(humanSource){
-        if(data["human"]["source"][humanSource.data("human-pk")] != humanSource.val()){
+        if(data["human"]["source"][humanSource.data("human-pk")]['old'] != humanSource.val()){
             humanSource.css('border-color', getDecayColor());
             humanSource.data('decay-color', getDecayColor());
         } else {
