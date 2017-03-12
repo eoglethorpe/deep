@@ -34,26 +34,14 @@ class ReportDashboardView(View):
         country = Country.objects.get(pk=country_id)
         event = Event.objects.get(pk=event_id)
 
-        # Get all weekly reports for this event and country
-        weekly_reports = WeeklyReport.objects.filter(event=event, country=country)
-        context["weekly_reports"] = weekly_reports
-
         dt = datetime.now()
         context["new_week_date"] = dt - timedelta(days=dt.weekday()+7)       # starting from monday, but previous week
-        context["new_week_date_end"] = context["new_week_date"] + timedelta(days=6)
-        if weekly_reports.count() > 0 and \
-                weekly_reports.first().start_date >= context["new_week_date"].date():
-            context["new_week_date"] = None
-
-        for report in context["weekly_reports"]:
-            report.end_date = report.start_date + timedelta(days=6)
 
         context["country"] = country
         context["event"] = event
         context["current_page"] = "report"
 
         # for sparklines and other viz
-        context["weekly_reports_all"] = WeeklyReport.objects.all()
         context["affected_field_id_list"] = HumanProfileField.objects.filter(dashboard_affected_field=True)
         context["displaced_field_id_list"] = HumanProfileField.objects.filter(dashboard_displaced_field=True)
         context["in_need_field_id_list"] = PeopleInNeedField.objects.filter(dashboard_in_need_field=True)

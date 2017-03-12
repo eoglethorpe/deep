@@ -215,6 +215,12 @@ Date.prototype.getWeekYear = function ()
     return target.getFullYear();
 }
 
+// Add number of days to a date
+Date.prototype.addDays = function(days) {
+    this.setDate(this.getDate() + parseInt(days));
+    return this;
+};
+
 // http://stackoverflow.com/a/16591175/4328459
 function getDateOfISOWeek(w, y) {
     var simple = new Date(y, 0, 1 + (w - 1) * 7);

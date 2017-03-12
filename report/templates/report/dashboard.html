@@ -6,6 +6,7 @@
 <link href="{% watchful_static_url 'css/selectize.css' %}" type="text/css" rel="stylesheet">
 <script src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/jquery.sparkline.min.js' %}"></script>
+<script src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 <script src="{% watchful_static_url 'js/report/report-dash.js' %}"></script>
 
 <script>
@@ -34,6 +35,10 @@ var humanAvailabilityFieldIds = [
     {{ hafid.pk }},
     {% endfor %}
 ];
+
+var defaultCountryPk = '{{country.pk}}';
+var defaultCountryName = '{{country.name}}';
+var defaultEventPk = '{{event.pk}}';
 </script>
 {% endblock %}
 
@@ -121,35 +126,30 @@ var humanAvailabilityFieldIds = [
     <section id="weekly-report-panel">
         {% if country %}
         <div id="weekly-report-panel-header">
-            <h2>{{country.name}}</h2>
+            <h2></h2>
             <div>
-                <select id="select-event" data-country-pk="{{country.pk}}">
-                    {% for e in country.event_set.all %}
-                    <option value="{{e.pk}}" {% if event == e %}selected{% endif %}>{{e}}</option>
-                    {% endfor %}
+                <select id="select-event">
                 </select>
             </div>
         </div>
         <div id="weekly-report-list">
             <div id="weekly-report-list-header">
                 <h3>Weekly reports</h3>
-                {% if new_week_date %}
-                <a id="add-weekly-report-btn" onclick="location.href='{% url 'report:weekly' country.pk event.pk %}?start_date={{new_week_date|date:"d-M-Y"}}';"><i class="fa fa-plus fa-lg onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Add New Report" "></i></a>
-                {% endif %}
+                <a id="add-weekly-report-btn" data-start-date="{{new_week_date|date:"d-M-Y"}}" hidden><i class="fa fa-plus fa-lg onmouseover="$(this).tooltip(\'show\')" data-toggle="tooltip" data-placement="bottom" title="Add New Report" "></i></a>
             </div>
             <div id="weekly-reports">
-                {% for report in weekly_reports %}
                 <div class="weekly-report">
-                    <h4>Week #<span class="number">{{report.start_date|date:"W"}}</span></h4>
-                    <p><date>{{report.start_date|date:"d-m-Y"}}</date> to <date>{{report.end_date|date:"d-m-Y"}}</date></p>
-                    <div class="action-buttons">
-                        <a class="delete-btn" data-target="{% url 'report:delete_weekly' country.pk event.pk report.pk %}"><i class="fa fa-trash"></i>Delete</a>
-                        <a href="{% url 'report:weekly' country.pk event.pk report.pk %}"><i class="edit-btn fa fa-edit"></i>Edit</a>
-                    </div>
+                    Loading reports
                 </div>
-                {% empty %}
-                <p class="empty-text">No reports found</p>
-                {% endfor %}
+                <p class="empty-text" hidden>No reports found</p>
+            </div>
+            <div class="weekly-report-template" hidden>
+                <h4>Week #<span class="number"></span></h4>
+                <p><date class="start-date"></date> to <date class="end-date"></date></p>
+                <div class="action-buttons">
+                    <a class="delete-btn"><i class="fa fa-trash"></i>Delete</a>
+                    <a class="edit-btn"><i class="edit-btn fa fa-edit"></i>Edit</a>
+                </div>
             </div>
         </div>
         {% endif %}
