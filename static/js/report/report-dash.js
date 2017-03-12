@@ -341,7 +341,16 @@ $(document).ready(function(){
                             if(fieldsWeek0[i]){
                                 let keys = Object.keys(fieldsWeek0[i]);
                                 for(let j=0; j<keys.length; j++){
-                                    if(fieldsWeek0[i][keys[j]] != fieldsWeek1[i][keys[j]]){
+
+                                    // Check if object
+                                    let value0 = fieldsWeek0[i][keys[j]];
+                                    let value1 = fieldsWeek1[i][keys[j]];
+                                    if (value0 instanceof Object) {
+                                        if (JSON.stringify(value0) != JSON.stringify(value1)) {
+                                            ++change;
+                                        }
+                                    }
+                                    else if(value0 != value1){
                                         ++change;
                                     }
                                     ++total;
