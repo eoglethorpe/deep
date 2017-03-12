@@ -329,7 +329,7 @@ $(document).ready(function(){
                             let accessPin = report['access-pin'];
                             let human = report.human;
                             let people = report.people;
-                            return [report.access, accessPin.number, accessPin.source, accessPin.comment, human.number, human.source, human.comment, report.ipc, people['at-risk'], people['at-risk-source'], people['at-risk-comment'], people['moderate'], people['moderate-source'], people['moderate-comment'], people['planned'], people['planned-source'], people['planned-comment'], people['severe'], people['severe-source'], people['severe-comment'], people['total'], people['total-source'], people['total-comment'], report['final-severity-score']];
+                            return [report.access, accessPin.number, accessPin.source.old, accessPin.comment, human.number, human.source.old, human.comment, report.ipc, people['at-risk'], people['at-risk-source'], people['at-risk-comment'], people['moderate'], people['moderate-source'], people['moderate-comment'], people['planned'], people['planned-source'], people['planned-comment'], people['severe'], people['severe-source'], people['severe-comment'], people['total'], people['total-source'], people['total-comment'], report['final-severity-score']];
                         }
 
                         let fieldsWeek0 = getFields(0);
