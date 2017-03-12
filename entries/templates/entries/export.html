@@ -38,8 +38,8 @@ DEEP | Export
                 {% csrf_token %}
                 <h2>Word Export</h2>
                 <div>
-                    <button type="submit" onclick="$('#new-format').remove();" class="btn-info" ><i class="fa fa-file-word-o"></i>Generic Export</button>
-                    <button type="submit" onclick="$('#export-entries-doc-form').append('<input id=\'new-format\' type=\'hidden\' name=\'new-format\' value=\'true\'>');" class="btn-info"><i class="fa fa-file-word-o"></i>Briefing Note</button>
+                    <button type="submit" disabled onclick="$('#new-format').remove();" class="btn-info" ><i class="fa fa-file-word-o"></i>Generic Export</button>
+                    <button type="submit" disabled onclick="$('#export-entries-doc-form').append('<input id=\'new-format\' type=\'hidden\' name=\'new-format\' value=\'true\'>');" class="btn-info"><i class="fa fa-file-word-o"></i>Briefing Note</button>
                 </div>
             </form>
             <div>
@@ -63,6 +63,9 @@ DEEP | Export
             </header>
             <form id="export-entries-excel-form" action="{% url 'entries:exportxls' event=event.pk %}">
                 <button type="submit" class=" btn-primary" ><i class="fa fa-file-excel-o"></i>Export</button>
+            </form>
+            <form id="export-entries-excel-weekly-form" action="{% url 'entries:exportxls_weekly' event=event.pk %}">
+                <button type="submit" class=" btn-primary" ><i class="fa fa-file-excel-o"></i>Export Weekly(Beta)</button>
             </form>
         </div>
     </div>

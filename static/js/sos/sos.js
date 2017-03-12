@@ -11,15 +11,15 @@ $(document).ready(function(){
         },
         columns: [
             {
-                data: null,
+                data: null,width: "7%",
                 render: function (data, type, row ) {
                     return "<span hidden>"+data.created_at+"</span> "+formatDate(data.created_at) + "<br>" + formatTime(data.created_at) + "<br>" + data.created_by_name;
                 }
             },
             { data :"title", width: '13%' },
-            { data: "areas_summary", },
+            { data: "areas_summary", width: "10%",},
             {
-                data: null,
+                data: null,width: "15%",
                 render: function(data, type, row) {
                     var list = [];
                     for (var item in data["sectors_covered"])
@@ -27,14 +27,14 @@ $(document).ready(function(){
                     return list.join(", ");
                 }
             },
-            { data: null, render: function(data, type, row) { return data["affected_groups"].join(", "); } },
-            { data: "lead_organization" },
-            { data: "frequency" },
-            { data: "confidentiality" },
-            { data: "status" },
-            { data: "proximity_to_source" },
+            { data: null,width: "15%", render: function(data, type, row) { return data["affected_groups"].join(", "); } },
+            { data: "lead_organization", width: "7%",},
+            { data: "frequency", width: "7%",},
+            { data: "confidentiality", width: "7%", },
+            { data: "status", width: "7%", },
+            { data: "proximity_to_source", width: "7%", },
             {
-                data: null,
+                data: null, width: "5%",
                 render: function(data, type, row){
                     return '<a class="btn-action btn-edit" href="/'+currentEvent+'/leads/edit-sos/'+data.lead+"/"+data.id+'"><i class="fa fa-edit"></i>Edit</a>';
                 }

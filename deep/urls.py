@@ -2,6 +2,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 from rest_framework.routers import DefaultRouter
 
@@ -25,6 +26,11 @@ router.register(r'survey-of-surveys', SosViewSet, base_name='country')
 
 
 urlpatterns = [
+
+    ## ERROR PAGES
+    url(r'^404/$', TemplateView.as_view(template_name='404.html')),
+    url(r'^500/$', TemplateView.as_view(template_name='500.html')),
+
     url(r'^$', IndexView.as_view()),
     url(r'^register/$', RegisterView.as_view(), name="register"),
     url(r'^hid-access-token$', HidAccessToken.as_view(), name="hid_access_token"),
@@ -53,5 +59,6 @@ urlpatterns = [
     url(r'^api/v1/', include(router.urls)),
     url(r'^api/v2/', include('entries.api_urls', namespace='api')),
     url(r'^api/v2/', include('leads.api_urls', namespace='api')),
+    url(r'^api/v2/', include('report.api_urls', namespace='api')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

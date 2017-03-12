@@ -82,8 +82,6 @@ $(document).ready(function(){
     addTodayButtons();
 });
 
-
-
 function formatDate(date) {
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
@@ -139,7 +137,6 @@ function searchAndHighlight(content, searchString) {
     }
     return text;
 }
-
 
 // get cookie
 function getCookie(name) {
@@ -217,6 +214,12 @@ Date.prototype.getWeekYear = function ()
 
     return target.getFullYear();
 }
+
+// Add number of days to a date
+Date.prototype.addDays = function(days) {
+    this.setDate(this.getDate() + parseInt(days));
+    return this;
+};
 
 // http://stackoverflow.com/a/16591175/4328459
 function getDateOfISOWeek(w, y) {

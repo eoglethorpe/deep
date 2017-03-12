@@ -1,10 +1,9 @@
-appdirs==1.4.0
 beautifulsoup4==4.5.3
 chardet==2.3.0
 cssselect==1.0.1
-DEEP==0.1
 Django==1.10.5
 django-cors-headers==2.0.1
+django-cleanup==0.4.2
 djangorestframework==3.5.3
 et-xmlfile==1.0.1
 jdcal==1.3

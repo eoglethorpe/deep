@@ -39,7 +39,7 @@ function renderEntries(){
 
     for(var i=0; i<entries.length; i++){
         if (!sevenDaysLater &&
-                !filterDate('last-seven-days', new Date(entries[i].modified_at)))
+                !filterDate('last-seven-days', new Date(entries[i].created_at)))
         {
             sevenDaysLater = true;
             if (i != 0) {
@@ -63,11 +63,20 @@ function renderEntries(){
             information.removeClass('information-template');
             information.addClass('information');
 
-            information.find('.excerpt').html(searchAndHighlight(entries[i].informations[j].excerpt, searchFilterText));
-            if (entries[i].informations[j].date)
+            if(entries[i].informations[j].image.length == 0){
+                information.find('.excerpt-text').html(searchAndHighlight(entries[i].informations[j].excerpt, searchFilterText));
+                information.find('.excerpt-image').hide();
+                information.find('.excerpt-text').show();
+            } else{
+                information.find('.excerpt-image').attr('src', entries[i].informations[j].image);
+                information.find('.excerpt-text').hide();
+                information.find('.excerpt-image').show();
+            }
+            if (entries[i].informations[j].date){
                 information.find('date').text(formatDate(new Date(entries[i].informations[j].date)));
-            else
+            } else{
                 information.find('date').text("N/A");
+            }
 
             information.find(".reliability").find('._'+entries[i].informations[j].reliability.level).addClass('active');
             information.find(".severity").find('._'+entries[i].informations[j].severity.level).addClass('active');
@@ -207,7 +216,7 @@ $(document).ready(function(){
         } else {
             $(this).addClass('active');
             addFilter('last-seven-days', false, function(info) {
-                return filterDate('last-seven-days', new Date(info.modified_at));
+                return filterDate('last-seven-days', new Date(info.created_at));
             });
             $(this).text('Show all entries')
         }
@@ -275,6 +284,7 @@ $(document).ready(function(){
         else
             text += 'N/A';
         $(this).val(text);
+        $(this).trigger('change');
     });
 
     autoCalculateScores();
@@ -343,7 +353,7 @@ function setInputData() {
     for (var pk in data["human"]["number"])
         $(".human-number[data-human-pk='" + pk + "']").val(data["human"]["number"][pk]);
     for (var pk in data["human"]["source"])
-        $(".human-source[data-human-pk='" + pk + "']").val(data["human"]["source"][pk]);
+        $(".human-source[data-human-pk='" + pk + "']").val(data["human"]["source"][pk]["old"]);
     for (var pk in data["human"]["comment"])
         $(".human-comment[data-human-pk='" + pk + "']").val(data["human"]["comment"][pk]);
 
@@ -364,15 +374,15 @@ function setInputData() {
         $(".people-planned[data-people-pk='" + pk + "']").val(data["people"]["planned"][pk]);
 
     for (var pk in data["people"]["total-source"])
-        $(".people-total-source[data-people-pk='" + pk + "']").val(data["people"]["total-source"][pk]);
+        $(".people-total-source[data-people-pk='" + pk + "']").val(data["people"]["total-source"][pk]["old"]);
     for (var pk in data["people"]["at-risk-source"])
-        $(".people-at-risk-source[data-people-pk='" + pk + "']").val(data["people"]["at-risk-source"][pk]);
+        $(".people-at-risk-source[data-people-pk='" + pk + "']").val(data["people"]["at-risk-source"][pk]["old"]);
     for (var pk in data["people"]["moderate-source"])
-        $(".people-moderate-source[data-people-pk='" + pk + "']").val(data["people"]["moderate-source"][pk]);
+        $(".people-moderate-source[data-people-pk='" + pk + "']").val(data["people"]["moderate-source"][pk]["old"]);
     for (var pk in data["people"]["severe-source"])
-        $(".people-severe-source[data-people-pk='" + pk + "']").val(data["people"]["severe-source"][pk]);
+        $(".people-severe-source[data-people-pk='" + pk + "']").val(data["people"]["severe-source"][pk]["old"]);
     for (var pk in data["people"]["planned-source"])
-        $(".people-planned-source[data-people-pk='" + pk + "']").val(data["people"]["planned-source"][pk]);
+        $(".people-planned-source[data-people-pk='" + pk + "']").val(data["people"]["planned-source"][pk]["old"]);
 
     for (var pk in data["people"]["total-comment"])
         $(".people-total-comment[data-people-pk='" + pk + "']").val(data["people"]["total-comment"][pk]);
@@ -390,14 +400,18 @@ function setInputData() {
 
     // IPC
     $("input[data-ipc]").each(function() {
-        $(this).val(data["ipc"][$(this).data("ipc")]);
+        if ($(this).data("ipc") == 'f'){
+            $(this).val(data["ipc"][$(this).data("ipc")]["old"]);
+        }else{
+            $(this).val(data["ipc"][$(this).data("ipc")]);
+        }
     });
 
     // Access data
     for (var pk in data["access"])
         $(".access-select[data-access-pk='" + pk + "']").val(data["access"][pk]);
     for (var pk in data["access-extra"]["source"])
-        $(".access-source[data-access-pk='" + pk + "']").val(data["access-extra"]["source"][pk]);
+        $(".access-source[data-access-pk='" + pk + "']").val(data["access-extra"]["source"][pk]["old"]);
     for (var pk in data["access-extra"]["comment"])
         $(".access-comment[data-access-pk='" + pk + "']").val(data["access-extra"]["comment"][pk]);
 
@@ -405,7 +419,7 @@ function setInputData() {
     for (var pk in data["access-pin"]["number"])
         $(".access-pin-number[data-access-pin-pk='" + pk + "']").val(data["access-pin"]["number"][pk]);
     for (var pk in data["access-pin"]["source"])
-        $(".access-pin-source[data-access-pin-pk='" + pk + "']").val(data["access-pin"]["source"][pk]);
+        $(".access-pin-source[data-access-pin-pk='" + pk + "']").val(data["access-pin"]["source"][pk]["old"]);
     for (var pk in data["access-pin"]["comment"])
         $(".access-pin-comment[data-access-pin-pk='" + pk + "']").val(data["access-pin"]["comment"][pk]);
 
@@ -445,7 +459,7 @@ function getInputData() {
         data["human"]["numberDecay"][$(this).data("human-pk")] = $(this).data('decay-color');
     });
     $(".human-source").each(function() {
-        data["human"]["source"][$(this).data("human-pk")] = $(this).val();
+        data["human"]["source"][$(this).data("human-pk")]['old'] = $(this).val();
         data["human"]["sourceDecay"][$(this).data("human-pk")] = $(this).data('decay-color');
     });
     $(".human-comment").each(function() {
@@ -476,23 +490,23 @@ function getInputData() {
     });
 
     $(".people-total-source").each(function() {
-        data["people"]["total-source"][$(this).data("people-pk")] = $(this).val();
+        data["people"]["total-source"][$(this).data("people-pk")]['old'] = $(this).val();
         data["people"]["totalSourceDecay"][$(this).data("people-pk")] = $(this).data('decay-color');
     });
     $(".people-at-risk-source").each(function() {
-        data["people"]["at-risk-source"][$(this).data("people-pk")] = $(this).val();
+        data["people"]["at-risk-source"][$(this).data("people-pk")]['old'] = $(this).val();
         data["people"]["atRiskSourceDecay"][$(this).data("people-pk")] = $(this).data('decay-color');
     });
     $(".people-moderate-source").each(function() {
-        data["people"]["moderate-source"][$(this).data("people-pk")] = $(this).val();
+        data["people"]["moderate-source"][$(this).data("people-pk")]['old'] = $(this).val();
         data["people"]["moderateSourceDecay"][$(this).data("people-pk")] = $(this).data('decay-color');
     });
     $(".people-severe-source").each(function() {
-        data["people"]["severe-source"][$(this).data("people-pk")] = $(this).val();
+        data["people"]["severe-source"][$(this).data("people-pk")]['old'] = $(this).val();
         data["people"]["severeSourceDecay"][$(this).data("people-pk")] = $(this).data('decay-color');
     });
     $(".people-planned-source").each(function() {
-        data["people"]["planned-source"][$(this).data("people-pk")] = $(this).val();
+        data["people"]["planned-source"][$(this).data("people-pk")]['old'] = $(this).val();
         data["people"]["plannedSourceDecay"][$(this).data("people-pk")] = $(this).data('decay-color');
     });
 
@@ -519,7 +533,11 @@ function getInputData() {
 
     // IPC
     $("input[data-ipc]").each(function() {
+        if ($(this).data("ipc") == 'f'){
+            data["ipc"][$(this).data("ipc")]["old"] = $(this).val();
+        }else{
         data["ipc"][$(this).data("ipc")] = $(this).val();
+        }
     });
 
     // Access data
@@ -528,7 +546,10 @@ function getInputData() {
         data["accessDecay"][$(this).data("access-pk")] = $(this).data('decay-color');
     });
     $(".access-source").each(function() {
-        data["access-extra"]["source"][$(this).data("access-pk")] = $(this).val();
+        if(!data["access-extra"]["source"][$(this).data("access-pk")]){
+            data["access-extra"]["source"][$(this).data("access-pk")] = {};
+        }
+        data["access-extra"]["source"][$(this).data("access-pk")]['old'] = $(this).val();
     });
     $(".access-comment").each(function() {
         data["access-extra"]["comment"][$(this).data("access-pk")] = $(this).val();
@@ -540,7 +561,7 @@ function getInputData() {
         data["access-pin"]["numberDecay"][$(this).data("access-pin-pk")] = $(this).data('decay-color');
     });
     $(".access-pin-source").each(function() {
-        data["access-pin"]["source"][$(this).data("access-pin-pk")] = $(this).val();
+        data["access-pin"]["source"][$(this).data("access-pin-pk")]['old'] = $(this).val();
         data["access-pin"]["sourceDecay"][$(this).data("access-pin-pk")] = $(this).data('decay-color');
     });
     $(".access-pin-comment").each(function() {
@@ -568,14 +589,14 @@ function getInputData() {
 function checkRules() {
 
     // check for decay
-    $('.human-comment').on('paste change input', function(){
+    $('.human-comment').on('drop paste change input', function(){
         humanitarianProfileDecay.updateHumanComment($(this));
     });
-    $('.human-source').on('paste change input', function(){
+    $('.human-source').on('drop paste change input', function(){
         humanitarianProfileDecay.updateHumanSource($(this));
     });
 
-    $('.human-number').on('paste change input', function(){
+    $('.human-number').on('drop paste change input', function(){
         humanitarianProfileDecay.updateHumanNumber($(this));    // check for decay as well
 
         var errors = "";
@@ -630,61 +651,61 @@ function checkRules() {
             $('#humanitarian-profile-field-error').hide();
     });
 
-    $(".people-total").on('paste change input', function() {
+    $(".people-total").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["total"][$(this).data("people-pk")]);
     });
-    $(".people-at-risk").on('paste change input', function() {
+    $(".people-at-risk").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["at-risk"][$(this).data("people-pk")]);
     });
-    $(".people-moderate").on('paste change input', function() {
+    $(".people-moderate").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["moderate"][$(this).data("people-pk")]);
     });
-    $(".people-severe").on('paste change input', function() {
+    $(".people-severe").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["severe"][$(this).data("people-pk")]);
     });
-    $(".people-planned").on('paste change input', function() {
+    $(".people-planned").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["planned"][$(this).data("people-pk")]);
     });
 
-    $(".people-total-source").on('paste change input', function() {
-        peopleInNeedDecay.update($(this), data["people"]["total-source"][$(this).data("people-pk")]);
+    $(".people-total-source").on('drop paste change input', function() {
+        peopleInNeedDecay.update($(this), data["people"]["total-source"][$(this).data("people-pk")]['old']);
     });
-    $(".people-at-risk-source").on('paste change input', function() {
-        peopleInNeedDecay.update($(this), data["people"]["at-risk-source"][$(this).data("people-pk")]);
+    $(".people-at-risk-source").on('drop paste change input', function() {
+        peopleInNeedDecay.update($(this), data["people"]["at-risk-source"][$(this).data("people-pk")]['old']);
     });
-    $(".people-moderate-source").on('paste change input', function() {
-        peopleInNeedDecay.update($(this), data["people"]["moderate-source"][$(this).data("people-pk")]);
+    $(".people-moderate-source").on('drop paste change input', function() {
+        peopleInNeedDecay.update($(this), data["people"]["moderate-source"][$(this).data("people-pk")]['old']);
     });
-    $(".people-severe-source").on('paste change input', function() {
-        peopleInNeedDecay.update($(this), data["people"]["severe-source"][$(this).data("people-pk")]);
+    $(".people-severe-source").on('drop paste change input', function() {
+        peopleInNeedDecay.update($(this), data["people"]["severe-source"][$(this).data("people-pk")]['old']);
     });
-    $(".people-planned-source").on('paste change input', function() {
-        peopleInNeedDecay.update($(this), data["people"]["planned-source"][$(this).data("people-pk")]);
+    $(".people-planned-source").on('drop paste change input', function() {
+        peopleInNeedDecay.update($(this), data["people"]["planned-source"][$(this).data("people-pk")]['old']);
     });
 
-    $(".people-total-comment").on('paste change input', function() {
+    $(".people-total-comment").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["total-comment"][$(this).data("people-pk")]);
     });
-    $(".people-at-risk-comment").on('paste change input', function() {
+    $(".people-at-risk-comment").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["at-risk-comment"][$(this).data("people-pk")]);
     });
-    $(".people-moderate-comment").on('paste change input', function() {
+    $(".people-moderate-comment").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["moderate-comment"][$(this).data("people-pk")]);
     });
-    $(".people-severe-comment").on('paste change input', function() {
+    $(".people-severe-comment").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["severe-comment"][$(this).data("people-pk")]);
     });
-    $(".people-planned-comment").on('paste change input', function() {
+    $(".people-planned-comment").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["planned-comment"][$(this).data("people-pk")]);
     });
 
-    $(".access-pin-number").on('paste change input', function(){
+    $(".access-pin-number").on('drop paste change input', function(){
         humanitarianAccessDecay.update($(this), data['access-pin']['numberDecay'][$(this).data('access-pin-pk')]);
     });
-    $(".access-pin-source").on('paste change input', function(){
+    $(".access-pin-source").on('drop paste change input', function(){
         humanitarianAccessDecay.update($(this), data['access-pin']['sourceDecay'][$(this).data('access-pin-pk')]);
     });
-    $(".access-pin-comment").on('paste change input', function(){
+    $(".access-pin-comment").on('drop paste change input', function(){
         humanitarianAccessDecay.update($(this), data['access-pin']['commentDecay'][$(this).data('access-pin-pk')]);
     });
     $(".access-select").change(function(){

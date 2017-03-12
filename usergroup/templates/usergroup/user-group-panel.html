@@ -68,8 +68,8 @@ let activities = [
         </div>
         <div class="action-buttons">
             {% if request.user in usergroup.admins.all %}
-            <a id="save-group-info-btn" hidden><i class="fa fa-save"></i></a>
-            <a id="edit-group-info-btn" ><i class="fa fa-edit"></i></a>
+            <a id="save-group-info-btn" title="Click to Save" hidden><i class="fa fa-save "></i></a>
+            <a id="edit-group-info-btn" title="Click to Edit" ><i class="fa fa-edit"></i></a>
             <a id="save-group-info-progress-btn" hidden><i class="fa fa-spinner fa-pulse"></i></a>
             {% endif %}
         </div>
@@ -98,9 +98,9 @@ let activities = [
                         <div class="admin">Admin</div>
                     </div>
                     <div class="action-container">
-                        <div class="check-action"><i class="fa fa-check"></i></div>
-                        <div class="add-admin-action"><i class="fa fa-user-secret"></i></div>
-                        <div class="delete-action"><i class="fa fa-trash-o"></i></div>
+                        <div class="check-action" title="Select" ><i class="fa fa-check"></i></div>
+                        <div class="add-admin-action" title="Add as Admin" ><i class="fa fa-user-secret"></i></div>
+                        <div class="delete-action" title="Delete Member"><i class="fa fa-trash-o"></i></div>
                     </div>
                 </div>
                 {% endfor %}

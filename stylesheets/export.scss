@@ -127,6 +127,11 @@ $excel-color: $primary-color;
                 i{
                     margin-right: 8px;
                 }
+
+                &:disabled {
+                    background-color: rgba(0,0,0,0.4);
+                    cursor: inherit;
+                }
             }
         }
         #export-entries-excel{
@@ -139,6 +144,7 @@ $excel-color: $primary-color;
                 background-color: $excel-color;
                 color: #fff;
                 padding: 6px 10px;
+                margin-bottom: 8px;
                 @include btn-shadow-md;
 
                 .fa{

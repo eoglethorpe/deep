@@ -1,29 +1,63 @@
 @import 'common/base';
 @import 'common/navbar';
 
-#main{
+body{
+    background-color: #f0f0f0;
+}
+.dataTables_scrollHead{
+    background-color: #fff;
+}
+.dataTables_scrollBody{
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+}
+.dataTables_filter{
+    margin-bottom: 8px;
+}
+main{
+    margin-top: 16px;
     padding: 10px 16px;
 
-    input{
+    input[type="search"]{
+        height: 28px;
+        padding: 0 8px;
         outline: none;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 3px;
+        background-color: #fff;
+
+        &:focus{
+            border-color: $primary-color;
+        }
     }
-    // h2{
-    //     color: $primary-color;
-    //     text-transform: uppercase;
-    //     font-size: 1.5em;
-    //     margin-bottom: 24px;
-    // }
     #sos-table{
+        border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+
         thead{
             tr{
                 th{
                     background-color: #fff;
+                    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
 
                     &:not(:last-child){
                         border-right: 1px solid rgba(0, 0, 0, 0.03);
                     }
                 }
             }
+        }
+        .sorting {
+            background-image: url("../img/datatables/sort_both.png");
+        }
+        .sorting_asc {
+            background-image: url("../img/datatables/sort_asc.png");
+        }
+        .sorting_desc {
+            background-image: url("../img/datatables/sort_desc.png");
+        }
+        .sorting_asc_disabled {
+            background-image: url("../img/datatables/sort_asc_disabled.png");
+        }
+        .sorting_desc_disabled {
+            background-image: url("../img/datatables/sort_desc_disabled.png");
         }
         tbody{
             tr[role="row"]{

@@ -17,6 +17,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <script type="text/javascript" src="{% watchful_static_url 'js/common/highlighter.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/add-entry.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entries/image-cropper.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/add-entry-map.js' %}"></script>
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
@@ -28,6 +29,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script>
+    let leadId = '{{ lead.pk }}';
     var cancelUrl = "{% url 'entries:entries' event.pk %}";
 
     // Simplified version of the lead.
@@ -94,6 +96,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     {% if entry %}{% for excerpt in entry.entryinformation_set.all %}
         {
             excerpt: "{{excerpt.excerpt|escapejs}}",
+            image: '{{excerpt.image|escapejs}}',
             attributes: [
                 {% for attr in excerpt.informationattribute_set.all %}
                 {
@@ -131,6 +134,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
     // Default date
     var defaultDate = {% if lead.published_at %}"{{lead.published_at|date:"Y-m-d"}}"{% else %}null{% endif %};
+
+    // Some urls
+    let markProcessedUrl = '{% url "leads:mark_processed" event.pk %}';
 </script>
 
 {% endblock %}
@@ -138,28 +144,76 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 {% block body %}
 {% include 'navbar.html' %}
 <div id="page-one">
+    <div class="image-viewer-main" hidden>
+        <div class="viewer-close-btn-main"><i class="fa fa-times fa-2x"></i></div>
+        <div class="image-align-wrapper">
+            <div class="image-wrapper">
+                <img tabindex="-1"></img><br>
+            </div>
+        </div>
+    </div>
     <div class="split-pane fixed-left">
         <div class="split-pane-component" id="left-component">
-            {% if lead_simplified %}
             <div id="lead-options-container">
                 <div id="lead-view-options"{% if lead.lead_type == 'MAN' %}hidden{% endif %}>
+                    {% if lead_simplified %}
                     <label class="active"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
                     <label><input type="radio" name="lead-view-option" value="original">Original</label>
+                    <label><input type="radio" name="lead-view-option" value="images">Images</label>
+                    {% else %}
+                    <label class="active"><input type="radio" name="lead-view-option" value="original" checked>Original</label>
+                    {% endif %}
+                </div>
+                <div id="sort-images-wrapper">
+                    <label>Sorted by:</label>
+                    <select id="sort-images" placeholder="Sort Images">
+                        <option value="def-asc">Default</option>
+                        <option value="size-asc">Size Ascending</option>
+                        <option value="size-dsc">Size descending</option>
+                    </select>
                 </div>
                 <div id="zoom-buttons">
                     <button class="btn-zoom" id="zoom-out" data-toggle="tooltip" title="zoom out"><i class="fa fa-search-minus"></i></button>
                     <button class="btn-zoom" id="zoom-in" data-toggle="tooltip" title="zoom in"><i class="fa fa-search-plus"></i></button>
                 </div>
+                <button id="screenshot-btn" hidden>Screenshot</button>
             </div>
-            {% endif %}
 
             <div id="lead-preview-container">
-                {% if lead.lead_type == 'URL' %}
-                <iframe {% if is_pdf %}{% else %}sandbox="allow-scripts allow-same-origin"{% endif %} id="lead-preview" src="{{ lead.url }}"></iframe>
-                {% elif lead.lead_type == 'ATT' %}
-                <iframe id="lead-preview" src="{{ lead.attachment.upload.url }}"></iframe>
+                {% if format == 'pdf' %}
+                    <iframe id="lead-preview" src="{{ lead_url }}"></iframe>
+                {% elif format == 'docx' or format == 'pptx' %}
+                    <iframe id="lead-preview" src="https://docs.google.com/viewer?url={{ lead_url|urlencode }}&embedded=true&chrome=false&dov=1"></iframe>
+                {% else %}
+                    <iframe sandbox="allow-scripts allow-same-origin" id="lead-preview" src="{{ lead_url }}"></iframe>
                 {% endif %}
+                <button id="process-button" class="lead-status-btn" title="Processed. Click to mark pending" {% if lead.status != 'PRO' %}hidden{% endif %}><i class="fa fa-check fa-md"></i></button>
+                <button id="pending-button" class="lead-status-btn" title="Click to mark Processed" {% if lead.status == 'PRO' %}hidden{% endif %}><i class="fa fa-exclamation-triangle fa-md"></i></button>
                 <div id="lead-simplified-preview">
+                </div>
+                <div id="lead-images-preview">
+                    <div class="image-viewer" hidden>
+                        <div class="viewer-close-btn"><i class="fa fa-times fa-2x"></i></div>
+                        <div class="image-align-wrapper">
+                            <div class="image-wrapper">
+                                <img tabindex="-1"></img><br>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="lead-images-container">
+                        {% for image in lead.leadimage_set.all %}
+                        <div class="image" >
+                            <img class="media-image" src="{{ image.image.url }}" data-default-order="{{ forloop.counter0 }}"></img>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div id="image-cropper-canvas-container" hidden>
+                    <div id="screenshot-actions">
+                        <button id="screenshot-cancel-btn"><i class="fa fa-times"></i>Cancel</button>
+                        <button id="screenshot-done-btn"><i class="fa fa-check"></i>Done</button>
+                    </div>
+                    <canvas id="image-cropper-canvas" ></canvas>
                 </div>
             </div>
         </div>
@@ -176,28 +230,36 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                 </div>
                 <div class="page-controls">
                     <button class="cancel" title="Cancel"><i class="fa fa-times"></i>Cancel</button>
-                    <button class="save-excerpt" title="Save Entry"><i class="fa fa-save"></i>Save entry</button>
+                    <button class="save-excerpt" title="Save Entry"><i class="fa fa-save"></i>Save</button>
+                    <button class="save-and-next" title="Save and go to next pending lead"><i class="fa fa-arrow-right"></i>Save and Next Lead </button>
                     <button id="edit-entries-btn">Edit Entries <i class="fa fa-long-arrow-right"></i></button>
                 </div>
             </div>
             <div id="excerpt-input-group">
                 <div id="excerpt-text-container">
+                    <label>Text</label>
                     <textarea id="excerpt-text" placeholder="Excerpt"></textarea>
                     <a class="fa fa-circle" onclick="reformatCurrentExcerpt();" title="Try reformatting this excerpt"></a>
                 </div>
-                <div id="best-of-bullshits">BoB</div>
-            </div>
-            <div id="matrix-one">
-                {% for pillar in pillars_one %}
-                <div class="pillar">
-                    <div class="pillar-header">{{pillar}}</div>
-                    <div class="sub-pillars">
-                        {% for subpillar in pillar.informationsubpillar_set.all %}
-                        <div class="sub-pillar" data-pillar-id="{{pillar.pk}}" data-bg-color="{{ pillar.background_color }}" data-subpillar-id="{{subpillar.pk}}">{{subpillar}}</div>
-                        {% endfor %}
-                    </div>
+                <div id="excerpt-image-wrapper">
+                    <label>Image</label>
+                    <div id="excerpt-image-container"></div>
                 </div>
-                {% endfor %}
+            </div>
+            <div id="matrix-one-bob-wrapper">
+                <div id="matrix-one">
+                    {% for pillar in pillars_one %}
+                    <div class="pillar">
+                        <div class="pillar-header">{{pillar}}</div>
+                        <div class="sub-pillars">
+                            {% for subpillar in pillar.informationsubpillar_set.all %}
+                            <div class="sub-pillar" data-pillar-id="{{pillar.pk}}" data-bg-color="{{ pillar.background_color }}" data-subpillar-id="{{subpillar.pk}}">{{subpillar}}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div id="best-of-bullshits">BoB</div>
             </div>
             <table id="matrix-two">
                 <thead>
@@ -230,7 +292,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     <div id="page-two-header">
         <button class="cancel"title="Cancel"><i class="fa fa-times"></i>Cancel</button>
         <button class="btn btn-primary save-excerpt"title="Save Entry"><i class="fa fa-save"></i>Save entry</button>
-        <button id="back-to-excerpts-btn"><i class="fa fa-long-arrow-left"></i>Back to excerpts</button>
+        <button id="back-to-excerpts-btn"><i class="fa fa-long-arrow-left"></i>Back to Entries</button>
     </div>
     <div id="entries">
     </div>
@@ -292,14 +354,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     </div>
 </div>
 
-<!-- <div class="multimedia-template">
-    <img class="media-image" src=""></img><br>
-    <label class="media-caption">Caption</label>
+<div class="image-template">
+    <img class="media-image" src=""></img>
 </div>
-<div id="multimedia-viewer" hidden>
-    <div id="viewer-wrapper">
-        <img tabindex="-1"></img><br>
-        <label></label>
-    </div>
-</div> -->
+
 {% endblock %}

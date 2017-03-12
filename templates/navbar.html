@@ -8,13 +8,13 @@
         var crisisDropdown = $('#crisis-dropdown').selectize({
             onDropdownOpen: function(dropdown) {
                 crisisDropdown.clear();
-                dropdown.stop().hide().slideToggle();
+                //dropdown.stop().hide().slideToggle();
             },
             onDropdownClose: function(dropdown) {
                 if(crisisDropdown.getValue() == ''){
                     crisisDropdown.setValue(currentDropdownVal);
                 }
-                dropdown.stop().show().slideToggle();
+                //dropdown.stop().show().slideToggle();
             }
         })[0].selectize;
         $('#crisis-dropdown').change(function() {
@@ -63,9 +63,7 @@
     </div>
 
     <!-- Report -->
-    <div id=report-link-container>
-        <a class="{% if current_page == 'report' %}active{% endif %} menu-item" href="{% url 'report:dashboard' %}{% if event %}?event={{event.pk}}&country={{event.countries.all.0.code}}{% endif %}">Report</a>
-    </div>
+
 
     <!-- Event selector -->
     <div id="crisis-select-container">
@@ -81,7 +79,7 @@
         </select>
         {% else %}
         {% if event %}
-        <a href="#" style="color: #fff; font-weight: bold; width: 100%; overflow: hidden;"><span class="fa fa-location-arrow" style="margin-right: 8px;"></span>{{event}}</a>
+        <div id="crisis-dropdown-alt"><span class="fa fa-location-arrow"></span>{{event}}</div>
         {% endif %}
         {% endif %}
     </div>
@@ -91,7 +89,8 @@
         {% if event %}
         <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' event=event.pk %}">Leads</a>
         <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' event=event.pk %}">Entries</a>
-        <a class="{% if current_page == 'sos' %}active{% endif %} menu-item" href="{% url 'leads:sos' event=event.pk %}">Survey of surveys</a>
+        <a class="{% if current_page == 'sos' %}active{% endif %} menu-item" href="{% url 'leads:sos' event=event.pk %}">Assessment Registry</a>
+        <a class="{% if current_page == 'report' %}active{% endif %} menu-item" href="{% url 'report:dashboard' %}{% if event %}?event={{event.pk}}&country={{event.countries.all.0.code}}{% endif %}">Weekly Snapshot</a>
         <a class="{% if current_page == 'export' %}active{% endif %} menu-item" href="{% url 'entries:export' event=event.pk %}">Export</a>
         {% endif %}
     </div>

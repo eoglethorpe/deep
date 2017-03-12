@@ -311,7 +311,8 @@ body {
         display: flex;
         justify-content: space-between; }
         body main header .action-buttons a {
-          cursor: pointer; }
+          cursor: pointer;
+          color: white; }
       body main header #navigator {
         flex-basis: 60%;
         align-self: flex-end;
@@ -372,9 +373,9 @@ body {
         position: absolute;
         right: 35%;
         bottom: -172px;
-        border-radius: 3px;
-        height: 64px;
         width: 30%;
+        border-radius: 3px;
+        height: 72px;
         z-index: 6;
         background-color: #414141;
         color: #fff;
@@ -383,7 +384,8 @@ body {
         -webkit-user-select: none;
         display: flex;
         justify-content: space-between;
-        align-items: center; }
+        align-items: center;
+        padding-bottom: 16px; }
         body main section #clear-selection-toast > div {
           margin: 0 16px;
           color: rgba(255, 255, 255, 0.7);

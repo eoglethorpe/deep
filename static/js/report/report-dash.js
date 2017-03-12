@@ -23,13 +23,23 @@ $(document).ready(function(){
     });
 
     $('#select-event').selectize();
-    fillCountryDetails();
+    //fillCountryDetails();
+
+    var reports = null;
+    $.getJSON("/api/v2/reports", function(data){
+        //console.log('woohoo!');
+        if(data.status == true){
+            reports = data.data;
+            fillCountryDetails();
+            selectCountryEvent(defaultCountryPk, defaultEventPk, defaultCountryName);
+        }
+    });
 
     function fillCountryDetails(){
         // sort report according to countries
         reports.sort(function(a, b){
-            var ca = a.country.toUpperCase();
-            var cb = b.country.toUpperCase();
+            var ca = a.country.name.toUpperCase();
+            var cb = b.country.name.toUpperCase();
             return (ca < cb)? -1: (ca > cb)? 1: 0;
         });
         var reportGrouped = [];
@@ -37,16 +47,16 @@ $(document).ready(function(){
         var currentReport = null;
         for(var i=0; i<reports.length; i++){
             var report = reports[i];
-            if(currentCountry != report.country){
-                currentCountry = report.country;
+            if(currentCountry != report.country.name){
+                currentCountry = report.country.name;
                 currentReport = {'country': report.country, 'weeklyReports': []};
                 reportGrouped.push(currentReport);
             }
-            currentReport.weeklyReports.push({'startDate': report.startDate, 'data': report.data});
+            currentReport.weeklyReports.push({'startDate': report.start_date, 'data': report.data});
         }
         for(var i=0; i<reportGrouped.length; i++){
             var current = reportGrouped[i];
-            var country = $('#countries .country[data-pk="'+current.country+'"]');
+            var country = $('#countries .country[data-pk="'+current.country.code+'"]');
             current.weeklyReports.sort(function(a, b){
                 return (new Date(a.startDate)) < (new Date(b.startDate));
             });
@@ -425,13 +435,19 @@ $(document).ready(function(){
 
     // change event
     $('#select-event').change(function() {
-        var event = $(this).val();
-        window.location.href = window.location.pathname+"?"+$.param({event:event})+"&country="+$(this).data('country-pk');
+        // var event = $(this).val();
+        selectCountryEvent($(this).data('country-pk'), $(this).val(), null);
+        // window.location.href = window.location.pathname+"?"+$.param({event:event})+"&country="+$(this).data('country-pk');
     });
 
     // change country
     $('.country').on('click', function(){
-        window.location.href = $(this).data('href');u
+        selectCountryEvent($(this).data('pk'), null, $(this).data('name'));
+        // window.location.href = $(this).data('href');
+    });
+
+    $('.delete-btn').on('click', function(){
+        if(confirm('Are you sure you want to delete the report?')) location.href=$(this).data('target');
     });
 
     // format number to 1 000 format
@@ -503,4 +519,73 @@ $(document).ready(function(){
         $(this).data('sort-asc', sortAsc);
         $(this).addClass(sortAsc? 'asc' : 'dsc');
     });
+
+
+    function selectCountryEvent(countryPk, eventPk, countryName) {
+        let reportsContainer = $('#weekly-reports');
+        reportsContainer.find('.weekly-report').remove();
+        reportsContainer.find('p').show();
+
+        if (countryName) {
+            $('#weekly-report-panel-header h2').text(countryName);
+        }
+
+        if (reports && reports.length > 0) {
+
+            // First add all events for this country
+            let countryReports = reports.filter(r => (r.country.code == countryPk));
+            let eventsSelect = $('#weekly-report-panel-header select')[0].selectize;
+            $('#weekly-report-panel-header select').data('country-pk', countryPk);
+            eventsSelect.clearOptions();
+
+            if (countryReports.length > 0) {
+                if (eventPk == null) {
+                    eventPk = countryReports[0].event.pk;
+                }
+
+                let addedEvents = [];
+                for (let i=0; i<countryReports.length; i++) {
+                    let epk = countryReports[i].event.pk;
+                    if (addedEvents.indexOf(epk) < 0) {
+                        addedEvents.push(epk);
+                        eventsSelect.addOption({value: epk, text: countryReports[i].event.name});
+                    }
+                }
+            }
+            eventsSelect.setValue(eventPk, true);
+
+            // Then add the add new report for this event
+            let addButton = $('#add-weekly-report-btn');
+            addButton.attr('href', '/report/weekly/add/' + countryPk + '/' + eventPk + '?start_date=' + addButton.data('start-date'));
+            addButton.show();
+
+            // Next add reports for this event
+            let selectedReports = reports.filter(r => (r.country.code == countryPk && r.event.pk == eventPk));
+            if (selectedReports.length > 0) {
+                selectedReports.sort(function(r1, r2) {
+                    return new Date(r2.start_date) - new Date(r1.start_date);
+                });
+                reportsContainer.find('p').hide();
+
+                for (let i=0; i<selectedReports.length; i++) {
+                    let report = selectedReports[i];
+                    let reportElement = $('#weekly-report-list .weekly-report-template').clone();
+                    reportElement.removeClass('weekly-report-template').addClass('weekly-report');
+
+                    reportElement.find('.number').text(new Date(report.start_date).getWeek());
+                    reportElement.find('.start-date').text(formatDate(report.start_date));
+                    reportElement.find('.end-date').text(formatDate(new Date(report.start_date).addDays(6)));
+                    reportElement.find('.edit-btn').attr('href', '/report/weekly/edit/' + countryPk + '/' + eventPk + '/' + report.id);
+                    reportElement.find('.delete-btn').click(function() {
+                        if(confirm('Are you sure you want to delete the report?')) {
+                            window.location.href = '/report/weekly/edit/' + countryPk + '/' + eventPk + '/' + report.id;
+                        }
+                    });
+
+                    reportElement.appendTo(reportsContainer);
+                    reportElement.show();
+                }
+            }
+        }
+    }
 });

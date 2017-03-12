@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 
 from users.log import *
 from users.models import *
@@ -14,6 +15,7 @@ from entries.strippers import *
 # from . import export_xls, export_docx, export_fields
 from entries.export_entries_docx import export_docx, export_docx_new_format
 from entries.export_entries_xls import export_xls
+from report.export_xls import export_xls as export_xls_weekly
 from entries.refresh_pcodes import *
 from leads.views import get_simplified_lead
 
@@ -50,6 +52,12 @@ class ExportXls(View):
     @method_decorator(login_required)
     def get(self, request, event):
         return export_xls('DEEP Entries-%s' % time.strftime("%Y-%m-%d"), int(event))
+
+
+class ExportXlsWeekly(View):
+    @method_decorator(login_required)
+    def get(self, request, event):
+        return export_xls_weekly('DEEP Entries-%s' % time.strftime("%Y-%m-%d"))
 
 
 class ExportDocx(View):
@@ -154,10 +162,18 @@ class AddEntry(View):
         context["severities"] = Severity.objects.all().order_by('level')
         context["affected_groups"] = AffectedGroup.objects.all()
 
-        if lead.lead_type == 'URL' and lead.url.endswith('.pdf'):
-            context["is_pdf"] = True
-        else:
-            context["is_pdf"] = False
+        if lead.lead_type == 'URL':
+            context['lead_url'] = lead.url
+        elif lead.lead_type == 'ATT':
+            context['lead_url'] = request.build_absolute_uri(lead.attachment.upload.url)
+
+        if context.get('lead_url'):
+            if context['lead_url'].endswith('.pdf'):
+                context["format"] = 'pdf'
+            elif context['lead_url'].endswith('.docx'):
+                context["format"] = 'docx'
+            elif context['lead_url'].endswith('.pptx'):
+                context["format"] = 'pptx'
 
         try:
             context["default_reliability"] = Reliability.objects.get(is_default=True)
@@ -198,6 +214,7 @@ class AddEntry(View):
         for excerpt in excerpts:
             information = EntryInformation(entry=entry)
             information.excerpt = excerpt["excerpt"]
+            information.image = excerpt['image']
 
             information.bob = excerpt['bob']
             information.reliability = Reliability.objects.get(pk=int(excerpt["reliability"]))
@@ -253,7 +270,10 @@ class AddEntry(View):
                     for subsector in attr["subsectors"]:
                         ia.subsectors.add(Subsector.objects.get(pk=int(subsector)))
 
-
+        if 'next_pending' in request.POST:
+            next_pending = Lead.objects.filter(~Q(pk=lead.pk), event__pk=event, status='PEN').order_by('-created_at')
+            if next_pending.count() > 0:
+                return redirect('entries:add', event=event, lead_id=next_pending[0].pk)
         return redirect('entries:entries', event)
 
 
