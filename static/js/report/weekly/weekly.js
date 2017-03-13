@@ -332,6 +332,21 @@ $(document).ready(function(){
 
     // Initialize children fields stuffs
     childrenFields.init();
+
+    // The new source field
+    $('.human-source-new').on('drop', function() {
+        var data=e.originalEvent.dataTransfer.getData("Text");
+        var ids = data.split(':');
+        if (ids.length != 2)
+            return;
+
+        var i = +ids[0];
+        var j = +ids[1];
+        if (isNaN(i) || isNaN(j))
+            return;
+
+        console.log(i + ":" + j);
+    });
 });
 
 function setInputData() {

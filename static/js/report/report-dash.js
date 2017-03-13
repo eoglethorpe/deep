@@ -342,10 +342,11 @@ $(document).ready(function(){
                                 let keys = Object.keys(fieldsWeek0[i]);
                                 for(let j=0; j<keys.length; j++){
 
-                                    // Check if object
                                     let value0 = fieldsWeek0[i][keys[j]];
                                     let value1 = fieldsWeek1[i][keys[j]];
-                                    if (value0 instanceof Object) {
+
+                                    // Check if object
+                                    if (value0 instanceof Object && value1 instanceof Object) {
                                         if (JSON.stringify(value0) != JSON.stringify(value1)) {
                                             ++change;
                                         }

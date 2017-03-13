@@ -39,6 +39,11 @@
             > div {
                 flex-basis: 100%;
             }
+            .source-new {
+                display: inline-block;
+                flex-basis: 23%;
+                border: 1px solid transparent;
+            }
         }
 
         .human-profile-child{

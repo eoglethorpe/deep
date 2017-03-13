@@ -506,6 +506,10 @@ main {
         color: #008080; }
       main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field > div, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield > div, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child > div {
         flex-basis: 100%; }
+      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new {
+        display: inline-block;
+        flex-basis: 23%;
+        border: 1px solid transparent; }
     main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child {
       margin: 0 0 8px 0; }
       main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child input {
