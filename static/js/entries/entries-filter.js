@@ -29,6 +29,7 @@ function loadEntriesData(data) {
     data = data.data;
 
     // TODO only append entries whose pk are not present
+    let newEntryIndex = originalEntries.length;
     originalEntries = originalEntries.concat(data);
     originalEntries.sort(function(e1, e2) {
         return new Date(e2.created_at) - new Date(e1.created_at);
@@ -38,7 +39,7 @@ function loadEntriesData(data) {
     for (var i=0; i<data.length; ++i) {
         for (var j=0; j<data[i].informations.length; ++j) {
             var info = data[i].informations[j];
-            info.entryIndex = i;
+            info.entryIndex = i + newEntryIndex;
             for (var k=0; k<info.map_selections.length; ++k) {
                 var ms = info.map_selections[k];
                 areasSelectize[0].selectize.addOption({value:ms.name, text:ms.name});
@@ -173,6 +174,9 @@ function initEntryFilters() {
                     var startDate = new Date($('#date-range-input #start-date').val());
                     var endDate = new Date($('#date-range-input #end-date').val());
                     addFilter('published-at', !startDate || !endDate, function(info) {
+                        if (!originalEntries[info.entryIndex].lead_published_at) {
+                            return false;
+                        }
                         var date = new Date(originalEntries[info.entryIndex].lead_published_at);
                         return dateInRange(date, startDate, endDate);
                     });
@@ -183,8 +187,9 @@ function initEntryFilters() {
 
         } else {
             addFilter('published-at', filterBy == "" || filterBy == null, function(info) {
-                if (originalEntries[info.entryIndex].lead_published_at)
+                if (originalEntries[info.entryIndex].lead_published_at) {
                     return filterDate(filterBy, new Date(originalEntries[info.entryIndex].lead_published_at));
+                }
                 return false;
             });
             previousPublishedDateFilterSelection = filterBy;

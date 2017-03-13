@@ -52,7 +52,7 @@ function renderEntries() {
             + entryElement.find('.entry-title').html()
             + '</a>'
         );
-        entryElement.find(".created-by").text(entry.created_by_name);
+        entryElement.find(".created-by").text(entry.created_by_name?entry.created_by_name:entry.modified_by_name);
         entryElement.find(".created-on").text(formatDate(new Date(entry.created_at)));
 
         entryElement.appendTo($("#entries"));
