@@ -74,6 +74,10 @@ var start_date = "{{report.start_date|date:'d-M-Y'}}";
 var appearing_pillars = {
     {% for field, pillars in appearing_pillars.items %}{{field}}: [{% for pillar in pillars %}"{{pillar.pk}}", {% endfor %}], {% endfor %}
 };
+appearing_pillars = $.extend(true, {}, appearing_pillars, {
+    {% for field, subpillars in appearing_subpillars.items %}{{field}}: [{% for subpillar in subpillars %}"{{subpillar.pillar.pk}}/{{subpillar.pk}}", {% endfor %}], {% endfor %}
+});
+console.log(appearing_pillars);
 
 var human_profile_field_rules = [
     {% for rule in human_profile_field_rules %}
@@ -135,7 +139,7 @@ var timelineCategories = [{% for category in category_timelines %}"{{category}}"
 <main>
     <div id="navigator">
         <a data-target="#reporting-parameters" class="active">Reporting parameters</a>
-        <a data-target="#key-events">Key events</a>
+        <a data-target="#key-events" data-pillar-tag="KEY">Key events</a>
         <a data-target="#humanitarian-profile" data-pillar-tag="HPR">Humanitarian profile</a>
         <a data-target="#people-in-need" data-pillar-tag="PIN">People in need</a>
         <a data-target="#humanitarian-access" data-pillar-tag="HAC">Humanitarian access</a>

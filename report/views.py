@@ -112,6 +112,10 @@ class WeeklyReportView(View):
         for field in InformationPillar.APPEAR_IN:
             context["appearing_pillars"][field[0]] = InformationPillar.objects.filter(appear_in=field[0])
 
+        context["appearing_subpillars"] = {}
+        for field in InformationSubpillar.APPEAR_IN:
+            context["appearing_subpillars"][field[0]] = InformationSubpillar.objects.filter(appear_in=field[0])
+
         return render(request, "report/weekly.html", context)
 
     @method_decorator(login_required)

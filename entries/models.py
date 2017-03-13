@@ -120,11 +120,13 @@ class InformationPillar(models.Model):
     PEOPLE_IN_NEED = "PIN"
     HUMANITARIAN_ACCESS = "HAC"
     HUMANITARIAN_PROFILE = "HPR"
+    KEY_EVENTS = "KEY"
 
     APPEAR_IN = (
         (PEOPLE_IN_NEED, "People in need"),
         (HUMANITARIAN_ACCESS, "Humanitarian access"),
         (HUMANITARIAN_PROFILE, "Humanitarian profile"),
+        (KEY_EVENTS, "Key events"),
     )
 
     appear_in = models.CharField(max_length=3, choices=APPEAR_IN,
@@ -142,6 +144,21 @@ class InformationSubpillar(models.Model):
     pillar = models.ForeignKey(InformationPillar)
 
     tooltip = models.TextField(default='', blank=True)
+    
+    PEOPLE_IN_NEED = "PIN"
+    HUMANITARIAN_ACCESS = "HAC"
+    HUMANITARIAN_PROFILE = "HPR"
+    KEY_EVENTS = "KEY"
+
+    APPEAR_IN = (
+        (PEOPLE_IN_NEED, "People in need"),
+        (HUMANITARIAN_ACCESS, "Humanitarian access"),
+        (HUMANITARIAN_PROFILE, "Humanitarian profile"),
+        (KEY_EVENTS, "Key events"),
+    )
+
+    appear_in = models.CharField(max_length=3, choices=APPEAR_IN,
+                                 blank=True, null=True, default=None)
 
     def __str__(self):
         return self.name
