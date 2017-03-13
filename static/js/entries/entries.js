@@ -46,6 +46,7 @@ function renderEntries() {
         entryElement.removeClass("entry-template");
         entryElement.addClass("entry");
 
+        entryElement.find(".entry-title").html(searchAndHighlight(entry.lead_title, leadTitleFilterText));
         entryElement.find(".entry-title").html(
             '<a' + (entry.lead_url ? ' target="_blank" href="' + entry.lead_url + '"' : '') + '>'
             + entryElement.find('.entry-title').html()
