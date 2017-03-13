@@ -73,6 +73,10 @@ var start_date = "{{report.start_date|date:'d-M-Y'}}";
 var appearing_pillars = {
     {% for field, pillars in appearing_pillars.items %}{{field}}: [{% for pillar in pillars %}"{{pillar.pk}}", {% endfor %}], {% endfor %}
 };
+appearing_pillars = $.extend(true, {}, appearing_pillars, {
+    {% for field, subpillars in appearing_subpillars.items %}{{field}}: [{% for subpillar in subpillars %}"{{subpillar.pillar.pk}}/{{subpillar.pk}}", {% endfor %}], {% endfor %}
+});
+console.log(appearing_pillars);
 
 var human_profile_field_rules = [
     {% for rule in human_profile_field_rules %}
