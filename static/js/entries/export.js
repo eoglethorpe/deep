@@ -19,6 +19,8 @@ $(document).ready(function(){
 
 
     $('#export-entries-doc-form').submit(function () {
+        filterEntries();
+        
         $("<input>").attr({
             'type': 'hidden',
             'name': 'order',
