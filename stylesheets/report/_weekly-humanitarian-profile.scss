@@ -42,7 +42,8 @@
             .source-new {
                 display: inline-block;
                 flex-basis: 23%;
-                border: 1px solid transparent;
+                border: 1px solid $primary-color;
+                min-height: 24px;
             }
         }
 

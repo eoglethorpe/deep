@@ -536,6 +536,9 @@ $(document).ready(function(){
         reportsContainer.find('.weekly-report').remove();
         reportsContainer.find('p').show();
 
+        $('.country.active').removeClass('active');
+        $('.country[data-pk="' + countryPk + '"]').addClass('active');
+
         if (countryName) {
             $('#weekly-report-panel-header h2').text(countryName);
         }

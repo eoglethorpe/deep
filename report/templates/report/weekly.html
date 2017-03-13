@@ -17,6 +17,7 @@ DEEP | Weekly Report
 <script src="{% watchful_static_url 'js/report/weekly/children-fields.js' %}"></script>
 <script src="{% watchful_static_url 'js/report/weekly/weekly.js' %}"></script>
 <script src="{% watchful_static_url 'js/report/weekly/decay.js' %}"></script>
+<script src="{% watchful_static_url 'js/report/weekly/source.js' %}"></script>
 
 <script>
 var eventId = "{{event.pk}}";
@@ -151,6 +152,10 @@ var timelineCategories = [{% for category in category_timelines %}"{{category}}"
 </main>
 {% include 'report/weekly/entry-templates.html' %}
 
+<div class='source-template' hidden>
+    <span class="name"></span> - <date></date>
+    <span class="delete fa fa-times"></span>
+</div>
 
 <div class="modal-container" hidden>
     <div id="date-range-input" class="modal" hidden>
