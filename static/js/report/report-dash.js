@@ -58,7 +58,7 @@ $(document).ready(function(){
             var current = reportGrouped[i];
             var country = $('#countries .country[data-pk="'+current.country.code+'"]');
             current.weeklyReports.sort(function(a, b){
-                return (new Date(a.startDate)) - (new Date(b.startDate));
+                return (new Date(b.startDate)) - (new Date(a.startDate));
             });
 
             if(current.weeklyReports.length > 0){
