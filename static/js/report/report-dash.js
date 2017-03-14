@@ -58,7 +58,7 @@ $(document).ready(function(){
             var current = reportGrouped[i];
             var country = $('#countries .country[data-pk="'+current.country.code+'"]');
             current.weeklyReports.sort(function(a, b){
-                return (new Date(a.startDate)) < (new Date(b.startDate));
+                return (new Date(b.startDate)) - (new Date(a.startDate));
             });
 
             if(current.weeklyReports.length > 0){
@@ -342,10 +342,11 @@ $(document).ready(function(){
                                 let keys = Object.keys(fieldsWeek0[i]);
                                 for(let j=0; j<keys.length; j++){
 
-                                    // Check if object
                                     let value0 = fieldsWeek0[i][keys[j]];
                                     let value1 = fieldsWeek1[i][keys[j]];
-                                    if (value0 instanceof Object) {
+
+                                    // Check if object
+                                    if (value0 instanceof Object && value1 instanceof Object) {
                                         if (JSON.stringify(value0) != JSON.stringify(value1)) {
                                             ++change;
                                         }
@@ -534,6 +535,9 @@ $(document).ready(function(){
         let reportsContainer = $('#weekly-reports');
         reportsContainer.find('.weekly-report').remove();
         reportsContainer.find('p').show();
+
+        $('.country.active').removeClass('active');
+        $('.country[data-pk="' + countryPk + '"]').addClass('active');
 
         if (countryName) {
             $('#weekly-report-panel-header h2').text(countryName);
