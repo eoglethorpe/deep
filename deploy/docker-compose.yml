@@ -25,7 +25,7 @@ services:
             - /home/code/deep/deploy
             - socket:/home/code/deep/socket
         env_file: .env
-        command: bash -c "chmod +x /home/code/deep/deploy/django/exec.sh && /home/code/deep/deploy/exec.sh"
+        command: bash -c "chmod +x /home/code/deep/deploy/django/exec.sh && /home/code/deep/deploy/django/exec.sh"
 
 volumes:
     socket:
