@@ -232,7 +232,7 @@ body {
         box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.3);
         background-color: #fff; }
         body #page-one .split-pane #left-component #lead-options-container #lead-view-options {
-          flex-basis: 55%; }
+          flex-basis: 50%; }
           body #page-one .split-pane #left-component #lead-options-container #lead-view-options label {
             display: inline-block;
             cursor: pointer;
@@ -245,7 +245,7 @@ body {
               color: #008080;
               border-bottom: 3px solid #008080; }
         body #page-one .split-pane #left-component #lead-options-container #sort-images-wrapper {
-          flex-basis: 25%;
+          flex-basis: 35%;
           flex-grow: 0;
           align-self: stretch;
           flex-shrink: 0;
@@ -253,12 +253,14 @@ body {
           align-items: center;
           justify-content: space-between; }
           body #page-one .split-pane #left-component #lead-options-container #sort-images-wrapper label {
-            flex-basis: 45%;
+            flex-basis: 25%;
             text-align: right; }
+          body #page-one .split-pane #left-component #lead-options-container #sort-images-wrapper .items {
+            text-transform: capitalize; }
           body #page-one .split-pane #left-component #lead-options-container #sort-images-wrapper > div {
-            flex-basis: 50%; }
+            flex-basis: 73%; }
         body #page-one .split-pane #left-component #lead-options-container #zoom-buttons {
-          flex-basis: 20%;
+          flex-basis: 15%;
           align-self: stretch;
           display: flex;
           justify-content: flex-end; }
