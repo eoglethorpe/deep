@@ -332,6 +332,9 @@ $(document).ready(function(){
 
     // Initialize children fields stuffs
     childrenFields.init();
+
+    // Handle source fields
+    source.init();
 });
 
 function setInputData() {
