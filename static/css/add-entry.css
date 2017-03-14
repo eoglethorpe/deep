@@ -573,9 +573,10 @@ body {
       display: flex; }
     body #page-two #page-two-header .cancel {
       background-color: #e74c3c; }
-    body #page-two #page-two-header .save-excerpt {
+    body #page-two #page-two-header .save-excerpt, body #page-two #page-two-header .save-and-next {
       background-color: #3498db; }
-    body #page-two #page-two-header .cancel .fa, body #page-two #page-two-header .save-excerpt .fa, body #page-two #page-two-header #back-to-excerpts-btn .fa {
+    body #page-two #page-two-header .save-and-next
+    .cancel .fa, body #page-two #page-two-header .save-and-next .fa, body #page-two #page-two-header .save-excerpt .fa, body #page-two #page-two-header #back-to-excerpts-btn .fa {
       margin-right: 10px; }
     body #page-two #page-two-header #back-to-excerpts-btn {
       background-color: #008080;

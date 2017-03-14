@@ -13,8 +13,9 @@
             display: flex;
         }
         .cancel{ background-color: $danger-color; }
-        .save-excerpt{ background-color: $info-color; }
-        .cancel, .save-excerpt, #back-to-excerpts-btn{
+        .save-excerpt,.save-and-next{ background-color: $info-color; }
+        .save-and-next
+        .cancel, .save-and-next,.save-excerpt, #back-to-excerpts-btn{
             .fa{
                 margin-right: 10px;
             }
