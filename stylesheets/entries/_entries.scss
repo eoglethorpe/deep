@@ -159,6 +159,13 @@
                 &:nth-child(6){ flex-basis: 10%; }
                 &:nth-child(7){
                     flex-basis: 20%;
+                    .pillar-header{
+                        display: flex;
+
+                        label{
+                            flex-basis: 50%;
+                        }
+                    }
                     .attribute{
                         display: flex!important;
                         >*{
