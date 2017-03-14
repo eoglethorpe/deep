@@ -78,7 +78,7 @@
                 background-color: #fff;
 
                 #lead-view-options{
-                    flex-basis: 55%;
+                    flex-basis: 50%;
 
                     label{
                         display: inline-block;
@@ -97,7 +97,7 @@
                     }
                 }
                 #sort-images-wrapper{
-                    flex-basis: 25%;
+                    flex-basis: 35%;
                     flex-grow: 0;
                     align-self: stretch;
                     flex-shrink: 0;
@@ -106,15 +106,18 @@
                     justify-content: space-between;
 
                     label{
-                        flex-basis: 45%;
+                        flex-basis: 25%;
                         text-align: right;
                     }
+                    .items{
+                        text-transform: capitalize;
+                    }
                     >div{
-                        flex-basis: 50%;
+                        flex-basis: 73%;
                     }
                 }
                 #zoom-buttons{
-                    flex-basis: 20%;
+                    flex-basis: 15%;
                     align-self: stretch;
                     display: flex;
                     justify-content: flex-end;
