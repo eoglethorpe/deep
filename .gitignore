@@ -77,3 +77,4 @@ target/
 
 # SASS cache
 .sass-cache/
+.env

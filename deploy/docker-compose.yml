@@ -1,0 +1,31 @@
+version: '2'
+
+services:
+    nginx:
+        restart: always
+        build: ./nginx/
+        ports:
+            - "8090:80"
+        volumes:
+            - socket:/home/code/deep/socket
+        volumes_from:
+            - django
+        links:
+            - django:django
+        command: bash -c "service nginx start"
+
+    django:
+        restart: always
+        build: ./django
+        expose:
+            - "80"
+        volumes:
+            - /home/code/deep/static
+            - /home/code/deep/media
+            - /home/code/deep/deploy
+            - socket:/home/code/deep/socket
+        env_file: .env
+        command: bash -c "chmod +x /home/code/deep/deploy/django/exec.sh && /home/code/deep/deploy/exec.sh"
+
+volumes:
+    socket:
