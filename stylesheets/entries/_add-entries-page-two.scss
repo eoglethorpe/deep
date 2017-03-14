@@ -14,11 +14,11 @@
         }
         .cancel{ background-color: $danger-color; }
         .save-excerpt,.save-and-next{ background-color: $info-color; }
-        .save-and-next
         .cancel, .save-and-next,.save-excerpt, #back-to-excerpts-btn{
             .fa{
                 margin-right: 10px;
             }
+            @include btn-shadow-md;
         }
         #back-to-excerpts-btn{
             background-color: $primary-color;
@@ -100,9 +100,9 @@
                     flex-wrap: wrap;
                     position: relative;
 
-                    label{ flex-basis: 80%; }
+                    // label{ flex-basis: 80%; }
                     .action-buttons{
-                        flex-basis: 20%;
+                        flex-basis: 48px;
                         display: flex;
                         justify-content: space-around;
                         cursor: pointer;
@@ -123,35 +123,39 @@
                 flex-basis: 15%;
                 align-self: flex-start;
                 display: flex;
-                justify-content: space-between;
+                justify-content: flex-start;
                 flex-wrap: wrap;
 
                 label{
-                    flex-basis: 80%;
+                    // flex-basis: 80%;
                 }
                 .action-buttons{
-                    flex-basis: 20%;
+                    flex-basis: 48px;
                     display: flex;
                     justify-content: space-around;
                     cursor: pointer;
                     margin-bottom: 10px;
                 }
             }
+
             .btn-demographic-apply-to-all, .btn-specific-needs-apply-to-all{
+                float:left;
                 color: $warning-color;
             }
             .btn-demographic-apply-to-all-below, .btn-specific-needs-apply-to-all-below{
+
                 color: $info-color;
             }
             .affected-group, .geo-location{
                 flex-basis: 10%;
                 display: flex;
                 flex-wrap: wrap;
-                justify-content: space-between;
+                justify-content: flex-start;
                 align-items: center;
                 align-self: flex-start;
 
                 img{
+                    margin-left: 10px;
                     width: 24px;
                     height: 24px;
                     border-radius: 50%;
@@ -261,196 +265,6 @@
                     }
                 }
             }
-        }
-    }
-}
-
-
-#bla-bla-page-two{
-    padding-top: 24px;
-
-    .first-child{
-        padding-right: 2px;
-    }
-    .low-padding{
-        padding-left: 2px;
-        padding-right: 2px;
-    }
-    .last-child{
-        padding-left: 2px;
-    }
-    .save-excerpt, .cancel, #back-to-excerpts-btn{
-        @include btn-shadow-sm();
-        margin-left: 10px;
-    }
-
-    .btn-affected, .btn-map {
-        cursor: pointer;
-        border-radius: 50%;
-        @include btn-shadow-sm();
-    }
-    #entries{
-        margin-top: 16px;
-        box-shadow: 0 -10px 16px -10px rgba(0, 0, 0, 0.3);
-        border: 1px solid rgba(0, 0, 0, 0.1);
-
-        h3{
-            margin-top: 0;
-            margin-bottom: 24px;
-            text-transform: uppercase;
-        }
-        .entry{
-            padding: 16px;
-            padding-bottom: 0;
-            background-color: #fff;
-
-            label{
-                min-width: 64px;
-                margin-right: 10px;
-            }
-
-            .severity, .reliability{
-                cursor: pointer;
-
-                span{
-                    width: 8px;
-                    height: 16px;
-                    margin: 1px;
-                    background-color: #ccc;
-                    display: inline-block;
-                    cursor: pointer;
-                    border-radius: 2px;
-                }
-                label{
-                    vertical-align: super;
-                    margin-right: 16px;
-                    margin-left: 24px;
-                }
-            }
-            hr{
-                margin: 16px 24px;
-                border: 1px solid rgba(0, 0, 0, 0.05);
-            }
-            #date-number{
-                padding: 0 24px;
-
-                .form-control{
-                    margin-bottom: 8px;
-                }
-                label{
-                    display: inline-block;
-                }
-                .date > div{
-                    width: calc(100% - 80px);
-                    display: inline-block;
-                }
-                .number > input{
-                    width: calc(100% - 80px);
-                    display: inline-block;
-                }
-            }
-            $reliability-base: #1A237E;
-            .reliability{
-                margin-bottom: 10px;
-                cursor: pointer;
-                ._1{ background-color: lighten($reliability-base, 50%); }
-                ._2{ background-color: lighten($reliability-base, 40%); }
-                ._3{ background-color: lighten($reliability-base, 30%);  }
-                ._4{ background-color: lighten($reliability-base, 20%); }
-                ._5{ background-color: lighten($reliability-base, 10%); }
-                ._6{ background-color: lighten($reliability-base, 5%); }
-                .active{ width: 12px; height: 24px; margin-bottom: -4px;}
-            }
-            $severity-base: #B71C1C;
-            .severity{
-                cursor: pointer;
-                ._1{ background-color: lighten($severity-base, 40%); }
-                ._2{ background-color: lighten($severity-base, 30%); }
-                ._3{ background-color: lighten($severity-base, 20%);  }
-                ._4{ background-color: lighten($severity-base, 10%); }
-                ._5{ background-color: lighten($severity-base, 5%); }
-                ._6{ background-color: lighten($severity-base, 0%); }
-                .active{ width: 12px; height: 24px; margin-bottom: -4px;}
-            }
-            .excerpt{
-                overflow: hidden;
-                margin-bottom: 16px;
-                resize: none;
-                resize: vertical;
-            }
-
-            .vulnerable-groups{
-                margin-bottom: 16px;
-            }
-            .affected-group{
-                color: #e74c3c;
-            }
-            .geo-location, .affected-group{
-                padding: 0 4px;
-                min-height: 64px;
-                margin-bottom: 10px;
-
-                label{
-                    display: inline-block;
-                    margin-right: 10px;
-                }
-                img{
-                    width: 24px;
-                    height: 24px;
-                }
-                span{
-                    display: block;
-
-                    &:before{
-                        content:'•';
-                        margin-right: 10px;
-                    }
-                }
-            }
-            .attribute-list{
-                display: flex;
-                flex-direction: column;
-
-                .attribute{
-                    margin-bottom: 2px;
-                    display: block;
-                    font-size: 0.9em;
-                    text-align: left;
-                    a{
-                        font-size: 0.9em;
-                        cursor: pointer;
-                    }
-                }
-            }
-            .sub-sector-list{
-                list-style: none;
-            }
-            .btn-action{
-                width: 30px;
-                height: 30px;
-                text-align: center;
-                padding: 0;
-                padding-top: 4px;
-                margin-bottom: 10px;
-                @include btn-shadow-sm();
-
-                .fa{
-                    margin: 0;
-                }
-            }
-            .pillar, .sector{
-                font-weight: bold;
-            }
-            .sub-pillar, .sub-sector{
-                font-size: 0.9em;
-                word-wrap: break-word;
-            }
-            a.sub-sector{
-                color: $primary-color;
-            }
-        }
-        .entry:nth-child(even){
-            background-color: #f5f5f5;
         }
     }
 }

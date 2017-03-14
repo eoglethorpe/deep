@@ -1,4 +1,3 @@
-@charset "UTF-8";
 ::-webkit-scrollbar-track {
   background-color: rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.04); }
@@ -575,9 +574,12 @@ body {
       background-color: #e74c3c; }
     body #page-two #page-two-header .save-excerpt, body #page-two #page-two-header .save-and-next {
       background-color: #3498db; }
-    body #page-two #page-two-header .save-and-next
-    .cancel .fa, body #page-two #page-two-header .save-and-next .fa, body #page-two #page-two-header .save-excerpt .fa, body #page-two #page-two-header #back-to-excerpts-btn .fa {
-      margin-right: 10px; }
+    body #page-two #page-two-header .cancel, body #page-two #page-two-header .save-and-next, body #page-two #page-two-header .save-excerpt, body #page-two #page-two-header #back-to-excerpts-btn {
+      box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5); }
+      body #page-two #page-two-header .cancel .fa, body #page-two #page-two-header .save-and-next .fa, body #page-two #page-two-header .save-excerpt .fa, body #page-two #page-two-header #back-to-excerpts-btn .fa {
+        margin-right: 10px; }
+      body #page-two #page-two-header .cancel:active, body #page-two #page-two-header .save-and-next:active, body #page-two #page-two-header .save-excerpt:active, body #page-two #page-two-header #back-to-excerpts-btn:active {
+        box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
     body #page-two #page-two-header #back-to-excerpts-btn {
       background-color: #008080;
       margin-left: 10px; }
@@ -657,10 +659,8 @@ body {
           display: flex;
           flex-wrap: wrap;
           position: relative; }
-          body #page-two #entries .entry > div:nth-child(2) .information-date label {
-            flex-basis: 80%; }
           body #page-two #entries .entry > div:nth-child(2) .information-date .action-buttons {
-            flex-basis: 20%;
+            flex-basis: 48px;
             display: flex;
             justify-content: space-around;
             cursor: pointer; }
@@ -677,17 +677,16 @@ body {
         flex-basis: 15%;
         align-self: flex-start;
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         flex-wrap: wrap; }
-        body #page-two #entries .entry .vulnerable-groups label, body #page-two #entries .entry .specific-need-groups label {
-          flex-basis: 80%; }
         body #page-two #entries .entry .vulnerable-groups .action-buttons, body #page-two #entries .entry .specific-need-groups .action-buttons {
-          flex-basis: 20%;
+          flex-basis: 48px;
           display: flex;
           justify-content: space-around;
           cursor: pointer;
           margin-bottom: 10px; }
       body #page-two #entries .entry .btn-demographic-apply-to-all, body #page-two #entries .entry .btn-specific-needs-apply-to-all {
+        float: left;
         color: #f39c12; }
       body #page-two #entries .entry .btn-demographic-apply-to-all-below, body #page-two #entries .entry .btn-specific-needs-apply-to-all-below {
         color: #3498db; }
@@ -695,10 +694,11 @@ body {
         flex-basis: 10%;
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
         align-self: flex-start; }
         body #page-two #entries .entry .affected-group img, body #page-two #entries .entry .geo-location img {
+          margin-left: 10px;
           width: 24px;
           height: 24px;
           border-radius: 50%;
@@ -778,165 +778,6 @@ body {
             margin-bottom: 10px; }
           body #page-two #entries .entry > .action-buttons a.delete-entry-btn {
             background-color: #e74c3c; }
-  body #bla-bla-page-two {
-    padding-top: 24px; }
-    body #bla-bla-page-two .first-child {
-      padding-right: 2px; }
-    body #bla-bla-page-two .low-padding {
-      padding-left: 2px;
-      padding-right: 2px; }
-    body #bla-bla-page-two .last-child {
-      padding-left: 2px; }
-    body #bla-bla-page-two .save-excerpt, body #bla-bla-page-two .cancel, body #bla-bla-page-two #back-to-excerpts-btn {
-      box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3);
-      margin-left: 10px; }
-      body #bla-bla-page-two .save-excerpt:active, body #bla-bla-page-two .cancel:active, body #bla-bla-page-two #back-to-excerpts-btn:active {
-        box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-    body #bla-bla-page-two .btn-affected, body #bla-bla-page-two .btn-map {
-      cursor: pointer;
-      border-radius: 50%;
-      box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-      body #bla-bla-page-two .btn-affected:active, body #bla-bla-page-two .btn-map:active {
-        box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-    body #bla-bla-page-two #entries {
-      margin-top: 16px;
-      box-shadow: 0 -10px 16px -10px rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(0, 0, 0, 0.1); }
-      body #bla-bla-page-two #entries h3 {
-        margin-top: 0;
-        margin-bottom: 24px;
-        text-transform: uppercase; }
-      body #bla-bla-page-two #entries .entry {
-        padding: 16px;
-        padding-bottom: 0;
-        background-color: #fff; }
-        body #bla-bla-page-two #entries .entry label {
-          min-width: 64px;
-          margin-right: 10px; }
-        body #bla-bla-page-two #entries .entry .severity, body #bla-bla-page-two #entries .entry .reliability {
-          cursor: pointer; }
-          body #bla-bla-page-two #entries .entry .severity span, body #bla-bla-page-two #entries .entry .reliability span {
-            width: 8px;
-            height: 16px;
-            margin: 1px;
-            background-color: #ccc;
-            display: inline-block;
-            cursor: pointer;
-            border-radius: 2px; }
-          body #bla-bla-page-two #entries .entry .severity label, body #bla-bla-page-two #entries .entry .reliability label {
-            vertical-align: super;
-            margin-right: 16px;
-            margin-left: 24px; }
-        body #bla-bla-page-two #entries .entry hr {
-          margin: 16px 24px;
-          border: 1px solid rgba(0, 0, 0, 0.05); }
-        body #bla-bla-page-two #entries .entry #date-number {
-          padding: 0 24px; }
-          body #bla-bla-page-two #entries .entry #date-number .form-control {
-            margin-bottom: 8px; }
-          body #bla-bla-page-two #entries .entry #date-number label {
-            display: inline-block; }
-          body #bla-bla-page-two #entries .entry #date-number .date > div {
-            width: calc(100% - 80px);
-            display: inline-block; }
-          body #bla-bla-page-two #entries .entry #date-number .number > input {
-            width: calc(100% - 80px);
-            display: inline-block; }
-        body #bla-bla-page-two #entries .entry .reliability {
-          margin-bottom: 10px;
-          cursor: pointer; }
-          body #bla-bla-page-two #entries .entry .reliability ._1 {
-            background-color: #aab0ed; }
-          body #bla-bla-page-two #entries .entry .reliability ._2 {
-            background-color: #7f88e5; }
-          body #bla-bla-page-two #entries .entry .reliability ._3 {
-            background-color: #5561dc; }
-          body #bla-bla-page-two #entries .entry .reliability ._4 {
-            background-color: #2b3ad3; }
-          body #bla-bla-page-two #entries .entry .reliability ._5 {
-            background-color: #232fa8; }
-          body #bla-bla-page-two #entries .entry .reliability ._6 {
-            background-color: #1e2993; }
-          body #bla-bla-page-two #entries .entry .reliability .active {
-            width: 12px;
-            height: 24px;
-            margin-bottom: -4px; }
-        body #bla-bla-page-two #entries .entry .severity {
-          cursor: pointer; }
-          body #bla-bla-page-two #entries .entry .severity ._1 {
-            background-color: #f2adad; }
-          body #bla-bla-page-two #entries .entry .severity ._2 {
-            background-color: #ec8080; }
-          body #bla-bla-page-two #entries .entry .severity ._3 {
-            background-color: #e55454; }
-          body #bla-bla-page-two #entries .entry .severity ._4 {
-            background-color: #de2828; }
-          body #bla-bla-page-two #entries .entry .severity ._5 {
-            background-color: #cd1f1f; }
-          body #bla-bla-page-two #entries .entry .severity ._6 {
-            background-color: #b71c1c; }
-          body #bla-bla-page-two #entries .entry .severity .active {
-            width: 12px;
-            height: 24px;
-            margin-bottom: -4px; }
-        body #bla-bla-page-two #entries .entry .excerpt {
-          overflow: hidden;
-          margin-bottom: 16px;
-          resize: none;
-          resize: vertical; }
-        body #bla-bla-page-two #entries .entry .vulnerable-groups {
-          margin-bottom: 16px; }
-        body #bla-bla-page-two #entries .entry .affected-group {
-          color: #e74c3c; }
-        body #bla-bla-page-two #entries .entry .geo-location, body #bla-bla-page-two #entries .entry .affected-group {
-          padding: 0 4px;
-          min-height: 64px;
-          margin-bottom: 10px; }
-          body #bla-bla-page-two #entries .entry .geo-location label, body #bla-bla-page-two #entries .entry .affected-group label {
-            display: inline-block;
-            margin-right: 10px; }
-          body #bla-bla-page-two #entries .entry .geo-location img, body #bla-bla-page-two #entries .entry .affected-group img {
-            width: 24px;
-            height: 24px; }
-          body #bla-bla-page-two #entries .entry .geo-location span, body #bla-bla-page-two #entries .entry .affected-group span {
-            display: block; }
-            body #bla-bla-page-two #entries .entry .geo-location span:before, body #bla-bla-page-two #entries .entry .affected-group span:before {
-              content: '•';
-              margin-right: 10px; }
-        body #bla-bla-page-two #entries .entry .attribute-list {
-          display: flex;
-          flex-direction: column; }
-          body #bla-bla-page-two #entries .entry .attribute-list .attribute {
-            margin-bottom: 2px;
-            display: block;
-            font-size: 0.9em;
-            text-align: left; }
-            body #bla-bla-page-two #entries .entry .attribute-list .attribute a {
-              font-size: 0.9em;
-              cursor: pointer; }
-        body #bla-bla-page-two #entries .entry .sub-sector-list {
-          list-style: none; }
-        body #bla-bla-page-two #entries .entry .btn-action {
-          width: 30px;
-          height: 30px;
-          text-align: center;
-          padding: 0;
-          padding-top: 4px;
-          margin-bottom: 10px;
-          box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-          body #bla-bla-page-two #entries .entry .btn-action:active {
-            box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-          body #bla-bla-page-two #entries .entry .btn-action .fa {
-            margin: 0; }
-        body #bla-bla-page-two #entries .entry .pillar, body #bla-bla-page-two #entries .entry .sector {
-          font-weight: bold; }
-        body #bla-bla-page-two #entries .entry .sub-pillar, body #bla-bla-page-two #entries .entry .sub-sector {
-          font-size: 0.9em;
-          word-wrap: break-word; }
-        body #bla-bla-page-two #entries .entry a.sub-sector {
-          color: #008080; }
-      body #bla-bla-page-two #entries .entry:nth-child(even) {
-        background-color: #f5f5f5; }
   body .modal-container #map-modal {
     width: 800px; }
     body .modal-container #map-modal #map-section #the-map {
