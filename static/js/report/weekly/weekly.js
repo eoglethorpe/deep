@@ -356,7 +356,7 @@ function setInputData() {
     for (var pk in data["human"]["number"])
         $(".human-number[data-human-pk='" + pk + "']").val(data["human"]["number"][pk]);
     for (var pk in data["human"]["source"])
-        $(".human-source[data-human-pk='" + pk + "']").val(data["human"]["source"][pk]["old"]);
+        $(".human-source[data-human-pk='" + pk + "']").val(getOldSourceData(data["human"]["source"][pk]));
     for (var pk in data["human"]["comment"])
         $(".human-comment[data-human-pk='" + pk + "']").val(data["human"]["comment"][pk]);
 
@@ -377,15 +377,15 @@ function setInputData() {
         $(".people-planned[data-people-pk='" + pk + "']").val(data["people"]["planned"][pk]);
 
     for (var pk in data["people"]["total-source"])
-        $(".people-total-source[data-people-pk='" + pk + "']").val(data["people"]["total-source"][pk]["old"]);
+        $(".people-total-source[data-people-pk='" + pk + "']").val(getOldSourceData(data["people"]["total-source"][pk]));
     for (var pk in data["people"]["at-risk-source"])
-        $(".people-at-risk-source[data-people-pk='" + pk + "']").val(data["people"]["at-risk-source"][pk]["old"]);
+        $(".people-at-risk-source[data-people-pk='" + pk + "']").val(getOldSourceData(data["people"]["at-risk-source"][pk]));
     for (var pk in data["people"]["moderate-source"])
-        $(".people-moderate-source[data-people-pk='" + pk + "']").val(data["people"]["moderate-source"][pk]["old"]);
+        $(".people-moderate-source[data-people-pk='" + pk + "']").val(getOldSourceData(data["people"]["moderate-source"][pk]));
     for (var pk in data["people"]["severe-source"])
-        $(".people-severe-source[data-people-pk='" + pk + "']").val(data["people"]["severe-source"][pk]["old"]);
+        $(".people-severe-source[data-people-pk='" + pk + "']").val(getOldSourceData(data["people"]["severe-source"][pk]));
     for (var pk in data["people"]["planned-source"])
-        $(".people-planned-source[data-people-pk='" + pk + "']").val(data["people"]["planned-source"][pk]["old"]);
+        $(".people-planned-source[data-people-pk='" + pk + "']").val(getOldSourceData(data["people"]["planned-source"][pk]));
 
     for (var pk in data["people"]["total-comment"])
         $(".people-total-comment[data-people-pk='" + pk + "']").val(data["people"]["total-comment"][pk]);
@@ -404,7 +404,7 @@ function setInputData() {
     // IPC
     $("input[data-ipc]").each(function() {
         if ($(this).data("ipc") == 'f'){
-            $(this).val(data["ipc"][$(this).data("ipc")]["old"]);
+            $(this).val(getOldSourceData(data["ipc"][$(this).data("ipc")]));
         }else{
             $(this).val(data["ipc"][$(this).data("ipc")]);
         }
@@ -414,7 +414,7 @@ function setInputData() {
     for (var pk in data["access"])
         $(".access-select[data-access-pk='" + pk + "']").val(data["access"][pk]);
     for (var pk in data["access-extra"]["source"])
-        $(".access-source[data-access-pk='" + pk + "']").val(data["access-extra"]["source"][pk]["old"]);
+        $(".access-source[data-access-pk='" + pk + "']").val(getOldSourceData(data["access-extra"]["source"][pk]));
     for (var pk in data["access-extra"]["comment"])
         $(".access-comment[data-access-pk='" + pk + "']").val(data["access-extra"]["comment"][pk]);
 
@@ -422,7 +422,7 @@ function setInputData() {
     for (var pk in data["access-pin"]["number"])
         $(".access-pin-number[data-access-pin-pk='" + pk + "']").val(data["access-pin"]["number"][pk]);
     for (var pk in data["access-pin"]["source"])
-        $(".access-pin-source[data-access-pin-pk='" + pk + "']").val(data["access-pin"]["source"][pk]["old"]);
+        $(".access-pin-source[data-access-pin-pk='" + pk + "']").val(getOldSourceData(data["access-pin"]["source"][pk]));
     for (var pk in data["access-pin"]["comment"])
         $(".access-pin-comment[data-access-pin-pk='" + pk + "']").val(data["access-pin"]["comment"][pk]);
 
