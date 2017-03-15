@@ -291,7 +291,16 @@ class UserStatusView(View):
 class UserProfileView(View):
     @method_decorator(login_required)
     def get(self, request, user_id):
-        context = { 'user': User.objects.get(pk=user_id) }
+        user = User.objects.get(pk=user_id)
+
+        projects = list(user.event_set.all())
+        for usergroup in user.usergroup_set.all():
+            projects.extend(list(usergroup.projects.all()))
+
+        context = {
+            'user': user,
+            'projects': list(set(projects)),
+        }
         return render(request, "users/profile.html", context)
 
     @method_decorator(login_required)
@@ -347,7 +356,7 @@ class UserProfileView(View):
                 if UserGroup.objects.filter(name=name).count() > 0:
                     response['nameExists'] = True
                 else:
-                    group = UserGroup(name=name, description=description)
+                    group = UserGroup(name=name, description=description, owner=original_request.user)
                     group.save()
 
                     group.members.add(original_request.user)

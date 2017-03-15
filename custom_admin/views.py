@@ -24,10 +24,11 @@ class CrisisPanelView(View):
 
         if request.user.is_superuser:
             context["events"] = Event.objects.all().order_by('name')
+            context["usergroups"] = UserGroup.objects.all()
         else:
             context["events"] = Event.objects.filter(admins__pk=request.user.pk).order_by('name')
+            context["usergroups"] = UserGroup.objects.filter(admins__pk=request.user.pk).order_by('name')
 
-        context["usergroups"] = UserGroup.objects.all()
         context["countries"] = Country.objects.all()
         context["disaster_types"] = DisasterType.objects.all()
         context["users"] = User.objects.all()
@@ -85,6 +86,9 @@ class CrisisPanelView(View):
                 event.spill_over = None
 
             event.save()
+
+            if event.owners.count() == 0:
+                event.owners.add(request.user)
 
             activity.set_target(
                 'project', event.pk, event.name,

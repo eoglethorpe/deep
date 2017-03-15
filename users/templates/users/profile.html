@@ -77,7 +77,7 @@ var activities = [
             <label class="groups" data-sort=".groups">Groups</label>
         </div>
         <div id="projects">
-            {% for crisis in user.event_set.all %}
+            {% for crisis in projects %}
             <div class="project">
                 <div class="name">{{crisis.name}}</div>
                 <div class="type">{{crisis.disaster_type.name}}</div>
