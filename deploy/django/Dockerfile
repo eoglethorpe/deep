@@ -45,6 +45,8 @@ RUN apt-get update && \
 
 ## we add ARG SHA for git pull workaround to only pull for new commits
 ARG SHA
+## we add ARG BUILD for git pull workaround to only pull for new commits(change in docker-compose.xml)
+ARG BUILD
 RUN mkdir /home/code/
 WORKDIR /home/code/
 

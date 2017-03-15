@@ -18,7 +18,10 @@ services:
 
     django:
         restart: always
-        build: ./django
+        build:
+            context: ./django
+            args:
+                BUILD: 0
         expose:
             - "80"
         volumes:
