@@ -241,6 +241,12 @@ body #timeline {
   body #timeline #timeline-table #reports {
     height: calc(100vh - 56px - 44vh - 48px - 48px - 12px);
     overflow-y: scroll; }
+    body #timeline #timeline-table #reports .loading-message {
+      text-align: center;
+      padding: 32px;
+      color: rgba(0, 0, 0, 0.3);
+      text-transform: uppercase;
+      font-size: 2em; }
     body #timeline #timeline-table #reports .report {
       border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
       body #timeline #timeline-table #reports .report .aside {
