@@ -38,6 +38,23 @@ let source = {
         $('.human-source-new').each(function() {
             that.refreshSources($(this), data['human']['source'][$(this).data('human-pk')]);
         });
+
+
+        //Flip source
+        $('body').on('click','.source-flip',function(e){
+            let sourceExcerptText = $(this).parent().find('.source-excerpt-text');
+            let sourceDetails = $(this).parent().find('.source-details');
+            if(sourceExcerptText.is(':visible')){
+                sourceExcerptText.hide();
+                sourceDetails[0].style.display = 'flex';
+            }
+            else{
+                sourceDetails[0].style.display = 'none';
+                sourceExcerptText.show();
+            }
+        });
+
+
     },
 
     refreshSources: function(container, sourceData) {
@@ -65,7 +82,44 @@ let source = {
             });
 
             sourceElement.appendTo(container);
-            sourceElement.show();
+            sourceElement.css('display','flex');
+
+            sourceElement.click(function(e) {
+                if (source.entryId != undefined && source.informationId != undefined) {
+                    let entry = originalEntries[source.entryId];
+                    if (entry) {
+                        let information = entry.informations[source.informationId];
+                        if (information) {
+                            let displayCard = $(this).find('.display-card');
+
+                            if (entry.lead_url) {
+                                displayCard.find('.source-url').attr('href', entry.lead_url);
+                            }
+                            displayCard.find('.source-excerpt-text').text(information.excerpt);
+                            displayCard.find('.lead-title-details').text(entry.lead_title);
+                            displayCard.find('.added-by-details').text(entry.created_by_name?entry.created_by_name:entry.modified_by_name);
+                            displayCard.find('.reliability-details').text(RELIABILITIES[information.reliability]);
+                            displayCard.find('.severity-details').text(RELIABILITIES[information.severity]);
+                            displayCard.find('.date-of-sub-details').text(formatDate(entry.created_at?entry.created_at:entry.modified_at));
+
+                            displayCard.find('.reliability-color')[0].className = 'reliability-color _' + information.reliability;
+                            displayCard.find('.severity-color')[0].className = 'severity-color _' + information.severity;
+                            displayCard.addClass('focus');
+
+                            let that = $(this);
+
+                            // Hide popup
+                            $(document).mouseup(function (e){
+                                if (!that.is(e.target) && that.has(e.target).length === 0) {
+                                    that.find('.source-excerpt-text').show();
+                                    that.find('.source-details')[0].style.display = 'none';
+                                    that.find('.display-card').removeClass('focus');
+                                }
+                            });
+                        }
+                    }
+                }
+            });
         }
     },
 };

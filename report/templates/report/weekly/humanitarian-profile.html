@@ -15,7 +15,8 @@
                 <label class="sub">{{subfield.name}}</label>
                 <input class="human-number number{% if subfield.total_field %} human-profile-total{% endif %}{% if subfield.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{subfield.pk}}" placeholder="Number of people">
                 <input class="human-source source-droppable" data-human-pk="{{subfield.pk}}" placeholder="Source/Date" hidden>
-                <div class="human-source-new source-new" data-human-pk="{{subfield.pk}}"></div>
+                <div class="human-source-new source-new" data-human-pk="{{subfield.pk}}">
+                </div>
                 <input class="human-comment" data-human-pk="{{subfield.pk}}" placeholder="Comment">
                 <a class="fa fa-plus add-child"></a>
             </div>

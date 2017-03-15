@@ -78,8 +78,8 @@ function renderEntries(){
                 information.find('date').text("N/A");
             }
 
-            information.find(".reliability").find('._'+entries[i].informations[j].reliability.level).addClass('active');
-            information.find(".severity").find('._'+entries[i].informations[j].severity.level).addClass('active');
+            information.find(".reliability").find('._'+entries[i].informations[j].reliability).addClass('active');
+            information.find(".severity").find('._'+entries[i].informations[j].severity).addClass('active');
 
             information.appendTo(informationContainer);
             information.show();
@@ -329,6 +329,7 @@ $(document).ready(function(){
         changeWeekSelection();
 
     });
+
 
     // Initialize children fields stuffs
     childrenFields.init();

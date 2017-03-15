@@ -112,6 +112,16 @@ var timelineCategories = [{% for category in category_timelines %}"{{category}}"
 
 //var severityScoreTotalPinHumanId = '{{ severity_score_total_pin_human_id.0.pk }}';
 
+var RELIABILITIES = {
+    {% for reliability in reliabilities %}
+    {{reliability.level}}: '{{reliability}}',
+    {% endfor %}
+};
+var SEVERITIES = {
+    {% for severity in severities %}
+    {{severity.level}}: '{{severity}}',
+    {% endfor %}
+};
 </script>
 {% endblock %}
 
@@ -156,8 +166,42 @@ var timelineCategories = [{% for category in category_timelines %}"{{category}}"
 {% include 'report/weekly/entry-templates.html' %}
 
 <div class='source-template' hidden>
-    <span class="name"></span> - <date></date>
+    <span class="name"></span>
     <span class="delete fa fa-times"></span>
+    <date></date>
+    <div class="display-card" hidden>
+        <div class="severity-color"></div>
+        <a target="_blank" class="source-url"><i class="fa fa-external-link"></i></a>
+        <div class="source-excerpt-container">
+            <div class="source-excerpt-text">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </div>
+            <div class="source-details" hidden>
+                <div>
+                    <label>Lead title:</label>
+                    <span class="lead-title-details"></span>
+                </div>
+                <div>
+                    <label>Added by:</label>
+                    <span class="added-by-details"></span>
+                </div>
+                <div>
+                    <label>Reliability:</label>
+                    <span class="reliability-details"></span>
+                </div>
+                <div>
+                    <label>Severity:</label>
+                    <span class="severity-details"></span>
+                </div>
+                <div>
+                    <label>Date of submission:</label>
+                    <span class="date-of-sub-details"></span>
+                </div>
+            </div>
+        </div>
+        <div class="source-flip"><i class="fa fa-retweet"></i></div>
+        <div class="reliability-color"></div>
+    </div>
 </div>
 
 <div class="modal-container" hidden>
