@@ -477,6 +477,8 @@ body {
                   font-weight: 300;
                   color: rgba(0, 0, 0, 0.3);
                   transition: 0.2s all ease-in-out; }
+            body main section #members-wrapper #members .member.cannot-edit .action-container {
+              display: none; }
             body main section #members-wrapper #members .member:not(.cannot-edit):hover {
               box-shadow: 0 5px 15px -4px rgba(0, 0, 0, 0.4); }
               body main section #members-wrapper #members .member:not(.cannot-edit):hover .action-container > div {

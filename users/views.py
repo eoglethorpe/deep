@@ -195,47 +195,7 @@ class DashboardView(View):
         context["active_events"] = Event.objects.filter(end_date=None)
         context["leads"] = Lead.objects.all()
         context["informations"] = EntryInformation.objects.all()
-
-        # Get weekly reports for timeline
-        context["weekly_reports"] = []
         context["crises_per_country"] = {}
-
-        weekly_reports = WeeklyReport.objects.all()
-        if weekly_reports.count() > 0:
-            # Get total number of weeks
-            first_report = weekly_reports.last()
-            last_report = weekly_reports.first()
-
-            monday2 = last_report.start_date - timedelta(days=last_report.start_date.weekday())
-            # monday1 = first_report.start_date - timedelta(days=first_report.start_date.weekday())
-            # Actually use first monday of the year
-            # Jan 4 is Week 1 (ISO)
-            day4 = date(first_report.start_date.year, 1, 4)
-            monday1 = day4 - timedelta(days=day4.weekday())
-
-            weeks = max(int((monday2 - monday1).days/7 + 1), 14) + 2
-
-            # For each week, store its date and the countries whose reports exist on that day
-            for i in range(weeks):
-                dt = monday1 + timedelta(days=7*i)
-
-                label = 'W' + str(dt.isocalendar()[1])
-                countries = []
-                crises = []
-                report_ids = []
-                report_data = []
-                report_created_dates = []
-                context["weekly_reports"].append([dt, dt+timedelta(days=6), countries, crises, report_ids, label, report_data, report_created_dates])
-
-                reports = WeeklyReport.objects.filter(start_date=dt)
-                for report in reports:
-                    countries.append(report.country)
-                    crises.append(report.event)
-                    report_ids.append(report.pk)
-                    report_data.append({
-                        "disaster_type": json.loads(report.data)["disaster_type"],
-                    })
-                    report_created_dates.append(report.last_edited_at)
 
         # Get event for each country
         for country in context["countries"]:
@@ -291,7 +251,16 @@ class UserStatusView(View):
 class UserProfileView(View):
     @method_decorator(login_required)
     def get(self, request, user_id):
-        context = { 'user': User.objects.get(pk=user_id) }
+        user = User.objects.get(pk=user_id)
+
+        projects = list(user.event_set.all())
+        for usergroup in user.usergroup_set.all():
+            projects.extend(list(usergroup.projects.all()))
+
+        context = {
+            'user': user,
+            'projects': list(set(projects)),
+        }
         return render(request, "users/profile.html", context)
 
     @method_decorator(login_required)
@@ -347,7 +316,7 @@ class UserProfileView(View):
                 if UserGroup.objects.filter(name=name).count() > 0:
                     response['nameExists'] = True
                 else:
-                    group = UserGroup(name=name, description=description)
+                    group = UserGroup(name=name, description=description, owner=original_request.user)
                     group.save()
 
                     group.members.add(original_request.user)

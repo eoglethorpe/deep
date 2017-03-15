@@ -6,6 +6,7 @@ var adminsSelectize;
 var spilloverSelectize;
 
 let lastAdminSelection;
+let currentCrisisOwners;
 
 function filterCrises() {
     var crisisStatus = $('input[type=radio][name=crisis-status-radio]:checked').val();
@@ -52,6 +53,8 @@ $(document).ready(function(){
 
         $("#crisis-name").val(crisis.name);
         $(".crisis-status").val([crisis.status]);
+
+        currentCrisisOwners = crisis.owners;
         disasterTypeSelectize[0].selectize.setValue(crisis.disaster_type);
         countriesSelectize[0].selectize.setValue(crisis.countries);
         assignedToSelectize[0].selectize.setValue(crisis.assigned_to);
@@ -59,6 +62,12 @@ $(document).ready(function(){
         lastAdminSelection = null;
         adminsSelectize[0].selectize.setValue(crisis.admins);
         spilloverSelectize[0].selectize.setValue(crisis.spillover);
+
+        if (currentCrisisOwners.length > 0 && currentCrisisOwners.indexOf(myPk) < 0) {
+            adminsSelectize[0].selectize.disable();
+        } else {
+            adminsSelectize[0].selectize.enable();
+        }
 
         $("#crisis-start-date").val(crisis.start_date);
         $("#crisis-end-date").val(crisis.end_date);
@@ -78,27 +87,37 @@ $(document).ready(function(){
         }
     });
 
+    $('#admins').change(function(){
+        let currentSelection = $(this).val();
+
+        if (currentCrisisOwners.length > 0 && currentCrisisOwners.indexOf(myPk) < 0) {
+            adminsSelectize[0].selectize.setValue(lastAdminSelection);
+            return;
+        }
+
+        if (lastAdminSelection != null && lastAdminSelection != "") {
+            if (currentCrisisOwners.indexOf(myPk) >= 0 && lastAdminSelection.indexOf(myPk) >= 0 &&
+            (currentSelection == null || currentSelection == "" || currentSelection.indexOf(myPk) < 0))
+            {
+                // if (!confirm("You are about to remove yourself as admin, are you sure?")) {
+                //     adminsSelectize[0].selectize.setValue(lastAdminSelection);
+                //     return;
+                // }
+                alert('You cannot remove the owner of this crisis');
+                adminsSelectize[0].selectize.setValue(lastAdminSelection);
+                return;
+            }
+        }
+
+        lastAdminSelection = currentSelection;
+    });
+
+
     if ($('.crisis.active').length > 0) {
         $('.crisis.active').click();
     } else {
         addNewCrisis();
     }
-
-    $('#admins').change(function(){
-        let currentSelection = $(this).val();
-        if (lastAdminSelection != null && lastAdminSelection != "") {
-            let myPk = defaultAdminSelection[0];
-            if (lastAdminSelection.indexOf(myPk) >= 0 &&
-                (currentSelection == null || currentSelection == "" || currentSelection.indexOf(myPk) < 0))
-            {
-                if (!confirm("You are about to remove yourself as admin, are you sure?")) {
-                    adminsSelectize[0].selectize.setValue(lastAdminSelection);
-                    return;
-                }
-            }
-        }
-        lastAdminSelection = currentSelection;
-    });
 });
 
 function addNewCrisis() {
@@ -109,6 +128,8 @@ function addNewCrisis() {
 
     $("#crisis-name").val("");
     $(".crisis-status").val([1]);
+
+    currentCrisisOwners = defaultAdminSelection;
     disasterTypeSelectize[0].selectize.setValue("");
     countriesSelectize[0].selectize.setValue("");
     assignedToSelectize[0].selectize.setValue("");
@@ -116,6 +137,8 @@ function addNewCrisis() {
     lastAdminSelection = null;
     adminsSelectize[0].selectize.setValue(defaultAdminSelection);
     spilloverSelectize[0].selectize.setValue("");
+
+    adminsSelectize[0].selectize.enable();
 
     $("#crisis-start-date").val("");
     $("#crisis-end-date").val("");
