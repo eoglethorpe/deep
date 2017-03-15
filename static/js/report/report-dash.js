@@ -27,7 +27,6 @@ $(document).ready(function(){
 
     var reports = null;
     $.getJSON("/api/v2/reports", function(data){
-        //console.log('woohoo!');
         if(data.status == true){
             reports = data.data;
             fillCountryDetails();
@@ -401,17 +400,17 @@ $(document).ready(function(){
                     }
                 }
 
-                var affectedList = [];
-                var displacedList = [];
-                var pinList = [];
-                var accessConstraintsList = [];
-                var geoRankList = [];
-                for(var index=0; index<current.weeklyReports.length; index++){
-                    var affected = getAffectedNumber(index);
-                    var displaced = getDisplacedNumber(index);
-                    var pin = getInNeedNumber(index);
-                    var access = getAccessConstraintsNumber(index);
-                    var geo = getGeoScore(index);
+                let affectedList = [];
+                let displacedList = [];
+                let pinList = [];
+                let accessConstraintsList = [];
+                let geoRankList = [];
+                for(let index=0; index<current.weeklyReports.length; index++){
+                    let affected = getAffectedNumber(index);
+                    let displaced = getDisplacedNumber(index);
+                    let pin = getInNeedNumber(index);
+                    let access = getAccessConstraintsNumber(index);
+                    let geo = getGeoScore(index);
                     affectedList.push(isNaN(affected)? 0: affected);
                     displacedList.push(isNaN(displaced)? 0: displaced);
                     pinList.push(isNaN(pin)? 0: pin);
@@ -419,7 +418,7 @@ $(document).ready(function(){
                     geoRankList.push(isNaN(geo)? 0: geo);
                 }
 
-                var sparkLineYMax = Math.max(...[
+                let sparkLineYMax = Math.max(...[
                     Math.max(...affectedList),
                     Math.max(...displacedList),
                     Math.max(...pinList),
@@ -428,11 +427,11 @@ $(document).ready(function(){
 
                 setTimeout(function(country, affectedList, displacedList, pinList, accessConstraintsList, geoRankList, sparkLineYMax) {
                     return function() {
-                        country.find('.affected .viz').sparkline(affectedList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#2980b9', fillColor: 'rgba(0, 50, 255, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
-                        country.find('.displaced .viz').sparkline(displacedList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#f00000', fillColor: 'rgba(255, 0, 0, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
-                        country.find('.in-need .viz').sparkline(pinList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#c0392b', fillColor: 'rgba(255, 40 , 0, 0.4)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
-                        country.find('.access-constraints .viz').sparkline(accessConstraintsList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#212121', fillColor: 'rgba(0,0,0,0.3)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
-                        country.find('.geo-ranking .viz').sparkline(geoRankList.reverse(), {type: 'bar', height: '48px ', chartRangeMin: 0, chartRangeMax: 3, width: '100%', barWidth: 12, barSpacing: 4, barColor: '#cc2d06'});
+                        country.find('.affected .viz').sparkline(affectedList.reverse(), {type: 'line', width: '96px', height: '48px', lineColor: '#2980b9', fillColor: 'rgba(0, 50, 255, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 16, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
+                        country.find('.displaced .viz').sparkline(displacedList.reverse(), {type: 'line', width: '96px', height: '48px', lineColor: '#f00000', fillColor: 'rgba(255, 0, 0, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 16, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
+                        country.find('.in-need .viz').sparkline(pinList.reverse(), {type: 'line', width: '96px', height: '48px', lineColor: '#c0392b', fillColor: 'rgba(255, 40 , 0, 0.4)', chartRangeMinX: 0, chartRangeMaxX: 16, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
+                        country.find('.access-constraints .viz').sparkline(accessConstraintsList.reverse(), {type: 'line', width: '96px', height: '48px', lineColor: '#212121', fillColor: 'rgba(0,0,0,0.3)', chartRangeMinX: 0, chartRangeMaxX: 16, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
+                        country.find('.geo-ranking .viz').sparkline(geoRankList.reverse(), {type: 'bar', height: '48px', chartRangeMin: 0, chartRangeMax: 3, barWidth: 8, barSpacing: 4, barColor: '#cc2d06'});
                     }
                 }(country, affectedList, displacedList, pinList, accessConstraintsList, geoRankList, sparkLineYMax), 0);
             }
@@ -534,7 +533,7 @@ $(document).ready(function(){
     function selectCountryEvent(countryPk, eventPk, countryName) {
         let reportsContainer = $('#weekly-reports');
         reportsContainer.find('.weekly-report').remove();
-        reportsContainer.find('p').show();
+        //reportsContainer.find('.empty-text').show();
 
         $('.country.active').removeClass('active');
         $('.country[data-pk="' + countryPk + '"]').addClass('active');
@@ -575,10 +574,12 @@ $(document).ready(function(){
             // Next add reports for this event
             let selectedReports = reports.filter(r => (r.country.code == countryPk && r.event.pk == eventPk));
             if (selectedReports.length > 0) {
+                reportsContainer.find('.empty-text')[0].style.display = 'none';
+
                 selectedReports.sort(function(r1, r2) {
                     return new Date(r2.start_date) - new Date(r1.start_date);
                 });
-                reportsContainer.find('p').hide();
+                //reportsContainer.find('p').hide();
 
                 for (let i=0; i<selectedReports.length; i++) {
                     let report = selectedReports[i];
@@ -598,7 +599,10 @@ $(document).ready(function(){
                     reportElement.appendTo(reportsContainer);
                     reportElement.show();
                 }
+            } else{
+                reportsContainer.find('.empty-text')[0].style.display = 'flex';
             }
         }
+        reportsContainer.find('.loading-text')[0].style.display = 'none';
     }
 });
