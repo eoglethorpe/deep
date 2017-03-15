@@ -41,6 +41,13 @@ let source = {
     },
 
     refreshSources: function(container, sourceData) {
+        if (!sourceData) {
+            sourceData = {'old' : null, 'new': [] };
+        }
+        if (!sourceData['new']) {
+            sourceData['new'] = []
+        }
+
         let that = this;
         container.empty();
 
@@ -61,4 +68,16 @@ let source = {
             sourceElement.show();
         }
     },
+};
+
+
+
+function getOldSourceData(sourceData) {
+    if (!sourceData) {
+        sourceData = {'old' : null, 'new': [] };
+    }
+    if (!sourceData['old']) {
+        sourceData['old'] = null;
+    }
+    return sourceData['old'];
 };
