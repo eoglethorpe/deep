@@ -3,11 +3,11 @@ let source = {
         let that = this;
 
         // The new source field
-        $('.human-source-new').on('dragover', function(e) {
+        $('.human-source').on('dragover', function(e) {
             e.originalEvent.preventDefault();
             return false;
         });
-        $('.human-source-new').on('drop', function(e) {
+        $('.human-source').on('drop', function(e) {
             let droppedText = e.originalEvent.dataTransfer.getData("Text");
             let ids = droppedText.split(':');
             if (ids.length != 2)
@@ -18,8 +18,8 @@ let source = {
             if (isNaN(i) || isNaN(j))
                 return;
 
-            let entry = entries[i];
-            let information = entry.informations[j];
+            let entry = originalEntries.find(e => e.id == i);
+            let information = entry.informations.find(info => info.id == j);
 
             let newSource = {
                 name: entry.lead_source,
@@ -29,14 +29,14 @@ let source = {
                 informationId: j,
             };
 
-            data['human']['source'][$(this).data('human-pk')]['new']
+            newData['human']['source'][$(this).data('human-pk')]['new']
                 .push(newSource);
 
-            that.refreshSources($(this), data['human']['source'][$(this).data('human-pk')]);
+            that.refreshSources($(this), newData['human']['source'][$(this).data('human-pk')], data['human']['source'][$(this).data('human-pk')]);
         });
 
-        $('.human-source-new').each(function() {
-            that.refreshSources($(this), data['human']['source'][$(this).data('human-pk')]);
+        $('.human-source').each(function() {
+            that.refreshSources($(this), newData['human']['source'][$(this).data('human-pk')], data['human']['source'][$(this).data('human-pk')]);
         });
 
 
@@ -57,7 +57,9 @@ let source = {
 
     },
 
-    refreshSources: function(container, sourceData) {
+    refreshSources: function(container, sourceData, oldSourceData) {
+        humanitarianProfileDecay.updateSource(container, sourceData, oldSourceData);
+
         if (!sourceData) {
             sourceData = {'old' : null, 'new': [] };
         }
@@ -78,7 +80,7 @@ let source = {
             sourceElement.find('date').text(source.date);
             sourceElement.find('.delete').click(function() {
                 sourceData['new'].splice(i, 1);
-                that.refreshSources(container, sourceData);
+                that.refreshSources(container, sourceData, oldSourceData);
             });
 
             sourceElement.appendTo(container);
@@ -86,9 +88,9 @@ let source = {
 
             sourceElement.click(function(e) {
                 if (source.entryId != undefined && source.informationId != undefined) {
-                    let entry = originalEntries[source.entryId];
+                    let entry = originalEntries.find(e => e.id == source.entryId);
                     if (entry) {
-                        let information = entry.informations[source.informationId];
+                        let information = entry.informations.find(info => info.id == source.informationId);
                         if (information) {
                             let displayCard = $(this).find('.display-card');
 
@@ -109,7 +111,7 @@ let source = {
                             let that = $(this);
 
                             // Hide popup
-                            $(document).mouseup(function (e){
+                            $(document).one('mouseup', function (e){
                                 if (!that.is(e.target) && that.has(e.target).length === 0) {
                                     that.find('.source-excerpt-text').show();
                                     that.find('.source-details')[0].style.display = 'none';

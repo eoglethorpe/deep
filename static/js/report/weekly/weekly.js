@@ -97,7 +97,7 @@ function renderEntries(){
                 return function(e){
                     e.originalEvent.dataTransfer.setData('Text', i+':'+j);
                 }
-            }(i, j));
+            }(entries[i].id, entries[i].informations[j].id));
         }
 
         entry.appendTo(entryContainer);
@@ -264,23 +264,27 @@ $(document).ready(function(){
 
     // Make source/date fields droppable
     $('.source-droppable').on('drop', function(e) {
-        var data=e.originalEvent.dataTransfer.getData("Text");
-        var ids = data.split(':');
+        let data=e.originalEvent.dataTransfer.getData("Text");
+        let ids = data.split(':');
         if (ids.length != 2)
             return;
 
-        var i = +ids[0];
-        var j = +ids[1];
+        let i = +ids[0];
+        let j = +ids[1];
         if (isNaN(i) || isNaN(j))
             return;
 
         e.preventDefault();
-        var text = entries[i].lead_source!= null ? entries[i].lead_source: 'N/A';
-        if (entries[i].lead_url)
-            text += ' (' + entries[i].lead_url + ')'
+
+        let entry = originalEntries.find(e => e.id == i);
+        let information = entry.informations.find(info => info.id == j);
+
+        let text = entry.lead_source!= null ? entry.lead_source: 'N/A';
+        if (entry.lead_url)
+            text += ' (' + entry.lead_url + ')'
         text += ' / ';
-        if (entries[i].informations[j].date)
-            text += formatDate(new Date(entries[i].informations[j].date));
+        if (information.date)
+            text += formatDate(new Date(information.date));
         else
             text += 'N/A';
         $(this).val(text);
@@ -356,8 +360,8 @@ function setInputData() {
     // Humanitarian profile data
     for (var pk in data["human"]["number"])
         $(".human-number[data-human-pk='" + pk + "']").val(data["human"]["number"][pk]);
-    for (var pk in data["human"]["source"])
-        $(".human-source[data-human-pk='" + pk + "']").val(getOldSourceData(data["human"]["source"][pk]));
+    // for (var pk in data["human"]["source"])
+    //     $(".human-source[data-human-pk='" + pk + "']").val(getOldSourceData(data["human"]["source"][pk]));
     for (var pk in data["human"]["comment"])
         $(".human-comment[data-human-pk='" + pk + "']").val(data["human"]["comment"][pk]);
 
@@ -436,6 +440,7 @@ function setInputData() {
 }
 
 function getInputData() {
+    data = newData;
 
     // Parameters
     if ($('#day-select').val() == '')
@@ -463,7 +468,7 @@ function getInputData() {
         data["human"]["numberDecay"][$(this).data("human-pk")] = $(this).data('decay-color');
     });
     $(".human-source").each(function() {
-        data["human"]["source"][$(this).data("human-pk")]['old'] = $(this).val();
+    //     data["human"][source"][$(this).data("human-pk")]['old'] = $(this).val();
         data["human"]["sourceDecay"][$(this).data("human-pk")] = $(this).data('decay-color');
     });
     $(".human-comment").each(function() {
@@ -596,9 +601,9 @@ function checkRules() {
     $('.human-comment').on('drop paste change input', function(){
         humanitarianProfileDecay.updateHumanComment($(this));
     });
-    $('.human-source').on('drop paste change input', function(){
-        humanitarianProfileDecay.updateHumanSource($(this));
-    });
+    // $('.human-source').on('drop paste change input', function(){
+    //     humanitarianProfileDecay.updateHumanSource($(this));
+    // });
 
     $('.human-number').on('drop paste change input', function(){
         humanitarianProfileDecay.updateHumanNumber($(this));    // check for decay as well
