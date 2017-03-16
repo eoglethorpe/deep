@@ -306,6 +306,24 @@ main {
         main #country-panel #country-list #countries .country.active {
           border-left: 3px solid #008080;
           background-color: rgba(0, 128, 128, 0.1); }
+        main #country-panel #country-list #countries .country .loader {
+          border: 2px solid rgba(0, 0, 0, 0.2);
+          border-radius: 50%;
+          border-top: 2px solid #008080;
+          width: 15px;
+          height: 15px;
+          -webkit-animation: spin 1s linear infinite;
+          animation: spin 1s linear infinite; }
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg); } }
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(360deg); } }
         main #country-panel #country-list #countries .country .viz {
           height: 50px;
           margin-top: 6px;
