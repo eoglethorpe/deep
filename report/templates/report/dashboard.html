@@ -80,36 +80,36 @@ var defaultEventPk = '{{event.pk}}';
                         <div class="name">{{c.name}}</div>
                         <div class="events">{% for e in c.event_set.all %}{{ e }}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
                     </div>
-                    <div class="affected">
-                        <i class="fa"></i><span class="number">N/A</span>
+                    <div  class="affected">
+                        <i class="fa"></i><span class="number"><div class="loader"></div></span>
                         <div class="viz"></div>
                     </div>
                     <div class="displaced">
-                        <i class="fa"></i><span class="number">N/A</span>
+                        <i class="fa"></i><span class="number"><div class="loader"></div></span>
                         <div class="viz"></div>
                     </div>
                     <div class="in-need">
-                        <i class="fa"></i><span class="number">N/A</span>
+                        <i class="fa"></i><span class="number"><div class="loader"></div></span>
                         <div class="viz"></div>
                     </div>
                     <div class="access-constraints">
-                        <i class="fa"></i><span class="number">N/A</span>
+                        <i class="fa"></i><span class="number"><div class="loader"></div></span>
                         <div class="viz"></div>
                     </div>
                     <div class="geo-ranking">
-                        <i class="fa"></i><span class="number">N/A</span>
+                        <i class="fa"></i><span class="number"><div class="loader"></div></span>
                         <div class="viz"></div>
                     </div>
                     <div class="availability">
-                        <i class="fa"></i><span class="percent"></span>
+                        <i class="fa"></i><span class="percent"><div class="loader"></div></span>
                         <div class="viz"></div>
                     </div>
                     <div class="recency">
-                        <i class="fa"></i><span class="percent"></span>
+                        <i class="fa"></i><span class="percent"><div class="loader"></div></span>
                         <div class="viz"></div>
                     </div>
                     <div class="change">
-                        <i class="fa"></i><span class="percent"></span>
+                        <i class="fa"></i><span class="percent"><div class="loader"></div></span>
                         <div class="viz">
                             <svg height="48" width="48">
                                 <path stroke-width="3" fill="none" />
