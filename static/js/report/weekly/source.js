@@ -106,6 +106,10 @@ let source = {
 
                             displayCard.find('.reliability-color')[0].className = 'reliability-color _' + information.reliability;
                             displayCard.find('.severity-color')[0].className = 'severity-color _' + information.severity;
+
+                            //For humanitarian-profile tab the display card is in right
+                            displayCard.addClass('display-card-right');
+
                             displayCard.addClass('focus');
 
                             let that = $(this);
