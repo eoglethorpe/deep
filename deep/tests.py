@@ -2,6 +2,10 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase, Client
 from leads.tests import get_or_create_event
 from users.tests import login_user
+from django.conf import settings
+
+
+settings.MEDIA_ROOT += '_test'
 
 
 class DeepTestCase(TestCase):
