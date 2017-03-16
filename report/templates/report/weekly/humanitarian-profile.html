@@ -5,7 +5,6 @@
         <div class="human-profile-field">
             <label>{{field.name}}</label>
             <input class="human-number number{% if field.total_field %} human-profile-total{% endif %}{% if field.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{field.pk}}" placeholder="Number of people" {% if field.total_field %}readonly{% endif %}>
-            <!-- <input class="human-source source-droppable" data-human-pk="{{field.pk}}" placeholder="Source/Date" hidden> -->
             <div class="human-source source-new" data-human-pk="{{field.pk}}"></div>
             <input class="human-comment" data-human-pk="{{field.pk}}" placeholder="Comment">
             <a></a>
@@ -14,9 +13,7 @@
             <div class="human-profile-subfield">
                 <label class="sub">{{subfield.name}}</label>
                 <input class="human-number number{% if subfield.total_field %} human-profile-total{% endif %}{% if subfield.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{subfield.pk}}" placeholder="Number of people">
-                <!-- <input class="human-source source-droppable" data-human-pk="{{subfield.pk}}" placeholder="Source/Date" hidden> -->
-                <div class="human-source source-new" data-human-pk="{{subfield.pk}}">
-                </div>
+                <div class="human-source source-new" data-human-pk="{{subfield.pk}}"></div>
                 <input class="human-comment" data-human-pk="{{subfield.pk}}" placeholder="Comment">
                 <a class="fa fa-plus add-child"></a>
             </div>

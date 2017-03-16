@@ -21,7 +21,9 @@
                 label{ width: 38%; }
                 select{ width: 10%; }
                 input{ width: 24%; }
-
+                .source-new {
+                    width: 23%;
+                }
             }
         }
         #human-access-pin-field-list{
@@ -46,8 +48,44 @@
                     &:nth-child(3){ width: 65%; }
                     &:nth-child(4){ width: 100%; }
                 }
+                .source-new {
+                    width: 65%;
+                }
 
             }
+        }
+    }
+    .source-new {
+        display: inline-block;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        min-height: 24px;
+        position: relative;
+
+        .source{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 6px;
+            position: relative;
+            cursor: pointer;
+
+            .name{
+                flex-basis: 85%;
+                overflow: hidden;
+                flex-grow: 0;
+                flex-shrink: 0;
+            }
+            .delete{
+                flex-basis: 5%;
+                color: $error-color;
+            }
+            date{
+                flex-basis: 100%;
+                font-family: 'Inconsolata', monospace;
+            }
+            @import 'display-card';
         }
     }
 }
