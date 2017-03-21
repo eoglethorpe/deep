@@ -34,6 +34,8 @@ reportMode = "lastweek";
 var data = {};
 {% endif %}
 
+var newData = $.extend(true, {}, data);
+
 
 // The JSON data model with default values
 var dataModel = {

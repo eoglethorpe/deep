@@ -79,6 +79,14 @@ var humanitarianProfileDecay = {
             elem.css('border-color', elem.data('last-decay-color'));
         }
     },
+    updateSource: function(elem, oldData, newData) {
+        if (JSON.stringify(oldData) != JSON.stringify(newData)) {
+            elem.css('border-color', getDecayColor());
+            elem.data('decay-color', getDecayColor());
+        } else {
+            elem.css('border-color', elem.data('last-decay-color'));
+        }
+    },
     updateHumanNumber: function(humanNumber){
         if(data["human"]["number"][humanNumber.data("human-pk")] != getNumberValue(humanNumber)){
             humanNumber.css('border-color', getDecayColor());
@@ -404,7 +412,15 @@ var peopleInNeedDecay = {
         } else{
             elem.css('border-color', elem.data('last-decay-color'));
         }
-    }
+    },
+    updateSource: function(elem, oldData, newData) {
+        if (JSON.stringify(oldData) != JSON.stringify(newData)) {
+            elem.css('border-color', getDecayColor());
+            elem.data('decay-color', getDecayColor());
+        } else {
+            elem.css('border-color', elem.data('last-decay-color'));
+        }
+    },
 };
 
 var humanitarianAccessDecay = {
@@ -493,5 +509,13 @@ var humanitarianAccessDecay = {
         } else{
             elem.css('border-color', elem.data('last-decay-color'));
         }
-    }
+    },
+    updateSource: function(elem, oldData, newData) {
+        if (JSON.stringify(oldData) != JSON.stringify(newData)) {
+            elem.css('border-color', getDecayColor());
+            elem.data('decay-color', getDecayColor());
+        } else {
+            elem.css('border-color', elem.data('last-decay-color'));
+        }
+    },
 };

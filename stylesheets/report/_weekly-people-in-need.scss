@@ -3,7 +3,7 @@
         outline: none;
         padding: 4px 10px;
         width: 100%;
-        border: 1px solid transparent;
+        border: 1px solid rgba(0, 0, 0, 0.2);
         margin: 6px 0;
     }
     .pin-field, .pin-sub-field{
@@ -74,5 +74,40 @@
         padding-bottom: 10px;
         padding-top: 10px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .source-new {
+        display: inline-block;
+        width: 100%;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        min-height: 24px;
+        position: relative;
+
+        .source{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 6px;
+            position: relative;
+            cursor: pointer;
+
+            .name{
+                flex-basis: 85%;
+                overflow: hidden;
+                flex-grow: 0;
+                flex-shrink: 0;
+            }
+            .delete{
+                flex-basis: 5%;
+                color: $error-color;
+            }
+            date{
+                flex-basis: 100%;
+                font-family: 'Inconsolata', monospace;
+            }
+            @import 'display-card';
+        }
     }
 }

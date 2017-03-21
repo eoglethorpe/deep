@@ -3,42 +3,78 @@ let source = {
         let that = this;
 
         // The new source field
-        $('.human-source-new').on('dragover', function(e) {
+        $('.source-new').on('dragover', function(e) {
             e.originalEvent.preventDefault();
             return false;
         });
-        $('.human-source-new').on('drop', function(e) {
-            let droppedText = e.originalEvent.dataTransfer.getData("Text");
-            let ids = droppedText.split(':');
-            if (ids.length != 2)
-                return;
 
-            let i = +ids[0];
-            let j = +ids[1];
-            if (isNaN(i) || isNaN(j))
-                return;
-
-            let entry = entries[i];
-            let information = entry.informations[j];
-
-            let newSource = {
-                name: entry.lead_source,
-                url: entry.lead_url,
-                date: information.date,
-                entryId: i,
-                informationId: j,
-            };
-
-            data['human']['source'][$(this).data('human-pk')]['new']
+        // Humanitarian profile fields
+        $('.human-source').on('drop', that.getDropEvent(function(container, newSource) {
+            newData['human']['source'][container.data('human-pk')] = getNewSourceData(newData['human']['source'][container.data('human-pk')]);
+            newData['human']['source'][container.data('human-pk')]['new']
                 .push(newSource);
+            that.refreshSources(container, newData['human']['source'][container.data('human-pk')], data['human']['source'][container.data('human-pk')], humanitarianProfileDecay);
+        }));
 
-            that.refreshSources($(this), data['human']['source'][$(this).data('human-pk')]);
+        $('.human-source').each(function() {
+            that.refreshSources($(this), newData['human']['source'][$(this).data('human-pk')], data['human']['source'][$(this).data('human-pk')], humanitarianProfileDecay);
         });
 
-        $('.human-source-new').each(function() {
-            that.refreshSources($(this), data['human']['source'][$(this).data('human-pk')]);
+        // People in need fields
+        function setupPeopleSource(type) {
+            $('.people-' + type + '-source').on('drop', that.getDropEvent(function(container, newSource) {
+                newData['people'][type + '-source'][container.data('people-pk')] = getNewSourceData(newData['people'][type + '-source'][container.data('people-pk')]);
+                newData['people'][type + '-source'][container.data('people-pk')]['new']
+                .push(newSource);
+                that.refreshSources(container, newData['people'][type + '-source'][container.data('people-pk')], data['people'][type + '-source'][container.data('people-pk')], peopleInNeedDecay, 'bottom');
+            }));
+
+            $('.people-' + type + '-source').each(function() {
+                that.refreshSources($(this), newData['people'][type + '-source'][$(this).data('people-pk')], data['people'][type + '-source'][$(this).data('people-pk')], peopleInNeedDecay, 'bottom');
+            });
+        }
+
+        setupPeopleSource('total');
+        setupPeopleSource('at-risk');
+        setupPeopleSource('moderate');
+        setupPeopleSource('severe');
+        setupPeopleSource('planned');
+
+        // ipc
+        $('.ipc-source').on('drop', that.getDropEvent(function(container, newSource) {
+            newData['ipc'][container.data('ipc')] = getNewSourceData(newData['ipc'][container.data('ipc')]);
+            newData['ipc'][container.data('ipc')]['new']
+                .push(newSource);
+            that.refreshSources(container, newData['ipc'][container.data('ipc')]);
+        }));
+
+        $('.ipc-source').each(function() {
+            that.refreshSources($(this), newData['ipc'][$(this).data('ipc')]);
         });
 
+        // access
+        $('.access-source').on('drop', that.getDropEvent(function(container, newSource) {
+            newData['access-extra']['source'][container.data('access-pk')] = getNewSourceData(newData['access-extra']['source'][container.data('access-pk')]);
+            newData['access-extra']['source'][container.data('access-pk')]['new']
+                .push(newSource);
+            that.refreshSources(container, newData['access-extra']['source'][container.data('access-pk')]);
+        }));
+
+        $('.access-source').each(function() {
+            that.refreshSources($(this), newData['access-extra']['source'][$(this).data('access-pk')]);
+        });
+
+        // access pin
+        $('.access-pin-source').on('drop', that.getDropEvent(function(container, newSource) {
+            newData['access-pin']['source'][container.data('access-pin-pk')] = getNewSourceData(newData['access-pin']['source'][container.data('access-pin-pk')]);
+            newData['access-pin']['source'][container.data('access-pin-pk')]['new']
+                .push(newSource);
+            that.refreshSources(container, newData['access-pin']['source'][container.data('access-pin-pk')], data['access-pin']['source'][container.data('access-pin-pk')], humanitarianAccessDecay, 'bottom');
+        }));
+
+        $('.access-pin-source').each(function() {
+            that.refreshSources($(this), newData['access-pin']['source'][$(this).data('access-pin-pk')], data['access-pin']['source'][$(this).data('access-pin-pk')], humanitarianAccessDecay, 'bottom');
+        });
 
         //Flip source
         $('body').on('click','.source-flip',function(e){
@@ -57,18 +93,49 @@ let source = {
 
     },
 
-    refreshSources: function(container, sourceData) {
-        if (!sourceData) {
-            sourceData = {'old' : null, 'new': [] };
+    getDropEvent: function(refreshCallback) {
+        return function(e) {
+            let droppedText = e.originalEvent.dataTransfer.getData("Text");
+            let ids = droppedText.split(':');
+            if (ids.length != 2)
+                return;
+
+            let i = +ids[0];
+            let j = +ids[1];
+            if (isNaN(i) || isNaN(j))
+                return;
+
+            let entry = originalEntries.find(e => e.id == i);
+            let information = entry.informations.find(info => info.id == j);
+
+            let newSource = {
+                name: entry.lead_source,
+                url: entry.lead_url,
+                date: information.date,
+                entryId: i,
+                informationId: j,
+            };
+
+            refreshCallback($(this), newSource);
+        };
+    },
+
+    refreshSources: function(container, sourceData, oldSourceData, decayer, direction) {
+        if (oldSourceData && decayer) {
+            decayer.updateSource(container, sourceData, oldSourceData);
         }
-        if (!sourceData['new']) {
-            sourceData['new'] = []
-        }
+
+        sourceData = getNewSourceData(sourceData);
 
         let that = this;
         container.empty();
 
+        if (sourceData['old'] && sourceData['old'].length > 0) {
+            $('<div class="source">' + sourceData['old'] + '</div>').appendTo(container);
+        }
+
         let sources = sourceData['new'];
+
         for (let i=0; i<sources.length; i++) {
             let source = sources[i];
             let sourceElement = $('.source-template').clone();
@@ -78,7 +145,7 @@ let source = {
             sourceElement.find('date').text(source.date);
             sourceElement.find('.delete').click(function() {
                 sourceData['new'].splice(i, 1);
-                that.refreshSources(container, sourceData);
+                that.refreshSources(container, sourceData, oldSourceData);
             });
 
             sourceElement.appendTo(container);
@@ -86,9 +153,9 @@ let source = {
 
             sourceElement.click(function(e) {
                 if (source.entryId != undefined && source.informationId != undefined) {
-                    let entry = originalEntries[source.entryId];
+                    let entry = originalEntries.find(e => e.id == source.entryId);
                     if (entry) {
-                        let information = entry.informations[source.informationId];
+                        let information = entry.informations.find(info => info.id == source.informationId);
                         if (information) {
                             let displayCard = $(this).find('.display-card');
 
@@ -106,14 +173,18 @@ let source = {
                             displayCard.find('.severity-color')[0].className = 'severity-color _' + information.severity;
 
                             //For humanitarian-profile tab the display card is in right
-                            displayCard.addClass('display-card-right');
+                            if (!direction) {
+                                displayCard.addClass('display-card-right');
+                            } else {
+                                displayCard.addClass('display-card-' + direction);
+                            }
 
                             displayCard.addClass('focus');
 
                             let that = $(this);
 
                             // Hide popup
-                            $(document).mouseup(function (e){
+                            $(document).one('mouseup', function (e){
                                 if (!that.is(e.target) && that.has(e.target).length === 0) {
                                     that.find('.source-excerpt-text').show();
                                     that.find('.source-details')[0].style.display = 'none';
@@ -129,11 +200,25 @@ let source = {
 };
 
 
-
-function getOldSourceData(sourceData) {
+function getNewSourceData(sourceData) {
+    if (sourceData && sourceData['old'] === undefined) {
+        sourceData = {
+            'old': sourceData,
+            'new': []
+        };
+    }
     if (!sourceData) {
         sourceData = {'old' : null, 'new': [] };
     }
+    if (!sourceData['new']) {
+        sourceData['new'] = [];
+    }
+    return sourceData;
+}
+
+
+function getOldSourceData(sourceData) {
+    sourceData = getNewSourceData(sourceData);
     if (!sourceData['old']) {
         sourceData['old'] = null;
     }
