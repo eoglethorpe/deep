@@ -119,7 +119,8 @@ $(document).ready(function(){
                 }
             },
             { data: null,width: "5%", render: function(data, type, row) { return confidentialities[data.confidentiality]; } },
-            { data: "source",width: "20%"},
+            { data: "source",width: "15%"},
+            { data: "number_of_entries",width: "5%"},
             { data: null,width: "5%", render: function(data, type, row) { return statuses[data.status]; } },
             { data: null,width: "10%",render: function(data, type, row){
                 var getPendingBtn = function(){
