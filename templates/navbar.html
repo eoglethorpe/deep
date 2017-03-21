@@ -104,12 +104,12 @@
             <div class="items" hidden>
                 <div data-url="{% url 'user_profile' user.pk %}"><i class="fa fa-user"></i>Profile</small></div>
                 <div data-url="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</div>
-                {% if request.user.is_superuser %}
                 <hr>
+                {% if request.user.is_superuser %}
                 <div data-url="/admin"><i class="fa fa-user-secret"></i>Admin panel</div>
                 <div data-url="{% url 'custom_admin:country_management' %}"><i class="fa fa-globe"></i>Country Panel</div>
-                <div data-url="{% url 'custom_admin:crisis_panel' %}"><i class="fa fa-wrench"></i>Crisis Panel</div>
                 {% endif %}
+                <div data-url="{% url 'custom_admin:crisis_panel' %}"><i class="fa fa-wrench"></i>Crisis Panel</div>
                 {% if request.user.userprofile.hid %}
                 <hr>
                 <!-- TODO: Maybe show link to official hid profile page -->

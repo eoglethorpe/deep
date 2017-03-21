@@ -87,8 +87,8 @@ class CrisisPanelView(View):
 
             event.save()
 
-            if event.owners.count() == 0:
-                event.owners.add(request.user)
+            if event.admins.count() == 0:
+                event.admins.add(request.user)
 
             activity.set_target(
                 'project', event.pk, event.name,

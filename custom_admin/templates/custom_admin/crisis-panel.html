@@ -28,7 +28,6 @@ var crises = {
         spillover: {% if event.spill_over %}"{{event.spill_over.pk}}"{% else %}null{% endif %},
         usergroups: [{% for group in event.usergroup_set.all %}"{{group.pk}}", {% endfor %}],
         admins: [{% for admin in event.admins.all %}"{{admin.pk}}", {% endfor %}],
-        owners: [{% for owner in event.owners.all %}"{{owner.pk}}", {% endfor %}],
     },
     {% endfor %}
 };
