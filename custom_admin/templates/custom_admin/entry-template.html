@@ -8,10 +8,12 @@ DEEP | Country Panel
 {% block head %}
 
 <link href="{% watchful_static_url 'css/entry-template.css' %}" type="text/css" rel="stylesheet">
-
 <link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}"/>
+
+<script type="text/javascript" src="{% watchful_static_url 'js/common/jquery-ui.min.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entry-template/entry-template.js' %}"></script>
 
 {% endblock %}
 
@@ -24,5 +26,13 @@ DEEP | Country Panel
     </header>
     <a onclick="window.location.href = document.referrer;"><i class="fa fa-long-arrow-left"></i>Back</a>
 </nav>
+
+<aside>
+
+</aside>
+
+<main>
+
+</main>
 
 {% endblock %}
