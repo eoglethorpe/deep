@@ -271,3 +271,10 @@ class CountryManagementView(View):
                 pass
 
         return response
+
+
+class EntryTemplateView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        context = {}
+        return render(request, "custom_admin/entry-template.html", context)

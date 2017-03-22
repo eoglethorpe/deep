@@ -144,7 +144,7 @@ class InformationSubpillar(models.Model):
     pillar = models.ForeignKey(InformationPillar)
 
     tooltip = models.TextField(default='', blank=True)
-    
+
     PEOPLE_IN_NEED = "PIN"
     HUMANITARIAN_ACCESS = "HAC"
     HUMANITARIAN_PROFILE = "HPR"
