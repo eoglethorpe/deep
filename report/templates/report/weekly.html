@@ -34,8 +34,6 @@ reportMode = "lastweek";
 var data = {};
 {% endif %}
 
-var newData = $.extend(true, {}, data);
-
 
 // The JSON data model with default values
 var dataModel = {
@@ -60,6 +58,8 @@ var dataModel = {
 // Migrate anything that exists in the data model but not in the actual data
 migrate(data, dataModel);
 // TODO: Check this ^^^ is working.
+
+var newData = $.extend(true, {}, data);
 
 var csrf_token = "{% csrf_token %}";
 
