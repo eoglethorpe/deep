@@ -183,6 +183,20 @@ main {
     main > header h1 {
       margin: 0;
       text-transform: uppercase; }
+    main > header .loader {
+      margin-left: 16px; }
+  main .loader {
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    border-top: 2px solid #008080;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite; }
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(360deg); } }
   main > section {
     box-sizing: border-box; }
     main > section:nth-child(2) {
@@ -240,7 +254,7 @@ main {
         main #country-panel #country-list #country-list-header label:nth-child(2) {
           flex-basis: 15%; }
         main #country-panel #country-list #country-list-header label:nth-child(3), main #country-panel #country-list #country-list-header label:nth-child(4), main #country-panel #country-list #country-list-header label:nth-child(5), main #country-panel #country-list #country-list-header label:nth-child(6), main #country-panel #country-list #country-list-header label:nth-child(7) {
-          flex-basis: 11%; }
+          flex-basis: 10%; }
         main #country-panel #country-list #country-list-header label:nth-child(8), main #country-panel #country-list #country-list-header label:nth-child(9) {
           flex-basis: 7.5%; }
         main #country-panel #country-list #country-list-header label:nth-child(10) {
@@ -309,7 +323,8 @@ main {
         main #country-panel #country-list #countries .country .viz {
           height: 50px;
           margin-top: 6px;
-          text-align: center;
+          width: 100%;
+          overflow: hidden;
           position: relative; }
           main #country-panel #country-list #countries .country .viz .health-bar-invalid {
             height: 12px;
@@ -405,15 +420,17 @@ main {
             color: #e74c3c; }
         main #weekly-report-panel #weekly-report-list #weekly-reports .weekly-report:nth-child(odd) {
           background-color: #fff; }
-      main #weekly-report-panel #weekly-report-list #weekly-reports .empty-text {
+      main #weekly-report-panel #weekly-report-list #weekly-reports .empty-text, main #weekly-report-panel #weekly-report-list #weekly-reports .loading-text {
         height: 100%;
         margin: 0;
-        display: flex;
         justify-content: center;
         align-items: center;
-        display: flex;
-        font-size: 3em;
+        font-size: 2em;
+        text-transform: uppercase;
+        font-weight: 300;
         color: rgba(0, 0, 0, 0.3); }
+      main #weekly-report-panel #weekly-report-list #weekly-reports .loading-text {
+        display: flex; }
 
 .jqstooltip {
   box-sizing: content-box;

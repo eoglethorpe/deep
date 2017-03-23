@@ -144,7 +144,7 @@ class InformationSubpillar(models.Model):
     pillar = models.ForeignKey(InformationPillar)
 
     tooltip = models.TextField(default='', blank=True)
-    
+
     PEOPLE_IN_NEED = "PIN"
     HUMANITARIAN_ACCESS = "HAC"
     HUMANITARIAN_PROFILE = "HPR"
@@ -203,6 +203,8 @@ class EntryInformation(models.Model):
     entry = models.ForeignKey(Entry)
     excerpt = models.TextField(blank=True)
     image = models.TextField(blank=True, default='')
+
+    # Following data is for old data type
     date = models.DateField(blank=True, default=None, null=True)
     reliability = models.ForeignKey(Reliability)
     severity = models.ForeignKey(Severity)
@@ -212,6 +214,10 @@ class EntryInformation(models.Model):
     affected_groups = models.ManyToManyField(AffectedGroup, blank=True)
     map_selections = models.ManyToManyField(AdminLevelSelection, blank=True)
     bob = models.BooleanField(default=False) # best of bullshits
+
+    # Following is for entries entered using template
+    template = models.ForeignKey('entries.EntryTemplate', default=None,  null=True)
+    elements = models.TextField(default='{}')
 
     def __str__(self):
         return self.excerpt
@@ -229,3 +235,11 @@ class InformationAttribute(models.Model):
 
     def __str__(self):
         return str(self.subpillar) + "/" + str(self.sector) + "/" + str(self.subsector)
+
+
+class EntryTemplate(models.Model):
+    name = models.CharField(max_length=150)
+    elements = models.TextField(default='{}')
+
+    def __str__(self):
+        return self.name

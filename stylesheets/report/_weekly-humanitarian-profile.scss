@@ -39,6 +39,40 @@
             > div {
                 flex-basis: 100%;
             }
+            .source-new {
+                display: inline-block;
+                flex-basis: 23%;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                min-height: 24px;
+                position: relative;
+
+                .source{
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                    align-items: center;
+                    background-color: #fff;
+                    padding: 6px;
+                    position: relative;
+                    cursor: pointer;
+
+                    .name{
+                        flex-basis: 85%;
+                        overflow: hidden;
+                        flex-grow: 0;
+                        flex-shrink: 0;
+                    }
+                    .delete{
+                        flex-basis: 5%;
+                        color: $error-color;
+                    }
+                    date{
+                        flex-basis: 100%;
+                        font-family: 'Inconsolata', monospace;
+                    }
+                    @import 'display-card';
+                }
+            }
         }
 
         .human-profile-child{

@@ -26,12 +26,15 @@ $(document).ready(function(){
     //fillCountryDetails();
 
     var reports = null;
-    $.getJSON("/api/v2/reports", function(data){
-        //console.log('woohoo!');
+    var countryEvents = null;
+    $.getJSON("/api/v2/reports?countryEvents=1", function(data){
         if(data.status == true){
             reports = data.data;
+            countryEvents = data.extra.country_events;
             fillCountryDetails();
-            selectCountryEvent(defaultCountryPk, defaultEventPk, defaultCountryName);
+            selectCountryEvent(defaultCountryPk, defaultEventPk);
+
+            $('header .loader').hide();
         }
     });
 
@@ -342,10 +345,11 @@ $(document).ready(function(){
                                 let keys = Object.keys(fieldsWeek0[i]);
                                 for(let j=0; j<keys.length; j++){
 
-                                    // Check if object
                                     let value0 = fieldsWeek0[i][keys[j]];
                                     let value1 = fieldsWeek1[i][keys[j]];
-                                    if (value0 instanceof Object) {
+
+                                    // Check if object
+                                    if (value0 instanceof Object && value1 instanceof Object) {
                                         if (JSON.stringify(value0) != JSON.stringify(value1)) {
                                             ++change;
                                         }
@@ -400,17 +404,17 @@ $(document).ready(function(){
                     }
                 }
 
-                var affectedList = [];
-                var displacedList = [];
-                var pinList = [];
-                var accessConstraintsList = [];
-                var geoRankList = [];
-                for(var index=0; index<current.weeklyReports.length; index++){
-                    var affected = getAffectedNumber(index);
-                    var displaced = getDisplacedNumber(index);
-                    var pin = getInNeedNumber(index);
-                    var access = getAccessConstraintsNumber(index);
-                    var geo = getGeoScore(index);
+                let affectedList = [];
+                let displacedList = [];
+                let pinList = [];
+                let accessConstraintsList = [];
+                let geoRankList = [];
+                for(let index=0; index<current.weeklyReports.length; index++){
+                    let affected = getAffectedNumber(index);
+                    let displaced = getDisplacedNumber(index);
+                    let pin = getInNeedNumber(index);
+                    let access = getAccessConstraintsNumber(index);
+                    let geo = getGeoScore(index);
                     affectedList.push(isNaN(affected)? 0: affected);
                     displacedList.push(isNaN(displaced)? 0: displaced);
                     pinList.push(isNaN(pin)? 0: pin);
@@ -418,20 +422,26 @@ $(document).ready(function(){
                     geoRankList.push(isNaN(geo)? 0: geo);
                 }
 
-                var sparkLineYMax = Math.max(...[
+                let sparkLineYMax = Math.max(...[
                     Math.max(...affectedList),
                     Math.max(...displacedList),
                     Math.max(...pinList),
                     Math.max(...accessConstraintsList)
                 ]);
 
+                let sparkLineXMax = Math.max(...[affectedList.length, displacedList.length, pinList.length, accessConstraintsList.length, geoRankList.length]);
+
                 setTimeout(function(country, affectedList, displacedList, pinList, accessConstraintsList, geoRankList, sparkLineYMax) {
                     return function() {
-                        country.find('.affected .viz').sparkline(affectedList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#2980b9', fillColor: 'rgba(0, 50, 255, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
-                        country.find('.displaced .viz').sparkline(displacedList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#f00000', fillColor: 'rgba(255, 0, 0, 0.1)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
-                        country.find('.in-need .viz').sparkline(pinList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#c0392b', fillColor: 'rgba(255, 40 , 0, 0.4)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
-                        country.find('.access-constraints .viz').sparkline(accessConstraintsList.reverse(), {type: 'line', width: '100% ', height: '48px ', lineColor: '#212121', fillColor: 'rgba(0,0,0,0.3)', chartRangeMinX: 0, chartRangeMaxX: 5, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
-                        country.find('.geo-ranking .viz').sparkline(geoRankList.reverse(), {type: 'bar', height: '48px ', chartRangeMin: 0, chartRangeMax: 3, width: '100%', barWidth: 12, barSpacing: 4, barColor: '#cc2d06'});
+                        country.find('.affected .viz').sparkline(affectedList.reverse(), {type: 'line', width: '100%', height: '48px', lineColor: '#2980b9', fillColor: 'rgba(0, 50, 255, 0.1)', chartRangeMinX: 0, chartRangeMaxX: sparkLineXMax, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
+                        country.find('.displaced .viz').sparkline(displacedList.reverse(), {type: 'line', width: '100%', height: '48px', lineColor: '#f00000', fillColor: 'rgba(255, 0, 0, 0.1)', chartRangeMinX: 0, chartRangeMaxX: sparkLineXMax, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
+                        country.find('.in-need .viz').sparkline(pinList.reverse(), {type: 'line', width: '100%', height: '48px', lineColor: '#c0392b', fillColor: 'rgba(255, 40 , 0, 0.4)', chartRangeMinX: 0, chartRangeMaxX: sparkLineXMax, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
+                        country.find('.access-constraints .viz').sparkline(accessConstraintsList.reverse(), {type: 'line', width: '100%', height: '48px', lineColor: '#212121', fillColor: 'rgba(0,0,0,0.3)', chartRangeMinX: 0, chartRangeMaxX: sparkLineXMax, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
+
+                        let geoRankingWidth = country.find('.geo-ranking .viz').innerWidth();
+                        let geoRankingBarWidth = geoRankingWidth/geoRankList.length*0.7;
+                        let geoRankingGap = geoRankingWidth/geoRankList.length*0.3;
+                        country.find('.geo-ranking .viz').sparkline(geoRankList.reverse(), {type: 'bar', height: '48px', chartRangeMin: 0, chartRangeMax: 3, barWidth: geoRankingBarWidth, barSpacing: geoRankingGap, barColor: '#cc2d06'});
                     }
                 }(country, affectedList, displacedList, pinList, accessConstraintsList, geoRankList, sparkLineYMax), 0);
             }
@@ -445,13 +455,13 @@ $(document).ready(function(){
     // change event
     $('#select-event').change(function() {
         // var event = $(this).val();
-        selectCountryEvent($(this).data('country-pk'), $(this).val(), null);
+        selectCountryEvent($(this).data('country-pk'), $(this).val());
         // window.location.href = window.location.pathname+"?"+$.param({event:event})+"&country="+$(this).data('country-pk');
     });
 
     // change country
     $('.country').on('click', function(){
-        selectCountryEvent($(this).data('pk'), null, $(this).data('name'));
+        selectCountryEvent($(this).data('pk'), null);
         // window.location.href = $(this).data('href');
     });
 
@@ -530,35 +540,31 @@ $(document).ready(function(){
     });
 
 
-    function selectCountryEvent(countryPk, eventPk, countryName) {
+    function selectCountryEvent(countryPk, eventPk) {
         let reportsContainer = $('#weekly-reports');
         reportsContainer.find('.weekly-report').remove();
-        reportsContainer.find('p').show();
+        //reportsContainer.find('.empty-text').show();
 
-        if (countryName) {
-            $('#weekly-report-panel-header h2').text(countryName);
-        }
+        $('.country.active').removeClass('active');
+        $('.country[data-pk="' + countryPk + '"]').addClass('active');
 
-        if (reports && reports.length > 0) {
+        $('#weekly-report-panel-header h2').text(countryEvents[countryPk].name);
+
+        if (countryEvents && countryEvents[countryPk] && reports) {
 
             // First add all events for this country
-            let countryReports = reports.filter(r => (r.country.code == countryPk));
             let eventsSelect = $('#weekly-report-panel-header select')[0].selectize;
             $('#weekly-report-panel-header select').data('country-pk', countryPk);
             eventsSelect.clearOptions();
 
-            if (countryReports.length > 0) {
+            if (countryEvents[countryPk].events.length > 0) {
                 if (eventPk == null) {
-                    eventPk = countryReports[0].event.pk;
+                    eventPk = countryEvents[countryPk].events[0].pk;
                 }
 
-                let addedEvents = [];
-                for (let i=0; i<countryReports.length; i++) {
-                    let epk = countryReports[i].event.pk;
-                    if (addedEvents.indexOf(epk) < 0) {
-                        addedEvents.push(epk);
-                        eventsSelect.addOption({value: epk, text: countryReports[i].event.name});
-                    }
+                for (let i=0; i<countryEvents[countryPk].events.length; i++) {
+                    let epk = countryEvents[countryPk].events[i].pk;
+                    eventsSelect.addOption({value: epk, text: countryEvents[countryPk].events[i].name});
                 }
             }
             eventsSelect.setValue(eventPk, true);
@@ -568,33 +574,43 @@ $(document).ready(function(){
             addButton.attr('href', '/report/weekly/add/' + countryPk + '/' + eventPk + '?start_date=' + addButton.data('start-date'));
             addButton.show();
 
-            // Next add reports for this event
-            let selectedReports = reports.filter(r => (r.country.code == countryPk && r.event.pk == eventPk));
-            if (selectedReports.length > 0) {
-                selectedReports.sort(function(r1, r2) {
-                    return new Date(r2.start_date) - new Date(r1.start_date);
-                });
-                reportsContainer.find('p').hide();
+            if (reports.length > 0) {
+                // Next add reports for this event
+                let selectedReports = reports.filter(r => (r.country.code == countryPk && r.event.pk == eventPk));
 
-                for (let i=0; i<selectedReports.length; i++) {
-                    let report = selectedReports[i];
-                    let reportElement = $('#weekly-report-list .weekly-report-template').clone();
-                    reportElement.removeClass('weekly-report-template').addClass('weekly-report');
+                if (selectedReports.length > 0) {
+                    reportsContainer.find('.empty-text')[0].style.display = 'none';
 
-                    reportElement.find('.number').text(new Date(report.start_date).getWeek());
-                    reportElement.find('.start-date').text(formatDate(report.start_date));
-                    reportElement.find('.end-date').text(formatDate(new Date(report.start_date).addDays(6)));
-                    reportElement.find('.edit-btn').attr('href', '/report/weekly/edit/' + countryPk + '/' + eventPk + '/' + report.id);
-                    reportElement.find('.delete-btn').click(function() {
-                        if(confirm('Are you sure you want to delete the report?')) {
-                            window.location.href = '/report/weekly/edit/' + countryPk + '/' + eventPk + '/' + report.id;
-                        }
+                    selectedReports.sort(function(r1, r2) {
+                        return new Date(r2.start_date) - new Date(r1.start_date);
                     });
+                    //reportsContainer.find('p').hide();
 
-                    reportElement.appendTo(reportsContainer);
-                    reportElement.show();
+                    for (let i=0; i<selectedReports.length; i++) {
+                        let report = selectedReports[i];
+                        let reportElement = $('#weekly-report-list .weekly-report-template').clone();
+                        reportElement.removeClass('weekly-report-template').addClass('weekly-report');
+
+                        reportElement.find('.number').text(new Date(report.start_date).getWeek());
+                        reportElement.find('.start-date').text(formatDate(report.start_date));
+                        reportElement.find('.end-date').text(formatDate(new Date(report.start_date).addDays(6)));
+                        reportElement.find('a.edit-btn').attr('href', '/report/weekly/edit/' + countryPk + '/' + eventPk + '/' + report.id);
+                        reportElement.find('a.delete-btn').click(function() {
+                            if(confirm('Are you sure you want to delete the report?')) {
+                                window.location.href = '/report/weekly/delete/' + countryPk + '/' + eventPk + '/' + report.id;
+                            }
+                        });
+
+                        reportElement.appendTo(reportsContainer);
+                        reportElement.show();
+                    }
+                } else{
+                    reportsContainer.find('.empty-text')[0].style.display = 'flex';
                 }
             }
+
+
         }
+        reportsContainer.find('.loading-text')[0].style.display = 'none';
     }
 });

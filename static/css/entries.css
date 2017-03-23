@@ -682,6 +682,10 @@ main #entries {
       flex-basis: 10%; }
     main #entries .information-list .information > div:nth-child(7) {
       flex-basis: 20%; }
+      main #entries .information-list .information > div:nth-child(7) .pillar-header {
+        display: flex; }
+        main #entries .information-list .information > div:nth-child(7) .pillar-header label {
+          flex-basis: 50%; }
       main #entries .information-list .information > div:nth-child(7) .attribute {
         display: flex !important; }
         main #entries .information-list .information > div:nth-child(7) .attribute > * {

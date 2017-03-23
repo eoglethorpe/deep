@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load watchful_url %}
+
+{% block title %}
+DEEP | Entry Template Editor
+{% endblock %}
+
+{% block head %}
+
+<link href="{% watchful_static_url 'css/entry-template.css' %}" type="text/css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}"/>
+
+<script type="text/javascript" src="{% watchful_static_url 'js/common/jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entry-template/entry-template.js' %}"></script>
+
+{% endblock %}
+
+{% block body %}
+
+<nav>
+    <header>
+        <a title="DEEP" href="{% url 'login' %}"><img class="deep-logo" src="{% watchful_static_url 'img/deep-logo-sm-white.png' %}"></a>
+        <h1>Entry Template Editor</h1>
+    </header>
+    <a onclick="window.location.href = document.referrer;"><i class="fa fa-long-arrow-left"></i>Back</a>
+</nav>
+
+<aside>
+    <section>
+        <header>
+            <h3>Widgets</h3>
+        </header>
+        <div id="widgets">
+            <div class="widget">
+                <h4>1d Matrix</h4>
+                <button><i class="fa fa-plus"></i>Add</button>
+            </div>
+            <div class="widget">
+                <h4>2d Matrix</h4>
+                <button><i class="fa fa-plus"></i>Add</button>
+            </div>
+            <div class="widget">
+                <h4>Scale widget</h4>
+                <button><i class="fa fa-plus"></i>Add</button>
+            </div>
+            <div id="noob-widget" class="widget">
+                <h4>Noob widget</h4>
+                <button><i class="fa fa-plus"></i>Add</button>
+            </div>
+        </div>
+
+    </section>
+    <section>
+        <header>
+            <h3>Elements</h3>
+        </header>
+        <div id="elements">
+            <div class="element" >
+                <h4>1d Matrix #1</h4>
+                <button><i class="fa fa-chevron-down"></i></button>
+            </div>
+            <div class="element">
+                <h4>1d Matrix #2</h4>
+                <button><i class="fa fa-chevron-down"></i></button>
+            </div>
+            <div class="element">
+                <h4>2d Matrix</h4>
+                <button><i class="fa fa-chevron-down"></i></button>
+            </div>
+        </div>
+    </section>
+</aside>
+
+<main>
+
+</main>
+
+{% endblock %}

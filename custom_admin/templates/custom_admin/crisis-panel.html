@@ -34,6 +34,7 @@ var crises = {
 
 var defaultGroupSelection = {% if selected_group %}["{{selected_group}}"]{% else %}""{% endif %};
 var defaultAdminSelection = ["{{request.user.pk}}"];
+let myPk = '{{request.user.pk}}';
 </script>
 
 {% endblock %}

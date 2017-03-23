@@ -1,0 +1,122 @@
+@import 'common/base';
+
+body{
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+
+    h1, h2, h3, h4{
+        text-transform: uppercase;
+        margin: 0;
+        vertical-align: middle;
+    }
+    a{
+        color: $primary-color;
+        cursor: pointer;
+    }
+    >nav{
+        flex-basis: 100%;
+        height: $navbar-height;
+        background-color: darken($primary-color, 10%);
+        color: #fff;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 16px;
+        align-items: center;
+        @include shadow;
+
+        >header{
+            flex-basis: 60%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            .deep-logo{
+                width: $deep-logo-sm-width;
+                margin-right: 24px;
+            }
+        }
+        a{
+            color: #fff;
+            cursor: pointer;
+
+            .fa{
+                margin-right: 10px;
+            }
+            &:hover{
+                color: #fff;
+             }
+
+        }
+    }
+    aside{
+        flex-basis: 30%;
+        height: calc(100vh - #{$navbar-height});
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
+
+        section{
+            margin-bottom: 32px;
+
+            > header{
+                height: 48px;
+                display: flex;
+                align-items: center;
+                padding-left: 16px;
+            }
+            #widgets{
+                .widget{
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 10px 16px;
+                    background-color: #fff;
+                    border: 1px solid rgba(0, 0, 0, 0.05);
+
+                    button{
+                        background-color: transparent;
+                        border: none;
+
+                        .fa{
+                            margin-right: 6px;
+                        }
+                    }
+                }
+            }
+            #elements{
+                .element{
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 16px;
+                    margin-bottom: 6px;
+                    background-color: #fff;
+                    border: 1px solid rgba(0, 0, 0, 0.05);
+
+                    button{
+                        background-color: transparent;
+                        border: none;
+
+                        .fa{
+                            margin-right: 6px;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    main {
+        flex-basis: 70%;
+
+        .widget {
+            width: 64px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 0.3);
+            -webkit-user-select: none;
+            cursor: move;
+        }
+    }
+}

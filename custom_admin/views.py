@@ -24,10 +24,11 @@ class CrisisPanelView(View):
 
         if request.user.is_superuser:
             context["events"] = Event.objects.all().order_by('name')
+            context["usergroups"] = UserGroup.objects.all()
         else:
             context["events"] = Event.objects.filter(admins__pk=request.user.pk).order_by('name')
+            context["usergroups"] = UserGroup.objects.filter(admins__pk=request.user.pk).order_by('name')
 
-        context["usergroups"] = UserGroup.objects.all()
         context["countries"] = Country.objects.all()
         context["disaster_types"] = DisasterType.objects.all()
         context["users"] = User.objects.all()
@@ -85,6 +86,9 @@ class CrisisPanelView(View):
                 event.spill_over = None
 
             event.save()
+
+            if event.admins.count() == 0:
+                event.admins.add(request.user)
 
             activity.set_target(
                 'project', event.pk, event.name,
@@ -267,3 +271,10 @@ class CountryManagementView(View):
                 pass
 
         return response
+
+
+class EntryTemplateView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        context = {}
+        return render(request, "custom_admin/entry-template.html", context)

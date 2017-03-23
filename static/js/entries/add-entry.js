@@ -658,8 +658,11 @@ function changeLeadPreview(type) {
 
 function getScreenshot(){
     let extensionId = 'ggplhkhciodfdkkonmhgniaopboeoopi';
+
     chrome.runtime.sendMessage(extensionId, { msg: 'screenshot' }, function(response){
-        if(response && response.image){
+        if(!response){
+            alert('Please install chrome extension for DEEP to use this feature');
+        } else if(response.image){
             let img = new Image();
             img.onload = function(){
                 $('#image-cropper-canvas-container').show();
@@ -670,11 +673,6 @@ function getScreenshot(){
                     $('#image-cropper-canvas-container').hide();
                 });
                 $('#screenshot-done-btn').one('click', function(){
-                    // let img = $('<img>');
-                    // img.attr('src', imageCropper.getCroppedImage());
-                    // let imgContainer = $('<div class="image"></div>');
-                    // img.appendTo(imgContainer);
-                    // imgContainer.appendTo($('#excerpt-image-container'));
                     addOrReplaceExcerpt('', imageCropper.getCroppedImage());
                     imageCropper.stop();
                     $('#image-cropper-canvas-container').hide();
@@ -682,6 +680,7 @@ function getScreenshot(){
             }
             img.src = response.image;
         }
+
     });
 }
 
@@ -751,22 +750,22 @@ $(document).ready(function(){
         }
     });
 
-    var image_height;
-    $('#lead-images-preview').on('click','.image',function(){
+    var imageWidth;
+    $('#lead-images-preview').on('click', '.image', function(){
         var source = $(this).find('img').attr('src');
-        $('.image-viewer img').attr('src',source);
+        $('.image-viewer img').attr('src', source);
         $('.image-viewer').show();
-        image_width=$("#lead-images-preview .image-viewer img").width();
+        imageWidth = $("#lead-images-preview .image-viewer img").width();
     });
     $('#lead-images-preview .viewer-close-btn').click(function(){
-        $("#lead-images-preview .image-viewer img").width(image_width);
+        $("#lead-images-preview .image-viewer img").width(imageWidth);
         $('.image-viewer').hide();
     });
 
     //Image Viewer Main
     $('#excerpt-image-container').on('click','.image',function(){
         var source = $(this).find('img').attr('src');
-        $('.image-viewer-main img').attr('src',source);
+        $('.image-viewer-main img').attr('src', source);
         $('.image-viewer-main').show();
     });
     $('.viewer-close-btn-main').click(function(){
@@ -813,26 +812,26 @@ $(document).ready(function(){
     // Zoom buttons
     $('#zoom-in').click(function(){
         if($('input[type="radio"][name=lead-view-option]:checked').val() == 'simplified'){
-            var font_size=$("#lead-preview-container").css('font-size');
-            font_size=parseInt(font_size)+1+'px';
-            $("#lead-preview-container").css('font-size',font_size);
+            var fontSize = $("#lead-preview-container").css('font-size');
+            fontSize=parseInt(fontSize)+1+'px';
+            $("#lead-preview-container").css('font-size',fontSize);
         }
         else if (($('input[type="radio"][name=lead-view-option]:checked').val() == 'images') && $('.image-viewer').is(':visible')) {
-            var image_width=$("#lead-images-preview .image-viewer img").width();
-            image_width=parseInt(image_width)*1.1+'px';
-            $("#lead-images-preview .image-viewer img").css('width',image_width);
+            let imageWidth = $("#lead-images-preview .image-viewer img").width();
+            imageWidth=parseInt(imageWidth)*1.1+'px';
+            $("#lead-images-preview .image-viewer img").css('width',imageWidth);
         }
     });
     $('#zoom-out').click(function(){
         if($('input[type="radio"][name=lead-view-option]:checked').val() == 'simplified'){
-            var font_size=$("#lead-preview-container").css('font-size');
-            font_size=parseInt(font_size)-1+'px';
-            $("#lead-preview-container").css('font-size',font_size);
+            var fontSize=$("#lead-preview-container").css('font-size');
+            fontSize=parseInt(fontSize)-1+'px';
+            $("#lead-preview-container").css('font-size',fontSize);
         }
         else if (($('input[type="radio"][name=lead-view-option]:checked').val() == 'images') && $('.image-viewer').is(':visible')) {
-            var image_width=$("#lead-images-preview .image-viewer img").width();
-            image_width=parseInt(image_width)*0.9+'px';
-            $("#lead-images-preview .image-viewer img").css('width',image_width);
+            let imageWidth = $("#lead-images-preview .image-viewer img").width();
+            imageWidth=parseInt(imageWidth)*0.9+'px';
+            $("#lead-images-preview .image-viewer img").css('width',imageWidth);
         }
     });
 

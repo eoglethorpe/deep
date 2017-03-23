@@ -138,7 +138,7 @@ function renderSectors(total){
             for(var i=0; i<sector.severities.length; i++){
                 severity = sector.severities[i];
                 var p = Math.round(severity.value/total*100);
-                $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*240)+'px;" data-toggle="tooltip" onmouseover="$(this).tooltip(\'show\')" ' +
+                $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*240)+'px;" ' +
                     'title="'+severity.name+' - '+severity.value+' (' + p + '%)"></span>').appendTo(severitiesContainer);
             }
         }
@@ -180,7 +180,7 @@ function renderAttrs(id, attrs, total) {
             for(var i=0; i<attr.severities.length; i++){
                 severity = attr.severities[i];
                 var p = Math.round(severity.value/total*100);
-                $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*192)+'px;" data-toggle="tooltip" onmouseover="$(this).tooltip(\'show\')" ' +
+                $('<span class="severity severity-'+severity.id+'" style=width:'+((severity.value/maxSeverity)*192)+'px;" ' +
                     'title="'+severity.name+' - '+severity.value+' (' + p + '%)"></span>').appendTo(severitiesContainer);
                 numberAttrEntry = numberAttrEntry + severity.value;
             }
@@ -204,7 +204,7 @@ function drawPieChart(total){
             endAngle -= 1;
 
         var percentage = (severities[i].value/totalSeverity*100);
-        var arc = $('<path data-toggle="tooltip" onclick="toggleSeverityFilter(' + (i+1) + ');" onmouseenter="showPiechartLabel('+ percentage +');" onmouseleave="hidePiechartLabel();"></path>');
+        var arc = $('<path onclick="toggleSeverityFilter(' + (i+1) + ');" onmouseenter="showPiechartLabel('+ percentage +');" onmouseleave="hidePiechartLabel();"></path>');
         arc.addClass('severity-'+(i+1));
         arc.attr("d", describeArc(104, 104, 64, startAngle, endAngle));
         arc.appendTo($('#pies-container'));

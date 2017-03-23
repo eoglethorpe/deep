@@ -35,4 +35,17 @@ class ReportApiView(View):
         for report in reports:
             data.append(ReportSerializer(report).serialize())
 
-        return JsonResult(data=data)
+        extra = {}
+        if request.GET.get('countryEvents'):
+            countries = {}
+            for c in Country.objects.all():
+                countries[c.pk] = {
+                    'name': c.name,
+                    'events': [
+                        { 'pk': e.pk, 'name': e.name }
+                        for e in c.event_set.all()
+                    ]
+                }
+            extra['country_events'] = countries
+
+        return JsonResult(data=data, extra=extra)

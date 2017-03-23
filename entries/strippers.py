@@ -42,22 +42,24 @@ class WebDocument:
         self.docx = None
         self.pptx = None
 
+        headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+
         try:
-            r = requests.head(url)
+            r = requests.head(url, headers=headers)
         except:
             # If we can't get header, assume html and try to continue.
-            r = requests.get(url)
+            r = requests.get(url, headers=headers)
             self.html = r.content
             return
 
         html_types = ["text/html", "text/plain"]
         if any(x in r.headers["content-type"] for x in html_types):
-            r = requests.get(url)
+            r = requests.get(url, headers=headers)
             self.html = r.content
 
         elif "application/pdf" in r.headers["content-type"]:
             fp = tempfile.NamedTemporaryFile(dir=settings.BASE_DIR)
-            r = requests.get(url, stream=True)
+            r = requests.get(url, stream=True, headers=headers)
             # fp.write(r.content)
             write_file(r, fp)
 
@@ -68,7 +70,7 @@ class WebDocument:
                  for x in ['application/vnd.openxmlformats-officedocument'
                            '.wordprocessingml.document', ]):
             fp = tempfile.NamedTemporaryFile(dir=settings.BASE_DIR)
-            r = requests.get(url, stream=True)
+            r = requests.get(url, stream=True, headers=headers)
             write_file(r, fp)
             self.docx = fp
 
@@ -76,7 +78,7 @@ class WebDocument:
                  for x in ['application/vnd.openxmlformats-officedocument'
                            '.presentationml.presentation', ]):
             fp = tempfile.NamedTemporaryFile(dir=settings.BASE_DIR)
-            r = requests.get(url, stream=True)
+            r = requests.get(url, stream=True, headers=headers)
             write_file(r, fp)
             self.pptx = fp
 
