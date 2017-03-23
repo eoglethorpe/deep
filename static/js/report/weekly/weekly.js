@@ -424,12 +424,12 @@ function setInputData() {
         $(".access-comment[data-access-pk='" + pk + "']").val(data["access-extra"]["comment"][pk]);
 
     // Access pin data
-    // for (var pk in data["access-pin"]["number"])
-    //     $(".access-pin-number[data-access-pin-pk='" + pk + "']").val(data["access-pin"]["number"][pk]);
+    for (var pk in data["access-pin"]["number"])
+        $(".access-pin-number[data-access-pin-pk='" + pk + "']").val(data["access-pin"]["number"][pk]);
     // for (var pk in data["access-pin"]["source"])
     //     $(".access-pin-source[data-access-pin-pk='" + pk + "']").val(getOldSourceData(data["access-pin"]["source"][pk]));
-    // for (var pk in data["access-pin"]["comment"])
-    //     $(".access-pin-comment[data-access-pin-pk='" + pk + "']").val(data["access-pin"]["comment"][pk]);
+    for (var pk in data["access-pin"]["comment"])
+        $(".access-pin-comment[data-access-pin-pk='" + pk + "']").val(data["access-pin"]["comment"][pk]);
 
     humanitarianAccessDecay.init();
     humanitarianAccessDecay.setData(reportMode);
