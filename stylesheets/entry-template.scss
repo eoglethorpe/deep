@@ -49,4 +49,74 @@ body{
 
         }
     }
+    aside{
+        flex-basis: 30%;
+        height: calc(100vh - #{$navbar-height});
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
+
+        section{
+            margin-bottom: 32px;
+
+            > header{
+                height: 48px;
+                display: flex;
+                align-items: center;
+                padding-left: 16px;
+            }
+            #widgets{
+                .widget{
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 10px 16px;
+                    background-color: #fff;
+                    border: 1px solid rgba(0, 0, 0, 0.05);
+
+                    button{
+                        background-color: transparent;
+                        border: none;
+
+                        .fa{
+                            margin-right: 6px;
+                        }
+                    }
+                }
+            }
+            #elements{
+                .element{
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 16px;
+                    margin-bottom: 6px;
+                    background-color: #fff;
+                    border: 1px solid rgba(0, 0, 0, 0.05);
+
+                    button{
+                        background-color: transparent;
+                        border: none;
+
+                        .fa{
+                            margin-right: 6px;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    main {
+        flex-basis: 70%;
+
+        .widget {
+            width: 64px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 0.3);
+            -webkit-user-select: none;
+            cursor: move;
+        }
+    }
 }
