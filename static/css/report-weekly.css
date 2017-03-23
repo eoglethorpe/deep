@@ -1021,7 +1021,8 @@ main {
         background-color: #fff;
         padding: 6px;
         position: relative;
-        cursor: pointer; }
+        cursor: pointer;
+        word-break: break-all; }
         main #report-content #humanitarian-access .source-new .source .name {
           flex-basis: 85%;
           overflow: hidden;
