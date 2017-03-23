@@ -532,7 +532,8 @@ main {
           background-color: #fff;
           padding: 6px;
           position: relative;
-          cursor: pointer; }
+          cursor: pointer;
+          word-break: break-all; }
           main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .name, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .name, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .name {
             flex-basis: 85%;
             overflow: hidden;
@@ -792,7 +793,8 @@ main {
         background-color: #fff;
         padding: 6px;
         position: relative;
-        cursor: pointer; }
+        cursor: pointer;
+        word-break: break-all; }
         main #report-content #people-in-need .source-new .source .name {
           flex-basis: 85%;
           overflow: hidden;
