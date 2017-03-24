@@ -106,8 +106,26 @@ body{
 
     main {
         flex-basis: 70%;
+        position: relative;
 
-        .widget {
+        .element {
+            display: inline-block;
+            position: absolute;
+
+            .handle {
+                display: none;
+                cursor: move;
+                color: $label-color;
+            }
+
+            &:hover {
+                .handle {
+                    display: inherit;
+                }
+            }
+        }
+
+        .noob-widget {
             width: 64px;
             height: 48px;
             display: flex;
@@ -117,6 +135,112 @@ body{
             box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 0.3);
             -webkit-user-select: none;
             cursor: move;
+        }
+
+        .matrix1d {
+            padding: 20px;
+
+            .handle {
+                position: absolute;
+                top: 8px;
+                left: 8px;
+            }
+
+            .pillars {
+                .pillar {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    padding-left: 24px;
+                    position: relative;
+
+                    .title-block {
+                        display: inline-block;
+                        margin: 8px;
+                        padding: 16px 8px;
+                        cursor: pointer;
+                        background-color: rgba(255, 255, 255, 0.9);
+
+                        &[contenteditable=true] {
+                            cursor: text;
+                            border: 1px dotted black;
+                        }
+                    }
+
+                    .subpillars {
+                        display: flex;
+                        flex-direction: row;
+
+                        .subpillar {
+                            display: inline-block;
+                            position: relative;
+
+                            .title-block {
+                                display: inline-block;
+                                cursor: pointer;
+                                background-color: rgba(255, 255, 255, 0.4);
+                                margin: 8px;
+                                padding: 16px 8px;
+
+                                &[contenteditable=true] {
+                                    cursor: text;
+                                    border: 1px dotted black;
+                                }
+                            }
+
+                            .remove-subpillar {
+                                display: none;
+                                position: absolute;
+                                right: 8px;
+                                top: 8px;
+                            }
+
+                            &:hover {
+                                .remove-subpillar {
+                                    display: inherit;
+                                    background-color: transparent;
+                                    border: none;
+                                    outline: none;
+                                }
+                            }
+                        }
+                    }
+
+                    .remove-pillar {
+                        position: absolute;
+                        top: 16px;
+                        left: 0px;
+                    }
+                }
+            }
+
+            .add-pillar, .add-subpillar, .remove-pillar {
+                display: none;
+                padding: 8px;
+                background-color: transparent;
+                border: none;
+                outline: none;
+            }
+
+            .fa-times {
+                color: $danger-color;
+            }
+
+            .fa-plus {
+                color: $success-color;
+            }
+
+            &:hover {
+                background-color: rgba(0,0,0,0.05);
+
+                .pillar {
+                    background-color: rgba(0,0,0,0.06);
+                }
+
+                .add-pillar, .add-subpillar, .remove-pillar {
+                    display: inherit;
+                }
+            }
         }
     }
 }

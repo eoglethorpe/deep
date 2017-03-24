@@ -140,8 +140,18 @@ body {
           body aside section #elements .element button .fa {
             margin-right: 6px; }
   body main {
-    flex-basis: 70%; }
-    body main .widget {
+    flex-basis: 70%;
+    position: relative; }
+    body main .element {
+      display: inline-block;
+      position: absolute; }
+      body main .element .handle {
+        display: none;
+        cursor: move;
+        color: rgba(0, 0, 0, 0.5); }
+      body main .element:hover .handle {
+        display: inherit; }
+    body main .noob-widget {
       width: 64px;
       height: 48px;
       display: flex;
@@ -151,5 +161,71 @@ body {
       box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 0.3);
       -webkit-user-select: none;
       cursor: move; }
+    body main .matrix1d {
+      padding: 20px; }
+      body main .matrix1d .handle {
+        position: absolute;
+        top: 8px;
+        left: 8px; }
+      body main .matrix1d .pillars .pillar {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding-left: 24px;
+        position: relative; }
+        body main .matrix1d .pillars .pillar .title-block {
+          display: inline-block;
+          margin: 8px;
+          padding: 16px 8px;
+          cursor: pointer;
+          background-color: rgba(255, 255, 255, 0.9); }
+          body main .matrix1d .pillars .pillar .title-block[contenteditable=true] {
+            cursor: text;
+            border: 1px dotted black; }
+        body main .matrix1d .pillars .pillar .subpillars {
+          display: flex;
+          flex-direction: row; }
+          body main .matrix1d .pillars .pillar .subpillars .subpillar {
+            display: inline-block;
+            position: relative; }
+            body main .matrix1d .pillars .pillar .subpillars .subpillar .title-block {
+              display: inline-block;
+              cursor: pointer;
+              background-color: rgba(255, 255, 255, 0.4);
+              margin: 8px;
+              padding: 16px 8px; }
+              body main .matrix1d .pillars .pillar .subpillars .subpillar .title-block[contenteditable=true] {
+                cursor: text;
+                border: 1px dotted black; }
+            body main .matrix1d .pillars .pillar .subpillars .subpillar .remove-subpillar {
+              display: none;
+              position: absolute;
+              right: 8px;
+              top: 8px; }
+            body main .matrix1d .pillars .pillar .subpillars .subpillar:hover .remove-subpillar {
+              display: inherit;
+              background-color: transparent;
+              border: none;
+              outline: none; }
+        body main .matrix1d .pillars .pillar .remove-pillar {
+          position: absolute;
+          top: 16px;
+          left: 0px; }
+      body main .matrix1d .add-pillar, body main .matrix1d .add-subpillar, body main .matrix1d .remove-pillar {
+        display: none;
+        padding: 8px;
+        background-color: transparent;
+        border: none;
+        outline: none; }
+      body main .matrix1d .fa-times {
+        color: #e74c3c; }
+      body main .matrix1d .fa-plus {
+        color: #27ae60; }
+      body main .matrix1d:hover {
+        background-color: rgba(0, 0, 0, 0.05); }
+        body main .matrix1d:hover .pillar {
+          background-color: rgba(0, 0, 0, 0.06); }
+        body main .matrix1d:hover .add-pillar, body main .matrix1d:hover .add-subpillar, body main .matrix1d:hover .remove-pillar {
+          display: inherit; }
 
 /*# sourceMappingURL=entry-template.css.map */
