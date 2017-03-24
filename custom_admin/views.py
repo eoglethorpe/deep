@@ -12,6 +12,8 @@ from report.models import *
 from usergroup.models import *
 from users.log import *
 
+import json
+
 
 class CrisisPanelView(View):
     @method_decorator(login_required)
@@ -275,6 +277,18 @@ class CountryManagementView(View):
 
 class EntryTemplateView(View):
     @method_decorator(login_required)
-    def get(self, request):
+    def get(self, request, template_id):
         context = {}
+        context['entry_template'] = EntryTemplate.objects.get(pk=template_id)
         return render(request, "custom_admin/entry-template.html", context)
+
+    @method_decorator(login_required)
+    def post(self, request, template_id=None):
+        data = json.loads(request.POST.get('data'))
+
+        entry_template = EntryTemplate.objects.get(pk=template_id)
+        entry_template.elements = json.dumps(data['elements'])
+        entry_template.name = data['name']
+        entry_template.save()
+
+        return redirect('custom_admin:entry_template', template_id=template_id)

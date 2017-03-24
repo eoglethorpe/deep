@@ -239,7 +239,9 @@ class InformationAttribute(models.Model):
 
 class EntryTemplate(models.Model):
     name = models.CharField(max_length=150)
-    elements = models.TextField(default='{}')
+    elements = models.TextField(default='[]')
+    created_by = models.ForeignKey(User)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name

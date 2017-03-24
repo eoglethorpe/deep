@@ -15,6 +15,15 @@ DEEP | Entry Template Editor
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entry-template/entry-template.js' %}"></script>
 
+<script>
+let csrf_token = "{% csrf_token %}";
+
+let templateData = {
+    name: '{{ entry_template.name }}',
+    elements: JSON.parse('{{ entry_template.elements|escapejs }}'),
+};
+</script>
+
 {% endblock %}
 
 {% block body %}
@@ -28,6 +37,11 @@ DEEP | Entry Template Editor
 </nav>
 
 <aside>
+    <section>
+        <h2 id="template-name">New template</h2>
+        <button id="save-button">Save</button>
+        <button id="class-button">Cancel</button>
+    </section>
     <section>
         <header>
             <h3>Widgets</h3>
@@ -74,7 +88,6 @@ DEEP | Entry Template Editor
 </aside>
 
 <main>
-
 </main>
 
 {% endblock %}
