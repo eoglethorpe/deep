@@ -15,6 +15,29 @@ class Element {
     }
 };
 
+class PageOneExcerptBox extends Element {
+    constructor(container, data) {
+        let dom = $('<div class="element page-one-excert"></div>');
+        dom.append($('<div class="fa fa-arrows handle"></div>'));
+        dom.append($('<textarea placeholder="Enter excerpt here"></textarea>'));
+        super(container, dom);
+    }
+
+    load(data) {
+        if (data.size) {
+            this.dom.find('textarea').attr('cols', data.size.cols);
+            this.dom.find('textarea').attr('rows', data.size.rows);
+        }
+    }
+
+    save() {
+        return {
+            type: 'pageOneExcerptBox',
+            size:  { cols: this.dom.find('textarea')[0].cols, rows: this.dom.find('textarea')[0].rows },
+        };
+    }
+};
+
 class Matrix1D extends Element {
     constructor(container, data) {
         let dom = $('<div class="element matrix1d"></div>');
@@ -109,7 +132,7 @@ class Matrix1D extends Element {
         return {
             type: 'matrix1d',
             pillars: pillars,
-            position: { left: this.dom.offset().left, top: this.dom.offset().top },
+            position: { left: this.dom.position().left, top: this.dom.position().top },
         }
     }
 
@@ -130,7 +153,8 @@ class Matrix1D extends Element {
         }
 
         if (data.position) {
-            this.dom.offset(data.position);
+            this.dom.css('left', data.position.left);
+            this.dom.css('top', data.position.top);
         }
     }
 };
@@ -148,13 +172,14 @@ class NoobWidget extends Element {
     save() {
         return {
             type: 'noob',
-            position: { left: this.dom.offset().left, top: this.dom.offset().top },
+            position: { left: this.dom.position().left, top: this.dom.position().top },
         }
     }
 
     load(data) {
         if (data.position) {
-            this.dom.offset(data.position);
+            this.dom.css('left', data.position.left);
+            this.dom.css('top', data.position.top);
         }
     }
 };
@@ -172,7 +197,6 @@ let templateEditor = {
         $('#matrix1d-widget button').on('click', function() {
             that.addElement(new Matrix1D($('main')));
         });
-
 
         // Save button
         $('#save-button').click(function() {
@@ -193,6 +217,8 @@ let templateEditor = {
         $('#template-name').text(data.name);
         $('main').empty();
 
+        this.pageOneExcerptBox = new PageOneExcerptBox($('main'));
+
         for (let i=0; i<data.elements.length; i++) {
             let element = data.elements[i];
             if (element.type == 'noob') {
@@ -200,6 +226,9 @@ let templateEditor = {
             }
             else if (element.type == 'matrix1d') {
                 that.addElement(new Matrix1D($('main'), element));
+            }
+            else if (element.type == 'pageOneExcerptBox') {
+                that.pageOneExcerptBox.load(element);
             }
         }
     },
@@ -211,6 +240,7 @@ let templateEditor = {
         for (let i=0; i<this.elements.length; i++) {
             data['elements'].push(this.elements[i].save());
         }
+        data['elements'].push(this.pageOneExcerptBox.save());
         return data;
     },
 };
