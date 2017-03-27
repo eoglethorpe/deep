@@ -1,5 +1,9 @@
 import string
+import requests
 import datetime
+import tempfile
+import base64
+import re
 
 import docx
 # from docx import RT
@@ -10,6 +14,7 @@ from docx.oxml.ns import qn
 
 from entries import models as entry_model
 from leads import models as lead_model
+from entries.strippers import write_file
 
 
 def valid_xml_char_ordinal(c):
@@ -124,6 +129,15 @@ def add_excerpt_info(d, info):
     # Show the excerpt
     try:
         ref = d.add_paragraph(xstr(info.excerpt))
+        if len(info.image):
+            fimage = tempfile.NamedTemporaryFile()
+            if re.search(r'http[s]?://', info.image):
+                image = requests.get(info.image, stream=True)
+                write_file(image, fimage)
+            else:
+                image = base64.b64decode(info.image.split(',')[1])
+                fimage.write(image)
+            d.add_picture(fimage)
     except:
         ref = d.add_paragraph('')
     ref.paragraph_format.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.JUSTIFY
@@ -175,7 +189,7 @@ def set_style(style):
     style.paragraph_format.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.LEFT
 
 
-def export_docx(order, event, informations=None):
+def export_docx(order, event, informations=None, export_geo=False):
     d = docx.Document('static/doc_export/template.docx')
 
     # Set document styles
@@ -227,38 +241,57 @@ def export_docx(order, event, informations=None):
     for sector in entry_model.Sector.objects.all():
         sector_header_shown = False
 
-        # Get each pillar
-        pillars = entry_model.InformationPillar.objects.filter(
-                    contains_sectors=True)
-        for pillar in pillars:
-            pillar_header_shown = False
+        if export_geo:
+            attributes = entry_model.InformationAttribute.objects.filter(
+                    sector=sector,
+                    information__entry__lead__event__pk=event)
+            if informations is not None:
+                attributes = attributes.filter(
+                        information__pk__in=informations)
 
-            # Get each subpillar
-            subpillars = pillar.informationsubpillar_set.all()
-            for subpillar in subpillars:
-                attributes = entry_model.InformationAttribute.objects.filter(
-                        subpillar=subpillar,
-                        sector=sector,
-                        information__entry__lead__event__pk=event)
-                if informations is not None:
-                    attributes = attributes.filter(
-                            information__pk__in=informations)
+            if len(attributes) > 0:
+                if not sector_header_shown:
+                    d.add_heading(sector.name, level=2)
+                    d.add_paragraph()
+                    sector_header_shown = True
 
-                if len(attributes) > 0:
-                    if not sector_header_shown:
-                        d.add_heading(sector.name, level=2)
-                        d.add_paragraph()
-                        sector_header_shown = True
-                    if not pillar_header_shown:
-                        d.add_heading(pillar.name, level=3)
-                        d.add_paragraph()
-                        pillar_header_shown = True
-                    d.add_heading(subpillar.name+":", level=4)
+            for attr in attributes:
+                info = attr.information
+                add_excerpt_info(d, info)
+                leads_pk.append(info.entry.lead.pk)
+        else:
+            # Get each pillar
+            pillars = entry_model.InformationPillar.objects.filter(
+                        contains_sectors=True)
+            for pillar in pillars:
+                pillar_header_shown = False
 
-                for attr in attributes:
-                    info = attr.information
-                    add_excerpt_info(d, info)
-                    leads_pk.append(info.entry.lead.pk)
+                # Get each subpillar
+                subpillars = pillar.informationsubpillar_set.all()
+                for subpillar in subpillars:
+                    attributes = entry_model.InformationAttribute.objects.filter(
+                            subpillar=subpillar,
+                            sector=sector,
+                            information__entry__lead__event__pk=event)
+                    if informations is not None:
+                        attributes = attributes.filter(
+                                information__pk__in=informations)
+
+                    if len(attributes) > 0:
+                        if not sector_header_shown:
+                            d.add_heading(sector.name, level=2)
+                            d.add_paragraph()
+                            sector_header_shown = True
+                        if not pillar_header_shown:
+                            d.add_heading(pillar.name, level=3)
+                            d.add_paragraph()
+                            pillar_header_shown = True
+                        d.add_heading(subpillar.name+":", level=4)
+
+                    for attr in attributes:
+                        info = attr.information
+                        add_excerpt_info(d, info)
+                        leads_pk.append(info.entry.lead.pk)
 
     add_line(d.add_paragraph())
 
@@ -272,7 +305,7 @@ def export_docx(order, event, informations=None):
     else:
         leads_pk = list(set(leads_pk))
         leads = entry_model.Lead.objects.filter(pk__in=leads_pk)
-        
+
     for lead in leads:
         p = d.add_paragraph()
         if lead.source_name and lead.source_name != "":
