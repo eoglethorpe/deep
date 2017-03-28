@@ -1,101 +1,9 @@
-let template = {
-    name: 'Untitled',
-    elements: [],
-};
-
-
-class Element {
-    constructor(container, dom) {
-        this.dom = dom;
-        container.append(dom);
-        if (dom.find('.handle').length > 0) {
-            dom.draggable({ grid: [16, 16], containment: container, handle: '.handle' });
-        } else {
-            dom.draggable({ grid: [16, 16], containment: container });
-        }
-    }
-};
-
-class Matrix1D extends Element {
-    constructor(container) {
-        let dom = $('<div class="element matrix1d"></div>');
-        dom.append($('<div class="fa fa-arrows handle"></div>'));
-        dom.append($('<div class="pillars sortable"></div>'));
-        dom.append($('<button class="fa fa-plus add-pillar"></button>'));
-        super(container, dom);
-        let that = this;
-
-        this.addPillar();
-        dom.find('.add-pillar').click(function() {
-            that.addPillar();
-        });
-
-        this.dom.find('.pillars').sortable({ axis: 'y' });
-    }
-
-    addPillar() {
-        let that = this;
-
-        let pillar = $('<div class="pillar"></div>');
-        pillar.append($('<div class="title-block">New pillar</div>'));
-        pillar.append($('<div class="subpillars sortable"></div>'));
-        pillar.append($('<button class="fa fa-plus add-subpillar"></button>'));
-        pillar.prepend($('<button class="fa fa-times remove-pillar"></button>'));
-        this.dom.find('.pillars').append(pillar);
-
-        this.addSubpillar(pillar);
-        pillar.find('.add-subpillar').click(function() {
-            that.addSubpillar(pillar);
-        });
-        pillar.find('.remove-pillar').click(function() {
-            pillar.remove();
-        });
-
-        this.makeEditable(pillar.find('.title-block'));
-        pillar.find('.subpillars').sortable({ axis: 'x' });
-    }
-
-    addSubpillar(pillar) {
-        let subpillar = $('<div class="subpillar" tabIndex="1"></div>');
-        subpillar.append($('<div class="title-block">New subpillar</div>'));
-        subpillar.append($('<button class="fa fa-times remove-subpillar"></button>'))
-        pillar.find('.subpillars').append(subpillar);
-
-        subpillar.find('.remove-subpillar').click(function() {
-            subpillar.remove();
-        });
-
-        this.makeEditable(subpillar.find('.title-block'));
-    }
-
-    makeEditable(element) {
-        element.click(function() {
-            $(this).closest('.element').find('div').attr('contenteditable', 'false');
-            $(this).attr('contenteditable', 'true');
-            $(this).closest('.element').draggable({ disabled: true });
-            $(this).parents('.sortable').sortable({ disabled: true });
-            $(this).focus();
-        });
-
-        element.blur(function(e) {
-            $(this).attr('contenteditable', 'false');
-            $(this).closest('.element').draggable({ disabled: false });
-            $(this).parents('.sortable').sortable({ disabled: false });
-        });
-    }
-};
-
-class NoobWidget extends Element {
-    constructor(container) {
-        let dom = $('<div class="element noob-widget">Noob</div>');
-        super(container, dom);
-    }
-};
-
 
 let templateEditor = {
     init: function() {
         let that = this;
+        this.elements = [];
+
         $('#noob-widget button').on('click', function() {
             that.addElement(new NoobWidget($('main')));
         });
@@ -103,15 +11,110 @@ let templateEditor = {
         $('#matrix1d-widget button').on('click', function() {
             that.addElement(new Matrix1D($('main')));
         });
+
+        // Save button
+        $('#save-button').click(function() {
+            redirectPost(window.location.pathname, {
+                data: JSON.stringify(that.save()),
+            }, csrf_token);
+        });
     },
 
     addElement: function(element) {
-        template.elements.push(element);
+        let that = this;
+        this.elements.push(element);
+
+        let elementProperties = $('#elements .element-template').clone();
+        elementProperties.removeClass('element-template').addClass('element');
+        elementProperties.find('h4').text(element.getTitle());
+
+        if (element.isRemovable()) {
+            elementProperties.find('.delete-element').click(function() {
+                elementProperties.remove();
+                that.elements.splice(that.elements.indexOf(element), 1);
+                element.dom.remove();
+            });
+        }
+        else {
+            elementProperties.find('.delete-element').hide();
+        }
+        element.addPropertiesTo(elementProperties.find('.properties'));
+
+        elementProperties.find('.properties').hide();
+        elementProperties.find('.toggle-properties').click(function() {
+            let btn = $(this);
+            elementProperties.find('.properties').slideToggle(function() {
+                if ($(this).is(':visible')) {
+                    btn.removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                } else {
+                    btn.removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                }
+            });
+        });
+
+        $('#elements').append(elementProperties);
+        elementProperties.show();
+    },
+
+    load: function(data) {
+        let that = this;
+        this.elements = [];
+        $('#elements .element').remove();
+
+        $('#template-name').text(data.name);
+        $('main').empty();
+
+        let entrySelectorAdded = false;
+        let excerptBoxAdded = false;
+        let imageBoxAdded = false;
+
+        for (let i=0; i<data.elements.length; i++) {
+            let element = data.elements[i];
+            if (element.type == 'noob') {
+                that.addElement(new NoobWidget($('main'), element));
+            }
+            else if (element.type == 'matrix1d') {
+                that.addElement(new Matrix1D($('main'), element));
+            }
+            else if (element.type == 'pageOneExcerptBox') {
+                excerptBoxAdded = true;
+                that.addElement(new PageOneExcerptBox($('main'), element));
+            }
+            else if (element.type == 'pageOneImageBox') {
+                imageBoxAdded = true;
+                that.addElement(new PageOneImageBox($('main'), element));
+            }
+            else if (element.type == 'pageOneEntrySelector') {
+                entrySelectorAdded = true;
+                that.addElement(new PageOneEntrySelector($('main'), element));
+            }
+        }
+
+        if (!excerptBoxAdded) {
+            that.addElement(new PageOneExcerptBox($('main')));
+        }
+        if (!imageBoxAdded) {
+            that.addElement(new PageOneImageBox($('main')));
+        }
+        if (!entrySelectorAdded) {
+            that.addElement(new PageOneEntrySelector($('main')));
+        }
+    },
+
+    save: function() {
+        let data = {};
+        data['name'] = $('#template-name').text();
+        data['elements'] = [];
+        for (let i=0; i<this.elements.length; i++) {
+            data['elements'].push(this.elements[i].save());
+        }
+        return data;
     },
 };
 
 
 $(document).ready(function() {
     templateEditor.init();
+    templateEditor.load(templateData);
     $('#elements').sortable();
 });

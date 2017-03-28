@@ -925,4 +925,8 @@ function autoCalculateScores() {
 
     $('.ipc-severe-calculated').val( !(isNaN(ipcLvl4) || isNaN(ipcLvl5))? ipcLvl4+ipcLvl5: '' );
     $('.ipc-moderate-calculated').val( !isNaN(ipcLvl3)? ipcLvl3: '' );
+
+    let totalModerate = +$('.ipc-severe-calculated').val();
+    let totalSevere = +$('.ipc-moderate-calculated').val();
+    $('.ipc-total-calculated').val(totalModerate+totalSevere);
 }

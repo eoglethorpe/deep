@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
 from leads.models import Event
+from entries.models import EntryTemplate
 
 
 class UserGroup(models.Model):
@@ -13,6 +14,7 @@ class UserGroup(models.Model):
     owner = models.ForeignKey(User, related_name="groups_superowned", null=True, default=None)
     members = models.ManyToManyField(User)
     projects = models.ManyToManyField(Event, blank=True)
+    entry_templates = models.ManyToManyField(EntryTemplate, blank=True)
     slug = models.SlugField(editable=False)
 
     def __str__(self):

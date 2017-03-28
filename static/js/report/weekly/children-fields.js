@@ -98,6 +98,7 @@ var childrenFields = {
             e.originalEvent.preventDefault();
             return false;
         });
+        newData['human-children'][pk][index]['source'] = getNewSourceData(newData['human-children'][pk][index]['source']);
         source.refreshSources(childElement.find('.human-profile-child-source'), newData['human-children'][pk][index]['source']);
 
         childElement.find('.human-profile-child-comment').on('paste change input', function(pk) {

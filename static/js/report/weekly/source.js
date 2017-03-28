@@ -17,6 +17,7 @@ let source = {
         }));
 
         $('.human-source').each(function() {
+            newData['human']['source'][$(this).data('human-pk')] = getNewSourceData(newData['human']['source'][$(this).data('human-pk')]);
             that.refreshSources($(this), newData['human']['source'][$(this).data('human-pk')], data['human']['source'][$(this).data('human-pk')], humanitarianProfileDecay);
         });
 
@@ -30,6 +31,7 @@ let source = {
             }));
 
             $('.people-' + type + '-source').each(function() {
+                newData['people'][type + '-source'][$(this).data('people-pk')] = getNewSourceData(newData['people'][type + '-source'][$(this).data('people-pk')]);
                 that.refreshSources($(this), newData['people'][type + '-source'][$(this).data('people-pk')], data['people'][type + '-source'][$(this).data('people-pk')], peopleInNeedDecay, 'bottom');
             });
         }
@@ -49,6 +51,7 @@ let source = {
         }));
 
         $('.ipc-source').each(function() {
+            newData['ipc'][$(this).data('ipc')] = getNewSourceData(newData['ipc'][$(this).data('ipc')]);
             that.refreshSources($(this), newData['ipc'][$(this).data('ipc')]);
         });
 
@@ -61,6 +64,7 @@ let source = {
         }));
 
         $('.access-source').each(function() {
+            newData['access-extra']['source'][$(this).data('access-pk')] = getNewSourceData(newData['access-extra']['source'][$(this).data('access-pk')]);
             that.refreshSources($(this), newData['access-extra']['source'][$(this).data('access-pk')]);
         });
 
@@ -73,6 +77,7 @@ let source = {
         }));
 
         $('.access-pin-source').each(function() {
+            newData['access-pin']['source'][$(this).data('access-pin-pk')] = getNewSourceData(newData['access-pin']['source'][$(this).data('access-pin-pk')]);
             that.refreshSources($(this), newData['access-pin']['source'][$(this).data('access-pin-pk')], data['access-pin']['source'][$(this).data('access-pin-pk')], humanitarianAccessDecay, 'bottom');
         });
 
@@ -131,7 +136,12 @@ let source = {
         container.empty();
 
         if (sourceData['old'] && sourceData['old'].length > 0) {
-            $('<div class="source">' + sourceData['old'] + '</div>').appendTo(container);
+            let sourceElement = $('<div class="source">' + sourceData['old'] + '<div class="delete fa fa-times"></div></div>');
+            sourceElement.appendTo(container);
+            sourceElement.find('.delete').click(function() {
+                sourceData['old'] = '';
+                that.refreshSources(container, sourceData, oldSourceData);
+            });
         }
 
         let sources = sourceData['new'];

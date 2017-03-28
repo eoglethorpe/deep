@@ -49,10 +49,38 @@ body{
 
         }
     }
+
     aside{
         flex-basis: 30%;
         height: calc(100vh - #{$navbar-height});
         border-right: 1px solid rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+
+        .title-block {
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            border-bottom: 1px solid rgba(0,0,0,0.2);
+
+            #template-name {
+                font-size: $text-size-sl;
+            }
+
+            button {
+                padding: 8px;
+                color: #fff;
+            }
+
+            #save-button {
+                background-color: $primary-color;
+            }
+
+            #cancel-button {
+                background-color: $danger-color;
+            }
+        }
 
         section{
             margin-bottom: 32px;
@@ -83,19 +111,42 @@ body{
             }
             #elements{
                 .element{
-                    display: flex;
-                    justify-content: space-between;
-                    padding: 16px;
-                    margin-bottom: 6px;
-                    background-color: #fff;
-                    border: 1px solid rgba(0, 0, 0, 0.05);
+                    .header {
+                        display: flex;
+                        justify-content: space-between;
+                        padding: 16px;
+                        margin-bottom: 6px;
+                        background-color: #fff;
+                        border: 1px solid rgba(0, 0, 0, 0.05);
 
-                    button{
-                        background-color: transparent;
-                        border: none;
+                        button{
+                            padding: 4px;
+                            background-color: transparent;
+                            border: none;
 
-                        .fa{
-                            margin-right: 6px;
+                            .delete-element {
+                                color: $danger-color;
+                            }
+
+                            .fa{
+                                margin-right: 6px;
+                            }
+                        }
+                    }
+
+                    .properties {
+                        .property {
+                            display: flex;
+                            justify-content: space-between;
+                            padding: 16px;
+
+                            label {
+                                font-size: $text-size-md;
+                            }
+
+                            input[type="text"] {
+                                padding: 4px;
+                            }
                         }
                     }
                 }
@@ -125,6 +176,65 @@ body{
             }
         }
 
+        .page-one-entry-selector {
+            padding: 16px;
+
+            .handle {
+                position: absolute;
+                top: 4px;
+                left: 4px;
+            }
+
+            .select-container {
+                width: 200px;
+
+                select {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+
+        .page-one-excerpt {
+            padding: 16px;
+
+            .handle {
+                position: absolute;
+                top: 4px;
+                left: 4px;
+            }
+
+            .excerpt-container {
+                width: 200px;
+                height: 200px;
+
+                textarea {
+                    width: 100%;
+                    height: 100%;
+                    padding: 16px;
+                }
+            }
+        }
+
+        .page-one-image {
+            padding: 16px;
+
+            .handle {
+                position: absolute;
+                top: 4px;
+                left: 4px;
+            }
+
+            .image-container {
+                display: inline-block;
+                width: 200px;;
+                height: calc(200px - 16px);
+                background-color: #fff;
+                padding: 16px;
+                color: $label-color;
+            }
+        }
+
         .noob-widget {
             width: 64px;
             height: 48px;
@@ -138,12 +248,18 @@ body{
         }
 
         .matrix1d {
-            padding: 20px;
+            padding: 16px;
 
             .handle {
                 position: absolute;
-                top: 8px;
-                left: 8px;
+                top: 4px;
+                left: 4px;
+            }
+
+            .title {
+                margin-left: 32px;
+                margin-bottom: 16px;
+                font-size: $text-size-lg;
             }
 
             .pillars {
