@@ -657,7 +657,42 @@ body{
             }
             #templates-wrapper{
                 height: calc(100vh - 144px - #{$navbar-height});
-                overflow-y: scroll;
+                overflow-y: auto;
+
+                #templates{
+                    max-height: calc(100vh - 144px - #{$navbar-height});
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: flex-start;
+                    overflow-y: auto;
+                    padding: 16px;
+
+                    .template{
+                        flex-basis: 23.5%;
+                        background-color: #fff;
+                        margin: 8px;
+                        margin-top: 16px;
+                        height: 96px;
+                        padding: 16px;
+                        box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.3);
+                        box-sizing: border-box;
+                        display: flex;
+                        justify-content: space-between;
+
+                        .name{
+                            font-size: 1.1em;
+                            text-transform: uppercase;
+                            padding: 4px 0 4px 8px;
+                            font-weight: $font-weight-bold;
+                        }
+                        a{
+                            color: $text-color;
+                        }
+                        .fa{
+                            padding: 4px 8px 4px 0;
+                        }
+                    }
+                }
             }
         }
     }
