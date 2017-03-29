@@ -4,6 +4,7 @@ from django.db.models import Count, Min, Max
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.core.serializers.json import DjangoJSONEncoder
 
 from users.log import *
 from leads.models import *
@@ -11,6 +12,7 @@ from entries.models import *
 from report.models import *
 
 import collections
+import json
 from math import ceil
 from datetime import datetime, timedelta
 
@@ -42,7 +44,17 @@ class ReportDashboardView(View):
         context["current_page"] = "report"
 
         # For event and report selection
-        
+        for country in context["countries"]:
+            events = []
+            for event in Event.objects.filter(countries=country):
+                reports = []
+                for report in WeeklyReport.objects.filter(event=event, country=country):
+                    reports.append({
+                        'id': report.pk,
+                        'start_date': report.start_date,
+                    })
+                events.append({ 'id': event.pk, 'name': event.name, 'reports': reports })
+            country.events = json.dumps(events, cls=DjangoJSONEncoder)
 
         # for sparklines and other viz
         context["affected_field_id_list"] = HumanProfileField.objects.filter(dashboard_affected_field=True)

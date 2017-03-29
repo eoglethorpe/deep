@@ -23,17 +23,13 @@ $(document).ready(function(){
     });
 
     $('#select-event').selectize();
-    //fillCountryDetails();
+    selectCountryEvent(defaultCountryPk, defaultEventPk);
 
     var reports = null;
-    var countryEvents = null;
-    $.getJSON("/api/v2/reports?countryEvents=1", function(data){
+    $.getJSON("/api/v2/reports", function(data){
         if(data.status == true){
             reports = data.data;
-            countryEvents = data.extra.country_events;
             fillCountryDetails();
-            selectCountryEvent(defaultCountryPk, defaultEventPk);
-
             $('header .loader').hide();
         }
     });
@@ -543,14 +539,13 @@ $(document).ready(function(){
     function selectCountryEvent(countryPk, eventPk) {
         let reportsContainer = $('#weekly-reports');
         reportsContainer.find('.weekly-report').remove();
-        //reportsContainer.find('.empty-text').show();
 
         $('.country.active').removeClass('active');
         $('.country[data-pk="' + countryPk + '"]').addClass('active');
 
         $('#weekly-report-panel-header h2').text(countryEvents[countryPk].name);
 
-        if (countryEvents && countryEvents[countryPk] && reports) {
+        if (countryEvents[countryPk]) {
 
             // First add all events for this country
             let eventsSelect = $('#weekly-report-panel-header select')[0].selectize;
@@ -558,12 +553,12 @@ $(document).ready(function(){
             eventsSelect.clearOptions();
 
             if (countryEvents[countryPk].events.length > 0) {
-                if (eventPk == null) {
-                    eventPk = countryEvents[countryPk].events[0].pk;
+                if (!eventPk) {
+                    eventPk = countryEvents[countryPk].events[0].id;
                 }
 
                 for (let i=0; i<countryEvents[countryPk].events.length; i++) {
-                    let epk = countryEvents[countryPk].events[i].pk;
+                    let epk = countryEvents[countryPk].events[i].id;
                     eventsSelect.addOption({value: epk, text: countryEvents[countryPk].events[i].name});
                 }
             }
@@ -574,41 +569,38 @@ $(document).ready(function(){
             addButton.attr('href', '/report/weekly/add/' + countryPk + '/' + eventPk + '?start_date=' + addButton.data('start-date'));
             addButton.show();
 
-            if (reports.length > 0) {
-                // Next add reports for this event
-                let selectedReports = reports.filter(r => (r.country.code == countryPk && r.event.pk == eventPk));
+            // Next add reports for this event
+            let selectedReports = countryEvents[countryPk].events.find(e => e.id == eventPk).reports;
 
-                if (selectedReports.length > 0) {
-                    reportsContainer.find('.empty-text')[0].style.display = 'none';
+            if (selectedReports.length > 0) {
+                reportsContainer.find('.empty-text')[0].style.display = 'none';
 
-                    selectedReports.sort(function(r1, r2) {
-                        return new Date(r2.start_date) - new Date(r1.start_date);
+                selectedReports.sort(function(r1, r2) {
+                    return new Date(r2.start_date) - new Date(r1.start_date);
+                });
+                //reportsContainer.find('p').hide();
+
+                for (let i=0; i<selectedReports.length; i++) {
+                    let report = selectedReports[i];
+                    let reportElement = $('#weekly-report-list .weekly-report-template').clone();
+                    reportElement.removeClass('weekly-report-template').addClass('weekly-report');
+
+                    reportElement.find('.number').text(new Date(report.start_date).getWeek());
+                    reportElement.find('.start-date').text(formatDate(report.start_date));
+                    reportElement.find('.end-date').text(formatDate(new Date(report.start_date).addDays(6)));
+                    reportElement.find('a.edit-btn').attr('href', '/report/weekly/edit/' + countryPk + '/' + eventPk + '/' + report.id);
+                    reportElement.find('a.delete-btn').click(function() {
+                        if(confirm('Are you sure you want to delete the report?')) {
+                            window.location.href = '/report/weekly/delete/' + countryPk + '/' + eventPk + '/' + report.id;
+                        }
                     });
-                    //reportsContainer.find('p').hide();
 
-                    for (let i=0; i<selectedReports.length; i++) {
-                        let report = selectedReports[i];
-                        let reportElement = $('#weekly-report-list .weekly-report-template').clone();
-                        reportElement.removeClass('weekly-report-template').addClass('weekly-report');
-
-                        reportElement.find('.number').text(new Date(report.start_date).getWeek());
-                        reportElement.find('.start-date').text(formatDate(report.start_date));
-                        reportElement.find('.end-date').text(formatDate(new Date(report.start_date).addDays(6)));
-                        reportElement.find('a.edit-btn').attr('href', '/report/weekly/edit/' + countryPk + '/' + eventPk + '/' + report.id);
-                        reportElement.find('a.delete-btn').click(function() {
-                            if(confirm('Are you sure you want to delete the report?')) {
-                                window.location.href = '/report/weekly/delete/' + countryPk + '/' + eventPk + '/' + report.id;
-                            }
-                        });
-
-                        reportElement.appendTo(reportsContainer);
-                        reportElement.show();
-                    }
-                } else{
-                    reportsContainer.find('.empty-text')[0].style.display = 'flex';
+                    reportElement.appendTo(reportsContainer);
+                    reportElement.show();
                 }
+            } else{
+                reportsContainer.find('.empty-text')[0].style.display = 'flex';
             }
-
 
         }
         reportsContainer.find('.loading-text')[0].style.display = 'none';

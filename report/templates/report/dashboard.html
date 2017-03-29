@@ -39,6 +39,14 @@ let humanAvailabilityFieldIds = [
 let defaultCountryPk = '{{country.pk}}';
 let defaultEventPk = '{{event.pk}}';
 
+let countryEvents = {
+    {% for country in countries %}
+    '{{country.pk}}': {
+        name: '{{ country.name }}',
+        events: JSON.parse('{{ country.events|escapejs }}'),
+    },
+    {% endfor %}
+};
 
 </script>
 {% endblock %}
