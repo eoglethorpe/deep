@@ -17,6 +17,7 @@ DEEP | Entry Template Editor
 <script type="text/javascript" src="{% watchful_static_url 'js/entry-template/elements.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entry-template/page-one.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entry-template/grid-elements.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entry-template/page-two.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entry-template/entry-template.js' %}"></script>
 
 <script>
@@ -57,14 +58,6 @@ let templateData = {
                 <h4>1d Matrix</h4>
                 <button><i class="fa fa-plus"></i>Add</button>
             </div>
-            <!-- <div class="widget">
-                <h4>2d Matrix</h4>
-                <button><i class="fa fa-plus"></i>Add</button>
-            </div>
-            <div class="widget">
-                <h4>Scale widget</h4>
-                <button><i class="fa fa-plus"></i>Add</button>
-            </div> -->
             <div id="noob-widget" class="widget">
                 <h4>Noob widget</h4>
                 <button><i class="fa fa-plus"></i>Add</button>
@@ -102,9 +95,18 @@ let templateData = {
             </div>
         </div>
     </section>
+    <footer>
+        <button id="switch-page">Switch page</button>
+    </footer>
 </aside>
 
 <main>
+    <div id="page-one">
+    </div>
+
+    <div id="page-two" hidden>
+        <div class="entry"></div>
+    </div>
 </main>
 
 {% endblock %}

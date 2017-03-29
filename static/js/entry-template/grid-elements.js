@@ -92,6 +92,7 @@ class Matrix1D extends Element {
             pillars.push(pillar);
         });
         return {
+            id: this.id,
             type: 'matrix1d',
             pillars: pillars,
             position: this.getPosition(),
@@ -101,6 +102,7 @@ class Matrix1D extends Element {
 
     load(data) {
         let that = this;
+
         this.dom.find('.pillars .pillar').remove();
         for (let i=0; i<data.pillars.length; i++) {
             let pillar = data.pillars[i];
@@ -113,6 +115,10 @@ class Matrix1D extends Element {
                 let subpillarElement = that.addSubpillar(pillarElement);
                 subpillarElement.find('.title-block').text(subpillar.name);
             }
+        }
+
+        if (data.id) {
+            this.id = data.id;
         }
 
         if (data.position) {
@@ -129,6 +135,7 @@ class Matrix1D extends Element {
     }
 
     addPropertiesTo(container) {
+        this.addIdProperty(container);
         let that = this;
 
         let titleProperty = $('<div class="property"></div>');

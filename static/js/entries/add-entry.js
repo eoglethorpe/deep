@@ -725,7 +725,7 @@ $(document).ready(function(){
     google.charts.load('current', {packages:["orgchart"]});
     google.charts.setOnLoadCallback(drawChart);
 
-    //Processed after scroll hits bottom
+    // Processed after scroll hits bottom
     let leadSimplifiedPageScrollDeltaY = 0;
     let leadSimplifiedPageLastScrollY = -1;
     $('#lead-simplified-preview').on('scroll', function() {
