@@ -451,7 +451,9 @@ $(document).ready(function(){
     // change event
     $('#select-event').change(function() {
         // var event = $(this).val();
-        selectCountryEvent($(this).data('country-pk'), $(this).val());
+        if ($(this).val()) {
+            selectCountryEvent($(this).data('country-pk'), $(this).val());
+        }
         // window.location.href = window.location.pathname+"?"+$.param({event:event})+"&country="+$(this).data('country-pk');
     });
 
@@ -578,7 +580,6 @@ $(document).ready(function(){
                 selectedReports.sort(function(r1, r2) {
                     return new Date(r2.start_date) - new Date(r1.start_date);
                 });
-                //reportsContainer.find('p').hide();
 
                 for (let i=0; i<selectedReports.length; i++) {
                     let report = selectedReports[i];
