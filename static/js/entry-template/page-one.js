@@ -12,9 +12,14 @@ class PageOneEntrySelector extends Element {
         if (data) {
             this.load(data);
         }
+
+        this.id = 'entry-selector';
     }
 
     load(data) {
+        if (data.id) {
+            this.id = data.id;
+        }
         if (data.size) {
             this.dom.find('.select-container').css('width', data.size.width);
             this.dom.find('.select-container').css('height', data.size.height);
@@ -26,6 +31,7 @@ class PageOneEntrySelector extends Element {
 
     save() {
         return {
+            id: this.id,
             type: 'pageOneEntrySelector',
             size:  { width: this.dom.find('.select-container').css('width'), height: this.dom.find('.select-container').css('height') },
             position: this.getPosition(),
@@ -38,6 +44,10 @@ class PageOneEntrySelector extends Element {
 
     isRemovable() {
         return false;
+    }
+
+    addPropertiesTo(container) {
+
     }
 };
 
@@ -53,9 +63,14 @@ class PageOneExcerptBox extends Element {
         if (data) {
             this.load(data);
         }
+
+        this.id = 'page-one-excerpt';
     }
 
     load(data) {
+        if (data.id) {
+            this.id = data.id;
+        }
         if (data.size) {
             this.dom.find('.excerpt-container').css('width', data.size.width);
             this.dom.find('.excerpt-container').css('height', data.size.height);
@@ -67,6 +82,7 @@ class PageOneExcerptBox extends Element {
 
     save() {
         return {
+            id: this.id,
             type: 'pageOneExcerptBox',
             size:  { width: this.dom.find('.excerpt-container').css('width'), height: this.dom.find('.excerpt-container').css('height') },
             position: this.getPosition(),
@@ -79,6 +95,10 @@ class PageOneExcerptBox extends Element {
 
     isRemovable() {
         return false;
+    }
+
+    addPropertiesTo(container) {
+
     }
 };
 
@@ -94,9 +114,14 @@ class PageOneImageBox extends Element {
         if (data) {
             this.load(data);
         }
+
+        this.id = 'page-one-image';
     }
 
     load(data) {
+        if (data.id) {
+            this.id = data.id;
+        }
         if (data.size) {
             this.dom.find('.image-container').width(data.size.width);
             this.dom.find('.image-container').height(data.size.height);
@@ -108,6 +133,7 @@ class PageOneImageBox extends Element {
 
     save() {
         return {
+            id: this.id,
             type: 'pageOneImageBox',
             size:  { width: this.dom.find('.image-container').width(), height: this.dom.find('.image-container').height() },
             position: this.getPosition(),
@@ -120,5 +146,9 @@ class PageOneImageBox extends Element {
 
     isRemovable() {
         return false;
+    }
+
+    addPropertiesTo(container) {
+
     }
 };

@@ -153,7 +153,7 @@ class EntriesView(View):
 
 class AddEntry(View):
     @method_decorator(login_required)
-    def get(self, request, event, lead_id=None, id=None):
+    def get(self, request, event, lead_id=None, id=None, template_id=None):
         refresh_pcodes()
         context = {}
 
@@ -166,6 +166,8 @@ class AddEntry(View):
             entry = Entry.objects.get(pk=id)
             lead = entry.lead
             context["entry"] = entry
+            if entry.template:
+                template_id = entry.template.pk
 
         context["current_page"] = "entries"
         context["event"] = Event.objects.get(pk=event)
@@ -182,15 +184,6 @@ class AddEntry(View):
             if "lead_simplified" in context:
                 SimplifiedLead(lead=lead, text=context["lead_simplified"]).save()
 
-        context["pillars_one"] = InformationPillar.objects.filter(contains_sectors=False)
-        context["pillars_two"] = InformationPillar.objects.filter(contains_sectors=True)
-        context["sectors"] = Sector.objects.all()
-        context["vulnerable_groups"] = VulnerableGroup.objects.all()
-        context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
-        context["reliabilities"] = Reliability.objects.all().order_by('level')
-        context["severities"] = Severity.objects.all().order_by('level')
-        context["affected_groups"] = AffectedGroup.objects.all()
-
         if lead.lead_type == 'URL':
             context['lead_url'] = lead.url
         elif lead.lead_type == 'ATT':
@@ -204,17 +197,33 @@ class AddEntry(View):
             elif context['lead_url'].endswith('.pptx'):
                 context["format"] = 'pptx'
 
-        try:
-            context["default_reliability"] = Reliability.objects.get(is_default=True)
-            context["default_severity"] = Severity.objects.get(is_default=True)
-        except:
-            pass
+        if template_id:
+            context["entry_template"] = EntryTemplate.objects.get(pk=template_id)
+            UserProfile.set_last_event(request, context["event"])
+            return render(request, "entries/add-template-entry.html", context)
+
+        else:
+            context["pillars_one"] = InformationPillar.objects.filter(contains_sectors=False)
+            context["pillars_two"] = InformationPillar.objects.filter(contains_sectors=True)
+            context["sectors"] = Sector.objects.all()
+            context["vulnerable_groups"] = VulnerableGroup.objects.all()
+            context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
+            context["reliabilities"] = Reliability.objects.all().order_by('level')
+            context["severities"] = Severity.objects.all().order_by('level')
+            context["affected_groups"] = AffectedGroup.objects.all()
+
+            try:
+                context["default_reliability"] = Reliability.objects.get(is_default=True)
+                context["default_severity"] = Severity.objects.get(is_default=True)
+            except:
+                pass
+
 
         UserProfile.set_last_event(request, context["event"])
         return render(request, "entries/add-entry.html", context)
 
     @method_decorator(login_required)
-    def post(self, request, event, lead_id=None, id=None):
+    def post(self, request, event, lead_id=None, id=None, template_id=None):
         if not id:
             lead = Lead.objects.get(pk=lead_id)
             activity = CreationActivity()

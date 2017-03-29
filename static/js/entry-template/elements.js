@@ -8,6 +8,7 @@ class Element {
         } else {
             dom.draggable({ scroll: true, grid: [16, 16], containment: container });
         }
+        this.id = templateEditor.getUniqueElementId();
     }
 
     save() {
@@ -31,7 +32,29 @@ class Element {
     }
 
     addPropertiesTo(container) {
+        this.addIdProperty(container);
+    }
 
+    addIdProperty(container) {
+        let that = this;
+
+        let idProperty = $('<div class="property"></div>');
+        idProperty.append($('<label>Id</label>'));
+        idProperty.append($('<input type="text">'));
+        idProperty.find('input').val(this.id);
+
+        idProperty.find('input').change(function() {
+            let oldValue = that.id;
+
+            that.id = '`!@#$%^&*()_+][]';
+            if (templateEditor.checkElementId($(this).val())) {
+                alert('This id is already taken by another element');
+                $(this).val(oldValue);
+            } else {
+                that.id = $(this).val();
+            }
+        });
+        container.append(idProperty);
     }
 
     isRemovable() {
@@ -53,6 +76,7 @@ class NoobWidget extends Element {
 
     save() {
         return {
+            id: this.id,
             type: 'noob',
             position: this.getPosition(),
             backgroundColor: rgb2hex(this.dom.css('background-color')),
@@ -60,6 +84,9 @@ class NoobWidget extends Element {
     }
 
     load(data) {
+        if (data.id) {
+            this.id = data.id;
+        }
         if (data.position) {
             this.setPosition(data.position);
         }
@@ -73,6 +100,7 @@ class NoobWidget extends Element {
     }
 
     addPropertiesTo(container) {
+        this.addIdProperty(container);
         let that = this;
 
         let colorProperty = $('<div class="property"></div>');

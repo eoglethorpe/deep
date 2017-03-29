@@ -133,7 +133,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     ];
 
     // Default date
-    var defaultDate = {% if lead.published_at %}"{{lead.published_at|date:"Y-m-d"}}"{% else %}null{% endif %};
+    var defaultDate = {% if lead.published_at %}'{{lead.published_at|date:"Y-m-d"}}'{% else %}null{% endif %};
 
     // Some urls
     let markProcessedUrl = '{% url "leads:mark_processed" event.pk %}';

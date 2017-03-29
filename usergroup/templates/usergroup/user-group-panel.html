@@ -125,14 +125,11 @@ let activities = [
             </div>
         </div>
         <div id="templates-wrapper" hidden>
-            <div id="templates-header">
-                <label class="name">Name</label>
-            </div>
             <div id="templates">
                 {% for template in usergroup.entry_templates.all %}
                 <div class="template" data-url="{% url 'custom_admin:entry_template' template.pk %}">
                     <div class="name">{{template.name}}</div>
-                    <a href="{% url 'custom_admin:entry_template' template.pk %}">Edit</a>
+                    <a href="{% url 'custom_admin:entry_template' template.pk %}"><i class="fa fa-pencil" title="Edit Template"></i></a>
                 </div>
                 {% endfor %}
             </div>

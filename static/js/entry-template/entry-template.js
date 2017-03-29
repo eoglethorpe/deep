@@ -5,11 +5,11 @@ let templateEditor = {
         this.elements = [];
 
         $('#noob-widget button').on('click', function() {
-            that.addElement(new NoobWidget($('main')));
+            that.addElement(new NoobWidget(that.getContainer()));
         });
 
         $('#matrix1d-widget button').on('click', function() {
-            that.addElement(new Matrix1D($('main')));
+            that.addElement(new Matrix1D(that.getContainer()));
         });
 
         // Save button
@@ -18,12 +18,18 @@ let templateEditor = {
                 data: JSON.stringify(that.save()),
             }, csrf_token);
         });
+
+        // Page switching
+        $('#switch-page').click(function() {
+            that.switchPage();
+        });
     },
 
     addElement: function(element) {
-        let that = this;
+        element.page = this.getPage();
         this.elements.push(element);
 
+        let that = this;
         let elementProperties = $('#elements .element-template').clone();
         elementProperties.removeClass('element-template').addClass('element');
         elementProperties.find('h4').text(element.getTitle());
@@ -62,42 +68,60 @@ let templateEditor = {
         $('#elements .element').remove();
 
         $('#template-name').text(data.name);
-        $('main').empty();
+        that.getContainer().empty();
 
-        let entrySelectorAdded = false;
-        let excerptBoxAdded = false;
-        let imageBoxAdded = false;
+        let pageOneEntrySelectorAdded = false;
+        let pageOneExcerptBoxAdded = false;
+        let pageOneImageBoxAdded = false;
+        let pageTwoExcerptBoxAdded = false;
 
         for (let i=0; i<data.elements.length; i++) {
             let element = data.elements[i];
+            if (this.getPage() != element.page) {
+                this.switchPage();
+            }
             if (element.type == 'noob') {
-                that.addElement(new NoobWidget($('main'), element));
+                that.addElement(new NoobWidget(that.getContainer(), element));
             }
             else if (element.type == 'matrix1d') {
-                that.addElement(new Matrix1D($('main'), element));
+                that.addElement(new Matrix1D(that.getContainer(), element));
             }
             else if (element.type == 'pageOneExcerptBox') {
-                excerptBoxAdded = true;
-                that.addElement(new PageOneExcerptBox($('main'), element));
+                pageOneExcerptBoxAdded = true;
+                that.addElement(new PageOneExcerptBox(that.getContainer(), element));
             }
             else if (element.type == 'pageOneImageBox') {
-                imageBoxAdded = true;
-                that.addElement(new PageOneImageBox($('main'), element));
+                pageOneImageBoxAdded = true;
+                that.addElement(new PageOneImageBox(that.getContainer(), element));
             }
             else if (element.type == 'pageOneEntrySelector') {
-                entrySelectorAdded = true;
-                that.addElement(new PageOneEntrySelector($('main'), element));
+                pageOneEntrySelectorAdded = true;
+                that.addElement(new PageOneEntrySelector(that.getContainer(), element));
+            }
+            else if (element.type == 'pageTwoExcerptBox') {
+                pageTwoExcerptBoxAdded = true;
+                that.addElement(new PageTwoExcerptBox(that.getContainer(), element));
             }
         }
 
-        if (!excerptBoxAdded) {
-            that.addElement(new PageOneExcerptBox($('main')));
+        if (!pageTwoExcerptBoxAdded) {
+            if (this.getPage() != 'page-two') {
+                this.switchPage();
+            }
+            that.addElement(new PageTwoExcerptBox(that.getContainer()));
         }
-        if (!imageBoxAdded) {
-            that.addElement(new PageOneImageBox($('main')));
+
+        if (this.getPage() != 'page-one') {
+            this.switchPage();
         }
-        if (!entrySelectorAdded) {
-            that.addElement(new PageOneEntrySelector($('main')));
+        if (!pageOneEntrySelectorAdded) {
+            that.addElement(new PageOneEntrySelector(that.getContainer()));
+        }
+        if (!pageOneExcerptBoxAdded) {
+            that.addElement(new PageOneExcerptBox(that.getContainer()));
+        }
+        if (!pageOneImageBoxAdded) {
+            that.addElement(new PageOneImageBox(that.getContainer()));
         }
     },
 
@@ -106,9 +130,63 @@ let templateEditor = {
         data['name'] = $('#template-name').text();
         data['elements'] = [];
         for (let i=0; i<this.elements.length; i++) {
-            data['elements'].push(this.elements[i].save());
+            if (this.getPage() != this.elements[i].page) {
+                this.switchPage();
+            }
+            let elementData = this.elements[i].save();
+            elementData['page'] = this.elements[i].page;
+            data['elements'].push(elementData);
         }
         return data;
+    },
+
+    getUniqueElementId: function() {
+        let i = 0;
+        while (true) {
+            let elementId = 'element' + i;
+            if (!this.checkElementId(elementId)) {
+                return elementId;
+            }
+            i++;
+        }
+    },
+
+    checkElementId: function(elementId) {
+        let j = 0;
+        for (; j<this.elements.length; j++) {
+            if (this.elements[j].id == elementId) {
+                break;
+            }
+        }
+        return j < this.elements.length;
+    },
+
+    getPage: function() {
+        if ($('#page-one').is(':visible')) {
+            return 'page-one';
+        } else {
+            return 'page-two';
+        }
+    },
+
+    getContainer: function() {
+        if ($('#page-one').is(':visible')) {
+            return $('#page-one');
+        } else {
+            return $('#page-two .entry');
+        }
+    },
+
+    switchPage: function() {
+        if ($('#page-one').is(':visible')) {
+            $('#page-one').hide();
+            $('#page-two').show();
+            $('body').removeClass('page-one').addClass('page-two');
+        } else {
+            $('#page-two').hide();
+            $('#page-one').show();
+            $('body').removeClass('page-two').addClass('page-one');
+        }
     },
 };
 

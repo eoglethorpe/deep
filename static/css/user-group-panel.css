@@ -551,7 +551,34 @@ body {
               background-color: rgba(0, 0, 0, 0.2); }
       body main section #templates-wrapper {
         height: calc(100vh - 144px - 56px);
-        overflow-y: scroll; }
+        overflow-y: auto; }
+        body main section #templates-wrapper #templates {
+          max-height: calc(100vh - 144px - 56px);
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+          overflow-y: auto;
+          padding: 16px; }
+          body main section #templates-wrapper #templates .template {
+            flex-basis: 23.5%;
+            background-color: #fff;
+            margin: 8px;
+            margin-top: 16px;
+            height: 96px;
+            padding: 16px;
+            box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.3);
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between; }
+            body main section #templates-wrapper #templates .template .name {
+              font-size: 1.1em;
+              text-transform: uppercase;
+              padding: 4px 0 4px 8px;
+              font-weight: 500; }
+            body main section #templates-wrapper #templates .template a {
+              color: #414141; }
+            body main section #templates-wrapper #templates .template .fa {
+              padding: 4px 8px 4px 0; }
   body aside {
     flex-basis: 24%;
     height: calc(100vh - 56px);
