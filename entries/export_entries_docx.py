@@ -230,10 +230,13 @@ def export_docx(order, event, informations=None, export_geo=False):
                 d.add_heading(subpillar.name, level=3)
                 d.add_paragraph()
 
+            already_added = []
             for attr in attributes:
                 info = attr.information
-                add_excerpt_info(d, info)
-                leads_pk.append(info.entry.lead.pk)
+                if info not in already_added:
+                    already_added.append(info)
+                    add_excerpt_info(d, info)
+                    leads_pk.append(info.entry.lead.pk)
 
     # Next the attributes containing sectors
 
@@ -255,10 +258,13 @@ def export_docx(order, event, informations=None, export_geo=False):
                     d.add_paragraph()
                     sector_header_shown = True
 
+            already_added = []
             for attr in attributes:
                 info = attr.information
-                add_excerpt_info(d, info)
-                leads_pk.append(info.entry.lead.pk)
+                if info not in already_added:
+                    already_added.append(info)
+                    add_excerpt_info(d, info)
+                    leads_pk.append(info.entry.lead.pk)
         else:
             # Get each pillar
             pillars = entry_model.InformationPillar.objects.filter(
@@ -288,10 +294,13 @@ def export_docx(order, event, informations=None, export_geo=False):
                             pillar_header_shown = True
                         d.add_heading(subpillar.name+":", level=4)
 
+                    already_added = []
                     for attr in attributes:
                         info = attr.information
-                        add_excerpt_info(d, info)
-                        leads_pk.append(info.entry.lead.pk)
+                        if attr.info not in already_added:
+                            already_added.append(info)
+                            add_excerpt_info(d, info)
+                            leads_pk.append(info.entry.lead.pk)
 
     add_line(d.add_paragraph())
 

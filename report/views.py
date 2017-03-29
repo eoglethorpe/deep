@@ -41,6 +41,9 @@ class ReportDashboardView(View):
         context["event"] = event
         context["current_page"] = "report"
 
+        # For event and report selection
+        
+
         # for sparklines and other viz
         context["affected_field_id_list"] = HumanProfileField.objects.filter(dashboard_affected_field=True)
         context["displaced_field_id_list"] = HumanProfileField.objects.filter(dashboard_displaced_field=True)
