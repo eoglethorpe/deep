@@ -65,14 +65,25 @@ class ExportDocx(View):
     def get(self, request, event):
         # order = request.GET.get("order").split(',')
         order = []
+        format_name = ''
 
-        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-        response['Content-Disposition'] = 'attachment; filename = DEEP Entries-%s.docx' % time.strftime("%Y-%m-%d")
+        response = HttpResponse(content_type='application/vnd.openxmlformats'
+                                '-officedocument.wordprocessingml.document')
 
+        if 'export-geo-format' in request.GET:
+            format_name = 'Export Geo'
+            export_docx(order, int(event), export_geo=True).save(response)
         if 'new-format' in request.GET:
+            format_name = 'Briefing Note'
             export_docx_new_format(order, int(event)).save(response)
         else:
+            format_name = 'Generic Export'
             export_docx(order, int(event)).save(response)
+
+        response['Content-Disposition'] = 'attachment; filename = DEEP'\
+                                          'Entries(%s)-%s.docx'\
+                                          % (format_name,
+                                             time.strftime("%Y-%m-%d"))
 
         return response
 
@@ -80,14 +91,32 @@ class ExportDocx(View):
     def post(self, request, event):
         # order = request.POST.get("order").split(',')
         order = []
+        format_name = ''
 
-        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-        response['Content-Disposition'] = 'attachment; filename = DEEP Entries-%s.docx' % time.strftime("%Y-%m-%d")
+        response = HttpResponse(content_type='application/vnd.openxmlformats'
+                                '-officedocument.wordprocessingml.document')
 
-        if 'new-format' in request.POST:
-            export_docx_new_format(order, int(event), json.loads(request.POST["informations"])).save(response)
+        if 'export-geo-format' in request.POST:
+            format_name = 'Export Geo'
+            export_docx(order, int(event),
+                        json.loads(request.POST["informations"]),
+                        export_geo=True).save(response)
+        elif 'new-format' in request.POST:
+            format_name = 'Briefing Note'
+            export_docx_new_format(
+                    order, int(event),
+                    json.loads(
+                       request.POST["informations"])).save(response)
         else:
-            export_docx(order, int(event), json.loads(request.POST["informations"])).save(response)
+            format_name = 'Generic Export'
+            export_docx(
+                    order, int(event),
+                    json.loads(request.POST["informations"])).save(response)
+
+        response['Content-Disposition'] = 'attachment; filename = DEEP'\
+                                          'Entries(%s)-%s.docx'\
+                                          % (format_name,
+                                             time.strftime("%Y-%m-%d"))
 
         return response
 

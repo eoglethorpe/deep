@@ -1136,15 +1136,12 @@ $(document).ready(function(){
     $('#sort-images').selectize();
     $('#sort-images').change(function(){
         if ($(this).find(':selected').val() === 'size-asc') {
-            console.log('a');
             sortLeadImages('asc');
         }
         else if ($(this).find(':selected').val() === 'size-dsc') {
-            console.log('de');
             sortLeadImages('dsc');
         }
         else if ($(this).find(':selected').val() === 'def-asc') {
-            console.log('d');
             sortLeadImages('aa');
         }
     });

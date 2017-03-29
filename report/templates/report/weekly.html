@@ -48,10 +48,17 @@ var dataModel = {
         "total": {}, "at-risk": {}, "moderate": {}, "severe": {}, "planned": {},
         "total-source": {}, "at-risk-source": {}, "moderate-source": {}, "severe-source": {}, "planned-source": {},
         "total-comment": {}, "at-risk-comment": {}, "moderate-comment": {}, "severe-comment": {}, "planned-comment": {},
+        "totalDecay": {}, "atRiskDecay": {}, "moderateDecay": {}, "severeDecay": {}, "plannedDecay": {},
+        "totalSourceDecay": {}, "atRiskSourceDecay": {}, "moderateSourceDecay": {}, "severeSourceDecay": {}, "plannedSourceDecay": {},
+        "totalCommentDecay": {}, "atRiskCommentDecay": {}, "moderateCommentDecay": {}, "severeCommentDecay": {}, "plannedCommentDecay": {},
     },
     "ipc": {"a":null, "b":null, "c":null, "d":null, "e":null, "f":null, "g":null},
-    "access": {}, "access-extra": { "source": {}, "comment": {} },
-    "access-pin": { "number": {}, "source": {}, "comment": {} },
+    "access": {}, "accessDecay": {},
+    "access-extra": { "source": {}, "comment": {} },
+    "access-pin": {
+        "number": {}, "source": {}, "comment": {},
+        "numberDecay": {}, "sourceDecay": {}, "commentDecay": {},
+    },
     "final-severity-score": { score: null, comment: null },
 
 };
