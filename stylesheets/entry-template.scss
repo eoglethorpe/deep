@@ -154,6 +154,19 @@ body{
                             input[type="text"] {
                                 padding: 4px;
                             }
+
+                            &.scale-property {
+                                button {
+                                    margin: 2px;
+                                    padding: 4px 8px;
+                                }
+
+                                .values-container {
+                                    display: flex;
+                                    flex-direction: column;
+                                    align-items: flex-end;
+                                }
+                            }
                         }
                     }
                 }
@@ -274,18 +287,6 @@ body{
             }
         }
 
-        .noob-widget {
-            width: 64px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #fff;
-            box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 0.3);
-            -webkit-user-select: none;
-            cursor: move;
-        }
-
         .input-element {
             padding: 16px;
 
@@ -305,6 +306,44 @@ body{
                     height: 100%;
                 }
             }
+        }
+
+        .scale-element {
+            background-color: #ffffff;
+
+            .handle {
+                position: absolute;
+                top: 4px;
+                left: 4px;
+                z-index: 2;
+            }
+
+            .scale-container {
+                padding: 16px;
+                width: 100%;
+                height: 100%;
+                min-height: 32px;
+
+                .scale {
+                    width: 100%;
+                    height: 100%;
+                    padding: 4px;
+
+                    .value {
+                        display: inline-block;
+                        margin: 2px;
+                        width: 8px;
+                        height: calc(100% - 16px);
+                        min-height: 16px;
+                        border-radius: 2px;
+
+                        &.default {
+                            transform: scale(1.5);
+                        }
+                    }
+                }
+            }
+
         }
 
         .matrix1d {

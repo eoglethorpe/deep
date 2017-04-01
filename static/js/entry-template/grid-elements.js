@@ -131,7 +131,7 @@ class Matrix1D extends Element {
     }
 
     getTitle() {
-        return "1D Matrix"
+        return "1D Matrix";
     }
 
     addPropertiesTo(container) {
@@ -308,7 +308,7 @@ class Matrix2D extends Element {
     }
 
     getTitle() {
-        return "2D Matrix"
+        return "2D Matrix";
     }
 
     addPropertiesTo(container) {
