@@ -15,7 +15,7 @@ let leadPreviewer = {
         // Screenshot button
         $('#screenshot-btn').click(function(){
             that.getScreenshot();
-        })
+        });
 
         // Tabs
         $('input[type=radio][name=lead-view-option]').change(function(){
@@ -135,6 +135,36 @@ let leadPreviewer = {
     },
 
     autoMarkProcessed: function() {
+        // Mark processed and pending buttons
+        $('#pending-button').click(function() {
+            $.post(markProcessedUrl, {
+                id: leadId,
+                status: 'PRO',
+            }).done(function() {
+                $('#pending-button').addClass('hiding');
+                setTimeout(function(){
+                    $('#pending-button').hide();
+                    $('#process-button').show();
+                    $('#pending-button').removeClass('hiding');
+                }, 600);
+            });
+        });
+        $('#process-button').click(function() {
+            $.post(markProcessedUrl, {
+                id: leadId,
+                status: 'PEN',
+            }).done(function() {
+                // $('#process-button').hide();
+                $('#process-button').addClass('hiding');
+                setTimeout(function(){
+                    $('#process-button').hide();
+                    $('#pending-button').show();
+                    $('#process-button').removeClass('hiding');
+                }, 600);
+            });
+        });
+
+        // Marking on auto scroll
         let leadSimplifiedPageScrollDeltaY = 0;
         let leadSimplifiedPageLastScrollY = -1;
 
@@ -146,13 +176,8 @@ let leadPreviewer = {
 
             if($('#lead-simplified-preview').scrollTop() + $('#lead-simplified-preview').height() > $('#lead-simplified-preview pre').height()) {
                 if(entries.length > 0 && !(entries.length == 1 && checkEntryEmpty(0)) && $('#pending-button').is(':visible') && leadSimplifiedPageScrollDeltaY > 0){
-                    $.post(markProcessedUrl, {
-                        id: leadId,
-                        status: 'PRO',
-                    }).done(function() {
-                        $('#pending-button').click();
-                        $('#lead-simplified-preview').off('scroll');
-                    });
+                    $('#pending-button').click();
+                    $('#lead-simplified-preview').off('scroll');
                 }
             }
         });

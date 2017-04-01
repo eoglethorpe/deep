@@ -256,6 +256,19 @@ body {
       box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 0.3);
       -webkit-user-select: none;
       cursor: move; }
+    body main .input-element {
+      padding: 16px; }
+      body main .input-element .handle {
+        position: absolute;
+        top: 4px;
+        left: 4px; }
+      body main .input-element .input-container {
+        width: 100%;
+        height: 100%; }
+        body main .input-element .input-container input, body main .input-element .input-container select, body main .input-element .input-container textarea {
+          padding: 4px 8px;
+          width: 100%;
+          height: 100%; }
     body main .matrix1d {
       padding: 16px; }
       body main .matrix1d .handle {
@@ -326,6 +339,125 @@ body {
           background-color: rgba(0, 0, 0, 0.06); }
         body main .matrix1d:hover .add-pillar, body main .matrix1d:hover .add-subpillar, body main .matrix1d:hover .remove-pillar {
           display: inherit; }
+    body main .matrix2d {
+      padding: 16px;
+      word-break: break-all; }
+      body main .matrix2d .handle {
+        position: absolute;
+        top: 4px;
+        left: 4px; }
+      body main .matrix2d .title {
+        flex-basis: 100%;
+        margin-left: 32px;
+        margin-bottom: 16px;
+        font-size: 15px; }
+      body main .matrix2d .pillars-container {
+        display: flex;
+        flex-direction: column;
+        width: 300px; }
+        body main .matrix2d .pillars-container .pillars {
+          width: 300px; }
+          body main .matrix2d .pillars-container .pillars .pillar {
+            width: 100%;
+            display: flex;
+            padding: 8px;
+            position: relative;
+            cursor: pointer; }
+            body main .matrix2d .pillars-container .pillars .pillar > .title-block {
+              display: flex;
+              align-items: center;
+              flex-basis: 50%;
+              max-width: 50%;
+              padding: 8px; }
+              body main .matrix2d .pillars-container .pillars .pillar > .title-block[contenteditable=true] {
+                cursor: text;
+                border: 1px dotted black; }
+            body main .matrix2d .pillars-container .pillars .pillar .remove-pillar {
+              display: none;
+              align-self: center;
+              position: absolute;
+              left: -8px; }
+            body main .matrix2d .pillars-container .pillars .pillar:hover .remove-pillar {
+              display: inline-block; }
+            body main .matrix2d .pillars-container .pillars .pillar .subpillars-container {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              flex-basis: 50%;
+              max-width: 50%; }
+              body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars {
+                width: 100%; }
+                body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar {
+                  position: relative;
+                  padding: 8px;
+                  cursor: pointer; }
+                  body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar .title-block {
+                    padding: 8px;
+                    width: calc(100% - 16px); }
+                    body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar .title-block[contenteditable=true] {
+                      cursor: text;
+                      border: 1px dotted black; }
+                  body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar .remove-subpillar {
+                    display: none;
+                    position: absolute;
+                    right: 4px;
+                    top: 0px; }
+                  body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar:hover .remove-subpillar {
+                    display: inline-block; }
+              body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .add-subpillar {
+                display: none;
+                width: calc(100% - 32px);
+                padding: 8px 0px;
+                border: 1px dashed rgba(0, 0, 0, 0.2); }
+              body main .matrix2d .pillars-container .pillars .pillar .subpillars-container:hover .add-subpillar {
+                display: inline-block; }
+        body main .matrix2d .pillars-container .add-pillar {
+          display: none;
+          padding: 8px;
+          width: 100%;
+          padding: 8px 0px;
+          border: 1px dashed rgba(0, 0, 0, 0.2); }
+        body main .matrix2d .pillars-container:hover .add-pillar {
+          display: inline-block; }
+      body main .matrix2d .sectors-container {
+        display: flex;
+        align-items: center;
+        min-height: 16px; }
+        body main .matrix2d .sectors-container .sectors {
+          display: flex;
+          margin-left: 300px; }
+          body main .matrix2d .sectors-container .sectors .sector {
+            padding: 16px;
+            position: relative;
+            cursor: pointer; }
+            body main .matrix2d .sectors-container .sectors .sector .title-block {
+              padding: 8px; }
+              body main .matrix2d .sectors-container .sectors .sector .title-block[contenteditable=true] {
+                cursor: text;
+                border: 1px dotted black; }
+            body main .matrix2d .sectors-container .sectors .sector .remove-sector {
+              display: none;
+              position: absolute;
+              right: 4px;
+              top: 4px; }
+            body main .matrix2d .sectors-container .sectors .sector:hover .remove-sector {
+              display: inline-block; }
+        body main .matrix2d .sectors-container .add-sector {
+          display: none;
+          width: 72px;
+          height: 32px;
+          padding: 8px 0px;
+          border: 1px dashed rgba(0, 0, 0, 0.2); }
+        body main .matrix2d .sectors-container:hover .add-sector {
+          display: inline-block; }
+      body main .matrix2d button {
+        background-color: transparent;
+        border: none;
+        outline: none; }
+      body main .matrix2d .fa-times {
+        color: #e74c3c; }
+      body main .matrix2d .fa-plus {
+        color: #27ae60; }
   body.page-two {
     display: block; }
     body.page-two main {

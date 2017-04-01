@@ -192,6 +192,9 @@ class Entry(models.Model):
     created_by = models.ForeignKey(User, default=None, null=True, blank=True, related_name='entries_created')
     lead = models.ForeignKey(Lead)
 
+    # Following is for entries entered using template
+    template = models.ForeignKey('entries.EntryTemplate', default=None,  null=True)
+
     def __str__(self):
         return str(self.lead)
 
@@ -206,8 +209,8 @@ class EntryInformation(models.Model):
 
     # Following data is for old data type
     date = models.DateField(blank=True, default=None, null=True)
-    reliability = models.ForeignKey(Reliability)
-    severity = models.ForeignKey(Severity)
+    reliability = models.ForeignKey(Reliability, default=None, null=True)
+    severity = models.ForeignKey(Severity, default=None, null=True)
     number = models.IntegerField(blank=True, default=None, null=True)
     vulnerable_groups = models.ManyToManyField(VulnerableGroup, blank=True)
     specific_needs_groups = models.ManyToManyField(SpecificNeedsGroup, blank=True)
@@ -216,7 +219,6 @@ class EntryInformation(models.Model):
     bob = models.BooleanField(default=False) # best of bullshits
 
     # Following is for entries entered using template
-    template = models.ForeignKey('entries.EntryTemplate', default=None,  null=True)
     elements = models.TextField(default='{}')
 
     def __str__(self):

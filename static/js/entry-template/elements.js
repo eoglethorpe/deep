@@ -60,6 +60,10 @@ class Element {
     isRemovable() {
         return true;
     }
+
+    getAllowedPage() {
+        return 'all';
+    }
 };
 
 

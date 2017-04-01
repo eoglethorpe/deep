@@ -163,7 +163,7 @@ $(document).ready(function(){
     $.getJSON('/static/files/countries.geo.json', function(data) {
         var layer = L.geoJson(data, {
             style: styleMapFeature,
-            onEachFeature: onEachMapFeature
+            onEachFeature: onEachMapFeature,
         }).addTo(map);
     });
 

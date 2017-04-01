@@ -197,11 +197,13 @@ class AddEntry(View):
             elif context['lead_url'].endswith('.pptx'):
                 context["format"] = 'pptx'
 
+        # With template
         if template_id:
             context["entry_template"] = EntryTemplate.objects.get(pk=template_id)
             UserProfile.set_last_event(request, context["event"])
             return render(request, "entries/add-template-entry.html", context)
 
+        # Without template
         else:
             context["pillars_one"] = InformationPillar.objects.filter(contains_sectors=False)
             context["pillars_two"] = InformationPillar.objects.filter(contains_sectors=True)
@@ -231,8 +233,8 @@ class AddEntry(View):
             entry = Entry.objects.get(pk=id)
             lead = entry.lead
             activity = EditionActivity()
-
-        excerpts = json.loads(request.POST["excerpts"]);
+            if entry.template:
+                template_id = entry.template.pk
 
         lead_entries = Entry.objects.filter(lead=lead)
         if lead_entries.count() > 0:
@@ -242,6 +244,9 @@ class AddEntry(View):
             entry = Entry(lead=lead)
             entry.created_by = request.user
 
+        if template_id:
+            entry.template = EntryTemplate.objects.get(pk=template_id)
+
         entry.modified_by = request.user
         entry.save()
 
@@ -249,6 +254,23 @@ class AddEntry(View):
             'entry', entry.pk, entry.lead.name,
             reverse('entries:edit', args=[entry.lead.event.pk, entry.pk])
         ).log_for(request.user, event=entry.lead.event)
+
+
+        # With entry template
+        if template_id:
+            entries = json.loads(request.POST['entries'])
+            for e in entries:
+                information = EntryInformation(entry=entry)
+                information.excerpt = e['excerpt']
+                information.image = e['image']
+                information.elements = json.dumps(e['elements'])
+                information.save()
+
+            return redirect('entries:entries', event)
+
+
+        # Without template
+        excerpts = json.loads(request.POST["excerpts"]);
 
         for excerpt in excerpts:
             information = EntryInformation(entry=entry)
