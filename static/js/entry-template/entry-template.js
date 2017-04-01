@@ -4,11 +4,6 @@ let templateEditor = {
         let that = this;
         this.elements = [];
 
-        $('#noob-widget button').on('click', function() {
-            that.addElement(new NoobWidget(that.getContainer()));
-            that.reloadElements();
-        });
-
         $('#matrix1d-widget button').on('click', function() {
             that.addElement(new Matrix1D(that.getContainer()));
             that.reloadElements();
@@ -26,6 +21,11 @@ let templateEditor = {
 
         $('#date-widget button').on('click', function() {
             that.addElement(new DateInput(that.getContainer()));
+            that.reloadElements();
+        });
+
+        $('#scale-widget button').on('click', function() {
+            that.addElement(new ScaleElement(that.getContainer()));
             that.reloadElements();
         });
 
@@ -108,10 +108,8 @@ let templateEditor = {
             if (this.getPage() != element.page) {
                 this.switchPage();
             }
-            if (element.type == 'noob') {
-                that.addElement(new NoobWidget(that.getContainer(), element));
-            }
-            else if (element.type == 'matrix1d') {
+
+            if (element.type == 'matrix1d') {
                 that.addElement(new Matrix1D(that.getContainer(), element));
             }
             else if (element.type == 'matrix2d') {
@@ -122,6 +120,9 @@ let templateEditor = {
             }
             else if (element.type == 'date-input') {
                 that.addElement(new DateInput(that.getContainer(), element));
+            }
+            else if (element.type == 'scale') {
+                that.addElement(new ScaleElement(that.getContainer(), element));
             }
             else if (element.type == 'pageOneExcerptBox') {
                 pageOneExcerptBoxAdded = true;

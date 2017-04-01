@@ -62,7 +62,7 @@ class NumberInput extends InputElement {
     }
 
     getTitle() {
-        return "Number Input"
+        return "Number Input";
     }
 };
 
@@ -72,6 +72,6 @@ class DateInput extends InputElement {
     }
 
     getTitle() {
-        return "Date Input"
+        return "Date Input";
     }
 }

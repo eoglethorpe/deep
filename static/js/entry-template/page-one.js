@@ -39,7 +39,7 @@ class PageOneEntrySelector extends Element {
     }
 
     getTitle() {
-        return "Entry selector"
+        return "Entry selector";
     }
 
     isRemovable() {
@@ -149,7 +149,7 @@ class PageOneImageBox extends Element {
     }
 
     getTitle() {
-        return "Image Box"
+        return "Image Box";
     }
 
     isRemovable() {
