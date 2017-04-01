@@ -6,10 +6,17 @@ let templateEditor = {
 
         $('#noob-widget button').on('click', function() {
             that.addElement(new NoobWidget(that.getContainer()));
+            that.reloadElements();
         });
 
         $('#matrix1d-widget button').on('click', function() {
             that.addElement(new Matrix1D(that.getContainer()));
+            that.reloadElements();
+        });
+
+        $('#matrix2d-widget button').on('click', function() {
+            that.addElement(new Matrix2D(that.getContainer()));
+            that.reloadElements();
         });
 
         // Save button
@@ -22,44 +29,55 @@ let templateEditor = {
         // Page switching
         $('#switch-page').click(function() {
             that.switchPage();
+            that.reloadElements();
         });
     },
 
     addElement: function(element) {
         element.page = this.getPage();
         this.elements.push(element);
+    },
 
+    reloadElements: function() {
+        $('#elements .element').remove();
         let that = this;
-        let elementProperties = $('#elements .element-template').clone();
-        elementProperties.removeClass('element-template').addClass('element');
-        elementProperties.find('h4').text(element.getTitle());
+        for (let i=0; i<this.elements.length; i++) {
+            let element = this.elements[i];
+            if (element.page != this.getPage()) {
+                continue;
+            }
 
-        if (element.isRemovable()) {
-            elementProperties.find('.delete-element').click(function() {
-                elementProperties.remove();
-                that.elements.splice(that.elements.indexOf(element), 1);
-                element.dom.remove();
+            let elementProperties = $('#elements .element-template').clone();
+            elementProperties.removeClass('element-template').addClass('element');
+            elementProperties.find('h4').text(element.getTitle());
+
+            if (element.isRemovable()) {
+                elementProperties.find('.delete-element').click(function() {
+                    elementProperties.remove();
+                    that.elements.splice(that.elements.indexOf(element), 1);
+                    element.dom.remove();
+                });
+            }
+            else {
+                elementProperties.find('.delete-element').hide();
+            }
+            element.addPropertiesTo(elementProperties.find('.properties'));
+
+            elementProperties.find('.properties').hide();
+            elementProperties.find('.toggle-properties').click(function() {
+                let btn = $(this);
+                elementProperties.find('.properties').slideToggle(function() {
+                    if ($(this).is(':visible')) {
+                        btn.removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                    } else {
+                        btn.removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                    }
+                });
             });
-        }
-        else {
-            elementProperties.find('.delete-element').hide();
-        }
-        element.addPropertiesTo(elementProperties.find('.properties'));
 
-        elementProperties.find('.properties').hide();
-        elementProperties.find('.toggle-properties').click(function() {
-            let btn = $(this);
-            elementProperties.find('.properties').slideToggle(function() {
-                if ($(this).is(':visible')) {
-                    btn.removeClass('fa-chevron-down').addClass('fa-chevron-up');
-                } else {
-                    btn.removeClass('fa-chevron-up').addClass('fa-chevron-down');
-                }
-            });
-        });
-
-        $('#elements').append(elementProperties);
-        elementProperties.show();
+            $('#elements').append(elementProperties);
+            elementProperties.show();
+        }
     },
 
     load: function(data) {
@@ -85,6 +103,9 @@ let templateEditor = {
             }
             else if (element.type == 'matrix1d') {
                 that.addElement(new Matrix1D(that.getContainer(), element));
+            }
+            else if (element.type == 'matrix2d') {
+                that.addElement(new Matrix2D(that.getContainer(), element));
             }
             else if (element.type == 'pageOneExcerptBox') {
                 pageOneExcerptBoxAdded = true;
@@ -123,6 +144,8 @@ let templateEditor = {
         if (!pageOneImageBoxAdded) {
             that.addElement(new PageOneImageBox(that.getContainer()));
         }
+
+        that.reloadElements();
     },
 
     save: function() {

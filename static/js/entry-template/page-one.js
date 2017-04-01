@@ -49,6 +49,10 @@ class PageOneEntrySelector extends Element {
     addPropertiesTo(container) {
 
     }
+
+    getAllowedPage() {
+        return 'page-one';
+    }
 };
 
 
@@ -100,6 +104,10 @@ class PageOneExcerptBox extends Element {
     addPropertiesTo(container) {
 
     }
+
+    getAllowedPage() {
+        return 'page-one';
+    }
 };
 
 
@@ -150,5 +158,9 @@ class PageOneImageBox extends Element {
 
     addPropertiesTo(container) {
 
+    }
+
+    getAllowedPage() {
+        return 'page-one';
     }
 };

@@ -52,7 +52,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
             elements: JSON.parse('{{ info.elements|escapejs }}'),
         }
         {% endfor %}{% endif %}
-    ]
+    ];
 
     // CSRF Token
     let csrf_token = "{% csrf_token %}";
@@ -145,7 +145,12 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
             </div>
         </div>
         <div class="split-pane-divider" id="divider"></div>
-        <div class="split-pane-component" id="right-component">
+        <div class="split-pane-component" id="right-component" style="padding: 16px;">
+            <div id="page-one-elements" style="position: relative;">  <!-- TODO Remove inline style -->
+                <button class="save-button">Save</button>
+                <!-- <button class="save-and-next-button">Save and next</button> -->
+                <button class="cancel-button">Cancel</button>
+            </div>
         </div>
     </div>
 </div>
