@@ -18,6 +18,7 @@ DEEP | Entry Template Editor
 <script type="text/javascript" src="{% watchful_static_url 'js/entry-template/page-one.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entry-template/grid-elements.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entry-template/page-two.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entry-template/input-elements.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entry-template/entry-template.js' %}"></script>
 
 <script>
@@ -60,6 +61,14 @@ let templateData = {
             </div>
             <div id="matrix2d-widget" class="widget">
                 <h4>2d Matrix</h4>
+                <button><i class="fa fa-plus"></i>Add</button>
+            </div>
+            <div id="number-widget" class="widget">
+                <h4>Number Input</h4>
+                <button><i class="fa fa-plus"></i>Add</button>
+            </div>
+            <div id="date-widget" class="widget">
+                <h4>Date Input</h4>
                 <button><i class="fa fa-plus"></i>Add</button>
             </div>
             <div id="noob-widget" class="widget">

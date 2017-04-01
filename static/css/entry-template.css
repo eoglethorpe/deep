@@ -256,6 +256,19 @@ body {
       box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 0.3);
       -webkit-user-select: none;
       cursor: move; }
+    body main .input-element {
+      padding: 16px; }
+      body main .input-element .handle {
+        position: absolute;
+        top: 4px;
+        left: 4px; }
+      body main .input-element .input-container {
+        width: 100%;
+        height: 100%; }
+        body main .input-element .input-container input, body main .input-element .input-container select, body main .input-element .input-container textarea {
+          padding: 4px 8px;
+          width: 100%;
+          height: 100%; }
     body main .matrix1d {
       padding: 16px; }
       body main .matrix1d .handle {

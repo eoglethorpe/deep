@@ -19,6 +19,16 @@ let templateEditor = {
             that.reloadElements();
         });
 
+        $('#number-widget button').on('click', function() {
+            that.addElement(new NumberInput(that.getContainer()));
+            that.reloadElements();
+        });
+
+        $('#date-widget button').on('click', function() {
+            that.addElement(new DateInput(that.getContainer()));
+            that.reloadElements();
+        });
+
         // Save button
         $('#save-button').click(function() {
             redirectPost(window.location.pathname, {
@@ -106,6 +116,12 @@ let templateEditor = {
             }
             else if (element.type == 'matrix2d') {
                 that.addElement(new Matrix2D(that.getContainer(), element));
+            }
+            else if (element.type == 'number-input') {
+                that.addElement(new NumberInput(that.getContainer(), element));
+            }
+            else if (element.type == 'date-input') {
+                that.addElement(new DateInput(that.getContainer(), element));
             }
             else if (element.type == 'pageOneExcerptBox') {
                 pageOneExcerptBoxAdded = true;

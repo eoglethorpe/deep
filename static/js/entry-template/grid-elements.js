@@ -194,6 +194,8 @@ class Matrix2D extends Element {
         this.addSubpillar(pillar);
         pillar.find('.add-subpillar').click(function() { that.addSubpillar(pillar); });
         pillar.find('.remove-pillar').click(function() { pillar.remove(); });
+
+        return pillar;
     }
 
     addSubpillar(pillar) {
@@ -203,6 +205,8 @@ class Matrix2D extends Element {
 
         this.makeEditable(subpillar.find('.title-block'));
         subpillar.find('.remove-subpillar').click(function() { subpillar.remove(); });
+
+        return subpillar;
     }
 
     addSector() {
@@ -213,15 +217,8 @@ class Matrix2D extends Element {
 
         this.makeEditable(sector.find('.title-block'));
         sector.find('.remove-sector').click(function() { sector.remove(); });
-    }
 
-    save() {
-        return {
-            id: this.id,
-            type: 'matrix2d',
-            position: this.getPosition(),
-            title: this.dom.find('.title').text(),
-        }
+        return sector;
     }
 
     makeEditable(element) {
@@ -240,6 +237,35 @@ class Matrix2D extends Element {
         });
     }
 
+    save() {
+        let pillars = [];
+        let sectors = [];
+
+        this.dom.find('.pillars .pillar').each(function() {
+            let pillar = {};
+            pillar.title = $(this).find('.title-block').eq(0).text();
+            pillar.subpillars = [];
+
+            $(this).find('.subpillars .subpillar').each(function() {
+                pillar.subpillars.push({ title: $(this).find('.title-block').text() });
+            })
+            pillars.push(pillar);
+        });
+
+        this.dom.find('.sectors .sector').each(function() {
+            sectors.push({ title: $(this).find('.title-block').text() });;
+        });
+
+        return {
+            id: this.id,
+            type: 'matrix2d',
+            position: this.getPosition(),
+            title: this.dom.find('.title').text(),
+            pillars: pillars,
+            sectors: sectors,
+        }
+    }
+
     load(data) {
         let that = this;
 
@@ -253,6 +279,31 @@ class Matrix2D extends Element {
 
         if (data.title !== undefined) {
             this.dom.find('.title').text(data.title);
+        }
+
+        if (data.pillars) {
+            this.dom.find('.pillars .pillar').remove();
+            for (let i=0; i<data.pillars.length; i++) {
+                let pillar = data.pillars[i];
+                let pillarDom = this.addPillar();
+                pillarDom.find('.subpillars .subpillar').remove();
+                pillarDom.find('.title-block').text(pillar.title);
+
+                for (let j=0; j<pillar.subpillars.length; j++) {
+                    let subpillar = pillar.subpillars[j];
+                    let subpillarDom = this.addSubpillar(pillarDom);
+                    subpillarDom.find('.title-block').text(subpillar.title);
+                }
+            }
+        }
+
+        if (data.sectors) {
+            this.dom.find('.sectors .sector').remove();
+            for (let i=0; i<data.sectors.length; i++) {
+                let sector = data.sectors[i];
+                let sectorDom = this.addSector();
+                sectorDom.find('.title-block').text(sector.title);
+            }
         }
     }
 

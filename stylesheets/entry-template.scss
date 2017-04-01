@@ -286,6 +286,27 @@ body{
             cursor: move;
         }
 
+        .input-element {
+            padding: 16px;
+
+            .handle {
+                position: absolute;
+                top: 4px;
+                left: 4px;
+            }
+
+            .input-container {
+                width: 100%;
+                height: 100%;
+
+                input, select, textarea {
+                    padding: 4px 8px;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+
         .matrix1d {
             padding: 16px;
 
