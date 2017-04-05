@@ -69,6 +69,8 @@ class PeopleInNeedField(models.Model):
 
     severity_score_total_pin_field = models.BooleanField(default=False)
 
+    order = models.IntegerField(default=1)
+
     def __str__(self):
         if self.parent:
             return self.name + " [" + self.parent.name + "]"
@@ -76,6 +78,7 @@ class PeopleInNeedField(models.Model):
 
     class Meta:
         verbose_name_plural = "PIN Fields"
+        ordering = ['order']
 
 
 
