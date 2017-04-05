@@ -120,12 +120,14 @@ class InformationPillar(models.Model):
     PEOPLE_IN_NEED = "PIN"
     HUMANITARIAN_ACCESS = "HAC"
     HUMANITARIAN_PROFILE = "HPR"
+    CASUALTIES = "CAS"
     KEY_EVENTS = "KEY"
 
     APPEAR_IN = (
         (PEOPLE_IN_NEED, "People in need"),
         (HUMANITARIAN_ACCESS, "Humanitarian access"),
         (HUMANITARIAN_PROFILE, "Humanitarian profile"),
+        (CASUALTIES, "Casualties"),
         (KEY_EVENTS, "Key events"),
     )
 
@@ -148,12 +150,14 @@ class InformationSubpillar(models.Model):
     PEOPLE_IN_NEED = "PIN"
     HUMANITARIAN_ACCESS = "HAC"
     HUMANITARIAN_PROFILE = "HPR"
+    CASUALTIES = "CAS"
     KEY_EVENTS = "KEY"
 
     APPEAR_IN = (
         (PEOPLE_IN_NEED, "People in need"),
         (HUMANITARIAN_ACCESS, "Humanitarian access"),
         (HUMANITARIAN_PROFILE, "Humanitarian profile"),
+        (CASUALTIES, "Casualties"),
         (KEY_EVENTS, "Key events"),
     )
 
