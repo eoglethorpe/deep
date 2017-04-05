@@ -463,10 +463,6 @@ $(document).ready(function(){
         // window.location.href = $(this).data('href');
     });
 
-    $('.delete-btn').on('click', function(){
-        if(confirm('Are you sure you want to delete the report?')) location.href=$(this).data('target');
-    });
-
     // format number to 1 000 format
     function getFormattedNumber(num){
         num = (num+'').replace(/\s/g, '').split('').reverse().join('')
