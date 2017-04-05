@@ -251,6 +251,7 @@ function getNumberValue(element){
 // formats number in 1 000 000 format
 function formatNumber(numInput){
     var val = (('' + numInput.val()).replace(/\s/g, '')).split('').reverse().join('');
+    val = val.replace(/[^0-9\.]/gi, '');
 
     var newVal = '';
     for(var i=0; i<val.length; i++){

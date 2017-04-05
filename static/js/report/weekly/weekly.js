@@ -653,11 +653,13 @@ function checkRules() {
             }
         }
 
-        $('#humanitarian-profile-field-error').html(errors);
+        let errorField = $(this).closest('section').find('.field-error');
+
+        errorField.html(errors);
         if (errors != '')
-            $('#humanitarian-profile-field-error').show();
+            errorField.show();
         else
-            $('#humanitarian-profile-field-error').hide();
+            errorField.hide();
     });
 
     $(".people-total").on('drop paste change input', function() {

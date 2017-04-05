@@ -1,6 +1,6 @@
-#humanitarian-profile{
+#humanitarian-profile, #casualties{
 
-    #human-profile-field-list{
+    #human-profile-field-list, #casualties-field-list{
 
         .human-profile-field {
             &:nth-child(odd){
@@ -92,7 +92,7 @@
         }
     }
 
-    #humanitarian-profile-field-error{
+    .field-error{
         padding: 16px;
         text-align: center;
         color: #e74c3c;
