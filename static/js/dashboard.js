@@ -167,7 +167,7 @@ $(document).ready(function(){
         }).addTo(map);
     });
 
-    $.getJSON("/api/v2/reports", function(data){
+    $.getJSON("/api/v2/reports?fields=disaster_type", function(data){
         if(data.status == true){
             let reports = data.data;
 
