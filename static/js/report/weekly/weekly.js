@@ -921,17 +921,17 @@ function autoCalculateScores() {
     }
 
     // PIN IPC calculations
-    var ipcLvl4 = getNumberValue($('input[data-ipc-level="4"]'));
-    var ipcLvl5 = getNumberValue($('input[data-ipc-level="5"]'));
-    var ipcLvl3 = getNumberValue($('input[data-ipc-level="3"]'));
+    var ipcLvl4 = +getNumberValue($('input[data-ipc-level="4"]'));
+    var ipcLvl5 = +getNumberValue($('input[data-ipc-level="5"]'));
+    var ipcLvl3 = +getNumberValue($('input[data-ipc-level="3"]'));
 
-    $('.ipc-severe-calculated').val( !(isNaN(ipcLvl4) || isNaN(ipcLvl5))? ipcLvl4+ipcLvl5: '' );
+    $('.ipc-severe-calculated').val( !(isNaN(ipcLvl4) || isNaN(ipcLvl5))? (ipcLvl4+ipcLvl5): '' );
     $('.ipc-moderate-calculated').val( !isNaN(ipcLvl3)? ipcLvl3: '' );
     formatNumber($('.ipc-severe-calculated'));
     formatNumber($('.ipc-moderate-calculated'));
 
-    let totalModerate = getNumberValue($('.ipc-severe-calculated'));
-    let totalSevere = getNumberValue($('.ipc-moderate-calculated'));
+    let totalModerate = +getNumberValue($('.ipc-severe-calculated'));
+    let totalSevere = +getNumberValue($('.ipc-moderate-calculated'));
     $('.ipc-total-calculated').val(totalModerate+totalSevere);
     formatNumber($('.ipc-total-calculated'));
 
