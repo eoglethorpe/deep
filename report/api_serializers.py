@@ -16,6 +16,10 @@ class ReportSerializer(Serializer):
         'data': 'data'
     }
 
+    def __init__(self, report, get_fields=None):
+        super().__init__(report)
+        self.get_fields = get_fields
+
     def get_event(self, report):
         return { 'pk': report.event.pk, 'name': report.event.name }
 
@@ -23,4 +27,7 @@ class ReportSerializer(Serializer):
         return { 'code': report.country.code, 'name': report.country.name }
 
     def get_data(self, report):
-        return json.loads(report.data)
+        data = json.loads(report.data)
+        if self.get_fields:
+            data = { key: value for key, value in data.items() if key in self.get_fields }
+        return data

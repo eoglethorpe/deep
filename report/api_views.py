@@ -33,7 +33,10 @@ class ReportApiView(View):
 
         data = []
         for report in reports:
-            data.append(ReportSerializer(report).serialize())
+            if request.GET.get('fields'):
+                data.append(ReportSerializer(report, request.GET['fields'].split(',')).serialize())
+            else:
+                data.append(ReportSerializer(report).serialize())
 
         extra = {}
         if request.GET.get('countryEvents'):
