@@ -14,6 +14,10 @@ var dateFilterSelectize;
 var dateFilter = null;
 var dateFilterSelection;
 
+var data = null;
+var documentReady = false;
+var reportReady = false;
+
 function hashString(str) {
     var hash = 0;
     for (var i = 0; i < str.length; i++) {
@@ -110,7 +114,16 @@ function buildFilters() {
     });
 }
 
+$.getJSON("/api/v2/reports?fields=disaster_type", function(jsonData){
+    data = jsonData;
+    reportReady = true;
+    loadReports();
+});
+
 $(document).ready(function(){
+    documentReady = true;
+    loadReports();
+
     $('#horizontal-scroll .weeks').scroll(function(){
         $('#reports .weeks').scrollLeft($(this).scrollLeft());
         $('#timeline-table header .weeks').scrollLeft($(this).scrollLeft());
@@ -119,10 +132,6 @@ $(document).ready(function(){
 
     // initialize date input modal
     dateRangeInputModal = new Modal('#date-range-input');
-
-    // $('#timeline-table-container').on('scroll' ,function(){
-    //     $('#timeline-table-col0-container').scrollTop($(this).scrollTop());
-    // });
 
     buildFilters();
 
@@ -167,66 +176,69 @@ $(document).ready(function(){
         }).addTo(map);
     });
 
-    $.getJSON("/api/v2/reports?fields=disaster_type", function(data){
-        if(data.status == true){
-            let reports = data.data;
-
-            reports.sort(function(a, b){
-                var ca = (a.country.name + a.event.name).toUpperCase();
-                var cb = (b.country.name + b.event.name).toUpperCase();
-                return (ca < cb)? -1: (ca > cb)? 1: 0;
-            });
-
-            let currentCountryCode = "";
-            let currentCountryEventPk = -1;
-            let currentCountry;
-
-            for(let i=0; i<reports.length; i++){
-                let report = reports[i];
-
-                if(currentCountryCode != report.country.code){
-                    currentCountryCode = report.country.code;
-                    currentCountry = {'country': report.country, 'events': [], 'weeklyReports': []};
-                    reportsGrouped.push(currentCountry);
-                    currentCountryEventPk = -1;
-                }
-
-                if(currentCountryEventPk != report.event.pk){
-                    currentCountryEventPk = report.event.pk
-                    let currentCountryEventGroupedReport = {'event': report.event, 'weeklyReports': []};
-                    currentCountry.events.push(currentCountryEventGroupedReport);
-                }
-
-                // include this year's report only
-                if((new Date(report.start_date)).getWeekYear() == (new Date()).getFullYear()){
-                    currentCountry.events[currentCountry.events.findIndex(x => x.event.pk == report.event.pk)].weeklyReports.push({'startDate': report.start_date, 'data': report.data});
-                    currentCountry.weeklyReports.push({'startDate': report.start_date, 'data': report.data});
-                    report.data['created_at'] = report.last_edited_at;
-
-                    let reportStartDate = new Date(report.start_date);
-                    if(reportStartDate > maxStartDate){
-                        maxStartDate = reportStartDate;
-                        // console.log(report);
-                    }
-                    if(reportStartDate < minStartDate){
-                        minStartDate = reportStartDate;
-                    }
-                }
-            }
-            while(minStartDate <= maxStartDate){
-                weeks.push(new Date(minStartDate));
-                minStartDate.addDays(7);
-            }
-
-            // Load the weekly report timetable
-            loadTimetable('all');
-        }
-    });
-
     $("#body").on('click', '#back-btn', function(){
         loadTimetable('all');
     });
 });
+
+function loadReports(){
+    if(!documentReady || !reportReady){
+        return;
+    }
+    if(data.status == true){
+        let reports = data.data;
+
+        reports.sort(function(a, b){
+            var ca = (a.country.name + a.event.name).toUpperCase();
+            var cb = (b.country.name + b.event.name).toUpperCase();
+            return (ca < cb)? -1: (ca > cb)? 1: 0;
+        });
+
+        let currentCountryCode = "";
+        let currentCountryEventPk = -1;
+        let currentCountry;
+
+        for(let i=0; i<reports.length; i++){
+            let report = reports[i];
+
+            if(currentCountryCode != report.country.code){
+                currentCountryCode = report.country.code;
+                currentCountry = {'country': report.country, 'events': [], 'weeklyReports': []};
+                reportsGrouped.push(currentCountry);
+                currentCountryEventPk = -1;
+            }
+
+            if(currentCountryEventPk != report.event.pk){
+                currentCountryEventPk = report.event.pk
+                let currentCountryEventGroupedReport = {'event': report.event, 'weeklyReports': []};
+                currentCountry.events.push(currentCountryEventGroupedReport);
+            }
+
+            // include this year's report only
+            if((new Date(report.start_date)).getWeekYear() == (new Date()).getFullYear()){
+                currentCountry.events[currentCountry.events.findIndex(x => x.event.pk == report.event.pk)].weeklyReports.push({'startDate': report.start_date, 'data': report.data});
+                currentCountry.weeklyReports.push({'startDate': report.start_date, 'data': report.data});
+                report.data['created_at'] = report.last_edited_at;
+
+                let reportStartDate = new Date(report.start_date);
+                if(reportStartDate > maxStartDate){
+                    maxStartDate = reportStartDate;
+                    // console.log(report);
+                }
+                if(reportStartDate < minStartDate){
+                    minStartDate = reportStartDate;
+                }
+            }
+        }
+        while(minStartDate <= maxStartDate){
+            weeks.push(new Date(minStartDate));
+            minStartDate.addDays(7);
+        }
+
+        // Load the weekly report timetable
+        loadTimetable('all');
+    }
+}
 
 var timetableFor;
 function loadTimetable(tableFor) {
