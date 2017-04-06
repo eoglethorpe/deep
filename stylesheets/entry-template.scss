@@ -656,6 +656,61 @@ body{
                 color: $success-color;
             }
         }
+
+        .matrix2d-list {
+            padding: 16px;
+
+            .handle {
+                position: absolute;
+                top: 4px;
+                left: 4px;
+            }
+
+            .container {
+                display: flex;
+                justify-content: space-between;
+                width: 128px;
+
+                .col-1 {
+                    .pillar {
+                        font-weight: $font-weight-bold;
+                    }
+                }
+
+                .col-2 {
+                    .sector {
+                        font-weight: $font-weight-bold;
+                    }
+                }
+            }
+        }
+
+        .organigram {
+            padding: 16px;
+
+            .handle {
+                position: absolute;
+                top: 4px;
+                left: 4px;
+            }
+        }
+
+        .geolocations {
+            padding: 16px;
+
+            .handle {
+                position: absolute;
+                top: 4px;
+                left: 4px;
+            }
+
+            .container {
+                .locations {
+                    display: flex;
+                    flex-direction: column;
+                }
+            }
+        }
     }
 
 

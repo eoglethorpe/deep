@@ -10,7 +10,7 @@ let templateEditor = {
         });
 
         $('#matrix2d-widget button').on('click', function() {
-            that.addElement(new Matrix2D(that.getContainer()));
+            that.addElement(new Matrix2D(that.getContainer(), $('#page-two .entry')));
             that.reloadElements();
         });
 
@@ -26,6 +26,21 @@ let templateEditor = {
 
         $('#scale-widget button').on('click', function() {
             that.addElement(new ScaleElement(that.getContainer()));
+            that.reloadElements();
+        });
+
+        $('#multiselect-widget button').on('click', function() {
+            that.addElement(new MultiselectInput(that.getContainer()));
+            that.reloadElements();
+        });
+
+        $('#organigram-widget button').on('click', function() {
+            that.addElement(new OrganigramInput(that.getContainer()));
+            that.reloadElements();
+        });
+
+        $('#geolocations-widget button').on('click', function() {
+            that.addElement(new GeolocationsInput(that.getContainer()));
             that.reloadElements();
         });
 
@@ -113,7 +128,7 @@ let templateEditor = {
                 that.addElement(new Matrix1D(that.getContainer(), element));
             }
             else if (element.type == 'matrix2d') {
-                that.addElement(new Matrix2D(that.getContainer(), element));
+                that.addElement(new Matrix2D(that.getContainer(), $('#page-two .entry'), element));
             }
             else if (element.type == 'number-input') {
                 that.addElement(new NumberInput(that.getContainer(), element));
@@ -123,6 +138,15 @@ let templateEditor = {
             }
             else if (element.type == 'scale') {
                 that.addElement(new ScaleElement(that.getContainer(), element));
+            }
+            else if (element.type == 'multiselect') {
+                that.addElement(new MultiselectInput(that.getContainer(), element));
+            }
+            else if (element.type == 'organigram') {
+                that.addElement(new OrganigramInput(that.getContainer(), element));
+            }
+            else if (element.type == 'geolocations') {
+                that.addElement(new GeolocationsInput(that.getContainer(), element));
             }
             else if (element.type == 'pageOneExcerptBox') {
                 pageOneExcerptBoxAdded = true;

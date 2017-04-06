@@ -90,7 +90,7 @@ class ScaleElement extends Element {
             that.refreshScale();
 
             return value;
-        }
+        };
         scaleProperty.find('.add-value').click(function() {
             addValue();
         });

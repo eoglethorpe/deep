@@ -480,6 +480,35 @@ body {
         color: #e74c3c; }
       body main .matrix2d .fa-plus {
         color: #27ae60; }
+    body main .matrix2d-list {
+      padding: 16px; }
+      body main .matrix2d-list .handle {
+        position: absolute;
+        top: 4px;
+        left: 4px; }
+      body main .matrix2d-list .container {
+        display: flex;
+        justify-content: space-between;
+        width: 128px; }
+        body main .matrix2d-list .container .col-1 .pillar {
+          font-weight: 500; }
+        body main .matrix2d-list .container .col-2 .sector {
+          font-weight: 500; }
+    body main .organigram {
+      padding: 16px; }
+      body main .organigram .handle {
+        position: absolute;
+        top: 4px;
+        left: 4px; }
+    body main .geolocations {
+      padding: 16px; }
+      body main .geolocations .handle {
+        position: absolute;
+        top: 4px;
+        left: 4px; }
+      body main .geolocations .container .locations {
+        display: flex;
+        flex-direction: column; }
   body.page-two {
     display: block; }
     body.page-two main {

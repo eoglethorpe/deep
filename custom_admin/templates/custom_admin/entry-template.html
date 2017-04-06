@@ -21,6 +21,7 @@ DEEP | Entry Template Editor
 <script type="text/javascript" src="{% watchful_static_url 'js/entry-template/page-two.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entry-template/scale-elements.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entry-template/input-elements.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entry-template/chart-elements.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entry-template/entry-template.js' %}"></script>
 
 <script>
@@ -75,6 +76,18 @@ let templateData = {
             </div>
             <div id="scale-widget" class="widget">
                 <h4>Scale Input</h4>
+                <button><i class="fa fa-plus"></i>Add</button>
+            </div>
+            <div id="multiselect-widget" class="widget">
+                <h4>Multiselect Input</h4>
+                <button><i class="fa fa-plus"></i>Add</button>
+            </div>
+            <div id="organigram-widget" class="widget">
+                <h4>Organigram</h4>
+                <button><i class="fa fa-plus"></i>Add</button>
+            </div>
+            <div id="geolocations-widget" class="widget">
+                <h4>Geolocations</h4>
                 <button><i class="fa fa-plus"></i>Add</button>
             </div>
         </div>
