@@ -72,7 +72,9 @@ body {
 body {
   display: flex;
   justify-content: flex-start;
-  flex-wrap: wrap; }
+  flex-wrap: wrap;
+  height: 100vh;
+  overflow: hidden; }
   body h1, body h2, body h3, body h4 {
     text-transform: uppercase;
     margin: 0;
@@ -112,31 +114,33 @@ body {
     border-right: 1px solid rgba(0, 0, 0, 0.1);
     overflow-y: auto; }
     body aside .title-block {
-      padding: 10px;
+      height: 64px;
+      padding: 0 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       background-color: #fff;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
       body aside .title-block #template-name {
         font-size: 19px; }
       body aside .title-block button {
-        padding: 8px;
+        padding: 6px 16px;
         color: #fff; }
       body aside .title-block #save-button {
         background-color: #008080; }
       body aside .title-block #cancel-button {
         background-color: #e74c3c; }
     body aside section {
-      margin-bottom: 32px; }
+      height: calc(calc(100% - 64px - 48px) / 2);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
       body aside section > header {
         height: 48px;
         display: flex;
         align-items: center;
         padding-left: 16px; }
       body aside section #widgets {
-        max-height: 200px;
-        overflow: auto; }
+        height: calc(100% - 48px);
+        overflow-y: auto; }
         body aside section #widgets .widget {
           display: flex;
           justify-content: space-between;
@@ -149,51 +153,85 @@ body {
             body aside section #widgets .widget button .fa {
               margin-right: 6px; }
       body aside section #elements {
-        max-height: 360px;
-        overflow: auto; }
-        body aside section #elements .element .header {
-          display: flex;
-          justify-content: space-between;
-          padding: 16px;
-          margin-bottom: 6px;
-          background-color: #fff;
-          border: 1px solid rgba(0, 0, 0, 0.05); }
-          body aside section #elements .element .header button {
-            padding: 4px;
-            background-color: transparent;
-            border: none; }
-            body aside section #elements .element .header button .delete-element {
-              color: #e74c3c; }
-            body aside section #elements .element .header button .fa {
-              margin-right: 6px; }
-        body aside section #elements .element .properties .property {
-          display: flex;
-          justify-content: space-between;
-          padding: 16px; }
-          body aside section #elements .element .properties .property label {
-            font-size: 13px; }
-          body aside section #elements .element .properties .property input[type="text"] {
-            padding: 4px; }
-          body aside section #elements .element .properties .property.scale-property button {
-            margin: 2px;
-            padding: 4px 8px; }
-          body aside section #elements .element .properties .property.scale-property .values-container {
+        height: calc(100% - 48px);
+        overflow-y: scroll; }
+        body aside section #elements .element {
+          background-color: #fafafa;
+          margin-bottom: 6px; }
+          body aside section #elements .element.ui-sortable-helper {
+            box-shadow: 0 2px 15px -5px rgba(0, 0, 0, 0.5); }
+          body aside section #elements .element .header {
             display: flex;
-            flex-direction: column;
-            align-items: flex-end; }
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            height: 36px;
+            background-color: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.1); }
+            body aside section #elements .element .header button {
+              padding: 4px;
+              background-color: transparent;
+              border: none; }
+              body aside section #elements .element .header button .delete-element {
+                color: #e74c3c; }
+              body aside section #elements .element .header button .fa {
+                margin-right: 6px; }
+          body aside section #elements .element .properties {
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 6px; }
+            body aside section #elements .element .properties .property {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding: 0 10px;
+              min-height: 32px; }
+              body aside section #elements .element .properties .property label {
+                font-size: 13px; }
+              body aside section #elements .element .properties .property input[type="text"] {
+                padding: 2px 6px; }
+              body aside section #elements .element .properties .property.scale-property {
+                display: block; }
+                body aside section #elements .element .properties .property.scale-property .scale-property-header {
+                  min-height: 32px;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center; }
+                body aside section #elements .element .properties .property.scale-property input[type="color"] {
+                  cursor: pointer; }
+                body aside section #elements .element .properties .property.scale-property button {
+                  background-color: transparent;
+                  border: none; }
+                  body aside section #elements .element .properties .property.scale-property button.remove-value {
+                    padding: 4px 8px;
+                    color: #e74c3c; }
+                  body aside section #elements .element .properties .property.scale-property button.add-value {
+                    color: #3498db;
+                    font-size: 1.2em;
+                    margin-right: 8px; }
+                body aside section #elements .element .properties .property.scale-property .value-container {
+                  min-height: 32px;
+                  padding: 0 6px;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center; }
+                  body aside section #elements .element .properties .property.scale-property .value-container:nth-child(odd) {
+                    background-color: #eee; }
+              body aside section #elements .element .properties .property:nth-child(even) {
+                background-color: #eee; }
     body aside footer {
-      position: absolute;
-      bottom: 0;
-      height: 64px;
-      width: 100%;
-      background-color: #fefefe;
-      border-top: 1px solid rgba(0, 0, 0, 0.1); }
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center; }
       body aside footer button {
-        width: 100%;
-        height: 100%;
-        padding: 10px; }
+        padding: 6px 24px;
+        box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+        body aside footer button:active {
+          box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
   body main {
-    flex-basis: 70%; }
+    flex-basis: 70%;
+    height: calc(100vh - 56px);
+    overflow: auto; }
     body main #page-one {
       width: 100%;
       height: 100%;

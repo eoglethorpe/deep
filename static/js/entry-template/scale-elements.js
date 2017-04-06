@@ -65,11 +65,11 @@ class ScaleElement extends Element {
         container.append(labelProperty);
 
         let scaleProperty = $('<div class="property scale-property"></div>');
-        scaleProperty.append($('<label>Scale values</label>'));
-        scaleProperty.append($('<div class="values-container"><div class="values"></div><button class="add-value">+</button></div>'));
+        scaleProperty.append($('<div class="scale-property-header"><label>Scale values</label><button class="add-value"><i class="fa fa-plus"></i></button></div></div>'));
+        scaleProperty.append($('<div class="values-container"><div class="values"></div>'));
 
         let addValue = function() {
-            let value = $('<div class="value-container"><input class="default" name="default" type="radio"><input type="text" class="name" placeholder="Enter value name, e.g.: Critical"><input class="color" type="color"><button class="remove-value">-</button></div>');
+            let value = $('<div class="value-container"><input class="default" name="default" type="radio"><input type="text" class="name" placeholder="Enter value name, e.g.: Critical"><input class="color" type="color"><button class="remove-value"><i class="fa fa-times"></i></button></div>');
 
             value.find('.remove-value').click(function() {
                 value.remove();
