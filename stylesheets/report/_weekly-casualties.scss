@@ -1,0 +1,101 @@
+#casualties{
+
+    #human-profile-field-list{
+
+        .human-profile-field {
+            &:nth-child(odd){
+                background-color: #fff;
+            }
+        }
+
+        .human-profile-field, .human-profile-subfield, .human-profile-child{
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+
+            input{
+                outline: none;
+                box-shadow: none;
+                border: 1px solid transparent;
+                box-sizing: border-box;
+                padding: 3px 5px;
+            }
+            .sub{
+                padding-left: 24px;
+                font-weight: $font-weight-normal;
+            }
+            > *{
+                flex-basis: 23%;
+                box-sizing: border-box;
+                margin: 8px 0;
+            }
+            > a{
+                flex-basis: 24px;
+                cursor: pointer;
+                color: $primary-color;
+            }
+            > div {
+                flex-basis: 100%;
+            }
+            .source-new {
+                display: inline-block;
+                flex-basis: 23%;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                min-height: 24px;
+                position: relative;
+
+                .source{
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                    align-items: center;
+                    background-color: #fff;
+                    padding: 6px;
+                    position: relative;
+                    cursor: pointer;
+                    word-break: break-all;
+
+                    .name{
+                        flex-basis: 85%;
+                        overflow: hidden;
+                        flex-grow: 0;
+                        flex-shrink: 0;
+                    }
+                    .delete{
+                        flex-basis: 5%;
+                        color: $error-color;
+                    }
+                    date{
+                        flex-basis: 100%;
+                        font-family: 'Inconsolata', monospace;
+                    }
+                    @import 'display-card';
+                }
+            }
+        }
+
+        .human-profile-child{
+            margin: 0 0 8px 0;
+
+            input {
+                border: 1px solid rgba(0, 0, 0, 0.2);
+            }
+            > *{
+                margin: 0!important;
+            }
+
+            .remove-child{
+                color: $danger-color;
+            }
+        }
+    }
+
+    #humanitarian-profile-field-error{
+        padding: 16px;
+        text-align: center;
+        color: #e74c3c;
+        margin: 0;
+    }
+}

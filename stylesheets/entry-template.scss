@@ -204,7 +204,105 @@ body{
                                         background-color: #eee;
                                     }
                                 }
+
                             }
+                            &.options-container{
+                                flex-wrap: wrap;
+                                width: 100%;
+
+
+                                .header{
+                                    flex-basis: 100%;
+                                    display: flex;
+                                    justify-content: space-between;
+                                    padding: 0 0;
+                                }
+
+                                button{
+                                    background-color: transparent;
+                                    border: none;
+
+                                    &.remove-option{
+                                        color: $danger-color;
+                                        font-size: 1.2em;
+                                        padding-left: 10px;
+
+
+                                    }
+                                    &.add-option{
+                                        color: $info-color;
+                                        font-size: 1.2em;
+
+                                    }
+                                }
+                                .options{
+                                    >.option-container{
+                                        min-height: 32px;
+                                        padding: 0 6px;
+                                        display: flex;
+                                        justify-content: space-between;
+                                        align-items: center;
+                                    }
+                                }
+                            }
+                            &.nodes-property{
+                                display: block;
+                                // flex-wrap: wrap;
+                                // width: 100%;
+
+                                .header{
+                                    // flex-basis: 100%;
+                                    display: flex;
+                                    justify-content: space-between;
+                                    padding: 0 0;
+                                    background-color: transparent;
+                                    border: none;
+                                }
+                                button{
+                                    background-color: transparent;
+                                    border: none;
+                                    &.remove-node{
+                                        color: $danger-color;
+                                        font-size: 1.2em;
+
+                                    }
+                                    &.add-node{
+                                        color: $info-color;
+                                        font-size: 1.2em;
+                                        float: right;
+                                        font-: bold;
+                                    }
+                                }
+
+                                .nodes-container{
+                                    width: 100%;
+                                    .nodes{
+                                        width: 100%;
+                                        >.node-container{
+
+                                            display: flex;
+                                            justify-content: space-between;
+                                            align-items: center;
+                                            flex-wrap: wrap;
+
+                                            .name{
+                                                min-height: 24px;
+                                                padding: 0 6px;
+                                                margin-bottom: 4px;
+                                            }
+                                            .selectize-input, .selectize-control{
+                                                width: 193px;
+                                                min-height: 24px;
+                                                margin-bottom: 4px;
+                                            }
+                                            .remove-node{
+                                                margin-right: 165px;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
                             &:nth-child(even){
                                 background-color: #eee;
                             }
@@ -223,6 +321,8 @@ body{
             button {
                 padding: 6px 24px;
                 @include btn-shadow-sm;
+                color: white;
+                background-color: $primary-color;
             }
         }
     }
