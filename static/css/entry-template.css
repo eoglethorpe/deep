@@ -241,11 +241,12 @@ body {
                   justify-content: space-between;
                   align-items: center; }
               body aside section #elements .element .properties .property.nodes-property {
-                display: block; }
+                display: block;
+                padding: 0; }
                 body aside section #elements .element .properties .property.nodes-property .header {
                   display: flex;
                   justify-content: space-between;
-                  padding: 0 0;
+                  padding: 0 8px;
                   background-color: transparent;
                   border: none; }
                 body aside section #elements .element .properties .property.nodes-property button {
@@ -264,20 +265,25 @@ body {
                   body aside section #elements .element .properties .property.nodes-property .nodes-container .nodes {
                     width: 100%; }
                     body aside section #elements .element .properties .property.nodes-property .nodes-container .nodes > .node-container {
+                      padding: 0 8px;
                       display: flex;
                       justify-content: space-between;
                       align-items: center;
                       flex-wrap: wrap; }
                       body aside section #elements .element .properties .property.nodes-property .nodes-container .nodes > .node-container .name {
                         min-height: 24px;
+                        flex-basis: calc(100% - 32px);
                         padding: 0 6px;
                         margin-bottom: 4px; }
                       body aside section #elements .element .properties .property.nodes-property .nodes-container .nodes > .node-container .selectize-input, body aside section #elements .element .properties .property.nodes-property .nodes-container .nodes > .node-container .selectize-control {
-                        width: 193px;
-                        min-height: 24px;
-                        margin-bottom: 4px; }
+                        flex-basis: calc(100% - 32px);
+                        width: calc(100% - 32px);
+                        margin-bottom: 4px;
+                        background-color: transparent; }
                       body aside section #elements .element .properties .property.nodes-property .nodes-container .nodes > .node-container .remove-node {
-                        margin-right: 165px; }
+                        flex-basis: 24px; }
+                      body aside section #elements .element .properties .property.nodes-property .nodes-container .nodes > .node-container:nth-child(odd) {
+                        background-color: #eee; }
               body aside section #elements .element .properties .property:nth-child(even) {
                 background-color: #eee; }
     body aside footer {

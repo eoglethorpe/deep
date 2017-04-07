@@ -247,6 +247,7 @@ body{
                             }
                             &.nodes-property{
                                 display: block;
+                                padding: 0;
                                 // flex-wrap: wrap;
                                 // width: 100%;
 
@@ -254,7 +255,7 @@ body{
                                     // flex-basis: 100%;
                                     display: flex;
                                     justify-content: space-between;
-                                    padding: 0 0;
+                                    padding: 0 8px;
                                     background-color: transparent;
                                     border: none;
                                 }
@@ -276,10 +277,12 @@ body{
 
                                 .nodes-container{
                                     width: 100%;
+
                                     .nodes{
                                         width: 100%;
-                                        >.node-container{
 
+                                        >.node-container{
+                                            padding: 0 8px;
                                             display: flex;
                                             justify-content: space-between;
                                             align-items: center;
@@ -287,16 +290,21 @@ body{
 
                                             .name{
                                                 min-height: 24px;
+                                                flex-basis: calc(100% - 32px);
                                                 padding: 0 6px;
                                                 margin-bottom: 4px;
                                             }
                                             .selectize-input, .selectize-control{
-                                                width: 193px;
-                                                min-height: 24px;
+                                                flex-basis: calc(100% - 32px);
+                                                width: calc(100% - 32px);
                                                 margin-bottom: 4px;
+                                                background-color: transparent;
                                             }
                                             .remove-node{
-                                                margin-right: 165px;
+                                                flex-basis: 24px;
+                                            }
+                                            &:nth-child(odd){
+                                                background-color: #eee;
                                             }
                                         }
                                     }
