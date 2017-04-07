@@ -149,11 +149,11 @@ class MultiselectInput extends Element {
         container.append(labelProperty);
 
         let optionsProperty = $('<div class="property options-container"></div>');
-        optionsProperty.append($('<label>Options</label>'));
-        optionsProperty.append($('<div class="options-container"><div class="options"></div><button class="add-option">+</bytton></div>'));
+        optionsProperty.append($('<div class="header"><label>Options</label><button class="add-option"><i class="fa fa-plus"></i></button></div>'));
+        optionsProperty.append($('<div class="options-container"><div class="options"></div></div>'));
 
         let addOption = function() {
-            let option = $('<div class="option-container"><input type="text" placeholder="Enter an option"><button class="remove-option">-</button></div>');
+            let option = $('<div class="option-container"><input type="text" placeholder="Enter an option"><button class="remove-option"><i class="fa fa-times"></i></button></div>');
 
             option.find('input').data('id', that.getUniqueId());
 

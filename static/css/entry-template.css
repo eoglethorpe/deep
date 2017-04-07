@@ -216,6 +216,68 @@ body {
                   align-items: center; }
                   body aside section #elements .element .properties .property.scale-property .value-container:nth-child(odd) {
                     background-color: #eee; }
+              body aside section #elements .element .properties .property.options-container {
+                flex-wrap: wrap;
+                width: 100%; }
+                body aside section #elements .element .properties .property.options-container .header {
+                  flex-basis: 100%;
+                  display: flex;
+                  justify-content: space-between;
+                  padding: 0 0; }
+                body aside section #elements .element .properties .property.options-container button {
+                  background-color: transparent;
+                  border: none; }
+                  body aside section #elements .element .properties .property.options-container button.remove-option {
+                    color: #e74c3c;
+                    font-size: 1.2em;
+                    padding-left: 10px; }
+                  body aside section #elements .element .properties .property.options-container button.add-option {
+                    color: #3498db;
+                    font-size: 1.2em; }
+                body aside section #elements .element .properties .property.options-container .options > .option-container {
+                  min-height: 32px;
+                  padding: 0 6px;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center; }
+              body aside section #elements .element .properties .property.nodes-property {
+                display: block; }
+                body aside section #elements .element .properties .property.nodes-property .header {
+                  display: flex;
+                  justify-content: space-between;
+                  padding: 0 0;
+                  background-color: transparent;
+                  border: none; }
+                body aside section #elements .element .properties .property.nodes-property button {
+                  background-color: transparent;
+                  border: none; }
+                  body aside section #elements .element .properties .property.nodes-property button.remove-node {
+                    color: #e74c3c;
+                    font-size: 1.2em; }
+                  body aside section #elements .element .properties .property.nodes-property button.add-node {
+                    color: #3498db;
+                    font-size: 1.2em;
+                    float: right;
+                    font-: bold; }
+                body aside section #elements .element .properties .property.nodes-property .nodes-container {
+                  width: 100%; }
+                  body aside section #elements .element .properties .property.nodes-property .nodes-container .nodes {
+                    width: 100%; }
+                    body aside section #elements .element .properties .property.nodes-property .nodes-container .nodes > .node-container {
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                      flex-wrap: wrap; }
+                      body aside section #elements .element .properties .property.nodes-property .nodes-container .nodes > .node-container .name {
+                        min-height: 24px;
+                        padding: 0 6px;
+                        margin-bottom: 4px; }
+                      body aside section #elements .element .properties .property.nodes-property .nodes-container .nodes > .node-container .selectize-input, body aside section #elements .element .properties .property.nodes-property .nodes-container .nodes > .node-container .selectize-control {
+                        width: 193px;
+                        min-height: 24px;
+                        margin-bottom: 4px; }
+                      body aside section #elements .element .properties .property.nodes-property .nodes-container .nodes > .node-container .remove-node {
+                        margin-right: 165px; }
               body aside section #elements .element .properties .property:nth-child(even) {
                 background-color: #eee; }
     body aside footer {
@@ -225,7 +287,9 @@ body {
       justify-content: center; }
       body aside footer button {
         padding: 6px 24px;
-        box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+        box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3);
+        color: white;
+        background-color: #008080; }
         body aside footer button:active {
           box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
   body main {
