@@ -27,7 +27,7 @@ class OrganigramInput extends Element {
             size:  { width: this.dom.find('.container').css('width'), height: this.dom.find('.container').css('height') },
             label: this.dom.find('label').text(),
             nodes: this.nodes,
-        }
+        };
     }
 
     load(data) {
@@ -71,7 +71,7 @@ class OrganigramInput extends Element {
 
             node.find('.name').data('id', that.getUniqueId());
             node.find('select').change(function() {
-                if (!$(this).val() || $(this).val().length == 0) {
+                if (!$(this).val() || $(this).val().length === 0) {
                     return;
                 }
                 that.refreshNodes();
@@ -181,7 +181,7 @@ class GeolocationsInput extends Element {
             position: this.getPosition(),
             size:  { width: this.dom.find('.container').css('width'), height: this.dom.find('.container').css('height') },
             label: this.dom.find('label').text(),
-        }
+        };
     }
 
     load(data) {

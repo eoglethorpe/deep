@@ -13,22 +13,48 @@ function addEntry(excerpt, image) {
         elements: [],
     });
 
-    page1.selectedEntry = entries.length - 1;
+    page1.selectedEntryIndex = entries.length - 1;
     page1.refresh();
 }
 
 function removeEntry(index) {
     entries.splice(index, 1);
 
-    page1.selectedEntry--;
+    page1.selectedEntryIndex--;
     page1.refresh();
+}
+
+function addOrReplaceEntry(excerpt, image) {
+    let index = entries.findIndex(e => e.excerpt == excerpt && e.image == image);
+    if (index >= 0) {
+        entries[index].excerpt = excerpt;
+        entries[index].image = image;
+
+        page1.selectedEntryIndex = index;
+        page1.refresh();
+    } else {
+        addEntry(excerpt, image);
+    }
+}
+
+function getEntryData(index, id) {
+    let data = entries[index].elements.find(e => e.id == id);
+    if (data) {
+        return data;
+    }
+
+    data = {
+        id: id,
+    };
+    entries[index].elements.push(data);
+    return data;
 }
 
 
 let page1 = {
     init: function() {
         let that = this;
-        this.selectedEntry = -1;
+        this.selectedEntryIndex = -1;
         this.container = $('#page-one-elements');
 
         for (let i=0; i<templateData.elements.length; i++) {
@@ -49,6 +75,9 @@ let page1 = {
 
             else if (element.type == 'noob') {
                 this.addNoobElement(element);
+            }
+            else if (element.type == 'matrix1d') {
+                this.addMatrix1d(element);
             }
         }
 
@@ -75,8 +104,8 @@ let page1 = {
             addEntry('', '');
         });
         entrySelector.find('.remove-entry').click(function() {
-            if (that.selectedEntry >= 0 && that.selectedEntry < entries.length) {
-                removeEntry(that.selectedEntry);
+            if (that.selectedEntryIndex >= 0 && that.selectedEntryIndex < entries.length) {
+                removeEntry(that.selectedEntryIndex);
             }
         });
 
@@ -86,7 +115,7 @@ let page1 = {
             if (isNaN(temp)) {
                 return;
             }
-            that.selectedEntry = temp;
+            that.selectedEntryIndex = temp;
             that.refresh();
         });
 
@@ -103,11 +132,11 @@ let page1 = {
         excerptBox.appendTo(this.container);
 
         excerptBox.find('textarea').on('change input drop paste keyup', function() {
-            if (that.selectedEntry < 0) {
+            if (that.selectedEntryIndex < 0) {
                 addEntry('', '');
             }
 
-            entries[that.selectedEntry].excerpt = $(this).val();
+            entries[that.selectedEntryIndex].excerpt = $(this).val();
             that.refresh();
         });
 
@@ -133,9 +162,56 @@ let page1 = {
         return noob;
     },
 
+    addMatrix1d: function(element) {
+        let that = this;
+
+        let matrix = $('<div class="matrix1d" style="position: absolute; padding: 16px" data-id="' + element.id + '"></div>');
+        matrix.append('<div class="title">' + element.title + '</div>');
+        matrix.css('left', element.position.left);
+        matrix.css('top', element.position.top);
+
+        let pillarsContainer = $('<div class="pillars"></div>');
+        matrix.append(pillarsContainer);
+
+        for (let i=0; i<element.pillars.length; i++) {
+            let pillar = element.pillars[i];
+            let pillarElement = $('<div class="pillar" data-id="' + pillar.id + '"></div>');
+
+            pillarElement.append($('<div class="title" style="display: inline-block; padding: 16px;">' + pillar.name + '</div>'));
+            let subpillarsContainer = $('<div class="subpillars" style="display: inline-block;"></div>');
+            pillarElement.append(subpillarsContainer);
+
+            for (let j=0; j<pillar.subpillars.length; j++) {
+                let subpillar = pillar.subpillars[j];
+                let subpillarElement = $('<div class="subpillar" data-id="' + subpillar.id + '" style="display: inline-block;"></div>');
+
+                subpillarElement.append($('<div class="title" style="display: inline-block; padding: 16px;">' + subpillar.name + '</div>'));
+                subpillarsContainer.append(subpillarElement);
+
+                subpillarElement.on('dragover', function(e) { e.originalEvent.preventDefault(); });
+                subpillarElement.on('drop', function(e) { that.dropExcerpt(e); $(this).click(); });
+                subpillarElement.on('click', function(e) {
+                    if (that.selectedEntryIndex < 0 || entries.length <= that.selectedEntryIndex) {
+                        return;
+                    }
+
+                    let data = getEntryData(that.selectedEntryIndex, element.id);
+                    if (!data.selections) { data.selections = []; }
+                    data.selections.push({ pillar: pillar.id, subpillar: subpillar.id });
+                    that.refresh();
+                });
+            }
+
+            pillarsContainer.append(pillarElement);
+        }
+
+        matrix.appendTo(this.container);
+        return matrix;
+    },
+
     refresh: function() {
-        if (this.selectedEntry < 0 && entries.length > 0) {
-            this.selectedEntry = 0;
+        if (this.selectedEntryIndex < 0 && entries.length > 0) {
+            this.selectedEntryIndex = 0;
         }
 
         // Refresh select box
@@ -150,17 +226,109 @@ let page1 = {
             });
         }
 
-        entrySelect[0].selectize.setValue(this.selectedEntry, true);
+        entrySelect[0].selectize.setValue(this.selectedEntryIndex, true);
 
         // Excerpt box
-        if (this.selectedEntry < 0) {
+        if (this.selectedEntryIndex < 0) {
             this.excerptBox.find('textarea').val('');
         } else {
-            let entry = entries[this.selectedEntry];
+            let entry = entries[this.selectedEntryIndex];
+
             this.excerptBox.find('textarea').val(entry.excerpt);
+            if (entry.image.length == 0) {
+                this.imageBox.find('.image-box').html('');
+            } else {
+                this.imageBox.find('.image-box').html(
+                    '<div class="image"><img src="' + entry.image + '"></div>'
+                );
+            }
+
+            for (let i=0; i<entry.elements.length; i++) {
+                let data = entry.elements[i];
+                let templateElement = templateData.elements.find(e => e.id == data.id);
+                if (templateElement) {
+
+                    if (templateElement.type == 'matrix1d') {
+                        let matrix = this.container.find('.matrix1d[data-id="' + data.id + '"]');
+                        matrix.find('.subpillar.active').removeClass('active');
+                        for (let j=0; j<data.selections.length; j++) {
+                            matrix.find('.pillar[data-id="' + data.selections[j].pillar + '"]')
+                                .find('.subpillar[data-id="' + data.selections[j].subpillar + '"]')
+                                .addClass('active');
+                        }
+
+                        // TODO Use .active in scss instead of here
+                        matrix.find('.subpillar').css('background-color', 'transparent');
+                        matrix.find('.subpillar.active').css('background-color', 'rgba(0,0,0,0.3)');
+                    }
+
+                }
+            }
         }
     },
+
+    dropExcerpt: function(e) {
+        let html = e.originalEvent.dataTransfer.getData('text/html');
+        let excerpt = e.originalEvent.dataTransfer.getData('Text');
+        let image = '';
+        if ($(html).is('img')) {
+            image = excerpt;
+            excerpt = '';
+        }
+
+        addOrReplaceEntry(excerpt, image);
+    },
 }
+
+let page2 = {
+    init: function() {
+        this.container = $('#page-two');
+        this.template = this.container.find('.entry-template');
+
+        for (let i=0; i<templateData.elements.length; i++) {
+            let element = templateData.elements[i];
+            if (element.page != 'page-two') {
+                continue;
+            }
+
+            if (element.id == 'page-two-excerpt') {
+                this.excerpBox = this.addExcerptBox(element);
+            }
+        }
+
+        this.refresh();
+    },
+
+    addExcerptBox: function(element) {
+        let that = this;
+        let excerptBox = $('<div class="excerpt-box-container" style="position: absolute;"><textarea style="width: 100%; height: 100%; padding: 16px;" placeholder="Enter excerpt here"></textarea></div>');
+        excerptBox.css('width', element.size.width);
+        excerptBox.css('height', element.size.height);
+        excerptBox.css('left', element.position.left);
+        excerptBox.css('top', element.position.top);
+        excerptBox.appendTo(this.template);
+
+        this.container.on('change input paste drop', '.excerpt-box-container textarea', function() {
+            let index = parseInt($(this).closest('.entry').data('index'));
+            if (index != NaN) {
+                entries[index].excerpt = $(this).val();
+            }
+        });
+    },
+
+    refresh: function() {
+        this.container.find('.entries').empty();
+        for (let i=0; i<entries.length; i++) {
+            let entryContainer = this.template.clone();
+            entryContainer.removeClass('entry-template').addClass('entry');
+            entryContainer.data('index', i);
+            entryContainer.css('position', 'relative');
+
+            entryContainer.appendTo(this.container.find('.entries'));
+            entryContainer.show();
+        }
+    },
+};
 
 
 $(document).ready(function() {
@@ -168,6 +336,7 @@ $(document).ready(function() {
     leadPreviewer.init();
 
     page1.init();
+    page2.init();
 
 
     // Save and cancel

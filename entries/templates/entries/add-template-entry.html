@@ -50,7 +50,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
             excerpt: '{{ info.excerpt|escapejs }}',
             image: '{{ info.image|escapejs }}',
             elements: JSON.parse('{{ info.elements|escapejs }}'),
-        }
+        },
         {% endfor %}{% endif %}
     ];
 
@@ -70,7 +70,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 {% block body %}
 {% include 'navbar.html' %}
 
-<div id="page-one">
+<div id="page-one" hidden>
     <div class="image-viewer-main" hidden>
         <div class="viewer-close-btn-main"><i class="fa fa-times fa-2x"></i></div>
         <div class="image-align-wrapper">
@@ -153,6 +153,13 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
             </div>
         </div>
     </div>
+</div>
+
+<div id="page-two">
+    <div class="entries">
+    </div>
+
+    <div class="entry-template" style="positions: relative; width: 100%; height: 312px; background-color: rgba(0,0,0,0.1);" hidden></div>
 </div>
 
 {% endblock %}

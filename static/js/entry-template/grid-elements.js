@@ -25,6 +25,7 @@ class Matrix1D extends Element {
         let that = this;
 
         let pillar = $('<div class="pillar"></div>');
+        pillar.data('id', this.getUniquePillarId());
         pillar.append($('<div class="title-block">New pillar</div>'));
         pillar.append($('<div class="subpillars sortable"></div>'));
         pillar.append($('<button class="fa fa-plus add-subpillar"></button>'));
@@ -46,8 +47,9 @@ class Matrix1D extends Element {
 
     addSubpillar(pillar) {
         let subpillar = $('<div class="subpillar" tabIndex="1"></div>');
+        subpillar.data('id', this.getUniqueSubpillarId());
         subpillar.append($('<div class="title-block">New subpillar</div>'));
-        subpillar.append($('<button class="fa fa-times remove-subpillar"></button>'))
+        subpillar.append($('<button class="fa fa-times remove-subpillar"></button>'));
         pillar.find('.subpillars').append(subpillar);
 
         subpillar.find('.remove-subpillar').click(function() {
@@ -80,11 +82,14 @@ class Matrix1D extends Element {
             let pillar = {};
 
             pillar.name = $(this).find('.title-block').eq(0).text();
+            pillar.id = $(this).data('id');
+
             pillar.subpillars = [];
             $(this).find('.subpillars .subpillar').each(function() {
                 let subpillar = {};
 
                 subpillar.name = $(this).find('.title-block').eq(0).text();
+                subpillar.id = $(this).data('id');
 
                 pillar.subpillars.push(subpillar);
             });
@@ -97,7 +102,7 @@ class Matrix1D extends Element {
             pillars: pillars,
             position: this.getPosition(),
             title: this.dom.find('.title').text(),
-        }
+        };
     }
 
     load(data) {
@@ -109,11 +114,13 @@ class Matrix1D extends Element {
             let pillarElement = that.addPillar();
             pillarElement.find('.subpillars').empty();
             pillarElement.find('.title-block').text(pillar.name);
+            if (pillar.id) { pillarElement.data('id', pillar.id) };
 
             for (let j=0; j<pillar.subpillars.length; j++) {
                 let subpillar = pillar.subpillars[j];
                 let subpillarElement = that.addSubpillar(pillarElement);
                 subpillarElement.find('.title-block').text(subpillar.name);
+                if (subpillar.id) { subpillarElement.data('id', subpillar.id) };
             }
         }
 
@@ -134,6 +141,28 @@ class Matrix1D extends Element {
         return "1D Matrix";
     }
 
+    getUniquePillarId() {
+        let i = this.dom.find('.pillar').length;
+        while (true) {
+            let id = 'pillar-' + i;
+            if (this.dom.find('.pillar[data-id="' + id + '"]')) {
+                return id;
+            }
+            i++;
+        }
+    }
+
+    getUniqueSubpillarId() {
+        let i = this.dom.find('.subpillar').length;
+        while (true) {
+            let id = 'subpillar-' + i;
+            if (this.dom.find('.subpillar[data-id="' + id + '"]')) {
+                return id;
+            }
+            i++;
+        }
+    }
+
     addPropertiesTo(container) {
         this.addIdProperty(container);
         let that = this;
@@ -151,7 +180,7 @@ class Matrix1D extends Element {
     getAllowedPage() {
         return 'page-one';
     }
-};
+}
 
 
 class Matrix2DList extends Element {
@@ -289,12 +318,12 @@ class Matrix2D extends Element {
 
             $(this).find('.subpillars .subpillar').each(function() {
                 pillar.subpillars.push({ title: $(this).find('.title-block').text() });
-            })
+            });
             pillars.push(pillar);
         });
 
         this.dom.find('.sectors .sector').each(function() {
-            sectors.push({ title: $(this).find('.title-block').text() });;
+            sectors.push({ title: $(this).find('.title-block').text() });
         });
 
         return {
@@ -305,7 +334,7 @@ class Matrix2D extends Element {
             pillars: pillars,
             sectors: sectors,
             list: this.list.save(),
-        }
+        };
     }
 
     load(data) {
@@ -370,4 +399,4 @@ class Matrix2D extends Element {
     getAllowedPage() {
         return 'page-one';
     }
-};
+}
