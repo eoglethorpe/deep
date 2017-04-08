@@ -244,7 +244,7 @@ let templateEditor = {
     switchPage: function() {
         if ($('#page-one').is(':visible')) {
             $('#page-one').hide();
-            $('#page-two').show();
+            $('#page-two').css('display','flex');
             $('body').removeClass('page-one').addClass('page-two');
         } else {
             $('#page-two').hide();

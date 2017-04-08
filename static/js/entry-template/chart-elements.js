@@ -63,11 +63,11 @@ class OrganigramInput extends Element {
         container.append(labelProperty);
 
         let nodesProperty = $('<div class="property nodes-property"></div>');
-        nodesProperty.append($('<label>Nodes</label>'));
-        nodesProperty.append($('<div class="nodes-container"><div class="nodes"></div><button class="add-node">+</button></div>'));
+        nodesProperty.append($('<div class="header"><label>Nodes</label><button class="add-node"><i class="fa fa-plus"></i></button></div>'));
+        nodesProperty.append($('<div class="nodes-container"><div class="nodes"></div></div>'));
 
         let addNode = function() {
-            let node = $('<div class="node-container"><input class="name" type="text"><select><option value="">Select parent node</option></select><button class="remove-node">-</button></div>');
+            let node = $('<div class="node-container"><input class="name" type="text"><button class="remove-node"><i class="fa fa-times"></i></button><select><option value="">Select parent node</option></select></div>');
 
             node.find('.name').data('id', that.getUniqueId());
             node.find('select').change(function() {
