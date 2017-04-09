@@ -248,11 +248,8 @@ body{
                             &.nodes-property{
                                 display: block;
                                 padding: 0;
-                                // flex-wrap: wrap;
-                                // width: 100%;
 
                                 .header{
-                                    // flex-basis: 100%;
                                     display: flex;
                                     justify-content: space-between;
                                     padding: 0 8px;
@@ -290,15 +287,16 @@ body{
 
                                             .name{
                                                 min-height: 24px;
-                                                flex-basis: calc(100% - 32px);
+                                                flex-basis: calc(50% - 32px);
                                                 padding: 0 6px;
                                                 margin-bottom: 4px;
                                             }
-                                            .selectize-input, .selectize-control{
-                                                flex-basis: calc(100% - 32px);
-                                                width: calc(100% - 32px);
+                                            .selectize-control{
+                                                // flex-basis: calc(100% - 32px);
+                                                // width: calc(100% - 32px);
+                                                flex-basis: 50%;
                                                 margin-bottom: 4px;
-                                                background-color: transparent;
+                                                background-color: #fff;
                                             }
                                             .remove-node{
                                                 flex-basis: 24px;
@@ -353,6 +351,7 @@ body{
 
             .entry {
                 display: block;
+                width: 100%;
                 height: 312px;
                 margin: 16px;
                 background-color: #dedede;
@@ -457,36 +456,44 @@ body{
         }
 
         .scale-element {
-            background-color: #ffffff;
+            // background-color: rgba(255, 255, 255, 0.9);
 
             .handle {
                 position: absolute;
-                top: 4px;
-                left: 4px;
+                top: 0;
+                left: 0;
                 z-index: 2;
             }
-
+            &:hover{
+                background-color: rgba(255, 255, 255, 0.6);
+            }
             .scale-container {
-                padding: 16px;
                 width: 100%;
                 height: 100%;
                 min-height: 32px;
 
+                label{
+                    height: 24px;
+                    display: flex;
+                    align-items: center;
+                    padding: 0 10px;
+                }
                 .scale {
-                    width: 100%;
-                    height: 100%;
-                    padding: 4px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: calc(100% - 24px);
 
                     .value {
                         display: inline-block;
-                        margin: 2px;
-                        width: 8px;
-                        height: calc(100% - 16px);
-                        min-height: 16px;
+                        margin: 0 2px;
+                        width: 10px;
+                        height: 20px;
                         border-radius: 2px;
 
                         &.default {
-                            transform: scale(1.5);
+                            width: 13px;
+                            height: 26px;
                         }
                     }
                 }
@@ -494,55 +501,66 @@ body{
         }
 
         .matrix1d {
-            padding: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            //background-color: rgba(255, 255, 255, 0.9);
 
             .handle {
                 position: absolute;
-                top: 4px;
-                left: 4px;
+                top: 2px;
+                left: 2px;
             }
-
             .title {
-                margin-left: 32px;
-                margin-bottom: 16px;
+                height: 32px;
+                padding: 0 16px;
+                display: flex;
+                align-items: center;
                 font-size: $text-size-lg;
             }
-
             .pillars {
                 .pillar {
                     display: flex;
                     flex-direction: row;
                     align-items: center;
-                    padding-left: 24px;
                     position: relative;
+                    margin-bottom: 2px;
 
                     .title-block {
                         display: inline-block;
-                        margin: 8px;
-                        padding: 16px 8px;
+                        padding: 8px 16px;
                         cursor: pointer;
                         background-color: rgba(255, 255, 255, 0.9);
+                        margin: 4px;
 
                         &[contenteditable=true] {
                             cursor: text;
                             border: 1px dotted black;
                         }
                     }
+                    >.title-block{
+                        width: 128px;
+                        flex-grow: 0;
+                        flex-shrink: 0;
+                        align-self: stretch;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
 
                     .subpillars {
                         display: flex;
                         flex-direction: row;
+                        flex-wrap: wrap;
 
                         .subpillar {
                             display: inline-block;
                             position: relative;
+                            border: 1px solid rgba(0, 0, 0, 0.1);
 
                             .title-block {
                                 display: inline-block;
                                 cursor: pointer;
                                 background-color: rgba(255, 255, 255, 0.4);
-                                margin: 8px;
-                                padding: 16px 8px;
+                                padding: 8px 16px;
 
                                 &[contenteditable=true] {
                                     cursor: text;
@@ -553,8 +571,8 @@ body{
                             .remove-subpillar {
                                 display: none;
                                 position: absolute;
-                                right: 8px;
-                                top: 8px;
+                                right: 0;
+                                top: 0;
                             }
 
                             &:hover {
@@ -570,12 +588,11 @@ body{
 
                     .remove-pillar {
                         position: absolute;
-                        top: 16px;
-                        left: 0px;
+                        top: -4px;
+                        left: -2px;
                     }
                 }
             }
-
             .add-pillar, .add-subpillar, .remove-pillar {
                 display: none;
                 padding: 8px;
@@ -583,22 +600,18 @@ body{
                 border: none;
                 outline: none;
             }
-
             .fa-times {
                 color: $danger-color;
             }
-
             .fa-plus {
-                color: $success-color;
+                color: $info-color;
             }
-
             &:hover {
                 background-color: rgba(0,0,0,0.05);
 
                 .pillar {
                     background-color: rgba(0,0,0,0.06);
                 }
-
                 .add-pillar, .add-subpillar, .remove-pillar {
                     display: inherit;
                 }
@@ -606,22 +619,22 @@ body{
         }
 
         .matrix2d {
-            padding: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 0 16px;
             word-break: break-all;
 
             .handle {
                 position: absolute;
-                top: 4px;
-                left: 4px;
+                top: 0;
+                left: 0;
             }
-
-            .title {
+            .title{
+                height: 32px;
                 flex-basis: 100%;
-                margin-left: 32px;
-                margin-bottom: 16px;
                 font-size: $text-size-lg;
+                display: flex;
+                align-items: center;
             }
-
             .pillars-container {
                 display: flex;
                 flex-direction: column;
@@ -631,38 +644,39 @@ body{
                     width: 300px;
 
                     .pillar {
+                        border: 1px solid rgba(0, 0, 0, 0.1);
                         width: 100%;
                         display: flex;
-                        padding: 8px;
+                        flex-wrap: wrap;
                         position: relative;
                         cursor: pointer;
 
-                        > .title-block {
+                        >.title-block {
                             display: flex;
                             align-items: center;
                             flex-basis: 50%;
                             max-width: 50%;
-                            padding: 8px;
+                            background-color: rgba(255, 255, 255, 0.8);
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
 
                             &[contenteditable=true] {
                                 cursor: text;
                                 border: 1px dotted black;
                             }
                         }
-
                         .remove-pillar {
                             display: none;
-                            align-self: center;
                             position: absolute;
                             left: -8px;
+                            top: -4px;
                         }
-
                         &:hover {
                             .remove-pillar {
                                 display: inline-block;
                             }
                         }
-
                         .subpillars-container {
                             display: flex;
                             flex-direction: column;
@@ -675,26 +689,26 @@ body{
 
                                 .subpillar {
                                     position: relative;
-                                    padding: 8px;
                                     cursor: pointer;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    min-height: 32px;
+                                    background-color: rgba(255, 255, 255, 0.5);
+                                    border: 1px solid rgba(0, 0, 0, 0.1);
 
                                     .title-block {
-                                        padding: 8px;
-                                        width: calc(100% - 16px);
-
                                         &[contenteditable=true] {
                                             cursor: text;
                                             border: 1px dotted black;
                                         }
                                     }
-
                                     .remove-subpillar {
                                         display: none;
                                         position: absolute;
-                                        right: 4px;
-                                        top: 0px;
+                                        right: 0;
+                                        top: 0;
                                     }
-
                                     &:hover {
                                         .remove-subpillar {
                                             display: inline-block;
@@ -702,14 +716,12 @@ body{
                                     }
                                 }
                             }
-
                             .add-subpillar {
                                 display: none;
-                                width: calc(100% - 32px);
-                                padding: 8px 0px;
+                                width: 100%;
+                                height: 32px;
                                 border: 1px dashed rgba(0,0,0,0.2);
                             }
-
                             &:hover {
                                 .add-subpillar {
                                     display: inline-block;
@@ -721,50 +733,48 @@ body{
 
                 .add-pillar {
                     display: none;
-                    padding: 8px;
                     width: 100%;
                     padding: 8px 0px;
                     border: 1px dashed rgba(0,0,0,0.2);
                 }
-
                 &:hover {
                     .add-pillar {
                         display: inline-block;
                     }
                 }
             }
-
-
             .sectors-container {
                 display: flex;
                 align-items: center;
-                min-height: 16px;
 
                 .sectors {
                     display: flex;
+                    align-items: center;
                     margin-left: 300px;
 
                     .sector {
-                        padding: 16px;
+                        min-height: 32px;
+                        padding: 0 10px;
                         position: relative;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
                         cursor: pointer;
+                        border: 1px solid rgba(0, 0, 0, 0.1);
 
                         .title-block {
-                            padding: 8px;
 
                             &[contenteditable=true] {
                                 cursor: text;
                                 border: 1px dotted black;
                             }
                         }
-
                         .remove-sector {
                             display: none;
                             position: absolute;
-                            right: 4px;
-                            top: 4px;
+                            right: -7px;
+                            top: -2px;
                         }
-
                         &:hover {
                             .remove-sector {
                                 display: inline-block;
@@ -772,51 +782,41 @@ body{
                         }
                     }
                 }
-
-
                 .add-sector {
                     display: none;
-                    width: 72px;
                     height: 32px;
-                    padding: 8px 0px;
-                    border: 1px dashed rgba(0,0,0,0.2);
+                    padding: 0px 10px;
+                    border: 1px dashed rgba(0, 0, 0, 0.2);
                 }
-
                 &:hover {
                     .add-sector {
                         display: inline-block;
                     }
                 }
             }
-
             button {
                 background-color: transparent;
                 border: none;
                 outline: none;
             }
-
-            .fa-times {
-                color: $danger-color;
-            }
-
-            .fa-plus {
-                color: $success-color;
-            }
+            .fa-times { color: $danger-color; }
+            .fa-plus { color: $info-color; }
         }
 
         .matrix2d-list {
-            padding: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
 
             .handle {
                 position: absolute;
-                top: 4px;
-                left: 4px;
+                z-index: 10;
+                top: 0;
+                left: 0;
             }
 
             .container {
                 display: flex;
                 justify-content: space-between;
-                width: 128px;
+                min-width: 144px;
 
                 .col-1 {
                     .pillar {
@@ -830,31 +830,43 @@ body{
                     }
                 }
             }
-        }
 
-        .organigram {
-            padding: 16px;
-
-            .handle {
-                position: absolute;
-                top: 4px;
-                left: 4px;
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.5);
             }
         }
 
-        .geolocations {
-            padding: 16px;
+        .geolocations, .organigram {
+            border: 1px solid rgba(0, 0, 0, 0.05);
 
             .handle {
+                z-index: 10;
                 position: absolute;
-                top: 4px;
-                left: 4px;
+                top: 0;
+                left: 0;
+            }
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.5);
             }
 
             .container {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                flex-wrap: wrap;
+
+                img{
+                    margin-left: 6px;
+                    width: 24px;
+                    height: 24px;
+                }
                 .locations {
+                    flex-basis: 100%;
                     display: flex;
                     flex-direction: column;
+                    line-height: 1.6;
+                    padding-left: 3px;
                 }
             }
         }

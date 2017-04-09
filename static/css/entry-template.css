@@ -272,14 +272,13 @@ body {
                       flex-wrap: wrap; }
                       body aside section #elements .element .properties .property.nodes-property .nodes-container .nodes > .node-container .name {
                         min-height: 24px;
-                        flex-basis: calc(100% - 32px);
+                        flex-basis: calc(50% - 32px);
                         padding: 0 6px;
                         margin-bottom: 4px; }
-                      body aside section #elements .element .properties .property.nodes-property .nodes-container .nodes > .node-container .selectize-input, body aside section #elements .element .properties .property.nodes-property .nodes-container .nodes > .node-container .selectize-control {
-                        flex-basis: calc(100% - 32px);
-                        width: calc(100% - 32px);
+                      body aside section #elements .element .properties .property.nodes-property .nodes-container .nodes > .node-container .selectize-control {
+                        flex-basis: 50%;
                         margin-bottom: 4px;
-                        background-color: transparent; }
+                        background-color: #fff; }
                       body aside section #elements .element .properties .property.nodes-property .nodes-container .nodes > .node-container .remove-node {
                         flex-basis: 24px; }
                       body aside section #elements .element .properties .property.nodes-property .nodes-container .nodes > .node-container:nth-child(odd) {
@@ -312,6 +311,7 @@ body {
       position: relative; }
       body main #page-two .entry {
         display: block;
+        width: 100%;
         height: 312px;
         margin: 16px;
         background-color: #dedede; }
@@ -374,76 +374,92 @@ body {
           padding: 4px 8px;
           width: 100%;
           height: 100%; }
-    body main .scale-element {
-      background-color: #ffffff; }
-      body main .scale-element .handle {
-        position: absolute;
-        top: 4px;
-        left: 4px;
-        z-index: 2; }
-      body main .scale-element .scale-container {
-        padding: 16px;
-        width: 100%;
-        height: 100%;
-        min-height: 32px; }
-        body main .scale-element .scale-container .scale {
-          width: 100%;
-          height: 100%;
-          padding: 4px; }
-          body main .scale-element .scale-container .scale .value {
-            display: inline-block;
-            margin: 2px;
-            width: 8px;
-            height: calc(100% - 16px);
-            min-height: 16px;
-            border-radius: 2px; }
-            body main .scale-element .scale-container .scale .value.default {
-              transform: scale(1.5); }
+    body main .scale-element .handle {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2; }
+    body main .scale-element:hover {
+      background-color: rgba(255, 255, 255, 0.6); }
+    body main .scale-element .scale-container {
+      width: 100%;
+      height: 100%;
+      min-height: 32px; }
+      body main .scale-element .scale-container label {
+        height: 24px;
+        display: flex;
+        align-items: center;
+        padding: 0 10px; }
+      body main .scale-element .scale-container .scale {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: calc(100% - 24px); }
+        body main .scale-element .scale-container .scale .value {
+          display: inline-block;
+          margin: 0 2px;
+          width: 10px;
+          height: 20px;
+          border-radius: 2px; }
+          body main .scale-element .scale-container .scale .value.default {
+            width: 13px;
+            height: 26px; }
     body main .matrix1d {
-      padding: 16px; }
+      border: 1px solid rgba(0, 0, 0, 0.1); }
       body main .matrix1d .handle {
         position: absolute;
-        top: 4px;
-        left: 4px; }
+        top: 2px;
+        left: 2px; }
       body main .matrix1d .title {
-        margin-left: 32px;
-        margin-bottom: 16px;
+        height: 32px;
+        padding: 0 16px;
+        display: flex;
+        align-items: center;
         font-size: 15px; }
       body main .matrix1d .pillars .pillar {
         display: flex;
         flex-direction: row;
         align-items: center;
-        padding-left: 24px;
-        position: relative; }
+        position: relative;
+        margin-bottom: 2px; }
         body main .matrix1d .pillars .pillar .title-block {
           display: inline-block;
-          margin: 8px;
-          padding: 16px 8px;
+          padding: 8px 16px;
           cursor: pointer;
-          background-color: rgba(255, 255, 255, 0.9); }
+          background-color: rgba(255, 255, 255, 0.9);
+          margin: 4px; }
           body main .matrix1d .pillars .pillar .title-block[contenteditable=true] {
             cursor: text;
             border: 1px dotted black; }
+        body main .matrix1d .pillars .pillar > .title-block {
+          width: 128px;
+          flex-grow: 0;
+          flex-shrink: 0;
+          align-self: stretch;
+          display: flex;
+          align-items: center;
+          justify-content: center; }
         body main .matrix1d .pillars .pillar .subpillars {
           display: flex;
-          flex-direction: row; }
+          flex-direction: row;
+          flex-wrap: wrap; }
           body main .matrix1d .pillars .pillar .subpillars .subpillar {
             display: inline-block;
-            position: relative; }
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.1); }
             body main .matrix1d .pillars .pillar .subpillars .subpillar .title-block {
               display: inline-block;
               cursor: pointer;
               background-color: rgba(255, 255, 255, 0.4);
-              margin: 8px;
-              padding: 16px 8px; }
+              padding: 8px 16px; }
               body main .matrix1d .pillars .pillar .subpillars .subpillar .title-block[contenteditable=true] {
                 cursor: text;
                 border: 1px dotted black; }
             body main .matrix1d .pillars .pillar .subpillars .subpillar .remove-subpillar {
               display: none;
               position: absolute;
-              right: 8px;
-              top: 8px; }
+              right: 0;
+              top: 0; }
             body main .matrix1d .pillars .pillar .subpillars .subpillar:hover .remove-subpillar {
               display: inherit;
               background-color: transparent;
@@ -451,8 +467,8 @@ body {
               outline: none; }
         body main .matrix1d .pillars .pillar .remove-pillar {
           position: absolute;
-          top: 16px;
-          left: 0px; }
+          top: -4px;
+          left: -2px; }
       body main .matrix1d .add-pillar, body main .matrix1d .add-subpillar, body main .matrix1d .remove-pillar {
         display: none;
         padding: 8px;
@@ -462,7 +478,7 @@ body {
       body main .matrix1d .fa-times {
         color: #e74c3c; }
       body main .matrix1d .fa-plus {
-        color: #27ae60; }
+        color: #3498db; }
       body main .matrix1d:hover {
         background-color: rgba(0, 0, 0, 0.05); }
         body main .matrix1d:hover .pillar {
@@ -470,17 +486,19 @@ body {
         body main .matrix1d:hover .add-pillar, body main .matrix1d:hover .add-subpillar, body main .matrix1d:hover .remove-pillar {
           display: inherit; }
     body main .matrix2d {
-      padding: 16px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 0 16px;
       word-break: break-all; }
       body main .matrix2d .handle {
         position: absolute;
-        top: 4px;
-        left: 4px; }
+        top: 0;
+        left: 0; }
       body main .matrix2d .title {
+        height: 32px;
         flex-basis: 100%;
-        margin-left: 32px;
-        margin-bottom: 16px;
-        font-size: 15px; }
+        font-size: 15px;
+        display: flex;
+        align-items: center; }
       body main .matrix2d .pillars-container {
         display: flex;
         flex-direction: column;
@@ -488,9 +506,10 @@ body {
         body main .matrix2d .pillars-container .pillars {
           width: 300px; }
           body main .matrix2d .pillars-container .pillars .pillar {
+            border: 1px solid rgba(0, 0, 0, 0.1);
             width: 100%;
             display: flex;
-            padding: 8px;
+            flex-wrap: wrap;
             position: relative;
             cursor: pointer; }
             body main .matrix2d .pillars-container .pillars .pillar > .title-block {
@@ -498,15 +517,18 @@ body {
               align-items: center;
               flex-basis: 50%;
               max-width: 50%;
-              padding: 8px; }
+              background-color: rgba(255, 255, 255, 0.8);
+              display: flex;
+              justify-content: center;
+              align-items: center; }
               body main .matrix2d .pillars-container .pillars .pillar > .title-block[contenteditable=true] {
                 cursor: text;
                 border: 1px dotted black; }
             body main .matrix2d .pillars-container .pillars .pillar .remove-pillar {
               display: none;
-              align-self: center;
               position: absolute;
-              left: -8px; }
+              left: -8px;
+              top: -4px; }
             body main .matrix2d .pillars-container .pillars .pillar:hover .remove-pillar {
               display: inline-block; }
             body main .matrix2d .pillars-container .pillars .pillar .subpillars-container {
@@ -519,31 +541,32 @@ body {
                 width: 100%; }
                 body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar {
                   position: relative;
-                  padding: 8px;
-                  cursor: pointer; }
-                  body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar .title-block {
-                    padding: 8px;
-                    width: calc(100% - 16px); }
-                    body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar .title-block[contenteditable=true] {
-                      cursor: text;
-                      border: 1px dotted black; }
+                  cursor: pointer;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  min-height: 32px;
+                  background-color: rgba(255, 255, 255, 0.5);
+                  border: 1px solid rgba(0, 0, 0, 0.1); }
+                  body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar .title-block[contenteditable=true] {
+                    cursor: text;
+                    border: 1px dotted black; }
                   body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar .remove-subpillar {
                     display: none;
                     position: absolute;
-                    right: 4px;
-                    top: 0px; }
+                    right: 0;
+                    top: 0; }
                   body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar:hover .remove-subpillar {
                     display: inline-block; }
               body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .add-subpillar {
                 display: none;
-                width: calc(100% - 32px);
-                padding: 8px 0px;
+                width: 100%;
+                height: 32px;
                 border: 1px dashed rgba(0, 0, 0, 0.2); }
               body main .matrix2d .pillars-container .pillars .pillar .subpillars-container:hover .add-subpillar {
                 display: inline-block; }
         body main .matrix2d .pillars-container .add-pillar {
           display: none;
-          padding: 8px;
           width: 100%;
           padding: 8px 0px;
           border: 1px dashed rgba(0, 0, 0, 0.2); }
@@ -551,32 +574,34 @@ body {
           display: inline-block; }
       body main .matrix2d .sectors-container {
         display: flex;
-        align-items: center;
-        min-height: 16px; }
+        align-items: center; }
         body main .matrix2d .sectors-container .sectors {
           display: flex;
+          align-items: center;
           margin-left: 300px; }
           body main .matrix2d .sectors-container .sectors .sector {
-            padding: 16px;
+            min-height: 32px;
+            padding: 0 10px;
             position: relative;
-            cursor: pointer; }
-            body main .matrix2d .sectors-container .sectors .sector .title-block {
-              padding: 8px; }
-              body main .matrix2d .sectors-container .sectors .sector .title-block[contenteditable=true] {
-                cursor: text;
-                border: 1px dotted black; }
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid rgba(0, 0, 0, 0.1); }
+            body main .matrix2d .sectors-container .sectors .sector .title-block[contenteditable=true] {
+              cursor: text;
+              border: 1px dotted black; }
             body main .matrix2d .sectors-container .sectors .sector .remove-sector {
               display: none;
               position: absolute;
-              right: 4px;
-              top: 4px; }
+              right: -7px;
+              top: -2px; }
             body main .matrix2d .sectors-container .sectors .sector:hover .remove-sector {
               display: inline-block; }
         body main .matrix2d .sectors-container .add-sector {
           display: none;
-          width: 72px;
           height: 32px;
-          padding: 8px 0px;
+          padding: 0px 10px;
           border: 1px dashed rgba(0, 0, 0, 0.2); }
         body main .matrix2d .sectors-container:hover .add-sector {
           display: inline-block; }
@@ -587,36 +612,48 @@ body {
       body main .matrix2d .fa-times {
         color: #e74c3c; }
       body main .matrix2d .fa-plus {
-        color: #27ae60; }
+        color: #3498db; }
     body main .matrix2d-list {
-      padding: 16px; }
+      border: 1px solid rgba(0, 0, 0, 0.05); }
       body main .matrix2d-list .handle {
         position: absolute;
-        top: 4px;
-        left: 4px; }
+        z-index: 10;
+        top: 0;
+        left: 0; }
       body main .matrix2d-list .container {
         display: flex;
         justify-content: space-between;
-        width: 128px; }
+        min-width: 144px; }
         body main .matrix2d-list .container .col-1 .pillar {
           font-weight: 500; }
         body main .matrix2d-list .container .col-2 .sector {
           font-weight: 500; }
-    body main .organigram {
-      padding: 16px; }
-      body main .organigram .handle {
+      body main .matrix2d-list:hover {
+        background-color: rgba(255, 255, 255, 0.5); }
+    body main .geolocations, body main .organigram {
+      border: 1px solid rgba(0, 0, 0, 0.05); }
+      body main .geolocations .handle, body main .organigram .handle {
+        z-index: 10;
         position: absolute;
-        top: 4px;
-        left: 4px; }
-    body main .geolocations {
-      padding: 16px; }
-      body main .geolocations .handle {
-        position: absolute;
-        top: 4px;
-        left: 4px; }
-      body main .geolocations .container .locations {
+        top: 0;
+        left: 0; }
+      body main .geolocations:hover, body main .organigram:hover {
+        background-color: rgba(255, 255, 255, 0.5); }
+      body main .geolocations .container, body main .organigram .container {
         display: flex;
-        flex-direction: column; }
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: wrap; }
+        body main .geolocations .container img, body main .organigram .container img {
+          margin-left: 6px;
+          width: 24px;
+          height: 24px; }
+        body main .geolocations .container .locations, body main .organigram .container .locations {
+          flex-basis: 100%;
+          display: flex;
+          flex-direction: column;
+          line-height: 1.6;
+          padding-left: 3px; }
   body.page-two {
     display: flex;
     height: calc(100vh - $navbar-height - 64px);

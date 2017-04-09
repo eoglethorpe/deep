@@ -4,7 +4,7 @@ class OrganigramInput extends Element {
         let dom = $('<div class="element organigram"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="container"><label>Organigram</label></div>'));
-        dom.find('.container').append($('<img src="/static/img/organigram.png" width="24px">'));
+        dom.find('.container').append($('<img src="/static/img/organigram.png">'));
         dom.find('.container').resizable({ grid: 20 });
         super(container, dom);
 
@@ -67,7 +67,7 @@ class OrganigramInput extends Element {
         nodesProperty.append($('<div class="nodes-container"><div class="nodes"></div></div>'));
 
         let addNode = function() {
-            let node = $('<div class="node-container"><input class="name" type="text"><button class="remove-node"><i class="fa fa-times"></i></button><select><option value="">Select parent node</option></select></div>');
+            let node = $('<div class="node-container"><input class="name" type="text"><select><option value="">Select parent node</option></select><button class="remove-node"><i class="fa fa-times"></i></button></div>');
 
             node.find('.name').data('id', that.getUniqueId());
             node.find('select').change(function() {
@@ -164,7 +164,7 @@ class GeolocationsInput extends Element {
         let dom = $('<div class="element geolocations"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="container"><label>Geolocations</label></div>'));
-        dom.find('.container').append($('<img src="/static/img/mapicon.png" width="24px">'));
+        dom.find('.container').append($('<img src="/static/img/mapicon.png">'));
         dom.find('.container').append($('<div class="locations"><span>Location1</span><span>Location2</span></div>'));
         dom.find('.container').resizable({ grid: 20 });
         super(container, dom);
