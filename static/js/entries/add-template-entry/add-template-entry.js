@@ -79,6 +79,9 @@ let page1 = {
             else if (element.type == 'matrix1d') {
                 this.addMatrix1d(element);
             }
+            else if (element.type == 'matrix2d') {
+                this.addMatrix2d(element);
+            }
         }
 
         this.refresh();
@@ -197,9 +200,87 @@ let page1 = {
 
                     let data = getEntryData(that.selectedEntryIndex, element.id);
                     if (!data.selections) { data.selections = []; }
-                    data.selections.push({ pillar: pillar.id, subpillar: subpillar.id });
+
+                    let existingIndex = data.selections.findIndex(s => s.pillar == pillar.id && s.subpillar == subpillar.id);
+                    if (existingIndex < 0) {
+                        data.selections.push({ pillar: pillar.id, subpillar: subpillar.id });
+                    } else {
+                        data.selections.splice(existingIndex, 1);
+                    }
                     that.refresh();
                 });
+            }
+
+            pillarsContainer.append(pillarElement);
+        }
+
+        matrix.appendTo(this.container);
+        return matrix;
+    },
+
+    addMatrix2d: function(element) {
+        let that = this;
+        let matrix = $('<div class="matrix2d" style="position: absolute; padding: 16px" data-id="' + element.id + '"></div>');
+        matrix.append('<div class="title">' + element.title + '</div>');
+        matrix.css('left', element.position.left);
+        matrix.css('top', element.position.top);
+
+        let sectorsContainer = $('<div class="sectors" style="display: flex; margin-left: 256px;"></div>');
+        matrix.append(sectorsContainer);
+
+        for (let i=0; i<element.sectors.length; i++) {
+            let sector = element.sectors[i];
+            let sectorElement = $('<div class="sector" data-id="' + sector.id + '"></div>');
+            sectorElement.append('<div class="title" style="padding: 16px; width: 100px;">' + sector.title + '</div>');
+            sectorsContainer.append(sectorElement);
+        }
+
+        let pillarsContainer = $('<div class="pillars"></div>');
+        matrix.append(pillarsContainer);
+
+        for (let i=0; i<element.pillars.length; i++) {
+            let pillar = element.pillars[i];
+            let pillarElement = $('<div class="pillar" data-id="' + pillar.id + '" style="display: flex;"></div>');
+            pillarElement.append('<div class="title" style="padding: 16px; width: 100px;">' + pillar.title + '</div>');
+
+            let subpillarsContainer = $('<div class="subpillars"></div>');
+            pillarElement.append(subpillarsContainer);
+
+            for (let j=0; j<pillar.subpillars.length; j++) {
+                let subpillar = pillar.subpillars[j];
+                let subpillarElement = $('<div class="subpillar" data-id="' + subpillar.id + '" style="display: flex;"></div>');
+                subpillarElement.append('<div class="title" style="padding: 16px; width: 156px;">' + subpillar.title + '</div>');
+                subpillarsContainer.append(subpillarElement);
+
+                let blocksContainer = $('<div class="sector-blocks" style="display: flex;"></div>');
+                subpillarElement.append(blocksContainer);
+
+                for (let k=0; k<element.sectors.length; k++) {
+                    let sector = element.sectors[k];
+                    let blockElement = $('<div class="sector-block" data-id="' + sector.id + '" style="width: 100px; border: 1px solid white;"></div>');
+                    blocksContainer.append(blockElement);
+
+
+                    // Handle drop and click
+                    blockElement.on('dragover', function(e) { e.originalEvent.preventDefault(); });
+                    blockElement.on('drop', function(e) { that.dropExcerpt(e); $(this).click(); });
+                    blockElement.on('click', function(e) {
+                        if (that.selectedEntryIndex < 0 || entries.length <= that.selectedEntryIndex) {
+                            return;
+                        }
+
+                        let data = getEntryData(that.selectedEntryIndex, element.id);
+                        if (!data.selections) { data.selections = []; }
+
+                        let existingIndex = data.selections.findIndex(s => s.pillar == pillar.id && s.subpillar == subpillar.id && s.sector == sector.id);
+                        if (existingIndex < 0) {
+                            data.selections.push({ pillar: pillar.id, subpillar: subpillar.id, sector: sector.id });
+                        } else {
+                            data.selections.splice(existingIndex, 1);
+                        }
+                        that.refresh();
+                    });
+                }
             }
 
             pillarsContainer.append(pillarElement);
@@ -243,25 +324,47 @@ let page1 = {
                 );
             }
 
-            for (let i=0; i<entry.elements.length; i++) {
-                let data = entry.elements[i];
-                let templateElement = templateData.elements.find(e => e.id == data.id);
-                if (templateElement) {
+            for (let i=0; i<templateData.elements.length; i++) {
+                let templateElement = templateData.elements[i];
+                if (templateElement.page != 'page-one') {
+                    continue;
+                }
 
-                    if (templateElement.type == 'matrix1d') {
-                        let matrix = this.container.find('.matrix1d[data-id="' + data.id + '"]');
-                        matrix.find('.subpillar.active').removeClass('active');
+                let data = entry.elements.find(d => d.id == templateElement.id);
+
+                if (templateElement.type == 'matrix1d') {
+                    let matrix = this.container.find('.matrix1d[data-id="' + templateElement.id + '"]');
+                    matrix.find('.subpillar.active').removeClass('active');
+
+                    if (data) {
                         for (let j=0; j<data.selections.length; j++) {
                             matrix.find('.pillar[data-id="' + data.selections[j].pillar + '"]')
                                 .find('.subpillar[data-id="' + data.selections[j].subpillar + '"]')
                                 .addClass('active');
                         }
-
-                        // TODO Use .active in scss instead of here
-                        matrix.find('.subpillar').css('background-color', 'transparent');
-                        matrix.find('.subpillar.active').css('background-color', 'rgba(0,0,0,0.3)');
                     }
 
+                    // TODO Use .active in scss instead of here
+                    matrix.find('.subpillar').css('background-color', 'transparent');
+                    matrix.find('.subpillar.active').css('background-color', 'rgba(0,0,0,0.3)');
+                }
+
+                else if (templateElement.type == 'matrix2d') {
+                    let matrix = this.container.find('.matrix2d[data-id="' + templateElement.id + '"]');
+                    matrix.find('.sector-block.active').removeClass('active');
+
+                    if (data) {
+                        for (let j=0; j<data.selections.length; j++) {
+                            matrix.find('.pillar[data-id="' + data.selections[j].pillar + '"]')
+                                .find('.subpillar[data-id="' + data.selections[j].subpillar + '"]')
+                                .find('.sector-block[data-id="' + data.selections[j].sector + '"]')
+                                .addClass('active');
+                        }
+                    }
+
+                    // TODO Use .active in scss instead of here
+                    matrix.find('.sector-block').css('background-color', 'transparent');
+                    matrix.find('.sector-block.active').css('background-color', 'rgba(0,0,0,0.3)');
                 }
             }
         }
@@ -292,7 +395,20 @@ let page2 = {
             }
 
             if (element.id == 'page-two-excerpt') {
-                this.excerpBox = this.addExcerptBox(element);
+                this.addExcerptBox(element);
+            }
+
+            else if (element.type == 'number-input') {
+                this.addInputElement(element, 'number-input', 'input', $('<input type="number", placeholder="Enter number">'));
+            }
+            else if (element.type == 'date-input') {
+                this.addInputElement(element, 'date-input', 'input', $('<input type="date", placeholder="Enter number">'));
+            }
+            else if (element.type == 'multiselect') {
+                this.addMultiselect(element);
+            }
+            else if (element.type == 'scale') {
+                this.addScale(element);
             }
         }
 
@@ -316,17 +432,149 @@ let page2 = {
         });
     },
 
+    addInputElement: function(element, className, childSelector, dom) {
+        let that = this;
+        let inputElement = $('<div data-id="' + element.id + '" class="input-element ' + className + '" style="position: absolute;"></div>');
+        inputElement.css('width', element.size.width);
+        inputElement.css('height', element.size.height);
+        inputElement.css('left', element.position.left);
+        inputElement.css('top', element.position.top);
+
+        inputElement.append($('<label>' + element.label + '</label>'));
+        inputElement.append(dom);
+        inputElement.appendTo(this.template);
+
+        this.container.on('change input paste drop', '.input-element[data-id="' + element.id + '"] ' + childSelector, function() {
+            let index = parseInt($(this).closest('.entry').data('index'));
+            if (index != NaN) {
+                let data = getEntryData(index, element.id);
+                data.value = $(this).val();
+            }
+        });
+    },
+
+    addMultiselect: function(element) {
+        let that = this;
+        let selectContainer = $('<div data-id="' + element.id + '" class="multiselect" style="position: absolute;"></div>');
+        selectContainer.css('width', element.size.width);
+        selectContainer.css('height', element.size.height);
+        selectContainer.css('left', element.position.left);
+        selectContainer.css('top', element.position.top);
+
+        selectContainer.append($('<label>' + element.label + '</label>'));
+        selectContainer.append($('<select multiple><option values="">Type for options</option></select>'));
+
+        for (let i=0; i<element.options.length; i++) {
+            let option = element.options[i];
+            selectContainer.find('select').append(
+                $('<option value="' + option.id + '">' + option.text + '</option>')
+            );
+        }
+        selectContainer.appendTo(this.template);
+
+        this.container.on('change', '.multiselect[data-id="' + element.id + '"] select', function() {
+            let index = parseInt($(this).closest('.entry').data('index'));
+            if (index != NaN) {
+                let data = getEntryData(index, element.id);
+                data.value = $(this).val();
+            }
+        });
+    },
+
+    addScale: function(element) {
+        let that = this;
+        let scaleContainer = $('<div class="scale-container" data-id="' + element.id + '" style="position: absolute;"></div>');
+        scaleContainer.css('width', element.size.width);
+        scaleContainer.css('height', element.size.height);
+        scaleContainer.css('left', element.position.left);
+        scaleContainer.css('top', element.position.top);
+
+        scaleContainer.append($('<label>' + element.label + '</label>'));
+        scaleContainer.append($('<div class="scale" style="display: flex; justify-content: space-between; align-items: center;"></div>'));
+        for (let i=0; i<element.scaleValues.length; i++) {
+            let value = element.scaleValues[i];
+            let scaleElement = $('<span style="width: 10px; height: 20px; margin: 1px;" data-id="' + value.id + '"></span>');
+            scaleElement.css('background-color', value.color);
+            scaleElement.attr('title', value.name);
+            scaleContainer.find('.scale').append(scaleElement);
+        }
+
+        this.container.on('click', '.scale-container[data-id="' + element.id + '"] .scale span', function() {
+            let index = parseInt($(this).closest('.entry').data('index'));
+            if (index != NaN) {
+                let data = getEntryData(index, element.id);
+                data.value = $(this).data('id');
+
+                $(this).closest('.scale').find('span').removeClass('active');
+                $(this).addClass('active');
+
+
+                // TODO remove and use scss
+                let scales = $('.scale-container .scale span');
+                scales.css('width', '10px');
+                scales.css('height', '20px');
+                let selectedScales = $('.scale-container .scale span.active');
+                selectedScales.css('width', '12px');
+                selectedScales.css('height', '24px');
+            }
+        });
+
+        scaleContainer.appendTo(this.template);
+    },
+
     refresh: function() {
         this.container.find('.entries').empty();
         for (let i=0; i<entries.length; i++) {
+            let entry = entries[i];
             let entryContainer = this.template.clone();
+
             entryContainer.removeClass('entry-template').addClass('entry');
             entryContainer.data('index', i);
             entryContainer.css('position', 'relative');
 
             entryContainer.appendTo(this.container.find('.entries'));
             entryContainer.show();
+
+            entryContainer.find('select').selectize();
+
+            entryContainer.find('.excerpt-box-container textarea').val(entry.excerpt);
+
+            for (let i=0; i<templateData.elements.length; i++) {
+                let templateElement = templateData.elements[i];
+                if (templateElement.page != 'page-two') {
+                    continue;
+                }
+
+                let data = entry.elements.find(d => d.id == templateElement.id);
+
+                if (templateElement.type == 'number-input' || templateElement.type == 'date-input') {
+                    if (data) {
+                        entryContainer.find('.input-element[data-id="' + data.id + '"] input').val(data.value);
+                    }
+                }
+                else if (templateElement.type == 'multiselect') {
+                    if (data) {
+                        entryContainer.find('.multiselect[data-id="' + data.id + '"] select')[0].selectize.setValue(data.value);
+                    }
+                }
+                else if (templateElement.type == 'scale') {
+                    entryContainer.find('.scale-container[data-id="' + templateElement.id + '"] .scale span.active').removeClass('active');
+                    let selected = templateElement.scaleValues.find(e => e.default==true).id;
+                    if (data && data.value) {
+                        selected = data.value;
+                    }
+                    entryContainer.find('.scale-container[data-id="' + templateElement.id + '"] .scale span[data-id="' + selected + '"]').addClass('active');
+                }
+            }
         }
+
+        // TODO remove and use scss
+        let scales = $('.scale-container .scale span');
+        scales.css('width', '10px');
+        scales.css('height', '20px');
+        let selectedScales = $('.scale-container .scale span.active');
+        selectedScales.css('width', '12px');
+        selectedScales.css('height', '24px');
     },
 };
 

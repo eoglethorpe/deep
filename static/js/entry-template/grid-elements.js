@@ -255,6 +255,8 @@ class Matrix2D extends Element {
         let that = this;
         let pillars = this.dom.find('.pillars');
         let pillar = $('<div class="pillar"><div class="title-block">New pillar</div><button class="fa fa-times remove-pillar"></button></div>');
+        pillar.data('id', this.getUniquePillarId());
+
         pillar.append($('<div class="subpillars-container"><div class="subpillars sortable"></div><button class="fa fa-plus add-subpillar"></button></div>'));
         pillars.append(pillar);
 
@@ -271,6 +273,7 @@ class Matrix2D extends Element {
     addSubpillar(pillar) {
         let that = this;
         let subpillar = $('<div class="subpillar"><div class="title-block">New subpillar</div><button class="fa fa-times remove-subpillar"></button></div>');
+        subpillar.data('id', this.getUniqueSubpillarId());
         pillar.find('.subpillars').append(subpillar);
 
         this.makeEditable(subpillar.find('.title-block'));
@@ -283,6 +286,7 @@ class Matrix2D extends Element {
         let that = this;
         let sectors = this.dom.find('.sectors');
         let sector = $('<div class="sector"><div class="title-block">New sector</div><button class="fa fa-times remove-sector"></button></div>');
+        sector.data('id', this.getUniqueSectorId());
         sectors.append(sector);
 
         this.makeEditable(sector.find('.title-block'));
@@ -314,16 +318,23 @@ class Matrix2D extends Element {
         this.dom.find('.pillars .pillar').each(function() {
             let pillar = {};
             pillar.title = $(this).find('.title-block').eq(0).text();
+            pillar.id = $(this).data('id');
             pillar.subpillars = [];
 
             $(this).find('.subpillars .subpillar').each(function() {
-                pillar.subpillars.push({ title: $(this).find('.title-block').text() });
+                pillar.subpillars.push({
+                    title: $(this).find('.title-block').text(),
+                    id: $(this).data('id'),
+                });
             });
             pillars.push(pillar);
         });
 
         this.dom.find('.sectors .sector').each(function() {
-            sectors.push({ title: $(this).find('.title-block').text() });
+            sectors.push({
+                title: $(this).find('.title-block').text(),
+                id: $(this).data('id'),
+            });
         });
 
         return {
@@ -359,11 +370,13 @@ class Matrix2D extends Element {
                 let pillarDom = this.addPillar();
                 pillarDom.find('.subpillars .subpillar').remove();
                 pillarDom.find('.title-block').text(pillar.title);
+                if (pillar.id) { pillarDom.data('id', pillar.id) };
 
                 for (let j=0; j<pillar.subpillars.length; j++) {
                     let subpillar = pillar.subpillars[j];
                     let subpillarDom = this.addSubpillar(pillarDom);
                     subpillarDom.find('.title-block').text(subpillar.title);
+                    if (subpillar.id) { subpillarDom.data('id', subpillar.id) };
                 }
             }
         }
@@ -374,12 +387,46 @@ class Matrix2D extends Element {
                 let sector = data.sectors[i];
                 let sectorDom = this.addSector();
                 sectorDom.find('.title-block').text(sector.title);
+                if (sector.id) { sectorDom.data('id', sector.id) };
             }
         }
     }
 
     getTitle() {
         return "2D Matrix";
+    }
+
+    getUniquePillarId() {
+        let i = this.dom.find('.pillar').length;
+        while (true) {
+            let id = 'pillar-' + i;
+            if (this.dom.find('.pillar[data-id="' + id + '"]')) {
+                return id;
+            }
+            i++;
+        }
+    }
+
+    getUniqueSubpillarId() {
+        let i = this.dom.find('.subpillar').length;
+        while (true) {
+            let id = 'subpillar-' + i;
+            if (this.dom.find('.subpillar[data-id="' + id + '"]')) {
+                return id;
+            }
+            i++;
+        }
+    }
+
+    getUniqueSectorId() {
+        let i = this.dom.find('.sector').length;
+        while (true) {
+            let id = 'sector-' + i;
+            if (this.dom.find('.sector[data-id="' + id + '"]')) {
+                return id;
+            }
+            i++;
+        }
     }
 
     addPropertiesTo(container) {
