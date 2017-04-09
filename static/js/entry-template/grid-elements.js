@@ -154,9 +154,47 @@ class Matrix1D extends Element {
 };
 
 
+class Matrix2DList extends Element {
+    constructor(container, data) {
+        let dom = $('<div class="element matrix2d-list"></div>');
+        dom.append($('<div class="fa fa-arrows handle"></div>'));
+        dom.append($('<div class="container"><div class="col-1"><div class="pillar">Pillar</div><div class="subpillar">Subpillar</div></div><div class="col-2"><div class="sector">Sector</div><div class="subsectors">Subsectors</div></div></div>'));
+
+        super(container, dom);
+
+        if (data){
+            this.load(data);
+        }
+    }
+
+    save() {
+        let page = templateEditor.getPage();
+        if (page != 'page-two') {
+            templateEditor.switchPage();
+        }
+
+        let data = {
+            position: this.getPosition(),
+        };
+
+        if(page != templateEditor.getPage()) {
+            templateEditor.switchPage();
+        }
+
+        return data;
+    }
+
+    load(data) {
+        if (data.position) {
+            this.setPosition(data.position);
+        }
+    }
+}
+
+
 
 class Matrix2D extends Element {
-    constructor(container, data) {
+    constructor(container, container2, data) {
         let dom = $('<div class="element matrix2d"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<h4 class="title">2D Matrix</h4>'));
@@ -165,6 +203,9 @@ class Matrix2D extends Element {
         dom.append($('<div class="pillars-container"><div class="pillars sortable"></div><button class="fa fa-plus add-pillar"></button></div>'));
 
         super(container, dom);
+
+        this.list = new Matrix2DList(container2, data?data.list:null);
+
         let that = this;
 
         this.addPillar();
@@ -263,6 +304,7 @@ class Matrix2D extends Element {
             title: this.dom.find('.title').text(),
             pillars: pillars,
             sectors: sectors,
+            list: this.list.save(),
         }
     }
 
