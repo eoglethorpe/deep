@@ -26,8 +26,18 @@ let page2 = {
             else if (element.type == 'scale') {
                 this.addScale(element);
             }
+        }
 
-            else if (element.type == 'organigram') {
+        this.refresh();
+    },
+
+    loadOrganigrams: function() {
+        for (let i=0; i<templateData.elements.length; i++) {
+            let element = templateData.elements[i];
+            if (element.page != 'page-two') {
+                continue;
+            }
+            if (element.type == 'organigram') {
                 this.addOrganigram(element);
             }
         }
@@ -154,17 +164,101 @@ let page2 = {
         organigramInput.append('<a><img src="/static/img/organigram.png" width="24px"></a>');
         organigramInput.appendTo(this.template);
 
-        let modalDialog = $('<div class="model"></div>');
+        let modalDialog = $('<div class="modal"></div>');
         modalDialog.append($('<header><h3 class="modal-title">Select ' + (element.label.toLowerCase()) + '</h2></header>'));
         modalDialog.append($('<div class="chart-div"></div>'));
 
         let actionButtons = $('<div class="action-buttons"></div>');
+        actionButtons.append($('<button class="apply" data-action="apply" data-persist="true">Apply</button>'));
         actionButtons.append($('<button class="cancel" data-action="dismiss">Cancel</button>'));
         modalDialog.append(actionButtons);
         modalDialog.appendTo($('.modal-container'));
 
-        // let newModal = new Modal(modalDialog, true);
-        // newModal.show();
+        // Google chart
+
+        let data = new google.visualization.DataTable();
+        data.addColumn('string', 'Name');
+        data.addColumn('string', 'Manager');
+        data.addColumn('string', 'Tooltip');
+
+        // Fill data
+        let nodes = [];
+        for (let i=0; i<element.nodes.length; i++) {
+            let node = element.nodes[i];
+            let parent = null;
+            if (node.parent) {
+                parent = element.nodes.find(n => n.id == node.parent).name;
+            }
+            nodes.push([ node.name, parent, '' ]);
+        }
+        data.addRows(nodes);
+
+        // Create chart
+        let chart = new google.visualization.OrgChart(modalDialog.find('.chart-div')[0]);
+        chart.draw(data, {
+            nodeClass: 'org-node',
+            selectedNodeClass: 'active-org-node',
+        });
+
+        let selectedNodes = [];
+        let mouseOverNode = -1;
+
+        // Listener
+        google.visualization.events.addListener(chart, 'select', function() {
+            let selection = chart.getSelection();
+
+            if (selection.length === 0) {
+                if (mouseOverNode != -1) {
+                    selectedNodes = selectedNodes.filter(node => node.row != mouseOverNode);
+                }
+                chart.setSelection(selectedNodes);
+            }
+            else {
+                selectedNodes.push(selection[0]);
+                chart.setSelection(selectedNodes);
+            }
+        });
+
+        google.visualization.events.addListener(chart, 'onmouseover', function(row){
+            mouseOverNode = row.row;
+        });
+        google.visualization.events.addListener(chart, 'onmouseout', function(row){
+            mouseOverNode = -1;
+        });
+
+        /////
+
+        let newModal = new Modal(modalDialog);
+        this.container.on('click', '.organigram a', function() {
+            // Get selected entry
+            let index = parseInt($(this).closest('.entry').data('index'));
+            if (index != NaN) {
+                let data = getEntryData(index, element.id);
+
+                // Select nodes in chart
+                if (data.value) {
+                    selectedNodes.length = 0;
+                    for (let i=0; i<data.value.length; i++) {
+                        selectedNodes.push({
+                            column: null,
+                            row: element.nodes.findIndex(n => n.id == data.value[i])
+                        });
+                    }
+                }
+                chart.setSelection(selectedNodes);
+
+                // Show modal
+                newModal.show().then(function() {}, null, function() {
+                    if (newModal.action == 'apply') {
+                        data.value = [];
+                        for (let i=0; i<selectedNodes.length; i++) {
+                            data.value.push(element.nodes[selectedNodes[i].row].id);
+                        }
+                        newModal.hide();
+                    }
+                });
+            }
+        });
     },
 
     refresh: function() {
