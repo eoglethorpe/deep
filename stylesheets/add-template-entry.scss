@@ -1,0 +1,9 @@
+@import 'common/base';
+@import 'common/navbar';
+
+body{
+    height: 100vh;
+    background-color: red;
+    @import 'entries/add-template-entries-page-one';
+    @import 'entries/add-template-entries-page-two';
+}

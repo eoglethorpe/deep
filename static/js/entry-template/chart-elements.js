@@ -112,6 +112,7 @@ class OrganigramInput extends Element {
     addOptions(node) {
         let selectize = node.find('select')[0].selectize;
         let val = selectize.getValue();
+
         selectize.clearOptions();
         for (let i=0; i<this.nodes.length; i++) {
             if (node.find('.name').data('id') == this.nodes[i].id) {
