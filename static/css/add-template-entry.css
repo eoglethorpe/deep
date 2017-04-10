@@ -442,6 +442,16 @@ body {
         position: absolute;
         background-color: #fff;
         padding: 16px; }
+        body #page-one .split-pane #right-component .image-box-container .image {
+          height: 100%;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center; }
+          body #page-one .split-pane #right-component .image-box-container .image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; }
         body #page-one .split-pane #right-component .image-box-container:before {
           content: 'IMAGE';
           position: absolute;
@@ -485,26 +495,48 @@ body {
       body #page-one .split-pane #right-component .matrix2d {
         position: absolute;
         padding: 16px; }
-        body #page-one .split-pane #right-component .matrix2d .sectors {
-          display: flex;
-          margin-left: 256px; }
-          body #page-one .split-pane #right-component .matrix2d .sectors .sector .title {
-            padding: 16px;
-            width: 100px; }
-        body #page-one .split-pane #right-component .matrix2d .pillars .pillar {
-          display: flex; }
-          body #page-one .split-pane #right-component .matrix2d .pillars .pillar .title {
-            padding: 16px;
-            width: 100px; }
-          body #page-one .split-pane #right-component .matrix2d .pillars .pillar .subpillars .subpillar {
-            display: flex; }
-            body #page-one .split-pane #right-component .matrix2d .pillars .pillar .subpillars .subpillar .title {
-              padding: 16px;
-              width: 156px; }
-            body #page-one .split-pane #right-component .matrix2d .pillars .pillar .subpillars .subpillar .sector-blocks {
-              display: flex; }
-              body #page-one .split-pane #right-component .matrix2d .pillars .pillar .subpillars .subpillar .sector-blocks .sector-block {
-                width: 100px;
-                border: 1px solid white; }
+        body #page-one .split-pane #right-component .matrix2d td {
+          padding: 6px;
+          text-align: center;
+          -webkit-user-select: none;
+          cursor: default;
+          background-color: #fff; }
+          body #page-one .split-pane #right-component .matrix2d td strong {
+            font-weight: 500;
+            text-transform: uppercase; }
+          body #page-one .split-pane #right-component .matrix2d td.subpillar {
+            cursor: default; }
+          body #page-one .split-pane #right-component .matrix2d td.sector-block {
+            cursor: pointer;
+            background-color: #fff; }
+            body #page-one .split-pane #right-component .matrix2d td.sector-block.active {
+              background-color: #414141 !important; }
+        body #page-one .split-pane #right-component .matrix2d .sector {
+          width: 7%; }
+  body #page-two .entry {
+    background-color: #dedede; }
+    body #page-two .entry .input-element, body #page-two .entry .multiselect, body #page-two .entry .scale-container {
+      display: flex;
+      flex-direction: column; }
+    body #page-two .entry .scale-container {
+      position: absolute; }
+      body #page-two .entry .scale-container .scale {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: calc(100% - 24px); }
+        body #page-two .entry .scale-container .scale span {
+          display: inline-block;
+          width: 10px;
+          height: 20px;
+          margin: 0 2px;
+          border-radius: 2px; }
+  body .chart-div .org-node {
+    user-select: none;
+    cursor: pointer;
+    padding: 8px; }
+  body .chart-div .active-org-node {
+    color: white;
+    background-color: #008080; }
 
 /*# sourceMappingURL=add-template-entry.css.map */

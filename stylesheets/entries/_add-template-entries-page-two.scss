@@ -1,3 +1,43 @@
 #page-two{
-    
+
+    .entry {
+        background-color: #dedede;
+
+        .input-element, .multiselect, .scale-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .scale-container {
+            position: absolute;
+
+            .scale {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: calc(100% - 24px);
+
+                span {
+                    display: inline-block;
+                    width: 10px;
+                    height: 20px;
+                    margin: 0 2px;
+                    border-radius: 2px;
+                }
+            }
+        }
+    }
+}
+
+.chart-div {
+    .org-node {
+        user-select: none;
+        cursor: pointer;
+        padding: 8px;
+    }
+
+    .active-org-node {
+        color: white;
+        background-color: $primary-color;
+    }
 }
