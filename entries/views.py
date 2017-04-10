@@ -68,38 +68,41 @@ class ExportDocx(View):
         # order = request.GET.get("order").split(',')
         order = []
         format_name = ''
+        file_format = 'pdf' if request.POST.get('is-pdf') else 'docx'
 
-        response = HttpResponse(content_type='application/vnd.openxmlformats'
-                                '-officedocument.wordprocessingml.document')
+        content_type = 'application/pdf' if request.GET.get('is-pdf') else\
+                       'application/vnd.openxmlformats'\
+                       '-officedocument.wordprocessingml.document'
+
+        response = HttpResponse(content_type=content_type)
 
         if 'export-geo-format' in request.GET:
             format_name = 'Export Geo'
-            if request.GET.get('pdf'):
+            if request.GET.get('is-pdf'):
                 response.write(
                     export_pdf(order, int(event), export_geo=True))
             else:
                 export_docx(order, int(event), export_geo=True).save(response)
         if 'new-format' in request.GET:
             format_name = 'Briefing Note'
-            if request.GET.get('pdf'):
+            if request.GET.get('is-pdf'):
                 response.write(
                     export_pdf_new_format(order, int(event)))
             else:
                 export_docx_new_format(order, int(event)).save(response)
         else:
             format_name = 'Generic Export'
-            if request.GET.get('pdf'):
+            if request.GET.get('is-pdf'):
                 response.write(
-                    export_docx(order, int(event)))
+                    export_pdf(order, int(event)))
             else:
                 export_docx(order, int(event)).save(response)
 
-        response['Content-Disposition'] = 'attachment; filename = DEEP'\
-                                          'Entries(%s)-%s.'+'pdf'\
-                                          if response.GET.get('pdf')\
-                                          else 'docx'\
+        response['Content-Disposition'] = 'attachment; filename = "DEEP'\
+                                          'Entries(%s)-%s.%s"'\
                                           % (format_name,
-                                             time.strftime("%Y-%m-%d"))
+                                             time.strftime("%Y-%m-%d"),
+                                             file_format)
 
         return response
 
@@ -108,15 +111,19 @@ class ExportDocx(View):
         # order = request.POST.get("order").split(',')
         order = []
         format_name = ''
+        file_format = 'pdf' if request.POST.get('is-pdf') else 'docx'
 
-        response = HttpResponse(content_type='application/vnd.openxmlformats'
-                                '-officedocument.wordprocessingml.document')
+        content_type = 'application/pdf' if request.POST.get('is-pdf') else\
+                       'application/vnd.openxmlformats'\
+                       '-officedocument.wordprocessingml.document'
+
+        response = HttpResponse(content_type=content_type)
 
         if 'export-geo-format' in request.POST:
             format_name = 'Export Geo'
-            if request.POST.get('pdf'):
+            if request.POST.get('is-pdf'):
                 response.write(
-                    export_docx(order, int(event),
+                    export_pdf(order, int(event),
                                 json.loads(request.POST["informations"]),
                                 export_geo=True))
             else:
@@ -125,9 +132,9 @@ class ExportDocx(View):
                             export_geo=True).save(response)
         elif 'new-format' in request.POST:
             format_name = 'Briefing Note'
-            if request.POST.get('pdf'):
+            if request.POST.get('is-pdf'):
                 response.write(
-                    export_docx_new_format(
+                    export_pdf_new_format(
                         order, int(event),
                         json.loads(
                            request.POST["informations"])))
@@ -138,9 +145,9 @@ class ExportDocx(View):
                            request.POST["informations"])).save(response)
         else:
             format_name = 'Generic Export'
-            if request.POST.get('pdf'):
+            if request.POST.get('is-pdf'):
                 response.write(
-                    export_docx(
+                    export_pdf(
                         order, int(event),
                         json.loads(request.POST["informations"])))
             else:
@@ -149,12 +156,11 @@ class ExportDocx(View):
                         json.loads(request.POST["informations"]))\
                         .save(response)
 
-        response['Content-Disposition'] = 'attachment; filename = DEEP'\
-                                          'Entries(%s)-%s.'+'pdf'\
-                                          if request.GET.get('pdf')\
-                                          else 'docx'\
+        response['Content-Disposition'] = 'attachment; filename = "DEEP'\
+                                          'Entries(%s)-%s.%s"'\
                                           % (format_name,
-                                             time.strftime("%Y-%m-%d"))
+                                             time.strftime("%Y-%m-%d"),
+                                             file_format)
 
         return response
 

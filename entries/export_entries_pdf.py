@@ -25,6 +25,5 @@ def export_pdf(order, event, informations=None, export_geo=False):
 
 def export_pdf_new_format(order, event, informations=None, export_geo=False):
     fp = tempfile.NamedTemporaryFile(dir=settings.BASE_DIR)
-    export_docx_new_format(order, event, informations,
-                           export_geo).save(fp)
+    export_docx_new_format(order, event, informations).save(fp)
     return convert_docx_to_pdf(fp.name)
