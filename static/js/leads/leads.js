@@ -133,7 +133,7 @@ $(document).ready(function(){
         initComplete: function(){
             assigned_to_col = this.api().column(2);
             confidentiality_col = this.api().column(5);
-            status_col = this.api().column(7);
+            status_col = this.api().column(8);
 
             assigned_to_col.data().unique().sort().each(
                 function ( value, index ) {
