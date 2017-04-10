@@ -163,41 +163,37 @@ let page1 = {
         matrix.css('left', element.position.left);
         matrix.css('top', element.position.top);
 
-        let sectorsContainer = $('<div class="sectors"></div>');
+        let sectorsContainer = $('<tr></tr>');
+        sectorsContainer.append($('<td></td>'));
+        sectorsContainer.append($('<td></td>'));
         matrix.append(sectorsContainer);
 
         for (let i=0; i<element.sectors.length; i++) {
             let sector = element.sectors[i];
-            let sectorElement = $('<div class="sector" data-id="' + sector.id + '"></div>');
-            sectorElement.append('<div class="title">' + sector.title + '</div>');
+            let sectorElement = $('<td class="sector">' + sector.title + '</td>');
             sectorsContainer.append(sectorElement);
         }
 
-        let pillarsContainer = $('<div class="pillars"></div>');
-        matrix.append(pillarsContainer);
-
         for (let i=0; i<element.pillars.length; i++) {
             let pillar = element.pillars[i];
-            let pillarElement = $('<div class="pillar" data-id="' + pillar.id + '"></div>');
-            pillarElement.append('<div class="title">' + pillar.title + '</div>');
 
-            let subpillarsContainer = $('<div class="subpillars"></div>');
-            pillarElement.append(subpillarsContainer);
+            let row = $('<tr></tr>');
+            matrix.append(row);
+            row.append('<td rowspan="' + pillar.subpillars.length + '" class="pillar">' + pillar.title + '</td>');
 
             for (let j=0; j<pillar.subpillars.length; j++) {
-                let subpillar = pillar.subpillars[j];
-                let subpillarElement = $('<div class="subpillar" data-id="' + subpillar.id + '"></div>');
-                subpillarElement.append('<div class="title">' + subpillar.title + '</div>');
-                subpillarsContainer.append(subpillarElement);
+                if (j != 0) {
+                    row = $('<tr></tr>');
+                    matrix.append(row);
+                }
 
-                let blocksContainer = $('<div class="sector-blocks"></div>');
-                subpillarElement.append(blocksContainer);
+                let subpillar = pillar.subpillars[j];
+                row.append('<td class="subpillar">' + subpillar.title + '</td>');
 
                 for (let k=0; k<element.sectors.length; k++) {
                     let sector = element.sectors[k];
-                    let blockElement = $('<div class="sector-block" data-id="' + sector.id + '"></div>');
-                    blocksContainer.append(blockElement);
-
+                    let blockElement = $('<td class="sector-block" data-pillar-id="' + pillar.id + '" data-subpillar-id="' + subpillar.id + '" data-sector-id="' + sector.id + '"></td>');
+                    row.append(blockElement);
 
                     // Handle drop and click
                     blockElement.on('dragover', function(e) { e.originalEvent.preventDefault(); });
@@ -220,8 +216,6 @@ let page1 = {
                     });
                 }
             }
-
-            pillarsContainer.append(pillarElement);
         }
 
         matrix.appendTo(this.container);
@@ -293,9 +287,7 @@ let page1 = {
 
                     if (data) {
                         for (let j=0; j<data.selections.length; j++) {
-                            matrix.find('.pillar[data-id="' + data.selections[j].pillar + '"]')
-                                .find('.subpillar[data-id="' + data.selections[j].subpillar + '"]')
-                                .find('.sector-block[data-id="' + data.selections[j].sector + '"]')
+                            matrix.find('.sector-block[data-pillar-id="' + data.selections[j].pillar + '"][data-subpillar-id="' + data.selections[j].subpillar + '"][data-sector-id="' + data.selections[j].sector + '"]')
                                 .addClass('active');
                         }
                     }
