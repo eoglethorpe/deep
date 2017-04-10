@@ -82,7 +82,7 @@ class MultiselectInput extends Element {
         let dom = $('<div class="element multiselect-element"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="input-container"><label>Groups</label></div>'));
-        dom.find('.input-container').append($('<select multiselect><option value="">Select groups</option></select>'));
+        dom.find('.input-container').append($('<select multiple><option value="">Select groups</option></select>'));
         dom.find('.input-container').resizable({ grid: 20 });
         super(container, dom);
 

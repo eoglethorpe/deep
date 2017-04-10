@@ -14,6 +14,7 @@ from entries.models import *
 from entries.strippers import *
 # from . import export_xls, export_docx, export_fields
 from entries.export_entries_docx import export_docx, export_docx_new_format
+from entries.export_entries_pdf import export_pdf, export_pdf_new_format
 from entries.export_entries_xls import export_xls
 from report.export_xls import export_xls as export_xls_weekly
 from entries.refresh_pcodes import *
@@ -51,7 +52,8 @@ class ExportView(View):
 class ExportXls(View):
     @method_decorator(login_required)
     def get(self, request, event):
-        return export_xls('DEEP Entries-%s' % time.strftime("%Y-%m-%d"), int(event))
+        return export_xls('DEEP Entries-%s' % time.strftime("%Y-%m-%d"),
+                          int(event))
 
 
 class ExportXlsWeekly(View):
@@ -72,16 +74,30 @@ class ExportDocx(View):
 
         if 'export-geo-format' in request.GET:
             format_name = 'Export Geo'
-            export_docx(order, int(event), export_geo=True).save(response)
+            if request.GET.get('pdf'):
+                response.write(
+                    export_pdf(order, int(event), export_geo=True))
+            else:
+                export_docx(order, int(event), export_geo=True).save(response)
         if 'new-format' in request.GET:
             format_name = 'Briefing Note'
-            export_docx_new_format(order, int(event)).save(response)
+            if request.GET.get('pdf'):
+                response.write(
+                    export_pdf_new_format(order, int(event)))
+            else:
+                export_docx_new_format(order, int(event)).save(response)
         else:
             format_name = 'Generic Export'
-            export_docx(order, int(event)).save(response)
+            if request.GET.get('pdf'):
+                response.write(
+                    export_docx(order, int(event)))
+            else:
+                export_docx(order, int(event)).save(response)
 
         response['Content-Disposition'] = 'attachment; filename = DEEP'\
-                                          'Entries(%s)-%s.docx'\
+                                          'Entries(%s)-%s.'+'pdf'\
+                                          if response.GET.get('pdf')\
+                                          else 'docx'\
                                           % (format_name,
                                              time.strftime("%Y-%m-%d"))
 
@@ -98,23 +114,45 @@ class ExportDocx(View):
 
         if 'export-geo-format' in request.POST:
             format_name = 'Export Geo'
-            export_docx(order, int(event),
-                        json.loads(request.POST["informations"]),
-                        export_geo=True).save(response)
+            if request.POST.get('pdf'):
+                response.write(
+                    export_docx(order, int(event),
+                                json.loads(request.POST["informations"]),
+                                export_geo=True))
+            else:
+                export_docx(order, int(event),
+                            json.loads(request.POST["informations"]),
+                            export_geo=True).save(response)
         elif 'new-format' in request.POST:
             format_name = 'Briefing Note'
-            export_docx_new_format(
-                    order, int(event),
-                    json.loads(
-                       request.POST["informations"])).save(response)
+            if request.POST.get('pdf'):
+                response.write(
+                    export_docx_new_format(
+                        order, int(event),
+                        json.loads(
+                           request.POST["informations"])))
+            else:
+                export_docx_new_format(
+                        order, int(event),
+                        json.loads(
+                           request.POST["informations"])).save(response)
         else:
             format_name = 'Generic Export'
-            export_docx(
-                    order, int(event),
-                    json.loads(request.POST["informations"])).save(response)
+            if request.POST.get('pdf'):
+                response.write(
+                    export_docx(
+                        order, int(event),
+                        json.loads(request.POST["informations"])))
+            else:
+                export_docx(
+                        order, int(event),
+                        json.loads(request.POST["informations"]))\
+                        .save(response)
 
         response['Content-Disposition'] = 'attachment; filename = DEEP'\
-                                          'Entries(%s)-%s.docx'\
+                                          'Entries(%s)-%s.'+'pdf'\
+                                          if request.GET.get('pdf')\
+                                          else 'docx'\
                                           % (format_name,
                                              time.strftime("%Y-%m-%d"))
 

@@ -70,6 +70,7 @@ class ScaleElement extends Element {
 
         let addValue = function() {
             let value = $('<div class="value-container"><input class="default" name="default" type="radio"><input type="text" class="name" placeholder="Enter value name, e.g.: Critical"><input class="color" type="color"><button class="remove-value"><i class="fa fa-times"></i></button></div>');
+            value.data('id', that.getUniqueId());
 
             value.find('.remove-value').click(function() {
                 value.remove();
@@ -87,24 +88,37 @@ class ScaleElement extends Element {
             });
 
             scaleProperty.find('.values').append(value);
-            that.refreshScale();
-
             return value;
         };
         scaleProperty.find('.add-value').click(function() {
             addValue();
+            this.refreshScale();
         });
+
+        this.scaleProperty = scaleProperty;
+        container.append(scaleProperty);
 
         for (let i=0; i<this.scaleValues.length; i++) {
             let value = addValue();
+            if (this.scaleValues[i].id) {
+                value.data('id', this.scaleValues[i].id);
+            }
             value.find('.default').attr('checked', this.scaleValues[i].default);
             value.find('.name').val(this.scaleValues[i].name);
             value.find('.color').val(this.scaleValues[i].color);
         }
-
-        this.scaleProperty = scaleProperty;
         this.refreshScale();
-        container.append(scaleProperty);
+    }
+
+    getUniqueId() {
+        let i = this.scaleProperty.find('.value-container').length;
+        while (true) {
+            i++;
+            let id = 'scale-' + i;
+            if (this.scaleProperty.find('.value-container[data-id="' + id + '"]').length == 0) {
+                return id;
+            }
+        }
     }
 
     refreshScale() {
@@ -113,6 +127,7 @@ class ScaleElement extends Element {
             let values = this.scaleProperty.find('.values .value-container');
             for (let i=0; i<values.length; i++) {
                 this.scaleValues.push({
+                    id: values.eq(i).data('id'),
                     name: values.eq(i).find('.name').val(),
                     color: values.eq(i).find('.color').val(),
                     default: values.eq(i).find('.default').is(':checked'),

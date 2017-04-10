@@ -191,15 +191,15 @@ let templateEditor = {
 
     save: function() {
         let data = {};
-        data['name'] = $('#template-name').text();
-        data['elements'] = [];
+        data.name = $('#template-name').text();
+        data.elements = [];
         for (let i=0; i<this.elements.length; i++) {
             if (this.getPage() != this.elements[i].page) {
                 this.switchPage();
             }
             let elementData = this.elements[i].save();
-            elementData['page'] = this.elements[i].page;
-            data['elements'].push(elementData);
+            elementData.page = this.elements[i].page;
+            data.elements.push(elementData);
         }
         return data;
     },
