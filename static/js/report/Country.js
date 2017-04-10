@@ -24,6 +24,7 @@ class Country{
         let total = 0;
         let change = 0;
 
+
         for (let i=0; i<fieldsWeek0.length; i++) {
             if(fieldsWeek0[i]) {
                 let keys = Object.keys(fieldsWeek0[i]);
@@ -33,12 +34,20 @@ class Country{
                     let value1 = fieldsWeek1[i][keys[j]];
 
                     // Check if object
-                    if (value0 instanceof Object && value1 instanceof Object) {
-                        if (JSON.stringify(value0) != JSON.stringify(value1)) {
-                            ++change;
+                    if (value0 instanceof Object || value1 instanceof Object) {
+                        if (value0 instanceof Object && value1 instanceof Object) {
+                            if (JSON.stringify(value0) != JSON.stringify(value1)) {
+                                ++change;
+                            }
+                        } else {
+                            if (isNullObject(value0) && isNullObject(value1)) {
+
+                            } else {
+                                ++change;
+                            }
                         }
                     }
-                    else if(value0 != value1){
+                    else if(value0 !== value1){
                         ++change;
                     }
                     ++total;

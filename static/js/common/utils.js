@@ -304,6 +304,28 @@ function migrate(data, dataModel) {
     }
 }
 
+// Check if object has all invalid values
+function isNullObject(obj) {
+    if (obj instanceof Array) {
+        if (obj.length > 0) {
+            return false;
+        }
+    }
+    else if (obj instanceof Object) {
+        for (var key in obj) {
+            if (!isNullObject(obj[key])) {
+                return false;
+            }
+        }
+    }
+    else {
+        if (obj) {
+            return false;
+        }
+    }
+    return true;
+}
+
 //TODO: Queue, Callback
 function showToast(msg){
     $('.float-alert-toast').html(msg).fadeIn().delay(3000).fadeOut(400);
