@@ -4,6 +4,7 @@
 
 $word-color: $info-color;
 $excel-color: $primary-color;
+$pdf-color: #ff0000;
 
 #main{
     padding: 24px 16px 0 16px;
@@ -62,7 +63,47 @@ $excel-color: $primary-color;
                 flex-basis: 100%;
                 display: flex;
                 justify-content: space-between;
+                margin-bottom: 20px;
+
+                #word{
+                    button{
+                        color: #fff;
+                        padding: 6px 10px;
+                        @include btn-shadow-sm;
+                        margin-top: 20px;
+                        margin-left: 40px;
+                        background-color: $word-color;
+                        i{
+                            margin-right: 8px;
+                        }
+
+                        &:disabled {
+                            background-color: rgba(0,0,0,0.4);
+                            cursor: inherit;
+                        }
+                    }
+                }
+
+                #pdf{
+                    button{
+                        color: #fff;
+                        padding: 6px 10px;
+                        @include btn-shadow-sm;
+                        margin-top: 20px;
+                        margin-left: 40px;
+                        background-color: $pdf-color;
+                        i{
+                            margin-right: 8px;
+                        }
+
+                        &:disabled {
+                            background-color: rgba(0,0,0,0.4);
+                            cursor: inherit;
+                        }
+                    }
+                }
             }
+
             label{
                 margin-bottom: 3px;
             }
@@ -115,24 +156,10 @@ $excel-color: $primary-color;
                 }
             }
             .hierarchy{
-                margin-top: 32px;
+                margin-top: 40px;
             }
 
-            button{
-                color: #fff;
-                background-color: $word-color;
-                padding: 6px 10px;
-                @include btn-shadow-md;
 
-                i{
-                    margin-right: 8px;
-                }
-
-                &:disabled {
-                    background-color: rgba(0,0,0,0.4);
-                    cursor: inherit;
-                }
-            }
         }
         #export-entries-excel{
             flex-basis: 25%;
@@ -145,7 +172,7 @@ $excel-color: $primary-color;
                 color: #fff;
                 padding: 6px 10px;
                 margin-bottom: 8px;
-                @include btn-shadow-md;
+                @include btn-shadow-sm;
 
                 .fa{
                     margin-right: 10px;
