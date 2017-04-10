@@ -4,13 +4,16 @@ body{
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
+    height: 100vh;
+    overflow: hidden;
 
     h1, h2, h3, h4{
         text-transform: uppercase;
         margin: 0;
         vertical-align: middle;
     }
-    a{
+
+    a {
         color: $primary-color;
         cursor: pointer;
     }
@@ -58,33 +61,32 @@ body{
         overflow-y: auto;
 
         .title-block {
-            padding: 10px;
+            height: 64px;
+            padding: 0 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             background-color: #fff;
-            border-bottom: 1px solid rgba(0,0,0,0.2);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
             #template-name {
                 font-size: $text-size-sl;
             }
-
             button {
-                padding: 8px;
+                padding: 6px 16px;
                 color: #fff;
             }
-
             #save-button {
                 background-color: $primary-color;
             }
-
             #cancel-button {
                 background-color: $danger-color;
             }
         }
 
         section{
-            margin-bottom: 32px;
+            height: calc(calc(100% - 64px - 48px) / 2);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
             > header{
                 height: 48px;
@@ -93,8 +95,8 @@ body{
                 padding-left: 16px;
             }
             #widgets{
-                max-height: 200px;
-                overflow: auto;
+                height: calc(100% - 48px);
+                overflow-y: auto;
 
                 .widget{
                     display: flex;
@@ -114,17 +116,25 @@ body{
                 }
             }
             #elements{
-                max-height: 360px;
-                overflow: auto;
+                height: calc(100% - 48px);
+                overflow-y: scroll;
 
                 .element{
+                    background-color: #fafafa;
+                    margin-bottom: 6px;
+
+                    &.ui-sortable-helper{
+                        box-shadow: 0 2px 15px -5px rgba(0, 0, 0, 0.5);
+                    }
+
                     .header {
                         display: flex;
                         justify-content: space-between;
-                        padding: 16px;
-                        margin-bottom: 6px;
+                        align-items: center;
+                        padding: 0 16px;
+                        height: 36px;
                         background-color: #fff;
-                        border: 1px solid rgba(0, 0, 0, 0.05);
+                        border: 1px solid rgba(0, 0, 0, 0.1);
 
                         button{
                             padding: 4px;
@@ -134,7 +144,6 @@ body{
                             .delete-element {
                                 color: $danger-color;
                             }
-
                             .fa{
                                 margin-right: 6px;
                             }
@@ -142,30 +151,166 @@ body{
                     }
 
                     .properties {
+                        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+                        margin-bottom: 6px;
+
                         .property {
                             display: flex;
                             justify-content: space-between;
-                            padding: 16px;
+                            align-items: center;
+                            padding: 0 10px;
+                            min-height: 32px;
 
                             label {
                                 font-size: $text-size-md;
                             }
-
                             input[type="text"] {
-                                padding: 4px;
+                                padding: 2px 6px;
+                            }
+                            &.scale-property {
+                                display: block;
+
+                                .scale-property-header{
+                                    min-height: 32px;
+                                    display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;
+                                }
+                                input[type="color"]{
+                                    cursor: pointer;
+                                }
+                                button {
+                                    background-color: transparent;
+                                    border: none;
+
+                                    &.remove-value{
+                                        padding: 4px 8px;
+                                        color: $danger-color;
+                                    }
+                                    &.add-value{
+                                        color: $info-color;
+                                        font-size: 1.2em;
+                                        margin-right: 8px;
+                                    }
+                                }
+                                .value-container {
+                                    min-height: 32px;
+                                    padding: 0 6px;
+                                    display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;
+
+                                    &:nth-child(odd){
+                                        background-color: #eee;
+                                    }
+                                }
+
+                            }
+                            &.options-container{
+                                flex-wrap: wrap;
+                                width: 100%;
+
+
+                                .header{
+                                    flex-basis: 100%;
+                                    display: flex;
+                                    justify-content: space-between;
+                                    padding: 0 0;
+                                }
+
+                                button{
+                                    background-color: transparent;
+                                    border: none;
+
+                                    &.remove-option{
+                                        color: $danger-color;
+                                        font-size: 1.2em;
+                                        padding-left: 10px;
+
+
+                                    }
+                                    &.add-option{
+                                        color: $info-color;
+                                        font-size: 1.2em;
+
+                                    }
+                                }
+                                .options{
+                                    >.option-container{
+                                        min-height: 32px;
+                                        padding: 0 6px;
+                                        display: flex;
+                                        justify-content: space-between;
+                                        align-items: center;
+                                    }
+                                }
+                            }
+                            &.nodes-property{
+                                display: block;
+                                padding: 0;
+
+                                .header{
+                                    display: flex;
+                                    justify-content: space-between;
+                                    padding: 0 8px;
+                                    background-color: transparent;
+                                    border: none;
+                                }
+                                button{
+                                    background-color: transparent;
+                                    border: none;
+                                    &.remove-node{
+                                        color: $danger-color;
+                                        font-size: 1.2em;
+
+                                    }
+                                    &.add-node{
+                                        color: $info-color;
+                                        font-size: 1.2em;
+                                        float: right;
+                                        font-: bold;
+                                    }
+                                }
+
+                                .nodes-container{
+                                    width: 100%;
+
+                                    .nodes{
+                                        width: 100%;
+
+                                        >.node-container{
+                                            padding: 0 8px;
+                                            display: flex;
+                                            justify-content: space-between;
+                                            align-items: center;
+                                            flex-wrap: wrap;
+
+                                            .name{
+                                                min-height: 24px;
+                                                flex-basis: calc(50% - 32px);
+                                                padding: 0 6px;
+                                                margin-bottom: 4px;
+                                            }
+                                            .selectize-control{
+                                                // flex-basis: calc(100% - 32px);
+                                                // width: calc(100% - 32px);
+                                                flex-basis: 50%;
+                                                margin-bottom: 4px;
+                                                background-color: #fff;
+                                            }
+                                            .remove-node{
+                                                flex-basis: 24px;
+                                            }
+                                            &:nth-child(odd){
+                                                background-color: #eee;
+                                            }
+                                        }
+                                    }
+                                }
                             }
 
-                            &.scale-property {
-                                button {
-                                    margin: 2px;
-                                    padding: 4px 8px;
-                                }
-
-                                .values-container {
-                                    display: flex;
-                                    flex-direction: column;
-                                    align-items: flex-end;
-                                }
+                            &:nth-child(even){
+                                background-color: #eee;
                             }
                         }
                     }
@@ -174,23 +319,24 @@ body{
         }
 
         footer {
-            position: absolute;
-            bottom: 0;
-            height: 64px;
-            width: 100%;
-            background-color: #fefefe;
-            border-top: 1px solid rgba(0,0,0,0.1);
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
             button {
-                width: 100%;
-                height: 100%;
-                padding: 10px;
+                padding: 6px 24px;
+                @include btn-shadow-sm;
+                color: white;
+                background-color: $primary-color;
             }
         }
     }
 
     main {
         flex-basis: 70%;
+        height: calc(100vh - #{$navbar-height});
+        overflow: auto;
 
         #page-one {
             width: 100%;
@@ -205,6 +351,7 @@ body{
 
             .entry {
                 display: block;
+                width: 100%;
                 height: 312px;
                 margin: 16px;
                 background-color: #dedede;
@@ -309,93 +456,111 @@ body{
         }
 
         .scale-element {
-            background-color: #ffffff;
+            // background-color: rgba(255, 255, 255, 0.9);
 
             .handle {
                 position: absolute;
-                top: 4px;
-                left: 4px;
+                top: 0;
+                left: 0;
                 z-index: 2;
             }
-
+            &:hover{
+                background-color: rgba(255, 255, 255, 0.6);
+            }
             .scale-container {
-                padding: 16px;
                 width: 100%;
                 height: 100%;
                 min-height: 32px;
 
+                label{
+                    height: 24px;
+                    display: flex;
+                    align-items: center;
+                    padding: 0 10px;
+                }
                 .scale {
-                    width: 100%;
-                    height: 100%;
-                    padding: 4px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: calc(100% - 24px);
 
                     .value {
                         display: inline-block;
-                        margin: 2px;
-                        width: 8px;
-                        height: calc(100% - 16px);
-                        min-height: 16px;
+                        margin: 0 2px;
+                        width: 10px;
+                        height: 20px;
                         border-radius: 2px;
 
                         &.default {
-                            transform: scale(1.5);
+                            width: 13px;
+                            height: 26px;
                         }
                     }
                 }
             }
-
         }
 
         .matrix1d {
-            padding: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            //background-color: rgba(255, 255, 255, 0.9);
 
             .handle {
                 position: absolute;
-                top: 4px;
-                left: 4px;
+                top: 2px;
+                left: 2px;
             }
-
             .title {
-                margin-left: 32px;
-                margin-bottom: 16px;
+                height: 32px;
+                padding: 0 16px;
+                display: flex;
+                align-items: center;
                 font-size: $text-size-lg;
             }
-
             .pillars {
                 .pillar {
                     display: flex;
                     flex-direction: row;
                     align-items: center;
-                    padding-left: 24px;
                     position: relative;
+                    margin-bottom: 2px;
 
                     .title-block {
                         display: inline-block;
-                        margin: 8px;
-                        padding: 16px 8px;
+                        padding: 8px 16px;
                         cursor: pointer;
                         background-color: rgba(255, 255, 255, 0.9);
+                        margin: 4px;
 
                         &[contenteditable=true] {
                             cursor: text;
                             border: 1px dotted black;
                         }
                     }
+                    >.title-block{
+                        width: 128px;
+                        flex-grow: 0;
+                        flex-shrink: 0;
+                        align-self: stretch;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
 
                     .subpillars {
                         display: flex;
                         flex-direction: row;
+                        flex-wrap: wrap;
 
                         .subpillar {
                             display: inline-block;
                             position: relative;
+                            border: 1px solid rgba(0, 0, 0, 0.1);
 
                             .title-block {
                                 display: inline-block;
                                 cursor: pointer;
                                 background-color: rgba(255, 255, 255, 0.4);
-                                margin: 8px;
-                                padding: 16px 8px;
+                                padding: 8px 16px;
 
                                 &[contenteditable=true] {
                                     cursor: text;
@@ -406,8 +571,8 @@ body{
                             .remove-subpillar {
                                 display: none;
                                 position: absolute;
-                                right: 8px;
-                                top: 8px;
+                                right: 0;
+                                top: 0;
                             }
 
                             &:hover {
@@ -423,12 +588,11 @@ body{
 
                     .remove-pillar {
                         position: absolute;
-                        top: 16px;
-                        left: 0px;
+                        top: -4px;
+                        left: -2px;
                     }
                 }
             }
-
             .add-pillar, .add-subpillar, .remove-pillar {
                 display: none;
                 padding: 8px;
@@ -436,22 +600,18 @@ body{
                 border: none;
                 outline: none;
             }
-
             .fa-times {
                 color: $danger-color;
             }
-
             .fa-plus {
-                color: $success-color;
+                color: $info-color;
             }
-
             &:hover {
                 background-color: rgba(0,0,0,0.05);
 
                 .pillar {
                     background-color: rgba(0,0,0,0.06);
                 }
-
                 .add-pillar, .add-subpillar, .remove-pillar {
                     display: inherit;
                 }
@@ -459,22 +619,22 @@ body{
         }
 
         .matrix2d {
-            padding: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 0 16px;
             word-break: break-all;
 
             .handle {
                 position: absolute;
-                top: 4px;
-                left: 4px;
+                top: 0;
+                left: 0;
             }
-
-            .title {
+            .title{
+                height: 32px;
                 flex-basis: 100%;
-                margin-left: 32px;
-                margin-bottom: 16px;
                 font-size: $text-size-lg;
+                display: flex;
+                align-items: center;
             }
-
             .pillars-container {
                 display: flex;
                 flex-direction: column;
@@ -484,38 +644,39 @@ body{
                     width: 300px;
 
                     .pillar {
+                        border: 1px solid rgba(0, 0, 0, 0.1);
                         width: 100%;
                         display: flex;
-                        padding: 8px;
+                        flex-wrap: wrap;
                         position: relative;
                         cursor: pointer;
 
-                        > .title-block {
+                        >.title-block {
                             display: flex;
                             align-items: center;
                             flex-basis: 50%;
                             max-width: 50%;
-                            padding: 8px;
+                            background-color: rgba(255, 255, 255, 0.8);
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
 
                             &[contenteditable=true] {
                                 cursor: text;
                                 border: 1px dotted black;
                             }
                         }
-
                         .remove-pillar {
                             display: none;
-                            align-self: center;
                             position: absolute;
                             left: -8px;
+                            top: -4px;
                         }
-
                         &:hover {
                             .remove-pillar {
                                 display: inline-block;
                             }
                         }
-
                         .subpillars-container {
                             display: flex;
                             flex-direction: column;
@@ -528,26 +689,26 @@ body{
 
                                 .subpillar {
                                     position: relative;
-                                    padding: 8px;
                                     cursor: pointer;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    min-height: 32px;
+                                    background-color: rgba(255, 255, 255, 0.5);
+                                    border: 1px solid rgba(0, 0, 0, 0.1);
 
                                     .title-block {
-                                        padding: 8px;
-                                        width: calc(100% - 16px);
-
                                         &[contenteditable=true] {
                                             cursor: text;
                                             border: 1px dotted black;
                                         }
                                     }
-
                                     .remove-subpillar {
                                         display: none;
                                         position: absolute;
-                                        right: 4px;
-                                        top: 0px;
+                                        right: 0;
+                                        top: 0;
                                     }
-
                                     &:hover {
                                         .remove-subpillar {
                                             display: inline-block;
@@ -555,14 +716,12 @@ body{
                                     }
                                 }
                             }
-
                             .add-subpillar {
                                 display: none;
-                                width: calc(100% - 32px);
-                                padding: 8px 0px;
+                                width: 100%;
+                                height: 32px;
                                 border: 1px dashed rgba(0,0,0,0.2);
                             }
-
                             &:hover {
                                 .add-subpillar {
                                     display: inline-block;
@@ -574,50 +733,48 @@ body{
 
                 .add-pillar {
                     display: none;
-                    padding: 8px;
                     width: 100%;
                     padding: 8px 0px;
                     border: 1px dashed rgba(0,0,0,0.2);
                 }
-
                 &:hover {
                     .add-pillar {
                         display: inline-block;
                     }
                 }
             }
-
-
             .sectors-container {
                 display: flex;
                 align-items: center;
-                min-height: 16px;
 
                 .sectors {
                     display: flex;
+                    align-items: center;
                     margin-left: 300px;
 
                     .sector {
-                        padding: 16px;
+                        min-height: 32px;
+                        padding: 0 10px;
                         position: relative;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
                         cursor: pointer;
+                        border: 1px solid rgba(0, 0, 0, 0.1);
 
                         .title-block {
-                            padding: 8px;
 
                             &[contenteditable=true] {
                                 cursor: text;
                                 border: 1px dotted black;
                             }
                         }
-
                         .remove-sector {
                             display: none;
                             position: absolute;
-                            right: 4px;
-                            top: 4px;
+                            right: -7px;
+                            top: -2px;
                         }
-
                         &:hover {
                             .remove-sector {
                                 display: inline-block;
@@ -625,90 +782,142 @@ body{
                         }
                     }
                 }
-
-
                 .add-sector {
                     display: none;
-                    width: 72px;
                     height: 32px;
-                    padding: 8px 0px;
-                    border: 1px dashed rgba(0,0,0,0.2);
+                    padding: 0px 10px;
+                    border: 1px dashed rgba(0, 0, 0, 0.2);
                 }
-
                 &:hover {
                     .add-sector {
                         display: inline-block;
                     }
                 }
             }
-
             button {
                 background-color: transparent;
                 border: none;
                 outline: none;
             }
+            .fa-times { color: $danger-color; }
+            .fa-plus { color: $info-color; }
+        }
 
-            .fa-times {
-                color: $danger-color;
+        .matrix2d-list {
+            border: 1px solid rgba(0, 0, 0, 0.05);
+
+            .handle {
+                position: absolute;
+                z-index: 10;
+                top: 0;
+                left: 0;
             }
 
-            .fa-plus {
-                color: $success-color;
+            .container {
+                display: flex;
+                justify-content: space-between;
+                min-width: 144px;
+
+                .col-1 {
+                    .pillar {
+                        font-weight: $font-weight-bold;
+                    }
+                }
+
+                .col-2 {
+                    .sector {
+                        font-weight: $font-weight-bold;
+                    }
+                }
+            }
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        .geolocations, .organigram {
+            border: 1px solid rgba(0, 0, 0, 0.05);
+
+            .handle {
+                z-index: 10;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.5);
+            }
+
+            .container {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                flex-wrap: wrap;
+
+                img{
+                    margin-left: 6px;
+                    width: 24px;
+                    height: 24px;
+                }
+                .locations {
+                    flex-basis: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    line-height: 1.6;
+                    padding-left: 3px;
+                }
             }
         }
     }
 
-
-
     &.page-two {
-        display: block;
-
-        main {
-            height: calc(100vh - #{$navbar-height} - 32px);
-        }
+        display: flex;
+        height: calc(100vh - $navbar-height - 64px);
+        overflow: auto;
 
         aside {
-            position: absolute;
-            display: flex;
             flex-basis: 100%;
+            order: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
             width: 100%;
-            bottom: 0px;
-            height: 300px;
-            border-right: none;
+            height: 36vh;
             border-top: 1px solid rgba(0, 0, 0, 0.1);
-            z-index: 10;
+            padding: 0 10px;
+            background-color: #f0f0f0;
 
             .title-block {
-                position: absolute;
-                width: 360px;
-                height: 64px;
-                margin: 0;
-                bottom: 0;
+                box-sizing: content-box;
+                margin: 0 -10px;
+                flex-basis: 100%;
+                height: 48px;
                 z-index: 15;
+                background-color: #fff;
             }
 
             section {
-                margin-left: 64px;
-                max-height: calc(100% - 64px);
-                width: 512px;
-            }
+                height: calc(100% - 96px);
+                border-bottom: none;
+                background-color: #f4f4f4;
+                flex-basis: 30%;
+                border: 1px solid rgba(0, 0, 0, 0.3);
 
-            #widgets {
-                max-height: calc(100% - 64px);
-            }
-
-            #elements {
-                max-height: calc(100% - 64px);
+                header{
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+                }
             }
 
             footer {
-                bottom: inherit;
-                bottom: 0;
-                width: 100%;
-                border-top: none;
+                flex-basis: calc(40% - 128px);
                 outline: none;
                 display: flex;
-                align-items: center;
+                align-items: flex-end;
+                justify-content: flex-end;
+                height: calc(100% - 96px);
 
                 button {
                     width: auto;
@@ -717,6 +926,11 @@ body{
                     border: 1px solid #a1a1a1;
                 }
             }
+        }
+        main {
+            height: calc(64vh - #{$navbar-height});
+            flex-basis: 100%;
+            order: 1;
         }
     }
 }

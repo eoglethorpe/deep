@@ -39,7 +39,7 @@ function updateLocationSelections() {
         items.remove();
     }
 
-    if(mapSelections.length == 0){
+    if(mapSelections.length === 0){
         $("#empty-text").show();
     } else{
         $("#empty-text").hide();
@@ -53,7 +53,7 @@ function updateLocationSelections() {
 
     if (currentExcerpt) {
         currentExcerpt.map_selections = mapSelections;
-        refreshCurrentEntryLists()
+        refreshCurrentEntryLists();
     }
 }
 
@@ -102,11 +102,11 @@ function drawChart() {
     google.visualization.events.addListener(chart, 'select', function(){
         var selection = chart.getSelection();
 
-        if (selection.length == 0){
+        if (selection.length === 0) {
             if(mouseover_group != -1){
                 selectedAffectedGroups = $.grep(selectedAffectedGroups, function(item){
                     return item.row != mouseover_group;
-                })
+                });
             }
             chart.setSelection(selectedAffectedGroups);
         }
@@ -149,9 +149,9 @@ function refreshCurrentEntryLists() {
     for (var i=0; i<currentExcerpt.affected_groups.length; ++i){
         var ag = currentExcerpt.affected_groups[i];
         var title = affectedGroups[agIdRowMap[ag]][0];
-        text.push(title)
+        text.push(title);
     }
-    if(text.length != 0){
+    if(text.length !== 0){
         currentEntry.find('.affected-group-list').html('<span>'+text.join('</span><span>')+'</span>');
     }
 

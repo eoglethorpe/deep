@@ -21,6 +21,7 @@ DEEP | Entry Template Editor
 <script type="text/javascript" src="{% watchful_static_url 'js/entry-template/page-two.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entry-template/scale-elements.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entry-template/input-elements.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entry-template/chart-elements.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entry-template/entry-template.js' %}"></script>
 
 <script>
@@ -77,26 +78,25 @@ let templateData = {
                 <h4>Scale Input</h4>
                 <button><i class="fa fa-plus"></i>Add</button>
             </div>
+            <div id="multiselect-widget" class="widget">
+                <h4>Multiselect Input</h4>
+                <button><i class="fa fa-plus"></i>Add</button>
+            </div>
+            <div id="organigram-widget" class="widget">
+                <h4>Organigram</h4>
+                <button><i class="fa fa-plus"></i>Add</button>
+            </div>
+            <div id="geolocations-widget" class="widget">
+                <h4>Geolocations</h4>
+                <button><i class="fa fa-plus"></i>Add</button>
+            </div>
         </div>
-
     </section>
     <section>
         <header>
             <h3>Elements</h3>
         </header>
         <div id="elements">
-            <!-- <div class="element" >
-                <h4>1d Matrix #1</h4>
-                <button><i class="fa fa-chevron-down"></i></button>
-            </div>
-            <div class="element">
-                <h4>1d Matrix #2</h4>
-                <button><i class="fa fa-chevron-down"></i></button>
-            </div>
-            <div class="element">
-                <h4>2d Matrix</h4>
-                <button><i class="fa fa-chevron-down"></i></button>
-            </div> -->
             <div class="element-template" hidden>
                 <div class="header">
                     <h4></h4>
@@ -111,14 +111,13 @@ let templateData = {
         </div>
     </section>
     <footer>
-        <button id="switch-page">Switch page</button>
+        <button id="switch-page" >Switch page</button>
     </footer>
 </aside>
 
 <main>
     <div id="page-one">
     </div>
-
     <div id="page-two" hidden>
         <div class="entry"></div>
     </div>
