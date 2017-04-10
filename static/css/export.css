@@ -216,7 +216,36 @@ body > nav {
       #main #export-entries #export-entries-doc #export-entries-doc-form {
         flex-basis: 100%;
         display: flex;
-        justify-content: space-between; }
+        justify-content: space-between;
+        margin-bottom: 20px; }
+        #main #export-entries #export-entries-doc #export-entries-doc-form #word button {
+          color: #fff;
+          padding: 6px 10px;
+          box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3);
+          margin-top: 20px;
+          margin-left: 40px;
+          background-color: #3498db; }
+          #main #export-entries #export-entries-doc #export-entries-doc-form #word button:active {
+            box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+          #main #export-entries #export-entries-doc #export-entries-doc-form #word button i {
+            margin-right: 8px; }
+          #main #export-entries #export-entries-doc #export-entries-doc-form #word button:disabled {
+            background-color: rgba(0, 0, 0, 0.4);
+            cursor: inherit; }
+        #main #export-entries #export-entries-doc #export-entries-doc-form #pdf button {
+          color: #fff;
+          padding: 6px 10px;
+          box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3);
+          margin-top: 20px;
+          margin-left: 40px;
+          background-color: #ff0000; }
+          #main #export-entries #export-entries-doc #export-entries-doc-form #pdf button:active {
+            box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+          #main #export-entries #export-entries-doc #export-entries-doc-form #pdf button i {
+            margin-right: 8px; }
+          #main #export-entries #export-entries-doc #export-entries-doc-form #pdf button:disabled {
+            background-color: rgba(0, 0, 0, 0.4);
+            cursor: inherit; }
       #main #export-entries #export-entries-doc label {
         margin-bottom: 3px; }
       #main #export-entries #export-entries-doc > div:nth-child(2) {
@@ -253,19 +282,7 @@ body > nav {
           #main #export-entries #export-entries-doc #filters #severity-filter-container > div, #main #export-entries #export-entries-doc #filters #reliability-filter-container > div {
             flex-basis: 48%; }
       #main #export-entries #export-entries-doc .hierarchy {
-        margin-top: 32px; }
-      #main #export-entries #export-entries-doc button {
-        color: #fff;
-        background-color: #3498db;
-        padding: 6px 10px;
-        box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5); }
-        #main #export-entries #export-entries-doc button:active {
-          box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
-        #main #export-entries #export-entries-doc button i {
-          margin-right: 8px; }
-        #main #export-entries #export-entries-doc button:disabled {
-          background-color: rgba(0, 0, 0, 0.4);
-          cursor: inherit; }
+        margin-top: 40px; }
     #main #export-entries #export-entries-excel {
       flex-basis: 25%;
       padding: 16px;
@@ -276,9 +293,9 @@ body > nav {
         color: #fff;
         padding: 6px 10px;
         margin-bottom: 8px;
-        box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5); }
+        box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
         #main #export-entries #export-entries-excel button:active {
-          box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
+          box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
         #main #export-entries #export-entries-excel button .fa {
           margin-right: 10px; }
   #main #sos-export {

@@ -76,4 +76,17 @@ $(document).ready(function() {
             window.location.href = cancelUrl;
         }
     });
+    $('.switch-page').click(function() {
+        page1.refresh();
+        page2.refresh();
+        
+        if ($('#page-one').is(':visible')) {
+            $('#page-one').hide();
+            $('#page-two').show();
+        }
+        else {
+            $('#page-one').show();
+            $('#page-two').hide();
+        }
+    });
 });

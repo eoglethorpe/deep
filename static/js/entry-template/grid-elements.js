@@ -27,6 +27,12 @@ class Matrix1D extends Element {
         let pillar = $('<div class="pillar"></div>');
         pillar.data('id', this.getUniquePillarId());
         pillar.append($('<div class="title-block">New pillar</div>'));
+
+        let floatingToolbar = $('<div class="floating-toolbar"></div>');
+        floatingToolbar.append('<input type="color" value="#eeeeee">');
+        floatingToolbar.append('<input type="text" placeholder="Tooltip">');
+        pillar.append(floatingToolbar);
+
         pillar.append($('<div class="subpillars sortable"></div>'));
         pillar.append($('<button class="fa fa-plus add-subpillar"></button>'));
         pillar.prepend($('<button class="fa fa-times remove-pillar"></button>'));
@@ -42,6 +48,7 @@ class Matrix1D extends Element {
 
         this.makeEditable(pillar.find('.title-block'));
         pillar.find('.subpillars').sortable({ axis: 'x' });
+
         return pillar;
     }
 
@@ -83,6 +90,8 @@ class Matrix1D extends Element {
 
             pillar.name = $(this).find('.title-block').eq(0).text();
             pillar.id = $(this).data('id');
+            pillar.color = $(this).find('.floating-toolbar input[type="color"]').val();
+            pillar.tooltip = $(this).find('.floating-toolbar input[type="text"]').val();
 
             pillar.subpillars = [];
             $(this).find('.subpillars .subpillar').each(function() {
@@ -114,7 +123,10 @@ class Matrix1D extends Element {
             let pillarElement = that.addPillar();
             pillarElement.find('.subpillars').empty();
             pillarElement.find('.title-block').text(pillar.name);
+
             if (pillar.id) { pillarElement.data('id', pillar.id) };
+            if (pillar.color) { pillarElement.find('.floating-toolbar input[type="color"]').val(pillar.color); }
+            if (pillar.tooltip) { pillarElement.find('.floating-toolbar input[type="text"]').val(pillar.tooltip); }
 
             for (let j=0; j<pillar.subpillars.length; j++) {
                 let subpillar = pillar.subpillars[j];
@@ -257,6 +269,11 @@ class Matrix2D extends Element {
         let pillar = $('<div class="pillar"><div class="title-block">New pillar</div><button class="fa fa-times remove-pillar"></button></div>');
         pillar.data('id', this.getUniquePillarId());
 
+        let floatingToolbar = $('<div class="floating-toolbar"></div>');
+        floatingToolbar.append('<input type="color" value="#eeeeee">');
+        floatingToolbar.append('<input type="text" placeholder="Tooltip">');
+        pillar.append(floatingToolbar);
+
         pillar.append($('<div class="subpillars-container"><div class="subpillars sortable"></div><button class="fa fa-plus add-subpillar"></button></div>'));
         pillars.append(pillar);
 
@@ -274,6 +291,11 @@ class Matrix2D extends Element {
         let that = this;
         let subpillar = $('<div class="subpillar"><div class="title-block">New subpillar</div><button class="fa fa-times remove-subpillar"></button></div>');
         subpillar.data('id', this.getUniqueSubpillarId());
+
+        let floatingToolbar = $('<div class="floating-toolbar"></div>');
+        floatingToolbar.append('<input type="text" placeholder="Tooltip">');
+        subpillar.append(floatingToolbar);
+
         pillar.find('.subpillars').append(subpillar);
 
         this.makeEditable(subpillar.find('.title-block'));
@@ -319,12 +341,16 @@ class Matrix2D extends Element {
             let pillar = {};
             pillar.title = $(this).find('.title-block').eq(0).text();
             pillar.id = $(this).data('id');
+            pillar.color = $(this).find('.floating-toolbar input[type="color"]').val();
+            pillar.tooltip = $(this).find('.floating-toolbar input[type="text"]').val();
+
             pillar.subpillars = [];
 
             $(this).find('.subpillars .subpillar').each(function() {
                 pillar.subpillars.push({
                     title: $(this).find('.title-block').text(),
                     id: $(this).data('id'),
+                    tooltip: $(this).find('.floating-toolbar input[type="text"]').val(),
                 });
             });
             pillars.push(pillar);
@@ -370,13 +396,18 @@ class Matrix2D extends Element {
                 let pillarDom = this.addPillar();
                 pillarDom.find('.subpillars .subpillar').remove();
                 pillarDom.find('.title-block').text(pillar.title);
+
                 if (pillar.id) { pillarDom.data('id', pillar.id) };
+                if (pillar.color) { pillarDom.find('.floating-toolbar input[type="color"]').val(pillar.color); };
+                if (pillar.tooltip) { pillarDom.find('.floating-toolbar input[type="text"]').val(pillar.tooltip); };
 
                 for (let j=0; j<pillar.subpillars.length; j++) {
                     let subpillar = pillar.subpillars[j];
                     let subpillarDom = this.addSubpillar(pillarDom);
                     subpillarDom.find('.title-block').text(subpillar.title);
+
                     if (subpillar.id) { subpillarDom.data('id', subpillar.id) };
+                    if (subpillar.tooltip) { subpillarDom.find('.floating-toolbar input[type="text"]').val(subpillar.tooltip); };
                 }
             }
         }

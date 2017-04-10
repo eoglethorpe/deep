@@ -7,7 +7,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
 {% block head %}
 <link href="{% watchful_static_url 'css/split-pane.css' %}" type="text/css" rel="stylesheet">
-<link href="{% watchful_static_url 'css/add-entry.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/add-template-entry.css' %}" type="text/css" rel="stylesheet">
 <link href="{% watchful_static_url 'css/selectize.css' %}" type="text/css" rel="stylesheet">
 <link href="{% watchful_static_url 'css/modal.css' %}" type="text/css" rel="stylesheet">
 
@@ -74,7 +74,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 {% block body %}
 {% include 'navbar.html' %}
 
-<div id="page-one" hidden>
+<div id="page-one">
     <div class="image-viewer-main" hidden>
         <div class="viewer-close-btn-main"><i class="fa fa-times fa-2x"></i></div>
         <div class="image-align-wrapper">
@@ -152,17 +152,17 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
         <div class="split-pane-component" id="right-component" style="padding: 16px;">
             <div id="page-one-elements" style="position: relative;">  <!-- TODO Remove inline style -->
                 <button class="save-button">Save</button>
-                <!-- <button class="save-and-next-button">Save and next</button> -->
                 <button class="cancel-button">Cancel</button>
+                <button class="switch-page">Next page</button>
             </div>
         </div>
     </div>
 </div>
 
-<div id="page-two">
+<div id="page-two" hidden>
     <button class="save-button">Save</button>
-    <!-- <button class="save-and-next-button">Save and next</button> -->
     <button class="cancel-button">Cancel</button>
+    <button class="switch-page">Previous page</button>
     <div class="entries">
     </div>
 

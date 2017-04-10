@@ -524,19 +524,8 @@ body{
                     position: relative;
                     margin-bottom: 2px;
 
-                    .title-block {
-                        display: inline-block;
-                        padding: 8px 16px;
-                        cursor: pointer;
-                        background-color: rgba(255, 255, 255, 0.9);
-                        margin: 4px;
-
-                        &[contenteditable=true] {
-                            cursor: text;
-                            border: 1px dotted black;
-                        }
-                    }
                     >.title-block{
+                        position: relative;
                         width: 128px;
                         flex-grow: 0;
                         flex-shrink: 0;
@@ -544,6 +533,42 @@ body{
                         display: flex;
                         align-items: center;
                         justify-content: center;
+                        cursor: pointer;
+                        background-color: rgba(255, 255, 255, 0.9);
+
+                        &[contenteditable=true] {
+                            cursor: text;
+                            border: 1px dotted black;
+                        }
+                    }
+
+                    .floating-toolbar {
+                        position: absolute;
+                        display: none;
+                        align-items: center;
+                        height: 48px;
+                        top: -48px;
+                        left: 16px;
+                        background-color: #f0f0f0;
+                        box-shadow: 0 2px 15px -3px rgba(0,0,0,0.3);
+                        border: 1px solid rgba(0, 0, 0, 0.1);
+
+                        // opacity: 0.8;
+                        // > * { opacity: 0.8; }
+                        &:hover {
+                            // opacity: 1;
+                            // * { opacity: 1; }
+                        }
+
+                        input {
+                            margin: 10px;
+                        }
+                    }
+
+                    &:hover {
+                        .floating-toolbar {
+                            display: flex;
+                        }
                     }
 
                     .subpillars {
@@ -590,6 +615,7 @@ body{
                         position: absolute;
                         top: -4px;
                         left: -2px;
+                        z-index: 10;
                     }
                 }
             }
@@ -666,15 +692,43 @@ body{
                                 border: 1px dotted black;
                             }
                         }
+
+                        .floating-toolbar {
+                            position: absolute;
+                            display: none;
+                            align-items: center;
+                            height: 48px;
+                            top: -48px;
+                            left: 16px;
+                            background-color: #f0f0f0;
+                            box-shadow: 0 2px 15px -3px rgba(0,0,0,0.3);
+                            border: 1px solid rgba(0, 0, 0, 0.1);
+
+                            opacity: 0.8;
+                            * { opacity: 0.8; }
+                            &:hover {
+                                opacity: 1;
+                                * { opacity: 1; }
+                            }
+
+                            input {
+                                margin: 10px;
+                            }
+                        }
+
                         .remove-pillar {
                             display: none;
                             position: absolute;
                             left: -8px;
                             top: -4px;
+                            z-index: 10;
                         }
                         &:hover {
                             .remove-pillar {
                                 display: inline-block;
+                            }
+                            .floating-toolbar {
+                                display: flex;
                             }
                         }
                         .subpillars-container {
@@ -708,8 +762,37 @@ body{
                                         position: absolute;
                                         right: 0;
                                         top: 0;
+                                        z-index: 10;
                                     }
+
+                                    .floating-toolbar {
+                                        position: absolute;
+                                        display: none;
+                                        align-items: center;
+                                        height: 30px;
+                                        top: 30px;
+                                        left: 16px;
+                                        z-index: 1;
+                                        background-color: #f0f0f0;
+                                        box-shadow: 0 2px 15px -3px rgba(0,0,0,0.3);
+                                        border: 1px solid rgba(0, 0, 0, 0.1);
+
+                                        opacity: 0.8;
+                                        * { opacity: 0.8; }
+                                        &:hover {
+                                            opacity: 1;
+                                            * { opacity: 1; }
+                                        }
+
+                                        input {
+                                            margin: 10px;
+                                        }
+                                    }
+
                                     &:hover {
+                                        .floating-toolbar {
+                                            display: flex;
+                                        }
                                         .remove-subpillar {
                                             display: inline-block;
                                         }

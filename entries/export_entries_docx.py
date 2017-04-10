@@ -297,7 +297,7 @@ def export_docx(order, event, informations=None, export_geo=False):
                     already_added = []
                     for attr in attributes:
                         info = attr.information
-                        if attr.info not in already_added:
+                        if info not in already_added:
                             already_added.append(info)
                             add_excerpt_info(d, info)
                             leads_pk.append(info.entry.lead.pk)
