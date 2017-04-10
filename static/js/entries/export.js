@@ -38,6 +38,35 @@ $(document).ready(function(){
         }).val(JSON.stringify(informationList)).appendTo($(this));
     });
 
+    $('.export-filter-submit').click(function(event){
+        $('#new-format').remove();
+        $('#is-pdf').remove();
+        let type = $(this).data('type'),
+            formatNode = $('<input>'),
+            isPdf = $(this).data('pdf');
+
+        formatNode.attr('id', 'new-format')
+            .attr('type', 'hidden').val('true');
+
+        if (isPdf == true){
+            let isPdfInput = $('<input>');
+            isPdfInput.attr('id', 'is-pdf')
+                .attr('type', 'hidden')
+                .attr('name', 'is-pdf').val(true);
+            $('#export-entries-doc-form').append(isPdfInput);
+        }
+        if (type != 'generic-export') {
+            if( type == 'geo-export'){
+                formatNode.attr('name', 'export-geo-format');
+            }else if(type == 'briefing-export'){
+                formatNode.attr('name', 'new-format');
+            }
+            $('#export-entries-doc-form').append(formatNode);
+        }
+
+        console.log($('#new-format')[0].outerHTML);
+        console.log(isPdf);
+    });
 });
 
 
