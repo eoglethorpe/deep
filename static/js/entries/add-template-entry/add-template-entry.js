@@ -58,6 +58,11 @@ $(document).ready(function() {
     page1.init();
     page2.init();
 
+    google.charts.load('current', {packages:["orgchart"]});
+    google.charts.setOnLoadCallback(function() {
+        page2.loadOrganigrams();
+    });
+
 
     // Save and cancel
     $('.save-button').click(function() {
