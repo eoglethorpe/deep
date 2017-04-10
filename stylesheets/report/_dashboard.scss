@@ -112,9 +112,6 @@ main{
                     // Affected, Displaced, In need, Access Constraints, Geo Ranking
                     &:nth-child(3), &:nth-child(4), &:nth-child(5), &:nth-child(6), &:nth-child(7){
                         flex-basis: 10%;
-                        //width: 10%;
-                        //flex-grow: 0;
-                        //flex: none;
                     }
                     // Availability, Recency
                     &:nth-child(8), &:nth-child(9){ flex-basis: 7.5%; }
@@ -191,14 +188,12 @@ main{
                         border-left: 3px solid $primary-color;
                         background-color: rgba(0, 128, 128, 0.1);
                     }
-
                     .viz{
                         height: 50px;
                         margin-top: 6px;
-                        //text-align: center;
-                        // max-width: 100px;
                         width: 100%;
                         overflow: hidden;
+                        text-align: center;
                         position: relative;
 
                         .health-bar-invalid{
@@ -281,8 +276,6 @@ main{
                     border: none;
                     cursor: pointer;
                     color: $primary-color;
-
-
                 }
             }
             #weekly-reports{
@@ -352,5 +345,4 @@ main{
 }
 .jqsfield {
     font-size: 13px !important;
-    /*set the text color here */
 }
