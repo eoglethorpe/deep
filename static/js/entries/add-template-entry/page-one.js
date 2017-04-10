@@ -163,10 +163,13 @@ let page1 = {
         matrix.css('left', element.position.left);
         matrix.css('top', element.position.top);
 
+        let table = $('<table></table>');
+        matrix.append(table);
+
         let sectorsContainer = $('<tr></tr>');
         sectorsContainer.append($('<td></td>'));
         sectorsContainer.append($('<td></td>'));
-        matrix.append(sectorsContainer);
+        table.append(sectorsContainer);
 
         for (let i=0; i<element.sectors.length; i++) {
             let sector = element.sectors[i];
@@ -178,13 +181,13 @@ let page1 = {
             let pillar = element.pillars[i];
 
             let row = $('<tr></tr>');
-            matrix.append(row);
+            table.append(row);
             row.append('<td rowspan="' + pillar.subpillars.length + '" class="pillar">' + pillar.title + '</td>');
 
             for (let j=0; j<pillar.subpillars.length; j++) {
                 if (j != 0) {
                     row = $('<tr></tr>');
-                    matrix.append(row);
+                    table.append(row);
                 }
 
                 let subpillar = pillar.subpillars[j];
@@ -293,8 +296,8 @@ let page1 = {
                     }
 
                     // TODO Use .active in scss instead of here
-                    matrix.find('.sector-block').css('background-color', 'transparent');
-                    matrix.find('.sector-block.active').css('background-color', 'rgba(0,0,0,0.3)');
+                    //matrix.find('.sector-block').css('background-color', 'transparent');
+                    //matrix.find('.sector-block.active').css('background-color', 'rgba(0,0,0,0.3)');
                 }
             }
         }

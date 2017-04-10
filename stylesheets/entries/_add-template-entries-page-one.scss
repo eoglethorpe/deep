@@ -353,6 +353,19 @@
                 background-color: #fff;
                 padding: 16px;
 
+                .image{
+                    height: 100%;
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    img{
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                    }
+                }
                 &:before{
                     content: 'IMAGE';
                     position: absolute;
@@ -420,44 +433,31 @@
                 .title{
 
                 }
-                .sectors{
-                    display: flex;
-                    margin-left: 256px;
+                td{
+                    padding: 6px;
+                    text-align: center;
+                    -webkit-user-select: none;
+                    cursor: default;
+                    background-color: #fff;
 
-                    .sector{
-                        .title{
-                            padding: 16px;
-                            width: 100px;
+                    strong{
+                        font-weight: $font-weight-bold;
+                        text-transform: uppercase;
+                    }
+                    &.subpillar{
+                        cursor: default;
+                    }
+                    &.sector-block {
+                        cursor: pointer;
+                        background-color: #fff;
+
+                        &.active{
+                            background-color: rgba(0, 0, 0, 0.3);
                         }
                     }
                 }
-                .pillars{
-                    .pillar{
-                        display: flex;
-
-                        .title{
-                            padding: 16px;
-                            width: 100px;
-                        }
-                        .subpillars{
-                            .subpillar{
-                                display: flex;
-
-                                .title{
-                                    padding: 16px;
-                                    width: 156px;
-                                }
-                                .sector-blocks{
-                                    display: flex;
-
-                                    .sector-block{
-                                        width: 100px;
-                                        border: 1px solid white;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                .sector {
+                    width: 7%;
                 }
             }
         }
