@@ -34,17 +34,12 @@ class Country{
                     let value1 = fieldsWeek1[i][keys[j]];
 
                     // Check if object
-                    if (value0 instanceof Object || value1 instanceof Object) {
-                        if (value0 instanceof Object && value1 instanceof Object) {
-                            if (JSON.stringify(value0) != JSON.stringify(value1)) {
-                                ++change;
-                            }
-                        } else {
-                            if (isNullObject(value0) && isNullObject(value1)) {
+                    if (isNullObject(value0) && isNullObject(value1)) {
 
-                            } else {
-                                ++change;
-                            }
+                    }
+                    else if (value0 instanceof Object && value1 instanceof Object) {
+                        if (JSON.stringify(value0) != JSON.stringify(value1)) {
+                            ++change;
                         }
                     }
                     else if(value0 !== value1){
