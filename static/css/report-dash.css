@@ -325,6 +325,7 @@ main {
           margin-top: 6px;
           width: 100%;
           overflow: hidden;
+          text-align: center;
           position: relative; }
           main #country-panel #country-list #countries .country .viz .health-bar-invalid {
             height: 12px;
@@ -439,7 +440,6 @@ main {
   background-color: rgba(0, 0, 0, 0.9) !important; }
 
 .jqsfield {
-  font-size: 13px !important;
-  /*set the text color here */ }
+  font-size: 13px !important; }
 
 /*# sourceMappingURL=report-dash.css.map */

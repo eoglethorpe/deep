@@ -111,9 +111,7 @@ class WeeklyReport{
         }
         return 100*available/total;
     }
-
-
-    function calculateRecency(decays){
+    calculateRecency(decays){
         let decayPalette = ['#1a9850', '#66bd63', '#a6d96a', '#d9ef8b', '#fee08b', '#fdae61', '#f46d43','#d73027'];
         let scores = {};
         for(let i=0; i<decays.length; i++){
@@ -141,7 +139,7 @@ class WeeklyReport{
     }
     getHumanRecency(){
         var humanDecays = [this.data.human.numberDecay, this.data.human.commentDecay, this.data.human.sourceDecay];
-        return 100*calculateRecency(humanDecays);
+        return 100*this.calculateRecency(humanDecays);
     }
     getPinRecency(){
         var pin = this.data.people;
@@ -151,10 +149,10 @@ class WeeklyReport{
             pin.severeDecay, pin.severeSourceDecay, pin.severeCommentDecay,
             pin.totalDecay, pin.totalSourceDecay, pin.totalCommentDecay
         ];
-        return 100*calculateRecency(pinDecay);
+        return 100*this.calculateRecency(pinDecay);
     }
     getAccessRecency(){
         var accessDecays = [this.data.accessDecay, this.data['access-pin'].commentDecay, this.data['access-pin'].numberDecay, this.data['access-pin'].sourceDecay];
-        return 100*calculateRecency(accessDecays);
+        return 100*this.calculateRecency(accessDecays);
     }
 }
