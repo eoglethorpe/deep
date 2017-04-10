@@ -113,17 +113,17 @@ let page2 = {
 
     addScale: function(element) {
         let that = this;
-        let scaleContainer = $('<div class="scale-container" data-id="' + element.id + '" style="position: absolute;"></div>');
+        let scaleContainer = $('<div class="scale-container" data-id="' + element.id + '"></div>');
         scaleContainer.css('width', element.size.width);
         scaleContainer.css('height', element.size.height);
         scaleContainer.css('left', element.position.left);
         scaleContainer.css('top', element.position.top);
 
         scaleContainer.append($('<label>' + element.label + '</label>'));
-        scaleContainer.append($('<div class="scale" style="display: flex; justify-content: space-between; align-items: center;"></div>'));
+        scaleContainer.append($('<div class="scale"></div>'));
         for (let i=0; i<element.scaleValues.length; i++) {
             let value = element.scaleValues[i];
-            let scaleElement = $('<span style="width: 10px; height: 20px; margin: 1px;" data-id="' + value.id + '"></span>');
+            let scaleElement = $('<span data-id="' + value.id + '"></span>');
             scaleElement.css('background-color', value.color);
             scaleElement.attr('title', value.name);
             scaleContainer.find('.scale').append(scaleElement);

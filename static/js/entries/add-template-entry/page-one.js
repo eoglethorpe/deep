@@ -116,7 +116,7 @@ let page1 = {
 
         for (let i=0; i<element.pillars.length; i++) {
             let pillar = element.pillars[i];
-            let pillarElement = $('<div class="pillar" data-id="' + pillar.id + '"></div>');
+            let pillarElement = $('<div class="pillar" title="' + pillar.tooltip + '" data-id="' + pillar.id + '"></div>');
 
             pillarElement.append($('<div class="title">' + pillar.name + '</div>'));
             let subpillarsContainer = $('<div class="subpillars"></div>');
@@ -179,10 +179,11 @@ let page1 = {
 
         for (let i=0; i<element.pillars.length; i++) {
             let pillar = element.pillars[i];
+            let color = pillar.color;
 
             let row = $('<tr></tr>');
             table.append(row);
-            row.append('<td rowspan="' + pillar.subpillars.length + '" class="pillar">' + pillar.title + '</td>');
+            row.append('<td rowspan="' + pillar.subpillars.length + '" title="' + pillar.tooltip + '" style="background-color: ' + color + '; color: ' + getContrastYIQ(color) + ';" class="pillar">' + pillar.title + '</td>');
 
             for (let j=0; j<pillar.subpillars.length; j++) {
                 if (j != 0) {
@@ -191,11 +192,11 @@ let page1 = {
                 }
 
                 let subpillar = pillar.subpillars[j];
-                row.append('<td class="subpillar">' + subpillar.title + '</td>');
+                row.append('<td class="subpillar" title="' + subpillar.tooltip + '" style="background-color: ' + color + '; color: ' + getContrastYIQ(color) + ';">' + subpillar.title + '</td>');
 
                 for (let k=0; k<element.sectors.length; k++) {
                     let sector = element.sectors[k];
-                    let blockElement = $('<td class="sector-block" data-pillar-id="' + pillar.id + '" data-subpillar-id="' + subpillar.id + '" data-sector-id="' + sector.id + '"></td>');
+                    let blockElement = $('<td class="sector-block" style="background-color: ' + color + '; color: ' + getContrastYIQ(color) + ';" data-pillar-id="' + pillar.id + '" data-subpillar-id="' + subpillar.id + '" data-sector-id="' + sector.id + '"></td>');
                     row.append(blockElement);
 
                     // Handle drop and click

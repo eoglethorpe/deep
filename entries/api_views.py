@@ -14,7 +14,7 @@ class EntryApiView(View):
         return JSON_METHOD_NOT_ALLOWED
 
     def get(self, request):
-        entries = Entry.objects.all().order_by('-created_at')
+        entries = Entry.objects.filter(template=None).order_by('-created_at')
 
         event = request.GET.get('event')
         if event:
