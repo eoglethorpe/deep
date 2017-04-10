@@ -15,8 +15,12 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <script type="text/javascript" src="{% watchful_static_url 'js/common/split-pane.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/highlighter.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
+
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/image-cropper.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/add-template-entry/lead-preview.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entries/add-template-entry/page-one.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entries/add-template-entry/page-two.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/add-template-entry/add-template-entry.js' %}"></script>
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
@@ -163,6 +167,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     </div>
 
     <div class="entry-template" style="positions: relative; width: 100%; height: 312px; background-color: rgba(0,0,0,0.1);" hidden></div>
+</div>
+
+<div class="modal-container" hidden>
 </div>
 
 {% endblock %}
