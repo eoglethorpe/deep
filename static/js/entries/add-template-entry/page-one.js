@@ -36,7 +36,7 @@ let page1 = {
 
     addEntrySelector: function(element) {
         let that = this;
-        let entrySelector = $('<div class="entry-selector-container" style="position: absolute;"><select><option value="">Select an entry</option></select></div>');
+        let entrySelector = $('<div class="entry-selector-container"><select><option value="">Select an entry</option></select></div>');
 
         entrySelector.append($('<button class="add-entry"><i class="fa fa-plus"></i></button>'));
         entrySelector.append($('<button class="remove-entry"><i class="fa fa-minus"></i></button>'));
@@ -74,7 +74,7 @@ let page1 = {
 
     addExcerptBox: function(element) {
         let that = this;
-        let excerptBox = $('<div class="excerpt-box-container" style="position: absolute;"><textarea style="width: 100%; height: 100%; padding: 16px;" placeholder="Enter excerpt here"></textarea></div>');
+        let excerptBox = $('<div class="excerpt-box-container"><textarea placeholder="Enter excerpt here"></textarea></div>');
         excerptBox.css('width', element.size.width);
         excerptBox.css('height', element.size.height);
         excerptBox.css('left', element.position.left);
@@ -94,7 +94,7 @@ let page1 = {
     },
 
     addImageBox: function(element) {
-        let imageBox = $('<div class="image-box-container" style="position: absolute; background-color: #fff; padding: 16px;"><div class="image-box"></div></div>');
+        let imageBox = $('<div class="image-box-container"><div class="image-box"></div></div>');
         imageBox.find('.image-box').css('width', element.size.width);
         imageBox.find('.image-box').css('height', element.size.height);
         imageBox.css('left', element.position.left);
@@ -103,19 +103,10 @@ let page1 = {
         return imageBox;
     },
 
-    addNoobElement: function(element) {
-        let noob = $('<div style="position: absolute; padding: 16px;">Noob</div>')
-        noob.css('left', element.position.left);
-        noob.css('top', element.position.top);
-        noob.css('background-color', element.backgroundColor);
-        noob.appendTo(this.container);
-        return noob;
-    },
-
     addMatrix1d: function(element) {
         let that = this;
 
-        let matrix = $('<div class="matrix1d" style="position: absolute; padding: 16px" data-id="' + element.id + '"></div>');
+        let matrix = $('<div class="matrix1d" data-id="' + element.id + '"></div>');
         matrix.append('<div class="title">' + element.title + '</div>');
         matrix.css('left', element.position.left);
         matrix.css('top', element.position.top);
@@ -127,15 +118,15 @@ let page1 = {
             let pillar = element.pillars[i];
             let pillarElement = $('<div class="pillar" data-id="' + pillar.id + '"></div>');
 
-            pillarElement.append($('<div class="title" style="display: inline-block; padding: 16px;">' + pillar.name + '</div>'));
-            let subpillarsContainer = $('<div class="subpillars" style="display: inline-block;"></div>');
+            pillarElement.append($('<div class="title">' + pillar.name + '</div>'));
+            let subpillarsContainer = $('<div class="subpillars"></div>');
             pillarElement.append(subpillarsContainer);
 
             for (let j=0; j<pillar.subpillars.length; j++) {
                 let subpillar = pillar.subpillars[j];
-                let subpillarElement = $('<div class="subpillar" data-id="' + subpillar.id + '" style="display: inline-block;"></div>');
+                let subpillarElement = $('<div class="subpillar" data-id="' + subpillar.id + '"></div>');
 
-                subpillarElement.append($('<div class="title" style="display: inline-block; padding: 16px;">' + subpillar.name + '</div>'));
+                subpillarElement.append($('<div class="title">' + subpillar.name + '</div>'));
                 subpillarsContainer.append(subpillarElement);
 
                 subpillarElement.on('dragover', function(e) { e.originalEvent.preventDefault(); });
@@ -167,18 +158,18 @@ let page1 = {
 
     addMatrix2d: function(element) {
         let that = this;
-        let matrix = $('<div class="matrix2d" style="position: absolute; padding: 16px" data-id="' + element.id + '"></div>');
+        let matrix = $('<div class="matrix2d" data-id="' + element.id + '"></div>');
         matrix.append('<div class="title">' + element.title + '</div>');
         matrix.css('left', element.position.left);
         matrix.css('top', element.position.top);
 
-        let sectorsContainer = $('<div class="sectors" style="display: flex; margin-left: 256px;"></div>');
+        let sectorsContainer = $('<div class="sectors"></div>');
         matrix.append(sectorsContainer);
 
         for (let i=0; i<element.sectors.length; i++) {
             let sector = element.sectors[i];
             let sectorElement = $('<div class="sector" data-id="' + sector.id + '"></div>');
-            sectorElement.append('<div class="title" style="padding: 16px; width: 100px;">' + sector.title + '</div>');
+            sectorElement.append('<div class="title">' + sector.title + '</div>');
             sectorsContainer.append(sectorElement);
         }
 
@@ -187,24 +178,24 @@ let page1 = {
 
         for (let i=0; i<element.pillars.length; i++) {
             let pillar = element.pillars[i];
-            let pillarElement = $('<div class="pillar" data-id="' + pillar.id + '" style="display: flex;"></div>');
-            pillarElement.append('<div class="title" style="padding: 16px; width: 100px;">' + pillar.title + '</div>');
+            let pillarElement = $('<div class="pillar" data-id="' + pillar.id + '"></div>');
+            pillarElement.append('<div class="title">' + pillar.title + '</div>');
 
             let subpillarsContainer = $('<div class="subpillars"></div>');
             pillarElement.append(subpillarsContainer);
 
             for (let j=0; j<pillar.subpillars.length; j++) {
                 let subpillar = pillar.subpillars[j];
-                let subpillarElement = $('<div class="subpillar" data-id="' + subpillar.id + '" style="display: flex;"></div>');
-                subpillarElement.append('<div class="title" style="padding: 16px; width: 156px;">' + subpillar.title + '</div>');
+                let subpillarElement = $('<div class="subpillar" data-id="' + subpillar.id + '"></div>');
+                subpillarElement.append('<div class="title">' + subpillar.title + '</div>');
                 subpillarsContainer.append(subpillarElement);
 
-                let blocksContainer = $('<div class="sector-blocks" style="display: flex;"></div>');
+                let blocksContainer = $('<div class="sector-blocks"></div>');
                 subpillarElement.append(blocksContainer);
 
                 for (let k=0; k<element.sectors.length; k++) {
                     let sector = element.sectors[k];
-                    let blockElement = $('<div class="sector-block" data-id="' + sector.id + '" style="width: 100px; border: 1px solid white;"></div>');
+                    let blockElement = $('<div class="sector-block" data-id="' + sector.id + '"></div>');
                     blocksContainer.append(blockElement);
 
 
@@ -292,8 +283,8 @@ let page1 = {
                     }
 
                     // TODO Use .active in scss instead of here
-                    matrix.find('.subpillar').css('background-color', 'transparent');
-                    matrix.find('.subpillar.active').css('background-color', 'rgba(0,0,0,0.3)');
+                    // matrix.find('.subpillar').css('background-color', 'transparent');
+                    // matrix.find('.subpillar.active').css('background-color', 'rgba(0,0,0,0.3)');
                 }
 
                 else if (templateElement.type == 'matrix2d') {
