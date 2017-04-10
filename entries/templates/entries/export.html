@@ -38,9 +38,16 @@ DEEP | Export
                 {% csrf_token %}
                 <h2>Word Export</h2>
                 <div>
-                    <button type="submit" disabled onclick="$('#new-format').remove();" class="btn-info" ><i class="fa fa-file-word-o"></i>Generic Export</button>
-                    <button type="submit" disabled onclick="$('#new-format').remove();$('#export-entries-doc-form').append('<input id=\'new-format\' type=\'hidden\' name=\'export-geo-format\' value=\'true\'>');" class="btn-info"><i class="fa fa-file-word-o"></i>Export GEO</button>
-                    <button type="submit" disabled onclick="$('#new-format').remove();$('#export-entries-doc-form').append('<input id=\'new-format\' type=\'hidden\' name=\'new-format\' value=\'true\'>');" class="btn-info"><i class="fa fa-file-word-o"></i>Briefing Note</button>
+                <div>
+                    <button type="submit" disabled onclick="$('#new-format').remove();" class="btn-info" ><i style="background-color:blue;" class="fa fa-file-word-o"></i>Generic Export</button>
+                    <button type="submit" disabled onclick="$('#new-format').remove();$('#export-entries-doc-form').append('<input id=\'new-format\' type=\'hidden\' name=\'export-geo-format\' value=\'true\'>');" class="btn-info"><i style="background-color:blue;" class="fa fa-file-word-o"></i>Export GEO</button>
+                    <button type="submit" disabled onclick="$('#new-format').remove();$('#export-entries-doc-form').append('<input id=\'new-format\' type=\'hidden\' name=\'new-format\' value=\'true\'>');" class="btn-info"><i style="background-color:blue;" class="fa fa-file-word-o"></i>Briefing Note</button>
+                </div>
+                <div>
+                    <button type="submit" disabled onclick="$('#new-format').remove();" class="btn-info" ><i style="background-color:red;" class="fa fa-file-pdf-o"></i>Generic Export</button>
+                    <button type="submit" disabled onclick="$('#new-format').remove();$('#export-entries-doc-form').append('<input id=\'new-format\' type=\'hidden\' name=\'export-geo-format\' value=\'true\'>');" class="btn-info"><i style="background-color:red;" class="fa fa-file-pdf-o"></i>Export GEO</button>
+                    <button type="submit" disabled onclick="$('#new-format').remove();$('#export-entries-doc-form').append('<input id=\'new-format\' type=\'hidden\' name=\'new-format\' value=\'true\'>');" class="btn-info"><i style="background-color:red;" class="fa fa-file-pdf-o"></i>Briefing Note</button>
+                </div>
                 </div>
             </form>
             <div>
