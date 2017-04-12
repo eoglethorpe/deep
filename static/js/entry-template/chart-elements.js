@@ -3,6 +3,7 @@ class OrganigramInput extends Element {
     constructor(container, data) {
         let dom = $('<div class="element organigram"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
+        dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<div class="container"><label>Organigram</label></div>'));
         dom.find('.container').append($('<img src="/static/img/organigram.png">'));
         dom.find('.container').resizable({ grid: 20 });
@@ -17,6 +18,7 @@ class OrganigramInput extends Element {
         if (data) {
             this.load(data);
         }
+        this.addPropertiesTo(this.createPropertiesBox(this.dom.find('.edit')));
     }
 
     save() {
@@ -25,7 +27,7 @@ class OrganigramInput extends Element {
             type: 'organigram',
             position: this.getPosition(),
             size:  { width: this.dom.find('.container').css('width'), height: this.dom.find('.container').css('height') },
-            label: this.dom.find('label').text(),
+            label: this.dom.find('label').eq(0).text(),
             nodes: this.nodes,
         };
     }
@@ -42,7 +44,7 @@ class OrganigramInput extends Element {
             this.dom.find('.container').css('height', data.size.height);
         }
         if (data.label) {
-            this.dom.find('label').text(data.label);
+            this.dom.find('label').eq(0).text(data.label);
         }
         if (data.nodes) {
             this.nodes = data.nodes;
@@ -56,9 +58,9 @@ class OrganigramInput extends Element {
         let labelProperty = $('<div class="property"></div>');
         labelProperty.append($('<label>Label</label>'));
         labelProperty.append($('<input type="text">'));
-        labelProperty.find('input').val(this.dom.find('label').text());
+        labelProperty.find('input').val(this.dom.find('label').eq(0).text());
         labelProperty.find('input').change(function() {
-            that.dom.find('label').text($(this).val());
+            that.dom.find('label').eq(0).text($(this).val());
         });
         container.append(labelProperty);
 
@@ -164,6 +166,7 @@ class GeolocationsInput extends Element {
     constructor(container, data) {
         let dom = $('<div class="element geolocations"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
+        dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<div class="container"><label>Geolocations</label></div>'));
         dom.find('.container').append($('<img src="/static/img/mapicon.png">'));
         dom.find('.container').append($('<div class="locations"><span>Location1</span><span>Location2</span></div>'));
@@ -173,6 +176,7 @@ class GeolocationsInput extends Element {
         if (data) {
             this.load(data);
         }
+        this.addPropertiesTo(this.createPropertiesBox(this.dom.find('.edit')));
     }
 
     save() {
@@ -181,7 +185,7 @@ class GeolocationsInput extends Element {
             type: 'geolocations',
             position: this.getPosition(),
             size:  { width: this.dom.find('.container').css('width'), height: this.dom.find('.container').css('height') },
-            label: this.dom.find('label').text(),
+            label: this.dom.find('label').eq(0).text(),
         };
     }
 
@@ -197,7 +201,7 @@ class GeolocationsInput extends Element {
             this.dom.find('.container').css('height', data.size.height);
         }
         if (data.label) {
-            this.dom.find('label').text(data.label);
+            this.dom.find('label').eq(0).text(data.label);
         }
     }
 
@@ -208,9 +212,9 @@ class GeolocationsInput extends Element {
         let labelProperty = $('<div class="property"></div>');
         labelProperty.append($('<label>Label</label>'));
         labelProperty.append($('<input type="text">'));
-        labelProperty.find('input').val(this.dom.find('label').text());
+        labelProperty.find('input').val(this.dom.find('label').eq(0).text());
         labelProperty.find('input').change(function() {
-            that.dom.find('label').text($(this).val());
+            that.dom.find('label').eq(0).text($(this).val());
         });
         container.append(labelProperty);
     }

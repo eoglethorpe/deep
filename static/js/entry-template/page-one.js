@@ -3,6 +3,7 @@ class PageOneEntrySelector extends Element {
     constructor(container, data) {
         let dom = $('<div class="element page-one-entry-selector"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
+        dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<div class="select-container"><select><option value="">Select an entry</option></select></div>'));
         dom.find('.select-container').resizable({ grid: 20 });
         super(container, dom);
@@ -14,6 +15,7 @@ class PageOneEntrySelector extends Element {
         }
 
         this.id = 'entry-selector';
+        this.addPropertiesTo(this.createPropertiesBox(this.dom.find('.edit')));
     }
 
     load(data) {
@@ -60,6 +62,7 @@ class PageOneExcerptBox extends Element {
     constructor(container, data) {
         let dom = $('<div class="element page-one-excerpt"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
+        dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<div class="excerpt-container"><textarea placeholder="Enter excerpt here" autoresize></textarea></div>'));
         dom.find('.excerpt-container').resizable({ grid: 20 });
         super(container, dom);
@@ -69,6 +72,7 @@ class PageOneExcerptBox extends Element {
         }
 
         this.id = 'page-one-excerpt';
+        this.addPropertiesTo(this.createPropertiesBox(this.dom.find('.edit')));
     }
 
     load(data) {
@@ -115,6 +119,7 @@ class PageOneImageBox extends Element {
     constructor(container, data) {
         let dom = $('<div class="element page-one-image"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
+        dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<div class="image-container">Image</div>'));
         dom.find('.image-container').resizable({ grid: 20 });
         super(container, dom);
@@ -124,6 +129,7 @@ class PageOneImageBox extends Element {
         }
 
         this.id = 'page-one-image';
+        this.addPropertiesTo(this.createPropertiesBox(this.dom.find('.edit')));
     }
 
     load(data) {
