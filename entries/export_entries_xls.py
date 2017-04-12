@@ -130,48 +130,51 @@ def global_export_and_save():
     print('total: ' + str(len(informations)))
     for i, info in enumerate(informations):
         print(str(i))
-        rows = RowCollection(1)
+        try:
+            rows = RowCollection(1)
 
-        rows.add_values([
-            info.entry.lead.published_at, info.date, info.entry.modified_by,
-            info.entry.modified_at.date(), info.entry.lead.name,
-            info.entry.lead.source, xstr(info.excerpt),
-            info.reliability.name, info.severity.name, info.number
-        ])
+            rows.add_values([
+                info.entry.lead.published_at, info.date, info.entry.modified_by,
+                info.entry.modified_at.date(), info.entry.lead.name,
+                info.entry.lead.source, xstr(info.excerpt),
+                info.reliability.name, info.severity.name, info.number
+            ])
 
-        # Column Name `Demographic Groups` Renamed to
-        # `Vulnerable Group` as specified in Issue #280
-        rows.permute_and_add(info.vulnerable_groups.all())
-        rows.permute_and_add(info.specific_needs_groups.all())
-        rows.permute_and_add(info.affected_groups.all())
+            # Column Name `Demographic Groups` Renamed to
+            # `Vulnerable Group` as specified in Issue #280
+            rows.permute_and_add(info.vulnerable_groups.all())
+            rows.permute_and_add(info.specific_needs_groups.all())
+            rows.permute_and_add(info.affected_groups.all())
 
-        attributes = []
-        for attr in info.informationattribute_set.all():
-            attr_data = [attr.subpillar.pillar.name, attr.subpillar.name]
+            attributes = []
+            for attr in info.informationattribute_set.all():
+                attr_data = [attr.subpillar.pillar.name, attr.subpillar.name]
 
-            if attr.sector:
-                attr_data.append(attr.sector.name)
-                if attr.subsectors.count() > 0:
-                    for ss in attr.subsectors.all():
-                        attributes.append(attr_data + [ss.name])
+                if attr.sector:
+                    attr_data.append(attr.sector.name)
+                    if attr.subsectors.count() > 0:
+                        for ss in attr.subsectors.all():
+                            attributes.append(attr_data + [ss.name])
+                    else:
+                        attributes.append(attr_data + [''])
                 else:
-                    attributes.append(attr_data + [''])
-            else:
-                attributes.append(attr_data + ['', ''])
+                    attributes.append(attr_data + ['', ''])
 
-        rows.permute_and_add_list(attributes)
+            rows.permute_and_add_list(attributes)
 
-        for country in countries:
-            admin_levels = country.adminlevel_set.all()
-            for admin_level in admin_levels:
-                selections = []
-                for map_selection in info.map_selections.all():
-                    if admin_level == map_selection.admin_level:
-                        selections.append(map_selection.name)
-                rows.permute_and_add(selections)
+            for country in countries:
+                admin_levels = country.adminlevel_set.all()
+                for admin_level in admin_levels:
+                    selections = []
+                    for map_selection in info.map_selections.all():
+                        if admin_level == map_selection.admin_level:
+                            selections.append(map_selection.name)
+                    rows.permute_and_add(selections)
 
-        ew.append(rows.rows, ws)
-        grouped_rows.append(rows.group_rows)
+            ew.append(rows.rows, ws)
+            grouped_rows.append(rows.group_rows)
+        except:
+            print('error')
 
     ew.append(grouped_rows, wsg)
     ew.save_to('global_export.xls')
