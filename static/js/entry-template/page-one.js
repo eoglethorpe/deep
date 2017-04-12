@@ -120,7 +120,7 @@ class PageOneImageBox extends Element {
         let dom = $('<div class="element page-one-image"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
-        dom.append($('<div class="image-container">Image</div>'));
+        dom.append($('<div class="image-container"></div>'));
         dom.find('.image-container').resizable({ grid: 20 });
         super(container, dom);
 

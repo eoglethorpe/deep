@@ -17,8 +17,7 @@ class Element {
         }
 
         let propertiesBox = $('<div class="properties-box" hidden></div>');
-        propertiesBox.append($('<h3>' + this.getTitle() + '</h3>'));
-        propertiesBox.append($('<a class="fa fa-times close"></a>'));
+        propertiesBox.append($('<div class="header"><h3>' + this.getTitle() + '</h3><a class="fa fa-times close"></a></div>'));
         propertiesBox.find('.close').click(function() {
             propertiesBox.hide();
         });

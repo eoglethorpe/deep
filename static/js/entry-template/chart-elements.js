@@ -4,8 +4,9 @@ class OrganigramInput extends Element {
         let dom = $('<div class="element organigram"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
-        dom.append($('<div class="container"><label>Organigram</label></div>'));
-        dom.find('.container').append($('<img src="/static/img/organigram.png">'));
+        dom.append($('<div class="container"><div class="header"><label>Organigram</label></header></div>'));
+        dom.find('.container').find('.header').append($('<img src="/static/img/organigram.png">'));
+        dom.find('.container').append($('<div class="items"><span>Item1</span><span>Item2</span></div>'));
         dom.find('.container').resizable({ grid: 20 });
         super(container, dom);
 
@@ -167,8 +168,8 @@ class GeolocationsInput extends Element {
         let dom = $('<div class="element geolocations"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
-        dom.append($('<div class="container"><label>Geolocations</label></div>'));
-        dom.find('.container').append($('<img src="/static/img/mapicon.png">'));
+        dom.append($('<div class="container"><div class="header"><label>Geolocations</label></div></div>'));
+        dom.find('.container').find('.header').append($('<img src="/static/img/mapicon.png">'));
         dom.find('.container').append($('<div class="locations"><span>Location1</span><span>Location2</span></div>'));
         dom.find('.container').resizable({ grid: 20 });
         super(container, dom);
