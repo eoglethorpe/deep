@@ -49,11 +49,18 @@ class ExportView(View):
         return render(request, "entries/export.html", context)
 
 
+class GlobalExportView(View):
+    def get(self, request):
+        return render(request, 'entries/global-export.html')
+        
+
 class ExportXls(View):
-    @method_decorator(login_required)
     def get(self, request, event):
-        return export_xls('DEEP Entries-%s' % time.strftime("%Y-%m-%d"),
-                          int(event))
+        if request.GET.get('global') == '1':
+            return export_xls('DEEP Entries-%s' % time.strftime("%Y-%m-%d"))
+        else:
+            return export_xls('DEEP Entries-%s' % time.strftime("%Y-%m-%d"),
+                              int(event))
 
 
 class ExportXlsWeekly(View):

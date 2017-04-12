@@ -151,18 +151,24 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
         <div class="split-pane-divider" id="divider"></div>
         <div class="split-pane-component" id="right-component" style="padding: 16px;">
             <div id="page-one-elements" style="position: relative;">  <!-- TODO Remove inline style -->
-                <button class="save-button">Save</button>
-                <button class="cancel-button">Cancel</button>
-                <button class="switch-page">Next page</button>
+                <div id="button-pane">
+                    <button class="cancel-button"><i class="fa fa-times"></i>Cancel</button>
+                    <button class="save-button"><i class="fa fa-save"></i>Save</button>
+                    <button class="save-and-next-button"><i class="fa fa-arrow-right"></i>Save and Next</button>
+                    <button class="switch-page"><i class="fa fa-long-arrow-right"></i>More Tags</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <div id="page-two" hidden>
-    <button class="save-button">Save</button>
-    <button class="cancel-button">Cancel</button>
-    <button class="switch-page">Previous page</button>
+    <div id="button-pane">
+        <button class="cancel-button"><i class="fa fa-times"></i>Cancel</button>
+        <button class="save-button"><i class="fa fa-save"></i>Save</button>
+        <button class="save-and-next-button"><i class="fa fa-arrow-right"></i>Save and Next</button>
+        <button class="switch-page"><i class="fa fa-long-arrow-left"></i>Previous page</button>
+    </div>
     <div class="entries">
     </div>
 

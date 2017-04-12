@@ -86,20 +86,20 @@ let templateEditor = {
             else {
                 elementProperties.find('.delete-element').hide();
             }
-            element.addPropertiesTo(elementProperties.find('.properties'));
-
-            elementProperties.find('.properties').hide();
-            elementProperties.find('.toggle-properties').click(function() {
-                let btn = $(this);
-                elementProperties.find('.properties').slideToggle(function() {
-                    if ($(this).is(':visible')) {
-                        btn.removeClass('fa-chevron-down').addClass('fa-chevron-up');
-                    } else {
-                        btn.removeClass('fa-chevron-up').addClass('fa-chevron-down');
-                    }
-                });
-            });
-
+            // element.addPropertiesTo(elementProperties.find('.properties'));
+            //
+            // elementProperties.find('.properties').hide();
+            // elementProperties.find('.toggle-properties').click(function() {
+            //     let btn = $(this);
+            //     elementProperties.find('.properties').slideToggle(function() {
+            //         if ($(this).is(':visible')) {
+            //             btn.removeClass('fa-chevron-down').addClass('fa-chevron-up');
+            //         } else {
+            //             btn.removeClass('fa-chevron-up').addClass('fa-chevron-down');
+            //         }
+            //     });
+            // });
+            //
             $('#elements').append(elementProperties);
             elementProperties.show();
         }
@@ -190,6 +190,7 @@ let templateEditor = {
     },
 
     save: function() {
+        let page = this.getPage();
         let data = {};
         data.name = $('#template-name').text();
         data.elements = [];
@@ -200,6 +201,9 @@ let templateEditor = {
             let elementData = this.elements[i].save();
             elementData.page = this.elements[i].page;
             data.elements.push(elementData);
+        }
+        if (page != this.getPage()) {
+            this.switchPage();
         }
         return data;
     },

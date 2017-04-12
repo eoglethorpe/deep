@@ -2,6 +2,7 @@ class ScaleElement extends Element {
     constructor(container, data) {
         let dom = $('<div class="element scale-element"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
+        dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<div class="scale-container"><label>Scale</label></div>'));
         dom.find('.scale-container').append($('<div class="scale"></div>'));
         dom.find('.scale-container').resizable({ grid: 5 });
@@ -19,6 +20,7 @@ class ScaleElement extends Element {
         if (data) {
             this.load(data);
         }
+        this.addPropertiesTo(this.createPropertiesBox(this.dom.find('.edit')));
     }
 
     save() {
@@ -27,7 +29,7 @@ class ScaleElement extends Element {
             type: 'scale',
             position: this.getPosition(),
             size:  { width: this.dom.find('.scale-container').css('width'), height: this.dom.find('.scale-container').css('height') },
-            label: this.dom.find('label').text(),
+            label: this.dom.find('label').eq(0).text(),
             scaleValues: this.scaleValues,
         }
     }
@@ -44,7 +46,7 @@ class ScaleElement extends Element {
             this.dom.find('.scale-container').css('height', data.size.height);
         }
         if (data.label) {
-            this.dom.find('label').text(data.label);
+            this.dom.find('label').eq(0).text(data.label);
         }
         if (data.scaleValues) {
             this.scaleValues = data.scaleValues;
@@ -58,9 +60,9 @@ class ScaleElement extends Element {
         let labelProperty = $('<div class="property"></div>');
         labelProperty.append($('<label>Label</label>'));
         labelProperty.append($('<input type="text">'));
-        labelProperty.find('input').val(this.dom.find('label').text());
+        labelProperty.find('input').val(this.dom.find('label').eq(0).text());
         labelProperty.find('input').change(function() {
-            that.dom.find('label').text($(this).val());
+            that.dom.find('label').eq(0).text($(this).val());
         });
         container.append(labelProperty);
 

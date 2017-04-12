@@ -110,6 +110,7 @@ let page1 = {
         matrix.append('<div class="title">' + element.title + '</div>');
         matrix.css('left', element.position.left);
         matrix.css('top', element.position.top);
+        matrix.css('width', element.width);
 
         let pillarsContainer = $('<div class="pillars"></div>');
         matrix.append(pillarsContainer);
@@ -162,6 +163,7 @@ let page1 = {
         matrix.append('<div class="title">' + element.title + '</div>');
         matrix.css('left', element.position.left);
         matrix.css('top', element.position.top);
+        matrix.css('width', element.width);
 
         let table = $('<table></table>');
         matrix.append(table);

@@ -5,7 +5,7 @@ from entries import models as entry_models
 from openpyxl.styles import Font  # , Color
 
 
-def export_xls(title, event_pk):
+def export_xls(title, event_pk=None):
 
     # Create a spreadsheet and get active workboot
     ew = ExcelWriter()
@@ -22,7 +22,11 @@ def export_xls(title, event_pk):
         "Date Imported"
     ]
 
-    countries = entry_models.Event.objects.get(pk=event_pk).countries.all()
+    if event_pk:
+        countries = entry_models.Event.objects.get(pk=event_pk).countries.all()
+    else:
+        countries = entry_models.Country.objects.all()
+
     for country in countries:
         admin_levels = country.adminlevel_set.all()
         for admin_level in admin_levels:
@@ -38,9 +42,14 @@ def export_xls(title, event_pk):
     ew.auto_fit_cells_in_row(1, ws)
     ew.auto_fit_cells_in_row(1, wsg)
 
-    # Add each information in each entry belonging to this event
-    informations = entry_models.EntryInformation.objects.filter(
-                        entry__lead__event__pk=event_pk)
+    if event_pk:
+        # Add each information in each entry belonging to this event
+        informations = entry_models.EntryInformation.objects.filter(
+                            entry__lead__event__pk=event_pk, entry__template=None)
+    else:
+        # All information
+        informations = entry_models.EntryInformation.objects.filter(entry__template=None)
+
     grouped_rows = []
     for i, info in enumerate(informations):
         rows = RowCollection(1)
