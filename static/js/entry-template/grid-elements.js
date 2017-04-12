@@ -6,7 +6,7 @@ class Matrix1D extends Element {
         dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<h4 class="title">1D Matrix</h4>'));
         dom.append($('<div class="pillars sortable"></div>'));
-        dom.append($('<button class="fa fa-plus add-pillar"></button>'));
+        dom.append($('<button class="add-pillar"><i class="fa fa-plus"></i>Add Pillar</button>'));
         dom.resizable({
             grid: 20,
             handles: 'e, w',
@@ -46,7 +46,7 @@ class Matrix1D extends Element {
         pillar.append(floatingToolbar);
 
         pillar.append($('<div class="subpillars sortable"></div>'));
-        pillar.append($('<button class="fa fa-plus add-subpillar"></button>'));
+        pillar.append($('<button class="add-subpillar"><i class="fa fa-plus"></i></button>'));
         pillar.prepend($('<button class="fa fa-times remove-pillar"></button>'));
         this.dom.find('.pillars').append(pillar);
 
