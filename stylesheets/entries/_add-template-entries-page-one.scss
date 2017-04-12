@@ -312,8 +312,9 @@
             left: calc(#{$left-component-width} + 2px);
 
             #page-one-elements{
-                text-align: right;
                 #button-pane{
+                    text-align: right;
+                    
                     button{
                         color: white;
                         @include btn-shadow-md ;

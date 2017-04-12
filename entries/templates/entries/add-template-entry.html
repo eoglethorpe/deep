@@ -18,6 +18,7 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/image-cropper.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entries/add-template-entry/map.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/add-template-entry/lead-preview.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/add-template-entry/page-one.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/add-template-entry/page-two.js' %}"></script>
@@ -67,6 +68,11 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
     // Some urls
     let cancelUrl = '{% url "entries:entries" event.pk %}';
     let markProcessedUrl = '{% url "leads:mark_processed" event.pk %}';
+
+    // Countries for this event
+    let countries = [
+        {% for country in event.countries.all %} { code: '{{ country.pk }}', name: '{{ country.name }}' }, {% endfor %}
+    ];
 </script>
 
 {% endblock %}

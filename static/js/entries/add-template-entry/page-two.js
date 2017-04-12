@@ -26,6 +26,9 @@ let page2 = {
             else if (element.type == 'scale') {
                 this.addScale(element);
             }
+            else if (element.type == 'geolocations') {
+                this.addGeolocations(element);
+            }
         }
 
         this.refresh();
@@ -164,7 +167,7 @@ let page2 = {
         organigramInput.append('<a><img src="/static/img/organigram.png" width="24px"></a>');
         organigramInput.appendTo(this.template);
 
-        let modalDialog = $('<div class="modal"></div>');
+        let modalDialog = $('<div class="modal" hidden></div>');
         modalDialog.append($('<header><h3 class="modal-title">Select ' + (element.label.toLowerCase()) + '</h2></header>'));
         modalDialog.append($('<div class="chart-div"></div>'));
 
@@ -255,6 +258,83 @@ let page2 = {
                             data.value.push(element.nodes[selectedNodes[i].row].id);
                         }
                         newModal.hide();
+                    }
+                });
+            }
+        });
+    },
+
+    addGeolocations: function(element) {
+        let that = this;
+        let geolocationsInput = $('<div class="geolocations" style="position: absolute;"></div>');
+        geolocationsInput.css('width', element.size.width);
+        geolocationsInput.css('height', element.size.height);
+        geolocationsInput.css('left', element.position.left);
+        geolocationsInput.css('top', element.position.top);
+
+        geolocationsInput.append('<label>' + element.label + '</label>');
+        geolocationsInput.append('<a><img src="/static/img/mapicon.png" width="24px"></a>');
+        geolocationsInput.appendTo(this.template);
+
+        let modalDialog = $('<div class="modal" hidden></div>');
+        modalDialog.append($('<header><h3 class="modal-title">Select ' + (element.label.toLowerCase()) + '</h2></header>'));
+        modalDialog.append($('<div class="map-section"></div>'));
+        modalDialog.append($('<div class="control-section"></div>'));
+
+        let actionButtons = $('<div class="action-buttons"></div>');
+        actionButtons.append($('<button class="apply" data-action="apply" data-persist="true">Apply</button>'));
+        actionButtons.append($('<button class="cancel" data-action="dismiss">Cancel</button>'));
+        modalDialog.append(actionButtons);
+        modalDialog.appendTo($('.modal-container'));
+
+        //// Map
+
+        modalDialog.find('.map-section').append($('<div class="map" style="width: 100%; height: 250px;"></div>'));
+        modalDialog.find('.map-section').append($('<div class="buttons-container"></div>'));
+
+        let controlSection1 = $('<div></div>');
+        controlSection1.append($('<label>Select a country</label><select class="country"><option value="">Select a country</option></select>'));
+        controlSection1.append($('<label>Add locations</label><select class="locations"><option value="">Add locations</option></select>'))
+        controlSection1.find('select').selectize();
+
+        for (let i=0; i<countries.length; i++) {
+            controlSection1.find('.country')[0].selectize.addOption({
+                value: countries[i].code, text: countries[i].name,
+            });
+        }
+
+        let controlSection2 = $('<div></div>');
+        controlSection2.append($('<div class="selection-list"></div>'));
+        controlSection2.append($('<a class="clear">Clear all</a>'));
+
+        modalDialog.find('.control-section').append(controlSection1);
+        modalDialog.find('.control-section').append(controlSection2);
+
+        let map = new Map(modalDialog.find('.map'), modalDialog.find('.buttons-container'));
+        /////////
+
+        let newModal = new Modal(modalDialog, true);
+        this.container.on('click', '.geolocations a', function() {
+            // Get selected entry
+            let index = parseInt($(this).closest('.entry').data('index'));
+            if (index != NaN) {
+                let data = getEntryData(index, element.id);
+                map.reset();
+                map.selectCountry('NPL');
+                if (data.value) {
+                    // Load into modal
+                    map.selections = data.value;
+                }
+
+                // Show modal
+                newModal.show().then(function() {}, null, function() {
+                    if (newModal.action == 'apply') {
+                        // Save from modal
+                        data.value = map.selections;
+                        newModal.hide();
+                    } else {
+                        map.map.invalidateSize();
+                        map.refresh();
                     }
                 });
             }

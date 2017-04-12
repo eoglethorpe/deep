@@ -36,52 +36,57 @@
             }
         }
     }
-    .entry {
-        background-color: #dedede;
-        margin: 16px 0;
-        @include shadow();
 
-        .input-element, .multiselect, .scale-container {
-            display: flex;
-            flex-direction: column;
-            label{
-                margin-bottom: 2px;
-                font-weight: bold;
-            }
-        }
+    .entries {
+        margin-top: 64px;
+        
+        .entry {
+            background-color: #dedede;
+            margin: 16px 0;
+            @include shadow();
 
-        .scale-container {
-            position: absolute;
-            label{
-                margin-bottom: 2px;
-                font-weight: bold;
-            }
-
-            .scale {
+            .input-element, .multiselect, .scale-container {
                 display: flex;
-                justify-content: center;
-                align-items: center;
-                height: calc(100% - 24px);
-
-                span {
-                    display: inline-block;
-                    width: 10px;
-                    height: 20px;
-                    margin: 0 2px;
-                    border-radius: 2px;
+                flex-direction: column;
+                label{
+                    margin-bottom: 2px;
+                    font-weight: bold;
                 }
             }
 
-        }
+            .scale-container {
+                position: absolute;
+                label{
+                    margin-bottom: 2px;
+                    font-weight: bold;
+                }
 
+                .scale {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: calc(100% - 24px);
 
-        .organigram{
-            label{
-                margin-bottom: 2px;
-                font-weight: bold;
+                    span {
+                        display: inline-block;
+                        width: 10px;
+                        height: 20px;
+                        margin: 0 2px;
+                        border-radius: 2px;
+                    }
+                }
+
             }
 
 
+            .organigram{
+                label{
+                    margin-bottom: 2px;
+                    font-weight: bold;
+                }
+
+
+            }
         }
     }
 }
