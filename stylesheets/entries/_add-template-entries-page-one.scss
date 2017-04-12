@@ -311,6 +311,37 @@
         #right-component{
             left: calc(#{$left-component-width} + 2px);
 
+            #page-one-elements{
+                text-align: right;
+                #button-pane{
+                    button{
+                        color: white;
+                        @include btn-shadow-md ;
+                        margin: 0px 5px;
+                        padding: 6px 6px;
+                        &.cancel-button{
+                            background-color: $danger-color;
+
+                        }
+                        &.save-button{
+                            background-color: $info-color;
+
+                        }
+                        &.save-and-next-button{
+                            background-color: $info-color;
+
+                        }
+                        &.switch-page{
+                            background-color: $primary-color;
+
+                        }
+                        i{
+                            padding-right: 10px;
+                        }
+                    }
+                }
+            }
+
             .entry-selector-container{
                 position: absolute;
 
@@ -334,6 +365,7 @@
             }
             .excerpt-box-container{
                 position: absolute;
+                text-align: left;
 
                 textarea{
                     width: 100%;
@@ -341,6 +373,7 @@
                     padding: 16px;
                 }
                 &:before{
+                    font-weight: bold;
                     content: 'TEXT';
                     font-size: 12px;
                     top: -12px;
@@ -367,6 +400,7 @@
                     }
                 }
                 &:before{
+                    font-weight: bold;
                     content: 'IMAGE';
                     position: absolute;
                     font-size: 12px;

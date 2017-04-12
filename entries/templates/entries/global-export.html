@@ -10,7 +10,7 @@ DEEP | Export
 
 <script>
     $(document).ready(function() {
-        window.location.href = "{% url 'entries:exportxls' 0 %}";
+        window.location.href = "{% url 'entries:exportxls' 0 %}?global=1";
     });
 </script>
 {% endblock %}
