@@ -20,6 +20,9 @@ class ExcelWriter:
                                           (title+".xlsx")
         return response
 
+    def save_to(self, filename):
+        self.wb.save(filename)
+
     def auto_fit_cells_in_row(self, row_id, ws=None):
         if ws is None:
             ws = self.get_active()
