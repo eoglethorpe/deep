@@ -381,7 +381,7 @@ let page2 = {
         let element = parentElement.list;
 
         let that = this;
-        let listContainer = $('<div style="position: absolute;" class="matrix2d-list-container" data-id="' + element.id + '"></div>');
+        let listContainer = $('<div style="position: absolute;" class="matrix2d-list-container" data-id="' + parentElement.id + '"></div>');
         // listContainer.css('width', element.size.width);
         // listContainer.css('height', element.size.height);
         listContainer.css('left', element.position.left);
@@ -393,7 +393,24 @@ let page2 = {
         listContainer.appendTo(this.template);
     },
 
+    addSubsector: function(container, element, data) {
+        let subsector = $('<div class="subsector" data-id="' + element.id + '"><span>' + element.title + '</span></div>');
+        subsector.append($('<a class="fa fa-times"></a>'));
+
+        subsector.find('a').click(function() {
+            subsector.remove();
+            if (data.indexOf(element.id) >= 0) {
+                data.splice(data.indexOf(element.id), 1);
+            }
+        });
+
+        container.append(subsector);
+        return subsector;
+    },
+
     refresh: function() {
+        let that = this;
+
         this.container.find('.entries').empty();
         for (let i=0; i<entries.length; i++) {
             let entry = entries[i];
@@ -412,6 +429,66 @@ let page2 = {
 
             for (let i=0; i<templateData.elements.length; i++) {
                 let templateElement = templateData.elements[i];
+
+                if (templateElement.type == 'matrix2d' && templateElement.list) {
+                    let data = entry.elements.find(d => d.id == templateElement.id);
+                    if (data) {
+                        let listContainer = entryContainer.find('.matrix2d-list-container[data-id="' + data.id + '"]');
+                        let list = listContainer.find('.matrix2d-list');
+
+                        list.empty();
+                        for (let j=0; j<data.selections.length; j++) {
+                            let selection = data.selections[j];
+                            let pillar = templateElement.pillars.find(p => p.id == selection.pillar);
+                            let subpillar = pillar.subpillars.find(s => s.id == selection.subpillar);
+                            let sector = templateElement.sectors.find(s => s.id == selection.sector);
+
+                            let col1 = $('<div class="col1"><div class="pillar">' + pillar.title + '</div><div class="subpillar">' + subpillar.title + '</div></div>');
+                            let col2 = $('<div class="col1"><div class="sector">' + sector.title + '</div><div class="subsectors"></div><a class="fa fa-plus"></a></div>');
+
+                            let subsectors = col2.find('.subsectors');
+                            if (!selection.subsectors) {
+                                selection.subsectors = [];
+                            }
+
+                            for (let k=0; k<selection.subsectors.length; k++) {
+                                that.addSubsector(subsectors, sector.subsectors.find(s => s.id == selection.subsectors[k]), selection.subsectors);
+                            }
+
+                            let dropdown = $('<div class="subsectors-dropdown" tabIndex="0"></div>');
+                            dropdown.blur(function() {
+                                $(this).hide();
+                            });
+                            dropdown.hide();
+                            dropdown.insertAfter(col2.find('a'));
+
+                            col2.find('a').click(function() {
+                                dropdown.empty();
+                                dropdown.show();
+                                dropdown.focus();
+                                for (let k=0; k<sector.subsectors.length; k++) {
+                                    let subsector = sector.subsectors[k];
+                                    if (!selection.subsectors.find(s => s == subsector.id)) {
+                                        let item = $('<a class="item">' + subsector.title + '</a>');
+                                        item.click(function() {
+                                            selection.subsectors.push(subsector.id);
+                                            that.addSubsector(subsectors, subsector, selection.subsectors);
+                                            dropdown.blur();
+                                        });
+                                        dropdown.append(item);
+                                    }
+                                }
+                            });
+
+                            let row = $('<div class="row"></div>');
+                            row.append(col1);
+                            row.append(col2);
+                            list.append(row);
+                        }
+                    }
+                    continue;
+                }
+
                 if (templateElement.page != 'page-two') {
                     continue;
                 }

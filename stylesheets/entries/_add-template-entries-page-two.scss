@@ -39,7 +39,7 @@
 
     .entries {
         margin-top: 64px;
-        
+
         .entry {
             background-color: #dedede;
             margin: 16px 0;
@@ -48,9 +48,16 @@
             .input-element, .multiselect, .scale-container {
                 display: flex;
                 flex-direction: column;
-                label{
+
+                label {
                     margin-bottom: 2px;
                     font-weight: bold;
+                    height: 24px;
+                }
+
+                input {
+                    width: 100%;
+                    height: calc(100% - 24px);
                 }
             }
 
@@ -101,5 +108,24 @@
     .active-org-node {
         color: white;
         background-color: $primary-color;
+    }
+}
+
+.matrix2d-list-container {
+    .matrix2d-list {
+        .row {
+            display: flex;
+            margin-top: 8px;
+
+            > * {
+                width: 128px;
+            }
+
+            .subsectors-dropdown {
+                display: flex;
+                flex-direction: column;
+                background-color: #fff;
+            }
+        }
     }
 }

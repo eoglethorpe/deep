@@ -573,7 +573,11 @@ body {
           flex-direction: column; }
           body #page-two .entries .entry .input-element label, body #page-two .entries .entry .multiselect label, body #page-two .entries .entry .scale-container label {
             margin-bottom: 2px;
-            font-weight: bold; }
+            font-weight: bold;
+            height: 24px; }
+          body #page-two .entries .entry .input-element input, body #page-two .entries .entry .multiselect input, body #page-two .entries .entry .scale-container input {
+            width: 100%;
+            height: calc(100% - 24px); }
         body #page-two .entries .entry .scale-container {
           position: absolute; }
           body #page-two .entries .entry .scale-container label {
@@ -600,5 +604,14 @@ body {
   body .chart-div .active-org-node {
     color: white;
     background-color: #008080; }
+  body .matrix2d-list-container .matrix2d-list .row {
+    display: flex;
+    margin-top: 8px; }
+    body .matrix2d-list-container .matrix2d-list .row > * {
+      width: 128px; }
+    body .matrix2d-list-container .matrix2d-list .row .subsectors-dropdown {
+      display: flex;
+      flex-direction: column;
+      background-color: #fff; }
 
 /*# sourceMappingURL=add-template-entry.css.map */
