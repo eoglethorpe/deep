@@ -109,8 +109,6 @@
                 <div data-url="{% url 'user_profile' user.pk %}"><i class="fa fa-user"></i>Profile</small></div>
                 <div data-url="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</div>
                 <hr>
-                <div data-target="new-tab" data-url="{% url 'global_export' %}"><i class="fa fa-file-excel-o"></i>Global export</div>
-                <hr>
                 {% if request.user.is_superuser %}
                 <div data-url="/admin"><i class="fa fa-user-secret"></i>Admin panel</div>
                 <div data-url="{% url 'custom_admin:country_management' %}"><i class="fa fa-globe"></i>Country Panel</div>
