@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load watchful_url %}
+
+{% block title %}
+DEEP | Export
+{% endblock %}
+
+{% block head %}
+<link href="{% watchful_static_url 'css/global-export.css' %}" type="text/css" rel="stylesheet">
+
+<script>
+    $(document).ready(function() {
+        window.location.href = "{% url 'entries:exportxls' 0 %}?global=1";
+    });
+</script>
+{% endblock %}
+
+{% block body %}
+
+<div id="loading-animation">
+    <span id="loader"></span>
+    <h2>Preparing data to download ...</h2>
+    <p>This might take some time, please be patient</p>
+</div>
+
+
+{% endblock %}

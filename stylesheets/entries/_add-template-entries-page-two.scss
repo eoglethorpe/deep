@@ -1,29 +1,91 @@
 #page-two{
+    height: calc(100vh - #{$navbar-height});
+    overflow-y: auto;
 
-    .entry {
-        background-color: #dedede;
+    #button-pane{
+        position: fixed;
+        z-index: 100;
+        background-color: #fff;
+        width: 100%;
+        @include shadow();
+        text-align: right;
 
-        .input-element, .multiselect, .scale-container {
-            display: flex;
-            flex-direction: column;
+        button{
+            color: white;
+            margin: 16px 5px;
+            @include btn-shadow-md ;
+            padding: 6px 6px;
+            &.cancel-button{
+                background-color: $danger-color;
+
+            }
+            &.save-button{
+                background-color: $info-color;
+
+            }
+            &.save-and-next-button{
+                background-color: $info-color;
+
+            }
+            &.switch-page{
+                background-color: $primary-color;
+
+            }
+            i{
+                padding-right: 10px;
+            }
         }
+    }
 
-        .scale-container {
-            position: absolute;
+    .entries {
+        margin-top: 64px;
+        
+        .entry {
+            background-color: #dedede;
+            margin: 16px 0;
+            @include shadow();
 
-            .scale {
+            .input-element, .multiselect, .scale-container {
                 display: flex;
-                justify-content: center;
-                align-items: center;
-                height: calc(100% - 24px);
-
-                span {
-                    display: inline-block;
-                    width: 10px;
-                    height: 20px;
-                    margin: 0 2px;
-                    border-radius: 2px;
+                flex-direction: column;
+                label{
+                    margin-bottom: 2px;
+                    font-weight: bold;
                 }
+            }
+
+            .scale-container {
+                position: absolute;
+                label{
+                    margin-bottom: 2px;
+                    font-weight: bold;
+                }
+
+                .scale {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: calc(100% - 24px);
+
+                    span {
+                        display: inline-block;
+                        width: 10px;
+                        height: 20px;
+                        margin: 0 2px;
+                        border-radius: 2px;
+                    }
+                }
+
+            }
+
+
+            .organigram{
+                label{
+                    margin-bottom: 2px;
+                    font-weight: bold;
+                }
+
+
             }
         }
     }

@@ -9,6 +9,7 @@ from rest_framework.routers import DefaultRouter
 from users.views import *
 from deep.views import *
 from report.views import *
+from entries.views import GlobalExportView
 
 from users.rest_views import *
 from leads.rest_views import *
@@ -50,6 +51,8 @@ urlpatterns = [
     url(r'^report/', include('report.urls', namespace='report')),
 
     url(r'^user/(?P<user_id>\d+)', UserProfileView.as_view(), name="user_profile"),
+
+    url(r'^global-export/$', GlobalExportView.as_view(), name="global_export"),
 
     # API for chrome extension
     url(r'user/status/', UserStatusView.as_view(), name="status"),

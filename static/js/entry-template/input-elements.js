@@ -2,6 +2,7 @@ class InputElement extends Element {
     constructor(container, data, inputDom, className, defaultLabel) {
         let dom = $('<div class="element ' + className + ' input-element"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
+        dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<div class="input-container"><label>' + defaultLabel + '</label></div>'));
         dom.find('.input-container').append(inputDom);
         dom.find('.input-container').resizable({ grid: 20 });
@@ -11,6 +12,8 @@ class InputElement extends Element {
         if (data) {
             this.load(data);
         }
+
+        this.addPropertiesTo(this.createPropertiesBox(this.dom.find('.edit')));
     }
 
     save() {
@@ -19,7 +22,7 @@ class InputElement extends Element {
             type: this.type,
             position: this.getPosition(),
             size:  { width: this.dom.find('.input-container').css('width'), height: this.dom.find('.input-container').css('height') },
-            label: this.dom.find('label').text(),
+            label: this.dom.find('label').eq(0).eq(0).text(),
         }
     }
 
@@ -35,7 +38,7 @@ class InputElement extends Element {
             this.dom.find('.input-container').css('height', data.size.height);
         }
         if (data.label) {
-            this.dom.find('label').text(data.label);
+            this.dom.find('label').eq(0).eq(0).text(data.label);
         }
     }
 
@@ -46,9 +49,9 @@ class InputElement extends Element {
         let labelProperty = $('<div class="property"></div>');
         labelProperty.append($('<label>Label</label>'));
         labelProperty.append($('<input type="text">'));
-        labelProperty.find('input').val(this.dom.find('label').text());
+        labelProperty.find('input').val(this.dom.find('label').eq(0).eq(0).text());
         labelProperty.find('input').change(function() {
-            that.dom.find('label').text($(this).val());
+            that.dom.find('label').eq(0).eq(0).text($(this).val());
         });
         container.append(labelProperty);
     }
@@ -81,6 +84,7 @@ class MultiselectInput extends Element {
     constructor(container, data) {
         let dom = $('<div class="element multiselect-element"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
+        dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<div class="input-container"><label>Groups</label></div>'));
         dom.find('.input-container').append($('<select multiple><option value="">Select groups</option></select>'));
         dom.find('.input-container').resizable({ grid: 20 });
@@ -103,6 +107,7 @@ class MultiselectInput extends Element {
         if (data) {
             this.load(data);
         }
+        this.addPropertiesTo(this.createPropertiesBox(this.dom.find('.edit')));
     }
 
     save() {
@@ -111,7 +116,7 @@ class MultiselectInput extends Element {
             type: 'multiselect',
             position: this.getPosition(),
             size:  { width: this.dom.find('.input-container').css('width'), height: this.dom.find('.input-container').css('height') },
-            label: this.dom.find('label').text(),
+            label: this.dom.find('label').eq(0).text(),
             options: this.options,
         }
     }
@@ -128,7 +133,7 @@ class MultiselectInput extends Element {
             this.dom.find('.input-container').css('height', data.size.height);
         }
         if (data.label) {
-            this.dom.find('label').text(data.label);
+            this.dom.find('label').eq(0).text(data.label);
         }
         if (data.options) {
             this.options = data.options;
@@ -142,9 +147,9 @@ class MultiselectInput extends Element {
         let labelProperty = $('<div class="property"></div>');
         labelProperty.append($('<label>Label</label>'));
         labelProperty.append($('<input type="text">'));
-        labelProperty.find('input').val(this.dom.find('label').text());
+        labelProperty.find('input').val(this.dom.find('label').eq(0).text());
         labelProperty.find('input').change(function() {
-            that.dom.find('label').text($(this).val());
+            that.dom.find('label').eq(0).text($(this).val());
         });
         container.append(labelProperty);
 
@@ -154,7 +159,6 @@ class MultiselectInput extends Element {
 
         let addOption = function() {
             let option = $('<div class="option-container"><input type="text" placeholder="Enter an option"><button class="remove-option"><i class="fa fa-times"></i></button></div>');
-
             option.find('input').data('id', that.getUniqueId());
 
             option.find('.remove-option').click(function() {

@@ -11,6 +11,23 @@ class Element {
         this.id = templateEditor.getUniqueElementId();
     }
 
+    createPropertiesBox(editButton, container=null) {
+        if (!container) {
+            container = this.dom;
+        }
+
+        let propertiesBox = $('<div class="properties-box" hidden></div>');
+        propertiesBox.append($('<div class="header"><h3>' + this.getTitle() + '</h3><a class="fa fa-times close"></a></div>'));
+        propertiesBox.find('.close').click(function() {
+            propertiesBox.hide();
+        });
+        editButton.click(function() {
+            propertiesBox.show();
+        })
+        container.append(propertiesBox);
+        return propertiesBox;
+    }
+
     save() {
         return {}
     }
@@ -18,7 +35,7 @@ class Element {
     getPosition() {
         return {
             left: this.dom.position().left,
-            top: this.dom.position().top
+            top: this.dom.position().top,
         };
     }
 

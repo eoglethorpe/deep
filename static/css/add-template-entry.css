@@ -405,6 +405,25 @@ body {
       background-color: transparent; }
     body #page-one .split-pane #right-component {
       left: calc(33vw + 2px); }
+      body #page-one .split-pane #right-component #page-one-elements #button-pane {
+        text-align: right; }
+        body #page-one .split-pane #right-component #page-one-elements #button-pane button {
+          color: white;
+          box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5);
+          margin: 0px 5px;
+          padding: 6px 6px; }
+          body #page-one .split-pane #right-component #page-one-elements #button-pane button:active {
+            box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
+          body #page-one .split-pane #right-component #page-one-elements #button-pane button.cancel-button {
+            background-color: #e74c3c; }
+          body #page-one .split-pane #right-component #page-one-elements #button-pane button.save-button {
+            background-color: #3498db; }
+          body #page-one .split-pane #right-component #page-one-elements #button-pane button.save-and-next-button {
+            background-color: #3498db; }
+          body #page-one .split-pane #right-component #page-one-elements #button-pane button.switch-page {
+            background-color: #008080; }
+          body #page-one .split-pane #right-component #page-one-elements #button-pane button i {
+            padding-right: 10px; }
       body #page-one .split-pane #right-component .entry-selector-container {
         position: absolute; }
         body #page-one .split-pane #right-component .entry-selector-container .add-entry {
@@ -427,12 +446,14 @@ body {
           body #page-one .split-pane #right-component .entry-selector-container .remove-entry:active {
             box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
       body #page-one .split-pane #right-component .excerpt-box-container {
-        position: absolute; }
+        position: absolute;
+        text-align: left; }
         body #page-one .split-pane #right-component .excerpt-box-container textarea {
           width: 100%;
           height: 100%;
           padding: 16px; }
         body #page-one .split-pane #right-component .excerpt-box-container:before {
+          font-weight: bold;
           content: 'TEXT';
           font-size: 12px;
           top: -12px;
@@ -453,6 +474,7 @@ body {
             height: 100%;
             object-fit: contain; }
         body #page-one .split-pane #right-component .image-box-container:before {
+          font-weight: bold;
           content: 'IMAGE';
           position: absolute;
           font-size: 12px;
@@ -513,24 +535,64 @@ body {
               background-color: #414141 !important; }
         body #page-one .split-pane #right-component .matrix2d .sector {
           width: 7%; }
-  body #page-two .entry {
-    background-color: #dedede; }
-    body #page-two .entry .input-element, body #page-two .entry .multiselect, body #page-two .entry .scale-container {
-      display: flex;
-      flex-direction: column; }
-    body #page-two .entry .scale-container {
-      position: absolute; }
-      body #page-two .entry .scale-container .scale {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: calc(100% - 24px); }
-        body #page-two .entry .scale-container .scale span {
-          display: inline-block;
-          width: 10px;
-          height: 20px;
-          margin: 0 2px;
-          border-radius: 2px; }
+  body #page-two {
+    height: calc(100vh - 56px);
+    overflow-y: auto; }
+    body #page-two #button-pane {
+      position: fixed;
+      z-index: 100;
+      background-color: #fff;
+      width: 100%;
+      box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3);
+      text-align: right; }
+      body #page-two #button-pane button {
+        color: white;
+        margin: 16px 5px;
+        box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5);
+        padding: 6px 6px; }
+        body #page-two #button-pane button:active {
+          box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
+        body #page-two #button-pane button.cancel-button {
+          background-color: #e74c3c; }
+        body #page-two #button-pane button.save-button {
+          background-color: #3498db; }
+        body #page-two #button-pane button.save-and-next-button {
+          background-color: #3498db; }
+        body #page-two #button-pane button.switch-page {
+          background-color: #008080; }
+        body #page-two #button-pane button i {
+          padding-right: 10px; }
+    body #page-two .entries {
+      margin-top: 64px; }
+      body #page-two .entries .entry {
+        background-color: #dedede;
+        margin: 16px 0;
+        box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+        body #page-two .entries .entry .input-element, body #page-two .entries .entry .multiselect, body #page-two .entries .entry .scale-container {
+          display: flex;
+          flex-direction: column; }
+          body #page-two .entries .entry .input-element label, body #page-two .entries .entry .multiselect label, body #page-two .entries .entry .scale-container label {
+            margin-bottom: 2px;
+            font-weight: bold; }
+        body #page-two .entries .entry .scale-container {
+          position: absolute; }
+          body #page-two .entries .entry .scale-container label {
+            margin-bottom: 2px;
+            font-weight: bold; }
+          body #page-two .entries .entry .scale-container .scale {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100% - 24px); }
+            body #page-two .entries .entry .scale-container .scale span {
+              display: inline-block;
+              width: 10px;
+              height: 20px;
+              margin: 0 2px;
+              border-radius: 2px; }
+        body #page-two .entries .entry .organigram label {
+          margin-bottom: 2px;
+          font-weight: bold; }
   body .chart-div .org-node {
     user-select: none;
     cursor: pointer;

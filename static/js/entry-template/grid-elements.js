@@ -3,9 +3,19 @@ class Matrix1D extends Element {
     constructor(container, data) {
         let dom = $('<div class="element matrix1d"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
+        dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<h4 class="title">1D Matrix</h4>'));
         dom.append($('<div class="pillars sortable"></div>'));
-        dom.append($('<button class="fa fa-plus add-pillar"></button>'));
+        dom.append($('<button class="add-pillar"><i class="fa fa-plus"></i>Add Pillar</button>'));
+        dom.resizable({
+            grid: 20,
+            handles: 'e, w',
+            // resize: function(event, ui) {
+            //     if (ui.size.width > 600) {
+            //         ui.size.width = ui.originalSize.width;
+            //     }
+            // },
+        });
         super(container, dom);
         let that = this;
 
@@ -19,6 +29,8 @@ class Matrix1D extends Element {
         if (data) {
             this.load(data);
         }
+
+        this.addPropertiesTo(this.createPropertiesBox(this.dom.find('.edit')));
     }
 
     addPillar() {
@@ -34,7 +46,7 @@ class Matrix1D extends Element {
         pillar.append(floatingToolbar);
 
         pillar.append($('<div class="subpillars sortable"></div>'));
-        pillar.append($('<button class="fa fa-plus add-subpillar"></button>'));
+        pillar.append($('<button class="add-subpillar"><i class="fa fa-plus"></i></button>'));
         pillar.prepend($('<button class="fa fa-times remove-pillar"></button>'));
         this.dom.find('.pillars').append(pillar);
 
@@ -111,6 +123,7 @@ class Matrix1D extends Element {
             pillars: pillars,
             position: this.getPosition(),
             title: this.dom.find('.title').text(),
+            width: this.dom.css('width'),
         };
     }
 
@@ -146,6 +159,10 @@ class Matrix1D extends Element {
 
         if (data.title !== undefined) {
             this.dom.find('.title').text(data.title);
+        }
+
+        if (data.width) {
+            this.dom.css('width', data.width);
         }
     }
 
@@ -199,6 +216,7 @@ class Matrix2DList extends Element {
     constructor(container, data) {
         let dom = $('<div class="element matrix2d-list"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
+        dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<div class="container"><div class="col-1"><div class="pillar">Pillar</div><div class="subpillar">Subpillar</div></div><div class="col-2"><div class="sector">Sector</div><div class="subsectors">Subsectors</div></div></div>'));
 
         super(container, dom);
@@ -206,6 +224,8 @@ class Matrix2DList extends Element {
         if (data){
             this.load(data);
         }
+
+        this.addPropertiesTo(this.createPropertiesBox(this.dom.find('.edit')));
     }
 
     save() {
@@ -238,10 +258,12 @@ class Matrix2D extends Element {
     constructor(container, container2, data) {
         let dom = $('<div class="element matrix2d"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
+        dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<h4 class="title">2D Matrix</h4>'));
 
         dom.append($('<div class="sectors-container"><div class="sectors sortable"></div><button class="fa fa-plus add-sector"></button></div>'));
         dom.append($('<div class="pillars-container"><div class="pillars sortable"></div><button class="fa fa-plus add-pillar"></button></div>'));
+        dom.resizable({ grid: 20, handles: 'e, w' });
 
         super(container, dom);
 
@@ -261,6 +283,8 @@ class Matrix2D extends Element {
         if (data) {
             this.load(data);
         }
+
+        this.addPropertiesTo(this.createPropertiesBox(this.dom.find('.edit')));
     }
 
     addPillar() {
@@ -371,6 +395,7 @@ class Matrix2D extends Element {
             pillars: pillars,
             sectors: sectors,
             list: this.list.save(),
+            width: this.dom.css('width'),
         };
     }
 
@@ -420,6 +445,10 @@ class Matrix2D extends Element {
                 sectorDom.find('.title-block').text(sector.title);
                 if (sector.id) { sectorDom.data('id', sector.id) };
             }
+        }
+
+        if (data.width) {
+            this.dom.css('width', data.width);
         }
     }
 

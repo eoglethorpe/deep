@@ -63,9 +63,6 @@ $(document).ready(function(){
             }
             $('#export-entries-doc-form').append(formatNode);
         }
-
-        console.log($('#new-format')[0].outerHTML);
-        console.log(isPdf);
     });
 });
 
