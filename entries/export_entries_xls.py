@@ -91,7 +91,7 @@ def export_xls(title, event_pk):
     return ew.get_http_response(title)
 
 
-def global_export_and_save():
+def export_and_save(event_pk, filename):
     # Create a spreadsheet and get active workbook
     ew = ExcelWriter()
     ws = ew.get_active()
@@ -104,10 +104,10 @@ def global_export_and_save():
         "Date Imported", "Lead Title", "Source", "Excerpt", "Reliability",
         "Severity", "Number", "Demographic Groups", "Specific Needs Groups",
         "Affected Groups", "Pillar", "Subpillar", "Sector", "Subsector",
-        "Date Imported"
+        "Date Imported",
     ]
 
-    countries = entry_models.Country.objects.all()
+    countries = entry_models.Event.objects.get(pk=event_pk).countries.all()
     for country in countries:
         admin_levels = country.adminlevel_set.all()
         for admin_level in admin_levels:
@@ -125,11 +125,9 @@ def global_export_and_save():
 
     # Add each information in each entry belonging to this event
     informations = entry_models.EntryInformation.objects.filter(
-                        entry__template=None)
+                        entry__lead__event__pk=event_pk, template=None)
     grouped_rows = []
-    print('total: ' + str(len(informations)))
     for i, info in enumerate(informations):
-        print(str(i))
         try:
             rows = RowCollection(1)
 
@@ -173,13 +171,16 @@ def global_export_and_save():
 
             ew.append(rows.rows, ws)
             grouped_rows.append(rows.group_rows)
-        except:
-            print('error')
+        except Exception as error:
+            print(error)
 
     ew.append(grouped_rows, wsg)
-    ew.save_to('global_export.xls')
+    ew.save_to(filename)
 
 
 def xstr(conv):
-    """remove illegal characters from a string (errors from PDFs etc)"""
-    return "".join(filter(lambda x: x in string.printable, conv))
+    try:
+        """remove illegal characters from a string (errors from PDFs etc)"""
+        return "".join(filter(lambda x: x in string.printable, conv))
+    except:
+        return str(conv)
