@@ -546,7 +546,7 @@ body{
 
                     .floating-toolbar {
                         position: absolute;
-                        display: none;
+                        display: flex;
                         align-items: center;
                         height: 48px;
                         top: -48px;
@@ -580,12 +580,6 @@ body{
                             &[type="color"]{
                                 margin-right: 0;
                             }
-                        }
-                    }
-
-                    &:hover {
-                        .floating-toolbar {
-                            display: flex;
                         }
                     }
 
@@ -636,12 +630,13 @@ body{
                     }
                 }
             }
-            .add-pillar, .add-subpillar, .remove-pillar {
+            .add-pillar, .add-subpillar {
                 background-color: transparent;
                 display: none;
                 outline: none;
             }
-            .remove-pillar{
+            .options{
+                display: none;
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -684,8 +679,8 @@ body{
                 .pillar {
                     background-color: rgba(0,0,0,0.06);
                 }
-                .add-pillar, .add-subpillar, .remove-pillar {
-                    display: inherit;
+                .add-pillar, .add-subpillar, .options {
+                    display: inline-block;
                 }
             }
         }
@@ -733,7 +728,7 @@ body{
 
                         .floating-toolbar {
                             position: absolute;
-                            display: none;
+                            display: flex;
                             align-items: center;
                             height: 48px;
                             top: -48px;
@@ -768,7 +763,7 @@ body{
                             }
                         }
 
-                        .remove-pillar {
+                        .options {
                             display: none;
                             position: absolute;
                             left: 0;
@@ -784,11 +779,8 @@ body{
                             }
                         }
                         &:hover {
-                            .remove-pillar {
+                            .options {
                                 display: inline-block;
-                            }
-                            .floating-toolbar {
-                                display: flex;
                             }
                         }
                         .subpillars-container {
@@ -817,7 +809,7 @@ body{
                                             border: 1px dotted black;
                                         }
                                     }
-                                    .remove-subpillar {
+                                    .options {
                                         display: none;
                                         position: absolute;
                                         right: 0;
@@ -828,7 +820,7 @@ body{
                                     .floating-toolbar {
                                         top: 30px;
                                         left: 24px;
-                                        display: none;
+                                        display: flex;
                                         z-index: 11;
 
                                         &:after, &:before {
@@ -852,10 +844,7 @@ body{
                                     }
 
                                     &:hover {
-                                        .floating-toolbar {
-                                            display: flex;
-                                        }
-                                        .remove-subpillar {
+                                        .options {
                                             display: inline-block;
                                         }
                                     }
@@ -900,6 +889,17 @@ body{
                         cursor: pointer;
                         border: 1px solid rgba(0, 0, 0, 0.1);
 
+                        .floating-toolbar {
+                            position: absolute;
+                            display: flex;
+                            align-items: center;
+                            top: 48px;
+                            left: 24px;
+                            background-color: #f0f0f0;
+                            box-shadow: 0 2px 15px -3px rgba(0,0,0,0.3);
+                            border: 2px solid rgba(0, 0, 0, 0.1);
+                        }
+
                         .title-block {
 
                             &[contenteditable=true] {
@@ -907,7 +907,7 @@ body{
                                 border: 1px dotted black;
                             }
                         }
-                        .remove-sector {
+                        .options {
                             display: none;
                             position: absolute;
                             padding: 1px;
@@ -922,7 +922,7 @@ body{
                             }
                         }
                         &:hover {
-                            .remove-sector {
+                            .options {
                                 display: inline-block;
                             }
                         }

@@ -41,13 +41,18 @@ class Matrix1D extends Element {
         pillar.append($('<div class="title-block">New pillar</div>'));
 
         let floatingToolbar = $('<div class="floating-toolbar"></div>');
+        floatingToolbar.append('<button class="fa fa-times close"></button>');
         floatingToolbar.append('<input type="color" value="#eeeeee">');
         floatingToolbar.append('<input type="text" placeholder="Tooltip">');
+        floatingToolbar.find('.close').click(function() {
+            floatingToolbar.hide();
+        });
+        floatingToolbar.hide();
         pillar.append(floatingToolbar);
 
         pillar.append($('<div class="subpillars sortable"></div>'));
         pillar.append($('<button class="add-subpillar"><i class="fa fa-plus"></i></button>'));
-        pillar.prepend($('<button class="fa fa-times remove-pillar"></button>'));
+        pillar.prepend($('<div class="options"><button class="fa fa-times remove-pillar"></button><button class="fa fa-edit edit-pillar"></button></div>'));
         this.dom.find('.pillars').append(pillar);
 
         this.addSubpillar(pillar);
@@ -56,6 +61,9 @@ class Matrix1D extends Element {
         });
         pillar.find('.remove-pillar').click(function() {
             pillar.remove();
+        });
+        pillar.find('.edit-pillar').click(function() {
+            pillar.find('.floating-toolbar').show();
         });
 
         this.makeEditable(pillar.find('.title-block'));
@@ -290,12 +298,18 @@ class Matrix2D extends Element {
     addPillar() {
         let that = this;
         let pillars = this.dom.find('.pillars');
-        let pillar = $('<div class="pillar"><div class="title-block">New pillar</div><button class="fa fa-times remove-pillar"></button></div>');
+        let pillar = $('<div class="pillar"><div class="title-block">New pillar</div></div>');
+        pillar.append($('<div class="options"><button class="fa fa-times remove-pillar"></button><button class="fa fa-edit edit-pillar"></button></div>'))
         pillar.data('id', this.getUniquePillarId());
 
         let floatingToolbar = $('<div class="floating-toolbar"></div>');
+        floatingToolbar.append('<button class="fa fa-times close"></button>');
         floatingToolbar.append('<input type="color" value="#eeeeee">');
         floatingToolbar.append('<input type="text" placeholder="Tooltip">');
+        floatingToolbar.find('.close').click(function() {
+            floatingToolbar.hide();
+        })
+        floatingToolbar.hide();
         pillar.append(floatingToolbar);
 
         pillar.append($('<div class="subpillars-container"><div class="subpillars sortable"></div><button class="fa fa-plus add-subpillar"></button></div>'));
@@ -307,23 +321,31 @@ class Matrix2D extends Element {
         this.addSubpillar(pillar);
         pillar.find('.add-subpillar').click(function() { that.addSubpillar(pillar); });
         pillar.find('.remove-pillar').click(function() { pillar.remove(); });
+        pillar.find('.edit-pillar').click(function() { floatingToolbar.show(); });
 
         return pillar;
     }
 
     addSubpillar(pillar) {
         let that = this;
-        let subpillar = $('<div class="subpillar"><div class="title-block">New subpillar</div><button class="fa fa-times remove-subpillar"></button></div>');
+        let subpillar = $('<div class="subpillar"><div class="title-block">New subpillar</div></div>');
+        subpillar.append($('<div class="options"><button class="fa fa-times remove-subpillar"></button><button class="fa fa-edit edit-subpillar"></button></div>'))
         subpillar.data('id', this.getUniqueSubpillarId());
 
-        let floatingToolbar = $('<div class="floating-toolbar"></div>');
+        let floatingToolbar = $('<div class="floating-toolbar" hidden></div>');
+        floatingToolbar.append('<button class="fa fa-times close"></button>');
         floatingToolbar.append('<input type="text" placeholder="Tooltip">');
+        floatingToolbar.find('.close').click(function() {
+            floatingToolbar.hide();
+        });
+        floatingToolbar.hide();
         subpillar.append(floatingToolbar);
 
         pillar.find('.subpillars').append(subpillar);
 
         this.makeEditable(subpillar.find('.title-block'));
         subpillar.find('.remove-subpillar').click(function() { subpillar.remove(); });
+        subpillar.find('.edit-subpillar').click(function() { floatingToolbar.show(); });
 
         return subpillar;
     }
@@ -331,14 +353,43 @@ class Matrix2D extends Element {
     addSector() {
         let that = this;
         let sectors = this.dom.find('.sectors');
-        let sector = $('<div class="sector"><div class="title-block">New sector</div><button class="fa fa-times remove-sector"></button></div>');
+        let sector = $('<div class="sector"><div class="title-block">New sector</div></div>');
+        sector.append($('<div class="options"><button class="fa fa-times remove-sector"></button><button class="fa fa-edit edit-sector"></button></div>'));
         sector.data('id', this.getUniqueSectorId());
+
+        let floatingToolbar = $('<div class="floating-toolbar"></div>');
+        floatingToolbar.append('<button class="fa fa-times close"></button>');
+
+        floatingToolbar.append('<label>Subsectors</label>');
+        floatingToolbar.append('<button class="fa fa-plus add-subsector"></button><div class="subsectors"></div>');
+        floatingToolbar.find('.add-subsector').click(function() {
+            that.addSubsector(sector);
+        });
+
+
+        floatingToolbar.find('.close').click(function() {
+            floatingToolbar.hide();
+        })
+        floatingToolbar.hide();
+        sector.append(floatingToolbar);
+
         sectors.append(sector);
 
         this.makeEditable(sector.find('.title-block'));
         sector.find('.remove-sector').click(function() { sector.remove(); });
+        sector.find('.edit-sector').click(function() { floatingToolbar.show(); });
 
         return sector;
+    }
+
+    addSubsector(sector) {
+        let subsector = $('<div class="subsector"><input placeholder="Enter subsector"><button class="fa fa-times remove-subsector"></button></div>')
+        subsector.data('id', this.getUniqueSubsectorId());
+        subsector.find('.remove-subsector').click(function() {
+            subsector.remove();
+        });
+        subsector.appendTo(sector.find('.floating-toolbar').find('.subsectors'));
+        return subsector;
     }
 
     makeEditable(element) {
@@ -381,10 +432,18 @@ class Matrix2D extends Element {
         });
 
         this.dom.find('.sectors .sector').each(function() {
-            sectors.push({
+            let sector = {
                 title: $(this).find('.title-block').text(),
                 id: $(this).data('id'),
+                subsectors: [],
+            };
+            $(this).find('.floating-toolbar .subsectors .subsector').each(function() {
+                sector.subsectors.push({
+                    id: $(this).data('id'),
+                    title: $(this).find('input').val(),
+                });
             });
+            sectors.push(sector);
         });
 
         return {
@@ -444,6 +503,14 @@ class Matrix2D extends Element {
                 let sectorDom = this.addSector();
                 sectorDom.find('.title-block').text(sector.title);
                 if (sector.id) { sectorDom.data('id', sector.id) };
+
+                if (sector.subsectors) {
+                    for (let j=0; j<sector.subsectors.length; j++) {
+                        let subsector = this.addSubsector(sectorDom);
+                        subsector.find('input').val(sector.subsectors[j].title);
+                        subsector.data('id', sector.subsectors[j].id);
+                    }
+                }
             }
         }
 
@@ -483,6 +550,17 @@ class Matrix2D extends Element {
         while (true) {
             let id = 'sector-' + i;
             if (this.dom.find('.sector[data-id="' + id + '"]')) {
+                return id;
+            }
+            i++;
+        }
+    }
+
+    getUniqueSubsectorId() {
+        let i = this.dom.find('.subsector').length;
+        while (true) {
+            let id = 'subsector-' + i;
+            if (this.dom.find('.subsector[data-id="' + id + '"]')) {
                 return id;
             }
             i++;

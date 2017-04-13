@@ -6,6 +6,13 @@ let page2 = {
 
         for (let i=0; i<templateData.elements.length; i++) {
             let element = templateData.elements[i];
+
+            // Special case matrix 2d list
+            if (element.type == 'matrix2d' && element.list) {
+                this.addMatrix2dList(element);
+                continue;
+            }
+
             if (element.page != 'page-two') {
                 continue;
             }
@@ -291,26 +298,52 @@ let page2 = {
 
         modalDialog.find('.map-section').append($('<div class="map" style="width: 100%; height: 250px;"></div>'));
         modalDialog.find('.map-section').append($('<div class="buttons-container"></div>'));
+        let map = new Map(modalDialog.find('.map'), modalDialog.find('.buttons-container'));
 
+        // Control sections
         let controlSection1 = $('<div></div>');
         controlSection1.append($('<label>Select a country</label><select class="country"><option value="">Select a country</option></select>'));
-        controlSection1.append($('<label>Add locations</label><select class="locations"><option value="">Add locations</option></select>'))
+        controlSection1.append($('<label>Add locations</label><select class="locations" multiple><option value="">Add locations</option></select>'))
         controlSection1.find('select').selectize();
 
+        // Country selection
+        let countrySelectize = controlSection1.find('.country')[0].selectize;
         for (let i=0; i<countries.length; i++) {
-            controlSection1.find('.country')[0].selectize.addOption({
+            countrySelectize.addOption({
                 value: countries[i].code, text: countries[i].name,
             });
         }
+        controlSection1.find('.country').change(function() {
+            if ($(this).val()) {
+                map.selectCountry($(this).val());
+            }
+        });
 
-        let controlSection2 = $('<div></div>');
-        controlSection2.append($('<div class="selection-list"></div>'));
-        controlSection2.append($('<a class="clear">Clear all</a>'));
+        // Location selection
+        let locationSelectize = controlSection1.find('.locations')[0].selectize;
+        map.loadCallback = function() {
+            for (let key in map.allLocations) {
+                locationSelectize.addOption({
+                    value: key, text: map.allLocations[key],
+                });
+            }
+            locationSelectize.setValue(map.selections, true);
+        };
+        controlSection1.find('.locations').change(function() {
+            map.selections = $(this).val();
+            map.refresh();
+        });
+        map.selectCallback = function() {
+            locationSelectize.setValue(map.selections, true);
+        }
+
+        // let controlSection2 = $('<div></div>');
+        // controlSection2.append($('<div class="selection-list"></div>'));
+        // controlSection2.append($('<a class="clear">Clear all</a>'));
 
         modalDialog.find('.control-section').append(controlSection1);
-        modalDialog.find('.control-section').append(controlSection2);
+        // modalDialog.find('.control-section').append(controlSection2);
 
-        let map = new Map(modalDialog.find('.map'), modalDialog.find('.buttons-container'));
         /////////
 
         let newModal = new Modal(modalDialog, true);
@@ -320,16 +353,19 @@ let page2 = {
             if (index != NaN) {
                 let data = getEntryData(index, element.id);
                 map.reset();
-                map.selectCountry('NPL');
+                if (countries.length > 0) {
+                    countrySelectize.setValue(countries[0].code);
+                }
                 if (data.value) {
-                    // Load into modal
+                    // Load selections
                     map.selections = data.value;
+                    locationSelectize.setValue(data.value, true);
                 }
 
                 // Show modal
                 newModal.show().then(function() {}, null, function() {
                     if (newModal.action == 'apply') {
-                        // Save from modal
+                        // Save selections from modal
                         data.value = map.selections;
                         newModal.hide();
                     } else {
@@ -339,6 +375,22 @@ let page2 = {
                 });
             }
         });
+    },
+
+    addMatrix2dList: function(parentElement) {
+        let element = parentElement.list;
+
+        let that = this;
+        let listContainer = $('<div style="position: absolute;" class="matrix2d-list-container" data-id="' + element.id + '"></div>');
+        // listContainer.css('width', element.size.width);
+        // listContainer.css('height', element.size.height);
+        listContainer.css('left', element.position.left);
+        listContainer.css('top', element.position.top);
+
+        listContainer.append($('<label>' + parentElement.title + '</label>'));
+        listContainer.append($('<div class="matrix2d-list"></div>'));
+
+        listContainer.appendTo(this.template);
     },
 
     refresh: function() {

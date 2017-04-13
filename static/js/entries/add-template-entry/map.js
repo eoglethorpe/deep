@@ -14,6 +14,8 @@ class Map {
         this.mapLayer = null;
 
         this.selections = [];
+        this.loadCallback = null;
+        this.selectCallback = null;
     }
 
     reset() {
@@ -22,16 +24,17 @@ class Map {
         }
         this.buttonsContainer.empty();
 
-        this.adminLevels = {};
         this.selectedCountry = null;
         this.selectedLevel = 0;
         this.mapLayer = null;
         this.selections = [];
+        this.refreshAdminLevels();
     }
 
     selectCountry(countryCode) {
         this.selectedCountry = countryCode;
         this.selectedLevel = 0;
+        this.allLocations = {};
 
         if (!(countryCode in this.adminLevels)) {
             this.loadAdminLevels(countryCode);
@@ -39,6 +42,10 @@ class Map {
     }
 
     loadAdminLevels(countryCode) {
+        if (this.adminLevels[countryCode] && this.adminLevels[countryCode].length > 0) {
+            this.refreshAdminLevels();
+            return;
+        }
 
         let that = this;
         $.getJSON('/api/v1/countries/'+countryCode, function(data) {
@@ -71,7 +78,11 @@ class Map {
         let that = this;
         this.buttonsContainer.empty();
 
-        if (this.selectedCountry in this.adminLevels) {
+        if (Object.keys(this.adminLevels).length > 0) {
+            if (!this.selectedCountry || !(this.selectedCountry in this.adminLevels)) {
+                this.selectedCountry = Object.keys(this.adminLevels)[0];
+            }
+
             let adminLevels = this.adminLevels[this.selectedCountry];
 
             for (let i=0; i<adminLevels.length; i++) {
@@ -81,16 +92,41 @@ class Map {
                     that.refresh();
                 });
                 this.buttonsContainer.append(button);
+
+                let nameProperty = adminLevels[i].nameProperty;
+                let pcodeProperty = adminLevels[i].pcodeProperty;
+
+                if (adminLevels[i].geoJson) {
+                    for (let j=0; j<adminLevels[i].geoJson.features.length; j++) {
+                        let feature = adminLevels[i].geoJson.features[j];
+                        if (feature.properties) {
+                            let properties = feature.properties;
+
+                            let uniqueName = this.selectedCountry + ':' + i + ':' + properties[nameProperty];
+                            if (pcodeProperty && pcodeProperty.length > 0 && properties[pcodeProperty].length > 0) {
+                                uniqueName += ':' + properties[pcodeProperty];
+                            }
+
+                            this.allLocations[uniqueName] = properties[nameProperty];
+                        }
+                    }
+                }
             }
+            if (this.loadCallback) { this.loadCallback(); }
         }
 
         this.refresh();
+
     }
 
     refresh() {
         let that = this;
         if (this.mapLayer) {
             this.mapLayer.clearLayers();
+        }
+
+        if (!this.selections) {
+            this.selections = [];
         }
 
         // Invalid times are hard times
@@ -160,6 +196,8 @@ class Map {
             this.setStyle({
                 fillColor: (index < 0) ? MAP_COLORS[2] : MAP_COLORS[0],
             });
+
+            if (that.selectCallback) { that.selectCallback(); }
         });
 
         layer.bindLabel(name);
