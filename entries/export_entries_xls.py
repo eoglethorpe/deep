@@ -23,9 +23,9 @@ def export_xls(title, event_pk=None):
     ]
 
     if event_pk:
-        countries = entry_models.Event.objects.get(pk=event_pk).countries.all()
+        countries = entry_models.Event.objects.get(pk=event_pk).countries.all().distinct()
     else:
-        countries = entry_models.Country.objects.all()
+        countries = entry_models.Country.objects.all().distinct()
 
     for country in countries:
         admin_levels = country.adminlevel_set.all()
@@ -45,10 +45,10 @@ def export_xls(title, event_pk=None):
     if event_pk:
         # Add each information in each entry belonging to this event
         informations = entry_models.EntryInformation.objects.filter(
-                            entry__lead__event__pk=event_pk, entry__template=None)
+                            entry__lead__event__pk=event_pk, entry__template=None).distinct()
     else:
         # All information
-        informations = entry_models.EntryInformation.objects.filter(entry__template=None)
+        informations = entry_models.EntryInformation.objects.filter(entry__template=None).distinct()
 
     grouped_rows = []
     for i, info in enumerate(informations):
@@ -116,7 +116,7 @@ def export_and_save(event_pk, filename):
         "Date Imported",
     ]
 
-    countries = entry_models.Event.objects.get(pk=event_pk).countries.all()
+    countries = entry_models.Event.objects.get(pk=event_pk).countries.all().distinct()
     for country in countries:
         admin_levels = country.adminlevel_set.all()
         for admin_level in admin_levels:
@@ -134,7 +134,7 @@ def export_and_save(event_pk, filename):
 
     # Add each information in each entry belonging to this event
     informations = entry_models.EntryInformation.objects.filter(
-                        entry__lead__event__pk=event_pk, template=None)
+                        entry__lead__event__pk=event_pk, entry__template=None).distinct()
     grouped_rows = []
     for i, info in enumerate(informations):
         try:
