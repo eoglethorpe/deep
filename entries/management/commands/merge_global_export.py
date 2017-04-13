@@ -23,9 +23,10 @@ class Command(BaseCommand):
 
         files = glob.glob(os.path.join(folder, '*.xlsx'))
         for i, file in enumerate(files):
-            if 'all.xlsx' in file:
+            if 'global_export_all.xlsx' in file:
                 continue
             print('{}%     '.format(int(i/len(files)*100)), end='\r')
+            crisis_name = file.split('-')[1].split('.')[0].strip()
 
             wb = load_workbook(file)
             for sheet in wb:
@@ -40,10 +41,10 @@ class Command(BaseCommand):
 
                     # Copy header cells
                     for row in sheet.iter_rows(min_row=1, max_row=1):
-                        new_sheet.append([ cell.value for cell in row ])
+                        new_sheet.append(['Crisis'] + [ cell.value for cell in row ])
 
                 new_sheet = new_wb.get_sheet_by_name(sheet.title)
                 for row in sheet.iter_rows(min_row=2):
-                    new_sheet.append([ cell.value for cell in row ])
+                    new_sheet.append([ crisis_name ] +[ cell.value for cell in row ])
 
-        new_wb.save(os.path.join(folder, 'all.xlsx'))
+        new_wb.save(os.path.join(folder, 'global_export_all.xlsx'))
