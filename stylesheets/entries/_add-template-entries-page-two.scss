@@ -39,10 +39,12 @@
 
     .entries {
         margin-top: 64px;
+        padding: 10px;
 
         .entry {
-            background-color: #dedede;
+            background-color: #fff;
             margin: 16px 0;
+            border: 1px solid rgba(0, 0, 0, 0.1);
             @include shadow();
 
             .input-element, .multiselect, .scale-container {
@@ -112,19 +114,52 @@
 }
 
 .matrix2d-list-container {
+    >label{
+        margin-bottom: 10px;
+    }
     .matrix2d-list {
         .row {
             display: flex;
-            margin-top: 8px;
+            min-width: 300px;
+            padding: 6px 0;
+            justify-content: space-between;
+            // margin-top: 8px;
 
-            > * {
-                width: 128px;
+            > div {
+                flex-basis: calc(50% - 6px);
             }
-
+            a { cursor: pointer; }
+            .pillar, .sector {
+                font-weight: $font-weight-bold;
+            }
+            .fa-plus {
+                color: $primary-color
+            }
+            .fa-times {
+                color: $danger-color;
+                margin-left: 2px;
+            }
+            .subsector {
+                padding: 2px;
+            }
             .subsectors-dropdown {
-                display: flex;
+                outline: none;
                 flex-direction: column;
                 background-color: #fff;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                box-shadow: 0 3px 15px -5px rgba(0, 0, 0, 0.5);
+
+                .item{
+                    padding: 2px 6px;
+                    text-transform: none;
+                    display: block;
+                    width: 100%;
+                    cursor: pointer;
+
+                    &:hover{
+                        background-color: rgba(0, 0, 0, 0.06);
+                    }
+                }
             }
         }
     }
