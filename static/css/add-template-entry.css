@@ -563,10 +563,12 @@ body {
         body #page-two #button-pane button i {
           padding-right: 10px; }
     body #page-two .entries {
-      margin-top: 64px; }
+      margin-top: 64px;
+      padding: 10px; }
       body #page-two .entries .entry {
-        background-color: #dedede;
+        background-color: #fff;
         margin: 16px 0;
+        border: 1px solid rgba(0, 0, 0, 0.1);
         box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
         body #page-two .entries .entry .input-element, body #page-two .entries .entry .multiselect, body #page-two .entries .entry .scale-container {
           display: flex;
@@ -604,14 +606,49 @@ body {
   body .chart-div .active-org-node {
     color: white;
     background-color: #008080; }
+  body .matrix2d-list-container > label {
+    margin-bottom: 10px; }
   body .matrix2d-list-container .matrix2d-list .row {
     display: flex;
-    margin-top: 8px; }
-    body .matrix2d-list-container .matrix2d-list .row > * {
-      width: 128px; }
+    min-width: 300px;
+    padding: 6px 0;
+    justify-content: space-between; }
+    body .matrix2d-list-container .matrix2d-list .row > div {
+      flex-basis: calc(50% - 6px); }
+    body .matrix2d-list-container .matrix2d-list .row a {
+      cursor: pointer; }
+    body .matrix2d-list-container .matrix2d-list .row .pillar, body .matrix2d-list-container .matrix2d-list .row .sector {
+      font-weight: 500; }
+    body .matrix2d-list-container .matrix2d-list .row .fa-plus {
+      color: #008080; }
+    body .matrix2d-list-container .matrix2d-list .row .fa-times {
+      color: #e74c3c;
+      margin-left: 2px; }
+    body .matrix2d-list-container .matrix2d-list .row .subsector {
+      padding: 2px; }
     body .matrix2d-list-container .matrix2d-list .row .subsectors-dropdown {
-      display: flex;
+      outline: none;
       flex-direction: column;
-      background-color: #fff; }
+      background-color: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 3px 15px -5px rgba(0, 0, 0, 0.5); }
+      body .matrix2d-list-container .matrix2d-list .row .subsectors-dropdown .item {
+        padding: 2px 6px;
+        text-transform: none;
+        display: block;
+        width: 100%;
+        cursor: pointer; }
+        body .matrix2d-list-container .matrix2d-list .row .subsectors-dropdown .item:hover {
+          background-color: rgba(0, 0, 0, 0.06); }
+  body .modal .map-section .buttons-container {
+    text-align: center;
+    padding: 4px;
+    background-color: #f0f0f0; }
+  body .modal .control-section {
+    padding: 10px 16px 0 16px; }
+    body .modal .control-section label {
+      margin-bottom: 6px; }
+    body .modal .control-section .selectize-control {
+      margin-bottom: 16px; }
 
 /*# sourceMappingURL=add-template-entry.css.map */
