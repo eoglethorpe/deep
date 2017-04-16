@@ -223,6 +223,36 @@ let leadPreviewer = {
     },
 
     styleSimplifiedText: function(text) {
+        for (let i=0; i<entries.length; i++) {
+            let entry = entries[i];
+            let index = text.indexOf(entry.excerpt);
+            let color = '#ccc';
+
+            if (index >= 0) {
+                for (let i=0; i<entry.elements.length; i++) {
+                    let data = entry.elements[i];
+                    let element = templateData.elements.find(e => e.id == data.id);
+                    if (element) {
+                        if (element.type == 'matrix1d') {
+                            if (data.selections.length > 0) {
+                                let pillarId = data.selections[0].pillar;
+                                color = element.pillars.find(p => p.id == pillarId).color;
+                            }
+                        }
+                        else if (element.type == 'matrix2d') {
+                            if (data.selections.length > 0) {
+                                let pillarId = data.selections[0].pillar;
+                                color = element.pillars.find(p => p.id == pillarId).color;
+                            }
+                        }
+                    }
+                }
+            }
+
+            text = text.slice(0, index) + '<span style="background-color:'+ color +'; color:'+ getContrastYIQ(color) +'" >'
+                + entry.excerpt + '</span>'
+                + text.slice(index + entry.excerpt.length)
+        }
         return "<pre>" + text + "</pre>";
     },
 

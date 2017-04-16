@@ -47,6 +47,47 @@
             border: 1px solid rgba(0, 0, 0, 0.1);
             @include shadow();
 
+            .excerpt-box-container {
+                position: absolute;
+
+                label {
+                    font-weight: bold;
+                    font-size: 12px;
+                    margin-bottom: 4px;
+                }
+
+                textarea {
+                    width: 100%;
+                    height: calc(100% - 20px);
+                    padding: 16px;
+                }
+            }
+
+            .image-box-container {
+                position: absolute;
+
+                label {
+                    font-weight: bold;
+                    font-size: 12px;
+                    margin-bottom: 4px;
+                }
+
+                .image-box {
+                    width: 100%;
+                    height: calc(100% - 20px);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #fff;
+
+                    img{
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                    }
+                }
+            }
+
             .input-element, .multiselect, .scale-container {
                 display: flex;
                 flex-direction: column;

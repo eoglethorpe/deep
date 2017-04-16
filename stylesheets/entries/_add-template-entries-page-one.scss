@@ -314,7 +314,7 @@
             #page-one-elements{
                 #button-pane{
                     text-align: right;
-                    
+
                     button{
                         color: white;
                         @include btn-shadow-md ;
@@ -368,47 +368,62 @@
                 position: absolute;
                 text-align: left;
 
+                label {
+                    font-weight: bold;
+                    font-size: 12px;
+                    margin-bottom: 4px;
+                }
+
                 textarea{
                     width: 100%;
-                    height: 100%;
+                    height: calc(100% - 20px);
                     padding: 16px;
                 }
-                &:before{
-                    font-weight: bold;
-                    content: 'TEXT';
-                    font-size: 12px;
-                    top: -12px;
-                    left: 0;
-                    color: #717171;
-                }
+                // &:before{
+                //     font-weight: bold;
+                //     content: 'TEXT';
+                //     font-size: 12px;
+                //     top: -12px;
+                //     left: 0;
+                //     color: #717171;
+                // }
             }
             .image-box-container{
                 position: absolute;
-                background-color: #fff;
-                padding: 16px;
 
-                .image{
-                    height: 100%;
-                    width: 100%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
+                label {
+                    font-weight: bold;
+                    font-size: 12px;
+                    margin-bottom: 4px;
+                }
 
-                    img{
-                        width: 100%;
+                .image-box {
+                    height: calc(100% - 20px);
+                    background-color: #fff;
+
+                    .image{
                         height: 100%;
-                        object-fit: contain;
+                        width: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        img{
+                            width: 100%;
+                            height: 100%;
+                            object-fit: contain;
+                        }
                     }
                 }
-                &:before{
-                    font-weight: bold;
-                    content: 'IMAGE';
-                    position: absolute;
-                    font-size: 12px;
-                    top: -14px;
-                    left: 0;
-                    color: #717171;
-                }
+                // &:before{
+                //     font-weight: bold;
+                //     content: 'IMAGE';
+                //     position: absolute;
+                //     font-size: 12px;
+                //     top: -14px;
+                //     left: 0;
+                //     color: #717171;
+                // }
             }
             .matrix1d{
                 position: absolute;
