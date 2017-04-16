@@ -74,7 +74,7 @@ let page1 = {
 
     addExcerptBox: function(element) {
         let that = this;
-        let excerptBox = $('<div class="excerpt-box-container"><textarea placeholder="Enter excerpt here"></textarea></div>');
+        let excerptBox = $('<div class="excerpt-box-container"><label>Image</label><textarea placeholder="Enter excerpt here"></textarea></div>');
         excerptBox.css('width', element.size.width);
         excerptBox.css('height', element.size.height);
         excerptBox.css('left', element.position.left);
@@ -94,9 +94,9 @@ let page1 = {
     },
 
     addImageBox: function(element) {
-        let imageBox = $('<div class="image-box-container"><div class="image-box"></div></div>');
-        imageBox.find('.image-box').css('width', element.size.width);
-        imageBox.find('.image-box').css('height', element.size.height);
+        let imageBox = $('<div class="image-box-container"><label>Image</label><div class="image-box"></div></div>');
+        imageBox.css('width', element.size.width);
+        imageBox.css('height', element.size.height);
         imageBox.css('left', element.position.left);
         imageBox.css('top', element.position.top);
         imageBox.appendTo(this.container);

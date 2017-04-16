@@ -57,12 +57,19 @@ let page2 = {
 
     addExcerptBox: function(element) {
         let that = this;
-        let excerptBox = $('<div class="excerpt-box-container" style="position: absolute;"><textarea style="width: 100%; height: 100%; padding: 16px;" placeholder="Enter excerpt here"></textarea></div>');
+        let excerptBox = $('<div class="excerpt-box-container"><label>Excerpt</label><textarea placeholder="Enter excerpt here"></textarea></div>');
         excerptBox.css('width', element.size.width);
         excerptBox.css('height', element.size.height);
         excerptBox.css('left', element.position.left);
         excerptBox.css('top', element.position.top);
         excerptBox.appendTo(this.template);
+
+        let imageBox = $('<div class="image-box-container"><label>Image</label><div class="image-box"><img></div></div>')
+        imageBox.css('width', element.size.width);
+        imageBox.css('height', element.size.height);
+        imageBox.css('left', element.position.left);
+        imageBox.css('top', element.position.top);
+        imageBox.appendTo(this.template);
 
         this.container.on('change input paste drop', '.excerpt-box-container textarea', function() {
             let index = parseInt($(this).closest('.entry').data('index'));
@@ -425,7 +432,15 @@ let page2 = {
 
             entryContainer.find('select').selectize();
 
-            entryContainer.find('.excerpt-box-container textarea').val(entry.excerpt);
+            if (entry.image && entry.image.length > 0) {
+                entryContainer.find('.excerpt-box-container').hide();
+                entryContainer.find('.image-box-container').show();
+                entryContainer.find('.image-box-container img').attr('src', entry.image);
+            } else {
+                entryContainer.find('.excerpt-box-container').show();
+                entryContainer.find('.image-box-container').hide();
+                entryContainer.find('.excerpt-box-container textarea').val(entry.excerpt);
+            }
 
             for (let i=0; i<templateData.elements.length; i++) {
                 let templateElement = templateData.elements[i];

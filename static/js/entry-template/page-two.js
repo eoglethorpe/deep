@@ -4,7 +4,7 @@ class PageTwoExcerptBox extends Element {
         let dom = $('<div class="element page-two-excerpt"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
-        dom.append($('<div class="excerpt-container"><textarea placeholder="Enter excerpt here" autoresize></textarea></div>'));
+        dom.append($('<div class="excerpt-container"><label>Excerpt</label><textarea placeholder="Enter excerpt here" autoresize></textarea></div>'));
         dom.find('.excerpt-container').resizable({ grid: 20 });
         super(container, dom);
 
