@@ -6,6 +6,13 @@ let page2 = {
 
         for (let i=0; i<templateData.elements.length; i++) {
             let element = templateData.elements[i];
+
+            // Special case matrix 2d list
+            if (element.type == 'matrix2d' && element.list) {
+                this.addMatrix2dList(element);
+                continue;
+            }
+
             if (element.page != 'page-two') {
                 continue;
             }
@@ -25,6 +32,9 @@ let page2 = {
             }
             else if (element.type == 'scale') {
                 this.addScale(element);
+            }
+            else if (element.type == 'geolocations') {
+                this.addGeolocations(element);
             }
         }
 
@@ -164,7 +174,7 @@ let page2 = {
         organigramInput.append('<a><img src="/static/img/organigram.png" width="24px"></a>');
         organigramInput.appendTo(this.template);
 
-        let modalDialog = $('<div class="modal"></div>');
+        let modalDialog = $('<div class="modal" hidden></div>');
         modalDialog.append($('<header><h3 class="modal-title">Select ' + (element.label.toLowerCase()) + '</h2></header>'));
         modalDialog.append($('<div class="chart-div"></div>'));
 
@@ -261,7 +271,146 @@ let page2 = {
         });
     },
 
+    addGeolocations: function(element) {
+        let that = this;
+        let geolocationsInput = $('<div class="geolocations" style="position: absolute;"></div>');
+        geolocationsInput.css('width', element.size.width);
+        geolocationsInput.css('height', element.size.height);
+        geolocationsInput.css('left', element.position.left);
+        geolocationsInput.css('top', element.position.top);
+
+        geolocationsInput.append('<label>' + element.label + '</label>');
+        geolocationsInput.append('<a><img src="/static/img/mapicon.png" width="24px"></a>');
+        geolocationsInput.appendTo(this.template);
+
+        let modalDialog = $('<div class="modal" hidden></div>');
+        modalDialog.append($('<header><h3 class="modal-title">Select ' + (element.label.toLowerCase()) + '</h2></header>'));
+        modalDialog.append($('<div class="map-section"></div>'));
+        modalDialog.append($('<div class="control-section"></div>'));
+
+        let actionButtons = $('<div class="action-buttons"></div>');
+        actionButtons.append($('<button class="apply" data-action="apply" data-persist="true">Apply</button>'));
+        actionButtons.append($('<button class="cancel" data-action="dismiss">Cancel</button>'));
+        modalDialog.append(actionButtons);
+        modalDialog.appendTo($('.modal-container'));
+
+        //// Map
+
+        modalDialog.find('.map-section').append($('<div class="map" style="width: 100%; height: 250px;"></div>'));
+        modalDialog.find('.map-section').append($('<div class="buttons-container"></div>'));
+        let map = new Map(modalDialog.find('.map'), modalDialog.find('.buttons-container'));
+
+        // Control sections
+        let controlSection1 = $('<div></div>');
+        controlSection1.append($('<label>Select a country</label><select class="country"><option value="">Select a country</option></select>'));
+        controlSection1.append($('<label>Add locations</label><select class="locations" multiple><option value="">Add locations</option></select>'))
+        controlSection1.find('select').selectize();
+
+        // Country selection
+        let countrySelectize = controlSection1.find('.country')[0].selectize;
+        for (let i=0; i<countries.length; i++) {
+            countrySelectize.addOption({
+                value: countries[i].code, text: countries[i].name,
+            });
+        }
+        controlSection1.find('.country').change(function() {
+            if ($(this).val()) {
+                map.selectCountry($(this).val());
+            }
+        });
+
+        // Location selection
+        let locationSelectize = controlSection1.find('.locations')[0].selectize;
+        map.loadCallback = function() {
+            for (let key in map.allLocations) {
+                locationSelectize.addOption({
+                    value: key, text: map.allLocations[key],
+                });
+            }
+            locationSelectize.setValue(map.selections, true);
+        };
+        controlSection1.find('.locations').change(function() {
+            map.selections = $(this).val();
+            map.refresh();
+        });
+        map.selectCallback = function() {
+            locationSelectize.setValue(map.selections, true);
+        }
+
+        // let controlSection2 = $('<div></div>');
+        // controlSection2.append($('<div class="selection-list"></div>'));
+        // controlSection2.append($('<a class="clear">Clear all</a>'));
+
+        modalDialog.find('.control-section').append(controlSection1);
+        // modalDialog.find('.control-section').append(controlSection2);
+
+        /////////
+
+        let newModal = new Modal(modalDialog, true);
+        this.container.on('click', '.geolocations a', function() {
+            // Get selected entry
+            let index = parseInt($(this).closest('.entry').data('index'));
+            if (index != NaN) {
+                let data = getEntryData(index, element.id);
+                map.reset();
+                if (countries.length > 0) {
+                    countrySelectize.setValue(countries[0].code);
+                }
+                if (data.value) {
+                    // Load selections
+                    map.selections = data.value;
+                    locationSelectize.setValue(data.value, true);
+                }
+
+                // Show modal
+                newModal.show().then(function() {}, null, function() {
+                    if (newModal.action == 'apply') {
+                        // Save selections from modal
+                        data.value = map.selections;
+                        newModal.hide();
+                    } else {
+                        map.map.invalidateSize();
+                        map.refresh();
+                    }
+                });
+            }
+        });
+    },
+
+    addMatrix2dList: function(parentElement) {
+        let element = parentElement.list;
+
+        let that = this;
+        let listContainer = $('<div style="position: absolute;" class="matrix2d-list-container" data-id="' + parentElement.id + '"></div>');
+        // listContainer.css('width', element.size.width);
+        // listContainer.css('height', element.size.height);
+        listContainer.css('left', element.position.left);
+        listContainer.css('top', element.position.top);
+
+        listContainer.append($('<label>' + parentElement.title + '</label>'));
+        listContainer.append($('<div class="matrix2d-list"></div>'));
+
+        listContainer.appendTo(this.template);
+    },
+
+    addSubsector: function(container, element, data) {
+        let subsector = $('<div class="subsector" data-id="' + element.id + '"><span>' + element.title + '</span></div>');
+        subsector.append($('<a class="fa fa-times"></a>'));
+
+        subsector.find('a').click(function() {
+            subsector.remove();
+            if (data.indexOf(element.id) >= 0) {
+                data.splice(data.indexOf(element.id), 1);
+            }
+        });
+
+        container.append(subsector);
+        return subsector;
+    },
+
     refresh: function() {
+        let that = this;
+
         this.container.find('.entries').empty();
         for (let i=0; i<entries.length; i++) {
             let entry = entries[i];
@@ -280,6 +429,66 @@ let page2 = {
 
             for (let i=0; i<templateData.elements.length; i++) {
                 let templateElement = templateData.elements[i];
+
+                if (templateElement.type == 'matrix2d' && templateElement.list) {
+                    let data = entry.elements.find(d => d.id == templateElement.id);
+                    if (data) {
+                        let listContainer = entryContainer.find('.matrix2d-list-container[data-id="' + data.id + '"]');
+                        let list = listContainer.find('.matrix2d-list');
+
+                        list.empty();
+                        for (let j=0; j<data.selections.length; j++) {
+                            let selection = data.selections[j];
+                            let pillar = templateElement.pillars.find(p => p.id == selection.pillar);
+                            let subpillar = pillar.subpillars.find(s => s.id == selection.subpillar);
+                            let sector = templateElement.sectors.find(s => s.id == selection.sector);
+
+                            let col1 = $('<div class="col1"><div class="pillar">' + pillar.title + '</div><div class="subpillar">' + subpillar.title + '</div></div>');
+                            let col2 = $('<div class="col1"><div class="sector">' + sector.title + '</div><div class="subsectors"></div><a class="fa fa-plus"></a></div>');
+
+                            let subsectors = col2.find('.subsectors');
+                            if (!selection.subsectors) {
+                                selection.subsectors = [];
+                            }
+
+                            for (let k=0; k<selection.subsectors.length; k++) {
+                                that.addSubsector(subsectors, sector.subsectors.find(s => s.id == selection.subsectors[k]), selection.subsectors);
+                            }
+
+                            let dropdown = $('<div class="subsectors-dropdown" tabIndex="0"></div>');
+                            dropdown.blur(function() {
+                                $(this).hide();
+                            });
+                            dropdown.hide();
+                            dropdown.insertAfter(col2.find('a'));
+
+                            col2.find('a').click(function() {
+                                dropdown.empty();
+                                dropdown.show();
+                                dropdown.focus();
+                                for (let k=0; k<sector.subsectors.length; k++) {
+                                    let subsector = sector.subsectors[k];
+                                    if (!selection.subsectors.find(s => s == subsector.id)) {
+                                        let item = $('<a class="item">' + subsector.title + '</a>');
+                                        item.click(function() {
+                                            selection.subsectors.push(subsector.id);
+                                            that.addSubsector(subsectors, subsector, selection.subsectors);
+                                            dropdown.blur();
+                                        });
+                                        dropdown.append(item);
+                                    }
+                                }
+                            });
+
+                            let row = $('<div class="row"></div>');
+                            row.append(col1);
+                            row.append(col2);
+                            list.append(row);
+                        }
+                    }
+                    continue;
+                }
+
                 if (templateElement.page != 'page-two') {
                     continue;
                 }

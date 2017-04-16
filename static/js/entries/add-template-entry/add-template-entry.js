@@ -79,7 +79,7 @@ $(document).ready(function() {
     $('.switch-page').click(function() {
         page1.refresh();
         page2.refresh();
-        
+
         if ($('#page-one').is(':visible')) {
             $('#page-one').hide();
             $('#page-two').show();

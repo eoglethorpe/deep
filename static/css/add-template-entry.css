@@ -405,7 +405,7 @@ body {
       background-color: transparent; }
     body #page-one .split-pane #right-component {
       left: calc(33vw + 2px); }
-      body #page-one .split-pane #right-component #page-one-elements {
+      body #page-one .split-pane #right-component #page-one-elements #button-pane {
         text-align: right; }
         body #page-one .split-pane #right-component #page-one-elements #button-pane button {
           color: white;
@@ -562,35 +562,41 @@ body {
           background-color: #008080; }
         body #page-two #button-pane button i {
           padding-right: 10px; }
-    body #page-two .entry {
-      background-color: #dedede;
-      margin: 16px 0;
-      box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-      body #page-two .entry .input-element, body #page-two .entry .multiselect, body #page-two .entry .scale-container {
-        display: flex;
-        flex-direction: column; }
-        body #page-two .entry .input-element label, body #page-two .entry .multiselect label, body #page-two .entry .scale-container label {
-          margin-bottom: 2px;
-          font-weight: bold; }
-      body #page-two .entry .scale-container {
-        position: absolute; }
-        body #page-two .entry .scale-container label {
-          margin-bottom: 2px;
-          font-weight: bold; }
-        body #page-two .entry .scale-container .scale {
+    body #page-two .entries {
+      margin-top: 64px; }
+      body #page-two .entries .entry {
+        background-color: #dedede;
+        margin: 16px 0;
+        box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+        body #page-two .entries .entry .input-element, body #page-two .entries .entry .multiselect, body #page-two .entries .entry .scale-container {
           display: flex;
-          justify-content: center;
-          align-items: center;
-          height: calc(100% - 24px); }
-          body #page-two .entry .scale-container .scale span {
-            display: inline-block;
-            width: 10px;
-            height: 20px;
-            margin: 0 2px;
-            border-radius: 2px; }
-      body #page-two .entry .organigram label {
-        margin-bottom: 2px;
-        font-weight: bold; }
+          flex-direction: column; }
+          body #page-two .entries .entry .input-element label, body #page-two .entries .entry .multiselect label, body #page-two .entries .entry .scale-container label {
+            margin-bottom: 2px;
+            font-weight: bold;
+            height: 24px; }
+          body #page-two .entries .entry .input-element input, body #page-two .entries .entry .multiselect input, body #page-two .entries .entry .scale-container input {
+            width: 100%;
+            height: calc(100% - 24px); }
+        body #page-two .entries .entry .scale-container {
+          position: absolute; }
+          body #page-two .entries .entry .scale-container label {
+            margin-bottom: 2px;
+            font-weight: bold; }
+          body #page-two .entries .entry .scale-container .scale {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100% - 24px); }
+            body #page-two .entries .entry .scale-container .scale span {
+              display: inline-block;
+              width: 10px;
+              height: 20px;
+              margin: 0 2px;
+              border-radius: 2px; }
+        body #page-two .entries .entry .organigram label {
+          margin-bottom: 2px;
+          font-weight: bold; }
   body .chart-div .org-node {
     user-select: none;
     cursor: pointer;
@@ -598,5 +604,14 @@ body {
   body .chart-div .active-org-node {
     color: white;
     background-color: #008080; }
+  body .matrix2d-list-container .matrix2d-list .row {
+    display: flex;
+    margin-top: 8px; }
+    body .matrix2d-list-container .matrix2d-list .row > * {
+      width: 128px; }
+    body .matrix2d-list-container .matrix2d-list .row .subsectors-dropdown {
+      display: flex;
+      flex-direction: column;
+      background-color: #fff; }
 
 /*# sourceMappingURL=add-template-entry.css.map */

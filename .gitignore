@@ -8,6 +8,7 @@ os
 
 # Media files, uploaded by users
 media/
+static/global_export/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

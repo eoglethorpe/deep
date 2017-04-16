@@ -49,11 +49,6 @@ class ExportView(View):
         return render(request, "entries/export.html", context)
 
 
-class GlobalExportView(View):
-    def get(self, request):
-        return render(request, 'entries/global-export.html')
-        
-
 class ExportXls(View):
     def get(self, request, event):
         if request.GET.get('global') == '1':
