@@ -2,6 +2,8 @@ from deep.serializer import Serializer
 from entries.models import *
 from leads.models import *
 
+import json
+
 
 class PillarSerializer(Serializer):
     fields = {
@@ -106,5 +108,52 @@ class EntrySerializer(Serializer):
     def get_informations(self, entry):
         return [
             EntryInformationSerializer(information).serialize()
+            for information in entry.entryinformation_set.all()
+        ]
+
+
+class TemplateEntryInformationSerializer(Serializer):
+    fields = {
+        'id': 'pk',
+        'excerpt': 'excerpt',
+        'image': 'image',
+        'elements': 'elements',
+    }
+
+    def get_elements(self, info):
+        return json.loads(info.elements)
+
+
+class TemplateEntrySerializer(Serializer):
+    fields = {
+        'id': 'pk',
+        'event': 'lead.event.pk',
+        'modified_at': 'modified_at',
+        'modified_by': 'modified_by.pk',
+        'modified_by_name': 'modified_by.get_full_name',
+
+        'created_at': 'created_at',
+        'created_by': 'created_by.pk',
+        'created_by_name': 'created_by.get_full_name',
+
+        'lead': 'lead.pk',
+        'lead_title': 'lead.name',
+        'lead_url': 'lead_url',
+        'lead_source': 'lead.source_name',
+        'lead_published_at': 'lead.published_at',
+
+        'informations': 'informations',
+    }
+
+    def get_lead_url(self, entry):
+        if entry.lead.url and entry.lead.url != "":
+            return entry.lead.url
+        elif Attachment.objects.filter(lead=entry.lead).count() > 0:
+            return entry.lead.attachment.upload.url
+        return None
+
+    def get_informations(self, entry):
+        return [
+            TemplateEntryInformationSerializer(information).serialize()
             for information in entry.entryinformation_set.all()
         ]

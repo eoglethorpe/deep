@@ -27,10 +27,12 @@ class CrisisPanelView(View):
         if request.user.is_superuser:
             context["events"] = Event.objects.all().order_by('name')
             context["usergroups"] = UserGroup.objects.all()
+            # context["entry_templates"] = EntryTemplate.objects.all()
         else:
             context["events"] = Event.objects.filter(admins__pk=request.user.pk).order_by('name')
             context["usergroups"] = UserGroup.objects.filter(admins__pk=request.user.pk).order_by('name')
 
+        context["entry_templates"] = EntryTemplate.objects.filter(usergroup__members__pk=request.user.pk)
         context["countries"] = Country.objects.all()
         context["disaster_types"] = DisasterType.objects.all()
         context["users"] = User.objects.all()
@@ -87,6 +89,11 @@ class CrisisPanelView(View):
             else:
                 event.spill_over = None
 
+            if 'entry-template' in request.POST:
+                if request.POST["entry-template"] and request.POST["entry-template"] != "":
+                    event.entry_template = EntryTemplate.objects.get(pk=int(request.POST["entry-template"]))
+                else:
+                    event.entry_template = None
             event.save()
 
             if event.admins.count() == 0:

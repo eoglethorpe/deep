@@ -4,6 +4,7 @@ var assignedToSelectize;
 var userGroupsSelectize;
 var adminsSelectize;
 var spilloverSelectize;
+var entryTemplateSelectize;
 
 let lastAdminSelection;
 
@@ -40,6 +41,7 @@ $(document).ready(function(){
     userGroupsSelectize = $('#user-groups').selectize();
     adminsSelectize = $('#admins').selectize();
     spilloverSelectize = $("#spillover").selectize();
+    entryTemplateSelectize = $("#entry-template").selectize();
 
     $('.crisis').on('click', function() {
         var pk = $(this).data("crisis-pk");
@@ -60,6 +62,13 @@ $(document).ready(function(){
         lastAdminSelection = null;
         adminsSelectize[0].selectize.setValue(crisis.admins);
         spilloverSelectize[0].selectize.setValue(crisis.spillover);
+        entryTemplateSelectize[0].selectize.setValue(crisis.entry_template);
+
+        if (crisis.num_entries == 0) {
+            entryTemplateSelectize[0].selectize.enable();
+        } else {
+            entryTemplateSelectize[0].selectize.disable();
+        }
 
         $("#crisis-start-date").val(crisis.start_date);
         $("#crisis-end-date").val(crisis.end_date);
@@ -123,8 +132,9 @@ function addNewCrisis() {
     lastAdminSelection = null;
     adminsSelectize[0].selectize.setValue(defaultAdminSelection);
     spilloverSelectize[0].selectize.setValue("");
+    entryTemplateSelectize[0].selectize.setValue("");
 
-    adminsSelectize[0].selectize.enable();
+    entryTemplateSelectize[0].selectize.enable();
 
     $("#crisis-start-date").val("");
     $("#crisis-end-date").val("");
