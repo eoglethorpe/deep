@@ -28,6 +28,8 @@ var crises = {
         spillover: {% if event.spill_over %}"{{event.spill_over.pk}}"{% else %}null{% endif %},
         usergroups: [{% for group in event.usergroup_set.all %}"{{group.pk}}", {% endfor %}],
         admins: [{% for admin in event.admins.all %}"{{admin.pk}}", {% endfor %}],
+        entry_template: {% if event.entry_template %}"{{ event.entry_template.pk }}"{% else %}null{% endif %},
+        num_entries: {{ event.get_num_entries }}
     },
     {% endfor %}
 };
@@ -156,11 +158,20 @@ let myPk = '{{request.user.pk}}';
                 </select>
             </div>
             <div>
-                <label> Spillover Effect </label>
+                <label>Spillover Effect</label>
                 <select name="spillover" id="spillover" placeholder="Spillover effect">
                     <option value="">Spillover</option>
                     {% for e in events %}
                     <option value="{{e.pk}}">{{e.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label>Entries template</label>
+                <select name="entry-template" id="entry-template" placeholder="Entries template">
+                    <option value="">Select template for entries</option>
+                    {% for template in entry_templates %}
+                    <option value="{{template.pk}}">{{ template.name }}</option>
                     {% endfor %}
                 </select>
             </div>

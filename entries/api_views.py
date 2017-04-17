@@ -14,7 +14,7 @@ class EntryApiView(View):
         return JSON_METHOD_NOT_ALLOWED
 
     def get(self, request):
-        entries = Entry.objects.filter(template=None).order_by('-created_at')
+        entries = Entry.objects.all().order_by('-created_at')
 
         event = request.GET.get('event')
         if event:
@@ -33,7 +33,12 @@ class EntryApiView(View):
 
         data = []
         for entry in entries:
-            data.append(EntrySerializer(entry).serialize())
+            if entry.lead.event.entry_template:
+                if entry.template:
+                    data.append(TemplateEntrySerializer(entry).serialize())
+            else:
+                if not entry.template:
+                    data.append(EntrySerializer(entry).serialize())
 
         # Extra requests
         extra = None

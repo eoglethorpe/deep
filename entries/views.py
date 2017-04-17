@@ -176,17 +176,7 @@ class EntriesView(View):
         context["all_events"] = Event.objects.all()
 
         context["users"] = User.objects.exclude(first_name="", last_name="")
-        context["pillars"] = InformationPillar.objects.all()
-        context["subpillars"] = InformationSubpillar.objects.all()
-        context["sectors"] = Sector.objects.all()
-        context["subsectors"] = Subsector.objects.all()
-        context["vulnerable_groups"] = VulnerableGroup.objects.all()
-        context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
-        context["reliabilities"] = Reliability.objects.all().order_by('level')
-        context["severities"] = Severity.objects.all().order_by('level')
-        context["affected_groups"] = AffectedGroup.objects.all()
         context["sources"] = []
-
         for lead in Lead.objects.filter(event=event):
             if lead.source_name and \
                     lead.source_name not in context["sources"] and \
@@ -194,7 +184,22 @@ class EntriesView(View):
                 context["sources"].append(lead.source_name)
 
         UserProfile.set_last_event(request, context["event"])
-        return render(request, "entries/entries.html", context)
+
+        if Event.objects.get(pk=event).entry_template:
+            context["entry_template"] = Event.objects.get(pk=event).entry_template
+            return render(request, "entries/template-entries.html", context)
+        else:
+            context["pillars"] = InformationPillar.objects.all()
+            context["subpillars"] = InformationSubpillar.objects.all()
+            context["sectors"] = Sector.objects.all()
+            context["subsectors"] = Subsector.objects.all()
+            context["vulnerable_groups"] = VulnerableGroup.objects.all()
+            context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
+            context["reliabilities"] = Reliability.objects.all().order_by('level')
+            context["severities"] = Severity.objects.all().order_by('level')
+            context["affected_groups"] = AffectedGroup.objects.all()
+
+            return render(request, "entries/entries.html", context)
 
 
 class AddEntry(View):
@@ -202,6 +207,10 @@ class AddEntry(View):
     def get(self, request, event, lead_id=None, id=None, template_id=None):
         refresh_pcodes()
         context = {}
+
+        if template_id is None:
+            if Event.objects.get(pk=event).entry_template:
+                template_id = Event.objects.get(pk=event).entry_template.pk
 
         if not id:
             lead = Lead.objects.get(pk=lead_id)
@@ -272,6 +281,9 @@ class AddEntry(View):
 
     @method_decorator(login_required)
     def post(self, request, event, lead_id=None, id=None, template_id=None):
+        if template_id is None:
+            if Event.objects.get(pk=event).entry_template:
+                template_id = Event.objects.get(pk=event).entry_template.pk
         if not id:
             lead = Lead.objects.get(pk=lead_id)
             activity = CreationActivity()
