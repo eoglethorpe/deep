@@ -1,10 +1,14 @@
 let entriesManager = {
-    init: function(eventId) {
+    init: function(eventId, filtersContainer) {
         this.eventId = eventId;
         this.renderCallback = null;
+        this.filtersContainer = filtersContainer;
 
         this.entries = [];
+        this.filters = {};
         this.filteredEntries = [];
+
+        this.createBasicFilters();
     },
 
     readAll: function() {
@@ -43,14 +47,289 @@ let entriesManager = {
             for (let j=0; j<data[i].informations.length; j++) {
                 let info = data[i].informations[j];
                 info.entryIndex = i + lastId;
+
+                // Load geolocations
+                let geolocationElements = templateData.elements.filter(
+                    te => te.type == 'geolocations' && info.elements.find(e => te.id == e.id)
+                );
+                for (let k=0; k<geolocationElements.length; k++) {
+                    let te = geolocationElements[k];
+                    let data = info.elements.find(e => e.id == te.id);
+
+                    if (data) {
+                        for (let l=0; l<data.value.length; l++) {
+                            this.findFilter(te.id)[0].selectize.addOption({
+                                value: data.value[l],
+                                text: data.value[l].split(':')[2],
+                            });
+                        }
+                    }
+                }
             }
+
+            // Add option to user filters
+            this.findFilter('user')[0].selectize.addOption({
+                value: data[i].created_by,
+                text: data[i].created_by_name,
+            });
         }
 
         this.filterEntries();
     },
 
+    findFilter: function(id) {
+        return this.filtersContainer.find('[data-id="' + id + '"]');
+    },
+
     filterEntries: function() {
-        this.filteredEntries = this.entries;
+        this.filteredEntries = [];
+        for (let i=0; i<this.entries.length; i++) {
+            let filteredEntry = $.extend(true, {}, this.entries[i]);
+
+            for (let filterId in this.filters) {
+                if (this.filters[filterId]) {
+                    filteredEntry.informations = filteredEntry.informations.filter(this.filters[filterId]);
+                }
+            }
+
+            if (filteredEntry.informations.length > 0) {
+                this.filteredEntries.push(filteredEntry);
+            }
+        }
+    },
+
+    createBasicFilters: function() {
+        let that = this;
+
+        this.addTextFilter('search-excerpt', 'Search excerpt', function(info) {
+            return info.excerpt.toLowerCase().includes(this.value.toLowerCase());
+        });
+
+        this.addTextFilter('lead-title', 'Lead title', function(info) {
+            return that.entries[info.entryIndex].lead_title.toLowerCase().includes(this.value.toLowerCase());
+        });
+
+        this.addTextFilter('lead-source', 'Lead source', function(info) {
+            if (that.entries[info.entryIndex].lead_source) {
+                return that.entries[info.entryIndex].lead_source.toLowerCase().includes(this.value.toLowerCase());
+            }
+            return false;
+        });
+
+        this.addMultiselectFilter('user', 'User', function(info) {
+            return this.value.indexOf(that.entries[info.entryIndex].created_by+'') >= 0;
+        });
+
+        this.addDateFilter('date-published', 'Date published', function(info) {
+            let date = new Date(that.entries[info.entryIndex].lead_published_at);
+            if (this.value == 'range') {
+                return dateInRange(date, new Date(this.startDate), new Date(this.endDate));
+            } else {
+                return filterDate(this.value, date);
+            }
+        });
+    },
+
+    addFilterFor: function(element) {
+        if (element.type == 'date-input') {
+            this.addDateFilter(element.id, element.label, function(info) {
+                let data = info.elements.find(d => d.id == element.id);
+                if (data) {
+                    if (this.value == 'range') {
+                        return dateInRange(new Date(data.value), new Date(this.startDate), new Date(this.endDate));
+                    } else {
+                        return filterDate(this.value, new Date(data.value));
+                    }
+                }
+                return false;
+            });
+        }
+        else if (element.type == 'multiselect') {
+            this.addMultiselectFilter(element.id, element.label, function(info) {
+                let value = this.value;
+                let data = info.elements.find(d => d.id == element.id);
+                if (data) {
+                    return data.value.find(v => value.indexOf(v) >= 0);
+                }
+                return false;
+            });
+
+            for (let i=0; i<element.options.length; i++) {
+                this.findFilter(element.id)[0].selectize.addOption({
+                    value: element.options[i].id,
+                    text: element.options[i].text,
+                });
+            }
+        }
+
+        else if (element.type == 'organigram') {
+            this.addMultiselectFilter(element.id, element.label, function(info) {
+                let value = this.value;
+                let data = info.elements.find(d => d.id == element.id);
+                if (data) {
+                    return data.value.find(v => value.indexOf(v) >= 0);
+                }
+                return false;
+            });
+
+            for (let i=0; i<element.nodes.length; i++) {
+                this.findFilter(element.id)[0].selectize.addOption({
+                    value: element.nodes[i].id,
+                    text: element.nodes[i].name,
+                });
+            }
+        }
+
+        else if (element.type == 'geolocations') {
+            this.addMultiselectFilter(element.id, element.label, function(info) {
+                let value = this.value;
+                let data = info.elements.find(d => d.id == element.id);
+                if (data) {
+                    return data.value.find(v => value.indexOf(v) >= 0);
+                }
+                return false;
+            });
+        }
+
+        else if (element.type == 'scale') {
+            this.addRangeFilter(element.id, element.label, function(info) {
+                let data = info.elements.find(d => d.id == element.id);
+                let fromId = element.scaleValues.findIndex(v => v.id == this.from);
+                let toId = element.scaleValues.findIndex(v => v.id == this.to);
+                let myId;
+                if (data && data.value) {
+                    myId = element.scaleValues.findIndex(v => v.id == data.value);
+                } else {
+                    myId = element.scaleValues.findIndex(v => v.default);
+                }
+                return (myId >= fromId && myId <= toId);
+            });
+
+            for (let i=0; i<element.scaleValues.length; i++) {
+                this.findFilter(element.id)[0].selectize.addOption({
+                    value: element.scaleValues[i].id,
+                    text: element.scaleValues[i].name,
+                });
+                this.findFilter(element.id)[1].selectize.addOption({
+                    value: element.scaleValues[i].id,
+                    text: element.scaleValues[i].name,
+                });
+            }
+        }
+    },
+
+    addTextFilter: function(id, label, filterFunction) {
+        let that = this;
+        let element = $('<input placeholder="' + label + '" data-id="' + id + '">');
+        element.appendTo(this.filtersContainer);
+        element.on('change paste drop input', function() {
+            let val = $(this).val();
+            if (!val) {
+                that.filters[id] = null;
+            } else {
+                that.filters[id] = filterFunction.bind({ value: val });
+            }
+
+            that.filterEntries();
+            if (that.renderCallback) { that.renderCallback(true); }
+        });
+    },
+
+    addMultiselectFilter: function(id, label, filterFunction) {
+        let that = this;
+        let element = $('<select data-id="' + id + '" placeholder="' + label + '" multiple><option value="">' + label + '</option></select>');
+        element.appendTo(this.filtersContainer);
+        element.selectize();
+        element.change(function() {
+            let val = $(this).val();
+            if (!val || val.length == 0) {
+                that.filters[id] = null;
+            } else {
+                that.filters[id] = filterFunction.bind({ value: val });
+            }
+
+            that.filterEntries();
+            if (that.renderCallback) { that.renderCallback(true); }
+        });
+    },
+
+    addDateFilter: function(id, label, filterFunction) {
+        let that = this;
+        let element = $('<select data-id="' + id + '" placeholder="' + label + '"></select>');
+        element.append('<option value="">' + label + '</option>');
+        element.append('<option value="today">Today</option>');
+        element.append('<option value="yesterday">Yesterday</option>');
+        element.append('<option value="last-seven-days">Last 7 days</option>');
+        element.append('<option value="this-week">This week</option>');
+        element.append('<option value="last-thirty-days">Last 30 days</option>');
+        element.append('<option value="this-month">This month</option>');
+        element.append('<option value="range">Range</option>');
+
+        element.appendTo(this.filtersContainer);
+        element.selectize();
+
+        let dateModalBox = $('<div class="modal" hidden></div>');
+        dateModalBox.appendTo($('.modal-container'));
+        dateModalBox.append('<header><h3 class="modal-title">Enter date range</h3></header>');
+        dateModalBox.append('<div class="input-container"><label>Start date</label><input type="date" class="start-date"></div>');
+        dateModalBox.append('<div class="input-container"><label>End date</label><input type="date" class="end-date"></div>');
+        dateModalBox.append('<div class="action-buttons"><button class="cancel" data-action="dismiss">Cancel</button><button class="ok" data-action="proceed">Ok</button></div>');
+
+        let dateModal = new Modal(dateModalBox);
+        let previousSelection = null;
+
+        element.change(function() {
+            let val = $(this).val();
+            if (!val) {
+                that.filters[id] = null;
+            } else if (val == 'range') {
+                dateModal.show().then(function() {
+                    if (dateModal.action == 'proceed') {
+                        let startDate = dateModalBox.find('.start-date').val();
+                        let endDate = dateModalBox.find('.end-date').val();
+                        if (startDate && endDate) {
+                            that.filters[id] = filterFunction.bind({ value: 'range', startDate: startDate, endDate: endDate });
+                            that.filterEntries();
+                            if (that.renderCallback) { that.renderCallback(true); }
+                        }
+                    } else {
+                        element[0].selectize.setValue(previousSelection);
+                    }
+                });
+                return;
+            } else {
+                that.filters[id] = filterFunction.bind({ value: val });
+                previousSelection = val;
+            }
+            that.filterEntries();
+            if (that.renderCallback) { that.renderCallback(true); }
+        });
+    },
+
+    addRangeFilter: function(id, label, filterFunction) {
+        let that = this;
+        let elementFrom = $('<select data-id="' + id + '" placeholder="from"><option value="">from</option></select>') ;
+        let elementTo = $('<select data-id="' + id + '" placeholder="to"><option value="">to</option></select>');
+        this.filtersContainer.append('<label>' + label + '</label>');
+        this.filtersContainer.append(elementFrom);
+        this.filtersContainer.append(elementTo);
+
+        elementFrom.selectize();
+        elementTo.selectize();
+
+        let elements = $().add(elementFrom).add(elementTo);
+        elements.change(function() {
+            let valFrom = elementFrom.val();
+            let valTo = elementTo.val();
+            if (!valFrom || !valTo) {
+                that.filters[id] = null;
+            } else {
+                that.filters[id] = filterFunction.bind({ from: valFrom, to: valTo });
+            }
+
+            that.filterEntries();
+            if (that.renderCallback) { that.renderCallback(true); }
+        });
     },
 };
 
@@ -86,6 +365,8 @@ let entriesList = {
             else if (element.type == 'scale') {
                 this.addScale(element);
             }
+
+            entriesManager.addFilterFor(element);
         }
     },
 
@@ -161,7 +442,9 @@ let entriesList = {
 
             let entryDom = this.entryTemplate.clone();
             entryDom.removeClass('entry-template').addClass('entry');
-            entryDom.find('h2').text(entry.lead_title);
+            entryDom.find('h2').html(
+                searchAndHighlight(entry.lead_title, $('#filters input[data-id="lead-title"]').val())
+            );
             entryDom.appendTo(this.container);
             entryDom.show();
 
@@ -175,7 +458,9 @@ let entriesList = {
                         '<img src="' + information.image + '">'
                     );
                 } else {
-                    infoDom.find('.excerpt-container').text(information.excerpt);
+                    infoDom.find('.excerpt-container').html(
+                        searchAndHighlight(information.excerpt, $('#filters input[data-id="search-excerpt"]').val())
+                    );
                 }
 
                 for (let k=0; k<templateData.elements.length; k++) {
@@ -275,9 +560,49 @@ let entriesList = {
 
 
 $(document).ready(function() {
+    entriesManager.init(eventId, $('#filters'));
     entriesList.init($('#entries'));
 
-    entriesManager.init(eventId);
     entriesManager.renderCallback = entriesList.refresh;
     entriesManager.readAll();
 });
+
+
+
+// Checks if the date is in given range
+function dateInRange(date, min, max){
+    date.setHours(0, 0, 0, 0);
+    min.setHours(0, 0, 0, 0);
+    max.setHours(0, 0, 0, 0);
+    return (date >= min && date <= max);
+}
+
+function filterDate(filter, date){
+    dateStr = date.toDateString();
+    switch(filter){
+        case "today":
+            return (new Date()).toDateString() == dateStr;
+        case "yesterday":
+            yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            return yesterday.toDateString() == dateStr;
+        case "last-seven-days":
+            min = new Date();
+            min.setDate(min.getDate() - 7);
+            return dateInRange(date, min, (new Date));
+        case "this-week":
+            min = new Date();
+            min.setDate(min.getDate() - min.getDay());
+            return dateInRange(date, min, (new Date));
+        case "last-thirty-days":
+            min = new Date();
+            min.setDate(min.getDate() - 30);
+            return dateInRange(date, min, (new Date));
+        case "this-month":
+            min = new Date();
+            min.setDate(1);
+            return dateInRange(date, min, (new Date));
+        default:
+            return true;
+    }
+}

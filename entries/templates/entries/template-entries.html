@@ -33,13 +33,14 @@ DEEP | Entries
     };
 </script>
 
-
 {% endblock %}
 
 {% block body %}
 {% include 'navbar.html' %}
 
 <main>
+    <div id="filters">
+    </div>
     <div id="entries">
         <div class="entry-template" hidden>
             <h2></h2>
@@ -47,6 +48,9 @@ DEEP | Entries
         </div>
         <div class="information-template" style="position: relative; width: 100%; height: 312px;" hidden>
         </div>
+    </div>
+
+    <div class="modal-container" hidden>
     </div>
 </main>
 {% endblock %}
