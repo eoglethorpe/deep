@@ -144,7 +144,7 @@ let entriesList = {
             let value = element.scaleValues[i];
             let scaleElement = $('<span data-id="' + value.id + '"></span>');
             scaleElement.attr('title', value.name);
-            scaleElement.attr('background-color', value.color);
+            scaleElement.css('background-color', value.color);
             scale.find('.scale').append(scaleElement);
         }
     },

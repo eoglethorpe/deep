@@ -1,0 +1,121 @@
+#entries{
+    padding: 16px 16px;
+    .entry{
+        .entry-header{
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: white;
+            background-color: rgba(0,0,0,0.66);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            h2{
+                margin: 0 0 10px 0;
+            }
+
+            .action-buttons{
+                display: flex;
+                align-items: stretch;
+                justify-content: center;
+                align-self: stretch;
+
+                >a{
+                    width: 48px;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+            >div{
+                &:first-child{
+                    padding: 6px 16px;
+                    flex-basis: calc(100% - 96px);
+
+                    >div{
+                        > span, date{
+                            margin-right: 24px;
+
+                            .fa{
+                                margin-right: 8px;
+                            }
+                        }
+                    }
+                }
+                &:last-child{
+                    flex-basis: 96px;
+
+                    >a{
+                        &:first-child{
+                            background-color: $info-color;
+                        }
+                        &:last-child{
+                            background-color: $danger-color;
+
+                        }
+                    }
+                }
+            }
+
+        }
+        .information{
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.0980392);
+            margin-bottom: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            @include shadow();
+
+            label{
+                font-weight: bold;
+            }
+            .excerpt-container{
+                height: 100%;
+                overflow: auto;
+                background-color: #fff;
+                margin-right: 5px;
+                padding: 16px;
+
+            }
+            .scale-container{
+                height: 100%;
+
+
+                label{
+                    background-color: transparent;
+
+                }
+                .scale {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: calc(100% - 24px);
+
+                    span {
+                        display: inline-block;
+                        width: 10px;
+                        height: 20px;
+                        margin: 0 2px;
+                        border-radius: 2px;
+                    }
+                }
+                span.active{
+                    width: 12px;
+                    height: 24px;
+                }
+
+            }
+            .list-container{
+
+
+            }
+            .input-container{
+                height: 100%;
+
+
+
+            }
+
+        }
+
+    }
+}
