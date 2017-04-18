@@ -24,7 +24,8 @@ DEEP | Entries
 <script src="{% watchful_static_url 'js/common/leaflet.label.js' %}"></script>
 
 <script>
-    let eventId = "{{event.pk}}";
+    let eventId = "{{ event.pk }}";
+    let csrf_token = "{% csrf_token %}";
 
     // Template data
     let templateData = {
@@ -58,8 +59,8 @@ DEEP | Entries
                     </div>
                 </div>
                 <div class="action-buttons">
-                    <a class = "fa fa-edit fa-lg edit-btn" title="Edit entry"> </a>
-                    <a class = "fa fa-trash fa-lg delete-btn" title="Delete entry"> </a>
+                    <a class="fa fa-edit fa-lg edit-btn" title="Edit entry"> </a>
+                    <a class="fa fa-trash fa-lg delete-btn" title="Delete entry"> </a>
                 </div>
             </div>
             <div class="informations"></div>

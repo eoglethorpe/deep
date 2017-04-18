@@ -144,7 +144,7 @@ function renderEntries() {
 
         entryElement.find('.delete-btn').unbind().click(function(entry){
             return function() {
-                if (confirm('Are you sure you want to delete the entry?')) {
+                if (confirm('Are you sure you want to delete this entry?')) {
                     var data = { id: entry.id };
                     redirectPost("/" + eventId + "/entries/delete/", data, csrf_token);
                 }

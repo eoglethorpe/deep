@@ -1,6 +1,9 @@
 #entries{
     padding: 16px 16px;
     .entry{
+        margin-bottom: 16px;
+        @include shadow();
+
         .entry-header{
             border: 1px solid rgba(0, 0, 0, 0.1);
             color: white;
@@ -25,6 +28,8 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                    color: white;
+                    cursor: pointer;
                 }
             }
             >div{
@@ -60,10 +65,8 @@
         }
         .information{
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.0980392);
-            margin-bottom: 16px;
+            background-color: #fafafa;
             border: 1px solid rgba(0, 0, 0, 0.1);
-            @include shadow();
 
             label{
                 font-weight: bold;
@@ -96,11 +99,12 @@
                         height: 20px;
                         margin: 0 2px;
                         border-radius: 2px;
+
+                        &.active{
+                            width: 12px;
+                            height: 24px;
+                        }
                     }
-                }
-                span.active{
-                    width: 12px;
-                    height: 24px;
                 }
 
             }

@@ -170,72 +170,98 @@ body > nav {
 
 #entries {
   padding: 16px 16px; }
-  #entries .entry .entry-header {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    color: white;
-    background-color: rgba(0, 0, 0, 0.66);
-    display: flex;
-    justify-content: space-between;
-    align-items: center; }
-    #entries .entry .entry-header h2 {
-      margin: 0 0 10px 0; }
-    #entries .entry .entry-header .action-buttons {
-      display: flex;
-      align-items: stretch;
-      justify-content: center;
-      align-self: stretch; }
-      #entries .entry .entry-header .action-buttons > a {
-        width: 48px;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center; }
-    #entries .entry .entry-header > div:first-child {
-      padding: 6px 16px;
-      flex-basis: calc(100% - 96px); }
-      #entries .entry .entry-header > div:first-child > div > span, #entries .entry .entry-header > div:first-child > div date {
-        margin-right: 24px; }
-        #entries .entry .entry-header > div:first-child > div > span .fa, #entries .entry .entry-header > div:first-child > div date .fa {
-          margin-right: 8px; }
-    #entries .entry .entry-header > div:last-child {
-      flex-basis: 96px; }
-      #entries .entry .entry-header > div:last-child > a:first-child {
-        background-color: #3498db; }
-      #entries .entry .entry-header > div:last-child > a:last-child {
-        background-color: #e74c3c; }
-  #entries .entry .information {
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.09804);
+  #entries .entry {
     margin-bottom: 16px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-    #entries .entry .information label {
-      font-weight: bold; }
-    #entries .entry .information .excerpt-container {
-      height: 100%;
-      overflow: auto;
-      background-color: #fff;
-      margin-right: 5px;
-      padding: 16px; }
-    #entries .entry .information .scale-container {
-      height: 100%; }
-      #entries .entry .information .scale-container label {
-        background-color: transparent; }
-      #entries .entry .information .scale-container .scale {
+    #entries .entry .entry-header {
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      color: white;
+      background-color: rgba(0, 0, 0, 0.66);
+      display: flex;
+      justify-content: space-between;
+      align-items: center; }
+      #entries .entry .entry-header h2 {
+        margin: 0 0 10px 0; }
+      #entries .entry .entry-header .action-buttons {
         display: flex;
+        align-items: stretch;
         justify-content: center;
-        align-items: center;
-        height: calc(100% - 24px); }
-        #entries .entry .information .scale-container .scale span {
-          display: inline-block;
-          width: 10px;
-          height: 20px;
-          margin: 0 2px;
-          border-radius: 2px; }
-      #entries .entry .information .scale-container span.active {
-        width: 12px;
-        height: 24px; }
-    #entries .entry .information .input-container {
-      height: 100%; }
+        align-self: stretch; }
+        #entries .entry .entry-header .action-buttons > a {
+          width: 48px;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          cursor: pointer; }
+      #entries .entry .entry-header > div:first-child {
+        padding: 6px 16px;
+        flex-basis: calc(100% - 96px); }
+        #entries .entry .entry-header > div:first-child > div > span, #entries .entry .entry-header > div:first-child > div date {
+          margin-right: 24px; }
+          #entries .entry .entry-header > div:first-child > div > span .fa, #entries .entry .entry-header > div:first-child > div date .fa {
+            margin-right: 8px; }
+      #entries .entry .entry-header > div:last-child {
+        flex-basis: 96px; }
+        #entries .entry .entry-header > div:last-child > a:first-child {
+          background-color: #3498db; }
+        #entries .entry .entry-header > div:last-child > a:last-child {
+          background-color: #e74c3c; }
+    #entries .entry .information {
+      height: 100%;
+      background-color: #fafafa;
+      border: 1px solid rgba(0, 0, 0, 0.1); }
+      #entries .entry .information label {
+        font-weight: bold; }
+      #entries .entry .information .excerpt-container {
+        height: 100%;
+        overflow: auto;
+        background-color: #fff;
+        margin-right: 5px;
+        padding: 16px; }
+      #entries .entry .information .scale-container {
+        height: 100%; }
+        #entries .entry .information .scale-container label {
+          background-color: transparent; }
+        #entries .entry .information .scale-container .scale {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: calc(100% - 24px); }
+          #entries .entry .information .scale-container .scale span {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            margin: 0 2px;
+            border-radius: 2px; }
+            #entries .entry .information .scale-container .scale span.active {
+              width: 12px;
+              height: 24px; }
+      #entries .entry .information .input-container {
+        height: 100%; }
+
+#filters {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0px 16px;
+  position: relative; }
+  #filters > input, #filters > select, #filters > div {
+    margin-top: 20px;
+    flex-basis: 14%;
+    outline: none;
+    border: none; }
+    #filters > input.range, #filters > select.range, #filters > div.range {
+      display: flex;
+      position: relative; }
+      #filters > input.range >, #filters > select.range >, #filters > div.range > {
+        flex-basis: 50%; }
+      #filters > input.range > label, #filters > select.range > label, #filters > div.range > label {
+        position: absolute;
+        top: -14px; }
+  #filters > input {
+    padding: 4px 6px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; }
 
 /*# sourceMappingURL=template-entries.css.map */

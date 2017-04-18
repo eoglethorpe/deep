@@ -310,9 +310,12 @@ let entriesManager = {
         let that = this;
         let elementFrom = $('<select data-id="' + id + '" placeholder="from"><option value="">from</option></select>') ;
         let elementTo = $('<select data-id="' + id + '" placeholder="to"><option value="">to</option></select>');
-        this.filtersContainer.append('<label>' + label + '</label>');
-        this.filtersContainer.append(elementFrom);
-        this.filtersContainer.append(elementTo);
+
+        let rangeContainer = $('<div class="range"></div>');
+        rangeContainer.append('<label>' + label + '</label>');
+        rangeContainer.append(elementFrom);
+        rangeContainer.append(elementTo);
+        this.filtersContainer.append(rangeContainer);
 
         elementFrom.selectize();
         elementTo.selectize();
@@ -442,9 +445,20 @@ let entriesList = {
 
             let entryDom = this.entryTemplate.clone();
             entryDom.removeClass('entry-template').addClass('entry');
+
             entryDom.find('h2').html(
                 searchAndHighlight(entry.lead_title, $('#filters input[data-id="lead-title"]').val())
             );
+            entryDom.find('.created-on').text(formatDate(entry.created_at));
+            entryDom.find('.created-by').text(entry.created_by_name);
+
+            entryDom.find('.edit-btn').attr('href', '/' + eventId + '/entries/edit/' + entry.id);
+            entryDom.find('.delete-btn').click(function() {
+                if (confirm('Are you sure you want to delete this entry?')) {
+                    redirectPost('/' + eventId + '/entries/delete/', { id: entry.id }, csrf_token);
+                }
+            });
+
             entryDom.appendTo(this.container);
             entryDom.show();
 
@@ -547,6 +561,12 @@ let entriesList = {
                                 selected = data.value;
                             }
                             dom.find('.scale span[data-id="' + selected + '"]').addClass('active');
+                        }
+                    } else {
+                        if (templateElement.type == 'scale') {
+                            let selected = templateElement.scaleValues.find(e => e.default == true).id;
+                            infoDom.find('.scale-container[data-id="' + templateElement.id + '"]')
+                                .find('.scale span[data-id="' + selected + '"]').addClass('active');
                         }
                     }
                 }
