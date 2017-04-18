@@ -491,8 +491,8 @@ let entriesList = {
                                     let subpillar = pillar.subpillars.find(s => s.id == data.selections[l].subpillar);
                                     let sector = templateElement.sectors.find(s => s.id == data.selections[l].sector);
                                     text += '<div class="row">'
-                                    text += '<div class="col-1"><div>' + pillar.title + '</div><div>' + subpillar.title + '</div></div>';
-                                    text += '<div class="col-2"><div>' + sector.title + '</div><div>';
+                                    text += '<div class="col"><div>' + pillar.title + '</div><div>' + subpillar.title + '</div></div>';
+                                    text += '<div class="col"><div>' + sector.title + '</div><div>';
 
                                     for (let m=0; m<data.selections[l].subsectors.length; m++) {
                                         text += '<span>' + sector.subsectors.find(s => s.id == data.selections[l].subsectors[m]).title + '</span>';
@@ -526,8 +526,7 @@ let entriesList = {
                             let text = '';
                             if (data.value) {
                                 for (let l=0; l<data.value.length; l++) {
-                                    text += templateElement.options.find(o => o.id == data.value[l]).text;
-                                    text += '<br>';
+                                    text += '<div>' + templateElement.options.find(o => o.id == data.value[l]).text + '</div>';
                                 }
                             }
                             dom.find('.data').html(text);
@@ -537,8 +536,7 @@ let entriesList = {
                             let text = '';
                             if (data.value) {
                                 for (let l=0; l<data.value.length; l++) {
-                                    text += data.value[l].split(':')[2];
-                                    text += '<br>';
+                                    text += '<div>' + data.value[l].split(':')[2] + '</div>';
                                 }
                             }
                             dom.find('.data').html(text);
@@ -548,8 +546,7 @@ let entriesList = {
                             let text = '';
                             if (data.value) {
                                 for (let l=0; l<data.value.length; l++) {
-                                    text += templateElement.nodes.find(n => n.id == data.value[l]).name;
-                                    text += '<br>';
+                                    text += '<div>' + templateElement.nodes.find(n => n.id == data.value[l]).name + '</div>';
                                 }
                             }
                             dom.find('.data').html(text);
