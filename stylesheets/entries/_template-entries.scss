@@ -70,6 +70,10 @@
 
             label{
                 font-weight: bold;
+                padding: 4px 2px;
+                margin-bottom: 6px;
+                border-bottom: 1px solid rgba(0,0,0,0.1);
+                width: 100%;
             }
             .excerpt-container{
                 height: 100%;
@@ -109,8 +113,34 @@
 
             }
             .list-container{
+                .data {
+                    div {
+                        padding: 5px 0;
+                    }
+                }
 
+                .row {
+                    display: flex;
+                    justify-content: space-between;
+                    min-width: 320px;
+                    padding: 4px 0;
 
+                    .col {
+                        flex-basis: 49%;
+
+                        >div {
+                            &:first-child {
+                                font-weight: $font-weight-bold;
+                            }
+                            &:last-child {
+                                >* {
+                                    display: block;
+                                    padding: 0 2px;
+                                }
+                            }
+                        }
+                    }
+                }
             }
             .input-container{
                 height: 100%;

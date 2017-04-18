@@ -213,7 +213,11 @@ body > nav {
       background-color: #fafafa;
       border: 1px solid rgba(0, 0, 0, 0.1); }
       #entries .entry .information label {
-        font-weight: bold; }
+        font-weight: bold;
+        padding: 4px 2px;
+        margin-bottom: 6px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        width: 100%; }
       #entries .entry .information .excerpt-container {
         height: 100%;
         overflow: auto;
@@ -238,6 +242,20 @@ body > nav {
             #entries .entry .information .scale-container .scale span.active {
               width: 12px;
               height: 24px; }
+      #entries .entry .information .list-container .data div {
+        padding: 5px 0; }
+      #entries .entry .information .list-container .row {
+        display: flex;
+        justify-content: space-between;
+        min-width: 320px;
+        padding: 4px 0; }
+        #entries .entry .information .list-container .row .col {
+          flex-basis: 49%; }
+          #entries .entry .information .list-container .row .col > div:first-child {
+            font-weight: 500; }
+          #entries .entry .information .list-container .row .col > div:last-child > * {
+            display: block;
+            padding: 0 2px; }
       #entries .entry .information .input-container {
         height: 100%; }
 
