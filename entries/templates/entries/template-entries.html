@@ -9,7 +9,7 @@ DEEP | Entries
 
 <link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/modal.css' %}"/>
-<link href="{% watchful_static_url 'css/entries.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/template-entries.css' %}" type="text/css" rel="stylesheet">
 
 <script type="text/javascript" src="{% watchful_static_url 'js/common/datatables.min.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
@@ -24,7 +24,8 @@ DEEP | Entries
 <script src="{% watchful_static_url 'js/common/leaflet.label.js' %}"></script>
 
 <script>
-    let eventId = "{{event.pk}}";
+    let eventId = "{{ event.pk }}";
+    let csrf_token = "{% csrf_token %}";
 
     // Template data
     let templateData = {
@@ -33,20 +34,42 @@ DEEP | Entries
     };
 </script>
 
-
 {% endblock %}
 
 {% block body %}
 {% include 'navbar.html' %}
 
 <main>
+    <div id="filters">
+    </div>
     <div id="entries">
         <div class="entry-template" hidden>
-            <h2></h2>
+            <div class="entry-header">
+                <div>
+                    <h2></h2>
+                    <div>
+                        <span class="user">
+                            <i class="fa fa-user"> </i>
+                            <span class="created-by">Jacky</span>
+                        </span>
+                        <date>
+                            <i class="fa fa-calendar"> </i>
+                            <span class="created-on">04-18-2017</span>
+                        </date>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <a class="fa fa-edit fa-lg edit-btn" title="Edit entry"> </a>
+                    <a class="fa fa-trash fa-lg delete-btn" title="Delete entry"> </a>
+                </div>
+            </div>
             <div class="informations"></div>
         </div>
         <div class="information-template" style="position: relative; width: 100%; height: 312px;" hidden>
         </div>
+    </div>
+
+    <div class="modal-container" hidden>
     </div>
 </main>
 {% endblock %}

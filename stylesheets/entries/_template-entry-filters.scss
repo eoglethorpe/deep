@@ -1,0 +1,37 @@
+#filters {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0px 16px;
+    position: relative;
+
+    > input, > select, > div {
+        margin-top: 20px;
+        flex-basis: 14%;
+        outline: none;
+        border: none;
+
+        &.range {
+            display: flex;
+            position: relative;
+
+            > {
+                flex-basis: 50%;
+            }
+
+            > label {
+                position: absolute;
+                top: -14px;
+            }
+        }
+    }
+
+    label {
+        // position: absolute;
+    }
+
+    >input {
+        padding: 4px 6px;
+        border: 1px solid rgba(0,0,0,0.1);
+        box-sizing: border-box;
+    }
+}

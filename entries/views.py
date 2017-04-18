@@ -406,4 +406,4 @@ class DeleteEntry(View):
         event = entry.lead.event
         entry.delete()
         activity.log_for(request.user, event=event)
-        return redirect('entries:entries', event=event)
+        return redirect('entries:entries', event=event.pk)
