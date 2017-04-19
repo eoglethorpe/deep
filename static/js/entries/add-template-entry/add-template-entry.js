@@ -77,8 +77,6 @@ $(document).ready(function() {
         }
     });
     $('.switch-page').click(function() {
-        page1.refresh();
-        page2.refresh();
 
         if ($('#page-one').is(':visible')) {
             $('#page-one').hide();
@@ -88,5 +86,7 @@ $(document).ready(function() {
             $('#page-one').show();
             $('#page-two').hide();
         }
+        page1.refresh();
+        page2.refresh();
     });
 });

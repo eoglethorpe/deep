@@ -47,6 +47,20 @@
             border: 1px solid rgba(0, 0, 0, 0.1);
             @include shadow();
 
+            .apply-button {
+                margin-left: 10px;
+                font-size: 0.7em;
+                cursor: pointer;
+
+                &.apply-all {
+                    color: #f39c12;
+                }
+
+                &.apply-below {
+                    color: #3498db;
+                }
+            }
+
             .excerpt-box-container {
                 position: absolute;
 
@@ -86,6 +100,10 @@
                         object-fit: contain;
                     }
                 }
+            }
+
+            input.number {
+                text-align: end;
             }
 
             .input-element, .multiselect, .scale-container {

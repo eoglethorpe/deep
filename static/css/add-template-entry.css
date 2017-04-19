@@ -564,6 +564,14 @@ body {
         margin: 16px 0;
         border: 1px solid rgba(0, 0, 0, 0.1);
         box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+        body #page-two .entries .entry .apply-button {
+          margin-left: 10px;
+          font-size: 0.7em;
+          cursor: pointer; }
+          body #page-two .entries .entry .apply-button.apply-all {
+            color: #f39c12; }
+          body #page-two .entries .entry .apply-button.apply-below {
+            color: #3498db; }
         body #page-two .entries .entry .excerpt-box-container {
           position: absolute; }
           body #page-two .entries .entry .excerpt-box-container label {
@@ -591,6 +599,8 @@ body {
               width: 100%;
               height: 100%;
               object-fit: contain; }
+        body #page-two .entries .entry input.number {
+          text-align: end; }
         body #page-two .entries .entry .input-element, body #page-two .entries .entry .multiselect, body #page-two .entries .entry .scale-container {
           display: flex;
           flex-direction: column; }

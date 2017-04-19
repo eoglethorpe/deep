@@ -4,7 +4,6 @@ class Matrix1DList extends Element {
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<div class="container"><div class="col-1"><div class="pillar">Pillar</div><div class="subpillar">Subpillar</div></div></div>'));
-
         super(container, dom);
 
         if (data){
@@ -21,7 +20,7 @@ class Matrix1DList extends Element {
         }
 
         let data = {
-            position: this.getPosition(),
+            left: this.dom.position().left,
         };
 
         if(page != templateEditor.getPage()) {
@@ -32,8 +31,8 @@ class Matrix1DList extends Element {
     }
 
     load(data) {
-        if (data.position) {
-            this.setPosition(data.position);
+        if (data.left) {
+            this.dom.css('left', data.left);
         }
     }
 }
@@ -281,7 +280,7 @@ class Matrix2DList extends Element {
         }
 
         let data = {
-            position: this.getPosition(),
+            left: this.dom.position().left,
         };
 
         if(page != templateEditor.getPage()) {
@@ -292,8 +291,8 @@ class Matrix2DList extends Element {
     }
 
     load(data) {
-        if (data.position) {
-            this.setPosition(data.position);
+        if (data.left) {
+            this.dom.css('left', data.left);
         }
     }
 }
