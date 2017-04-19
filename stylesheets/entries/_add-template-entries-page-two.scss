@@ -47,6 +47,32 @@
             border: 1px solid rgba(0, 0, 0, 0.1);
             @include shadow();
 
+            .action-buttons {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                padding: 16px;
+
+                a {
+                    align-items: center;
+                    justify-content: center;
+                    color: #fff;
+                    cursor: pointer;
+                    width: 32px;
+                    height: 32px;
+                    display: flex;
+                    box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3);
+                }
+
+                .edit-entry-button {
+                    background-color: $info-color;
+                    margin-bottom: 10px;
+                }
+                .delete-entry-button {
+                    background-color: $danger-color;
+                }
+            }
+
             .apply-button {
                 margin-left: 10px;
                 font-size: 0.7em;
@@ -141,19 +167,21 @@
                         height: 20px;
                         margin: 0 2px;
                         border-radius: 2px;
+
+                        &.active {
+                            width: 12px;
+                            height: 24px;
+                        }
                     }
                 }
 
             }
-
 
             .organigram{
                 label{
                     margin-bottom: 2px;
                     font-weight: bold;
                 }
-
-
             }
         }
     }

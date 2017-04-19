@@ -281,10 +281,6 @@ let page1 = {
                                 .addClass('active');
                         }
                     }
-
-                    // TODO Use .active in scss instead of here
-                    // matrix.find('.subpillar').css('background-color', 'transparent');
-                    // matrix.find('.subpillar.active').css('background-color', 'rgba(0,0,0,0.3)');
                 }
 
                 else if (templateElement.type == 'matrix2d') {
@@ -297,10 +293,6 @@ let page1 = {
                                 .addClass('active');
                         }
                     }
-
-                    // TODO Use .active in scss instead of here
-                    //matrix.find('.sector-block').css('background-color', 'transparent');
-                    //matrix.find('.sector-block.active').css('background-color', 'rgba(0,0,0,0.3)');
                 }
             }
         }

@@ -41,6 +41,7 @@ let page2 = {
                 this.addGeolocations(element);
             }
         }
+        this.addActionButtons();
 
         this.refresh();
     },
@@ -57,6 +58,31 @@ let page2 = {
         }
 
         this.refresh();
+    },
+
+    addActionButtons: function() {
+        let that = this;
+        let actionButtons = $('<div class="action-buttons"></div>');
+        actionButtons.appendTo(this.template);
+
+        actionButtons.append('<a class="edit-entry-button fa fa-edit"></a>');
+        actionButtons.append('<a class="delete-entry-button fa fa-times"></a>');
+
+        this.container.on('click', '.edit-entry-button', function() {
+            let index = parseInt($(this).closest('.entry').data('index'));
+            if (!isNaN(index)) {
+                page1.selectedEntryIndex = index;
+                $('.switch-page').get(0).click();
+            }
+        });
+        this.container.on('click', '.delete-entry-button', function() {
+            let index = parseInt($(this).closest('.entry').data('index'));
+            if (!isNaN(index)) {
+                page1.selectedEntryIndex = index;
+                removeEntry(index);
+                that.refresh();
+            }
+        });
     },
 
     addApplyButtons: function(container) {
@@ -198,15 +224,6 @@ let page2 = {
 
                 $(this).closest('.scale').find('span').removeClass('active');
                 $(this).addClass('active');
-
-
-                // TODO remove and use scss
-                let scales = $('.scale-container .scale span');
-                scales.css('width', '10px');
-                scales.css('height', '20px');
-                let selectedScales = $('.scale-container .scale span.active');
-                selectedScales.css('width', '12px');
-                selectedScales.css('height', '24px');
             }
         });
 
@@ -648,21 +665,14 @@ let page2 = {
                 }
             }
 
+            entryContainer.find('.appliable').each(function() { that.addApplyButtons($(this)); });
+
             entryContainer.find('img').one('load', function() {
                 autoResize(entryContainer);
             });
             autoResize(entryContainer);
 
-            entryContainer.find('.appliable').each(function() { that.addApplyButtons($(this)); });
         }
-
-        // TODO remove and use scss
-        let scales = $('.scale-container .scale span');
-        scales.css('width', '10px');
-        scales.css('height', '20px');
-        let selectedScales = $('.scale-container .scale span.active');
-        selectedScales.css('width', '12px');
-        selectedScales.css('height', '24px');
 
         addTodayButtons();
         this.container.find('textarea').change();
