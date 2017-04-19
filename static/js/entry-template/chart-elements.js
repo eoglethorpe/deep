@@ -7,7 +7,7 @@ class OrganigramInput extends Element {
         dom.append($('<div class="container"><div class="header"><label>Organigram</label></header></div>'));
         dom.find('.container').find('.header').append($('<img src="/static/img/organigram.png">'));
         dom.find('.container').append($('<div class="items"><span>Item1</span><span>Item2</span></div>'));
-        dom.find('.container').resizable({ grid: 20 });
+        dom.find('.container').resizable({ grid: GRID_SIZE });
         super(container, dom);
 
         this.nodes = [
@@ -171,7 +171,7 @@ class GeolocationsInput extends Element {
         dom.append($('<div class="container"><div class="header"><label>Geolocations</label></div></div>'));
         dom.find('.container').find('.header').append($('<img src="/static/img/mapicon.png">'));
         dom.find('.container').append($('<div class="locations"><span>Location1</span><span>Location2</span></div>'));
-        dom.find('.container').resizable({ grid: 20 });
+        dom.find('.container').resizable({ grid: GRID_SIZE });
         super(container, dom);
 
         if (data) {

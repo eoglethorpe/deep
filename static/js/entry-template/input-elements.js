@@ -5,7 +5,7 @@ class InputElement extends Element {
         dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<div class="input-container"><label>' + defaultLabel + '</label></div>'));
         dom.find('.input-container').append(inputDom);
-        dom.find('.input-container').resizable({ grid: 20 });
+        dom.find('.input-container').resizable({ grid: GRID_SIZE });
         super(container, dom);
 
         this.type = className;
@@ -87,7 +87,7 @@ class MultiselectInput extends Element {
         dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<div class="input-container"><label>Groups</label></div>'));
         dom.find('.input-container').append($('<select multiple><option value="">Select groups</option></select>'));
-        dom.find('.input-container').resizable({ grid: 20 });
+        dom.find('.input-container').resizable({ grid: GRID_SIZE });
         super(container, dom);
 
         dom.find('select').selectize();

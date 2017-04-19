@@ -351,6 +351,10 @@ let entriesList = {
                 this.addMatrix2dList(element);
                 continue;
             }
+            else if (element.type == 'matrix1d' && element.list) {
+                this.addMatrix1dList(element);
+                continue;
+            }
 
             if (element.page != 'page-two') {
                 continue;
@@ -376,7 +380,7 @@ let entriesList = {
     addExcerpt: function(element) {
         let excerpt = $('<div class="element excerpt-container" style="position: absolute";></div>');
         excerpt.css('width', element.size.width);
-        excerpt.css('height', element.size.height);
+        excerpt.css('height', 'auto');
         excerpt.css('left', element.position.left);
         excerpt.css('top', element.position.top);
         excerpt.appendTo(this.template);
@@ -401,6 +405,16 @@ let entriesList = {
         list.appendTo(this.template);
 
         list.append($('<label>' + element.label + '</label>'));
+        list.append($('<div class="data"></div>'));
+    },
+
+    addMatrix1dList: function(element) {
+        let list = $('<div class="element list-container" data-id="' + element.id + '" style="position: absolute;"></div>');
+        list.css('left', element.list.position.left);
+        list.css('top', element.list.position.top);
+        list.appendTo(this.template);
+
+        list.append($('<label>' + element.title + '</label>'));
         list.append($('<div class="data"></div>'));
     },
 
@@ -494,11 +508,31 @@ let entriesList = {
                                     text += '<div class="col"><div>' + pillar.title + '</div><div>' + subpillar.title + '</div></div>';
                                     text += '<div class="col"><div>' + sector.title + '</div><div>';
 
-                                    for (let m=0; m<data.selections[l].subsectors.length; m++) {
-                                        text += '<span>' + sector.subsectors.find(s => s.id == data.selections[l].subsectors[m]).title + '</span>';
+                                    if (data.selections[l].subsectors) {
+                                        for (let m=0; m<data.selections[l].subsectors.length; m++) {
+                                            text += '<span>' + sector.subsectors.find(s => s.id == data.selections[l].subsectors[m]).title + '</span>';
+                                        }
                                     }
 
                                     text += '</div></div>';
+                                    text += '</div>';
+                                }
+                            }
+                            dom.find('.data').html(text);
+                        }
+                        continue;
+                    }
+                    else if (templateElement.type == 'matrix1d' && templateElement.list) {
+                        let data = information.elements.find(d => d.id == templateElement.id);
+                        if (data) {
+                            let dom = infoDom.find('.list-container[data-id="' + data.id + '"]');
+                            let text = '';
+                            if (data.selections) {
+                                for (let l=0; l<data.selections.length; l++) {
+                                    let pillar = templateElement.pillars.find(p => p.id == data.selections[l].pillar);
+                                    let subpillar = pillar.subpillars.find(s => s.id == data.selections[l].subpillar);
+                                    text += '<div class="row">'
+                                    text += '<div class="col"><div>' + pillar.name + '</div><div>' + subpillar.name + '</div></div>';
                                     text += '</div>';
                                 }
                             }
@@ -570,6 +604,11 @@ let entriesList = {
 
                 infoDom.appendTo(entryDom);
                 infoDom.show();
+
+                infoDom.find('img').one('load', function() {
+                    autoResize(infoDom);
+                });
+                autoResize(infoDom);
             }
         }
     },

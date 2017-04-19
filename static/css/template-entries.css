@@ -219,11 +219,10 @@ body > nav {
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         width: 100%; }
       #entries .entry .information .excerpt-container {
-        height: 100%;
-        overflow: auto;
-        background-color: #fff;
         margin-right: 5px;
         padding: 16px; }
+        #entries .entry .information .excerpt-container img {
+          width: 100%; }
       #entries .entry .information .scale-container {
         height: 100%; }
         #entries .entry .information .scale-container label {

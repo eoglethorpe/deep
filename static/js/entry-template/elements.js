@@ -1,12 +1,13 @@
+const GRID_SIZE = 8;
 
 class Element {
     constructor(container, dom) {
         this.dom = dom;
         container.append(dom);
         if (dom.find('.handle').length > 0) {
-            dom.draggable({ scroll: true, grid: [16, 16], containment: container, handle: '.handle' });
+            dom.draggable({ scroll: true, grid: [GRID_SIZE, GRID_SIZE], containment: container, handle: '.handle' });
         } else {
-            dom.draggable({ scroll: true, grid: [16, 16], containment: container });
+            dom.draggable({ scroll: true, grid: [GRID_SIZE, GRID_SIZE], containment: container });
         }
         this.id = templateEditor.getUniqueElementId();
     }

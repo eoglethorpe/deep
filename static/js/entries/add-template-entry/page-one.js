@@ -304,6 +304,8 @@ let page1 = {
                 }
             }
         }
+
+        leadPreviewer.refresh();
     },
 
     dropExcerpt: function(e) {

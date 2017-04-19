@@ -7,8 +7,12 @@ let page2 = {
         for (let i=0; i<templateData.elements.length; i++) {
             let element = templateData.elements[i];
 
-            // Special case matrix 2d list
-            if (element.type == 'matrix2d' && element.list) {
+            // Special case matrix list
+            if (element.type == 'matrix1d' && element.list) {
+                this.addMatrix1dList(element);
+                continue;
+            }
+            else if (element.type == 'matrix2d' && element.list) {
                 this.addMatrix2dList(element);
                 continue;
             }
@@ -384,6 +388,22 @@ let page2 = {
         });
     },
 
+    addMatrix1dList: function(parentElement) {
+        let element = parentElement.list;
+
+        let that = this;
+        let listContainer = $('<div style="position: absolute;" class="matrix1d-list-container" data-id="' + parentElement.id + '"></div>');
+        // listContainer.css('width', element.size.width);
+        // listContainer.css('height', element.size.height);
+        listContainer.css('left', element.position.left);
+        listContainer.css('top', element.position.top);
+
+        listContainer.append($('<label>' + parentElement.title + '</label>'));
+        listContainer.append($('<div class="matrix1d-list"></div>'));
+
+        listContainer.appendTo(this.template);
+    },
+
     addMatrix2dList: function(parentElement) {
         let element = parentElement.list;
 
@@ -503,6 +523,26 @@ let page2 = {
                     }
                     continue;
                 }
+                else if (templateElement.type == 'matrix1d' && templateElement.list) {
+                    let data = entry.elements.find(d => d.id == templateElement.id);
+                    if (data) {
+                        let listContainer = entryContainer.find('.matrix1d-list-container[data-id="' + data.id + '"]');
+                        let list = listContainer.find('.matrix1d-list');
+
+                        list.empty();
+                        for (let j=0; j<data.selections.length; j++) {
+                            let selection = data.selections[j];
+                            let pillar = templateElement.pillars.find(p => p.id == selection.pillar);
+                            let subpillar = pillar.subpillars.find(s => s.id == selection.subpillar);
+
+                            let col1 = $('<div class="col1"><div class="pillar">' + pillar.name + '</div><div class="subpillar">' + subpillar.name + '</div></div>');
+                            let row = $('<div class="row"></div>');
+                            row.append(col1);
+                            list.append(row);
+                        }
+                    }
+                    continue;
+                }
 
                 if (templateElement.page != 'page-two') {
                     continue;
@@ -529,6 +569,11 @@ let page2 = {
                     entryContainer.find('.scale-container[data-id="' + templateElement.id + '"] .scale span[data-id="' + selected + '"]').addClass('active');
                 }
             }
+
+            entryContainer.find('img').one('load', function() {
+                autoResize(entryContainer);
+            });
+            autoResize(entryContainer);
         }
 
         // TODO remove and use scss

@@ -5,7 +5,7 @@ let templateEditor = {
         this.elements = [];
 
         $('#matrix1d-widget button').on('click', function() {
-            that.addElement(new Matrix1D(that.getContainer()));
+            that.addElement(new Matrix1D(that.getContainer(), $('#page-two .entry')));
             that.reloadElements();
         });
 
@@ -125,7 +125,7 @@ let templateEditor = {
             }
 
             if (element.type == 'matrix1d') {
-                that.addElement(new Matrix1D(that.getContainer(), element));
+                that.addElement(new Matrix1D(that.getContainer(), $('#page-two .entry'), element));
             }
             else if (element.type == 'matrix2d') {
                 that.addElement(new Matrix2D(that.getContainer(), $('#page-two .entry'), element));

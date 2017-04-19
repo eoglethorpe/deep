@@ -326,6 +326,18 @@ function isNullObject(obj) {
     return true;
 }
 
+// Auto resize based on children
+function autoResize(dom) {
+    let maxHeight = 120;
+    dom.find('>*').each(function() {
+        let height = $(this).height() + parseInt($(this).css('top'));
+        if (height > maxHeight) {
+            maxHeight = height;
+        }
+    });
+    dom.css('height', (maxHeight+32)+'px');
+}
+
 //TODO: Queue, Callback
 function showToast(msg){
     $('.float-alert-toast').html(msg).fadeIn().delay(3000).fadeOut(400);
