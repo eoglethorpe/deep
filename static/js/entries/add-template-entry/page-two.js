@@ -7,8 +7,12 @@ let page2 = {
         for (let i=0; i<templateData.elements.length; i++) {
             let element = templateData.elements[i];
 
-            // Special case matrix 2d list
-            if (element.type == 'matrix2d' && element.list) {
+            // Special case matrix list
+            if (element.type == 'matrix1d' && element.list) {
+                this.addMatrix1dList(element);
+                continue;
+            }
+            else if (element.type == 'matrix2d' && element.list) {
                 this.addMatrix2dList(element);
                 continue;
             }
@@ -22,7 +26,7 @@ let page2 = {
             }
 
             else if (element.type == 'number-input') {
-                this.addInputElement(element, 'number-input', 'input', $('<input type="number", placeholder="Enter number">'));
+                this.addInputElement(element, 'number-input', 'input', $('<input type="text" class="number" placeholder="Enter number">'));
             }
             else if (element.type == 'date-input') {
                 this.addInputElement(element, 'date-input', 'input', $('<input type="date", placeholder="Enter number">'));
@@ -37,6 +41,7 @@ let page2 = {
                 this.addGeolocations(element);
             }
         }
+        this.addActionButtons();
 
         this.refresh();
     },
@@ -55,25 +60,82 @@ let page2 = {
         this.refresh();
     },
 
+    addActionButtons: function() {
+        let that = this;
+        let actionButtons = $('<div class="action-buttons"></div>');
+        actionButtons.appendTo(this.template);
+
+        actionButtons.append('<a class="edit-entry-button fa fa-edit"></a>');
+        actionButtons.append('<a class="delete-entry-button fa fa-times"></a>');
+
+        this.container.on('click', '.edit-entry-button', function() {
+            let index = parseInt($(this).closest('.entry').data('index'));
+            if (!isNaN(index)) {
+                page1.selectedEntryIndex = index;
+                $('.switch-page').get(0).click();
+            }
+        });
+        this.container.on('click', '.delete-entry-button', function() {
+            let index = parseInt($(this).closest('.entry').data('index'));
+            if (!isNaN(index)) {
+                page1.selectedEntryIndex = index;
+                removeEntry(index);
+                that.refresh();
+            }
+        });
+    },
+
+    addApplyButtons: function(container) {
+        let that = this;
+        let applyAll = $('<a class="fa fa-circle apply-button apply-all" title="Apply to all"></a>');
+        let applyBelow = $('<a class="fa fa-circle apply-button apply-below" title="Apply to all below"></a>');
+
+        applyAll.appendTo(container.find('header'));
+        applyBelow.appendTo(container.find('header'));
+
+        applyAll.click(function() {
+            let index = parseInt($(this).closest('.entry').data('index'));
+            let data = getEntryData(index, container.data('id'));
+            if (data && !isNaN(index)) {
+                for (let i=0; i<entries.length; i++) {
+                    if (i != index) {
+                        entries[i].elements = entries[i].elements.filter(e => e.id != container.data('id'));
+                        entries[i].elements.push($.extend(true, {}, data));
+                    }
+                }
+            }
+            that.refresh();
+        });
+
+
+        applyBelow.click(function() {
+            let index = parseInt($(this).closest('.entry').data('index'));
+            let data = getEntryData(index, container.data('id'));
+            if (data && !isNaN(index)) {
+                for (let i=index+1; i<entries.length; i++) {
+                    entries[i].elements = entries[i].elements.filter(e => e.id != container.data('id'));
+                    entries[i].elements.push($.extend(true, {}, data));
+                }
+            }
+            that.refresh();
+        });
+    },
+
     addExcerptBox: function(element) {
         let that = this;
         let excerptBox = $('<div class="excerpt-box-container"><label>Excerpt</label><textarea placeholder="Enter excerpt here"></textarea></div>');
-        excerptBox.css('width', element.size.width);
-        excerptBox.css('height', element.size.height);
-        excerptBox.css('left', element.position.left);
-        excerptBox.css('top', element.position.top);
+        excerptBox.css('width', element.width);
+        excerptBox.css('left', element.left);
         excerptBox.appendTo(this.template);
 
         let imageBox = $('<div class="image-box-container"><label>Image</label><div class="image-box"><img></div></div>')
-        imageBox.css('width', element.size.width);
-        imageBox.css('height', element.size.height);
-        imageBox.css('left', element.position.left);
-        imageBox.css('top', element.position.top);
+        imageBox.css('width', element.width);
+        imageBox.css('left', element.left);
         imageBox.appendTo(this.template);
 
         this.container.on('change input paste drop', '.excerpt-box-container textarea', function() {
             let index = parseInt($(this).closest('.entry').data('index'));
-            if (index != NaN) {
+            if (!isNaN(index)) {
                 entries[index].excerpt = $(this).val();
             }
         });
@@ -81,34 +143,42 @@ let page2 = {
 
     addInputElement: function(element, className, childSelector, dom) {
         let that = this;
-        let inputElement = $('<div data-id="' + element.id + '" class="input-element ' + className + '" style="position: absolute;"></div>');
+        let inputElement = $('<div data-id="' + element.id + '" class="input-element ' + className + ' appliable" style="position: absolute;"></div>');
         inputElement.css('width', element.size.width);
         inputElement.css('height', element.size.height);
         inputElement.css('left', element.position.left);
         inputElement.css('top', element.position.top);
 
-        inputElement.append($('<label>' + element.label + '</label>'));
+        inputElement.append($('<header><label>' + element.label + '</label></header>'));
         inputElement.append(dom);
         inputElement.appendTo(this.template);
 
         this.container.on('change input paste drop', '.input-element[data-id="' + element.id + '"] ' + childSelector, function() {
+            if (element.type == 'number-input') {
+                formatNumber($(this));
+            }
+
             let index = parseInt($(this).closest('.entry').data('index'));
-            if (index != NaN) {
+            if (!isNaN(index)) {
                 let data = getEntryData(index, element.id);
-                data.value = $(this).val();
+
+                if (element.type == 'number-input') {
+                    data.value = getNumberValue($(this));
+                }
+                else {
+                    data.value = $(this).val();
+                }
             }
         });
     },
 
     addMultiselect: function(element) {
         let that = this;
-        let selectContainer = $('<div data-id="' + element.id + '" class="multiselect" style="position: absolute;"></div>');
-        selectContainer.css('width', element.size.width);
-        selectContainer.css('height', element.size.height);
-        selectContainer.css('left', element.position.left);
-        selectContainer.css('top', element.position.top);
+        let selectContainer = $('<div data-id="' + element.id + '" class="multiselect appliable" style="position: absolute;"></div>');
+        selectContainer.css('width', element.width);
+        selectContainer.css('left', element.left);
 
-        selectContainer.append($('<label>' + element.label + '</label>'));
+        selectContainer.append($('<header><label>' + element.label + '</label></header>'));
         selectContainer.append($('<select multiple><option values="">Type for options</option></select>'));
 
         for (let i=0; i<element.options.length; i++) {
@@ -121,7 +191,7 @@ let page2 = {
 
         this.container.on('change', '.multiselect[data-id="' + element.id + '"] select', function() {
             let index = parseInt($(this).closest('.entry').data('index'));
-            if (index != NaN) {
+            if (!isNaN(index)) {
                 let data = getEntryData(index, element.id);
                 data.value = $(this).val();
             }
@@ -130,13 +200,13 @@ let page2 = {
 
     addScale: function(element) {
         let that = this;
-        let scaleContainer = $('<div class="scale-container" data-id="' + element.id + '"></div>');
+        let scaleContainer = $('<div class="scale-container appliable" data-id="' + element.id + '"></div>');
         scaleContainer.css('width', element.size.width);
         scaleContainer.css('height', element.size.height);
         scaleContainer.css('left', element.position.left);
         scaleContainer.css('top', element.position.top);
 
-        scaleContainer.append($('<label>' + element.label + '</label>'));
+        scaleContainer.append($('<header><label>' + element.label + '</label></header>'));
         scaleContainer.append($('<div class="scale"></div>'));
         for (let i=0; i<element.scaleValues.length; i++) {
             let value = element.scaleValues[i];
@@ -148,21 +218,12 @@ let page2 = {
 
         this.container.on('click', '.scale-container[data-id="' + element.id + '"] .scale span', function() {
             let index = parseInt($(this).closest('.entry').data('index'));
-            if (index != NaN) {
+            if (!isNaN(index)) {
                 let data = getEntryData(index, element.id);
                 data.value = $(this).data('id');
 
                 $(this).closest('.scale').find('span').removeClass('active');
                 $(this).addClass('active');
-
-
-                // TODO remove and use scss
-                let scales = $('.scale-container .scale span');
-                scales.css('width', '10px');
-                scales.css('height', '20px');
-                let selectedScales = $('.scale-container .scale span.active');
-                selectedScales.css('width', '12px');
-                selectedScales.css('height', '24px');
             }
         });
 
@@ -171,14 +232,12 @@ let page2 = {
 
     addOrganigram: function(element) {
         let that = this;
-        let organigramInput = $('<div class="organigram" style="position: absolute;"></div>');
-        organigramInput.css('width', element.size.width);
-        organigramInput.css('height', element.size.height);
-        organigramInput.css('left', element.position.left);
-        organigramInput.css('top', element.position.top);
+        let organigramInput = $('<div class="organigram appliable" data-id="' + element.id + '" style="position: absolute;"></div>');
+        organigramInput.css('width', element.width);
+        organigramInput.css('left', element.left);
 
-        organigramInput.append('<label>' + element.label + '</label>');
-        organigramInput.append('<a><img src="/static/img/organigram.png" width="24px"></a>');
+        organigramInput.append('<header><label>' + element.label + '</label><a><img src="/static/img/organigram.png" width="24px"></a></header>');
+        organigramInput.append('<div></div>');
         organigramInput.appendTo(this.template);
 
         let modalDialog = $('<div class="modal" hidden></div>');
@@ -247,9 +306,10 @@ let page2 = {
 
         let newModal = new Modal(modalDialog);
         this.container.on('click', '.organigram a', function() {
+            let thisContainer = $(this).closest('.organigram');
             // Get selected entry
             let index = parseInt($(this).closest('.entry').data('index'));
-            if (index != NaN) {
+            if (!isNaN(index)) {
                 let data = getEntryData(index, element.id);
 
                 // Select nodes in chart
@@ -273,21 +333,34 @@ let page2 = {
                         }
                         newModal.hide();
                     }
+                    that.refreshOrganigram(thisContainer);
                 });
             }
         });
     },
 
+    refreshOrganigram: function(dom) {
+        let index = parseInt(dom.closest('.entry').data('index'));
+        let element = templateData.elements.find(e => e.id == dom.data('id'));
+        if (!isNaN(index)) {
+            let data = getEntryData(index, element.id);
+            if (data.value) {
+                dom.find('> div').empty();
+                for (let i=0; i<data.value.length; i++) {
+                    dom.find('> div').append('<div class="item">' +  element.nodes.find(n => n.id == data.value[i]).name + '</div>');
+                }
+            }
+        }
+    },
+
     addGeolocations: function(element) {
         let that = this;
-        let geolocationsInput = $('<div class="geolocations" style="position: absolute;"></div>');
-        geolocationsInput.css('width', element.size.width);
-        geolocationsInput.css('height', element.size.height);
-        geolocationsInput.css('left', element.position.left);
-        geolocationsInput.css('top', element.position.top);
+        let geolocationsInput = $('<div class="geolocations appliable" data-id="' + element.id + '" style="position: absolute;"></div>');
+        geolocationsInput.css('width', element.width);
+        geolocationsInput.css('left', element.left);
 
-        geolocationsInput.append('<label>' + element.label + '</label>');
-        geolocationsInput.append('<a><img src="/static/img/mapicon.png" width="24px"></a>');
+        geolocationsInput.append('<header><label>' + element.label + '</label><a><img src="/static/img/mapicon.png" width="24px"></a></header>');
+        geolocationsInput.append('<div></div>');
         geolocationsInput.appendTo(this.template);
 
         let modalDialog = $('<div class="modal" hidden></div>');
@@ -355,9 +428,11 @@ let page2 = {
 
         let newModal = new Modal(modalDialog, true);
         this.container.on('click', '.geolocations a', function() {
+            let thisContainer = $(this).closest('.geolocations');
+
             // Get selected entry
             let index = parseInt($(this).closest('.entry').data('index'));
-            if (index != NaN) {
+            if (!isNaN(index)) {
                 let data = getEntryData(index, element.id);
                 map.reset();
                 if (countries.length > 0) {
@@ -379,22 +454,47 @@ let page2 = {
                         map.map.invalidateSize();
                         map.refresh();
                     }
+                    that.refreshGeolocations(thisContainer);
                 });
             }
         });
+    },
+
+    refreshGeolocations: function(dom) {
+        let index = parseInt(dom.closest('.entry').data('index'));
+        let element = templateData.elements.find(e => e.id == dom.data('id'));
+        if (!isNaN(index)) {
+            let data = getEntryData(index, element.id);
+            if (data.value) {
+                dom.find('> div').empty();
+                for (let i=0; i<data.value.length; i++) {
+                    dom.find('> div').append('<div class="item">' +  data.value[i].split(':')[2] + '</div>');
+                }
+            }
+        }
+    },
+
+    addMatrix1dList: function(parentElement) {
+        let element = parentElement.list;
+
+        let that = this;
+        let listContainer = $('<div style="position: absolute;" class="matrix1d-list-container appliable" data-id="' + parentElement.id + '"></div>');
+        listContainer.css('left', element.left);
+
+        listContainer.append($('<header><label>' + parentElement.title + '</label></header>'));
+        listContainer.append($('<div class="matrix1d-list"></div>'));
+
+        listContainer.appendTo(this.template);
     },
 
     addMatrix2dList: function(parentElement) {
         let element = parentElement.list;
 
         let that = this;
-        let listContainer = $('<div style="position: absolute;" class="matrix2d-list-container" data-id="' + parentElement.id + '"></div>');
-        // listContainer.css('width', element.size.width);
-        // listContainer.css('height', element.size.height);
-        listContainer.css('left', element.position.left);
-        listContainer.css('top', element.position.top);
+        let listContainer = $('<div style="position: absolute;" class="matrix2d-list-container appliable" data-id="' + parentElement.id + '"></div>');
+        listContainer.css('left', element.left);
 
-        listContainer.append($('<label>' + parentElement.title + '</label>'));
+        listContainer.append($('<header><label>' + parentElement.title + '</label></header>'));
         listContainer.append($('<div class="matrix2d-list"></div>'));
 
         listContainer.appendTo(this.template);
@@ -417,6 +517,7 @@ let page2 = {
 
     refresh: function() {
         let that = this;
+        let lastScroll = this.container.scrollTop();
 
         this.container.find('.entries').empty();
         for (let i=0; i<entries.length; i++) {
@@ -440,6 +541,13 @@ let page2 = {
                 entryContainer.find('.excerpt-box-container').show();
                 entryContainer.find('.image-box-container').hide();
                 entryContainer.find('.excerpt-box-container textarea').val(entry.excerpt);
+
+                entryContainer.find('.excerpt-box-container').find('textarea')
+                    .on('input paste drop change', function() {
+                        let dom = $(this)[0];
+                        dom.style.height = '1px';
+                        dom.style.height = (2 + dom.scrollHeight) + 'px';
+                    });
             }
 
             for (let i=0; i<templateData.elements.length; i++) {
@@ -503,6 +611,26 @@ let page2 = {
                     }
                     continue;
                 }
+                else if (templateElement.type == 'matrix1d' && templateElement.list) {
+                    let data = entry.elements.find(d => d.id == templateElement.id);
+                    if (data) {
+                        let listContainer = entryContainer.find('.matrix1d-list-container[data-id="' + data.id + '"]');
+                        let list = listContainer.find('.matrix1d-list');
+
+                        list.empty();
+                        for (let j=0; j<data.selections.length; j++) {
+                            let selection = data.selections[j];
+                            let pillar = templateElement.pillars.find(p => p.id == selection.pillar);
+                            let subpillar = pillar.subpillars.find(s => s.id == selection.subpillar);
+
+                            let col1 = $('<div class="col1"><div class="pillar">' + pillar.name + '</div><div class="subpillar">' + subpillar.name + '</div></div>');
+                            let row = $('<div class="row"></div>');
+                            row.append(col1);
+                            list.append(row);
+                        }
+                    }
+                    continue;
+                }
 
                 if (templateElement.page != 'page-two') {
                     continue;
@@ -513,6 +641,7 @@ let page2 = {
                 if (templateElement.type == 'number-input' || templateElement.type == 'date-input') {
                     if (data) {
                         entryContainer.find('.input-element[data-id="' + data.id + '"] input').val(data.value);
+                        formatNumber(entryContainer.find('.input-element[data-id="' + data.id + '"] input'));
                     }
                 }
                 else if (templateElement.type == 'multiselect') {
@@ -528,15 +657,25 @@ let page2 = {
                     }
                     entryContainer.find('.scale-container[data-id="' + templateElement.id + '"] .scale span[data-id="' + selected + '"]').addClass('active');
                 }
+                else if (templateElement.type == 'organigram') {
+                    entryContainer.find('.organigram[data-id="' + templateElement.id + '"]').each(function() { that.refreshOrganigram($(this)); });
+                }
+                else if (templateElement.type == 'geolocations') {
+                    entryContainer.find('.geolocations[data-id="' + templateElement.id + '"]').each(function() { that.refreshGeolocations($(this)); });
+                }
             }
+
+            entryContainer.find('.appliable').each(function() { that.addApplyButtons($(this)); });
+
+            entryContainer.find('img').one('load', function() {
+                autoResize(entryContainer);
+            });
+            autoResize(entryContainer);
+
         }
 
-        // TODO remove and use scss
-        let scales = $('.scale-container .scale span');
-        scales.css('width', '10px');
-        scales.css('height', '20px');
-        let selectedScales = $('.scale-container .scale span.active');
-        selectedScales.css('width', '12px');
-        selectedScales.css('height', '24px');
+        addTodayButtons();
+        this.container.find('textarea').change();
+        this.container.scrollTop(lastScroll);
     },
 };

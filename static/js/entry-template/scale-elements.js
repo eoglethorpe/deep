@@ -5,7 +5,7 @@ class ScaleElement extends Element {
         dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<div class="scale-container"><label>Scale</label></div>'));
         dom.find('.scale-container').append($('<div class="scale"></div>'));
-        dom.find('.scale-container').resizable({ grid: 5 });
+        dom.find('.scale-container').resizable({ grid: GRID_SIZE });
         super(container, dom);
 
         this.scaleValues = [

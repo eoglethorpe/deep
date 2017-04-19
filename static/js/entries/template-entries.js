@@ -56,7 +56,7 @@ let entriesManager = {
                     let te = geolocationElements[k];
                     let data = info.elements.find(e => e.id == te.id);
 
-                    if (data) {
+                    if (data && data.value) {
                         for (let l=0; l<data.value.length; l++) {
                             this.findFilter(te.id)[0].selectize.addOption({
                                 value: data.value[l],
@@ -154,8 +154,9 @@ let entriesManager = {
                 return false;
             });
 
+            let filter = this.findFilter(element.id);
             for (let i=0; i<element.options.length; i++) {
-                this.findFilter(element.id)[0].selectize.addOption({
+                filter[0].selectize.addOption({
                     value: element.options[i].id,
                     text: element.options[i].text,
                 });
@@ -172,8 +173,9 @@ let entriesManager = {
                 return false;
             });
 
+            let filter = this.findFilter(element.id);
             for (let i=0; i<element.nodes.length; i++) {
-                this.findFilter(element.id)[0].selectize.addOption({
+                filter[0].selectize.addOption({
                     value: element.nodes[i].id,
                     text: element.nodes[i].name,
                 });
@@ -189,6 +191,88 @@ let entriesManager = {
                 }
                 return false;
             });
+        }
+
+        else if (element.type == 'matrix1d') {
+            this.addMultiselectFilter(element.id, element.title, function(info) {
+                let value = this.value;
+                let data = info.elements.find(d => d.id == element.id);
+                return (data && data.selections) && (value.find(v => data.selections.find(s => (v.indexOf(':') < 0) ? (s.pillar == v) : (s.pillar == v.split(':')[0] && s.subpillar == v.split(':')[1]))));
+            });
+
+            let filter = this.findFilter(element.id);
+            for (let i=0; i<element.pillars.length; i++) {
+                let pillar = element.pillars[i];
+
+                filter[0].selectize.addOption({
+                    value: pillar.id,
+                    text: pillar.name,
+                });
+
+                for (let j=0; j<pillar.subpillars.length; j++) {
+                    let subpillar = pillar.subpillars[j];
+
+                    filter[0].selectize.addOption({
+                        value: pillar.id + ':' + subpillar.id,
+                        text: pillar.name + ' / ' + subpillar.name,
+                    });
+                }
+            }
+        }
+
+        else if (element.type == 'matrix2d') {
+
+            // Pillars subpillars
+            this.addMultiselectFilter(element.id, element.title, function(info) {
+                let value = this.value;
+                let data = info.elements.find(d => d.id == element.id);
+                return (data && data.selections) && (value.find(v => data.selections.find(s => (v.indexOf(':') < 0) ? (s.pillar == v) : (s.pillar == v.split(':')[0] && s.subpillar == v.split(':')[1]))));
+            });
+
+            let filter = this.findFilter(element.id);
+            for (let i=0; i<element.pillars.length; i++) {
+                let pillar = element.pillars[i];
+
+                filter[0].selectize.addOption({
+                    value: pillar.id,
+                    text: pillar.title,
+                });
+
+                for (let j=0; j<pillar.subpillars.length; j++) {
+                    let subpillar = pillar.subpillars[j];
+
+                    filter[0].selectize.addOption({
+                        value: pillar.id + ':' + subpillar.id,
+                        text: pillar.title + ' / ' + subpillar.title,
+                    });
+                }
+            }
+
+            // Sectors subsectors
+            this.addMultiselectFilter(element.id + '-sectors', 'Sectors and subsectors', function(info) {
+                let value = this.value;
+                let data = info.elements.find(d => d.id == element.id);
+                return (data && data.selections) && (value.find(v => data.selections.find(s => (v.indexOf(':') < 0) ? (s.sector == v) : (s.sector == v.split(':')[0] && s.subsectors.indexOf(v.split(':')[1]) >= 0))));
+            });
+
+            filter = this.findFilter(element.id + '-sectors');
+            for (let i=0; i<element.sectors.length; i++) {
+                let sector = element.sectors[i];
+
+                filter[0].selectize.addOption({
+                    value: sector.id,
+                    text: sector.title,
+                });
+
+                for (let j=0; j<sector.subsectors.length; j++) {
+                    let subsector = sector.subsectors[j];
+
+                    filter[0].selectize.addOption({
+                        value: sector.id + ':' + subsector.id,
+                        text: sector.title + ' / ' + subsector.title,
+                    });
+                }
+            }
         }
 
         else if (element.type == 'scale') {
@@ -349,14 +433,11 @@ let entriesList = {
             let element = templateData.elements[i];
             if (element.type == 'matrix2d' && element.list) {
                 this.addMatrix2dList(element);
-                continue;
             }
-
-            if (element.page != 'page-two') {
-                continue;
+            else if (element.type == 'matrix1d' && element.list) {
+                this.addMatrix1dList(element);
             }
-
-            if (element.id == 'page-two-excerpt') {
+            else if (element.id == 'page-two-excerpt') {
                 this.addExcerpt(element);
             }
             else if (element.type == 'number-input' || element.type == 'date-input') {
@@ -375,10 +456,8 @@ let entriesList = {
 
     addExcerpt: function(element) {
         let excerpt = $('<div class="element excerpt-container" style="position: absolute";></div>');
-        excerpt.css('width', element.size.width);
-        excerpt.css('height', element.size.height);
-        excerpt.css('left', element.position.left);
-        excerpt.css('top', element.position.top);
+        excerpt.css('width', element.width);
+        excerpt.css('left', element.left);
         excerpt.appendTo(this.template);
     },
 
@@ -396,18 +475,25 @@ let entriesList = {
 
     addList: function(element) {
         let list = $('<div class="element list-container" data-id="' + element.id + '" style="position: absolute;"></div>');
-        list.css('left', element.position.left);
-        list.css('top', element.position.top);
+        list.css('left', element.left);
         list.appendTo(this.template);
 
         list.append($('<label>' + element.label + '</label>'));
         list.append($('<div class="data"></div>'));
     },
 
+    addMatrix1dList: function(element) {
+        let list = $('<div class="element list-container" data-id="' + element.id + '" style="position: absolute;"></div>');
+        list.css('left', element.list.left);
+        list.appendTo(this.template);
+
+        list.append($('<label>' + element.title + '</label>'));
+        list.append($('<div class="data"></div>'));
+    },
+
     addMatrix2dList: function(element) {
         let list = $('<div class="element list-container" data-id="' + element.id + '" style="position: absolute;"></div>');
-        list.css('left', element.list.position.left);
-        list.css('top', element.list.position.top);
+        list.css('left', element.list.left);
         list.appendTo(this.template);
 
         list.append($('<label>' + element.title + '</label>'));
@@ -494,11 +580,31 @@ let entriesList = {
                                     text += '<div class="col"><div>' + pillar.title + '</div><div>' + subpillar.title + '</div></div>';
                                     text += '<div class="col"><div>' + sector.title + '</div><div>';
 
-                                    for (let m=0; m<data.selections[l].subsectors.length; m++) {
-                                        text += '<span>' + sector.subsectors.find(s => s.id == data.selections[l].subsectors[m]).title + '</span>';
+                                    if (data.selections[l].subsectors) {
+                                        for (let m=0; m<data.selections[l].subsectors.length; m++) {
+                                            text += '<span>' + sector.subsectors.find(s => s.id == data.selections[l].subsectors[m]).title + '</span>';
+                                        }
                                     }
 
                                     text += '</div></div>';
+                                    text += '</div>';
+                                }
+                            }
+                            dom.find('.data').html(text);
+                        }
+                        continue;
+                    }
+                    else if (templateElement.type == 'matrix1d' && templateElement.list) {
+                        let data = information.elements.find(d => d.id == templateElement.id);
+                        if (data) {
+                            let dom = infoDom.find('.list-container[data-id="' + data.id + '"]');
+                            let text = '';
+                            if (data.selections) {
+                                for (let l=0; l<data.selections.length; l++) {
+                                    let pillar = templateElement.pillars.find(p => p.id == data.selections[l].pillar);
+                                    let subpillar = pillar.subpillars.find(s => s.id == data.selections[l].subpillar);
+                                    text += '<div class="row">'
+                                    text += '<div class="col"><div>' + pillar.name + '</div><div>' + subpillar.name + '</div></div>';
                                     text += '</div>';
                                 }
                             }
@@ -570,6 +676,11 @@ let entriesList = {
 
                 infoDom.appendTo(entryDom);
                 infoDom.show();
+
+                infoDom.find('img').one('load', function() {
+                    autoResize(infoDom);
+                });
+                autoResize(infoDom);
             }
         }
     },

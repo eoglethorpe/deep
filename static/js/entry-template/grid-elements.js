@@ -1,6 +1,45 @@
+class Matrix1DList extends Element {
+    constructor(container, data) {
+        let dom = $('<div class="element matrix1d-list"></div>');
+        dom.append($('<div class="fa fa-arrows handle"></div>'));
+        dom.append($('<div class="fa fa-edit edit"></div>'));
+        dom.append($('<div class="container"><div class="col-1"><div class="pillar">Pillar</div><div class="subpillar">Subpillar</div></div></div>'));
+        super(container, dom);
+
+        if (data){
+            this.load(data);
+        }
+
+        this.addPropertiesTo(this.createPropertiesBox(this.dom.find('.edit')));
+    }
+
+    save() {
+        let page = templateEditor.getPage();
+        if (page != 'page-two') {
+            templateEditor.switchPage();
+        }
+
+        let data = {
+            left: this.dom.position().left,
+        };
+
+        if(page != templateEditor.getPage()) {
+            templateEditor.switchPage();
+        }
+
+        return data;
+    }
+
+    load(data) {
+        if (data.left) {
+            this.dom.css('left', data.left);
+        }
+    }
+}
+
 
 class Matrix1D extends Element {
-    constructor(container, data) {
+    constructor(container, container2, data) {
         let dom = $('<div class="element matrix1d"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
@@ -8,16 +47,13 @@ class Matrix1D extends Element {
         dom.append($('<div class="pillars sortable"></div>'));
         dom.append($('<button class="add-pillar"><i class="fa fa-plus"></i>Add Pillar</button>'));
         dom.resizable({
-            grid: 20,
+            grid: GRID_SIZE,
             handles: 'e, w',
-            // resize: function(event, ui) {
-            //     if (ui.size.width > 600) {
-            //         ui.size.width = ui.originalSize.width;
-            //     }
-            // },
         });
         super(container, dom);
         let that = this;
+
+        this.list = new Matrix1DList(container2, data?data.list:null);
 
         this.addPillar();
         dom.find('.add-pillar').click(function() {
@@ -132,6 +168,7 @@ class Matrix1D extends Element {
             position: this.getPosition(),
             title: this.dom.find('.title').text(),
             width: this.dom.css('width'),
+            list: this.list.save(),
         };
     }
 
@@ -243,7 +280,7 @@ class Matrix2DList extends Element {
         }
 
         let data = {
-            position: this.getPosition(),
+            left: this.dom.position().left,
         };
 
         if(page != templateEditor.getPage()) {
@@ -254,8 +291,8 @@ class Matrix2DList extends Element {
     }
 
     load(data) {
-        if (data.position) {
-            this.setPosition(data.position);
+        if (data.left) {
+            this.dom.css('left', data.left);
         }
     }
 }
@@ -271,7 +308,7 @@ class Matrix2D extends Element {
 
         dom.append($('<div class="sectors-container"><div class="sectors sortable"></div><button class="fa fa-plus add-sector"></button></div>'));
         dom.append($('<div class="pillars-container"><div class="pillars sortable"></div><button class="fa fa-plus add-pillar"></button></div>'));
-        dom.resizable({ grid: 20, handles: 'e, w' });
+        dom.resizable({ grid: GRID_SIZE, handles: 'e, w' });
 
         super(container, dom);
 

@@ -5,7 +5,7 @@ class PageOneEntrySelector extends Element {
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<div class="select-container"><select><option value="">Select an entry</option></select></div>'));
-        dom.find('.select-container').resizable({ grid: 20 });
+        dom.find('.select-container').resizable({ grid: GRID_SIZE });
         super(container, dom);
 
         dom.find('select').selectize();
@@ -64,7 +64,7 @@ class PageOneExcerptBox extends Element {
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<div class="excerpt-container"><label>Excerpt</label><textarea placeholder="Enter excerpt here" autoresize></textarea></div>'));
-        dom.find('.excerpt-container').resizable({ grid: 20 });
+        dom.find('.excerpt-container').resizable({ grid: GRID_SIZE });
         super(container, dom);
 
         if (data) {
@@ -121,7 +121,7 @@ class PageOneImageBox extends Element {
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<div class="image-container"><label>Image</label><div class="image-box"></div></div>'));
-        dom.find('.image-container').resizable({ grid: 20 });
+        dom.find('.image-container').resizable({ grid: GRID_SIZE });
         super(container, dom);
 
         if (data) {

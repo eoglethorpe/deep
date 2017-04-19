@@ -109,7 +109,7 @@ body {
         color: #fff; }
   body aside {
     position: relative;
-    flex-basis: 30%;
+    flex-basis: 33%;
     height: calc(100vh - 56px);
     border-right: 1px solid rgba(0, 0, 0, 0.1);
     overflow-y: auto; }
@@ -192,7 +192,7 @@ body {
         body aside footer button:active {
           box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
   body main {
-    flex-basis: 70%;
+    flex-basis: 67%;
     height: calc(100vh - 56px);
     overflow: auto; }
     body main #page-one {
@@ -212,7 +212,7 @@ body {
     body main .element {
       display: inline-block;
       position: absolute;
-      border: 1px solid red; }
+      border: 1px dotted #008080; }
       body main .element .handle, body main .element .edit {
         display: none;
         color: #000;
@@ -366,8 +366,10 @@ body {
         width: 100%;
         height: 100%; }
     body main .page-one-excerpt .excerpt-container, body main .page-two-excerpt .excerpt-container {
-      width: 200px;
-      height: 200px; }
+      min-width: 144px;
+      min-height: 96px;
+      width: 256px;
+      height: 108px; }
       body main .page-one-excerpt .excerpt-container label, body main .page-two-excerpt .excerpt-container label {
         font-weight: bold;
         font-size: 12px;
@@ -840,5 +842,25 @@ body {
       height: calc(64vh - 56px);
       flex-basis: 100%;
       order: 1; }
+      body.page-two main .entry {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow-x: auto; }
+        body.page-two main .entry .geolocations, body.page-two main .entry .organigram, body.page-two main .entry .page-two-excerpt, body.page-two main .entry .matrix1d-list, body.page-two main .entry .matrix2d-list, body.page-two main .entry .multiselect-element {
+          top: 0;
+          height: 100%;
+          z-index: 1; }
+          body.page-two main .entry .geolocations .container, body.page-two main .entry .geolocations .excerpt-container, body.page-two main .entry .geolocations .input-container, body.page-two main .entry .organigram .container, body.page-two main .entry .organigram .excerpt-container, body.page-two main .entry .organigram .input-container, body.page-two main .entry .page-two-excerpt .container, body.page-two main .entry .page-two-excerpt .excerpt-container, body.page-two main .entry .page-two-excerpt .input-container, body.page-two main .entry .matrix1d-list .container, body.page-two main .entry .matrix1d-list .excerpt-container, body.page-two main .entry .matrix1d-list .input-container, body.page-two main .entry .matrix2d-list .container, body.page-two main .entry .matrix2d-list .excerpt-container, body.page-two main .entry .matrix2d-list .input-container, body.page-two main .entry .multiselect-element .container, body.page-two main .entry .multiselect-element .excerpt-container, body.page-two main .entry .multiselect-element .input-container {
+            height: 100%; }
+        body.page-two main .entry .matrix1d-list {
+          width: 160px; }
+        body.page-two main .entry .matrix2d-list {
+          width: 240px; }
+          body.page-two main .entry .matrix2d-list .container {
+            display: flex;
+            justify-content: space-around; }
+            body.page-two main .entry .matrix2d-list .container > div {
+              flex-basis: 49%; }
 
 /*# sourceMappingURL=entry-template.css.map */

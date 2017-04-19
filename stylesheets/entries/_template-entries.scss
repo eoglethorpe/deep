@@ -76,12 +76,12 @@
                 width: 100%;
             }
             .excerpt-container{
-                height: 100%;
-                overflow: auto;
-                background-color: #fff;
                 margin-right: 5px;
                 padding: 16px;
 
+                img {
+                    width: 100%;
+                }
             }
             .scale-container{
                 height: 100%;

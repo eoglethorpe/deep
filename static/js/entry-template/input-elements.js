@@ -5,7 +5,7 @@ class InputElement extends Element {
         dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<div class="input-container"><label>' + defaultLabel + '</label></div>'));
         dom.find('.input-container').append(inputDom);
-        dom.find('.input-container').resizable({ grid: 20 });
+        dom.find('.input-container').resizable({ grid: GRID_SIZE });
         super(container, dom);
 
         this.type = className;
@@ -61,7 +61,7 @@ class InputElement extends Element {
 
 class NumberInput extends InputElement {
     constructor(container, data) {
-        super(container, data, $('<input type="number" placeholder="Number input">'), 'number-input', 'Number');
+        super(container, data, $('<input type="text" placeholder="Number input">'), 'number-input', 'Number');
     }
 
     getTitle() {
@@ -87,7 +87,7 @@ class MultiselectInput extends Element {
         dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<div class="input-container"><label>Groups</label></div>'));
         dom.find('.input-container').append($('<select multiple><option value="">Select groups</option></select>'));
-        dom.find('.input-container').resizable({ grid: 20 });
+        dom.find('.input-container').resizable({ grid: GRID_SIZE, handles: 'e, w', });
         super(container, dom);
 
         dom.find('select').selectize();
@@ -114,8 +114,8 @@ class MultiselectInput extends Element {
         return {
             id: this.id,
             type: 'multiselect',
-            position: this.getPosition(),
-            size:  { width: this.dom.find('.input-container').css('width'), height: this.dom.find('.input-container').css('height') },
+            width: this.dom.find('.input-container').css('width'),
+            left: this.dom.position().left,
             label: this.dom.find('label').eq(0).text(),
             options: this.options,
         }
@@ -125,12 +125,11 @@ class MultiselectInput extends Element {
         if (data.id) {
             this.id = data.id;
         }
-        if (data.position) {
-            this.setPosition(data.position);
+        if (data.left) {
+            this.dom.css('left', data.left);
         }
-        if (data.size) {
-            this.dom.find('.input-container').css('width', data.size.width);
-            this.dom.find('.input-container').css('height', data.size.height);
+        if (data.width) {
+            this.dom.find('.input-container').css('width', data.width);
         }
         if (data.label) {
             this.dom.find('label').eq(0).text(data.label);

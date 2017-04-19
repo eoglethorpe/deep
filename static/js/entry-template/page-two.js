@@ -5,7 +5,7 @@ class PageTwoExcerptBox extends Element {
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<div class="excerpt-container"><label>Excerpt</label><textarea placeholder="Enter excerpt here" autoresize></textarea></div>'));
-        dom.find('.excerpt-container').resizable({ grid: 20 });
+        dom.find('.excerpt-container').resizable({ grid: GRID_SIZE, handles: 'e, w', });
         super(container, dom);
 
         if (data) {
@@ -20,12 +20,11 @@ class PageTwoExcerptBox extends Element {
         if (data.id) {
             this.id = data.id;
         }
-        if (data.size) {
-            this.dom.find('.excerpt-container').css('width', data.size.width);
-            this.dom.find('.excerpt-container').css('height', data.size.height);
+        if (data.width) {
+            this.dom.find('.excerpt-container').css('width', data.width);
         }
-        if (data.position) {
-            this.setPosition(data.position);
+        if (data.left) {
+            this.dom.css('left', data.left);
         }
     }
 
@@ -33,8 +32,8 @@ class PageTwoExcerptBox extends Element {
         return {
             id: this.id,
             type: 'pageTwoExcerptBox',
-            size:  { width: this.dom.find('.excerpt-container').css('width'), height: this.dom.find('.excerpt-container').css('height') },
-            position: this.getPosition(),
+            width: this.dom.find('.excerpt-container').css('width'),
+            left: this.dom.position().left,
         };
     }
 
