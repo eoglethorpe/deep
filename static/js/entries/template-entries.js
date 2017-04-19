@@ -154,8 +154,9 @@ let entriesManager = {
                 return false;
             });
 
+            let filter = this.findFilter(element.id);
             for (let i=0; i<element.options.length; i++) {
-                this.findFilter(element.id)[0].selectize.addOption({
+                filter[0].selectize.addOption({
                     value: element.options[i].id,
                     text: element.options[i].text,
                 });
@@ -172,8 +173,9 @@ let entriesManager = {
                 return false;
             });
 
+            let filter = this.findFilter(element.id);
             for (let i=0; i<element.nodes.length; i++) {
-                this.findFilter(element.id)[0].selectize.addOption({
+                filter[0].selectize.addOption({
                     value: element.nodes[i].id,
                     text: element.nodes[i].name,
                 });
@@ -189,6 +191,88 @@ let entriesManager = {
                 }
                 return false;
             });
+        }
+
+        else if (element.type == 'matrix1d') {
+            this.addMultiselectFilter(element.id, element.title, function(info) {
+                let value = this.value;
+                let data = info.elements.find(d => d.id == element.id);
+                return (data && data.selections) && (value.find(v => data.selections.find(s => (v.indexOf(':') < 0) ? (s.pillar == v) : (s.pillar == v.split(':')[0] && s.subpillar == v.split(':')[1]))));
+            });
+
+            let filter = this.findFilter(element.id);
+            for (let i=0; i<element.pillars.length; i++) {
+                let pillar = element.pillars[i];
+
+                filter[0].selectize.addOption({
+                    value: pillar.id,
+                    text: pillar.name,
+                });
+
+                for (let j=0; j<pillar.subpillars.length; j++) {
+                    let subpillar = pillar.subpillars[j];
+
+                    filter[0].selectize.addOption({
+                        value: pillar.id + ':' + subpillar.id,
+                        text: pillar.name + ' / ' + subpillar.name,
+                    });
+                }
+            }
+        }
+
+        else if (element.type == 'matrix2d') {
+
+            // Pillars subpillars
+            this.addMultiselectFilter(element.id, element.title, function(info) {
+                let value = this.value;
+                let data = info.elements.find(d => d.id == element.id);
+                return (data && data.selections) && (value.find(v => data.selections.find(s => (v.indexOf(':') < 0) ? (s.pillar == v) : (s.pillar == v.split(':')[0] && s.subpillar == v.split(':')[1]))));
+            });
+
+            let filter = this.findFilter(element.id);
+            for (let i=0; i<element.pillars.length; i++) {
+                let pillar = element.pillars[i];
+
+                filter[0].selectize.addOption({
+                    value: pillar.id,
+                    text: pillar.title,
+                });
+
+                for (let j=0; j<pillar.subpillars.length; j++) {
+                    let subpillar = pillar.subpillars[j];
+
+                    filter[0].selectize.addOption({
+                        value: pillar.id + ':' + subpillar.id,
+                        text: pillar.title + ' / ' + subpillar.title,
+                    });
+                }
+            }
+
+            // Sectors subsectors
+            this.addMultiselectFilter(element.id + '-sectors', 'Sectors and subsectors', function(info) {
+                let value = this.value;
+                let data = info.elements.find(d => d.id == element.id);
+                return (data && data.selections) && (value.find(v => data.selections.find(s => (v.indexOf(':') < 0) ? (s.sector == v) : (s.sector == v.split(':')[0] && s.subsectors.indexOf(v.split(':')[1]) >= 0))));
+            });
+
+            filter = this.findFilter(element.id + '-sectors');
+            for (let i=0; i<element.sectors.length; i++) {
+                let sector = element.sectors[i];
+
+                filter[0].selectize.addOption({
+                    value: sector.id,
+                    text: sector.title,
+                });
+
+                for (let j=0; j<sector.subsectors.length; j++) {
+                    let subsector = sector.subsectors[j];
+
+                    filter[0].selectize.addOption({
+                        value: sector.id + ':' + subsector.id,
+                        text: sector.title + ' / ' + subsector.title,
+                    });
+                }
+            }
         }
 
         else if (element.type == 'scale') {
@@ -349,18 +433,11 @@ let entriesList = {
             let element = templateData.elements[i];
             if (element.type == 'matrix2d' && element.list) {
                 this.addMatrix2dList(element);
-                continue;
             }
             else if (element.type == 'matrix1d' && element.list) {
                 this.addMatrix1dList(element);
-                continue;
             }
-
-            if (element.page != 'page-two') {
-                continue;
-            }
-
-            if (element.id == 'page-two-excerpt') {
+            else if (element.id == 'page-two-excerpt') {
                 this.addExcerpt(element);
             }
             else if (element.type == 'number-input' || element.type == 'date-input') {
