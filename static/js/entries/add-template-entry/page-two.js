@@ -62,17 +62,13 @@ let page2 = {
     addExcerptBox: function(element) {
         let that = this;
         let excerptBox = $('<div class="excerpt-box-container"><label>Excerpt</label><textarea placeholder="Enter excerpt here"></textarea></div>');
-        excerptBox.css('width', element.size.width);
-        excerptBox.css('height', element.size.height);
-        excerptBox.css('left', element.position.left);
-        excerptBox.css('top', element.position.top);
+        excerptBox.css('width', element.width);
+        excerptBox.css('left', element.left);
         excerptBox.appendTo(this.template);
 
         let imageBox = $('<div class="image-box-container"><label>Image</label><div class="image-box"><img></div></div>')
-        imageBox.css('width', element.size.width);
-        imageBox.css('height', element.size.height);
-        imageBox.css('left', element.position.left);
-        imageBox.css('top', element.position.top);
+        imageBox.css('width', element.width);
+        imageBox.css('left', element.left);
         imageBox.appendTo(this.template);
 
         this.container.on('change input paste drop', '.excerpt-box-container textarea', function() {
@@ -107,10 +103,8 @@ let page2 = {
     addMultiselect: function(element) {
         let that = this;
         let selectContainer = $('<div data-id="' + element.id + '" class="multiselect" style="position: absolute;"></div>');
-        selectContainer.css('width', element.size.width);
-        selectContainer.css('height', element.size.height);
-        selectContainer.css('left', element.position.left);
-        selectContainer.css('top', element.position.top);
+        selectContainer.css('width', element.width);
+        selectContainer.css('left', element.left);
 
         selectContainer.append($('<label>' + element.label + '</label>'));
         selectContainer.append($('<select multiple><option values="">Type for options</option></select>'));
@@ -176,10 +170,8 @@ let page2 = {
     addOrganigram: function(element) {
         let that = this;
         let organigramInput = $('<div class="organigram" style="position: absolute;"></div>');
-        organigramInput.css('width', element.size.width);
-        organigramInput.css('height', element.size.height);
-        organigramInput.css('left', element.position.left);
-        organigramInput.css('top', element.position.top);
+        organigramInput.css('width', element.width);
+        organigramInput.css('left', element.left);
 
         organigramInput.append('<label>' + element.label + '</label>');
         organigramInput.append('<a><img src="/static/img/organigram.png" width="24px"></a>');
@@ -285,10 +277,8 @@ let page2 = {
     addGeolocations: function(element) {
         let that = this;
         let geolocationsInput = $('<div class="geolocations" style="position: absolute;"></div>');
-        geolocationsInput.css('width', element.size.width);
-        geolocationsInput.css('height', element.size.height);
-        geolocationsInput.css('left', element.position.left);
-        geolocationsInput.css('top', element.position.top);
+        geolocationsInput.css('width', element.width);
+        geolocationsInput.css('left', element.left);
 
         geolocationsInput.append('<label>' + element.label + '</label>');
         geolocationsInput.append('<a><img src="/static/img/mapicon.png" width="24px"></a>');
@@ -393,10 +383,7 @@ let page2 = {
 
         let that = this;
         let listContainer = $('<div style="position: absolute;" class="matrix1d-list-container" data-id="' + parentElement.id + '"></div>');
-        // listContainer.css('width', element.size.width);
-        // listContainer.css('height', element.size.height);
-        listContainer.css('left', element.position.left);
-        listContainer.css('top', element.position.top);
+        listContainer.css('left', element.left);
 
         listContainer.append($('<label>' + parentElement.title + '</label>'));
         listContainer.append($('<div class="matrix1d-list"></div>'));
@@ -409,10 +396,7 @@ let page2 = {
 
         let that = this;
         let listContainer = $('<div style="position: absolute;" class="matrix2d-list-container" data-id="' + parentElement.id + '"></div>');
-        // listContainer.css('width', element.size.width);
-        // listContainer.css('height', element.size.height);
-        listContainer.css('left', element.position.left);
-        listContainer.css('top', element.position.top);
+        listContainer.css('left', element.left);
 
         listContainer.append($('<label>' + parentElement.title + '</label>'));
         listContainer.append($('<div class="matrix2d-list"></div>'));

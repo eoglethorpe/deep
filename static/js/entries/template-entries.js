@@ -379,10 +379,8 @@ let entriesList = {
 
     addExcerpt: function(element) {
         let excerpt = $('<div class="element excerpt-container" style="position: absolute";></div>');
-        excerpt.css('width', element.size.width);
-        excerpt.css('height', 'auto');
-        excerpt.css('left', element.position.left);
-        excerpt.css('top', element.position.top);
+        excerpt.css('width', element.width);
+        excerpt.css('left', element.left);
         excerpt.appendTo(this.template);
     },
 
@@ -400,8 +398,7 @@ let entriesList = {
 
     addList: function(element) {
         let list = $('<div class="element list-container" data-id="' + element.id + '" style="position: absolute;"></div>');
-        list.css('left', element.position.left);
-        list.css('top', element.position.top);
+        list.css('left', element.left);
         list.appendTo(this.template);
 
         list.append($('<label>' + element.label + '</label>'));
@@ -410,8 +407,7 @@ let entriesList = {
 
     addMatrix1dList: function(element) {
         let list = $('<div class="element list-container" data-id="' + element.id + '" style="position: absolute;"></div>');
-        list.css('left', element.list.position.left);
-        list.css('top', element.list.position.top);
+        list.css('left', element.list.left);
         list.appendTo(this.template);
 
         list.append($('<label>' + element.title + '</label>'));
@@ -420,8 +416,7 @@ let entriesList = {
 
     addMatrix2dList: function(element) {
         let list = $('<div class="element list-container" data-id="' + element.id + '" style="position: absolute;"></div>');
-        list.css('left', element.list.position.left);
-        list.css('top', element.list.position.top);
+        list.css('left', element.list.left);
         list.appendTo(this.template);
 
         list.append($('<label>' + element.title + '</label>'));

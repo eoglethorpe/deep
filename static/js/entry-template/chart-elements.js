@@ -7,7 +7,7 @@ class OrganigramInput extends Element {
         dom.append($('<div class="container"><div class="header"><label>Organigram</label></header></div>'));
         dom.find('.container').find('.header').append($('<img src="/static/img/organigram.png">'));
         dom.find('.container').append($('<div class="items"><span>Item1</span><span>Item2</span></div>'));
-        dom.find('.container').resizable({ grid: GRID_SIZE });
+        dom.find('.container').resizable({ grid: GRID_SIZE, handles: 'e, w', });
         super(container, dom);
 
         this.nodes = [
@@ -27,7 +27,8 @@ class OrganigramInput extends Element {
             id: this.id,
             type: 'organigram',
             position: this.getPosition(),
-            size:  { width: this.dom.find('.container').css('width'), height: this.dom.find('.container').css('height') },
+            width: this.dom.find('.container').css('width'),
+            left: this.dom.position().left,
             label: this.dom.find('label').eq(0).text(),
             nodes: this.nodes,
         };
@@ -37,12 +38,11 @@ class OrganigramInput extends Element {
         if (data.id) {
             this.id = data.id;
         }
-        if (data.position) {
-            this.setPosition(data.position);
+        if (data.left) {
+            this.dom.css('left', data.left);
         }
-        if (data.size) {
-            this.dom.find('.container').css('width', data.size.width);
-            this.dom.find('.container').css('height', data.size.height);
+        if (data.width) {
+            this.dom.find('.container').css('width', data.width);
         }
         if (data.label) {
             this.dom.find('label').eq(0).text(data.label);
@@ -171,7 +171,7 @@ class GeolocationsInput extends Element {
         dom.append($('<div class="container"><div class="header"><label>Geolocations</label></div></div>'));
         dom.find('.container').find('.header').append($('<img src="/static/img/mapicon.png">'));
         dom.find('.container').append($('<div class="locations"><span>Location1</span><span>Location2</span></div>'));
-        dom.find('.container').resizable({ grid: GRID_SIZE });
+        dom.find('.container').resizable({ grid: GRID_SIZE, handles: 'e, w', });
         super(container, dom);
 
         if (data) {
@@ -184,8 +184,8 @@ class GeolocationsInput extends Element {
         return {
             id: this.id,
             type: 'geolocations',
-            position: this.getPosition(),
-            size:  { width: this.dom.find('.container').css('width'), height: this.dom.find('.container').css('height') },
+            width: this.dom.find('.container').css('width'),
+            left: this.dom.position().left,
             label: this.dom.find('label').eq(0).text(),
         };
     }
@@ -194,12 +194,11 @@ class GeolocationsInput extends Element {
         if (data.id) {
             this.id = data.id;
         }
-        if (data.position) {
-            this.setPosition(data.position);
+        if (data.left) {
+            this.dom.css('left', data.left);
         }
-        if (data.size) {
-            this.dom.find('.container').css('width', data.size.width);
-            this.dom.find('.container').css('height', data.size.height);
+        if (data.width) {
+            this.dom.find('.container').css('width', data.width);
         }
         if (data.label) {
             this.dom.find('label').eq(0).text(data.label);
