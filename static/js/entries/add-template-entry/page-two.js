@@ -77,7 +77,7 @@ let page2 = {
 
         this.container.on('change input paste drop', '.excerpt-box-container textarea', function() {
             let index = parseInt($(this).closest('.entry').data('index'));
-            if (index != NaN) {
+            if (!isNaN(index)) {
                 entries[index].excerpt = $(this).val();
             }
         });
@@ -97,7 +97,7 @@ let page2 = {
 
         this.container.on('change input paste drop', '.input-element[data-id="' + element.id + '"] ' + childSelector, function() {
             let index = parseInt($(this).closest('.entry').data('index'));
-            if (index != NaN) {
+            if (!isNaN(index)) {
                 let data = getEntryData(index, element.id);
                 data.value = $(this).val();
             }
@@ -125,7 +125,7 @@ let page2 = {
 
         this.container.on('change', '.multiselect[data-id="' + element.id + '"] select', function() {
             let index = parseInt($(this).closest('.entry').data('index'));
-            if (index != NaN) {
+            if (!isNaN(index)) {
                 let data = getEntryData(index, element.id);
                 data.value = $(this).val();
             }
@@ -152,7 +152,7 @@ let page2 = {
 
         this.container.on('click', '.scale-container[data-id="' + element.id + '"] .scale span', function() {
             let index = parseInt($(this).closest('.entry').data('index'));
-            if (index != NaN) {
+            if (!isNaN(index)) {
                 let data = getEntryData(index, element.id);
                 data.value = $(this).data('id');
 
@@ -175,7 +175,7 @@ let page2 = {
 
     addOrganigram: function(element) {
         let that = this;
-        let organigramInput = $('<div class="organigram" style="position: absolute;"></div>');
+        let organigramInput = $('<div class="organigram" data-id="' + element.id + '" style="position: absolute;"></div>');
         organigramInput.css('width', element.size.width);
         organigramInput.css('height', element.size.height);
         organigramInput.css('left', element.position.left);
@@ -183,6 +183,7 @@ let page2 = {
 
         organigramInput.append('<label>' + element.label + '</label>');
         organigramInput.append('<a><img src="/static/img/organigram.png" width="24px"></a>');
+        organigramInput.append('<div></div>');
         organigramInput.appendTo(this.template);
 
         let modalDialog = $('<div class="modal" hidden></div>');
@@ -251,9 +252,10 @@ let page2 = {
 
         let newModal = new Modal(modalDialog);
         this.container.on('click', '.organigram a', function() {
+            let thisContainer = $(this).closest('.organigram');
             // Get selected entry
             let index = parseInt($(this).closest('.entry').data('index'));
-            if (index != NaN) {
+            if (!isNaN(index)) {
                 let data = getEntryData(index, element.id);
 
                 // Select nodes in chart
@@ -277,14 +279,29 @@ let page2 = {
                         }
                         newModal.hide();
                     }
+                    that.refreshOrganigram(thisContainer);
                 });
             }
         });
     },
 
+    refreshOrganigram: function(dom) {
+        let index = parseInt(dom.closest('.entry').data('index'));
+        let element = templateData.elements.find(e => e.id == dom.data('id'));
+        if (!isNaN(index)) {
+            let data = getEntryData(index, element.id);
+            if (data.value) {
+                dom.find('> div').empty();
+                for (let i=0; i<data.value.length; i++) {
+                    dom.find('> div').append('<div class="item">' +  element.nodes.find(n => n.id == data.value[i]).name + '</div>');
+                }
+            }
+        }
+    },
+
     addGeolocations: function(element) {
         let that = this;
-        let geolocationsInput = $('<div class="geolocations" style="position: absolute;"></div>');
+        let geolocationsInput = $('<div class="geolocations" data-id="' + element.id + '" style="position: absolute;"></div>');
         geolocationsInput.css('width', element.size.width);
         geolocationsInput.css('height', element.size.height);
         geolocationsInput.css('left', element.position.left);
@@ -292,6 +309,7 @@ let page2 = {
 
         geolocationsInput.append('<label>' + element.label + '</label>');
         geolocationsInput.append('<a><img src="/static/img/mapicon.png" width="24px"></a>');
+        geolocationsInput.append('<div></div>');
         geolocationsInput.appendTo(this.template);
 
         let modalDialog = $('<div class="modal" hidden></div>');
@@ -359,9 +377,11 @@ let page2 = {
 
         let newModal = new Modal(modalDialog, true);
         this.container.on('click', '.geolocations a', function() {
+            let thisContainer = $(this).closest('.geolocations');
+
             // Get selected entry
             let index = parseInt($(this).closest('.entry').data('index'));
-            if (index != NaN) {
+            if (!isNaN(index)) {
                 let data = getEntryData(index, element.id);
                 map.reset();
                 if (countries.length > 0) {
@@ -383,9 +403,24 @@ let page2 = {
                         map.map.invalidateSize();
                         map.refresh();
                     }
+                    that.refreshGeolocations(thisContainer);
                 });
             }
         });
+    },
+
+    refreshGeolocations: function(dom) {
+        let index = parseInt(dom.closest('.entry').data('index'));
+        let element = templateData.elements.find(e => e.id == dom.data('id'));
+        if (!isNaN(index)) {
+            let data = getEntryData(index, element.id);
+            if (data.value) {
+                dom.find('> div').empty();
+                for (let i=0; i<data.value.length; i++) {
+                    dom.find('> div').append('<div class="item">' +  data.value[i].split(':')[2] + '</div>');
+                }
+            }
+        }
     },
 
     addMatrix1dList: function(parentElement) {
@@ -567,6 +602,12 @@ let page2 = {
                         selected = data.value;
                     }
                     entryContainer.find('.scale-container[data-id="' + templateElement.id + '"] .scale span[data-id="' + selected + '"]').addClass('active');
+                }
+                else if (templateElement.type == 'organigram') {
+                    entryContainer.find('.organigram[data-id="' + templateElement.id + '"]').each(function() { that.refreshOrganigram($(this)); });
+                }
+                else if (templateElement.type == 'geolocations') {
+                    entryContainer.find('.geolocations[data-id="' + templateElement.id + '"]').each(function() { that.refreshGeolocations($(this)); });
                 }
             }
 
