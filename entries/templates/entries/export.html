@@ -29,68 +29,69 @@ DEEP | Export
 {% block body %}
 
 {% include 'navbar.html' %}
-<section id="main">
-    <div id="export-entries">
-        <h1>Export Entries</h1>
-        <div id="export-entries-doc">
-            <form id="export-entries-doc-form" action="{% url 'entries:exportdocx' event=event.pk %}">
 
-                <div>
-                    <h2>Filters</h2>
-                    <div id="filters">
-                        {% include 'entries/export-entry-filters.html' %}
-                    </div>
-                </div>
+<main>
+    <section id="main">
+        <div id="export-entries">
+            <h1>Export Entries</h1>
+            <div id="export-entries-doc">
+                <form id="export-entries-doc-form" action="{% url 'entries:exportdocx' event=event.pk %}">
 
-                <div>
-                    <h2>Format</h2>
-                    <div class="export-format">
-                        <label><input type="radio" name="export-format" value="generic" checked> Generic Export</label>
-                        <label><input type="radio" name="export-format" value="geo"> Geo Export</label>
-                        <label><input type="radio" name="export-format" value="briefing"> Briefing Note</label>
+                    <div>
+                        <h2>Filters</h2>
+                        <div id="filters">
+                            {% include 'entries/export-entry-filters.html' %}
+                        </div>
                     </div>
 
-                    <h2>Export</h2>
-                    <div class="export-buttons">
-                        <button type="submit" name="export-docx" value="docx"><i class="fa fa-file-word-o"></i>DOCX</button>
-                        <button type="submit" name="export-pdf" value="pdf"><i class="fa fa-file-pdf-o"></i>PDF</button>
+                    <div>
+                        <h2>Format</h2>
+                        <div class="export-format">
+                            <label><input type="radio" name="export-format" value="generic" checked> Generic Export</label>
+                            <label><input type="radio" name="export-format" value="geo"> Geo Export</label>
+                            <label><input type="radio" name="export-format" value="briefing"> Briefing Note</label>
+                        </div>
+
+                        <h2>Export</h2>
+                        <div class="export-buttons">
+                            <button type="submit" name="export-docx" value="docx"><i class="fa fa-file-word-o"></i>DOCX</button>
+                            <button type="submit" name="export-pdf" value="pdf"><i class="fa fa-file-pdf-o"></i>PDF</button>
+                        </div>
+
+                        <h2>Preview</h2>
+                        <div class="preview-buttons">
+                            <button id="preview-docx" type="button"><i class="fa fa-file-word-o"></i>DOCX</button>
+                        </div>
                     </div>
 
-                    <h2>Preview</h2>
-                    <div class="preview-buttons">
-                        <button id="preview-docx" type="button"><i class="fa fa-file-word-o"></i>DOCX</button>
-                    </div>
-                </div>
-
-            </form>
+                </form>
+            </div>
+            <div id="export-entries-excel">
+                <header>
+                    <h2>Excel Export</h2>
+                </header>
+                <form id="export-entries-excel-form" action="{% url 'entries:exportxls' event=event.pk %}">
+                    <button type="submit" class=" btn-primary" ><i class="fa fa-file-excel-o"></i>Export</button>
+                </form>
+                <form id="export-entries-excel-weekly-form" action="{% url 'entries:exportxls_weekly' event=event.pk %}">
+                    <button type="submit" class=" btn-primary" ><i class="fa fa-file-excel-o"></i>Export Weekly(Beta)</button>
+                </form>
+            </div>
         </div>
-
-        <div id="preview" hidden>
-            <iframe src="about:blank"></iframe>
+        <div id="sos-export">
+            <h1>Survey of surveys</h1>
+            <div id="sos-export-excel">
+                <header>
+                    <h2>Excel Export</h2>
+                </header>
+                <button id="export-sos-excel-btn" href="{% url 'leads:exportsosxls' event=event.pk %}" type="submit" class=" btn-primary" ><i class="fa fa-file-excel-o"></i>Export</button>
+            </div>
         </div>
-
-        <div id="export-entries-excel">
-            <header>
-                <h2>Excel Export</h2>
-            </header>
-            <form id="export-entries-excel-form" action="{% url 'entries:exportxls' event=event.pk %}">
-                <button type="submit" class=" btn-primary" ><i class="fa fa-file-excel-o"></i>Export</button>
-            </form>
-            <form id="export-entries-excel-weekly-form" action="{% url 'entries:exportxls_weekly' event=event.pk %}">
-                <button type="submit" class=" btn-primary" ><i class="fa fa-file-excel-o"></i>Export Weekly(Beta)</button>
-            </form>
-        </div>
+    </section>
+    <div id="preview" hidden>
+        <iframe src="about:blank"></iframe>
     </div>
-    <div id="sos-export">
-        <h1>Survey of surveys</h1>
-        <div id="sos-export-excel">
-            <header>
-                <h2>Excel Export</h2>
-            </header>
-            <button id="export-sos-excel-btn" href="{% url 'leads:exportsosxls' event=event.pk %}" type="submit" class=" btn-primary" ><i class="fa fa-file-excel-o"></i>Export</button>
-        </div>
-    </div>
-</section>
+</main>
 
 <div class="modal-container" hidden>
     <div id="date-range-input" class="modal" hidden>
