@@ -15,9 +15,25 @@ $(document).ready(function(){
     $('#preview-docx').click(function() {
         let url = window.location.origin + $('#export-entries-doc-form').attr('action') + '?'
             + $('#export-entries-doc-form').serialize();
-        // console.log(url);
-        $('#preview').find('iframe').attr('src', 'https://docs.google.com/viewer?url=' + encodeURIComponent(url) + '&embedded=true&chrome=false&dov=1');
-        $('#preview').show();
+
+        $('#preview-section').find('iframe').attr('src', 'https://docs.google.com/viewer?url=' + encodeURIComponent(url) + '&embedded=true&chrome=false&dov=1');
+        $('#preview-section').find('>div').hide();
+        $('#preview-section').find('iframe').show();
+    });
+
+    $('.range-filter select').change(function() {
+        let parent = $(this).closest('.range-filter');
+        parent.removeClass('filled');
+        parent.find('select').each(function() {
+            if ($(this).val()) {
+                parent.addClass('filled');
+            }
+        });
+    });
+
+    $('.export-format input').change(function() {
+        $('.export-format label.active').removeClass('active');
+        $(this).closest('label').addClass('active');
     });
 });
 

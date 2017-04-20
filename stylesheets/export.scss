@@ -6,211 +6,195 @@ $word-color: $info-color;
 $excel-color: $primary-color;
 $pdf-color: #ff0000;
 
-main {
+body {
     display: flex;
-    height: calc(100vh - #{$navbar-height});
+    flex-wrap: wrap;
+    justify-content: space-between;
 
-    #main{
-        padding: 24px 16px 0 16px;
+    >nav {
+        flex-basis: 100%;
+    }
 
-        h1, h2, h3, h4{
+    main {
+        flex-basis: 70%;
+        border-right: 2px solid rgba(0, 0, 0, 0.1);
+
+        h1, h2, h3, h4, h5, h6 {
             margin: 0;
             text-transform: uppercase;
         }
-        h1{
-            color: $primary-color;
-            margin-bottom: 16px;
-        }
-        h2{
-            font-weight: $font-weight-bold;
-            margin-bottom: 24px;
-        }
-        h3{
-            font-size: $text-size-md;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-        ul{
-            list-style: none;
-            padding-left: 0;
-            li{
-                padding: 10px 32px;
-                margin-bottom: 10px;
-                border: none;
-                background-color: #fff;
-                font-weight: bold;
-                color: $label-color;
-                @include btn-shadow-sm();
-            }
-        }
-        #export-entries{
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-            align-items: flex-start;
-            margin-bottom: 16px;
 
-            h1{
-                flex-basis: 100%;
-            }
-            #export-entries-doc{
+        section {
+            min-height: 240px;
+            padding-bottom: 32px;
+
+            h2 {
+                height: 54px;
                 display: flex;
-                justify-content: space-between;
+                align-items: center;
+                padding: 0 16px;
+                background-color: #fff;
+            }
+
+            h3 {
+                height: 48px;
+                display: flex;
+                align-items: center;
+                padding: 0 16px;
+                background-color: #f5f5f5;
+            }
+
+            h4 {
+                height: 32px;
+                display: flex;
+                align-items: center;
+                padding: 0 16px;
+            }
+
+            .content {
+                padding: 16px;
+            }
+
+            .filters {
+                display: flex;
                 flex-wrap: wrap;
-                flex-basis: 100%;
-                margin-right: 16px;
-                padding: 16px;
-                box-sizing: border-box;
-                border: 1px solid rgba(0, 0, 0, 0.1);
+                padding: 0 16px;
 
-                #export-entries-doc-form{
-                    flex-basis: 100%;
-                    display: flex;
-                    justify-content: space-between;
-                    margin-bottom: 20px;
+                .filter {
+                    flex-basis: calc(100% / 4 - 2px);
+                    margin: 1px;
 
-                    #word{
-                        button{
-                            color: #fff;
-                            padding: 6px 10px;
-                            @include btn-shadow-sm;
-                            margin-top: 20px;
-                            margin-left: 40px;
-                            background-color: $word-color;
-                            i{
-                                margin-right: 8px;
-                            }
-
-                            &:disabled {
-                                background-color: rgba(0,0,0,0.4);
-                                cursor: inherit;
-                            }
-                        }
+                    > input {
+                        width: 100%;
+                        height: 100%;
+                        padding: 0 4px;
+                        border: 1px solid rgba(0, 0, 0, 0.1);
                     }
 
-                    #pdf{
-                        button{
-                            color: #fff;
-                            padding: 6px 10px;
-                            @include btn-shadow-sm;
-                            margin-top: 20px;
-                            margin-left: 40px;
-                            background-color: $pdf-color;
-                            i{
-                                margin-right: 8px;
-                            }
-
-                            &:disabled {
-                                background-color: rgba(0,0,0,0.4);
-                                cursor: inherit;
-                            }
-                        }
-                    }
-                }
-
-                label{
-                    margin-bottom: 3px;
-                }
-                >div:nth-child(2){
-                    flex-basis: 60%;
-                }
-                >div:last-child{
-                    flex-basis: 35%;
-                }
-                #filters{
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: flex-start;
-                    flex-wrap: wrap;
-
-                    >div{
-                        flex-basis: 49%;
-
-                        &:last-child{
-                            flex-basis: 49%;
-                        }
-                        >input[type="text"], input[type="number"]{
-                            width: 100%;
-                            outline: none;
-                            padding: 4px 6px;
-                            margin-bottom: 8px;
-                            border: 1px solid rgba(0, 0, 0, 0.1);
-                            box-sizing: border-box;
-                            background-color: #fff;
-
-                            &:focus{
-                                border-color: $primary-color;
-                            }
-                        }
-                        .selectize-control{
-                            margin-bottom: 8px;
-                        }
-                    }
-                    #severity-filter-container,#reliability-filter-container{
+                    &.range-filter {
                         display: flex;
-                        flex-wrap: wrap;
                         justify-content: space-between;
+                        position: relative;
 
-                        label{
-                            flex-basis: 100%;
+                        label {
+                            position: absolute;
+                            width: 100%;
+                            height: 100%;
+                            display: flex;
+                            align-items: center;
+                            padding: 0 4px;
+                            top: 0;
+                            left: 0;
+                            z-index: 1;
+                            background-color: #fff;
+                            border: 1px solid rgba(0, 0, 0, 0.1);
                         }
-                        >div{
-                            flex-basis: 48%;
+                        >div {
+                            flex-basis: 50%;
+                        }
+
+                        &.filled, &:hover {
+                            label {
+                                display: none;
+                            }
                         }
                     }
                 }
-                .hierarchy{
-                    margin-top: 40px;
-                }
+
             }
 
-            #export-entries-excel{
-                flex-basis: 25%;
-                padding: 16px;
-                box-sizing: border-box;
-                border: 1px solid rgba(0, 0, 0, 0.1);
+            &#entries-export {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
 
-                button{
-                    background-color: $excel-color;
-                    color: #fff;
-                    padding: 6px 10px;
-                    margin-bottom: 8px;
-                    @include btn-shadow-sm;
+                h2 {
+                    flex-basis: 100%;
+                }
 
-                    .fa{
-                        margin-right: 10px;
+                .doc-export {
+                    flex-basis: 76%;
+                    border-right: 1px solid rgba(0, 0, 0, 0.1);
+
+                    .export-format {
+                        margin-top: 16px;
+                        padding: 0 16px;
+                        height: 32px;
+                        display: flex;
+
+                        label {
+                            display: flex;
+                            align-items: center;
+                            padding: 0 16px;
+                            cursor: pointer;
+                            font-size: 1em;
+                            font-weight: $font-weight-normal;
+                            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+                            &.active {
+                                font-weight: $font-weight-bold;
+                                border-bottom: 2px solid $primary-color;
+                                color: $primary-color;
+                            }
+                            input {
+                                display: none;
+                            }
+                        }
+                    }
+
+                    .action-buttons {
+                        padding: 10px 16px;
                     }
                 }
+                .excel-export {
+                    flex-basis: 24%;
+                }
+
             }
         }
-        #sos-export{
-            width: 25%;
 
-            #sos-export-excel{
-                padding: 16px;
-                box-sizing: border-box;
-                border: 1px solid rgba(0, 0, 0, 0.1);
+        button {
+            padding: 6px 16px;
+            @include btn-shadow-sm;
+
+            .fa {
+                margin-right: 8px;
             }
-            button{
-                background-color: $excel-color;
+            &.btn-word {
+                background-color: #295497;
                 color: #fff;
-                padding: 6px 12px;
-                @include btn-shadow-md;
-
-                .fa{
-                    margin-right: 8px;
-                }
+            }
+            &.btn-pdf {
+                background-color: #c11e07;
+                color: #fff;
+            }
+            &.btn-excel {
+                background-color: #1f7244;
+                color: #fff;
             }
         }
+
     }
 
-    #preview {
-        flex-basis: 400px;
-        overflow-y: auto;
+    aside {
+        flex-basis: 30%;
+        height: calc(100vh - #{$navbar-height});
+
+        >div {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            text-transform: uppercase;
+            color: rgba(0, 0, 0, 0.3);
+        }
 
         iframe {
             width: 100%;
             height: 100%;
+            border: none;
         }
     }
 }
