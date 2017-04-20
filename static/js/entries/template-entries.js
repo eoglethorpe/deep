@@ -304,9 +304,9 @@ let entriesManager = {
 
     addTextFilter: function(id, label, filterFunction) {
         let that = this;
-        let element = $('<input placeholder="' + label + '" data-id="' + id + '">');
+        let element = $('<div class="filter"><input placeholder="' + label + '" data-id="' + id + '"></div>');
         element.appendTo(this.filtersContainer);
-        element.on('change paste drop input', function() {
+        element.find('input').on('change paste drop input', function() {
             let val = $(this).val();
             if (!val) {
                 that.filters[id] = null;
@@ -321,10 +321,10 @@ let entriesManager = {
 
     addMultiselectFilter: function(id, label, filterFunction) {
         let that = this;
-        let element = $('<select data-id="' + id + '" placeholder="' + label + '" multiple><option value="">' + label + '</option></select>');
+        let element = $('<div class="filter"><select data-id="' + id + '" placeholder="' + label + '" multiple><option value="">' + label + '</option></select></div>');
         element.appendTo(this.filtersContainer);
-        element.selectize();
-        element.change(function() {
+        element.find('select').selectize();
+        element.find('select').change(function() {
             let val = $(this).val();
             if (!val || val.length == 0) {
                 that.filters[id] = null;
@@ -349,8 +349,10 @@ let entriesManager = {
         element.append('<option value="this-month">This month</option>');
         element.append('<option value="range">Range</option>');
 
-        element.appendTo(this.filtersContainer);
+        let container = $('<div class="filter"></div>');
+        element.appendTo(container);
         element.selectize();
+        container.appendTo(this.filtersContainer);
 
         let dateModalBox = $('<div class="modal" hidden></div>');
         dateModalBox.appendTo($('.modal-container'));
@@ -395,7 +397,7 @@ let entriesManager = {
         let elementFrom = $('<select data-id="' + id + '" placeholder="from"><option value="">from</option></select>') ;
         let elementTo = $('<select data-id="' + id + '" placeholder="to"><option value="">to</option></select>');
 
-        let rangeContainer = $('<div class="range"></div>');
+        let rangeContainer = $('<div class="filter range"></div>');
         rangeContainer.append('<label>' + label + '</label>');
         rangeContainer.append(elementFrom);
         rangeContainer.append(elementTo);
@@ -408,6 +410,13 @@ let entriesManager = {
         elements.change(function() {
             let valFrom = elementFrom.val();
             let valTo = elementTo.val();
+
+            if (valFrom || valTo) {
+                rangeContainer.addClass('filled');
+            } else {
+                rangeContainer.removeClass('filled');
+            }
+
             if (!valFrom || !valTo) {
                 that.filters[id] = null;
             } else {
@@ -483,7 +492,7 @@ let entriesList = {
     },
 
     addMatrix1dList: function(element) {
-        let list = $('<div class="element list-container" data-id="' + element.id + '" style="position: absolute;"></div>');
+        let list = $('<div class="element list-container matrix1d" data-id="' + element.id + '" style="position: absolute;"></div>');
         list.css('left', element.list.left);
         list.appendTo(this.template);
 
@@ -492,7 +501,7 @@ let entriesList = {
     },
 
     addMatrix2dList: function(element) {
-        let list = $('<div class="element list-container" data-id="' + element.id + '" style="position: absolute;"></div>');
+        let list = $('<div class="element list-container matrix2d" data-id="' + element.id + '" style="position: absolute;"></div>');
         list.css('left', element.list.left);
         list.appendTo(this.template);
 
@@ -674,7 +683,9 @@ let entriesList = {
                     }
                 }
 
-                infoDom.appendTo(entryDom);
+                let infoContainer = $('<div class="information-container"></div>');
+                infoDom.appendTo(infoContainer);
+                infoContainer.appendTo(entryDom.find('.informations'));
                 infoDom.show();
 
                 infoDom.find('img').one('load', function() {
@@ -683,6 +694,9 @@ let entriesList = {
                 autoResize(infoDom);
             }
         }
+
+        $('.information-container').width(this.container.find('.information').width());
+        $('#overflow-x div').width(this.container.find('.information').width());
     },
 };
 
@@ -690,9 +704,14 @@ let entriesList = {
 $(document).ready(function() {
     entriesManager.init(eventId, $('#filters'));
     entriesList.init($('#entries'));
-
     entriesManager.renderCallback = entriesList.refresh;
     entriesManager.readAll();
+
+    $('#entries').height($(window).innerHeight() - $('body > nav').outerHeight() - $('#filters').outerHeight() - '16');
+
+    $('#overflow-x, .information').on('scroll', function(){
+        $('.informations').scrollLeft($(this).scrollLeft());
+    });
 });
 
 

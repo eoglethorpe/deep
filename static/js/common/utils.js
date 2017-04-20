@@ -329,13 +329,20 @@ function isNullObject(obj) {
 // Auto resize based on children
 function autoResize(dom) {
     let maxHeight = 120;
+    let maxWidth = 120;
     dom.find('>*').each(function() {
         let height = $(this).height() + parseInt($(this).css('top'));
         if (height > maxHeight) {
             maxHeight = height;
         }
+
+        let width = $(this).width() + parseInt($(this).css('left'));
+        if (width > maxWidth) {
+            maxWidth = width;
+        }
     });
     dom.css('height', (maxHeight+32)+'px');
+    dom.css('min-width', (maxWidth+32)+'px');
 }
 
 //TODO: Queue, Callback

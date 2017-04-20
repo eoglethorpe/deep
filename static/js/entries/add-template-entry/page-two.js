@@ -522,27 +522,29 @@ let page2 = {
         this.container.find('.entries').empty();
         for (let i=0; i<entries.length; i++) {
             let entry = entries[i];
-            let entryContainer = this.template.clone();
+            let entryElement = this.template.clone();
+            let entryContainer = $('<div class="entry-container"></div>');
 
-            entryContainer.removeClass('entry-template').addClass('entry');
-            entryContainer.data('index', i);
-            entryContainer.css('position', 'relative');
+            entryElement.removeClass('entry-template').addClass('entry');
+            entryElement.data('index', i);
+            entryElement.css('position', 'relative');
 
+            entryElement.appendTo(entryContainer);
             entryContainer.appendTo(this.container.find('.entries'));
-            entryContainer.show();
+            entryElement.show();
 
-            entryContainer.find('select').selectize();
+            entryElement.find('select').selectize();
 
             if (entry.image && entry.image.length > 0) {
-                entryContainer.find('.excerpt-box-container').hide();
-                entryContainer.find('.image-box-container').show();
-                entryContainer.find('.image-box-container img').attr('src', entry.image);
+                entryElement.find('.excerpt-box-container').hide();
+                entryElement.find('.image-box-container').show();
+                entryElement.find('.image-box-container img').attr('src', entry.image);
             } else {
-                entryContainer.find('.excerpt-box-container').show();
-                entryContainer.find('.image-box-container').hide();
-                entryContainer.find('.excerpt-box-container textarea').val(entry.excerpt);
+                entryElement.find('.excerpt-box-container').show();
+                entryElement.find('.image-box-container').hide();
+                entryElement.find('.excerpt-box-container textarea').val(entry.excerpt);
 
-                entryContainer.find('.excerpt-box-container').find('textarea')
+                entryElement.find('.excerpt-box-container').find('textarea')
                     .on('input paste drop change', function() {
                         let dom = $(this)[0];
                         dom.style.height = '1px';
@@ -556,7 +558,7 @@ let page2 = {
                 if (templateElement.type == 'matrix2d' && templateElement.list) {
                     let data = entry.elements.find(d => d.id == templateElement.id);
                     if (data) {
-                        let listContainer = entryContainer.find('.matrix2d-list-container[data-id="' + data.id + '"]');
+                        let listContainer = entryElement.find('.matrix2d-list-container[data-id="' + data.id + '"]');
                         let list = listContainer.find('.matrix2d-list');
 
                         list.empty();
@@ -614,7 +616,7 @@ let page2 = {
                 else if (templateElement.type == 'matrix1d' && templateElement.list) {
                     let data = entry.elements.find(d => d.id == templateElement.id);
                     if (data) {
-                        let listContainer = entryContainer.find('.matrix1d-list-container[data-id="' + data.id + '"]');
+                        let listContainer = entryElement.find('.matrix1d-list-container[data-id="' + data.id + '"]');
                         let list = listContainer.find('.matrix1d-list');
 
                         list.empty();
@@ -640,37 +642,37 @@ let page2 = {
 
                 if (templateElement.type == 'number-input' || templateElement.type == 'date-input') {
                     if (data) {
-                        entryContainer.find('.input-element[data-id="' + data.id + '"] input').val(data.value);
-                        formatNumber(entryContainer.find('.input-element[data-id="' + data.id + '"] input'));
+                        entryElement.find('.input-element[data-id="' + data.id + '"] input').val(data.value);
+                        formatNumber(entryElement.find('.input-element[data-id="' + data.id + '"] input'));
                     }
                 }
                 else if (templateElement.type == 'multiselect') {
                     if (data) {
-                        entryContainer.find('.multiselect[data-id="' + data.id + '"] select')[0].selectize.setValue(data.value);
+                        entryElement.find('.multiselect[data-id="' + data.id + '"] select')[0].selectize.setValue(data.value);
                     }
                 }
                 else if (templateElement.type == 'scale') {
-                    entryContainer.find('.scale-container[data-id="' + templateElement.id + '"] .scale span.active').removeClass('active');
+                    entryElement.find('.scale-container[data-id="' + templateElement.id + '"] .scale span.active').removeClass('active');
                     let selected = templateElement.scaleValues.find(e => e.default==true).id;
                     if (data && data.value) {
                         selected = data.value;
                     }
-                    entryContainer.find('.scale-container[data-id="' + templateElement.id + '"] .scale span[data-id="' + selected + '"]').addClass('active');
+                    entryElement.find('.scale-container[data-id="' + templateElement.id + '"] .scale span[data-id="' + selected + '"]').addClass('active');
                 }
                 else if (templateElement.type == 'organigram') {
-                    entryContainer.find('.organigram[data-id="' + templateElement.id + '"]').each(function() { that.refreshOrganigram($(this)); });
+                    entryElement.find('.organigram[data-id="' + templateElement.id + '"]').each(function() { that.refreshOrganigram($(this)); });
                 }
                 else if (templateElement.type == 'geolocations') {
-                    entryContainer.find('.geolocations[data-id="' + templateElement.id + '"]').each(function() { that.refreshGeolocations($(this)); });
+                    entryElement.find('.geolocations[data-id="' + templateElement.id + '"]').each(function() { that.refreshGeolocations($(this)); });
                 }
             }
 
-            entryContainer.find('.appliable').each(function() { that.addApplyButtons($(this)); });
+            entryElement.find('.appliable').each(function() { that.addApplyButtons($(this)); });
 
-            entryContainer.find('img').one('load', function() {
-                autoResize(entryContainer);
+            entryElement.find('img').one('load', function() {
+                autoResize(entryElement);
             });
-            autoResize(entryContainer);
+            autoResize(entryElement);
 
         }
 
