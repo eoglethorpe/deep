@@ -13,10 +13,11 @@ $(document).ready(function(){
     });
 
     $('#preview-docx').click(function() {
-        let url = $('#export-entries-doc-form').attr('action') + '?'
+        let url = window.location.origin + $('#export-entries-doc-form').attr('action') + '?'
             + $('#export-entries-doc-form').serialize();
-        console.log(url);
-
+        // console.log(url);
+        $('#preview').find('iframe').attr('src', 'https://docs.google.com/viewer?url=' + encodeURIComponent(url) + '&embedded=true&chrome=false&dov=1');
+        $('#preview').show();
     });
 });
 
