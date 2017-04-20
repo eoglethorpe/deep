@@ -40,9 +40,12 @@ function loadEntriesData(data) {
         for (var j=0; j<data[i].informations.length; ++j) {
             var info = data[i].informations[j];
             info.entryIndex = i + newEntryIndex;
-            for (var k=0; k<info.map_selections.length; ++k) {
-                var ms = info.map_selections[k];
-                areasSelectize[0].selectize.addOption({value:ms.name, text:ms.name});
+
+            if (info.map_selections) {
+                for (var k=0; k<info.map_selections.length; ++k) {
+                    var ms = info.map_selections[k];
+                    areasSelectize[0].selectize.addOption({value:ms.name, text:ms.name});
+                }
             }
         }
     }
@@ -55,7 +58,7 @@ function readEntries() {
             filterEntries();
             renderEntries(false);
 
-            if (data.data.length >= 5) {
+            if (data.data.length != 0) {
                 updateEntries(index+count, count);
             } else {
                 renderEntries(true);

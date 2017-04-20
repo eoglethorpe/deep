@@ -638,10 +638,15 @@ let page2 = {
 
                 let data = entry.elements.find(d => d.id == templateElement.id);
 
-                if (templateElement.type == 'number-input' || templateElement.type == 'date-input') {
+                if (templateElement.type == 'number-input') {
                     if (data) {
                         entryContainer.find('.input-element[data-id="' + data.id + '"] input').val(data.value);
                         formatNumber(entryContainer.find('.input-element[data-id="' + data.id + '"] input'));
+                    }
+                }
+                else if (templateElement.type == 'date-input') {
+                    if (data) {
+                        entryContainer.find('.input-element[data-id="' + data.id + '"] input').val(data.value);
                     }
                 }
                 else if (templateElement.type == 'multiselect') {

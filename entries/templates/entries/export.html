@@ -18,7 +18,6 @@ DEEP | Export
 <script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/jquery-ui.min.js' %}"></script>
-<script type="text/javascript" src="{% watchful_static_url 'js/entries/entries-filter.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/export.js' %}"></script>
 
 <script>
@@ -34,51 +33,42 @@ DEEP | Export
     <div id="export-entries">
         <h1>Export Entries</h1>
         <div id="export-entries-doc">
-            <form id="export-entries-doc-form" action="{% url 'entries:exportdocx' event=event.pk %}" method="post">
-                {% csrf_token %}
-                <h2>Word and PDF Export</h2>
+            <form id="export-entries-doc-form" action="{% url 'entries:exportdocx' event=event.pk %}">
+
                 <div>
+                    <h2>Filters</h2>
+                    <div id="filters">
+                        {% include 'entries/export-entry-filters.html' %}
+                    </div>
+                </div>
 
-                <div id="word">
-                    <button type="submit" disabled class="export-filter-submit btn-info" data-type="generic-export" download>
-                        <i class="fa fa-file-word-o"></i>Generic Export
-                    </button>
-                    <button type="submit" disabled class="export-filter-submit btn-info" data-type="geo-export" download>
-                        <i class="fa fa-file-word-o"></i>Export GEO
-                    </button>
-                    <button type="submit" disabled class="export-filter-submit btn-info" data-type="briefing-export" download>
-                        <i class="fa fa-file-word-o"></i>Briefing Note
-                    </button>
-                </div>
-                <div id="pdf">
-                    <button type="submit" disabled class="export-filter-submit btn-info" data-type="generic-export" data-pdf="true" download>
-                        <i style="background-color:red;" class="fa fa-file-pdf-o"></i>Generic Export
-                    </button>
-                    <button type="submit" disabled class="export-filter-submit btn-info" data-type="geo-export" data-pdf="true" download>
-                        <i style="background-color:red;" class="fa fa-file-pdf-o"></i>Export GEO
-                    </button>
-                    <button type="submit" disabled class="export-filter-submit btn-info" data-type="briefing-export" data-pdf="true" download>
-                        <i style="background-color:red;" class="fa fa-file-pdf-o"></i>Briefing Note
-                    </button>
+                <div>
+                    <h2>Format</h2>
+                    <div class="export-format">
+                        <label><input type="radio" name="export-format" value="generic" checked> Generic Export</label>
+                        <label><input type="radio" name="export-format" value="geo"> Geo Export</label>
+                        <label><input type="radio" name="export-format" value="briefing"> Briefing Note</label>
+                    </div>
 
+                    <h2>Export</h2>
+                    <div class="export-buttons">
+                        <button type="submit" name="export-docx" value="docx"><i class="fa fa-file-word-o"></i>DOCX</button>
+                        <button type="submit" name="export-pdf" value="pdf"><i class="fa fa-file-pdf-o"></i>PDF</button>
+                    </div>
+
+                    <h2>Preview</h2>
+                    <div class="preview-buttons">
+                        <button id="preview-docx" type="button"><i class="fa fa-file-word-o"></i>DOCX</button>
+                    </div>
                 </div>
-                </div>
+
             </form>
-            <div>
-                <h3>Filters</h3>
-                <div id="filters">
-                    {% include 'entries/export-entry-filters.html' %}
-                </div>
-            </div>
-            <div id="hierarchy">
-                <h3>Hierarchy <span>(drag to rearrange)</span></h3>
-                <ul id="sortable">
-                  <li class="ui-state-default" id="geoarea">Geo Area</li>
-                  <li class="ui-state-default" id="affected">Affected</li>
-                  <li class="ui-state-default" id="sector">Sector</li>
-                </ul>
-            </div>
         </div>
+
+        <div id="preview" hidden>
+            <iframe src="about:blank"></iframe>
+        </div>
+
         <div id="export-entries-excel">
             <header>
                 <h2>Excel Export</h2>

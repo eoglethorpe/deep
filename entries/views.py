@@ -13,6 +13,7 @@ from leads.models import *
 from entries.models import *
 from entries.strippers import *
 # from . import export_xls, export_docx, export_fields
+from entries.entry_filters import filter_informations
 from entries.export_entries_docx import export_docx, export_docx_new_format
 from entries.export_entries_pdf import export_pdf, export_pdf_new_format
 from entries.export_entries_xls import export_xls
@@ -44,6 +45,7 @@ class ExportView(View):
         context["reliabilities"] = Reliability.objects.all().order_by('level')
         context["severities"] = Severity.objects.all().order_by('level')
         context["affected_groups"] = AffectedGroup.objects.all()
+        context["areas"] = AdminLevelSelection.objects.filter(entryinformation__entry__lead__event__pk=event).values_list('name', flat=True)
 
         UserProfile.set_last_event(request, context["event"])
         return render(request, "entries/export.html", context)
@@ -67,96 +69,36 @@ class ExportXlsWeekly(View):
 class ExportDocx(View):
     @method_decorator(login_required)
     def get(self, request, event):
-        # order = request.GET.get("order").split(',')
-        order = []
+        informations = filter_informations(request.GET, Event.objects.get(pk=event)).values_list('id', flat=True)
         format_name = ''
-        file_format = 'pdf' if request.POST.get('is-pdf') else 'docx'
 
-        content_type = 'application/pdf' if request.GET.get('is-pdf') else\
+        file_format = 'pdf' if (request.GET.get('export-pdf') == 'pdf') else 'docx'
+
+        content_type = 'application/pdf' if (request.GET.get('export-pdf') == 'pdf') else\
                        'application/vnd.openxmlformats'\
                        '-officedocument.wordprocessingml.document'
 
         response = HttpResponse(content_type=content_type)
 
-        if 'export-geo-format' in request.GET:
+        if request.GET.get('export-format') == 'geo':
             format_name = 'Export Geo'
-            if request.GET.get('is-pdf'):
-                response.write(
-                    export_pdf(order, int(event), export_geo=True))
+            if request.GET.get('export-pdf') == 'pdf':
+                response.write(export_pdf(int(event), informations, export_geo=True))
             else:
-                export_docx(order, int(event), export_geo=True).save(response)
-        if 'new-format' in request.GET:
+                export_docx(int(event), informations, export_geo=True).save(response)
+
+        elif request.GET.get('export-format') == 'briefing':
             format_name = 'Briefing Note'
-            if request.GET.get('is-pdf'):
-                response.write(
-                    export_pdf_new_format(order, int(event)))
+            if request.GET.get('export-pdf') == 'pdf':
+                response.write(export_pdf_new_format(int(event), informations))
             else:
-                export_docx_new_format(order, int(event)).save(response)
+                export_docx_new_format(int(event), informations).save(response)
         else:
             format_name = 'Generic Export'
-            if request.GET.get('is-pdf'):
-                response.write(
-                    export_pdf(order, int(event)))
+            if request.GET.get('export-pdf') == 'pdf':
+                response.write(export_pdf(order, int(event), informations))
             else:
-                export_docx(order, int(event)).save(response)
-
-        response['Content-Disposition'] = 'attachment; filename = "DEEP'\
-                                          'Entries(%s)-%s.%s"'\
-                                          % (format_name,
-                                             time.strftime("%Y-%m-%d"),
-                                             file_format)
-
-        return response
-
-    @method_decorator(login_required)
-    def post(self, request, event):
-        # order = request.POST.get("order").split(',')
-        order = []
-        format_name = ''
-        file_format = 'pdf' if request.POST.get('is-pdf') else 'docx'
-
-        content_type = 'application/pdf' if request.POST.get('is-pdf') else\
-                       'application/vnd.openxmlformats'\
-                       '-officedocument.wordprocessingml.document'
-
-        response = HttpResponse(content_type=content_type)
-
-        if 'export-geo-format' in request.POST:
-            format_name = 'Export Geo'
-            if request.POST.get('is-pdf'):
-                response.write(
-                    export_pdf(order, int(event),
-                                json.loads(request.POST["informations"]),
-                                export_geo=True))
-            else:
-                export_docx(order, int(event),
-                            json.loads(request.POST["informations"]),
-                            export_geo=True).save(response)
-        elif 'new-format' in request.POST:
-            format_name = 'Briefing Note'
-            if request.POST.get('is-pdf'):
-                response.write(
-                    export_pdf_new_format(
-                        order, int(event),
-                        json.loads(
-                           request.POST["informations"])))
-            else:
-                export_docx_new_format(
-                        order, int(event),
-                        json.loads(
-                           request.POST["informations"])).save(response)
-        else:
-            format_name = 'Generic Export'
-            if request.POST.get('is-pdf'):
-                response.write(
-                    export_pdf(
-                        order, int(event),
-                        json.loads(request.POST["informations"])))
-            else:
-                export_docx(
-                        order, int(event),
-                        json.loads(request.POST["informations"]))\
-                        .save(response)
+                export_docx(int(event), informations).save(response)
 
         response['Content-Disposition'] = 'attachment; filename = "DEEP'\
                                           'Entries(%s)-%s.%s"'\
