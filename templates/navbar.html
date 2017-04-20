@@ -107,6 +107,7 @@
             <a class="dropdown-toggle"><div class="name"><i class="fa fa-user"></i>{{ user.first_name }}</div><i class="fa fa-chevron-down"></i></a>
             <div class="items" hidden>
                 <div data-url="{% url 'user_profile' user.pk %}"><i class="fa fa-user"></i>Profile</small></div>
+                <div data-url="{% url 'password_change' %}"><i class="fa fa-key"></i>Change password</small></div>
                 <div data-url="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</div>
                 <hr>
                 {% if request.user.is_superuser %}
