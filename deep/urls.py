@@ -3,6 +3,8 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
+from django.contrib.auth import views as auth_views
+from django.core.urlresolvers import reverse_lazy
 
 from rest_framework.routers import DefaultRouter
 
@@ -60,5 +62,31 @@ urlpatterns = [
     url(r'^api/v2/', include('entries.api_urls', namespace='api')),
     url(r'^api/v2/', include('leads.api_urls', namespace='api')),
     url(r'^api/v2/', include('report.api_urls', namespace='api')),
+
+    url(r'^password/reset/$',
+        auth_views.password_reset,
+        {'post_reset_redirect': reverse_lazy('password_rest_done')},
+        name="password_reset"),
+
+    url(r'^password/reset/done/$',
+        auth_views.password_reset_done,
+        name="password_rest_done"),
+
+    url(r'^password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
+        auth_views.password_reset_confirm,
+        {'post_reset_redirect': reverse_lazy('password_reset_complete')},
+        name="password_reset_confirm"),
+
+    url(r'^password/done/$',
+        auth_views.password_reset_complete,
+        name="password_reset_complete"),
+
+    url(r'^password/change/$',
+        auth_views.password_change,
+        name="password_change"),
+
+    url(r'^password/change/done/$',
+        auth_views.password_change,
+        name="password_change_done"),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
