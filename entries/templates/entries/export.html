@@ -31,86 +31,57 @@ DEEP | Export
 {% include 'navbar.html' %}
 
 <main>
-    <section id="main">
-        <div id="export-entries">
-            <h1>Export Entries</h1>
-            <div id="export-entries-doc">
-                <form id="export-entries-doc-form" action="{% url 'entries:exportdocx' event=event.pk %}">
-
-                    <div>
-                        <h2>Filters</h2>
-                        <div id="filters">
-                            {% include 'entries/export-entry-filters.html' %}
-                        </div>
+    <section id="entries-export">
+        <h2>Entries</h2>
+        <div class="doc-export">
+            <h3>Doc Export</h3>
+            <form action="{% url 'entries:exportdocx' event=event.pk %}">
+                <div>
+                    <h4>Apply filters</h4>
+                    <div class="filters">
+                        {% include 'entries/export-entry-filters.html' %}
                     </div>
-
-                    <div>
-                        <h2>Format</h2>
-                        <div class="export-format">
-                            <label><input type="radio" name="export-format" value="generic" checked> Generic Export</label>
-                            <label><input type="radio" name="export-format" value="geo"> Geo Export</label>
-                            <label><input type="radio" name="export-format" value="briefing"> Briefing Note</label>
-                        </div>
-
-                        <h2>Export</h2>
-                        <div class="export-buttons">
-                            <button type="submit" name="export-docx" value="docx"><i class="fa fa-file-word-o"></i>DOCX</button>
-                            <button type="submit" name="export-pdf" value="pdf"><i class="fa fa-file-pdf-o"></i>PDF</button>
-                        </div>
-
-                        <h2>Preview</h2>
-                        <div class="preview-buttons">
-                            <button id="preview-docx" type="button"><i class="fa fa-file-word-o"></i>DOCX</button>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-            <div id="export-entries-excel">
-                <header>
-                    <h2>Excel Export</h2>
-                </header>
-                <form id="export-entries-excel-form" action="{% url 'entries:exportxls' event=event.pk %}">
-                    <button type="submit" class=" btn-primary" ><i class="fa fa-file-excel-o"></i>Export</button>
-                </form>
-                <form id="export-entries-excel-weekly-form" action="{% url 'entries:exportxls_weekly' event=event.pk %}">
-                    <button type="submit" class=" btn-primary" ><i class="fa fa-file-excel-o"></i>Export Weekly(Beta)</button>
-                </form>
-            </div>
+                </div>
+                <div class="export-format">
+                    <label class="active"><input type="radio" name="export-format" value="generic" checked> Generic</label>
+                    <label><input type="radio" name="export-format" value="geo"> Geo</label>
+                    <label><input type="radio" name="export-format" value="briefing"> Briefing note</label>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn-pdf" type="submit" name="export-pdf" value="pdf"><i class="fa fa-file-pdf-o"></i>Export pdf</button>
+                    <button class="btn-word" type="submit" name="export-docx" value="docx"><i class="fa fa-file-word-o"></i>Export docx</button>
+                    <button class="btn-word" id="preview-docx" type="button"><i class="fa fa-file-word-o"></i>Preview docx</button>
+                </div>
+            </form>
         </div>
-        <div id="sos-export">
-            <h1>Survey of surveys</h1>
-            <div id="sos-export-excel">
-                <header>
-                    <h2>Excel Export</h2>
-                </header>
-                <button id="export-sos-excel-btn" href="{% url 'leads:exportsosxls' event=event.pk %}" type="submit" class=" btn-primary" ><i class="fa fa-file-excel-o"></i>Export</button>
+        <div class="excel-export">
+            <h3>Excel Export</h3>
+            <div class="content">
+                <form action="{% url 'entries:exportxls' event=event.pk %}">
+                    <button type="submit" class="btn-excel"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
+                </form>
             </div>
         </div>
     </section>
-    <div id="preview" hidden>
-        <iframe src="about:blank"></iframe>
-    </div>
+    <section>
+        <h2>Assessment Registry</h2>
+        <div class="content">
+            <button href="{% url 'leads:exportsosxls' event=event.pk %}" type="submit" class="btn-excel"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
+        </div>
+    </section>
+    <section>
+        <h2>Weekly snapshot</h2>
+        <div class="content">
+            <form action="{% url 'entries:exportxls_weekly' event=event.pk %}">
+                <button type="submit" class="btn-excel"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
+            </form>
+        </div>
+    </section>
 </main>
 
-<div class="modal-container" hidden>
-    <div id="date-range-input" class="modal" hidden>
-        <header>
-            <h3 class="modal-title">Enter date range</h3>
-        </header>
-        <div class="input-container">
-            <label>start date:</label>
-            <input type="date" id="start-date" class="form-control">
-        </div>
-        <div class="input-container">
-            <label>end date:</label>
-            <input type="date" id="end-date" class="form-control">
-        </div>
-        <div class="action-buttons">
-            <button id="cancel-btn" class="cancel" data-action="dismiss"><i class="fa fa-times"></i>Cancel</button>
-            <button id="ok-btn" class="success" data-action="proceed"><i class="fa fa-check"></i>Ok</button>
-        </div>
-    </div>
-</div>
+<aside id="preview-section">
+    <div>No preview available</div>
+    <iframe src="about:blank" hidden></iframe>
+</aside>
 
 {% endblock %}
