@@ -189,7 +189,7 @@ def set_style(style):
     style.paragraph_format.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.LEFT
 
 
-def export_docx(order, event, informations=None, export_geo=False):
+def export_docx(event, informations=None, export_geo=False):
     d = docx.Document('static/doc_export/template.docx')
 
     # Set document styles
@@ -344,7 +344,7 @@ def export_docx(order, event, informations=None, export_geo=False):
     return d
 
 
-def export_docx_new_format(order, event, informations=None):
+def export_docx_new_format(event, informations=None):
     """
     Export As Specified in Issue
 

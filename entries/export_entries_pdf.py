@@ -17,13 +17,13 @@ def convert_docx_to_pdf(filepath):
     return pdf.read()
 
 
-def export_pdf(order, event, informations=None, export_geo=False):
+def export_pdf(event, informations=None, export_geo=False):
     fp = tempfile.NamedTemporaryFile(dir=settings.BASE_DIR)
-    export_docx(order, event, informations, export_geo).save(fp)
+    export_docx(event, informations, export_geo).save(fp)
     return convert_docx_to_pdf(fp.name)
 
 
-def export_pdf_new_format(order, event, informations=None, export_geo=False):
+def export_pdf_new_format(event, informations=None, export_geo=False):
     fp = tempfile.NamedTemporaryFile(dir=settings.BASE_DIR)
-    export_docx_new_format(order, event, informations).save(fp)
+    export_docx_new_format(event, informations).save(fp)
     return convert_docx_to_pdf(fp.name)
