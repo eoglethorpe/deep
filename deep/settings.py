@@ -132,7 +132,7 @@ if not DEBUG:
             'file': {
                 'level': 'ERROR',
                 'class': 'logging.FileHandler',
-                'filename': 'deep-error-log',
+                'filename': os.path.join(BASE_DIR, 'deep-error-log'),
             },
         },
         'loggers': {
