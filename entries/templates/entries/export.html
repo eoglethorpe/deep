@@ -35,7 +35,7 @@ DEEP | Export
         <h2>Entries</h2>
         <div class="doc-export">
             <h3>Doc Export</h3>
-            <form action="{% url 'entries:exportdocx' event=event.pk %}">
+            <form id="export-entries-doc-form" action="{% url 'entries:exportdocx' event=event.pk %}">
                 <div>
                     <h4>Apply filters</h4>
                     <div class="filters">
