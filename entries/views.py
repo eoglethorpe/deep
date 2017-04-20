@@ -67,7 +67,6 @@ class ExportXlsWeekly(View):
 
 
 class ExportDocx(View):
-    @method_decorator(login_required)
     def get(self, request, event):
         informations = filter_informations(request.GET, Event.objects.get(pk=event)).values_list('id', flat=True)
         format_name = ''
