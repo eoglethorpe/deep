@@ -42,8 +42,8 @@ let hid_login_url = 'http://auth.humanitarian.id/oauth/authorize?response_type=t
             <input type="password" placeholder="Enter your password" name="password" required>
         </div>
         <div id="submit-btn-container">
-            <div></div>
-            <button type="submit" >Sign in</button>
+            <div><a href="{% url 'password_reset' %}">Forgot password?</a></div>
+            <button type="submit">Sign in</button>
         </div>
         <div class="action-buttons">
             <a id="register-link" href="/register">Register</a>

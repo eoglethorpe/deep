@@ -3,73 +3,104 @@ var dateRangeInputModal;
 
 $(document).ready(function(){
     dateRangeInputModal = new Modal('#date-range-input');
+    $('select').selectize();
 
-    $('#export-entries-doc-form button').attr('disabled', true);
-    initEntryFilters();
-
-    $( "#sortable" ).sortable({
-        stop: function(event, ui){
-            heirarchy = $( "#sortable" ).sortable("toArray");
-            //console.log(heirarchy);
-        }
+    $('#date-published-filter').change(function() {
+        setDateRange($(this).val(), 'date-published');
     });
-    $( "#sortable" ).disableSelection();
-
-    heirarchy = $( "#sortable" ).sortable("toArray");
-
-
-    $('#export-entries-doc-form').submit(function () {
-        filterEntries();
-
-        $("<input>").attr({
-            'type': 'hidden',
-            'name': 'order',
-        }).val(heirarchy).appendTo($(this));
-
-        var informationList = [];
-        for (var i=0; i<entries.length; i++) {
-            for (var j=0; j<entries[i].informations.length; j++) {
-                informationList.push(entries[i].informations[j].id);
-            }
-        }
-        $("<input>").attr({
-            'type': 'hidden',
-            'name': 'informations',
-        }).val(JSON.stringify(informationList)).appendTo($(this));
+    $('#date-imported-filter').change(function() {
+        setDateRange($(this).val(), 'date-imported');
     });
 
-    $('.export-filter-submit').click(function(event){
-        $('#new-format').remove();
-        $('#is-pdf').remove();
-        let type = $(this).data('type'),
-            formatNode = $('<input>'),
-            isPdf = $(this).data('pdf');
+    $('#preview-docx').click(function() {
+        let url = window.location.origin + $('#export-entries-doc-form').attr('action') + '?'
+            + $('#export-entries-doc-form').serialize();
 
-        formatNode.attr('id', 'new-format')
-            .attr('type', 'hidden').val('true');
+        $('#preview-section').find('iframe').attr('src', 'https://docs.google.com/viewer?url=' + encodeURIComponent(url) + '&embedded=true&chrome=false&dov=1');
+        $('#preview-section').find('>div').hide();
+        $('#preview-section').find('iframe').show();
+    });
 
-        if (isPdf == true){
-            let isPdfInput = $('<input>');
-            isPdfInput.attr('id', 'is-pdf')
-                .attr('type', 'hidden')
-                .attr('name', 'is-pdf').val(true);
-            $('#export-entries-doc-form').append(isPdfInput);
-        }
-        if (type != 'generic-export') {
-            if( type == 'geo-export'){
-                formatNode.attr('name', 'export-geo-format');
-            }else if(type == 'briefing-export'){
-                formatNode.attr('name', 'new-format');
+    $('.range-filter select').change(function() {
+        let parent = $(this).closest('.range-filter');
+        parent.removeClass('filled');
+        parent.find('select').each(function() {
+            if ($(this).val()) {
+                parent.addClass('filled');
             }
-            $('#export-entries-doc-form').append(formatNode);
-        }
+        });
+    });
+
+    $('.export-format input').change(function() {
+        $('.export-format label.active').removeClass('active');
+        $(this).closest('label').addClass('active');
     });
 });
 
 
-// Needed by entries filter module
-function renderEntries(completed) {
-    if (completed) {
-        $('#export-entries-doc-form button').attr('disabled', false);
+function setDateRange(filter, id){
+    let startDate = $('#' + id + '-start');
+    let endDate = $('#' + id + '-end');
+
+    let previousValue = $('#' + id + '-filter').data('previous-value');
+    if (filter != 'range') {
+        $('#' + id + '-filter').data('previous-value', $('#' + id + '-filter').val());
+    }
+
+    switch(filter){
+        case "today":
+            startDate.val(formatDateReverse(new Date()));
+            endDate.val(formatDateReverse(new Date().addDays(1)));
+            break;
+
+        case "yesterday":
+            yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            startDate.val(formatDateReverse(yesterday));
+            endDate.val(formatDateReverse(yesterday.addDays(1)));
+            break;
+
+        case "last-seven-days":
+            min = new Date();
+            min.setDate(min.getDate() - 7);
+            startDate.val(formatDateReverse(min));
+            endDate.val(formatDateReverse(new Date().addDays(1)));
+            break;
+
+        case "this-week":
+            min = new Date();
+            min.setDate(min.getDate() - min.getDay());
+            startDate.val(formatDateReverse(min));
+            endDate.val(formatDateReverse(new Date().addDays(1)));
+            break;
+
+        case "last-thirty-days":
+            min = new Date();
+            min.setDate(min.getDate() - 30);
+            startDate.val(formatDateReverse(min));
+            endDate.val(formatDateReverse(new Date().addDays(1)));
+            break;
+
+        case "this-month":
+            min = new Date();
+            min.setDate(1);
+            startDate.val(formatDateReverse(min));
+            endDate.val(formatDateReverse(new Date().addDays(1)));
+            break;
+
+        case "range":
+            dateRangeInputModal.show().then(function() {
+                if (dateRangeInputModal.action == 'proceed') {
+                    startDate.val(formatDateReverse(new Date($('#date-range-input #start-date').val())));
+                    endDate.val(formatDateReverse(new Date($('#date-range-input #end-date').val()).addDays(1)));
+                } else {
+                    $('#' + id + '-filter')[0].selectize.setValue(previousValue?previousValue:null, true);
+                }
+            });
+            break;
+
+        default:
+            startDate.val(null);
+            endDate.val(null);
     }
 }
