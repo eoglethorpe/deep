@@ -87,13 +87,78 @@ function renderEntries(){
                 $('<hr>').appendTo(informationContainer);
             }
 
-            // Make date draggable
-            information.find('date').css('cursor', 'pointer');
-            information.find('date').attr('draggable', 'true');
-            information.find('date').on('dragover', function(e){
+            // Make source id draggable
+            information.find('.source-id').css('cursor', 'pointer');
+            information.find('.source-id').attr('draggable', 'true');
+            information.find('.source-id').on('dragover', function(e){
                 e.preventDefault();
             });
-            information.find('date').on('dragstart', function(i, j) {
+            information.find('.source-id').on('dragstart', function(i, j) {
+                return function(e){
+                    e.originalEvent.dataTransfer.setData('Text', i+':'+j);
+                }
+            }(entries[i].id, entries[i].informations[j].id));
+        }
+
+        entry.appendTo(entryContainer);
+        entry.show();
+    }
+}
+
+function renderTemplateEntries() {
+    let entryContainer = $('#entries');
+    entryContainer.empty();
+
+    let sevenDaysLater = false;
+
+    let entries = entriesManager.filteredEntries;
+    for (let i=0; i<entries.length; i++) {
+        if (!sevenDaysLater && !filterDate('last-seven-days', new Date(entries[i].created_at))) {
+            sevenDaysLater = true;
+            if (i != 0) {
+                let separator = $('<hr style="border-color: #c0392b; margin: 0">');
+                separator.appendTo(entryContainer);
+            }
+        }
+
+        let entry = $('.entry-template').clone();
+        entry.removeClass('entry-template');
+        entry.addClass('entry');
+        entry.find('h4').html(searchAndHighlight(entries[i].lead_title, $('#filters input[data-id="lead-title"]').val()));
+        entry.find('.source').text(entries[i].lead_source!=null? entries[i].lead_source: 'Not specified');
+        if (entries[i].lead_url)
+            entry.find('.source').prop('href', entries[i].lead_url);
+
+        let informationContainer = entry.find('.information-list');
+
+        for (let j=0; j<entries[i].informations.length; j++){
+            let information = $('.template-information-template').clone();
+            information.removeClass('information-template');
+            information.addClass('information');
+
+            if(entries[i].informations[j].image.length == 0){
+                information.find('.excerpt-text').html(searchAndHighlight(entries[i].informations[j].excerpt, $('#filters input[data-id="search-excerpt"]').val()));
+                information.find('.excerpt-image').hide();
+                information.find('.excerpt-text').show();
+            } else{
+                information.find('.excerpt-image').attr('src', entries[i].informations[j].image);
+                information.find('.excerpt-text').hide();
+                information.find('.excerpt-image').show();
+            }
+
+            information.appendTo(informationContainer);
+            information.show();
+            if(j != (entries[i].informations.length-1)){
+                $('<hr>').appendTo(informationContainer);
+            }
+
+            // Make source id draggable
+            information.find('.source-id').css('cursor', 'pointer');
+            information.find('.source-id').attr('draggable', 'true');
+            information.find('.source-id').on('dragover', function(e){
+                e.preventDefault();
+            });
+            information.find('.source-id').on('dragstart', function(i, j) {
                 return function(e){
                     e.originalEvent.dataTransfer.setData('Text', i+':'+j);
                 }
@@ -205,7 +270,18 @@ $(document).ready(function(){
         formatNumber($(this));
     });
 
-    initEntryFilters();
+    if (templateData) {
+        entriesManager.init(eventId, $('#filters'));
+        for (let i=0; i<templateData.elements.length; i++) {
+            entriesManager.addFilterFor(templateData.elements[i]);
+        }
+
+        entriesManager.renderCallback = renderTemplateEntries;
+        entriesManager.readAll();
+    }
+    else {
+        initEntryFilters();
+    }
 
     // One extra filter on last sevendays
     $('#last-seven-days-btn').click(function() {
@@ -252,12 +328,14 @@ $(document).ready(function(){
         $($(this).data('target')).show();
         $(this).addClass('active');
 
-        // Filter pillars based on tabs
-        var tag = $(this).data("pillar-tag");
-        if (tag) {
-            pillarsFilterSelectize[0].selectize.setValue(appearing_pillars[tag]);
-        } else {
-            pillarsFilterSelectize[0].selectize.setValue(null);
+        if (!templateData) {
+            // Filter pillars based on tabs
+            var tag = $(this).data("pillar-tag");
+            if (tag) {
+                pillarsFilterSelectize[0].selectize.setValue(appearing_pillars[tag]);
+            } else {
+                pillarsFilterSelectize[0].selectize.setValue(null);
+            }
         }
         addTodayButtons();
     });

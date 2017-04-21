@@ -10,7 +10,11 @@ DEEP | Weekly Report
 <link href="{% watchful_static_url 'css/report-weekly.css' %}" type="text/css" rel="stylesheet">
 <link href="{% watchful_static_url 'css/selectize.css' %}" type="text/css" rel="stylesheet">
 <link href="{% watchful_static_url 'css/modal.css' %}" type="text/css" rel="stylesheet">
+{% if entry_template %}
+<script src="{% watchful_static_url 'js/entries/template-entries-manager.js' %}"></script>
+{% else %}
 <script src="{% watchful_static_url 'js/entries/entries-filter.js' %}"></script>
+{% endif %}
 <script src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/utils.js' %}"></script>
@@ -80,12 +84,15 @@ var start_date = "{{start_date|date:'d-M-Y'}}";
 var start_date = "{{report.start_date|date:'d-M-Y'}}";
 {% endif %}
 
+
+{% if entry_template %}
 var appearing_pillars = {
     {% for field, pillars in appearing_pillars.items %}{{field}}: [{% for pillar in pillars %}"{{pillar.pk}}", {% endfor %}], {% endfor %}
 };
 appearing_pillars = $.extend(true, {}, appearing_pillars, {
     {% for field, subpillars in appearing_subpillars.items %}{{field}}: [{% for subpillar in subpillars %}"{{subpillar.pillar.pk}}/{{subpillar.pk}}", {% endfor %}], {% endfor %}
 });
+{% endif %}
 
 var human_profile_field_rules = [
     {% for rule in human_profile_field_rules %}
@@ -121,6 +128,14 @@ var timelineCategories = [{% for category in category_timelines %}"{{category}}"
 
 //var severityScoreTotalPinHumanId = '{{ severity_score_total_pin_human_id.0.pk }}';
 
+{% if entry_template %}
+let templateData = {
+    name: '{{ entry_template.name }}',
+    elements: JSON.parse('{{ entry_template.elements|escapejs }}'),
+};
+{% else %}
+let templateData = null;
+
 var RELIABILITIES = {
     {% for reliability in reliabilities %}
     {{reliability.level}}: '{{reliability}}',
@@ -131,6 +146,7 @@ var SEVERITIES = {
     {{severity.level}}: '{{severity}}',
     {% endfor %}
 };
+{% endif %}
 </script>
 {% endblock %}
 
@@ -143,7 +159,9 @@ var SEVERITIES = {
         <button class="btn-save" id="save-btn"><i class="fa fa-save"></i>Save Changes</button>
     </div>
     <div id="filters">
+        {% if not entry_template %}
         {% include 'entries/entry-filters.html' %}
+        {% endif %}
     </div>
 </header>
 <aside>
@@ -215,23 +233,23 @@ var SEVERITIES = {
 </div>
 
 <div class="modal-container" hidden>
-    <div id="date-range-input" class="modal" hidden>
-        <header>
-            <h3 class="modal-title">Enter date range</h3>
-        </header>
-        <div class="input-container">
-            <label>start date:</label>
-            <input type="date" id="start-date" class="form-control">
-        </div>
-        <div class="input-container">
-            <label>end date:</label>
-            <input type="date" id="end-date" class="form-control">
-        </div>
-        <div class="action-buttons">
-            <button id="cancel-btn" class="cancel" data-action="dismiss"><i class="fa fa-times"></i>Cancel</button>
-            <button id="ok-btn" class="success" data-action="proceed"><i class="fa fa-check"></i>Ok</button>
-        </div>
+<div id="date-range-input" class="modal" hidden>
+    <header>
+        <h3 class="modal-title">Enter date range</h3>
+    </header>
+    <div class="input-container">
+        <label>start date:</label>
+        <input type="date" id="start-date" class="form-control">
     </div>
+    <div class="input-container">
+        <label>end date:</label>
+        <input type="date" id="end-date" class="form-control">
+    </div>
+    <div class="action-buttons">
+        <button id="cancel-btn" class="cancel" data-action="dismiss"><i class="fa fa-times"></i>Cancel</button>
+        <button id="ok-btn" class="success" data-action="proceed"><i class="fa fa-check"></i>Ok</button>
+    </div>
+</div>
 </div>
 
 {% endblock %}

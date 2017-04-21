@@ -536,36 +536,50 @@ main #loading-animation {
     transform: rotate(180deg) scale(1.2); }
   100% {
     transform: rotate(360deg) scale(1); } }
-main #entry-filters {
+main #filters {
   display: flex;
-  justify-content: space-between; }
-  main #entry-filters label {
-    flex-basis: 100%; }
-  main #entry-filters #left-block {
-    flex-basis: 80%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap; }
-    main #entry-filters #left-block > input[type="text"].filter {
-      padding: 4px 6px;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      box-sizing: border-box; }
-    main #entry-filters #left-block .filter {
-      flex-basis: 20%;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: 10px 16px;
+  position: relative; }
+  main #filters .filter {
+    flex-basis: calc(100% / 7 - 2px);
+    margin: 1px; }
+    main #filters .filter > input, main #filters .filter > select, main #filters .filter > div {
       outline: none;
       border: none; }
-    main #entry-filters #left-block #search, main #entry-filters #left-block #lead-title-search {
-      flex-basis: 13%; }
-    main #entry-filters #left-block #sources-filter {
-      flex-basis: 14%; }
-  main #entry-filters #right-block {
-    flex-basis: 20%;
-    display: flex;
-    justify-content: space-around; }
-    main #entry-filters #right-block .filter {
-      flex-basis: 50%;
-      box-sizing: border-box; }
+    main #filters .filter > input {
+      width: 100%;
+      height: 100%;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 0 6px; }
+    main #filters .filter.range {
+      display: flex;
+      position: relative; }
+      main #filters .filter.range > {
+        flex-basis: 50%; }
+      main #filters .filter.range > label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        padding: 0 6px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        text-transform: none;
+        color: rgba(0, 0, 0, 0.3);
+        background-color: #fff;
+        z-index: 1;
+        font-size: 1em;
+        font-weight: 400; }
+      main #filters .filter.range:hover label, main #filters .filter.range.filled label {
+        display: none; }
+  main #filters > input {
+    padding: 4px 6px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; }
 main #entries {
   padding: 0 16px; }
   main #entries .entry {

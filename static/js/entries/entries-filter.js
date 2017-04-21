@@ -378,6 +378,12 @@ function initEntryFilters() {
         addFilter('reliabilities', minFilterBy == "" || maxFilterBy == "", function(info){
             return info.reliability >= minFilterBy && info.reliability <= maxFilterBy;
         });
+
+        if (minFilterBy || maxFilterBy) {
+            $(this).closest('range').addClass('filled');
+        } else {
+            $(this).closest('range').removeClass('filled');
+        }
     });
 
     $('.severities-filter').change(function() {
@@ -387,6 +393,12 @@ function initEntryFilters() {
         addFilter('severities', minFilterBy == "" || maxFilterBy == "", function(info){
             return info.severity >= minFilterBy && info.severity <= maxFilterBy;
         });
+
+        if (minFilterBy || maxFilterBy) {
+            $(this).closest('range').addClass('filled');
+        } else {
+            $(this).closest('range').removeClass('filled');
+        }
     });
 }
 

@@ -121,17 +121,10 @@ class EntriesView(View):
         context["all_events"] = Event.objects.all()
 
         context["users"] = User.objects.exclude(first_name="", last_name="")
-        context["sources"] = []
-        for lead in Lead.objects.filter(event=event):
-            if lead.source_name and \
-                    lead.source_name not in context["sources"] and \
-                    Entry.objects.filter(lead=lead).count() > 0:
-                context["sources"].append(lead.source_name)
-
         UserProfile.set_last_event(request, context["event"])
 
-        if Event.objects.get(pk=event).entry_template:
-            context["entry_template"] = Event.objects.get(pk=event).entry_template
+        if context["event"].entry_template:
+            context["entry_template"] = context["event"].entry_template
             return render(request, "entries/template-entries.html", context)
         else:
             context["pillars"] = InformationPillar.objects.all()
