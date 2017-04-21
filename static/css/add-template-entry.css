@@ -557,44 +557,55 @@ body {
         body #page-two #button-pane button i {
           padding-right: 10px; }
     body #page-two .entries {
-      margin-top: 64px;
-      padding: 10px; }
+      margin-top: 64px; }
       body #page-two .entries .entry-container {
+        overflow: hidden;
         background-color: #fff;
-        padding: 10px 0;
+        padding: 10px 16px;
         border: 1px solid rgba(0, 0, 0, 0.1); }
+        body #page-two .entries .entry-container:hover .action-buttons {
+          opacity: 1;
+          display: flex; }
+        body #page-two .entries .entry-container .action-buttons {
+          width: 100vw;
+          position: absolute;
+          right: 3px;
+          display: none;
+          align-items: flex-end;
+          flex-direction: column; }
+          body #page-two .entries .entry-container .action-buttons a {
+            z-index: 1;
+            margin-bottom: 2px;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+          body #page-two .entries .entry-container .action-buttons .edit-entry-button {
+            background-color: #3498db;
+            margin-bottom: 10px; }
+          body #page-two .entries .entry-container .action-buttons .delete-entry-button {
+            background-color: #e74c3c; }
         body #page-two .entries .entry-container .entry {
           position: relative; }
-          body #page-two .entries .entry-container .entry .action-buttons {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            padding: 16px; }
-            body #page-two .entries .entry-container .entry .action-buttons a {
-              align-items: center;
-              justify-content: center;
-              color: #fff;
-              cursor: pointer;
-              width: 32px;
-              height: 32px;
-              display: flex;
-              box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-            body #page-two .entries .entry-container .entry .action-buttons .edit-entry-button {
-              background-color: #3498db;
-              margin-bottom: 10px; }
-            body #page-two .entries .entry-container .entry .action-buttons .delete-entry-button {
-              background-color: #e74c3c; }
-          body #page-two .entries .entry-container .entry .input-element > header, body #page-two .entries .entry-container .entry .multiselect > header, body #page-two .entries .entry-container .entry .scale-container > header, body #page-two .entries .entry-container .entry .geolocations > header, body #page-two .entries .entry-container .entry .organigram > header, body #page-two .entries .entry-container .entry .matrix1d > header, body #page-two .entries .entry-container .entry .matrix2d > header {
+          body #page-two .entries .entry-container .entry .input-element > header, body #page-two .entries .entry-container .entry .multiselect > header, body #page-two .entries .entry-container .entry .scale-container > header, body #page-two .entries .entry-container .entry .geolocations > header, body #page-two .entries .entry-container .entry .organigram > header, body #page-two .entries .entry-container .entry .matrix1d-list-container > header, body #page-two .entries .entry-container .entry .matrix2d-list-container > header {
             display: flex;
             justify-content: flex-start;
             align-items: center;
             height: 24px; }
-            body #page-two .entries .entry-container .entry .input-element > header > *:not(:first-child), body #page-two .entries .entry-container .entry .multiselect > header > *:not(:first-child), body #page-two .entries .entry-container .entry .scale-container > header > *:not(:first-child), body #page-two .entries .entry-container .entry .geolocations > header > *:not(:first-child), body #page-two .entries .entry-container .entry .organigram > header > *:not(:first-child), body #page-two .entries .entry-container .entry .matrix1d > header > *:not(:first-child), body #page-two .entries .entry-container .entry .matrix2d > header > *:not(:first-child) {
+            body #page-two .entries .entry-container .entry .input-element > header > *:not(:first-child), body #page-two .entries .entry-container .entry .multiselect > header > *:not(:first-child), body #page-two .entries .entry-container .entry .scale-container > header > *:not(:first-child), body #page-two .entries .entry-container .entry .geolocations > header > *:not(:first-child), body #page-two .entries .entry-container .entry .organigram > header > *:not(:first-child), body #page-two .entries .entry-container .entry .matrix1d-list-container > header > *:not(:first-child), body #page-two .entries .entry-container .entry .matrix2d-list-container > header > *:not(:first-child) {
               padding-left: 5px; }
-          body #page-two .entries .entry-container .entry .input-element input, body #page-two .entries .entry-container .entry .multiselect input, body #page-two .entries .entry-container .entry .scale-container input, body #page-two .entries .entry-container .entry .geolocations input, body #page-two .entries .entry-container .entry .organigram input, body #page-two .entries .entry-container .entry .matrix1d input, body #page-two .entries .entry-container .entry .matrix2d input {
+          body #page-two .entries .entry-container .entry .input-element input, body #page-two .entries .entry-container .entry .multiselect input, body #page-two .entries .entry-container .entry .scale-container input, body #page-two .entries .entry-container .entry .geolocations input, body #page-two .entries .entry-container .entry .organigram input, body #page-two .entries .entry-container .entry .matrix1d-list-container input, body #page-two .entries .entry-container .entry .matrix2d-list-container input {
             width: 100%;
             height: calc(100% - 24px); }
-          body #page-two .entries .entry-container .entry .geolocations, body #page-two .entries .entry-container .entry .organigram, body #page-two .entries .entry-container .entry .matrix1d, body #page-two .entries .entry-container .entry .matrix2d {
+          body #page-two .entries .entry-container .entry .matrix1d-list {
+            width: 160px; }
+          body #page-two .entries .entry-container .entry .matrix2d-list {
+            width: 240px; }
+          body #page-two .entries .entry-container .entry .geolocations, body #page-two .entries .entry-container .entry .organigram, body #page-two .entries .entry-container .entry .matrix1d-list-container, body #page-two .entries .entry-container .entry .matrix2d-list-container {
             top: 0; }
           body #page-two .entries .entry-container .entry .apply-button {
             cursor: pointer; }
