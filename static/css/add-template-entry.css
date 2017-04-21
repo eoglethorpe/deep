@@ -559,99 +559,84 @@ body {
     body #page-two .entries {
       margin-top: 64px;
       padding: 10px; }
-      body #page-two .entries .entry {
+      body #page-two .entries .entry-container {
         background-color: #fff;
-        margin: 16px 0;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-        body #page-two .entries .entry .action-buttons {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-end;
-          padding: 16px; }
-          body #page-two .entries .entry .action-buttons a {
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            cursor: pointer;
-            width: 32px;
-            height: 32px;
+        padding: 10px 0;
+        border: 1px solid rgba(0, 0, 0, 0.1); }
+        body #page-two .entries .entry-container .entry {
+          position: relative; }
+          body #page-two .entries .entry-container .entry .action-buttons {
             display: flex;
-            box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-          body #page-two .entries .entry .action-buttons .edit-entry-button {
-            background-color: #3498db;
-            margin-bottom: 10px; }
-          body #page-two .entries .entry .action-buttons .delete-entry-button {
-            background-color: #e74c3c; }
-        body #page-two .entries .entry .apply-button {
-          margin-left: 10px;
-          font-size: 0.7em;
-          cursor: pointer; }
-          body #page-two .entries .entry .apply-button.apply-all {
-            color: #f39c12; }
-          body #page-two .entries .entry .apply-button.apply-below {
-            color: #3498db; }
-        body #page-two .entries .entry .excerpt-box-container {
-          position: absolute; }
-          body #page-two .entries .entry .excerpt-box-container label {
-            font-weight: bold;
-            font-size: 12px;
-            margin-bottom: 4px; }
-          body #page-two .entries .entry .excerpt-box-container textarea {
-            width: 100%;
-            height: calc(100% - 20px);
+            flex-direction: column;
+            align-items: flex-end;
             padding: 16px; }
-        body #page-two .entries .entry .image-box-container {
-          position: absolute; }
-          body #page-two .entries .entry .image-box-container label {
-            font-weight: bold;
-            font-size: 12px;
-            margin-bottom: 4px; }
-          body #page-two .entries .entry .image-box-container .image-box {
-            width: 100%;
-            height: calc(100% - 20px);
+            body #page-two .entries .entry-container .entry .action-buttons a {
+              align-items: center;
+              justify-content: center;
+              color: #fff;
+              cursor: pointer;
+              width: 32px;
+              height: 32px;
+              display: flex;
+              box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+            body #page-two .entries .entry-container .entry .action-buttons .edit-entry-button {
+              background-color: #3498db;
+              margin-bottom: 10px; }
+            body #page-two .entries .entry-container .entry .action-buttons .delete-entry-button {
+              background-color: #e74c3c; }
+          body #page-two .entries .entry-container .entry .input-element > header, body #page-two .entries .entry-container .entry .multiselect > header, body #page-two .entries .entry-container .entry .scale-container > header, body #page-two .entries .entry-container .entry .geolocations > header, body #page-two .entries .entry-container .entry .organigram > header, body #page-two .entries .entry-container .entry .matrix1d > header, body #page-two .entries .entry-container .entry .matrix2d > header {
             display: flex;
+            justify-content: flex-start;
             align-items: center;
-            justify-content: center;
-            background-color: #fff; }
-            body #page-two .entries .entry .image-box-container .image-box img {
-              width: 100%;
-              height: 100%;
-              object-fit: contain; }
-        body #page-two .entries .entry input.number {
-          text-align: end; }
-        body #page-two .entries .entry .input-element, body #page-two .entries .entry .multiselect, body #page-two .entries .entry .scale-container {
-          display: flex;
-          flex-direction: column; }
-          body #page-two .entries .entry .input-element label, body #page-two .entries .entry .multiselect label, body #page-two .entries .entry .scale-container label {
-            margin-bottom: 2px;
-            font-weight: bold;
             height: 24px; }
-          body #page-two .entries .entry .input-element input, body #page-two .entries .entry .multiselect input, body #page-two .entries .entry .scale-container input {
+            body #page-two .entries .entry-container .entry .input-element > header > *:not(:first-child), body #page-two .entries .entry-container .entry .multiselect > header > *:not(:first-child), body #page-two .entries .entry-container .entry .scale-container > header > *:not(:first-child), body #page-two .entries .entry-container .entry .geolocations > header > *:not(:first-child), body #page-two .entries .entry-container .entry .organigram > header > *:not(:first-child), body #page-two .entries .entry-container .entry .matrix1d > header > *:not(:first-child), body #page-two .entries .entry-container .entry .matrix2d > header > *:not(:first-child) {
+              padding-left: 5px; }
+          body #page-two .entries .entry-container .entry .input-element input, body #page-two .entries .entry-container .entry .multiselect input, body #page-two .entries .entry-container .entry .scale-container input, body #page-two .entries .entry-container .entry .geolocations input, body #page-two .entries .entry-container .entry .organigram input, body #page-two .entries .entry-container .entry .matrix1d input, body #page-two .entries .entry-container .entry .matrix2d input {
             width: 100%;
             height: calc(100% - 24px); }
-        body #page-two .entries .entry .scale-container {
-          position: absolute; }
-          body #page-two .entries .entry .scale-container label {
-            margin-bottom: 2px;
-            font-weight: bold; }
-          body #page-two .entries .entry .scale-container .scale {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: calc(100% - 24px); }
-            body #page-two .entries .entry .scale-container .scale span {
-              display: inline-block;
-              width: 10px;
-              height: 20px;
-              margin: 0 2px;
-              border-radius: 2px; }
-              body #page-two .entries .entry .scale-container .scale span.active {
-                width: 12px;
-                height: 24px; }
-        body #page-two .entries .entry .organigram label {
-          margin-bottom: 2px;
-          font-weight: bold; }
+          body #page-two .entries .entry-container .entry .geolocations, body #page-two .entries .entry-container .entry .organigram, body #page-two .entries .entry-container .entry .matrix1d, body #page-two .entries .entry-container .entry .matrix2d {
+            top: 0; }
+          body #page-two .entries .entry-container .entry .apply-button {
+            cursor: pointer; }
+            body #page-two .entries .entry-container .entry .apply-button.apply-all {
+              color: #f39c12; }
+            body #page-two .entries .entry-container .entry .apply-button.apply-below {
+              color: #3498db; }
+          body #page-two .entries .entry-container .entry .excerpt-box-container {
+            position: absolute; }
+            body #page-two .entries .entry-container .entry .excerpt-box-container textarea {
+              width: 100%;
+              height: calc(100% - 20px);
+              padding: 16px; }
+          body #page-two .entries .entry-container .entry .image-box-container {
+            position: absolute; }
+            body #page-two .entries .entry-container .entry .image-box-container .image-box {
+              width: 100%;
+              height: calc(100% - 20px);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background-color: #fff; }
+              body #page-two .entries .entry-container .entry .image-box-container .image-box img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain; }
+          body #page-two .entries .entry-container .entry .scale-container {
+            position: absolute; }
+            body #page-two .entries .entry-container .entry .scale-container .scale {
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+              height: calc(100% - 24px); }
+              body #page-two .entries .entry-container .entry .scale-container .scale span {
+                display: inline-block;
+                width: 10px;
+                height: 20px;
+                margin: 0 2px;
+                border-radius: 2px; }
+                body #page-two .entries .entry-container .entry .scale-container .scale span.active {
+                  width: 12px;
+                  height: 24px; }
   body .chart-div .org-node {
     user-select: none;
     cursor: pointer;
