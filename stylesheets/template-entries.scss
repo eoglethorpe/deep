@@ -1,8 +1,22 @@
 @import 'common/base';
 @import 'common/navbar';
 
-$background-color: #fafafa;
+$background-color: #f0f0f0;
 
+body{
+    background-color: #f0f0f0;
 
-@import 'entries/template-entries';
-@import 'entries/template-entry-filters';
+    @import 'entries/template-entries';
+    @import 'entries/template-entry-filters';
+
+    #overflow-x{
+        width: calc(100% - 32px);
+        margin: auto;
+        overflow-x: auto;
+        // background-color: green;
+
+        >div{
+            min-height: 1px;
+        }
+    }
+}

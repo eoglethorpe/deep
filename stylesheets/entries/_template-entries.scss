@@ -1,19 +1,22 @@
 #entries{
-    padding: 16px 16px;
+    padding: 0 16px;
+    overflow-y: auto;
+
     .entry{
-        margin-bottom: 16px;
-        @include shadow();
+        box-shadow: 0 1px 15px -5px rgba(0, 0, 0, 0.5);
 
         .entry-header{
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
             color: white;
-            background-color: rgba(0,0,0,0.66);
+            z-index: 1;
+            background-color: #616161;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
 
             h2{
-                margin: 0 0 10px 0;
+                margin: 0 0 8px 0;
             }
 
             .action-buttons{
@@ -37,8 +40,8 @@
                     padding: 6px 16px;
                     flex-basis: calc(100% - 96px);
 
-                    >div{
-                        > span, date{
+                    >div {
+                        > span, date {
                             margin-right: 24px;
 
                             .fa{
@@ -61,95 +64,106 @@
                     }
                 }
             }
-
         }
-        .information{
-            height: 100%;
-            background-color: #fafafa;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+        .informations {
+            overflow-x: hidden;
 
-            label{
-                font-weight: bold;
-                padding: 4px 2px;
-                margin-bottom: 6px;
-                border-bottom: 1px solid rgba(0,0,0,0.1);
-                width: 100%;
-            }
-            .excerpt-container{
-                margin-right: 5px;
-                padding: 16px;
-
-                img {
-                    width: 100%;
+            .information-container {
+                padding: 10px 0;
+                background-color: #fff;
+                &:nth-child(odd){
+                    background-color: #f8f8f8;
                 }
-            }
-            .scale-container{
-                height: 100%;
 
+                .information{
+                    height: 100%;
+                    box-sizing: padding-box;
+                    overflow: hidden;
 
-                label{
-                    background-color: transparent;
+                    label{
+                        font-weight: bold;
+                        padding: 4px 2px;
+                        margin-bottom: 6px;
+                        border-bottom: 1px solid rgba(0,0,0,0.1);
+                        width: 100%;
+                    }
+                    .excerpt-container{
+                        padding: 6px 10px;
+                        text-align: justify;
+                        line-height: 1.5;
 
-                }
-                .scale {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: calc(100% - 24px);
-
-                    span {
-                        display: inline-block;
-                        width: 10px;
-                        height: 20px;
-                        margin: 0 2px;
-                        border-radius: 2px;
-
-                        &.active{
-                            width: 12px;
-                            height: 24px;
+                        img {
+                            width: 100%;
                         }
                     }
-                }
+                    .scale-container{
+                        height: 100%;
 
-            }
-            .list-container{
-                .data {
-                    div {
-                        padding: 5px 0;
-                    }
-                }
+                        .scale {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            height: calc(100% - 24px);
 
-                .row {
-                    display: flex;
-                    justify-content: space-between;
-                    min-width: 320px;
-                    padding: 4px 0;
+                            span {
+                                display: inline-block;
+                                width: 10px;
+                                height: 20px;
+                                margin: 0 2px;
+                                border-radius: 2px;
 
-                    .col {
-                        flex-basis: 49%;
-
-                        >div {
-                            &:first-child {
-                                font-weight: $font-weight-bold;
+                                &.active{
+                                    width: 12px;
+                                    height: 24px;
+                                }
                             }
-                            &:last-child {
-                                >* {
-                                    display: block;
-                                    padding: 0 2px;
+                        }
+
+                    }
+                    .list-container{
+                        &.matrix1d{
+                            width: $matrix1d-width;
+                        }
+                        &.matrix2d{
+                            width: $matrix2d-width;
+                        }
+                        // .data {
+                        //     div {
+                        //         padding: 5px 0;
+                        //     }
+                        // }
+                        .row {
+                            display: flex;
+                            justify-content: space-between;
+                            min-width: 320px;
+                            padding: 4px 0;
+
+                            .col {
+                                flex-basis: 49%;
+
+                                >div {
+                                    &:first-child {
+                                        font-weight: $font-weight-bold;
+                                    }
+                                    &:last-child {
+                                        >* {
+                                            display: block;
+                                            padding: 0 2px;
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
+                    .input-container{
+                        height: 100%;
+
+
+
+                    }
+
                 }
             }
-            .input-container{
-                height: 100%;
-
-
-
-            }
-
         }
-
     }
 }

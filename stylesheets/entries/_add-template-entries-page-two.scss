@@ -41,149 +41,127 @@
         margin-top: 64px;
         padding: 10px;
 
-        .entry {
+        .entry-container{
             background-color: #fff;
-            margin: 16px 0;
+            padding: 10px 0;
             border: 1px solid rgba(0, 0, 0, 0.1);
-            @include shadow();
 
-            .action-buttons {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-end;
-                padding: 16px;
+            .entry {
+                position: relative;
 
-                a {
-                    align-items: center;
-                    justify-content: center;
-                    color: #fff;
-                    cursor: pointer;
-                    width: 32px;
-                    height: 32px;
+                .action-buttons {
                     display: flex;
-                    box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3);
-                }
-
-                .edit-entry-button {
-                    background-color: $info-color;
-                    margin-bottom: 10px;
-                }
-                .delete-entry-button {
-                    background-color: $danger-color;
-                }
-            }
-
-            .apply-button {
-                margin-left: 10px;
-                font-size: 0.7em;
-                cursor: pointer;
-
-                &.apply-all {
-                    color: #f39c12;
-                }
-
-                &.apply-below {
-                    color: #3498db;
-                }
-            }
-
-            .excerpt-box-container {
-                position: absolute;
-
-                label {
-                    font-weight: bold;
-                    font-size: 12px;
-                    margin-bottom: 4px;
-                }
-
-                textarea {
-                    width: 100%;
-                    height: calc(100% - 20px);
+                    flex-direction: column;
+                    align-items: flex-end;
                     padding: 16px;
-                }
-            }
 
-            .image-box-container {
-                position: absolute;
+                    a {
+                        align-items: center;
+                        justify-content: center;
+                        color: #fff;
+                        cursor: pointer;
+                        width: 32px;
+                        height: 32px;
+                        display: flex;
+                        box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3);
+                    }
 
-                label {
-                    font-weight: bold;
-                    font-size: 12px;
-                    margin-bottom: 4px;
-                }
-
-                .image-box {
-                    width: 100%;
-                    height: calc(100% - 20px);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    background-color: #fff;
-
-                    img{
-                        width: 100%;
-                        height: 100%;
-                        object-fit: contain;
+                    .edit-entry-button {
+                        background-color: $info-color;
+                        margin-bottom: 10px;
+                    }
+                    .delete-entry-button {
+                        background-color: $danger-color;
                     }
                 }
-            }
 
-            input.number {
-                text-align: end;
-            }
+                .input-element, .multiselect, .scale-container, .geolocations, .organigram, .matrix1d, .matrix2d {
+                    >header {
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        height: 24px;
 
-            .input-element, .multiselect, .scale-container {
-                display: flex;
-                flex-direction: column;
+                        >*:not(:first-child) {
+                            padding-left: 5px;
+                        }
+                    }
 
-                label {
-                    margin-bottom: 2px;
-                    font-weight: bold;
-                    height: 24px;
+                    input {
+                        width: 100%;
+                        height: calc(100% - 24px);
+                    }
+                }
+                .geolocations, .organigram, .matrix1d, .matrix2d {
+                    top: 0;
+                }
+                .apply-button {
+                    cursor: pointer;
+
+                    &.apply-all {
+                        color: #f39c12;
+                    }
+
+                    &.apply-below {
+                        color: #3498db;
+                    }
                 }
 
-                input {
-                    width: 100%;
-                    height: calc(100% - 24px);
-                }
-            }
+                .excerpt-box-container {
+                    position: absolute;
 
-            .scale-container {
-                position: absolute;
-                label{
-                    margin-bottom: 2px;
-                    font-weight: bold;
+                    textarea {
+                        width: 100%;
+                        height: calc(100% - 20px);
+                        padding: 16px;
+                    }
                 }
 
-                .scale {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: calc(100% - 24px);
+                .image-box-container {
+                    position: absolute;
 
-                    span {
-                        display: inline-block;
-                        width: 10px;
-                        height: 20px;
-                        margin: 0 2px;
-                        border-radius: 2px;
+                    .image-box {
+                        width: 100%;
+                        height: calc(100% - 20px);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background-color: #fff;
 
-                        &.active {
-                            width: 12px;
-                            height: 24px;
+                        img{
+                            width: 100%;
+                            height: 100%;
+                            object-fit: contain;
                         }
                     }
                 }
 
-            }
+                .scale-container {
+                    position: absolute;
 
-            .organigram{
-                label{
-                    margin-bottom: 2px;
-                    font-weight: bold;
+                    .scale {
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        height: calc(100% - 24px);
+
+                        span {
+                            display: inline-block;
+                            width: 10px;
+                            height: 20px;
+                            margin: 0 2px;
+                            border-radius: 2px;
+
+                            &.active {
+                                width: 12px;
+                                height: 24px;
+                            }
+                        }
+                    }
                 }
             }
         }
+
     }
 }
 

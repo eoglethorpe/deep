@@ -1153,10 +1153,10 @@ body{
                     }
                 }
                 .matrix1d-list{
-                    width: 160px;
+                    width: $matrix1d-width;
                 }
                 .matrix2d-list{
-                    width: 240px;
+                    width: $matrix2d-width;
 
                     .container{
                         display: flex;
