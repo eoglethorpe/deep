@@ -2,6 +2,8 @@ from entries.models import *
 from django.db.models import Q
 from django.utils.dateparse import parse_datetime
 
+import json
+
 
 def filter_informations(data, event=None):
     informations = EntryInformation.objects.all()
@@ -12,6 +14,9 @@ def filter_informations(data, event=None):
             informations = informations.filter(entry__template__isnull=True)
         else:
             informations = informations.filter(entry__template__isnull=False)
+
+    if data.get('leads'):
+        informations = informations.filter(entry__lead__pk__in=json.loads(data.get('leads')))
 
     if data.get('excerpt'):
         informations = informations.filter(excerpt__icontains=data.get('excerpt'))

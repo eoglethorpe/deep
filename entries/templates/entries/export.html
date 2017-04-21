@@ -30,6 +30,11 @@ DEEP | Export
 
 {% include 'navbar.html' %}
 
+<aside id="preview-section">
+    <div>No preview available</div>
+    <iframe src="about:blank" hidden></iframe>
+</aside>
+
 <main>
     <section id="entries-export">
         <h2>Entries</h2>
@@ -42,6 +47,12 @@ DEEP | Export
                         {% include 'entries/export-entry-filters.html' %}
                     </div>
                 </div>
+
+                <div>
+                    <h4>Filter by leads</h4>
+                    {% include 'entries/export-leads.html' %}
+                </div>
+
                 <div class="export-format">
                     <label class="active"><input type="radio" name="export-format" value="generic" checked> Generic</label>
                     <label><input type="radio" name="export-format" value="geo"> Geo</label>
@@ -78,10 +89,5 @@ DEEP | Export
         </div>
     </section>
 </main>
-
-<aside id="preview-section">
-    <div>No preview available</div>
-    <iframe src="about:blank" hidden></iframe>
-</aside>
 
 {% endblock %}

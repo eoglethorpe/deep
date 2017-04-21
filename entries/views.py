@@ -47,6 +47,8 @@ class ExportView(View):
         context["affected_groups"] = AffectedGroup.objects.all()
         context["areas"] = AdminLevelSelection.objects.filter(entryinformation__entry__lead__event__pk=event).values_list('name', flat=True)
 
+        context["lead_users"] = User.objects.filter(assigned_leads__event__pk=event)
+
         UserProfile.set_last_event(request, context["event"])
         return render(request, "entries/export.html", context)
 
@@ -70,6 +72,8 @@ class ExportDocx(View):
     def get(self, request, event):
         informations = filter_informations(request.GET, Event.objects.get(pk=event)).values_list('id', flat=True)
         format_name = ''
+
+        return HttpResponse(str(len(informations)) + '<br>' + ', '.join(str(i) for i in informations))
 
         file_format = 'pdf' if (request.GET.get('export-pdf') == 'pdf') else 'docx'
 

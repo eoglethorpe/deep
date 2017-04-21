@@ -9,15 +9,15 @@
 </div>
 
 <div class="filter">
-    <select name="users" id="users-filter" placeholder="User" multiple>
-        <option value="">User</option>
+    <select name="users" id="users-filter" multiple>
+        <option value="">Imported by</option>
         {% for u in users %}
         <option value="{{u.pk}}">{{u.get_full_name}}</option>
         {% endfor %}
     </select>
 </div>
 <div class="filter">
-    <select name="areas" id="areas-filter" placeholder="Areas" multiple>
+    <select name="areas" id="areas-filter" multiple>
         <option value="">Areas</option>
         {% for area in areas %}
         <option value="{{area}}">{{area}}</option>
@@ -25,7 +25,7 @@
     </select>
 </div>
 <div class="filter">
-    <select name="affected_groups" id="affected-groups-filter" placeholder="Affected Group" multiple>
+    <select name="affected_groups" id="affected-groups-filter" multiple>
         <option value="">Affected Group</option>
         {% for group in affected_groups %}
         <option value="{{group.pk}}">{{group}}</option>
@@ -33,8 +33,8 @@
     </select>
 </div>
 <div class="filter">
-    <select id="date-published-filter" placeholder="Date Published">
-        <option value="">Date Published</option>
+    <select id="date-published-filter">
+        <option value="">Date published</option>
         <option value="today">Today</option>
         <option value="yesterday">Yesterday</option>
         <option value="last-seven-days">Last 7 days</option>
@@ -48,8 +48,8 @@
 <input id="date-published-end" name="date_published_end" type="hidden">
 
 <div class="filter">
-    <select id="date-imported-filter" placeholder="Date Imported">
-        <option value="">Date Imported</option>
+    <select id="date-imported-filter">
+        <option value="">Date imported</option>
         <option value="today">Today</option>
         <option value="yesterday">Yesterday</option>
         <option value="last-seven-days">Last 7 days</option>
@@ -63,23 +63,23 @@
 <input id="date-imported-end" name="date_imported_end" type="hidden">
 
 <div class="filter">
-    <select name="vulnerable_groups" id="vulnerable-groups-filter" placeholder="Demographic group" multiple>
-        <option value="">Demographic group</option>
+    <select name="vulnerable_groups" id="vulnerable-groups-filter" multiple>
+        <option value="">Demographic groups</option>
         {% for vulnerable_group in vulnerable_groups %}
         <option value="{{vulnerable_group.pk}}">{{vulnerable_group}}</option>
         {% endfor %}
     </select>
 </div>
 <div class="filter">
-    <select name="specific_needs_groups" id="specific-needs-groups-filter" placeholder="Specific Needs Group" multiple>
-        <option value="">Specific Needs Group</option>
+    <select name="specific_needs_groups" id="specific-needs-groups-filter" multiple>
+        <option value="">Specific Needs Groups</option>
         {% for group in specific_needs_groups %}
         <option value="{{group.pk}}">{{group}}</option>
         {% endfor %}
     </select>
 </div>
 <div class="filter">
-    <select name="pillars" id="pillars-filter" placeholder="Pillars and subpillars" multiple>
+    <select name="pillars" id="pillars-filter" multiple>
         <option value="">Pillars and subpillars</option>
         {% for pillar in pillars %}
         <option value="{{pillar.pk}}">{{pillar}}</option>
@@ -90,7 +90,7 @@
     </select>
 </div>
 <div class="filter">
-    <select name="sectors" id="sectors-filter" placeholder="Sectors and subsectors" multiple>
+    <select name="sectors" id="sectors-filter" multiple>
         <option value="">Sectors and subsectors</option>
         {% for sector in sectors %}
         <option value="{{sector.pk}}">{{sector}}</option>

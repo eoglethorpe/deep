@@ -176,7 +176,7 @@ body {
     flex-basis: 100%; }
   body main {
     flex-basis: 70%;
-    border-right: 2px solid rgba(0, 0, 0, 0.1); }
+    border-left: 2px solid rgba(0, 0, 0, 0.1); }
     body main h1, body main h2, body main h3, body main h4, body main h5, body main h6 {
       margin: 0;
       text-transform: uppercase; }
@@ -243,6 +243,16 @@ body {
         body main section#entries-export .doc-export {
           flex-basis: 76%;
           border-right: 1px solid rgba(0, 0, 0, 0.1); }
+          body main section#entries-export .doc-export .lead-filters {
+            display: flex; }
+            body main section#entries-export .doc-export .lead-filters .filter {
+              flex-basis: 25%; }
+          body main section#entries-export .doc-export .leads-container header, body main section#entries-export .doc-export .leads-container .lead {
+            display: flex; }
+            body main section#entries-export .doc-export .leads-container header > *, body main section#entries-export .doc-export .leads-container .lead > * {
+              flex-basis: 25%; }
+              body main section#entries-export .doc-export .leads-container header > *.title, body main section#entries-export .doc-export .leads-container .lead > *.title {
+                flex-basis: 75%; }
           body main section#entries-export .doc-export .export-format {
             margin-top: 16px;
             padding: 0 16px;

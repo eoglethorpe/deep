@@ -18,7 +18,9 @@ let entriesManager = {
     readPartial: function(index, count) {
         let that = this;
         $.getJSON("/api/v2/entries/?event="+this.eventId+'&index='+index+'&count='+count, function(data){
-            that.updateData(data);
+            if (data.status && data.data) {
+                that.updateData(data.data);
+            }
 
             if (that.renderCallback) {
                 that.renderCallback(false);
@@ -35,8 +37,6 @@ let entriesManager = {
     },
 
     updateData: function(data) {
-        data = data.data;
-
         let lastId = this.entries.length;
         this.entries = this.entries.concat(data);
         this.entries.sort(function(e1, e2) {
