@@ -203,36 +203,50 @@ body {
     body header #filters {
       flex-basis: 100%;
       box-sizing: border-box; }
-    body header #entry-filters {
+    body header #filters {
       display: flex;
-      justify-content: space-between; }
-      body header #entry-filters label {
-        flex-basis: 100%; }
-      body header #entry-filters #left-block {
-        flex-basis: 80%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap; }
-        body header #entry-filters #left-block > input[type="text"].filter {
-          padding: 4px 6px;
-          border: 1px solid rgba(0, 0, 0, 0.1);
-          box-sizing: border-box; }
-        body header #entry-filters #left-block .filter {
-          flex-basis: 20%;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      padding: 10px 16px;
+      position: relative; }
+      body header #filters .filter {
+        flex-basis: calc(100% / 7 - 2px);
+        margin: 1px; }
+        body header #filters .filter > input, body header #filters .filter > select, body header #filters .filter > div {
           outline: none;
           border: none; }
-        body header #entry-filters #left-block #search, body header #entry-filters #left-block #lead-title-search {
-          flex-basis: 13%; }
-        body header #entry-filters #left-block #sources-filter {
-          flex-basis: 14%; }
-      body header #entry-filters #right-block {
-        flex-basis: 20%;
-        display: flex;
-        justify-content: space-around; }
-        body header #entry-filters #right-block .filter {
-          flex-basis: 50%;
-          box-sizing: border-box; }
+        body header #filters .filter > input {
+          width: 100%;
+          height: 100%;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          padding: 0 6px; }
+        body header #filters .filter.range {
+          display: flex;
+          position: relative; }
+          body header #filters .filter.range > {
+            flex-basis: 50%; }
+          body header #filters .filter.range > label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 6px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            text-transform: none;
+            color: rgba(0, 0, 0, 0.3);
+            background-color: #fff;
+            z-index: 1;
+            font-size: 1em;
+            font-weight: 400; }
+          body header #filters .filter.range:hover label, body header #filters .filter.range.filled label {
+            display: none; }
+      body header #filters > input {
+        padding: 4px 6px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-sizing: border-box; }
 
 aside {
   width: 30%;

@@ -7,7 +7,7 @@ body{
     background-color: #f0f0f0;
 
     @import 'entries/template-entries';
-    @import 'entries/template-entry-filters';
+    @import 'entries/entry-filters';
 
     #overflow-x{
         width: calc(100% - 32px);
