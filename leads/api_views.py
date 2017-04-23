@@ -76,12 +76,17 @@ class LeadApiView(View):
         if lead_id:
             leads = leads.filter(pk=lead_id)
 
+        has_entries = request.GET.get('has_entries')
+        if has_entries:
+            leads = leads.filter(entry__isnull=False)
+
         index = request.GET.get('index')
         if index:
             leads = leads[int(index):]
         count = request.GET.get('count')
         if count:
             leads = leads[:int(count)]
+
 
         data = []
         for lead in leads:

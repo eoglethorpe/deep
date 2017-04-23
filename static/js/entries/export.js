@@ -1,9 +1,122 @@
-var heirarchy;
-var dateRangeInputModal;
+let dateRangeInputModal;
+
+let leads = {
+    init: function(container) {
+        let that = this;
+        this.leads = [];
+        this.filters = {};
+        this.container = container;
+
+        // By default all leads are selected
+        this.container.find('header .select input').attr('checked', true);
+
+        $.getJSON('/api/v2/leads/?event=' + eventId + '&has_entries=1', function(data) {
+            if (data.status && data.data) {
+                that.updateData(data.data);
+            }
+        });
+
+        // Setup filters
+        this.container.find('header .select input').change(function() {
+            that.container.find('.leads .lead .select input').prop('checked', $(this).is(':checked'));
+        });
+        this.container.on('change', 'input[type="checkbox"]', function() {
+            that.refreshSelectedLeads();
+        });
+        this.initFilters();
+    },
+
+    initFilters: function() {
+        let that = this;
+        $('#lead-assigned-to').change(function() {
+            let key = 'assigned-to';
+            let val = $(this).val();
+            if (!val || val.length == 0) {
+                that.filters[key] = null;
+            } else {
+                that.filters[key] = function(lead) {
+                    return val.indexOf(lead.assigned_to+'') >= 0;
+                };
+            }
+
+            that.refresh();
+        });
+    },
+
+    updateData: function(data) {
+        this.leads = this.leads.concat(data);
+        this.leads.sort(function (l1, l2) {
+            return new Date(l2.created_at) - new Date(l1.created_at);
+        });
+
+        for (let i=0; i<this.leads.length; i++) {
+            if (this.container.find('header .select input').is(':checked')) {
+                this.leads[i].checked = true;
+            }
+        }
+
+        this.refresh();
+    },
+
+    refresh: function() {
+        let that = this;
+        let filteredLeads = this.leads.slice();
+
+        for (let filterKey in this.filters) {
+            let filter = this.filters[filterKey];
+            if (filter) {
+                filteredLeads = filteredLeads.filter(filter);
+            }
+        }
+
+        let list = this.container.find('.leads');
+        let template = list.find('.lead-template');
+
+        list.find('.lead').remove();
+        for (let i=0; i<filteredLeads.length; i++) {
+            let lead = filteredLeads[i];
+            let leadDom = template.clone();
+            leadDom.removeClass('lead-template').addClass('lead');
+            leadDom.appendTo(list);
+            leadDom.show();
+
+            leadDom.find('.created-at').html('<date>' + formatDate(lead.created_at) + "</date><time>" + formatTime(lead.created_at) + '</time>');
+            leadDom.find('.title').html(lead.name);
+            leadDom.find('.select input').prop('checked', lead.checked);
+            leadDom.data('id', lead.id);
+        }
+
+        this.refreshSelectedLeads();
+    },
+
+    refreshSelectedLeads: function() {
+        let selectedLeads = [];
+
+        let that = this;
+        $('.leads .lead').each(function() {
+            let id = $(this).data('id');
+            let select = $(this).find('.select input').is(':checked');
+
+            if (select) {
+                if (selectedLeads.indexOf(id) < 0) {
+                    selectedLeads.push(id);
+                }
+            } else {
+                let index = selectedLeads.indexOf(id);
+                if (index >= 0) {
+                    selectedLeads.splice(index, 1);
+                }
+            }
+        });
+        $('#selected-leads').val(JSON.stringify(selectedLeads));
+    },
+};
 
 $(document).ready(function(){
     dateRangeInputModal = new Modal('#date-range-input');
     $('select').selectize();
+
+    leads.init($('#entries-export .leads-container'), $('#entries-export .lead-filters'));
 
     $('#date-published-filter').change(function() {
         setDateRange($(this).val(), 'date-published');

@@ -1,0 +1,39 @@
+
+<!-- <div class="lead-filters">
+    <div class="filter">
+        <select id="lead-assigned-to" multiple>
+            <option value=""Assigned to</option>
+            {% for user in lead_users %}
+            <option value="{{user.pk}}">{{ user.get_full_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="filter">
+        <select id="lead-date-created">
+            <option value="">Date created</option>
+            <option value="today">Today</option>
+            <option value="yesterday">Yesterday</option>
+            <option value="last-seven-days">Last 7 days</option>
+            <option value="this-week">This week</option>
+            <option value="last-thirty-days">Last 30 days</option>
+            <option value="this-month">This month</option>
+            <option value="range">Range</option>
+        </select>
+    </div>
+</div> -->
+
+<div class="leads-container">
+    <input id="selected-leads" type="hidden" name="leads">
+    <header>
+        <div class="select"><label><input type="checkbox">Select</label></div>
+        <div class="created-at">Created on</div>
+        <div class="title">Title</div>
+    </header>
+    <div class="leads">
+        <div class="lead-template" hidden>
+            <div class="select"><label><input type="checkbox"></label></div>
+            <div class="created-at"></div>
+            <div class="title"></div>
+        </div>
+    </div>
+</div>

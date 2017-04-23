@@ -176,13 +176,12 @@ body {
     flex-basis: 100%; }
   body main {
     flex-basis: 70%;
-    border-right: 2px solid rgba(0, 0, 0, 0.1); }
+    border-left: 2px solid rgba(0, 0, 0, 0.1); }
     body main h1, body main h2, body main h3, body main h4, body main h5, body main h6 {
       margin: 0;
       text-transform: uppercase; }
     body main section {
-      min-height: 240px;
-      padding-bottom: 32px; }
+      min-height: 160px; }
       body main section h2 {
         height: 54px;
         display: flex;
@@ -224,7 +223,11 @@ body {
               height: 100%;
               display: flex;
               align-items: center;
-              padding: 0 4px;
+              text-transform: none;
+              color: rgba(0, 0, 0, 0.4);
+              font-size: 1em;
+              font-weight: 400;
+              padding: 0 6px;
               top: 0;
               left: 0;
               z-index: 1;
@@ -242,7 +245,46 @@ body {
           flex-basis: 100%; }
         body main section#entries-export .doc-export {
           flex-basis: 76%;
-          border-right: 1px solid rgba(0, 0, 0, 0.1); }
+          border-right: 1px solid rgba(0, 0, 0, 0.1);
+          padding-bottom: 16px; }
+          body main section#entries-export .doc-export .lead-filters {
+            display: flex; }
+            body main section#entries-export .doc-export .lead-filters .filter {
+              flex-basis: 25%; }
+          body main section#entries-export .doc-export .leads-container header {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+            body main section#entries-export .doc-export .leads-container header label {
+              display: flex;
+              align-items: center;
+              vertical-align: super;
+              font-size: 1em; }
+              body main section#entries-export .doc-export .leads-container header label input {
+                margin-top: 2px; }
+            body main section#entries-export .doc-export .leads-container header > * {
+              color: rgba(0, 0, 0, 0.5);
+              text-transform: uppercase;
+              font-size: 0.9em;
+              font-weight: 500; }
+          body main section#entries-export .doc-export .leads-container .leads {
+            height: 224px;
+            overflow-y: scroll; }
+          body main section#entries-export .doc-export .leads-container header, body main section#entries-export .doc-export .leads-container .lead {
+            display: flex;
+            align-items: center;
+            min-height: 24px;
+            padding: 8px 16px; }
+            body main section#entries-export .doc-export .leads-container header .select, body main section#entries-export .doc-export .leads-container .lead .select {
+              flex-basis: 96px; }
+            body main section#entries-export .doc-export .leads-container header .created-at, body main section#entries-export .doc-export .leads-container .lead .created-at {
+              flex-basis: 20%; }
+              body main section#entries-export .doc-export .leads-container header .created-at time, body main section#entries-export .doc-export .leads-container header .created-at date, body main section#entries-export .doc-export .leads-container .lead .created-at time, body main section#entries-export .doc-export .leads-container .lead .created-at date {
+                font-family: 'Inconsolata', monospace; }
+              body main section#entries-export .doc-export .leads-container header .created-at date, body main section#entries-export .doc-export .leads-container .lead .created-at date {
+                margin-right: 10px; }
+            body main section#entries-export .doc-export .leads-container header .title, body main section#entries-export .doc-export .leads-container .lead .title {
+              flex-basis: calc(80% - 96px); }
+          body main section#entries-export .doc-export .leads-container .lead:nth-child(even) {
+            background-color: #f9f9f9; }
           body main section#entries-export .doc-export .export-format {
             margin-top: 16px;
             padding: 0 16px;

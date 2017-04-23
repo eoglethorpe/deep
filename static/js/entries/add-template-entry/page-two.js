@@ -531,6 +531,7 @@ let page2 = {
 
             entryElement.appendTo(entryContainer);
             entryContainer.appendTo(this.container.find('.entries'));
+            entryElement.find('.action-buttons').detach().prependTo(entryContainer);
             entryElement.show();
 
             entryElement.find('select').selectize();
@@ -678,11 +679,13 @@ let page2 = {
                 autoResize(entryElement);
             });
             autoResize(entryElement);
-
+            // $('.action-buttons').css('top', function(){ console.log($(this).parent().position().top); return $(this).parent().position().top; });
         }
 
         addTodayButtons();
         this.container.find('textarea').change();
         this.container.scrollTop(lastScroll);
+
+        this.container.find('.entry-container').width(this.container.find('.entry').width());
     },
 };
