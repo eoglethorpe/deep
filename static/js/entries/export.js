@@ -116,7 +116,8 @@ let leads = {
 function getExportUrl() {
     return new Promise((resolve, reject) => {
         $.post(window.location.origin + $('#export-entries-doc-form').attr('action'), $('#export-entries-doc-form').serialize(), function(response) {
-            resolve(window.location.origin + $('#export-entries-doc-form').attr('action') + '?token='+response.token);
+            resolve(window.location.origin + $('#export-entries-doc-form').attr('action') + '?token='+response.token
+                + '&export-format=' + $('input[name=export-format]:checked').val());
         });
     });
 }
