@@ -76,9 +76,9 @@ class ExportDocx(View):
     def get(self, request, event):
         informations = None
         if request.GET.get('token'):
-            informations = request.session.get(request.GET['token'])
-            if informations:
-                del request.session[request.GET['token']]
+            session_obj = request.session.get(request.GET['token'])
+            if session_obj:
+                informations = session_obj['informations']
 
         if not informations:
             informations = filter_informations(request.GET, Event.objects.get(pk=event)).values_list('id', flat=True)
@@ -108,7 +108,7 @@ class ExportDocx(View):
         else:
             format_name = 'Generic Export'
             if request.GET.get('export-pdf') == 'pdf':
-                response.write(export_pdf(order, int(event), informations))
+                response.write(export_pdf(int(event), informations))
             else:
                 export_docx(int(event), informations).save(response)
 
@@ -122,20 +122,37 @@ class ExportDocx(View):
 
     def post(self, request, event):
 
-        uniqueKey = None
-        while True:
-            uniqueKey = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20))
-            isUnique = True
-            for key in request.session.keys():
-                if uniqueKey == key:
-                    isUnique = False
-                    break
+        session_key = None
+        for key in request.session.keys():
+            obj = request.session[key]
+            try:
+                if 'expiry_timestamp' in session_obj:
+                    if obj['expiry_timestamp'] - time.time() > 24*60*60:
+                        session_key = key
+                        break
+            except:
+                pass
 
-            if isUnique:
-                break;
+        if not session_key:
+            uniqueKey = None
+            while True:
+                uniqueKey = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20))
+                isUnique = True
+                for key in request.session.keys():
+                    if uniqueKey == key:
+                        isUnique = False
+                        break
 
-        request.session[uniqueKey] = list(filter_informations(request.POST, Event.objects.get(pk=event)).values_list('id', flat=True))
-        return JsonResponse({ 'token': uniqueKey })
+                if isUnique:
+                    break;
+
+            session_key = uniqueKey
+
+        request.session[session_key] = {
+            'informations': list(filter_informations(request.POST, Event.objects.get(pk=event)).values_list('id', flat=True)),
+            'expiry_timestamp': time.time(),
+        }
+        return JsonResponse({ 'token': session_key })
 
 
 class EntriesView(View):

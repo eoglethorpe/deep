@@ -115,9 +115,11 @@ let leads = {
 
 function getExportUrl() {
     return new Promise((resolve, reject) => {
-        $.post(window.location.origin + $('#export-entries-doc-form').attr('action'), $('#export-entries-doc-form').serialize(), function(response) {
-            resolve(window.location.origin + $('#export-entries-doc-form').attr('action') + '?token='+response.token);
-        });
+        $.post(window.location.origin + $('#export-entries-doc-form').attr('action') + '?timestamp=' + (new Date().getTime()),
+            $('#export-entries-doc-form').serialize(), function(response) {
+                resolve(window.location.origin + $('#export-entries-doc-form').attr('action') + '?token='+response.token
+                    + '&export-format=' + $('input[name=export-format]:checked').val() + '&timestamp=' + (new Date().getTime()));
+            });
     });
 }
 
@@ -137,8 +139,16 @@ $(document).ready(function(){
 
     $('#export-entries-doc-form').submit(function(e) {
         e.preventDefault();
+    });
+
+    $('#export-docx').click(function() {
         getExportUrl().then((url) => {
-            window.location.href = url;
+            window.location.href = url + '&export-docx=docx';
+        });
+    });
+    $('#export-pdf').click(function() {
+        getExportUrl().then((url) => {
+            window.location.href = url + '&export-pdf=pdf';
         });
     });
     $('#preview-docx').click(function() {
