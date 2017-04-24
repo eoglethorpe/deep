@@ -139,8 +139,16 @@ $(document).ready(function(){
 
     $('#export-entries-doc-form').submit(function(e) {
         e.preventDefault();
+    });
+
+    $('#export-docx').click(function() {
         getExportUrl().then((url) => {
-            window.location.href = url;
+            window.location.href = url + '&export-docx=docx';
+        });
+    });
+    $('#export-pdf').click(function() {
+        getExportUrl().then((url) => {
+            window.location.href = url + '&export-pdf=pdf';
         });
     });
     $('#preview-docx').click(function() {
