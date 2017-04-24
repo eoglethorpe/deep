@@ -115,7 +115,7 @@ let leads = {
 
 function getExportUrl() {
     return new Promise((resolve, reject) => {
-        $.post(window.location.origin + $('#export-entries-doc-form').attr('action') + '&timestamp=' + (new Date().getTime()),
+        $.post(window.location.origin + $('#export-entries-doc-form').attr('action') + '?timestamp=' + (new Date().getTime()),
             $('#export-entries-doc-form').serialize(), function(response) {
                 resolve(window.location.origin + $('#export-entries-doc-form').attr('action') + '?token='+response.token
                     + '&export-format=' + $('input[name=export-format]:checked').val() + '&timestamp=' + (new Date().getTime()));
