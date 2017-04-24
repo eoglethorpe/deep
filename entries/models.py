@@ -251,3 +251,12 @@ class EntryTemplate(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ExportToken(models.Model):
+    token = models.CharField(max_length=20)
+    created_at = models.DateTimeField(auto_now_add=True)
+    data = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
