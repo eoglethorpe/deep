@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
 from django.contrib.auth.decorators import login_required
@@ -22,7 +23,9 @@ from entries.refresh_pcodes import *
 from leads.views import get_simplified_lead
 
 import os
+import string
 import json
+import random
 import time
 from collections import OrderedDict
 
@@ -68,9 +71,17 @@ class ExportXlsWeekly(View):
         return export_xls_weekly('DEEP Entries-%s' % time.strftime("%Y-%m-%d"))
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class ExportDocx(View):
     def get(self, request, event):
-        informations = filter_informations(request.GET, Event.objects.get(pk=event)).values_list('id', flat=True)
+        informations = None
+        if request.GET.get('token'):
+            informations = request.session.get(request.GET['token'])
+            if informations:
+                del request.session[request.GET['token']]
+
+        if not informations:
+            informations = filter_informations(request.GET, Event.objects.get(pk=event)).values_list('id', flat=True)
 
         format_name = ''
         file_format = 'pdf' if (request.GET.get('export-pdf') == 'pdf') else 'docx'
@@ -108,6 +119,23 @@ class ExportDocx(View):
                                              file_format)
 
         return response
+
+    def post(self, request, event):
+
+        uniqueKey = None
+        while True:
+            uniqueKey = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20))
+            isUnique = True
+            for key in request.session.keys():
+                if uniqueKey == key:
+                    isUnique = False
+                    break
+
+            if isUnique:
+                break;
+
+        request.session[uniqueKey] = list(filter_informations(request.POST, Event.objects.get(pk=event)).values_list('id', flat=True))
+        return JsonResponse({ 'token': uniqueKey })
 
 
 class EntriesView(View):
