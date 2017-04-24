@@ -115,10 +115,11 @@ let leads = {
 
 function getExportUrl() {
     return new Promise((resolve, reject) => {
-        $.post(window.location.origin + $('#export-entries-doc-form').attr('action'), $('#export-entries-doc-form').serialize(), function(response) {
-            resolve(window.location.origin + $('#export-entries-doc-form').attr('action') + '?token='+response.token
-                + '&export-format=' + $('input[name=export-format]:checked').val());
-        });
+        $.post(window.location.origin + $('#export-entries-doc-form').attr('action') + '&timestamp=' + (new Date().getTime()),
+            $('#export-entries-doc-form').serialize(), function(response) {
+                resolve(window.location.origin + $('#export-entries-doc-form').attr('action') + '?token='+response.token
+                    + '&export-format=' + $('input[name=export-format]:checked').val() + '&timestamp=' + (new Date().getTime()));
+            });
     });
 }
 
@@ -144,6 +145,7 @@ $(document).ready(function(){
     });
     $('#preview-docx').click(function() {
         getExportUrl().then((url) => {
+            console.log(url);
             $('#preview-section').find('iframe').attr('src', 'https://docs.google.com/viewer?url=' + encodeURIComponent(url) + '&embedded=true&chrome=false&dov=1');
             $('#preview-section').find('>div').hide();
             $('#preview-section').find('iframe').show();
