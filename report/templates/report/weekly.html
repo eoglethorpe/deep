@@ -85,7 +85,7 @@ var start_date = "{{report.start_date|date:'d-M-Y'}}";
 {% endif %}
 
 
-{% if entry_template %}
+{% if not entry_template %}
 var appearing_pillars = {
     {% for field, pillars in appearing_pillars.items %}{{field}}: [{% for pillar in pillars %}"{{pillar.pk}}", {% endfor %}], {% endfor %}
 };
