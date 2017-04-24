@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
 from django.contrib.auth.decorators import login_required
@@ -22,8 +23,11 @@ from entries.refresh_pcodes import *
 from leads.views import get_simplified_lead
 
 import os
+import string
 import json
+import random
 import time
+from datetime import datetime, timedelta
 from collections import OrderedDict
 
 
@@ -68,9 +72,19 @@ class ExportXlsWeekly(View):
         return export_xls_weekly('DEEP Entries-%s' % time.strftime("%Y-%m-%d"))
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class ExportDocx(View):
     def get(self, request, event):
-        informations = filter_informations(request.GET, Event.objects.get(pk=event)).values_list('id', flat=True)
+        informations = None
+        if request.GET.get('token'):
+            try:
+                export_token = ExportToken.objects.get(token=request.GET['token'])
+                informations = json.loads(export_token.data)
+            except:
+                pass
+
+        if not informations:
+            informations = filter_informations(request.GET, Event.objects.get(pk=event)).values_list('id', flat=True)
 
         format_name = ''
         file_format = 'pdf' if (request.GET.get('export-pdf') == 'pdf') else 'docx'
@@ -97,7 +111,7 @@ class ExportDocx(View):
         else:
             format_name = 'Generic Export'
             if request.GET.get('export-pdf') == 'pdf':
-                response.write(export_pdf(order, int(event), informations))
+                response.write(export_pdf(int(event), informations))
             else:
                 export_docx(int(event), informations).save(response)
 
@@ -108,6 +122,21 @@ class ExportDocx(View):
                                              file_format)
 
         return response
+
+    def post(self, request, event):
+
+        ExportToken.objects.filter(created_at__lt=(datetime.now() - timedelta(hours=10))).delete()
+
+        uniqueToken = None
+        while True:
+            uniqueToken = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20))
+            if ExportToken.objects.filter(token=uniqueToken).count() == 0:
+                break
+
+        export_token = ExportToken(token=uniqueToken)
+        export_token.data = json.dumps(list(filter_informations(request.POST, Event.objects.get(pk=event)).values_list('id', flat=True)))
+        export_token.save()
+        return JsonResponse({ 'token': export_token.token })
 
 
 class EntriesView(View):

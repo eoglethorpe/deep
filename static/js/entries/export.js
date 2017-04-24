@@ -112,6 +112,18 @@ let leads = {
     },
 };
 
+
+function getExportUrl() {
+    return new Promise((resolve, reject) => {
+        $.post(window.location.origin + $('#export-entries-doc-form').attr('action') + '?timestamp=' + (new Date().getTime()),
+            $('#export-entries-doc-form').serialize(), function(response) {
+                resolve(window.location.origin + $('#export-entries-doc-form').attr('action') + '?token='+response.token
+                    + '&export-format=' + $('input[name=export-format]:checked').val() + '&timestamp=' + (new Date().getTime()));
+            });
+    });
+}
+
+
 $(document).ready(function(){
     dateRangeInputModal = new Modal('#date-range-input');
     $('select').selectize();
@@ -125,13 +137,27 @@ $(document).ready(function(){
         setDateRange($(this).val(), 'date-imported');
     });
 
-    $('#preview-docx').click(function() {
-        let url = window.location.origin + $('#export-entries-doc-form').attr('action') + '?'
-            + $('#export-entries-doc-form').serialize();
+    $('#export-entries-doc-form').submit(function(e) {
+        e.preventDefault();
+    });
 
-        $('#preview-section').find('iframe').attr('src', 'https://docs.google.com/viewer?url=' + encodeURIComponent(url) + '&embedded=true&chrome=false&dov=1');
-        $('#preview-section').find('>div').hide();
-        $('#preview-section').find('iframe').show();
+    $('#export-docx').click(function() {
+        getExportUrl().then((url) => {
+            window.location.href = url + '&export-docx=docx';
+        });
+    });
+    $('#export-pdf').click(function() {
+        getExportUrl().then((url) => {
+            window.location.href = url + '&export-pdf=pdf';
+        });
+    });
+    $('#preview-docx').click(function() {
+        getExportUrl().then((url) => {
+            $('#preview-section').find('iframe').attr('src', 'https://docs.google.com/viewer?url=' + encodeURIComponent(url) + '&embedded=true&chrome=false&dov=1');
+            $('#preview-section').find('>div').hide();
+            $('#preview-section').find('iframe').show();
+        });
+
     });
 
     $('.range-filter select').change(function() {
