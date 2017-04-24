@@ -38,41 +38,50 @@ DEEP | Export
 <main>
     <section id="entries-export">
         <h2>Entries</h2>
-        <div class="doc-export">
-            <h3>Doc Export</h3>
+        <div>
             <form id="export-entries-doc-form" action="{% url 'entries:exportdocx' event=event.pk %}">
                 <div>
-                    <h4>Apply filters</h4>
+                    <h4>Filters</h4>
                     <div class="filters">
                         {% include 'entries/export-entry-filters.html' %}
+                        <div class="filter-group">
+                            <header>
+                                <h5>Leads:</h5>
+                            </header>
+                            <div class="filters-container">
+                                {% include 'entries/export-leads.html' %}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div>
-                    <h4>Filter by leads</h4>
-                    {% include 'entries/export-leads.html' %}
-                </div>
-
-                <div class="export-format">
-                    <label class="active"><input type="radio" name="export-format" value="generic" checked> Generic</label>
-                    <label><input type="radio" name="export-format" value="geo"> Geo</label>
-                    <label><input type="radio" name="export-format" value="briefing"> Briefing note</label>
-                </div>
-                <div class="action-buttons">
-                    <button class="btn-pdf" type="submit" name="export-pdf" value="pdf"><i class="fa fa-file-pdf-o"></i>Export pdf</button>
-                    <button class="btn-word" type="submit" name="export-docx" value="docx"><i class="fa fa-file-word-o"></i>Export docx</button>
-                    <button class="btn-word" id="preview-docx" type="button"><i class="fa fa-file-word-o"></i>Preview docx</button>
+                <div id="action-section">
+                    <div>
+                        <div class="export-format">
+                            <label class="active"><input type="radio" name="export-format" value="generic" checked> Generic</label>
+                            <label><input type="radio" name="export-format" value="geo"> Geo</label>
+                            <label><input type="radio" name="export-format" value="briefing"> Briefing note</label>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn-pdf" type="submit" name="export-pdf" value="pdf"><i class="fa fa-file-pdf-o"></i>Export pdf</button>
+                            <button class="btn-word" type="submit" name="export-docx" value="docx"><i class="fa fa-file-word-o"></i>Export docx</button>
+                            <button class="btn-word" id="preview-docx" type="button"><i class="fa fa-file-word-o"></i>Preview docx</button>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn-excel" id="export-xlsx"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
+                    </div>
                 </div>
             </form>
         </div>
-        <div class="excel-export">
+        <!-- <div class="excel-export">
             <h3>Excel Export</h3>
             <div class="content">
                 <form action="{% url 'entries:exportxls' event=event.pk %}">
                     <button type="submit" class="btn-excel"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
                 </form>
             </div>
-        </div>
+        </div> -->
     </section>
     <section>
         <h2>Assessment Registry</h2>
