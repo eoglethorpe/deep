@@ -71,10 +71,8 @@ class ExportXlsWeekly(View):
 class ExportDocx(View):
     def get(self, request, event):
         informations = filter_informations(request.GET, Event.objects.get(pk=event)).values_list('id', flat=True)
+
         format_name = ''
-
-        return HttpResponse(str(len(informations)) + '<br>' + ', '.join(str(i) for i in informations))
-
         file_format = 'pdf' if (request.GET.get('export-pdf') == 'pdf') else 'docx'
 
         content_type = 'application/pdf' if (request.GET.get('export-pdf') == 'pdf') else\
