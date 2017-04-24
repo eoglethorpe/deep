@@ -25,7 +25,8 @@ body {
         }
 
         section {
-            min-height: 160px;
+            min-height: 108px;
+            padding-bottom: 10px;
 
             h2 {
                 height: 54px;
@@ -33,6 +34,7 @@ body {
                 align-items: center;
                 padding: 0 16px;
                 background-color: #fff;
+                box-shadow: 0 1px 15px -5px rgba(0, 0, 0, 0.5);
             }
 
             h3 {
@@ -55,166 +57,200 @@ body {
             }
 
             .filters {
-                display: flex;
-                flex-wrap: wrap;
                 padding: 0 16px;
 
-                .filter {
-                    flex-basis: calc(100% / 4 - 2px);
-                    margin: 1px;
+                .filter-group {
+                    padding-bottom: 8px;
 
-                    > input {
-                        width: 100%;
-                        height: 100%;
-                        padding: 0 4px;
-                        border: 1px solid rgba(0, 0, 0, 0.1);
+                    &#basic-information-filters, &#lead-information-filters {
+                        .filters-container {
+                            .filter {
+                                flex-basis: calc(100% / 5 - 2px);
+                            }
+                        }
+                    }
+                    &#entry-attributes-filters {
+                        .filters-container {
+                            .filter{
+                                flex-basis: calc(100% / 5 - 2px);
+                            }
+                        }
                     }
 
-                    &.range-filter {
+                    >header {
+                        height: 24px;
                         display: flex;
-                        justify-content: space-between;
-                        position: relative;
+                        align-items: center;
+                    }
 
-                        label {
-                            position: absolute;
-                            width: 100%;
-                            height: 100%;
-                            display: flex;
-                            align-items: center;
-                            text-transform: none;
-                            color: rgba(0, 0, 0, 0.4);
-                            font-size: 1em;
-                            font-weight: $font-weight-normal;
-                            padding: 0 6px;
-                            top: 0;
-                            left: 0;
-                            z-index: 1;
-                            background-color: #fff;
-                            border: 1px solid rgba(0, 0, 0, 0.1);
-                        }
-                        >div {
-                            flex-basis: 50%;
-                        }
+                    .filters-container {
+                        display: flex;
+                        justify-content: flex-start;
+                        flex-wrap: wrap;
 
-                        &.filled, &:hover {
-                            label {
-                                display: none;
+                        .filter {
+                            margin: 1px;
+                            box-shadow: 0 1px 7px -5px rgba(0, 0, 0, 0.3);
+
+                            > input {
+                                width: 100%;
+                                height: 100%;
+                                padding: 0 4px;
+                                border: 1px solid rgba(0, 0, 0, 0.1);
+                                outline: none;
+                            }
+
+                            &.range-filter {
+                                display: flex;
+                                justify-content: space-between;
+                                position: relative;
+
+                                label {
+                                    position: absolute;
+                                    width: 100%;
+                                    height: 100%;
+                                    display: flex;
+                                    align-items: center;
+                                    text-transform: none;
+                                    color: rgba(0, 0, 0, 0.4);
+                                    font-size: 1em;
+                                    font-weight: $font-weight-normal;
+                                    padding: 0 6px;
+                                    top: 0;
+                                    left: 0;
+                                    z-index: 1;
+                                    background-color: #fff;
+                                    border: 1px solid rgba(0, 0, 0, 0.1);
+                                }
+                                >div {
+                                    flex-basis: 50%;
+                                }
+
+                                &.filled, &:hover {
+                                    label {
+                                        display: none;
+                                    }
+                                }
                             }
                         }
                     }
                 }
-
             }
 
             &#entries-export {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: space-between;
-
-
                 h2 {
                     flex-basis: 100%;
                 }
 
-                .doc-export {
-                    flex-basis: 76%;
-                    border-right: 1px solid rgba(0, 0, 0, 0.1);
-                    padding-bottom: 16px;
-
-                    .lead-filters {
-                        display: flex;
-                        .filter {
-                            flex-basis: 25%;
-                        }
+                .lead-filters {
+                    display: flex;
+                    .filter {
+                        flex-basis: 25%;
                     }
+                }
 
-                    .leads-container {
-                        header{
-                            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                .leads-container {
+                    flex-basis: 100%;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
-                            label{
-                                display: flex;
-                                align-items: center;
-                                vertical-align: super;
-                                font-size: 1em;
+                    header {
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
-                                input{
-                                    margin-top: 2px;
-                                }
-                            }
-                            >*{
-                                color: $label-color;
-                                text-transform: uppercase;
-                                font-size: 0.9em;
-                                font-weight: $font-weight-bold;
-                            }
-                        }
-                        .leads{
-                            height: 224px;
-                            overflow-y: scroll;
-                        }
-
-                        header, .lead {
+                        label{
                             display: flex;
                             align-items: center;
-                            min-height: 24px;
-                            padding: 8px 16px;
-
-                            .select{
-                                flex-basis: 96px;
-                            }
-                            .created-at{
-                                flex-basis: 20%;
-                                time, date{
-                                    font-family: 'Inconsolata', monospace;
-                                }
-                                date{
-                                    margin-right: 10px;
-                                }
-                            }
-                            .title{
-                                flex-basis: calc(80% - 96px);
-                            }
-                        }
-                        .lead:nth-child(even){
-                            background-color: #f9f9f9;
-                        }
-                    }
-
-                    .export-format {
-                        margin-top: 16px;
-                        padding: 0 16px;
-                        height: 32px;
-                        display: flex;
-
-                        label {
-                            display: flex;
-                            align-items: center;
-                            padding: 0 16px;
-                            cursor: pointer;
+                            vertical-align: super;
                             font-size: 1em;
-                            font-weight: $font-weight-normal;
-                            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
-                            &.active {
-                                font-weight: $font-weight-bold;
-                                border-bottom: 2px solid $primary-color;
-                                color: $primary-color;
-                            }
-                            input {
-                                display: none;
+                            input{
+                                margin-top: 2px;
                             }
                         }
+                        >*{
+                            color: $label-color;
+                            text-transform: uppercase;
+                            font-size: 0.9em;
+                            font-weight: $font-weight-bold;
+                        }
+                    }
+                    .leads{
+                        height: 192px;
+                        overflow-y: scroll;
                     }
 
-                    .action-buttons {
-                        padding: 10px 16px;
+                    header, .lead {
+                        display: flex;
+                        align-items: center;
+                        min-height: 24px;
+                        padding: 6px 16px;
+
+                        .select{
+                            flex-basis: 96px;
+                        }
+                        .created-at{
+                            flex-basis: 20%;
+                            time, date{
+                                font-family: 'Inconsolata', monospace;
+                            }
+                            date{
+                                margin-right: 10px;
+                            }
+                        }
+                        .title{
+                            flex-basis: calc(80% - 96px);
+                        }
                     }
+                    .lead:nth-child(even){
+                        background-color: #f9f9f9;
+                    }
+                }
+
+                .export-format {
+                    padding: 0 16px;
+                    height: 32px;
+                    display: flex;
+
+                    label {
+                        display: flex;
+                        align-items: center;
+                        padding: 0 16px;
+                        cursor: pointer;
+                        font-size: 1em;
+                        font-weight: $font-weight-normal;
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+                        &.active {
+                            font-weight: $font-weight-bold;
+                            border-bottom: 2px solid $primary-color;
+                            color: $primary-color;
+                        }
+                        input {
+                            display: none;
+                        }
+                    }
+                }
+
+                .action-buttons {
+                    padding: 10px 16px;
+                }
+                #preview-docx {
+                    margin-left: 16px;
                 }
                 .excel-export {
                     flex-basis: 24%;
                 }
+                #action-section {
+                    display: flex;
 
+                    >div {
+                        flex-basis: 50%;
+
+                        &:nth-child(2) {
+                            border-left: 1px solid rgba(0, 0, 0, 0.1);
+                            padding: 42px 0 0 16px;
+                        }
+                    }
+                }
             }
         }
 

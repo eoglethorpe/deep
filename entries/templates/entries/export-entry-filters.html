@@ -1,132 +1,152 @@
-<div class="filter">
-    <input type="text" name="excerpt" id="search" placeholder="Search excerpt">
-</div>
-<div class="filter">
-    <input type="text" name="lead_title" id="lead-title-search" placeholder="Lead title">
-</div>
-<div class="filter">
-    <input type="text" name="source" id="sources-filter" placeholder="Source">
+<div class="filter-group" id="basic-information-filters">
+    <header>
+        <h5>Basic Information:</h5>
+    </header>
+    <div class="filters-container">
+        <div class="filter">
+            <input type="text" name="excerpt" id="search" placeholder="Search excerpt">
+        </div>
+        <div class="filter">
+            <select name="users" id="users-filter" multiple>
+                <option value="">Imported by</option>
+                {% for u in users %}
+                <option value="{{u.pk}}">{{u.get_full_name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="filter">
+            <select id="date-imported-filter">
+                <option value="">Date imported</option>
+                <option value="today">Today</option>
+                <option value="yesterday">Yesterday</option>
+                <option value="last-seven-days">Last 7 days</option>
+                <option value="this-week">This week</option>
+                <option value="last-thirty-days">Last 30 days</option>
+                <option value="this-month">This month</option>
+                <option value="range">Range</option>
+            </select>
+        </div>
+        <input id="date-imported-start" name="date_imported_start" type="hidden">
+        <input id="date-imported-end" name="date_imported_end" type="hidden">
+    </div>
 </div>
 
-<div class="filter">
-    <select name="users" id="users-filter" multiple>
-        <option value="">Imported by</option>
-        {% for u in users %}
-        <option value="{{u.pk}}">{{u.get_full_name}}</option>
-        {% endfor %}
-    </select>
+<div class="filter-group" id="entry-attributes-filters">
+    <header>
+        <h5>Entry Attributes:</h5>
+    </header>
+    <div class="filters-container">
+        <div class="filter">
+            <select name="areas" id="areas-filter" multiple>
+                <option value="">Areas</option>
+                {% for area in areas %}
+                <option value="{{area}}">{{area}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="filter">
+            <select name="affected_groups" id="affected-groups-filter" multiple>
+                <option value="">Affected Group</option>
+                {% for group in affected_groups %}
+                <option value="{{group.pk}}">{{group}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="filter">
+            <select name="vulnerable_groups" id="vulnerable-groups-filter" multiple>
+                <option value="">Demographic groups</option>
+                {% for vulnerable_group in vulnerable_groups %}
+                <option value="{{vulnerable_group.pk}}">{{vulnerable_group}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="filter">
+            <select name="specific_needs_groups" id="specific-needs-groups-filter" multiple>
+                <option value="">Specific Needs Groups</option>
+                {% for group in specific_needs_groups %}
+                <option value="{{group.pk}}">{{group}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="filter">
+            <select name="pillars" id="pillars-filter" multiple>
+                <option value="">Pillars and subpillars</option>
+                {% for pillar in pillars %}
+                <option value="{{pillar.pk}}">{{pillar}}</option>
+                {% for subpillar in pillar.informationsubpillar_set.all %}
+                <option value="subpillar:{{subpillar.pk}}">{{pillar}} / {{subpillar}}</option>
+                {% endfor %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="filter">
+            <select name="sectors" id="sectors-filter" multiple>
+                <option value="">Sectors and subsectors</option>
+                {% for sector in sectors %}
+                <option value="{{sector.pk}}">{{sector}}</option>
+                {% for subsector in sector.subsector_set.all %}
+                <option value="subsector:{{subsector.pk}}">{{sector}} / {{subsector}}</option>
+                {% endfor %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="filter range-filter">
+            <label>Reliability</label>
+            <select name="reliability_min" class="min-filter" placeholder="From">
+                <option value="">From</option>
+                {% for reliability in reliabilities %}
+                <option value="{{reliability.level}}">{{reliability}}</option>
+                {% endfor %}
+            </select>
+            <select name="reliability_max" class="max-filter" placeholder="To">
+                <option value="">To</option>
+                {% for reliability in reliabilities %}
+                <option value="{{reliability.level}}">{{reliability}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="filter range-filter">
+            <label>Severity</label>
+            <select name="severity_min" class="min-filter" placeholder="From">
+                <option value="">From</option>
+                {% for severity in severities %}
+                <option value="{{severity.level}}">{{severity}}</option>
+                {% endfor %}
+            </select>
+            <select name="severity_max" class="max-filter" placeholder="To">
+                <option value="">To</option>
+                {% for severity in severities %}
+                <option value="{{severity.level}}">{{severity}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
 </div>
-<div class="filter">
-    <select name="areas" id="areas-filter" multiple>
-        <option value="">Areas</option>
-        {% for area in areas %}
-        <option value="{{area}}">{{area}}</option>
-        {% endfor %}
-    </select>
-</div>
-<div class="filter">
-    <select name="affected_groups" id="affected-groups-filter" multiple>
-        <option value="">Affected Group</option>
-        {% for group in affected_groups %}
-        <option value="{{group.pk}}">{{group}}</option>
-        {% endfor %}
-    </select>
-</div>
-<div class="filter">
-    <select id="date-published-filter">
-        <option value="">Date published</option>
-        <option value="today">Today</option>
-        <option value="yesterday">Yesterday</option>
-        <option value="last-seven-days">Last 7 days</option>
-        <option value="this-week">This week</option>
-        <option value="last-thirty-days">Last 30 days</option>
-        <option value="this-month">This month</option>
-        <option value="range">Range</option>
-    </select>
-</div>
-<input id="date-published-start" name="date_published_start" type="hidden">
-<input id="date-published-end" name="date_published_end" type="hidden">
 
-<div class="filter">
-    <select id="date-imported-filter">
-        <option value="">Date imported</option>
-        <option value="today">Today</option>
-        <option value="yesterday">Yesterday</option>
-        <option value="last-seven-days">Last 7 days</option>
-        <option value="this-week">This week</option>
-        <option value="last-thirty-days">Last 30 days</option>
-        <option value="this-month">This month</option>
-        <option value="range">Range</option>
-    </select>
-</div>
-<input id="date-imported-start" name="date_imported_start" type="hidden">
-<input id="date-imported-end" name="date_imported_end" type="hidden">
-
-<div class="filter">
-    <select name="vulnerable_groups" id="vulnerable-groups-filter" multiple>
-        <option value="">Demographic groups</option>
-        {% for vulnerable_group in vulnerable_groups %}
-        <option value="{{vulnerable_group.pk}}">{{vulnerable_group}}</option>
-        {% endfor %}
-    </select>
-</div>
-<div class="filter">
-    <select name="specific_needs_groups" id="specific-needs-groups-filter" multiple>
-        <option value="">Specific Needs Groups</option>
-        {% for group in specific_needs_groups %}
-        <option value="{{group.pk}}">{{group}}</option>
-        {% endfor %}
-    </select>
-</div>
-<div class="filter">
-    <select name="pillars" id="pillars-filter" multiple>
-        <option value="">Pillars and subpillars</option>
-        {% for pillar in pillars %}
-        <option value="{{pillar.pk}}">{{pillar}}</option>
-        {% for subpillar in pillar.informationsubpillar_set.all %}
-        <option value="subpillar:{{subpillar.pk}}">{{pillar}} / {{subpillar}}</option>
-        {% endfor %}
-        {% endfor %}
-    </select>
-</div>
-<div class="filter">
-    <select name="sectors" id="sectors-filter" multiple>
-        <option value="">Sectors and subsectors</option>
-        {% for sector in sectors %}
-        <option value="{{sector.pk}}">{{sector}}</option>
-        {% for subsector in sector.subsector_set.all %}
-        <option value="subsector:{{subsector.pk}}">{{sector}} / {{subsector}}</option>
-        {% endfor %}
-        {% endfor %}
-    </select>
-</div>
-<div class="filter range-filter">
-    <label>Reliability</label>
-    <select name="reliability_min" class="min-filter" placeholder="from">
-        <option value="">from</option>
-        {% for reliability in reliabilities %}
-        <option value="{{reliability.level}}">{{reliability}}</option>
-        {% endfor %}
-    </select>
-    <select name="reliability_max" class="max-filter" placeholder="to">
-        <option value="">to</option>
-        {% for reliability in reliabilities %}
-        <option value="{{reliability.level}}">{{reliability}}</option>
-        {% endfor %}
-    </select>
-</div>
-<div class="filter range-filter">
-    <label>Severity</label>
-    <select name="severity_min" class="min-filter" placeholder="from">
-        <option value="">from</option>
-        {% for severity in severities %}
-        <option value="{{severity.level}}">{{severity}}</option>
-        {% endfor %}
-    </select>
-    <select name="severity_max" class="max-filter" placeholder="to">
-        <option value="">to</option>
-        {% for severity in severities %}
-        <option value="{{severity.level}}">{{severity}}</option>
-        {% endfor %}
-    </select>
+<div class="filter-group" id="lead-information-filters">
+    <header>
+        <h5>Lead Information:</h5>
+    </header>
+    <div class="filters-container">
+        <div class="filter">
+            <input type="text" name="lead_title" id="lead-title-search" placeholder="Lead title">
+        </div>
+        <div class="filter">
+            <input type="text" name="source" id="sources-filter" placeholder="Source">
+        </div>
+        <div class="filter">
+            <select id="date-published-filter">
+                <option value="">Date published</option>
+                <option value="today">Today</option>
+                <option value="yesterday">Yesterday</option>
+                <option value="last-seven-days">Last 7 days</option>
+                <option value="this-week">This week</option>
+                <option value="last-thirty-days">Last 30 days</option>
+                <option value="this-month">This month</option>
+                <option value="range">Range</option>
+            </select>
+        </div>
+        <input id="date-published-start" name="date_published_start" type="hidden">
+        <input id="date-published-end" name="date_published_end" type="hidden">
+    </div>
 </div>

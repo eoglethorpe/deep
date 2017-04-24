@@ -181,13 +181,15 @@ body {
       margin: 0;
       text-transform: uppercase; }
     body main section {
-      min-height: 160px; }
+      min-height: 108px;
+      padding-bottom: 10px; }
       body main section h2 {
         height: 54px;
         display: flex;
         align-items: center;
         padding: 0 16px;
-        background-color: #fff; }
+        background-color: #fff;
+        box-shadow: 0 1px 15px -5px rgba(0, 0, 0, 0.5); }
       body main section h3 {
         height: 48px;
         display: flex;
@@ -202,112 +204,128 @@ body {
       body main section .content {
         padding: 16px; }
       body main section .filters {
-        display: flex;
-        flex-wrap: wrap;
         padding: 0 16px; }
-        body main section .filters .filter {
-          flex-basis: calc(100% / 4 - 2px);
-          margin: 1px; }
-          body main section .filters .filter > input {
-            width: 100%;
-            height: 100%;
-            padding: 0 4px;
-            border: 1px solid rgba(0, 0, 0, 0.1); }
-          body main section .filters .filter.range-filter {
+        body main section .filters .filter-group {
+          padding-bottom: 8px; }
+          body main section .filters .filter-group#basic-information-filters .filters-container .filter, body main section .filters .filter-group#lead-information-filters .filters-container .filter {
+            flex-basis: calc(100% / 5 - 2px); }
+          body main section .filters .filter-group#entry-attributes-filters .filters-container .filter {
+            flex-basis: calc(100% / 5 - 2px); }
+          body main section .filters .filter-group > header {
+            height: 24px;
             display: flex;
-            justify-content: space-between;
-            position: relative; }
-            body main section .filters .filter.range-filter label {
-              position: absolute;
-              width: 100%;
-              height: 100%;
-              display: flex;
-              align-items: center;
-              text-transform: none;
-              color: rgba(0, 0, 0, 0.4);
-              font-size: 1em;
-              font-weight: 400;
-              padding: 0 6px;
-              top: 0;
-              left: 0;
-              z-index: 1;
-              background-color: #fff;
-              border: 1px solid rgba(0, 0, 0, 0.1); }
-            body main section .filters .filter.range-filter > div {
-              flex-basis: 50%; }
-            body main section .filters .filter.range-filter.filled label, body main section .filters .filter.range-filter:hover label {
-              display: none; }
-      body main section#entries-export {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between; }
-        body main section#entries-export h2 {
-          flex-basis: 100%; }
-        body main section#entries-export .doc-export {
-          flex-basis: 76%;
-          border-right: 1px solid rgba(0, 0, 0, 0.1);
-          padding-bottom: 16px; }
-          body main section#entries-export .doc-export .lead-filters {
-            display: flex; }
-            body main section#entries-export .doc-export .lead-filters .filter {
-              flex-basis: 25%; }
-          body main section#entries-export .doc-export .leads-container header {
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
-            body main section#entries-export .doc-export .leads-container header label {
-              display: flex;
-              align-items: center;
-              vertical-align: super;
-              font-size: 1em; }
-              body main section#entries-export .doc-export .leads-container header label input {
-                margin-top: 2px; }
-            body main section#entries-export .doc-export .leads-container header > * {
-              color: rgba(0, 0, 0, 0.5);
-              text-transform: uppercase;
-              font-size: 0.9em;
-              font-weight: 500; }
-          body main section#entries-export .doc-export .leads-container .leads {
-            height: 224px;
-            overflow-y: scroll; }
-          body main section#entries-export .doc-export .leads-container header, body main section#entries-export .doc-export .leads-container .lead {
+            align-items: center; }
+          body main section .filters .filter-group .filters-container {
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap; }
+            body main section .filters .filter-group .filters-container .filter {
+              margin: 1px;
+              box-shadow: 0 1px 7px -5px rgba(0, 0, 0, 0.3); }
+              body main section .filters .filter-group .filters-container .filter > input {
+                width: 100%;
+                height: 100%;
+                padding: 0 4px;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                outline: none; }
+              body main section .filters .filter-group .filters-container .filter.range-filter {
+                display: flex;
+                justify-content: space-between;
+                position: relative; }
+                body main section .filters .filter-group .filters-container .filter.range-filter label {
+                  position: absolute;
+                  width: 100%;
+                  height: 100%;
+                  display: flex;
+                  align-items: center;
+                  text-transform: none;
+                  color: rgba(0, 0, 0, 0.4);
+                  font-size: 1em;
+                  font-weight: 400;
+                  padding: 0 6px;
+                  top: 0;
+                  left: 0;
+                  z-index: 1;
+                  background-color: #fff;
+                  border: 1px solid rgba(0, 0, 0, 0.1); }
+                body main section .filters .filter-group .filters-container .filter.range-filter > div {
+                  flex-basis: 50%; }
+                body main section .filters .filter-group .filters-container .filter.range-filter.filled label, body main section .filters .filter-group .filters-container .filter.range-filter:hover label {
+                  display: none; }
+      body main section#entries-export h2 {
+        flex-basis: 100%; }
+      body main section#entries-export .lead-filters {
+        display: flex; }
+        body main section#entries-export .lead-filters .filter {
+          flex-basis: 25%; }
+      body main section#entries-export .leads-container {
+        flex-basis: 100%;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+        body main section#entries-export .leads-container header {
+          border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+          body main section#entries-export .leads-container header label {
             display: flex;
             align-items: center;
-            min-height: 24px;
-            padding: 8px 16px; }
-            body main section#entries-export .doc-export .leads-container header .select, body main section#entries-export .doc-export .leads-container .lead .select {
-              flex-basis: 96px; }
-            body main section#entries-export .doc-export .leads-container header .created-at, body main section#entries-export .doc-export .leads-container .lead .created-at {
-              flex-basis: 20%; }
-              body main section#entries-export .doc-export .leads-container header .created-at time, body main section#entries-export .doc-export .leads-container header .created-at date, body main section#entries-export .doc-export .leads-container .lead .created-at time, body main section#entries-export .doc-export .leads-container .lead .created-at date {
-                font-family: 'Inconsolata', monospace; }
-              body main section#entries-export .doc-export .leads-container header .created-at date, body main section#entries-export .doc-export .leads-container .lead .created-at date {
-                margin-right: 10px; }
-            body main section#entries-export .doc-export .leads-container header .title, body main section#entries-export .doc-export .leads-container .lead .title {
-              flex-basis: calc(80% - 96px); }
-          body main section#entries-export .doc-export .leads-container .lead:nth-child(even) {
-            background-color: #f9f9f9; }
-          body main section#entries-export .doc-export .export-format {
-            margin-top: 16px;
-            padding: 0 16px;
-            height: 32px;
-            display: flex; }
-            body main section#entries-export .doc-export .export-format label {
-              display: flex;
-              align-items: center;
-              padding: 0 16px;
-              cursor: pointer;
-              font-size: 1em;
-              font-weight: 400;
-              border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
-              body main section#entries-export .doc-export .export-format label.active {
-                font-weight: 500;
-                border-bottom: 2px solid #008080;
-                color: #008080; }
-              body main section#entries-export .doc-export .export-format label input {
-                display: none; }
-          body main section#entries-export .doc-export .action-buttons {
-            padding: 10px 16px; }
-        body main section#entries-export .excel-export {
-          flex-basis: 24%; }
+            vertical-align: super;
+            font-size: 1em; }
+            body main section#entries-export .leads-container header label input {
+              margin-top: 2px; }
+          body main section#entries-export .leads-container header > * {
+            color: rgba(0, 0, 0, 0.5);
+            text-transform: uppercase;
+            font-size: 0.9em;
+            font-weight: 500; }
+        body main section#entries-export .leads-container .leads {
+          height: 192px;
+          overflow-y: scroll; }
+        body main section#entries-export .leads-container header, body main section#entries-export .leads-container .lead {
+          display: flex;
+          align-items: center;
+          min-height: 24px;
+          padding: 6px 16px; }
+          body main section#entries-export .leads-container header .select, body main section#entries-export .leads-container .lead .select {
+            flex-basis: 96px; }
+          body main section#entries-export .leads-container header .created-at, body main section#entries-export .leads-container .lead .created-at {
+            flex-basis: 20%; }
+            body main section#entries-export .leads-container header .created-at time, body main section#entries-export .leads-container header .created-at date, body main section#entries-export .leads-container .lead .created-at time, body main section#entries-export .leads-container .lead .created-at date {
+              font-family: 'Inconsolata', monospace; }
+            body main section#entries-export .leads-container header .created-at date, body main section#entries-export .leads-container .lead .created-at date {
+              margin-right: 10px; }
+          body main section#entries-export .leads-container header .title, body main section#entries-export .leads-container .lead .title {
+            flex-basis: calc(80% - 96px); }
+        body main section#entries-export .leads-container .lead:nth-child(even) {
+          background-color: #f9f9f9; }
+      body main section#entries-export .export-format {
+        padding: 0 16px;
+        height: 32px;
+        display: flex; }
+        body main section#entries-export .export-format label {
+          display: flex;
+          align-items: center;
+          padding: 0 16px;
+          cursor: pointer;
+          font-size: 1em;
+          font-weight: 400;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+          body main section#entries-export .export-format label.active {
+            font-weight: 500;
+            border-bottom: 2px solid #008080;
+            color: #008080; }
+          body main section#entries-export .export-format label input {
+            display: none; }
+      body main section#entries-export .action-buttons {
+        padding: 10px 16px; }
+      body main section#entries-export #preview-docx {
+        margin-left: 16px; }
+      body main section#entries-export .excel-export {
+        flex-basis: 24%; }
+      body main section#entries-export #action-section {
+        display: flex; }
+        body main section#entries-export #action-section > div {
+          flex-basis: 50%; }
+          body main section#entries-export #action-section > div:nth-child(2) {
+            border-left: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 42px 0 0 16px; }
     body main button {
       padding: 6px 16px;
       box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
