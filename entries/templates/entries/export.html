@@ -69,7 +69,7 @@ DEEP | Export
                         </div>
                     </div>
                     <div>
-                        <button class="btn-excel" id="export-xlsx"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
+                        <button class="btn-excel" id="export-xlsx" onclick="window.location.href = '{% url 'entries:exportxls' event=event.pk %}'"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
                     </div>
                 </div>
             </form>
