@@ -27,6 +27,7 @@ import string
 import json
 import random
 import time
+from datetime import datetime, timedelta
 from collections import OrderedDict
 
 
@@ -76,9 +77,11 @@ class ExportDocx(View):
     def get(self, request, event):
         informations = None
         if request.GET.get('token'):
-            session_obj = request.session.get(request.GET['token'])
-            if session_obj:
-                informations = session_obj['informations']
+            try:
+                export_token = ExportToken.objects.get(token=request.GET['token'])
+                informations = json.loads(export_token.data)
+            except:
+                pass
 
         if not informations:
             informations = filter_informations(request.GET, Event.objects.get(pk=event)).values_list('id', flat=True)
@@ -122,37 +125,18 @@ class ExportDocx(View):
 
     def post(self, request, event):
 
-        session_key = None
-        for key in request.session.keys():
-            obj = request.session[key]
-            try:
-                if 'expiry_timestamp' in session_obj:
-                    if obj['expiry_timestamp'] - time.time() > 24*60*60:
-                        session_key = key
-                        break
-            except:
-                pass
+        ExportToken.objects.filter(created_at__lt=(datetime.now() - timedelta(hours=10))).delete()
 
-        if not session_key:
-            uniqueKey = None
-            while True:
-                uniqueKey = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20))
-                isUnique = True
-                for key in request.session.keys():
-                    if uniqueKey == key:
-                        isUnique = False
-                        break
+        uniqueToken = None
+        while True:
+            uniqueToken = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20))
+            if ExportToken.objects.filter(token=uniqueToken).count() == 0:
+                break
 
-                if isUnique:
-                    break;
-
-            session_key = uniqueKey
-
-        request.session[session_key] = {
-            'informations': list(filter_informations(request.POST, Event.objects.get(pk=event)).values_list('id', flat=True)),
-            'expiry_timestamp': time.time(),
-        }
-        return JsonResponse({ 'token': session_key })
+        export_token = ExportToken(token=uniqueToken)
+        export_token.data = json.dumps(list(filter_informations(request.POST, Event.objects.get(pk=event)).values_list('id', flat=True)))
+        export_token.save()
+        return JsonResponse({ 'token': export_token.token })
 
 
 class EntriesView(View):
