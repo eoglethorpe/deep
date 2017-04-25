@@ -99,4 +99,24 @@ DEEP | Export
     </section>
 </main>
 
+
+<div class="modal-container" hidden>
+<div id="date-range-input" class="modal" hidden>
+    <header>
+        <h3 class="modal-title">Enter date range</h3>
+    </header>
+    <div class="input-container">
+        <label>start date:</label>
+        <input type="date" id="start-date" class="form-control">
+    </div>
+    <div class="input-container">
+        <label>end date:</label>
+        <input type="date" id="end-date" class="form-control">
+    </div>
+    <div class="action-buttons">
+        <button id="cancel-btn" class="cancel" data-action="dismiss"><i class="fa fa-times"></i>Cancel</button>
+        <button id="ok-btn" class="success" data-action="proceed"><i class="fa fa-check"></i>Ok</button>
+    </div>
+</div>
+
 {% endblock %}
