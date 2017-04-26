@@ -180,6 +180,11 @@ $(document).ready(function(){
             window.location.href = url + '&export-pdf=pdf';
         });
     });
+    $('#export-xlsx').click(function() {
+        getExportUrl().then((url) => {
+            window.location.href = url + '&export-xls=xls';
+        });
+    });
     $('#preview-docx').click(function() {
         getExportUrl().then((url) => {
             $('#preview-section').find('iframe').attr('src', 'https://docs.google.com/viewer?url=' + encodeURIComponent(url) + '&embedded=true&chrome=false&dov=1');
