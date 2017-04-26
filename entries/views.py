@@ -13,7 +13,6 @@ from users.models import *
 from leads.models import *
 from entries.models import *
 from entries.strippers import *
-# from . import export_xls, export_docx, export_fields
 from entries.entry_filters import filter_informations
 from entries.export_entries_docx import export_docx, export_docx_new_format
 from entries.export_entries_pdf import export_pdf, export_pdf_new_format
@@ -21,6 +20,7 @@ from entries.export_entries_xls import export_xls
 from report.export_xls import export_xls as export_xls_weekly
 from entries.refresh_pcodes import *
 from leads.views import get_simplified_lead
+from deep.filename_generator import generate_filename
 
 import os
 import string
@@ -60,16 +60,15 @@ class ExportView(View):
 class ExportXls(View):
     def get(self, request, event):
         if request.GET.get('global') == '1':
-            return export_xls('DEEP Entries-%s' % time.strftime("%Y-%m-%d"))
+            return export_xls(generate_filename('Entries Global Export'))
         else:
-            return export_xls('DEEP Entries-%s' % time.strftime("%Y-%m-%d"),
-                              int(event))
+            return export_xls(generate_filename('Entries Export'))
 
 
 class ExportXlsWeekly(View):
     @method_decorator(login_required)
     def get(self, request, event):
-        return export_xls_weekly('DEEP Entries-%s' % time.strftime("%Y-%m-%d"))
+        return export_xls_weekly(generate_filename('Weekly Snapshot Export'))
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -96,7 +95,7 @@ class ExportDocx(View):
         response = HttpResponse(content_type=content_type)
 
         if request.GET.get('export-format') == 'geo':
-            format_name = 'Export Geo'
+            format_name = 'Geo Export'
             if request.GET.get('export-pdf') == 'pdf':
                 response.write(export_pdf(int(event), informations, export_geo=True))
             else:
@@ -115,11 +114,8 @@ class ExportDocx(View):
             else:
                 export_docx(int(event), informations).save(response)
 
-        response['Content-Disposition'] = 'attachment; filename = "DEEP'\
-                                          'Entries(%s)-%s.%s"'\
-                                          % (format_name,
-                                             time.strftime("%Y-%m-%d"),
-                                             file_format)
+        response['Content-Disposition'] = 'attachment; filename = "{}.{}"'.format(
+            generate_filename('Entries ' + format_name), file_format)
 
         return response
 

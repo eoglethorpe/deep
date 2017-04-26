@@ -5,6 +5,7 @@ from django.views.generic import View
 from leads.models import Country, Event, Lead, SurveyOfSurvey
 from leads.api_serializers import *
 from deep.json_utils import *
+from deep.filename_generator import generate_filename
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -30,7 +31,11 @@ class CountryApiView(View):
         data = []
         for country in countries:
             data.append(CountrySerializer(country).serialize())
-        return JsonResult(data=data)
+
+        response = JsonResult(data=data)
+        if request.GET.get('file') == '1':
+            response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(generate_filename('Countries Export'))
+        return response
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -56,7 +61,12 @@ class EventApiView(View):
         data = []
         for event in events:
             data.append(EventSerializer(event).serialize())
-        return JsonResult(data=data)
+
+        response = JsonResult(data=data)
+        if request.GET.get('file') == '1':
+            response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(generate_filename('Events Export'))
+        return response
+
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -92,7 +102,10 @@ class LeadApiView(View):
         for lead in leads:
             data.append(LeadSerializer(lead).serialize())
 
-        return JsonResult(data=data)
+        response = JsonResult(data=data)
+        if request.GET.get('file') == '1':
+            response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(generate_filename('Leads Export'))
+        return response
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -122,4 +135,8 @@ class SosApiView(View):
         data = []
         for sos in soses:
             data.append(SosSerializer(sos).serialize())
-        return JsonResult(data=data)
+
+        response = JsonResult(data=data)
+        if request.GET.get('file') == '1':
+            response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(generate_filename('Assessment Registry Export'))
+        return response

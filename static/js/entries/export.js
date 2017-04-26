@@ -28,14 +28,43 @@ let leads = {
 
     initFilters: function() {
         let that = this;
-        $('#lead-assigned-to').change(function() {
-            let key = 'assigned-to';
+        $('#lead-title-search').on('input paste drop change', function() {
+            let key = 'lead-title';
             let val = $(this).val();
-            if (!val || val.length == 0) {
+            if (!val) {
                 that.filters[key] = null;
             } else {
                 that.filters[key] = function(lead) {
-                    return val.indexOf(lead.assigned_to+'') >= 0;
+                    return lead.name.toLowerCase().includes(val.toLowerCase());
+                };
+            }
+
+            that.refresh();
+        });
+
+        $('#sources-filter').on('input paste drop change', function() {
+            let key = 'lead-title';
+            let val = $(this).val();
+            if (!val) {
+                that.filters[key] = null;
+            } else {
+                that.filters[key] = function(lead) {
+                    return lead.source && lead.source.toLowerCase().includes(val.toLowerCase());
+                };
+            }
+
+            that.refresh();
+        });
+
+        $('#date-published-start').change(function() {
+            let key = 'date-published';
+            let startDate = $('#date-published-start').val();
+            let endDate = $('#date-published-end').val();
+            if (!startDate || !endDate) {
+                that.filters[key] = null;
+            } else {
+                that.filters[key] = function(lead) {
+                    return lead.published_at && dateInRange(new Date(lead.published_at), new Date(startDate), new Date(endDate).addDays(-1));
                 };
             }
 
@@ -177,6 +206,14 @@ $(document).ready(function(){
 });
 
 
+// Checks if the date is in given range
+function dateInRange(date, min, max){
+    date.setHours(0, 0, 0, 0);
+    min.setHours(0, 0, 0, 0);
+    max.setHours(0, 0, 0, 0);
+    return (date >= min && date <= max);
+}
+
 function setDateRange(filter, id){
     let startDate = $('#' + id + '-start');
     let endDate = $('#' + id + '-end');
@@ -232,6 +269,7 @@ function setDateRange(filter, id){
                 if (dateRangeInputModal.action == 'proceed') {
                     startDate.val(formatDateReverse(new Date($('#date-range-input #start-date').val())));
                     endDate.val(formatDateReverse(new Date($('#date-range-input #end-date').val()).addDays(1)));
+                    startDate.change();
                 } else {
                     $('#' + id + '-filter')[0].selectize.setValue(previousValue?previousValue:null, true);
                 }
@@ -242,4 +280,6 @@ function setDateRange(filter, id){
             startDate.val(null);
             endDate.val(null);
     }
+
+    startDate.change();
 }

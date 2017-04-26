@@ -5,6 +5,7 @@ from django.views.generic import View
 from entries.models import Entry
 from entries.api_serializers import *
 from deep.json_utils import *
+from deep.filename_generator import generate_filename
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -67,4 +68,7 @@ class EntryApiView(View):
                 for subsector in Subsector.objects.all():
                     extra['subsectors'].append(SubsectorSerializer(subsector).serialize())
 
-        return JsonResult(data=data, extra=extra)
+        response = JsonResult(data=data, extra=extra)
+        if request.GET.get('file') == '1':
+            response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(generate_filename('Entries Export'))
+        return response
