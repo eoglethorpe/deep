@@ -39,14 +39,14 @@ DEEP | Export
     <section id="entries-export">
         <h2>Entries</h2>
         <div>
-            <form id="export-entries-doc-form" action="{% url 'entries:exportdocx' event=event.pk %}">
-                <div>
+            <form id="export-entries-doc-form" action="{% url 'entries:exportdoc' event=event.pk %}">
+                <div id="filter-section">
                     <h4>Filters</h4>
                     <div class="filters">
                         {% include 'entries/export-entry-filters.html' %}
                         <div class="filter-group" id="leads-selection">
                             <header >
-                                <h5 onclick="$(this).closest('.filter-group').toggleClass('filters-shown').find('.filters-container').slideToggle('200')">Leads: <i class="fa fa-chevron-down"></i></h5>
+                                <h5 onclick="$(this).closest('.filter-group').toggleClass('filters-shown').find('.filters-container').slideToggle('200')"><label>Leads: <span id='selected-leads-count'></span></label><i class="fa fa-chevron-down"></i></h5>
                             </header>
                             <div class="filters-container" hidden>
                                 {% include 'entries/export-leads.html' %}
@@ -54,7 +54,9 @@ DEEP | Export
                         </div>
                     </div>
                 </div>
-
+                <div id="structure-section">
+                    <h4>Report Structure</h4>
+                </div>
                 <div id="action-section">
                     <div>
                         <div class="export-format">
@@ -69,7 +71,7 @@ DEEP | Export
                         </div>
                     </div>
                     <div>
-                        <button class="btn-excel" type="button" id="export-xlsx" onclick="window.location.href = '{% url 'entries:exportxls' event=event.pk %}'"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
+                        <button class="btn-excel" type="button" id="export-xlsx"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
                         <button class="btn-json" type="button" onclick="window.location.href = '{% url 'api_entries:entries' %}?event={{event.pk}}&file=1'"><i class="fa fa-file-text-o"></i>Export json</button>
                     </div>
                 </div>

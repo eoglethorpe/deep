@@ -138,6 +138,7 @@ let leads = {
             }
         });
         $('#selected-leads').val(JSON.stringify(selectedLeads));
+        $('#selected-leads-count').text(selectedLeads.length + ' of ' + this.leads.length + ' selected');
     },
 };
 
@@ -178,6 +179,11 @@ $(document).ready(function(){
     $('#export-pdf').click(function() {
         getExportUrl().then((url) => {
             window.location.href = url + '&export-pdf=pdf';
+        });
+    });
+    $('#export-xlsx').click(function() {
+        getExportUrl().then((url) => {
+            window.location.href = url + '&export-xls=xls';
         });
     });
     $('#preview-docx').click(function() {

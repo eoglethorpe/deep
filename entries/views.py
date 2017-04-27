@@ -72,8 +72,9 @@ class ExportXlsWeekly(View):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class ExportDocx(View):
+class ExportDoc(View):
     def get(self, request, event):
+        # Get filtered informations from token
         informations = None
         if request.GET.get('token'):
             try:
@@ -84,6 +85,12 @@ class ExportDocx(View):
 
         if not informations:
             informations = filter_informations(request.GET, Event.objects.get(pk=event)).values_list('id', flat=True)
+
+        # Excel export
+        if request.GET.get('export-xls') == 'xls':
+            return export_xls(generate_filename('Entries Export'), None, informations)
+
+        # Docx and pdf export
 
         format_name = ''
         file_format = 'pdf' if (request.GET.get('export-pdf') == 'pdf') else 'docx'

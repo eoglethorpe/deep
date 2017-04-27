@@ -17,7 +17,7 @@ urlpatterns = [
     url(r'^exportxls/$', views.ExportXls.as_view(), name="exportxls"),
     url(r'^exportxls/weekly$', views.ExportXlsWeekly.as_view(),
         name="exportxls_weekly"),
-    url(r'^exportdocx/$', views.ExportDocx.as_view(), name="exportdocx"),
+    url(r'^exportdoc/$', views.ExportDoc.as_view(), name="exportdoc"),
 
     url(r'^delete/$', views.DeleteEntry.as_view(), name='delete'),
 ]

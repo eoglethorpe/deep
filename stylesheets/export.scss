@@ -51,127 +51,150 @@ body {
                 padding: 16px;
             }
 
-            .filters {
-                padding: 0 16px;
+            form{
+                display: flex;
+                flex-wrap: wrap;
+                #filter-section{
+                    flex-basis: 64%;
+                    border-right: 1px solid rgba(0, 0, 0, 0.1);
 
-                .filter-group {
-                    padding-bottom: 8px;
+                }
+                #structure-section{
+                    flex-basis: 36%;
+                }
+                #action-section{
+                    border-top: 1px solid rgba(0, 0, 0, 0.1);
+                    flex-basis: 100%;
+                }
+                .filters {
+                    padding: 0 16px;
 
-                    &#basic-information-filters, &#lead-information-filters {
-                        .filters-container {
-                            .filter {
-                                flex-basis: calc(100% / 5 - 2px);
+                    .filter-group {
+                        padding-bottom: 8px;
+
+                        &#basic-information-filters, &#lead-information-filters {
+                            .filters-container {
+                                .filter {
+                                    flex-basis: calc(100% / 4 - 2px);
+                                }
                             }
                         }
-                    }
-                    &#entry-attributes-filters {
-                        .filters-container {
-                            .filter{
-                                flex-basis: calc(100% / 5 - 2px);
+                        &#entry-attributes-filters {
+                            .filters-container {
+                                .filter{
+                                    flex-basis: calc(100% / 4 - 2px);
+                                }
                             }
                         }
-                    }
-                    &#leads-selection {
-                        header {
-                            cursor: pointer;
+                        &#leads-selection {
+                            header {
+                                cursor: pointer;
 
-                            h5 {
-                                flex-basis: 84px;
-                                align-self: stretch;
-                                display: flex;
-                                align-items: center;
-                                justify-content: space-between;
-
-                                i {
+                                h5 {
+                                    flex-basis: auto;
+                                    align-self: stretch;
                                     display: flex;
                                     align-items: center;
-                                    justify-content: center;
-                                    background-color: rgba(0, 0, 0, 0.05);
-                                    width: 24px;
-                                    height: 24px;
-                                    border-radius: 50%;
-                                    transition: all 0.2s ease-in-out;
-                                }
+                                    justify-content: space-between;
 
-                                &:hover {
-                                    i{
-                                        background-color: rgba(0, 0, 0, 0.1);
+                                    label{
+                                        color: rgba(0, 0, 0, 0.5);
                                     }
-                                }
-                            }
-                        }
-                        .filters-container {
-                            display: none;
-                        }
-                        &.filters-shown {
-                            header {
-                                h5 {
+
                                     i {
-                                        transform: rotate(180deg);
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        margin-left: 10px;
+                                        background-color: rgba(0, 0, 0, 0.05);
+                                        width: 24px;
+                                        height: 24px;
+                                        border-radius: 50%;
+                                        transition: all 0.2s ease-in-out;
+                                    }
+
+                                    &:hover {
+                                        i{
+                                            background-color: rgba(0, 0, 0, 0.1);
+                                        }
+                                    }
+                                }
+                            }
+                            .filters-container {
+                                display: none;
+                            }
+                            &.filters-shown {
+                                header {
+                                    h5 {
+                                        i {
+                                            transform: rotate(180deg);
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
 
-                    >header {
-                        height: 24px;
-                        display: flex;
-                        align-items: center;
-                    }
+                        >header {
+                            height: 24px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                        }
 
-                    .filters-container {
-                        display: flex;
-                        justify-content: flex-start;
-                        flex-wrap: wrap;
+                        .filters-container {
+                            display: flex;
+                            justify-content: flex-start;
+                            flex-wrap: wrap;
 
-                        .filter {
-                            margin: 1px;
-                            box-shadow: 0 1px 7px -5px rgba(0, 0, 0, 0.3);
+                            .filter {
+                                margin: 1px;
+                                box-shadow: 0 1px 7px -5px rgba(0, 0, 0, 0.3);
 
-                            > input {
-                                width: 100%;
-                                height: 100%;
-                                padding: 0 4px;
-                                border: 1px solid rgba(0, 0, 0, 0.1);
-                                outline: none;
-                            }
-
-                            &.range-filter {
-                                display: flex;
-                                justify-content: space-between;
-                                position: relative;
-
-                                label {
-                                    position: absolute;
+                                > input {
                                     width: 100%;
                                     height: 100%;
-                                    display: flex;
-                                    align-items: center;
-                                    text-transform: none;
-                                    color: rgba(0, 0, 0, 0.4);
-                                    font-size: 1em;
-                                    font-weight: $font-weight-normal;
-                                    padding: 0 6px;
-                                    top: 0;
-                                    left: 0;
-                                    z-index: 1;
-                                    background-color: #fff;
+                                    padding: 0 4px;
                                     border: 1px solid rgba(0, 0, 0, 0.1);
-                                }
-                                >div {
-                                    flex-basis: 50%;
+                                    outline: none;
                                 }
 
-                                &.filled, &:hover {
+                                &.range-filter {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    position: relative;
+
                                     label {
-                                        display: none;
+                                        position: absolute;
+                                        width: 100%;
+                                        height: 100%;
+                                        display: flex;
+                                        align-items: center;
+                                        text-transform: none;
+                                        color: rgba(0, 0, 0, 0.4);
+                                        font-size: 1em;
+                                        font-weight: $font-weight-normal;
+                                        padding: 0 6px;
+                                        top: 0;
+                                        left: 0;
+                                        z-index: 1;
+                                        background-color: #fff;
+                                        border: 1px solid rgba(0, 0, 0, 0.1);
+                                    }
+                                    >div {
+                                        flex-basis: 50%;
+                                    }
+
+                                    &.filled, &:hover {
+                                        label {
+                                            display: none;
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
+
             }
 
             &#entries-export {
@@ -188,7 +211,6 @@ body {
 
                 .leads-container {
                     flex-basis: 100%;
-                    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
                     header {
                         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -254,7 +276,7 @@ body {
                         cursor: pointer;
                         font-size: 1em;
                         font-weight: $font-weight-normal;
-                        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                        border-bottom: 2px solid rgba(0, 0, 0, 0.16);
 
                         &.active {
                             font-weight: $font-weight-bold;
