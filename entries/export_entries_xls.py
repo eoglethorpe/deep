@@ -12,7 +12,7 @@ def format_date(date):
         return None
 
 
-def export_xls(title, event_pk=None):
+def export_xls(title, event_pk=None, information_pks=None):
 
     # Create a spreadsheet and get active workbook
     ew = ExcelWriter()
@@ -55,6 +55,9 @@ def export_xls(title, event_pk=None):
     else:
         # All information
         informations = entry_models.EntryInformation.objects.filter(entry__template=None).distinct()
+
+    if information_pks:
+        informations = informations.filter(pk__in=information_pks)
 
     grouped_rows = []
     for i, info in enumerate(informations):

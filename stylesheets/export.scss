@@ -2,10 +2,6 @@
 @import 'common/navbar';
 
 
-$word-color: $info-color;
-$excel-color: $primary-color;
-$pdf-color: #ff0000;
-
 body {
     display: flex;
     flex-wrap: wrap;
@@ -81,6 +77,7 @@ body {
                         height: 24px;
                         display: flex;
                         align-items: center;
+                        justify-content: space-between;
                     }
 
                     .filters-container {

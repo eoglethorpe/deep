@@ -59,9 +59,9 @@ urlpatterns = [
 
     url(r'^admin/', admin.site.urls),
     url(r'^api/v1/', include(router.urls)),
-    url(r'^api/v2/', include('entries.api_urls', namespace='api')),
-    url(r'^api/v2/', include('leads.api_urls', namespace='api')),
-    url(r'^api/v2/', include('report.api_urls', namespace='api')),
+    url(r'^api/v2/', include('entries.api_urls', namespace='api_entries')),
+    url(r'^api/v2/', include('leads.api_urls', namespace='api_leads')),
+    url(r'^api/v2/', include('report.api_urls', namespace='api_report')),
 
     url(r'^password/reset/$',
         auth_views.password_reset,

@@ -37,8 +37,7 @@ class ExcelWriter:
         vwb = save_virtual_workbook(self.wb)
         response = HttpResponse(content=vwb,
                                 content_type='application/vnd.ms-excel')
-        response['Content-Disposition'] = 'attachment; filename = %s' %\
-                                          (title+".xlsx")
+        response['Content-Disposition'] = 'attachment; filename = "{}.xlsx"'.format(title)
         return response
 
     def save_to(self, filename):

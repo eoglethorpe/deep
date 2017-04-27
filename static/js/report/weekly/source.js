@@ -123,7 +123,7 @@ let source = {
             let newSource = {
                 name: entry.lead_source,
                 url: entry.lead_url,
-                date: (templateData) ? information.date : '',
+                date: (!templateData) ? information.date : '',
                 entryId: i,
                 informationId: j,
             };

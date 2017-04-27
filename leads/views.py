@@ -18,6 +18,7 @@ from leads.models import *
 from entries.models import *
 from entries.strippers import *
 from entries.refresh_pcodes import refresh_pcodes
+from deep.filename_generator import generate_filename
 
 from excel_writer import ExcelWriter, RowCollection
 
@@ -529,4 +530,4 @@ class ExportSosXls(View):
 
             ew.append(rows.rows)
 
-        return ew.get_http_response("survey of surveys")
+        return ew.get_http_response(generate_filename('Assessment Registry Export'))

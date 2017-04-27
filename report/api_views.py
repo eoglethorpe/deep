@@ -5,6 +5,7 @@ from django.views.generic import View
 from report.api_serializers import *
 from report.models import *
 from deep.json_utils import *
+from deep.filename_generator import generate_filename
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -51,4 +52,7 @@ class ReportApiView(View):
                 }
             extra['country_events'] = countries
 
-        return JsonResult(data=data, extra=extra)
+        response = JsonResult(data=data, extra=extra)
+        if request.GET.get('file') == '1':
+            response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(generate_filename('Weekly Snapshot Export'))
+        return response
