@@ -138,6 +138,7 @@ let leads = {
             }
         });
         $('#selected-leads').val(JSON.stringify(selectedLeads));
+        $('#selected-leads-count').text(selectedLeads.length + ' of ' + this.leads.length + ' selected');
     },
 };
 

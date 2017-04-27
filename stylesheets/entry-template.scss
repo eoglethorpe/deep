@@ -415,6 +415,9 @@ body{
         }
 
         .page-one-entry-selector {
+            left: 32px;
+            top: 32px;
+
             .select-container {
                 width: 200px;
 
@@ -446,7 +449,19 @@ body{
             }
         }
 
+        .page-one-excerpt {
+            left: 32px;
+            top: 72px;
+
+            .excerpt-container {
+                width: 320px;
+            }
+        }
+
         .page-one-image {
+            left: 384px;
+            top: 72px;
+
             .image-container {
                 display: inline-block;
                 width: 200px;

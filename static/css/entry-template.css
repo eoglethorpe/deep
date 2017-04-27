@@ -360,11 +360,14 @@ body {
                   background-color: #eee; }
         body main .properties-box .property:nth-child(even) {
           background-color: #eee; }
-    body main .page-one-entry-selector .select-container {
-      width: 200px; }
-      body main .page-one-entry-selector .select-container select {
-        width: 100%;
-        height: 100%; }
+    body main .page-one-entry-selector {
+      left: 32px;
+      top: 32px; }
+      body main .page-one-entry-selector .select-container {
+        width: 200px; }
+        body main .page-one-entry-selector .select-container select {
+          width: 100%;
+          height: 100%; }
     body main .page-one-excerpt .excerpt-container, body main .page-two-excerpt .excerpt-container {
       min-width: 144px;
       min-height: 96px;
@@ -378,21 +381,29 @@ body {
         width: 100%;
         height: calc(100% - 20px);
         padding: 16px; }
-    body main .page-one-image .image-container {
-      display: inline-block;
-      width: 200px;
-      height: 200px; }
-      body main .page-one-image .image-container label {
-        font-weight: bold;
-        font-size: 12px;
-        margin-bottom: 4px; }
-      body main .page-one-image .image-container .image-box {
-        width: 100%;
-        height: calc(100% - 20px);
-        background-color: #f0f0f0;
-        background-image: url("../img/image-placeholder.png");
-        background-size: contain;
-        background-position: center center; }
+    body main .page-one-excerpt {
+      left: 32px;
+      top: 72px; }
+      body main .page-one-excerpt .excerpt-container {
+        width: 320px; }
+    body main .page-one-image {
+      left: 384px;
+      top: 72px; }
+      body main .page-one-image .image-container {
+        display: inline-block;
+        width: 200px;
+        height: 200px; }
+        body main .page-one-image .image-container label {
+          font-weight: bold;
+          font-size: 12px;
+          margin-bottom: 4px; }
+        body main .page-one-image .image-container .image-box {
+          width: 100%;
+          height: calc(100% - 20px);
+          background-color: #f0f0f0;
+          background-image: url("../img/image-placeholder.png");
+          background-size: contain;
+          background-position: center center; }
     body main .input-element .input-container {
       width: 100%;
       height: 100%; }
