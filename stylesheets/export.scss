@@ -1,7 +1,6 @@
 @import 'common/base';
 @import 'common/navbar';
 
-
 body {
     display: flex;
     flex-wrap: wrap;
@@ -69,6 +68,48 @@ body {
                         .filters-container {
                             .filter{
                                 flex-basis: calc(100% / 5 - 2px);
+                            }
+                        }
+                    }
+                    &#leads-selection {
+                        header {
+                            cursor: pointer;
+
+                            h5 {
+                                flex-basis: 84px;
+                                align-self: stretch;
+                                display: flex;
+                                align-items: center;
+                                justify-content: space-between;
+
+                                i {
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    background-color: rgba(0, 0, 0, 0.05);
+                                    width: 24px;
+                                    height: 24px;
+                                    border-radius: 50%;
+                                    transition: all 0.2s ease-in-out;
+                                }
+
+                                &:hover {
+                                    i{
+                                        background-color: rgba(0, 0, 0, 0.1);
+                                    }
+                                }
+                            }
+                        }
+                        .filters-container {
+                            display: none;
+                        }
+                        &.filters-shown {
+                            header {
+                                h5 {
+                                    i {
+                                        transform: rotate(180deg);
+                                    }
+                                }
                             }
                         }
                     }

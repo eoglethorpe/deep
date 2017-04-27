@@ -44,11 +44,11 @@ DEEP | Export
                     <h4>Filters</h4>
                     <div class="filters">
                         {% include 'entries/export-entry-filters.html' %}
-                        <div class="filter-group">
-                            <header>
-                                <h5>Leads:</h5>
+                        <div class="filter-group" id="leads-selection">
+                            <header >
+                                <h5 onclick="$(this).closest('.filter-group').toggleClass('filters-shown').find('.filters-container').slideToggle('200')">Leads: <i class="fa fa-chevron-down"></i></h5>
                             </header>
-                            <div class="filters-container">
+                            <div class="filters-container" hidden>
                                 {% include 'entries/export-leads.html' %}
                             </div>
                         </div>
@@ -75,14 +75,6 @@ DEEP | Export
                 </div>
             </form>
         </div>
-        <!-- <div class="excel-export">
-            <h3>Excel Export</h3>
-            <div class="content">
-                <form action="{% url 'entries:exportxls' event=event.pk %}">
-                    <button type="submit" class="btn-excel"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
-                </form>
-            </div>
-        </div> -->
     </section>
     <section>
         <h2>Assessment Registry</h2>
@@ -101,7 +93,6 @@ DEEP | Export
         </div>
     </section>
 </main>
-
 
 <div class="modal-container" hidden>
 <div id="date-range-input" class="modal" hidden>

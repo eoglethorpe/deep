@@ -211,6 +211,29 @@ body {
             flex-basis: calc(100% / 5 - 2px); }
           body main section .filters .filter-group#entry-attributes-filters .filters-container .filter {
             flex-basis: calc(100% / 5 - 2px); }
+          body main section .filters .filter-group#leads-selection header {
+            cursor: pointer; }
+            body main section .filters .filter-group#leads-selection header h5 {
+              flex-basis: 84px;
+              align-self: stretch;
+              display: flex;
+              align-items: center;
+              justify-content: space-between; }
+              body main section .filters .filter-group#leads-selection header h5 i {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: rgba(0, 0, 0, 0.05);
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                transition: all 0.2s ease-in-out; }
+              body main section .filters .filter-group#leads-selection header h5:hover i {
+                background-color: rgba(0, 0, 0, 0.1); }
+          body main section .filters .filter-group#leads-selection .filters-container {
+            display: none; }
+          body main section .filters .filter-group#leads-selection.filters-shown header h5 i {
+            transform: rotate(180deg); }
           body main section .filters .filter-group > header {
             height: 24px;
             display: flex;
