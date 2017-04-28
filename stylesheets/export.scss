@@ -88,14 +88,13 @@ body {
                         }
                         &#leads-selection {
                             header {
-                                cursor: pointer;
-
                                 h5 {
                                     flex-basis: auto;
                                     align-self: stretch;
                                     display: flex;
                                     align-items: center;
                                     justify-content: space-between;
+                                    cursor: pointer;
 
                                     label{
                                         color: rgba(0, 0, 0, 0.5);

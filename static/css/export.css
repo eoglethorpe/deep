@@ -222,28 +222,27 @@ body {
               flex-basis: calc(100% / 4 - 2px); }
             body main section form .filters .filter-group#entry-attributes-filters .filters-container .filter {
               flex-basis: calc(100% / 4 - 2px); }
-            body main section form .filters .filter-group#leads-selection header {
+            body main section form .filters .filter-group#leads-selection header h5 {
+              flex-basis: auto;
+              align-self: stretch;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
               cursor: pointer; }
-              body main section form .filters .filter-group#leads-selection header h5 {
-                flex-basis: auto;
-                align-self: stretch;
+              body main section form .filters .filter-group#leads-selection header h5 label {
+                color: rgba(0, 0, 0, 0.5); }
+              body main section form .filters .filter-group#leads-selection header h5 i {
                 display: flex;
                 align-items: center;
-                justify-content: space-between; }
-                body main section form .filters .filter-group#leads-selection header h5 label {
-                  color: rgba(0, 0, 0, 0.5); }
-                body main section form .filters .filter-group#leads-selection header h5 i {
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  margin-left: 10px;
-                  background-color: rgba(0, 0, 0, 0.05);
-                  width: 24px;
-                  height: 24px;
-                  border-radius: 50%;
-                  transition: all 0.2s ease-in-out; }
-                body main section form .filters .filter-group#leads-selection header h5:hover i {
-                  background-color: rgba(0, 0, 0, 0.1); }
+                justify-content: center;
+                margin-left: 10px;
+                background-color: rgba(0, 0, 0, 0.05);
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                transition: all 0.2s ease-in-out; }
+              body main section form .filters .filter-group#leads-selection header h5:hover i {
+                background-color: rgba(0, 0, 0, 0.1); }
             body main section form .filters .filter-group#leads-selection .filters-container {
               display: none; }
             body main section form .filters .filter-group#leads-selection.filters-shown header h5 i {

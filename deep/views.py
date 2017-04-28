@@ -15,6 +15,7 @@ import time
 
 from leads.models import *
 from entries.models import *
+from deep.filename_generator import generate_filename
 
 import date_extractor
 
@@ -73,12 +74,12 @@ class DownloadFileView(View):
         if not os.path.exists(directory):
             os.makedirs(directory)
 
-        # Delete all temporary files that are beyond 10 min old
+        # Delete all temporary files that are beyond 30 minutes old
         current_time = time.time()
         for f in os.listdir(directory):
             file = os.path.join(directory, f)
             creation_time = os.path.getctime(file)
-            if (current_time - creation_time) >= 10*60:
+            if (current_time - creation_time) >= 30*60:
                 os.remove(file)
 
         filename = request.GET.get('filename')
@@ -101,6 +102,6 @@ class DownloadFileView(View):
         params = cgi.parse_header(response.headers.get('Content-Disposition', ''))[-1]
         return JsonResponse({
             'path': fp.name,
-            'filename': os.path.basename(params['filename']),
+            'filename': os.path.basename(params['filename']) if 'filename' in params else generate_filename('Download'),
             'content_type': response.headers.get('Content-Type'),
         })
