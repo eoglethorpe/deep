@@ -445,7 +445,6 @@ class DeleteLead(View):
 
 
 class ExportSosXls(View):
-    @method_decorator(login_required)
     def get(self, request, event):
         ew = ExcelWriter()
 

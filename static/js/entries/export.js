@@ -208,6 +208,9 @@ $(document).ready(function(){
             });
         });
     });
+    $('.export-button').click(function() {
+        window.open(exportProgressUrl + '?url=' + encodeURIComponent(window.location.origin + $(this).data('url')), '_blank');
+    });
 
     $('.range-filter select').change(function() {
         let parent = $(this).closest('.range-filter');

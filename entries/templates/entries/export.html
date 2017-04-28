@@ -74,7 +74,7 @@ DEEP | Export
                     </div>
                     <div>
                         <button class="btn-excel" type="button" id="export-xlsx"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
-                        <button class="btn-json" type="button" onclick="window.location.href = '{% url 'api_entries:entries' %}?event={{event.pk}}&file=1'"><i class="fa fa-file-text-o"></i>Export json</button>
+                        <button class="btn-json export-button" type="button" data-url="{% url 'api_entries:entries' %}?event={{event.pk}}&file=1"><i class="fa fa-file-text-o"></i>Export json</button>
                     </div>
                 </div>
             </form>
@@ -83,17 +83,15 @@ DEEP | Export
     <section>
         <h2>Assessment Registry</h2>
         <div class="content">
-            <button onclick="window.location.href = '{% url 'leads:exportsosxls' event=event.pk %}'" type="submit" class="btn-excel"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
-            <button class="btn-json" type="button" onclick="window.location.href = '{% url 'api_leads:sos' %}?event={{event.pk}}&file=1'"><i class="fa fa-file-text-o"></i>Export json</button>
+            <button class="btn-excel export-button" data-url="{% url 'leads:exportsosxls' event=event.pk %}"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
+            <button class="btn-json export-button" data-url="{% url 'api_leads:sos' %}?event={{event.pk}}&file=1"><i class="fa fa-file-text-o"></i>Export json</button>
         </div>
     </section>
     <section>
         <h2>Weekly snapshot</h2>
         <div class="content">
-            <form action="{% url 'entries:exportxls_weekly' event=event.pk %}">
-                <button type="submit" class="btn-excel"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
-                <button class="btn-json" type="button" onclick="window.location.href = '{% url 'api_report:reports' %}?event={{event.pk}}&file=1'"><i class="fa fa-file-text-o"></i>Export json</button>
-            </form>
+            <button class="btn-excel export-button" data-url="{% url 'entries:exportxls_weekly' event=event.pk %}"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
+            <button class="btn-json export-button" data-url="{% url 'api_report:reports' %}?event={{event.pk}}&file=1"><i class="fa fa-file-text-o"></i>Export json</button>
         </div>
     </section>
 </main>
