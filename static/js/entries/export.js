@@ -197,7 +197,7 @@ $(document).ready(function(){
         $('#preview-section').find('>div').html('<span class="fa fa-spin fa-spinner"></span>Exporting file for preview');
         getExportUrl().then((url) => {
             $.getJSON(downloadUrl + '?url=' + encodeURIComponent(url+'&export-docx=docx'), function(data) {
-                let tempUrl = downloadUrl + "?path="
+                let tempUrl = window.location.origin + downloadUrl + "?path="
                     + encodeURIComponent(data.path) + "&filename="
                     + encodeURIComponent(data.filename) + "&content_type="
                     + encodeURIComponent(data.content_type);
