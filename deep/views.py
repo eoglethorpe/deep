@@ -88,7 +88,6 @@ class DownloadFileView(View):
             response = HttpResponse(content_type=request.GET.get('content_type'))
             response['Content-Disposition'] = 'attachment; filename = "{}"'.format(filename)
             response.write(open(path, 'rb').read())
-            os.remove(path)
             return response
 
         url = request.GET['url']
