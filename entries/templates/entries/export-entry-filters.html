@@ -37,55 +37,12 @@
     </header>
     <div class="filters-container">
         <div class="filter">
-            <select name="areas" id="areas-filter" multiple>
-                <option value="">Areas</option>
-                {% for area in areas %}
-                <option value="{{area}}">{{area}}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="filter">
-            <select name="affected_groups" id="affected-groups-filter" multiple>
-                <option value="">Affected Group</option>
-                {% for group in affected_groups %}
-                <option value="{{group.pk}}">{{group}}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="filter">
-            <select name="vulnerable_groups" id="vulnerable-groups-filter" multiple>
-                <option value="">Demographic groups</option>
-                {% for vulnerable_group in vulnerable_groups %}
-                <option value="{{vulnerable_group.pk}}">{{vulnerable_group}}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="filter">
-            <select name="specific_needs_groups" id="specific-needs-groups-filter" multiple>
-                <option value="">Specific Needs Groups</option>
-                {% for group in specific_needs_groups %}
-                <option value="{{group.pk}}">{{group}}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="filter">
             <select name="pillars" id="pillars-filter" multiple>
                 <option value="">Pillars and subpillars</option>
                 {% for pillar in pillars %}
                 <option value="{{pillar.pk}}">{{pillar}}</option>
                 {% for subpillar in pillar.informationsubpillar_set.all %}
                 <option value="subpillar:{{subpillar.pk}}">{{pillar}} / {{subpillar}}</option>
-                {% endfor %}
-                {% endfor %}
-            </select>
-        </div>
-        <div class="filter">
-            <select name="sectors" id="sectors-filter" multiple>
-                <option value="">Sectors and subsectors</option>
-                {% for sector in sectors %}
-                <option value="{{sector.pk}}">{{sector}}</option>
-                {% for subsector in sector.subsector_set.all %}
-                <option value="subsector:{{subsector.pk}}">{{sector}} / {{subsector}}</option>
                 {% endfor %}
                 {% endfor %}
             </select>
@@ -105,6 +62,33 @@
                 {% endfor %}
             </select>
         </div>
+        <div class="filter">
+            <select name="areas" id="areas-filter" multiple>
+                <option value="">Geographical areas</option>
+                {% for area in areas %}
+                <option value="{{area}}">{{area}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="filter">
+            <select name="vulnerable_groups" id="vulnerable-groups-filter" multiple>
+                <option value="">Demographic groups</option>
+                {% for vulnerable_group in vulnerable_groups %}
+                <option value="{{vulnerable_group.pk}}">{{vulnerable_group}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="filter">
+            <select name="sectors" id="sectors-filter" multiple>
+                <option value="">Sectors and subsectors</option>
+                {% for sector in sectors %}
+                <option value="{{sector.pk}}">{{sector}}</option>
+                {% for subsector in sector.subsector_set.all %}
+                <option value="subsector:{{subsector.pk}}">{{sector}} / {{subsector}}</option>
+                {% endfor %}
+                {% endfor %}
+            </select>
+        </div>
         <div class="filter range-filter">
             <label>Severity</label>
             <select name="severity_min" class="min-filter" placeholder="From">
@@ -117,6 +101,22 @@
                 <option value="">To</option>
                 {% for severity in severities %}
                 <option value="{{severity.level}}">{{severity}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="filter">
+            <select name="affected_groups" id="affected-groups-filter" multiple>
+                <option value="">Affected groups</option>
+                {% for group in affected_groups %}
+                <option value="{{group.pk}}">{{group}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="filter">
+            <select name="specific_needs_groups" id="specific-needs-groups-filter" multiple>
+                <option value="">Specific needs groups</option>
+                {% for group in specific_needs_groups %}
+                <option value="{{group.pk}}">{{group}}</option>
                 {% endfor %}
             </select>
         </div>

@@ -1,6 +1,6 @@
 @import 'common/base';
 
-#loading-animation {
+#loading-animation, #post-load {
     z-index: 1000;
     position: fixed;
     left: 0;
@@ -52,4 +52,8 @@
             transform: rotate(360deg) scale(1);
         }
     }
+}
+
+#post-load {
+    display: none;
 }

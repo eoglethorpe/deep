@@ -21,10 +21,10 @@ import re
 
 
 def write_file(r, fp):
-            for chunk in r.iter_content(chunk_size=1024):
-                if chunk:
-                    fp.write(chunk)
-            return fp
+    for chunk in r.iter_content(chunk_size=1024):
+        if chunk:
+            fp.write(chunk)
+    return fp
 
 class StripError(Exception):
     def __init__(self, *args, **kwargs):

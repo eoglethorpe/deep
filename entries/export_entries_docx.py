@@ -129,6 +129,16 @@ def add_excerpt_info(d, info):
     # Show the excerpt
     try:
         ref = d.add_paragraph(xstr(info.excerpt))
+
+        try:
+            sec = d.sections[-1]
+            cols = int(sec._sectPr.xpath('./w:cols')[0].get(qn('w:num')))
+            width = (sec.page_width/cols)-(sec.right_margin +
+                                           sec.left_margin)
+        except:
+            width = sec.page_width-(sec.right_margin +
+                                    sec.left_margin)
+
         if len(info.image):
             fimage = tempfile.NamedTemporaryFile()
             if re.search(r'http[s]?://', info.image):
@@ -137,7 +147,7 @@ def add_excerpt_info(d, info):
             else:
                 image = base64.b64decode(info.image.split(',')[1])
                 fimage.write(image)
-            d.add_picture(fimage)
+            d.add_picture(fimage, width=width)
     except:
         ref = d.add_paragraph('')
     ref.paragraph_format.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.JUSTIFY
