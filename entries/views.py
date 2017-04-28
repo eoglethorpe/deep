@@ -73,7 +73,6 @@ class ExportXls(View):
 
 
 class ExportXlsWeekly(View):
-    @method_decorator(login_required)
     def get(self, request, event):
         return export_xls_weekly(generate_filename('Weekly Snapshot Export'))
 
