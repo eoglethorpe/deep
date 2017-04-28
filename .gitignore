@@ -10,6 +10,7 @@ os
 # Media files, uploaded by users
 media/
 static/global_export/
+temp_downloads/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

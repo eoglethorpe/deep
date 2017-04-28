@@ -11,6 +11,7 @@ from rest_framework.routers import DefaultRouter
 from users.views import *
 from deep.views import *
 from report.views import *
+from entries.views import ExportProgressView
 
 from users.rest_views import *
 from leads.rest_views import *
@@ -43,6 +44,8 @@ urlpatterns = [
     url(r'^load/countries/$', LoadCountries.as_view()),
 
     url(r'^dashboard/$', DashboardView.as_view(), name="dashboard"),
+    url(r'^export-progress/$', ExportProgressView.as_view(), name="export_progress"),
+    url(r'^download-file/$', DownloadFileView.as_view(), name="download_file"),
 
     url(r'^(?P<event>\d+)/dashboard/$', DashboardView.as_view(), name="dashboard"),
     url(r'^(?P<event>\d+)/leads/', include('leads.urls', namespace='leads')),
@@ -50,6 +53,7 @@ urlpatterns = [
     url(r'^usergroup/', include('usergroup.urls', namespace='usergroup')),
     url(r'^custom-admin/', include('custom_admin.urls', namespace='custom_admin')),
     url(r'^report/', include('report.urls', namespace='report')),
+
 
     url(r'^user/(?P<user_id>\d+)', UserProfileView.as_view(), name="user_profile"),
 

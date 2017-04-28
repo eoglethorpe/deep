@@ -143,13 +143,18 @@ let leads = {
 };
 
 
-function getExportUrl() {
+function getExportUrl(async=true) {
     return new Promise((resolve, reject) => {
-        $.post(window.location.origin + $('#export-entries-doc-form').attr('action') + '?timestamp=' + (new Date().getTime()),
-            $('#export-entries-doc-form').serialize(), function(response) {
+        $.ajax({
+            type: 'POST',
+            url: window.location.origin + $('#export-entries-doc-form').attr('action') + '?timestamp=' + (new Date().getTime()),
+            data: $('#export-entries-doc-form').serialize(),
+            success: function(response) {
                 resolve(window.location.origin + $('#export-entries-doc-form').attr('action') + '?token='+response.token
                     + '&export-format=' + $('input[name=export-format]:checked').val() + '&timestamp=' + (new Date().getTime()));
-            });
+            },
+            async: async,
+        });
     });
 }
 
@@ -172,27 +177,36 @@ $(document).ready(function(){
     });
 
     $('#export-docx').click(function() {
-        getExportUrl().then((url) => {
-            window.location.href = url + '&export-docx=docx';
+        getExportUrl(false).then((url) => {
+            window.open(exportProgressUrl + '?url=' + encodeURIComponent(url+'&export-docx=docx'), '_blank');
         });
     });
     $('#export-pdf').click(function() {
-        getExportUrl().then((url) => {
-            window.location.href = url + '&export-pdf=pdf';
+        getExportUrl(false).then((url) => {
+            window.open(exportProgressUrl + '?url=' + encodeURIComponent(url+'&export-pdf=pdf'), '_blank');
         });
     });
     $('#export-xlsx').click(function() {
-        getExportUrl().then((url) => {
-            window.location.href = url + '&export-xls=xls';
+        getExportUrl(false).then((url) => {
+            window.open(exportProgressUrl + '?url=' + encodeURIComponent(url+'&export-xls=xls'), '_blank');
         });
     });
     $('#preview-docx').click(function() {
+        $('#preview-section').find('iframe').hide();
+        $('#preview-section').find('>div').show();
+        $('#preview-section').find('>div').html('<span class="fa fa-spin fa-spinner"></span>Exporting file for preview');
         getExportUrl().then((url) => {
-            $('#preview-section').find('iframe').attr('src', 'https://docs.google.com/viewer?url=' + encodeURIComponent(url) + '&embedded=true&chrome=false&dov=1');
-            $('#preview-section').find('>div').hide();
-            $('#preview-section').find('iframe').show();
-        });
+            $.getJSON(downloadUrl + '?url=' + encodeURIComponent(url+'&export-docx=docx'), function(data) {
+                let tempUrl = downloadUrl + "?path="
+                    + encodeURIComponent(data.path) + "&filename="
+                    + encodeURIComponent(data.filename) + "&content_type="
+                    + encodeURIComponent(data.content_type);
 
+                $('#preview-section').find('iframe').attr('src', 'https://docs.google.com/viewer?url=' + encodeURIComponent(tempUrl) + '&embedded=true&chrome=false&dov=1');
+                $('#preview-section').find('>div').hide();
+                $('#preview-section').find('iframe').show();
+            });
+        });
     });
 
     $('.range-filter select').change(function() {

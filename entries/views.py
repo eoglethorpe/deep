@@ -31,6 +31,13 @@ from datetime import datetime, timedelta
 from collections import OrderedDict
 
 
+class ExportProgressView(View):
+    def get(self, request):
+        context = { 'export_url' : request.GET.get('url') }
+        return render(request, 'entries/export-progress.html', context)
+
+
+
 class ExportView(View):
     @method_decorator(login_required)
     def get(self, request, event):
@@ -127,8 +134,7 @@ class ExportDoc(View):
         return response
 
     def post(self, request, event):
-
-        ExportToken.objects.filter(created_at__lt=(datetime.now() - timedelta(hours=10))).delete()
+        ExportToken.objects.filter(created_at__lt=(datetime.now() - timedelta(hours=1))).delete()
 
         uniqueToken = None
         while True:

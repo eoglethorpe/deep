@@ -21,7 +21,9 @@ DEEP | Export
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/export.js' %}"></script>
 
 <script>
-    var eventId = "{{event.pk}}";
+    var eventId = "{{ event.pk }}";
+    var exportProgressUrl = "{% url 'export_progress' %}";
+    var downloadUrl = "{% url 'download_file' %}";
 </script>
 
 {% endblock %}
