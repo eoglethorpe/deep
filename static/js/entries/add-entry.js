@@ -433,7 +433,7 @@ function refreshPageTwo() {
                 selectedExcerpt = i;
                 deleteExcerpt();
             }
-        }());
+        }(i));
 
         // Map selections
         entry.find('.map-modal-btn').click(function(excerpt, entry, i) {
