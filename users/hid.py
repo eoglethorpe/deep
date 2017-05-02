@@ -23,9 +23,9 @@ class HumanitarianId:
         user_id = request.session['hid_user']
 
         if config.development:
-            url = 'https://api2.dev.humanitarian.id/user/' + user_id
+            url = 'https://api2.dev.humanitarian.id/api/v2/user/' + user_id
         else:
-            url = 'https://auth.humanitarian.id/user/' + user_id
+            url = 'https://auth.humanitarian.id/api/v2/user/' + user_id
 
         r = requests.get(url, headers={ 'Authorization': 'Bearer ' + token})
         if r.status_code == 200:
@@ -77,15 +77,17 @@ class HumanitarianId:
         config = HidConfig()
         if config.client_id:
             if config.development:
-                url = 'https://api2.dev.humanitarian.id/jsonwebtoken'
+                url = 'https://api2.dev.humanitarian.id/api/v2/jsonwebtoken'
             else:
-                url = 'https://auth.humanitarian.id/jsonwebtoken'
+                url = 'https://auth.humanitarian.id/api/v2/jsonwebtoken'
 
             r = requests.get(url, headers={ 'Authorization': 'Bearer ' + access_token})
             if r.status_code == 200:
                 data = r.json()
                 if len(data) > 0:
-                    return (data['token'], data['user'])
+                    return (data[0]['token'], data[0]['user'])
+            else:
+                print(r.json())
         return None, None
 
 
