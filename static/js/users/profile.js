@@ -225,4 +225,28 @@ $(document).ready(function(){
             reader.readAsDataURL(this.files[0]);
         }
     });
+
+    $('#search-projects').on('input paste change drop', function() {
+        let searchText = $(this).val();
+        if (!searchText) {
+            $('#projects .project').show();
+            return;
+        }
+
+        $('#projects .project').each(function() {
+            let matched = false;
+            $(this).find($(this).data('search')).each(function() {
+                if ($(this).text().toLowerCase().indexOf(searchText) >= 0) {
+                    matched = true;
+                    return false;
+                }
+            });
+
+            if (matched) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    });
 });

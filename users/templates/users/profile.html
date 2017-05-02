@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load watchful_url %}
+{% load humanize %}
 
 {% block title %}
 DEEP | User Profile
@@ -68,21 +69,30 @@ var activities = [
     <section id="project-list">
         <div id="project-list-header">
             <h2>Projects</h2>
-            {% if user == request.user %}<button onclick="window.location.href='{% url "custom_admin:crisis_panel" %}'"><i class="fa fa-plus"></i>Add new project</button>{% endif %}
+            <div>
+                <i class="fa fa-search"></i><input id="search-projects" type="search" placeholder="Search projects">
+                {% if user == request.user %}<button onclick="window.location.href='{% url "custom_admin:project_panel" %}'"><i class="fa fa-plus"></i>Add new project</button>{% endif %}
+            </div>
         </div>
         <div id="projects-header">
             <label class="name" data-sort=".name">Name</label>
-            <label class="type" data-sort=".type">Type</label>
-            <label class="countries" data-sort=".countries">Countries</label>
-            <label class="groups" data-sort=".groups">Groups</label>
+            <label class="rights" data-sort=".rights">Rights</label>
+            <label class="created-on" data-sort=".created-on">Created on</label>
+            <label class="status" data-sort=".status">Status</label>
+            <label class="last-modified" data-sort=".last-modified">Last modified</label>
+            <label class="members" data-sort=".members">Members</label>
+            <label class="actions">Actions</label>
         </div>
         <div id="projects">
-            {% for crisis in projects %}
-            <div class="project">
-                <div class="name">{{crisis.name}}</div>
-                <div class="type">{{crisis.disaster_type.name}}</div>
-                <div class="countries">{% for country in crisis.countries.all %}{{country}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
-                <div class="groups">{% for usergroup in crisis.usergroup_set.all %}{{usergroup}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
+            {% for project in projects %}
+            <div class="project" data-search=".name">
+                <div class="name">{{ project.name }}</div>
+                <div class="rights">{% if user in project.admins.all %}Admin{% else %}User{% endif %}</div>
+                <div class="created-on"><date>{% if project.created_at %}{{ project.created_at | date:'d N Y' }}{% else %}N/A{% endif %}</date></div>
+                <div class="status">Active</div>
+                <div class="last-modified"><date>{{ project.modified_at | date:'d N Y' }}</date> <span>({{ project.modified_at | naturaltime }})</span></div>
+                <div class="members">{{ project.get_num_members }}</div>
+                <div class="actions">{% if user in project.admins.all or user.is_superuser %}<a href="{% url 'custom_admin:project_panel' %}?selected={{ project.pk }}" class="fa fa-edit"></a>{% endif %}</div>
             </div>
             {% endfor %}
         </div>

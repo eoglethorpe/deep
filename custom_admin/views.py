@@ -15,11 +15,11 @@ from users.log import *
 import json
 
 
-class CrisisPanelView(View):
+class ProjectPanelView(View):
     @method_decorator(login_required)
     def get(self, request):
         context = {}
-        context["current_page"] = "crisis-panel"
+        context["current_page"] = "project-panel"
 
         # Either you are a super admin and can edit all crises
         # Or you are admin of this project
@@ -43,13 +43,13 @@ class CrisisPanelView(View):
         if "selected_group" in request.GET:
             context["selected_group"] = int(request.GET["selected_group"])
 
-        return render(request, "custom_admin/crisis-panel.html", context)
+        return render(request, "custom_admin/project-panel.html", context)
 
     @method_decorator(login_required)
     def post(self, request):
 
-        response = redirect('custom_admin:crisis_panel')
-        pk = request.POST["crisis-pk"]
+        response = redirect('custom_admin:project_panel')
+        pk = request.POST["project-pk"]
 
         if "save" in request.POST:
             if pk == "new":
@@ -59,23 +59,24 @@ class CrisisPanelView(View):
                 event = Event.objects.get(pk=int(pk))
                 activity = EditionActivity()
 
-            event.name = request.POST["crisis-name"]
+            event.name = request.POST["project-name"]
+            event.description = request.POST["project-description"]
 
-            if request.POST["crisis-status"] and request.POST["crisis-status"] != "":
-                event.status = int(request.POST["crisis-status"])
+            if request.POST["project-status"] and request.POST["project-status"] != "":
+                event.status = int(request.POST["project-status"])
 
             if request.POST["disaster-type"] and request.POST["disaster-type"] != "":
                 event.disaster_type = DisasterType.objects.get(pk=int(request.POST["disaster-type"]))
             else:
                 event.disaster_type = None
 
-            if request.POST["crisis-start-date"] and request.POST["crisis-start-date"] != "":
-                event.start_date = request.POST["crisis-start-date"]
+            if request.POST["project-start-date"] and request.POST["project-start-date"] != "":
+                event.start_date = request.POST["project-start-date"]
             else:
                 event.start_date = None
 
-            if request.POST["crisis-end-date"] and request.POST["crisis-end-date"] != "":
-                event.end_date = request.POST["crisis-end-date"]
+            if request.POST["project-end-date"] and request.POST["project-end-date"] != "":
+                event.end_date = request.POST["project-end-date"]
             else:
                 event.end_date = None
 
@@ -101,7 +102,7 @@ class CrisisPanelView(View):
 
             activity.set_target(
                 'project', event.pk, event.name,
-                reverse('custom_admin:crisis_panel') + '?selected=' + str(event.pk)
+                reverse('custom_admin:project_panel') + '?selected=' + str(event.pk)
             ).log_for(request.user, event=event)
 
             event.assignee.clear()
@@ -113,6 +114,11 @@ class CrisisPanelView(View):
             if "admins" in request.POST and request.POST["admins"]:
                 for admin in request.POST.getlist("admins"):
                     event.admins.add(User.objects.get(pk=int(admin)))
+
+            event.members.clear()
+            if "members" in request.POST and request.POST["members"]:
+                for member in request.POST.getlist("members"):
+                    event.members.add(User.objects.get(pk=int(member)))
 
             event.countries.clear()
             if "countries" in request.POST and request.POST["countries"]:
@@ -133,14 +139,14 @@ class CrisisPanelView(View):
                     if usergroup not in prev_groups:
                         AdditionActivity().set_target(
                             'project', event.pk, event.name,
-                            reverse('custom_admin:crisis_panel') + '?selected=' + str(event.pk)
+                            reverse('custom_admin:project_panel') + '?selected=' + str(event.pk)
                         ).log_for(request.user, event=event, group=usergroup)
 
             for ug in prev_groups:
                 if ug not in new_groups:
                     RemovalActivity().set_target(
                         'project', event.pk, event.name,
-                        reverse('custom_admin:crisis_panel') + '?selected=' + str(event.pk)
+                        reverse('custom_admin:project_panel') + '?selected=' + str(event.pk)
                     ).log_for(request.user, event=event, group=ug)
 
             response["Location"] += "?selected="+str(event.pk)

@@ -56,4 +56,8 @@
 
 #post-load {
     display: none;
+
+    .fa {
+        color: $primary-color;
+    }
 }

@@ -63,10 +63,10 @@ let countryEvents = {
     </header>
     <section id="country-panel">
         <div id="country-panel-header">
-            <div id="crisis-status">
-                <label class="active"><input name="crisis-status" value="2" type="radio" checked>All countries</label>
-                <label><input name="crisis-status" value="0" type="radio">Globally Monitored</label>
-                <label><input name="crisis-status" value="1" type="radio">Countries with active Crisis</label>
+            <div id="project-status">
+                <label class="active"><input name="project-status" value="2" type="radio" checked>All countries</label>
+                <label><input name="project-status" value="0" type="radio">Globally Monitored</label>
+                <label><input name="project-status" value="1" type="radio">Countries with active Crisis</label>
             </div>
             <div>
                 <i class="fa fa-search"></i>
@@ -88,7 +88,7 @@ let countryEvents = {
             </div>
             <div id="countries">
                 {% for c in countries %}
-                <div class="country {% if country and country == c %}active{% endif %}" data-href="{% url 'report:dashboard' %}?country={{c.pk}}" data-name="{{c.name}}" data-crisis-status="{{c.event_set.all.0.status}}" data-pk="{{c.pk}}">
+                <div class="country {% if country and country == c %}active{% endif %}" data-href="{% url 'report:dashboard' %}?country={{c.pk}}" data-name="{{c.name}}" data-project-status="{{c.event_set.all.0.status}}" data-pk="{{c.pk}}">
                     <div class="assigned-to">{% for e in c.event_set.all %}{% for u in e.assignee.all %}<span><i class="fa fa-user"></i>{{u.first_name}} {{u.last_name}}</span>{% endfor %}{% endfor %}</div>
                     <div>
                         <div class="name">{{c.name}}</div>

@@ -25,11 +25,11 @@ DEEP | Dashboard
 <script src="{% watchful_static_url 'js/common/leaflet.label.js' %}"></script>
 
 <script>
-    var active_crises = [
-        {% for crisis in active_events %}{
-            name: "{{crisis.name}}", start_date: "{{crisis.start_date|date:'Y-m-d'}}", status: "{{crisis.status}}",
+    var active_projects = [
+        {% for project in active_events %}{
+            name: "{{project.name}}", start_date: "{{project.start_date|date:'Y-m-d'}}", status: "{{project.status}}",
             countries: [
-                {% for country in crisis.countries.all %}{ code: "{{country.code}}", name: "{{country.name}}" },{% endfor %}
+                {% for country in project.countries.all %}{ code: "{{country.code}}", name: "{{country.name}}" },{% endfor %}
             ],
         },{% endfor %}
     ];
@@ -40,9 +40,9 @@ DEEP | Dashboard
         {% endfor %}
     };
 
-    var crises_per_country = {
-        {% for country, crises in crises_per_country.items %}
-        "{{country.code}}": { {% for crisis in crises %} "{{crisis.pk}}" : "{{crisis.name}}", {% endfor %} },
+    var projects_per_country = {
+        {% for country, projects in projects_per_country.items %}
+        "{{country.code}}": { {% for project in projects %} "{{project.pk}}" : "{{project.name}}", {% endfor %} },
         {% endfor %}
     };
 </script>
@@ -57,13 +57,13 @@ DEEP | Dashboard
         <div id="overview">
             <div id="number-of-leads"><span class="number">{{ leads|length }}</span><label>Leads</label></div>
             <div id="number-of-entries"><span class="number">{{ informations|length }}</span><label>Entries</label></div>
-            <div id="number-of-active-crisises"><span class="number">{{ active_events|length }}</span><label>Active crises</label></div>
+            <div id="number-of-active-projectes"><span class="number">{{ active_events|length }}</span><label>Active projects</label></div>
             <div id="number-of-global-monitoring"><span class="number">{{ active_events|length }}</span><label>Countries monitored</label></div>
         </div>
     </section>
     <section id="timeline">
         <header>
-            <h3>Timeline of humanitarian crisis per country</h3>
+            <h3>Timeline of humanitarian project per country</h3>
             <div id="filters">
                 <select id="country-filter" placeholder="Country" multiple>
                     <option value="">Country</option>

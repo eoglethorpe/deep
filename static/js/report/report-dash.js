@@ -50,10 +50,10 @@ $(document).ready(function(){
 
 
     function filterCountries(){
-        var crisisStatus = $('input[type=radio][name=crisis-status]:checked').val();
+        var projectStatus = $('input[type=radio][name=project-status]:checked').val();
         var searchText = $('#country-search').val().trim().toLowerCase();
         $('.country').each(function(){
-            if ((crisisStatus == '2' || $(this).data('crisis-status') == crisisStatus)
+            if ((projectStatus == '2' || $(this).data('project-status') == projectStatus)
                 && (searchText.length == 0 || $(this).text().trim().toLowerCase().indexOf(searchText) != -1))
             {
                 $(this).show();
@@ -67,8 +67,8 @@ $(document).ready(function(){
     $('#country-search').on('cut input paste drop keyup', function() {
         filterCountries();
     });
-    $('input[type=radio][name=crisis-status]').change(function(){
-        $('#crisis-status label').removeClass('active');
+    $('input[type=radio][name=project-status]').change(function(){
+        $('#project-status label').removeClass('active');
         $(this).closest('label').addClass('active');
         filterCountries();
     });

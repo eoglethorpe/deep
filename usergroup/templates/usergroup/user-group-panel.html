@@ -17,7 +17,7 @@ DEEP | User Group Panel
 <script type="text/javascript" src="{% watchful_static_url 'js/usergroup/user-group-panel.js' %}"></script>
 
 <script>
-let crisis_panel_url = '{% url "custom_admin:crisis_panel" %}';
+let project_panel_url = '{% url "custom_admin:project_panel" %}';
 let userGroupPk = '{{ usergroup.pk }}';
 let activities = [
     {% for activity in activities %}
@@ -114,12 +114,12 @@ let activities = [
                 <label class="start-date" data-sort=".start-date date">Start Date</label>
             </div>
             <div id="projects">
-                {% for crisis in usergroup.projects.all %}
-                <div class="project" data-url="{% url 'custom_admin:crisis_panel' %}?selected={{crisis.pk}}">
-                    <div class="name">{{crisis.name}}</div>
-                    <div class="type">{{crisis.disaster_type.name}}</div>
-                    <div class="countries">{% for country in crisis.countries.all %}{{country}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
-                    <div class="start-date"><date hidden>{{crisis.start_date|date:"Y-m-d"}}</date>{{crisis.start_date}}</div>
+                {% for project in usergroup.projects.all %}
+                <div class="project" data-url="{% url 'custom_admin:project_panel' %}?selected={{project.pk}}">
+                    <div class="name">{{project.name}}</div>
+                    <div class="type">{{project.disaster_type.name}}</div>
+                    <div class="countries">{% for country in project.countries.all %}{{country}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
+                    <div class="start-date"><date hidden>{{project.start_date|date:"Y-m-d"}}</date>{{project.start_date}}</div>
                 </div>
                 {% endfor %}
             </div>
