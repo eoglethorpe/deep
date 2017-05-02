@@ -103,7 +103,7 @@ body {
         color: #fff; }
   body aside {
     flex-basis: 27%; }
-    body aside #crisis-header {
+    body aside #project-header {
       height: 144px;
       display: flex;
       flex-wrap: wrap;
@@ -111,21 +111,21 @@ body {
       padding: 10px 16px 0 16px;
       align-items: center;
       border-bottom: 1px solid rgba(0, 0, 0, 0.3); }
-      body aside #crisis-header h2 {
+      body aside #project-header h2 {
         flex-basis: 60%;
         font-weight: 500;
         font-size: 19px;
         color: #008080; }
-      body aside #crisis-header a {
+      body aside #project-header a {
         cursor: pointer;
         color: #008080; }
-        body aside #crisis-header a .fa {
+        body aside #project-header a .fa {
           margin-right: 10px; }
-      body aside #crisis-header #search-wrapper {
+      body aside #project-header #search-wrapper {
         flex-basis: 100%;
         position: relative;
         margin: 8px 0; }
-        body aside #crisis-header #search-wrapper input {
+        body aside #project-header #search-wrapper input {
           width: 100%;
           height: 32px;
           padding: 0 16px 0 32px;
@@ -133,49 +133,49 @@ body {
           border: 1px solid rgba(0, 0, 0, 0.1);
           border-radius: 3px;
           background-color: transparent; }
-          body aside #crisis-header #search-wrapper input:focus {
+          body aside #project-header #search-wrapper input:focus {
             border-color: #008080; }
-        body aside #crisis-header #search-wrapper i {
+        body aside #project-header #search-wrapper i {
           position: absolute;
           left: 10px;
           top: 8px;
           color: rgba(0, 0, 0, 0.3);
           font-size: 16px; }
-      body aside #crisis-header #crisis-status-radio {
+      body aside #project-header #project-status-radio {
         flex-basis: 100%;
         align-self: flex-end; }
-        body aside #crisis-header #crisis-status-radio label {
+        body aside #project-header #project-status-radio label {
           padding: 6px 16px;
           margin-bottom: 0;
           cursor: pointer;
           color: rgba(0, 0, 0, 0.5);
           vertical-align: bottom;
           user-select: none; }
-        body aside #crisis-header #crisis-status-radio .active {
+        body aside #project-header #project-status-radio .active {
           color: #008080;
           border-bottom: 2px solid #008080; }
-        body aside #crisis-header #crisis-status-radio input {
+        body aside #project-header #project-status-radio input {
           display: none; }
-    body aside #crisis-list {
+    body aside #project-list {
       height: calc(100vh - 56px - 144px);
       overflow-y: auto;
       overflow-x: hidden;
       padding: 0 16px; }
-      body aside #crisis-list .crisis {
+      body aside #project-list .project {
         padding: 10px 16px;
         cursor: pointer; }
-        body aside #crisis-list .crisis:nth-child(odd) {
+        body aside #project-list .project:nth-child(odd) {
           background-color: #fafafa; }
-        body aside #crisis-list .crisis:hover {
+        body aside #project-list .project:hover {
           background-color: rgba(0, 0, 0, 0.1); }
-      body aside #crisis-list .crisis.active {
+      body aside #project-list .project.active {
         background-color: #008080;
         color: #fff; }
   body main {
     flex-basis: 60%;
     background-color: #fff;
-    height: calc(100vh - 56px);
-    padding: 10px 32px 0 32px;
+    min-height: calc(100vh - 56px);
+    padding: 0 32px;
     box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
     body main label {
       margin-bottom: 6px;
@@ -186,68 +186,78 @@ body {
     body main .selectize-control {
       margin-bottom: 8px; }
       body main .selectize-control .selectize-input {
-        min-height: 32px;
         border-radius: 3px;
-        padding: 6px 4px; }
-    body main form {
-      padding: 10px 16px; }
-      body main form h2 {
+        padding: 6px 10px; }
+    body main form header {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px; }
+      body main form header h2 {
         font-weight: 500;
         font-size: 19px;
-        margin-bottom: 32px;
         color: #008080; }
-      body main form > div {
-        margin-bottom: 16px; }
-        body main form > div > input[type="text"] {
+      body main form header #action-buttons {
+        display: flex;
+        justify-content: space-between; }
+        body main form header #action-buttons button {
+          margin-left: 10px;
+          padding: 6px 16px;
+          color: #fff;
+          box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5); }
+          body main form header #action-buttons button:active {
+            box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
+          body main form header #action-buttons button .fa {
+            margin-right: 10px; }
+        body main form header #action-buttons #save-btn {
+          background-color: #3498db; }
+        body main form header #action-buttons #delete-btn {
+          background-color: #e74c3c; }
+    body main form .input-group {
+      overflow-y: auto;
+      height: calc(100vh - 56px - 64px);
+      padding: 0 16px; }
+      body main form .input-group > div {
+        margin-bottom: 24px; }
+        body main form .input-group > div > input[type="text"], body main form .input-group > div textarea {
           width: 100%;
-          height: 32px;
-          padding: 0 16px 0 8px;
+          padding: 6px 10px;
           outline: none;
           border: 1px solid rgba(0, 0, 0, 0.1);
           border-radius: 3px;
           background-color: transparent; }
-          body main form > div > input[type="text"]:focus {
+          body main form .input-group > div > input[type="text"]:focus, body main form .input-group > div textarea:focus {
             border-color: #008080; }
-      body main form #date-field-wrapper {
+      body main form .input-group #date-field-wrapper {
         display: flex;
         justify-content: space-between;
         align-items: center; }
-        body main form #date-field-wrapper div {
+        body main form .input-group #date-field-wrapper div {
           flex-basis: 48%; }
-          body main form #date-field-wrapper div input {
+          body main form .input-group #date-field-wrapper div input {
             width: 100%;
-            height: 32px;
-            padding: 0 16px 0 8px;
+            padding: 6px 10px;
             outline: none;
             border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 3px;
             background-color: transparent; }
-            body main form #date-field-wrapper div input:focus {
+            body main form .input-group #date-field-wrapper div input:focus {
               border-color: #008080; }
-      body main form #crisis-status-wrapper label {
+      body main form .input-group #project-status-wrapper label {
         margin-right: 16px;
         cursor: pointer;
         color: rgba(0, 0, 0, 0.5);
         vertical-align: bottom; }
-      body main form #crisis-status-wrapper .crisis-status {
+      body main form .input-group #project-status-wrapper .project-status {
         margin: 5px; }
-      body main form #crisis-status-wrapper input {
+      body main form .input-group #project-status-wrapper input {
         outline: none;
         vertical-align: sub; }
-      body main form #action-buttons {
+      body main form .input-group #project-members-wrapper {
         display: flex;
         justify-content: space-between; }
-        body main form #action-buttons button {
-          padding: 6px 16px;
-          color: #fff;
-          box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5); }
-          body main form #action-buttons button:active {
-            box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
-          body main form #action-buttons button .fa {
-            margin-right: 10px; }
-        body main form #action-buttons #save-btn {
-          background-color: #3498db; }
-        body main form #action-buttons #delete-btn {
-          background-color: #e74c3c; }
+        body main form .input-group #project-members-wrapper div {
+          flex-basis: 48%; }
 
-/*# sourceMappingURL=crisis-panel.css.map */
+/*# sourceMappingURL=project-panel.css.map */

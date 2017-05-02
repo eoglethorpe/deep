@@ -191,15 +191,15 @@ class DashboardView(View):
         context["disaster_types"] = DisasterType.objects.all()
         context["countries"] = Country.objects.filter(event__in=Event.objects.all())
 
-        # Get active crises
+        # Get active projects
         context["active_events"] = Event.objects.filter(end_date=None)
         context["leads"] = Lead.objects.all()
         context["informations"] = EntryInformation.objects.all()
-        context["crises_per_country"] = {}
+        context["projects_per_country"] = {}
 
         # Get event for each country
         for country in context["countries"]:
-            context["crises_per_country"][country] = Event.objects.filter(countries__pk=country.pk)
+            context["projects_per_country"][country] = Event.objects.filter(countries__pk=country.pk)
         return render(request, "users/dashboard.html", context)
 
 

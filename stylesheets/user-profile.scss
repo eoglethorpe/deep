@@ -162,23 +162,79 @@ body{
                 align-items: center;
                 justify-content: space-between;
 
-                button{
+                div {
                     height: 100%;
-                    background-color: $info-color;
-                    color: $text-color-light;
-                    border: none;
-                    margin-right: -16px;
-                    padding: 0 24px;
 
-                    .fa{
-                        margin-right: 10px;
+                    .fa-search {
+                        width: 24px;
+                        height: 100%;
+                        display: inline-flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                    input {
+                        // height: 100%;
+                        padding: 6px 10px;
+                        border: none;
+                        outline: none;
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+                        &:focus {
+                            border-bottom-color: $primary-color;
+                        }
+                    }
+
+                    button{
+                        height: 100%;
+                        background-color: $info-color;
+                        color: $text-color-light;
+                        border: none;
+                        margin-right: -16px;
+                        padding: 0 24px;
+
+                        .fa{
+                            margin-right: 10px;
+                        }
+                    }
+                }
+
+            }
+
+            date {
+                font-family: $font-monospace;
+            }
+
+            .name { flex-basis: 20%; }
+            .rights { flex-basis: 15%; }
+            .created-on { flex-basis: 15%; }
+            .status { flex-basis: 15%; }
+            .last-modified {
+                flex-basis: 15%;
+
+                span {
+                    color: $label-color;
+                }
+            }
+            .members { flex-basis: 10%; }
+            .actions {
+                flex-basis: 10%;
+
+                a {
+                    color: $primary-color;
+                    width: 32px;
+                    height: 32px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 50%;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: rgba(0, 0, 0, 0.1);
                     }
                 }
             }
-            .name{ flex-basis: 30%; }
-            .type{ flex-basis: 20%; }
-            .countries{flex-basis: 25%; }
-            .groups{flex-basis: 25%; }
+
             #projects-header {
                 height: 36px;
                 display: flex;
@@ -217,13 +273,9 @@ body{
                     display: flex;
                     align-items: center;
                     justify-content: flex-start;
-                    cursor: pointer;
 
                     &:nth-child(even){
                         background-color: #fff;
-                    }
-                    &:hover{
-                        background-color: rgba(0, 0, 0, 0.2);
                     }
                 }
             }

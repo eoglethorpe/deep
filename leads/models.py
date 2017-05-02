@@ -2,9 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 # from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
+from django.db.models import Q
 
 from datetime import datetime, date
-
 import json
 
 
@@ -38,17 +38,23 @@ class Event(models.Model):
     )
 
     name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    modified_at = models.DateTimeField(auto_now=True, null=True)
+
     countries = models.ManyToManyField(Country, blank=True)
     disaster_type = models.ForeignKey('report.DisasterType', null=True, blank=True, default=None)
     entry_template = models.ForeignKey('entries.EntryTemplate', null=True, blank=True, default=None)
 
     # owners = models.ManyToManyField(User, default=None, blank=True, related_name="events_superowned")
     admins = models.ManyToManyField(User, blank=True, related_name="events_owned")
+    members = models.ManyToManyField(User, blank=True)
 
     # TO DELETE
     assigned_to = models.ForeignKey(User, null=True, blank=True, default=None, related_name="event_donot_use", verbose_name="DO NOT USE")
 
-    assignee = models.ManyToManyField(User, blank=True)
+    assignee = models.ManyToManyField(User, blank=True, related_name="assigned_to")
 
     glide_number = models.CharField(max_length=100, null=True, blank=True, default=None)
     spill_over = models.ForeignKey('Event', null=True, blank=True, default=None)
@@ -61,6 +67,9 @@ class Event(models.Model):
     def get_num_entries(self):
         from entries.models import Entry
         return Entry.objects.filter(lead__event__pk=self.pk).count()
+
+    def get_num_members(self):
+        return len(User.objects.filter(Q(usergroup__projects__pk=self.pk) | Q(event__pk=self.pk)).distinct())
 
     def __str__(self):
         return self.name
