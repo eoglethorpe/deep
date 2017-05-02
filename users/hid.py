@@ -74,16 +74,18 @@ class HumanitarianId:
 
     @staticmethod
     def get_token_and_user_id(access_token):
-        if config.development:
-            url = 'https://api2.dev.humanitarian.id/jsonwebtoken'
-        else:
-            url = 'https://auth.humanitarian.id/jsonwebtoken'
+        config = HidConfig()
+        if config.client_id:
+            if config.development:
+                url = 'https://api2.dev.humanitarian.id/jsonwebtoken'
+            else:
+                url = 'https://auth.humanitarian.id/jsonwebtoken'
 
-        r = requests.get(url, headers={ 'Authorization': 'Bearer ' + access_token})
-        if r.status_code == 200:
-            data = r.json()
-            if len(data) > 0:
-                return (data['token'], data['user'])
+            r = requests.get(url, headers={ 'Authorization': 'Bearer ' + access_token})
+            if r.status_code == 200:
+                data = r.json()
+                if len(data) > 0:
+                    return (data['token'], data['user'])
         return None, None
 
 
