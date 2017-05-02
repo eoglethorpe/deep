@@ -10,7 +10,7 @@ import os
 
 class HumanitarianId:
     def __init__(self, request):
-        if "hid_access_token" not in request.session:
+        if "hid_token" not in request.session or "hid_user" not in request.session:
             self.status = False
             return
 
@@ -19,17 +19,18 @@ class HumanitarianId:
             self.status = False
             return
 
-        access_token = request.session['hid_access_token']
+        token = request.session['hid_token']
+        user_id = request.session['hid_user']
 
         if config.development:
-            url = 'https://auth.dev.humanitarian.id/account.json'
+            url = 'https://api2.dev.humanitarian.id/user/' + user_id
         else:
-            url = 'https://auth.humanitarian.id/account.json'
+            url = 'https://auth.humanitarian.id/user/' + user_id
 
-        r = requests.get(url, params={'access_token': access_token})
+        r = requests.get(url, headers={ 'Authorization': 'Bearer ' + token})
         if r.status_code == 200:
             self.data = r.json()
-            if self.data['active'] == 1 and self.data['email_verified']:
+            if self.data['email_verified'] and not self.data['deleted']:
                 self.status = True
             else:
                 self.status = False
@@ -41,8 +42,8 @@ class HumanitarianId:
             return
 
         user = profile.user
-        user.first_name = self.data['name_given']
-        user.last_name = self.data['name_family']
+        user.first_name = self.data['given_name']
+        user.last_name = self.data['family_name']
         user.email = self.data['email']
         # profile.organization =  TODO
         user.save()
@@ -52,12 +53,12 @@ class HumanitarianId:
         if not self.status:
             return None, None
 
-        username = 'hid_user_' + self.data['id']
-        password = self.data['id']
+        username = 'hid_user_' + self.data['user_id']
+        password = self.data['user_id']
 
         user = User.objects.create_user(
-            first_name=self.data['name_given'],
-            last_name=self.data['name_family'],
+            first_name=self.data['given_name'],
+            last_name=self.data['family_name'],
             email=self.data['email'],
             username=username,
             password=password
@@ -70,6 +71,21 @@ class HumanitarianId:
         profile.save()
 
         return username, password
+
+    @staticmethod
+    def get_token_and_user_id(access_token):
+        if config.development:
+            url = 'https://api2.dev.humanitarian.id/jsonwebtoken'
+        else:
+            url = 'https://auth.humanitarian.id/jsonwebtoken'
+
+        r = requests.get(url, headers={ 'Authorization': 'Bearer ' + access_token})
+        if r.status_code == 200:
+            data = r.json()
+            if len(data) > 0:
+                return (data['token'], data['user'])
+        return None, None
+
 
 
 class HidConfig:
