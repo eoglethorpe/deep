@@ -1,0 +1,272 @@
+::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.04); }
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px; }
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.24); }
+
+body {
+  margin: 0;
+  background-color: #f0f0f0;
+  color: #414141;
+  font-size: 13px;
+  /*float-alert-toast - position it at the top-center of the screen*/ }
+  body * {
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box; }
+  body h1, body h2, body h3, body h4 {
+    font-weight: 400; }
+  body h1 {
+    font-size: 19px; }
+  body h2 {
+    font-size: 17px; }
+  body h3 {
+    font-size: 15px; }
+  body a, body a:hover, body a:active, body a:visited, body a:focus {
+    text-decoration: none; }
+  body a, body button, body input[type="submit"], body input[type="button"], body .btn, body .btn:focus, body button:focus {
+    text-transform: uppercase;
+    outline: none; }
+  body button {
+    background-color: #fff;
+    color: #414141;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: 0.2s all ease-in-out; }
+  body label {
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 500;
+    display: inline-block; }
+  body .float-alert-toast {
+    display: none;
+    /* Hidden by default. Visible on click */
+    min-width: 250px;
+    /* Set a default minimum width */
+    margin-left: -125px;
+    /* Divide value of min-width by 2 */
+    background-color: #333;
+    /* Black background color */
+    color: #fff;
+    /* White text color */
+    text-align: center;
+    /* Centered text */
+    border-radius: 2px;
+    /* Rounded borders */
+    padding: 16px;
+    /* Padding */
+    position: fixed;
+    /* Sit on top of the screen */
+    z-index: 1;
+    /* Add a z-index if needed */
+    right: 10%;
+    /* Towards the right */
+    top: 30px;
+    /* 30px from the top */ }
+
+body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start; }
+  body h1, body h2, body h3, body h4, body h5, body h6 {
+    margin: 0;
+    text-transform: uppercase; }
+  body nav {
+    flex-basis: 100%;
+    height: 56px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 16px;
+    background-color: #004d4d;
+    color: #fff; }
+    body nav header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center; }
+      body nav header .deep-logo {
+        width: 32px;
+        margin-right: 24px; }
+  body aside {
+    margin-left: 32px;
+    flex-basis: 30%;
+    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5); }
+    body aside > header {
+      background-color: #fff;
+      padding-bottom: 16px;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
+      body aside > header > div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 16px; }
+        body aside > header > div:first-child {
+          height: 64px; }
+          body aside > header > div:first-child a {
+            color: #008080;
+            cursor: pointer; }
+            body aside > header > div:first-child a .fa {
+              margin-right: 8px; }
+        body aside > header > div:nth-child(2) {
+          height: 24px;
+          align-items: stretch;
+          justify-content: flex-start;
+          font-size: 1.1em; }
+          body aside > header > div:nth-child(2) .fa {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: rgba(0, 0, 0, 0.3); }
+          body aside > header > div:nth-child(2) input {
+            font-size: inherit;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+    body aside #project-list {
+      height: calc(100vh - 56px - 64px - 32px - 16px);
+      overflow-y: auto; }
+      body aside #project-list .project {
+        min-height: 48px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        cursor: pointer;
+        border-left: 6px solid transparent;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        background-color: #f9f9f9; }
+        body aside #project-list .project.active {
+          background-color: #fff;
+          border-left: 6px solid #008080; }
+        body aside #project-list .project:hover header button {
+          opacity: 1; }
+        body aside #project-list .project header {
+          padding: 10px 16px;
+          flex-basis: 100%;
+          min-height: 56px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap; }
+          body aside #project-list .project header .name {
+            font-size: 1.2em;
+            font-weight: 500;
+            padding: 6px 0;
+            flex-basis: calc(100% - 32px); }
+          body aside #project-list .project header button {
+            width: 32px;
+            height: 32px;
+            background-color: transparent;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.2s all ease-in-out;
+            opacity: 0; }
+            body aside #project-list .project header button:hover {
+              background-color: rgba(0, 0, 0, 0.05); }
+          body aside #project-list .project header .dates {
+            flex-basis: 100%; }
+            body aside #project-list .project header .dates label {
+              margin-right: 10px; }
+              body aside #project-list .project header .dates label date {
+                font-family: "Inconsolata", monospace;
+                font-size: 1.33em; }
+        body aside #project-list .project .details {
+          flex-basis: 100%;
+          padding: 10px 16px; }
+          body aside #project-list .project .details .project-description {
+            text-align: justify;
+            color: #616161; }
+          body aside #project-list .project .details .action-buttons {
+            text-align: right;
+            padding: 10px 0; }
+            body aside #project-list .project .details .action-buttons button {
+              color: #008080;
+              text-transform: uppercase;
+              background-color: transparent;
+              outline: none;
+              border: none; }
+        body aside #project-list .project.expanded header button {
+          transform: rotate(-180deg); }
+  body main {
+    margin-left: 32px;
+    flex-basis: 50%;
+    height: calc(100vh - 56px);
+    overflow-y: auto; }
+    body main > header {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      height: 72px;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
+      body main > header a {
+        color: rgba(0, 0, 0, 0.5);
+        font-weight: 500; }
+        body main > header a.active {
+          font-size: 1.5em;
+          color: #008080; }
+    body main form .action-buttons {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      justify-content: flex-end; }
+      body main form .action-buttons button {
+        border: none;
+        padding: 10px 12px;
+        margin-left: 10px;
+        color: #fff;
+        border-radius: 3px;
+        box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+        body main form .action-buttons button:active {
+          box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+        body main form .action-buttons button .fa {
+          margin-right: 8px; }
+        body main form .action-buttons button#save-btn {
+          background-color: #3498db; }
+        body main form .action-buttons button#save-and-proceed-btn {
+          background-color: #008080; }
+    body main form .input-group-list {
+      padding: 0 32px; }
+      body main form .input-group-list .input-group {
+        position: relative;
+        padding: 0 10px;
+        margin-bottom: 24px; }
+        body main form .input-group-list .input-group label {
+          width: 100%; }
+        body main form .input-group-list .input-group > input, body main form .input-group-list .input-group textarea {
+          width: 100%;
+          border: none;
+          background-color: transparent;
+          padding: 4px 0;
+          outline: none;
+          font-size: 1.1em;
+          margin: 0;
+          border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
+        body main form .input-group-list .input-group .selectize-input {
+          font-size: 1.1em !important;
+          border: none;
+          padding: 4px 0;
+          background-color: transparent;
+          border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
+          body main form .input-group-list .input-group .selectize-input.has-items {
+            padding: 0;
+            padding-top: 5px; }
+          body main form .input-group-list .input-group .selectize-input > input {
+            font-size: 1.1em !important;
+            background-color: transparent; }
+        body main form .input-group-list .input-group#start-date-input, body main form .input-group-list .input-group#end-date-input {
+          flex-basis: 30%; }
+      body main form .input-group-list .input-groups {
+        display: flex; }
+        body main form .input-group-list .input-groups .input-group {
+          flex-basis: 50%; }
+
+/*# sourceMappingURL=project-details.css.map */
