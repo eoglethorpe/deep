@@ -122,10 +122,18 @@ body{
                         border: 1px solid rgba(0, 0, 0, 0.05);
                         margin: 0;
                     }
-                    div{
+                    a, button {
+                        display: block;
+                        width: 100%;
+                        text-align: left;
                         padding: 16px;
                         text-transform: uppercase;
                         color: $text-color;
+                        cursor: pointer;
+                        outline: none;
+                        border: none;
+                        text-decoration: none;
+                        background-color: transparent;
 
                         .fa{
                             width: 32px;

@@ -75,7 +75,7 @@ class RegisterView(View):
 
         # Otherwise, display the register form with error.
         else:
-            context = {"error": error}
+            context = { "error": error }
             context["first_name"] = first_name
             context["last_name"] = last_name
             context["email"] = email
@@ -109,7 +109,7 @@ class LoginView(View):
         if hid.status:
             # We have a valid hunitarian id
             # If there's a user with this id, login with that user
-            hid_uid = hid.data['user_id']
+            hid_uid = hid.data['_id']
             try:
                 user = User.objects.get(userprofile__hid=hid_uid)
                 user.backend = settings.AUTHENTICATION_BACKENDS[0]
@@ -122,7 +122,7 @@ class LoginView(View):
                     user.backend = settings.AUTHENTICATION_BACKENDS[0]
                 except:
                     username, password = hid.create_user()
-                    user = authenticate(username=username, password=hid.data['id'])
+                    user = authenticate(username=username, password=hid.data['user_id'])
 
             # update user data from hid
             hid.save_user(user.userprofile)
@@ -219,17 +219,16 @@ class HidAccessToken(View):
         access_token = request.GET['access_token']
         state = int(request.GET['state'])
 
-        request.session['hid_access_token'] = access_token
+        token, user_id = HumanitarianId.get_token_and_user_id(access_token)
         if state == 833912:  # DEEP12: link hid with current user
             if request.user and (request.user.userprofile.hid is None or request.user.userprofile.hid == ''):
-                hid = HumanitarianId(request)
-                if hid.status:
-                    profile = request.user.userprofile
-                    profile.hid = hid.data['user_id']
-                    profile.save()
+                profile = request.user.userprofile
+                profile.hid = user_id
+                profile.save()
 
         logout(request)
-        request.session['hid_access_token'] = access_token
+        request.session['hid_token'] = token
+        request.session['hid_user'] = user_id
         return redirect('login')
 
 

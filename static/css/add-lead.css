@@ -159,13 +159,21 @@ body > nav {
         body > nav #extra-menu .dropdown .items hr {
           border: 1px solid rgba(0, 0, 0, 0.05);
           margin: 0; }
-        body > nav #extra-menu .dropdown .items div {
+        body > nav #extra-menu .dropdown .items a, body > nav #extra-menu .dropdown .items button {
+          display: block;
+          width: 100%;
+          text-align: left;
           padding: 16px;
           text-transform: uppercase;
-          color: #414141; }
-          body > nav #extra-menu .dropdown .items div .fa {
+          color: #414141;
+          cursor: pointer;
+          outline: none;
+          border: none;
+          text-decoration: none;
+          background-color: transparent; }
+          body > nav #extra-menu .dropdown .items a .fa, body > nav #extra-menu .dropdown .items button .fa {
             width: 32px; }
-          body > nav #extra-menu .dropdown .items div:hover {
+          body > nav #extra-menu .dropdown .items a:hover, body > nav #extra-menu .dropdown .items button:hover {
             background-color: rgba(0, 0, 0, 0.1); }
 
 #main {
