@@ -37,13 +37,7 @@ let templateData = {
 
 {% block body %}
 
-<nav>
-    <header>
-        <a title="DEEP" href="{% url 'login' %}"><img class="deep-logo" src="{% watchful_static_url 'img/deep-logo-sm-white.png' %}"></a>
-        <h1>Entry Template Editor</h1>
-    </header>
-    <a onclick="window.location.href = document.referrer;"><i class="fa fa-long-arrow-left"></i>Back</a>
-</nav>
+{% include 'simplified-navbar.html' with page_title='Entry template editor' %}
 
 <aside>
     <section class="title-block">
