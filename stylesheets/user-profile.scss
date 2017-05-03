@@ -164,17 +164,18 @@ body{
 
                 div {
                     height: 100%;
+                    display: flex;
 
                     .fa-search {
-                        width: 24px;
-                        height: 100%;
-                        display: inline-flex;
-                        justify-content: center;
-                        align-items: center;
+                        width: 18px;
+                        margin-bottom: 12px;
+                        align-self: flex-end;
                     }
                     input {
-                        // height: 100%;
-                        padding: 6px 10px;
+                        align-self: flex-end;
+                        margin-right: 12px;
+                        margin-bottom: 4px;
+                        padding: 6px 8px;
                         border: none;
                         outline: none;
                         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
