@@ -24,9 +24,6 @@ var projects = {
         end_date: "{{event.end_date|date:'Y-m-d'}}",
         status: "{{event.status}}",
         disaster_type: "{{event.disaster_type.pk}}",
-        assigned_to: [
-            {% for assigned_to in event.assignee.all %}"{{assigned_to.pk}}", {% endfor %}
-        ],
         glide_number: "{{event.glide_number}}",
         spillover: {% if event.spill_over %}"{{event.spill_over.pk}}"{% else %}null{% endif %},
         usergroups: [{% for group in event.usergroup_set.all %}"{{group.pk}}", {% endfor %}],
@@ -46,14 +43,8 @@ let myPk = '{{request.user.pk}}';
 {% endblock %}
 
 {% block body %}
-<nav>
-    <header>
-        <a title="DEEP" href="{% url 'login' %}"><img class="deep-logo" src="{% watchful_static_url 'img/deep-logo-sm-white.png' %}"></a>
-        <h1>Project Management Panel</h1>
-    </header>
-    <!-- <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to DEEP</a> -->
-    <a onclick="window.location.href = document.referrer;"><i class="fa fa-long-arrow-left"></i>Back</a>
-</nav>
+
+{% include 'simplified-navbar.html' with page_title="Project Management Panel" %}
 
 <aside>
     <div id="project-header">
@@ -162,17 +153,6 @@ let myPk = '{{request.user.pk}}';
                             {% endfor %}
                         </select>
                     </div>
-                </div>
-                <div>
-                    <label> Assigned To </label>
-                    <select name="assigned-to" id="assigned-to" placeholder="Assigned to" multiple>
-                        <option value="">Assigned to</option>
-                        {% for u in users %}
-                        {% if u.first_name != "" %}
-                        <option value="{{u.pk}}">{{u.get_full_name}}</option>
-                        {% endif %}
-                        {% endfor %}
-                    </select>
                 </div>
                 <div>
                     <label>Admins</label>

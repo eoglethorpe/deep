@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load watchful_url %}
+
+{% block title %}
+DEEP | Analysis Framework
+{% endblock %}
+
+{% block head %}
+
+<link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/analysis-framework.css' %}" />
+<script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/project/analysis-framework.js' %}"></script>
+
+{% endblock %}
+
+{% block body %}
+<nav>
+    <header>
+        <a title="DEEP" href="{% url 'login' %}"><img class="deep-logo" src="{% watchful_static_url 'img/deep-logo-sm-white.png' %}"></a>
+        <h1>Project Management Panel</h1>
+    </header>
+</nav>
+<aside>
+</aside>
+<main>
+    <header>
+        <a href="{% url 'project:project_details' project_id %}">1. Project details</a>
+        <a href="{% url 'project:geo_area' project_id %}">2. Geo area</a>
+        <a class="active">3. Analysis framework</a>
+    </header>
+</main>
+{% endblock %}

@@ -49,14 +49,8 @@ DEEP | Country Panel
 
 {% block body %}
 
-<nav>
-    <header>
-        <a title="DEEP" href="{% url 'login' %}"><img class="deep-logo" src="{% watchful_static_url 'img/deep-logo-sm-white.png' %}"></a>
-        <h1>Country Management Panel</h1>
-    </header>
-    <!-- <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to DEEP</a> -->
-    <a onclick="window.location.href = document.referrer;"><i class="fa fa-long-arrow-left"></i>Back</a>
-</nav>
+{% include 'simplified-navbar.html' with page_title="Country Management Panel" %}
+
 <aside>
     <div id="countries-header">
         <h2>Countries</h2>

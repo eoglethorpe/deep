@@ -1,0 +1,93 @@
+nav{
+    flex-basis: 100%;
+    height: $navbar-height;
+    background-color: darken($primary-color, 10%);
+    z-index: 1010;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 0 16px;
+    @include shadow();
+    $deep-logo-width: 96px;
+
+    a:hover, a:active{
+        color: #fff;
+    }
+    h1,h2,h3,h4,a{
+        margin: 0;
+        text-transform: uppercase;
+    }
+    #left-part{
+        display: flex;
+        align-items: flex-end;
+
+        h2{
+            font-size: 1.5em;
+            margin-left: 16px;
+            color: #fff;
+        }
+        #deep-logo-container{
+            width: 36px;
+            flex-shrink: 0;
+            flex-grow: 0;
+
+            img{
+                width: 100%;
+            }
+        }
+    }
+    .dropdown{
+        flex-basis: 232px;
+        position: relative;
+        cursor: pointer;
+        outline: none;
+
+        .dropdown-toggle{
+            color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            justify-content: space-around;
+
+            .fa{
+                margin-right: 10px;
+            }
+        }
+
+        .items{
+            position: absolute;
+            top: calc(8px + #{$navbar-height} / 2);
+            right: 0;
+            background-color: #fff;
+            width: 100%;
+            min-width: 200px;
+            z-index: 1011;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.3);
+
+            hr{
+                border: 1px solid rgba(0, 0, 0, 0.05);
+                margin: 0;
+            }
+            a, button {
+                display: block;
+                width: 100%;
+                text-align: left;
+                padding: 16px;
+                text-transform: uppercase;
+                color: $text-color;
+                cursor: pointer;
+                outline: none;
+                border: none;
+                text-decoration: none;
+                background-color: transparent;
+
+                .fa{
+                    width: 32px;
+                }
+                &:hover{
+                    background-color: rgba(0, 0, 0, 0.1);
+                }
+            }
+        }
+    }
+}

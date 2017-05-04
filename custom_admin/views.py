@@ -105,10 +105,10 @@ class ProjectPanelView(View):
                 reverse('custom_admin:project_panel') + '?selected=' + str(event.pk)
             ).log_for(request.user, event=event)
 
-            event.assignee.clear()
-            if "assigned-to" in request.POST and request.POST["assigned-to"]:
-                for assigned_to in request.POST.getlist("assigned-to"):
-                    event.assignee.add(User.objects.get(pk=int(assigned_to)))
+            # event.assignee.clear()
+            # if "assigned-to" in request.POST and request.POST["assigned-to"]:
+            #     for assigned_to in request.POST.getlist("assigned-to"):
+            #         event.assignee.add(User.objects.get(pk=int(assigned_to)))
 
             event.admins.clear()
             if "admins" in request.POST and request.POST["admins"]:
