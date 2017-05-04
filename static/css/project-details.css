@@ -69,6 +69,76 @@ body {
     top: 30px;
     /* 30px from the top */ }
 
+nav {
+  flex-basis: 100%;
+  height: 56px;
+  background-color: #004d4d;
+  z-index: 1010;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 0 16px;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  nav a:hover, nav a:active {
+    color: #fff; }
+  nav h1, nav h2, nav h3, nav h4, nav a {
+    margin: 0;
+    text-transform: uppercase; }
+  nav #left-part {
+    display: flex;
+    align-items: flex-end; }
+    nav #left-part h2 {
+      font-size: 1.5em;
+      margin-left: 16px;
+      color: #fff; }
+    nav #left-part #deep-logo-container {
+      width: 36px;
+      flex-shrink: 0;
+      flex-grow: 0; }
+      nav #left-part #deep-logo-container img {
+        width: 100%; }
+  nav .dropdown {
+    flex-basis: 232px;
+    position: relative;
+    cursor: pointer;
+    outline: none; }
+    nav .dropdown .dropdown-toggle {
+      color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      justify-content: space-around; }
+      nav .dropdown .dropdown-toggle .fa {
+        margin-right: 10px; }
+    nav .dropdown .items {
+      position: absolute;
+      top: calc(8px + 56px / 2);
+      right: 0;
+      background-color: #fff;
+      width: 100%;
+      min-width: 200px;
+      z-index: 1011;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.3); }
+      nav .dropdown .items hr {
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        margin: 0; }
+      nav .dropdown .items a, nav .dropdown .items button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 16px;
+        text-transform: uppercase;
+        color: #414141;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        text-decoration: none;
+        background-color: transparent; }
+        nav .dropdown .items a .fa, nav .dropdown .items button .fa {
+          width: 32px; }
+        nav .dropdown .items a:hover, nav .dropdown .items button:hover {
+          background-color: rgba(0, 0, 0, 0.1); }
+
 body {
   display: flex;
   flex-wrap: wrap;
@@ -106,10 +176,12 @@ body {
         padding: 0 16px; }
         body aside > header > div:first-child {
           height: 64px; }
-          body aside > header > div:first-child a {
+          body aside > header > div:first-child button {
             color: #008080;
-            cursor: pointer; }
-            body aside > header > div:first-child a .fa {
+            cursor: pointer;
+            border: none;
+            outline: none; }
+            body aside > header > div:first-child button .fa {
               margin-right: 8px; }
         body aside > header > div:nth-child(2) {
           height: 24px;
@@ -136,7 +208,6 @@ body {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        cursor: pointer;
         border-left: 6px solid transparent;
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         background-color: #f9f9f9; }
@@ -154,10 +225,13 @@ body {
           justify-content: space-between;
           flex-wrap: wrap; }
           body aside #project-list .project header .name {
+            display: block;
             font-size: 1.2em;
             font-weight: 500;
             padding: 6px 0;
-            flex-basis: calc(100% - 32px); }
+            flex-basis: calc(100% - 32px);
+            color: #008080;
+            text-transform: none; }
           body aside #project-list .project header button {
             width: 32px;
             height: 32px;
@@ -216,7 +290,7 @@ body {
       display: flex;
       align-items: center;
       padding: 0 32px;
-      justify-content: flex-end; }
+      justify-content: space-between; }
       body main form .action-buttons button {
         border: none;
         padding: 10px 12px;
@@ -232,9 +306,12 @@ body {
           background-color: #3498db; }
         body main form .action-buttons button#save-and-proceed-btn {
           background-color: #008080; }
+        body main form .action-buttons button#delete-btn {
+          background-color: #e74c3c; }
     body main form .input-group-list {
       height: calc(100vh - 56px - 72px - 72px);
-      padding: 0 32px; }
+      padding: 0 32px;
+      overflow-y: auto; }
       body main form .input-group-list .input-group {
         position: relative;
         padding: 0 10px;
@@ -268,5 +345,10 @@ body {
         display: flex; }
         body main form .input-group-list .input-groups .input-group {
           flex-basis: 50%; }
+  body #new-project-modal .error {
+    padding: 16px 0 0 16px;
+    color: #e74c3c; }
+    body #new-project-modal .error .fa {
+      margin-right: 8px; }
 
 /*# sourceMappingURL=project-details.css.map */
