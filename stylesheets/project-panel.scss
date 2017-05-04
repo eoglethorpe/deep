@@ -1,4 +1,5 @@
 @import 'common/base';
+@import 'common/simplified-navbar';
 
 body{
     display: flex;
@@ -8,40 +9,6 @@ body{
     h1,h2,h3,h4{
         margin: 0;
         text-transform: uppercase;
-    }
-    nav{
-        flex-basis: 100%;
-        height: $navbar-height;
-        background-color: darken($primary-color, 10%);
-        color: #fff;
-        display: flex;
-        justify-content: space-between;
-        padding: 0 16px;
-        align-items: center;
-        @include shadow;
-
-        >header{
-            flex-basis: 60%;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-
-            .deep-logo{
-                width: $deep-logo-sm-width;
-                margin-right: 24px;
-            }
-        }
-        a{
-            color: #fff;
-            cursor:pointer;
-
-            .fa{
-                margin-right: 10px;
-            }
-            &:hover{
-                color: #fff;
-             }
-        }
     }
     aside{
         $project-header-height: 144px;
