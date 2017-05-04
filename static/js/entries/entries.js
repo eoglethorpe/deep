@@ -36,7 +36,9 @@ $(document).ready(function() {
     // loadMap();
 });
 function renderEntries() {
-    renderVisualizations();
+    if (eventId) {
+        renderVisualizations();
+    }
 
     $("#entries").empty();
     for (var i=0; i<entries.length; ++i) {
@@ -138,7 +140,7 @@ function renderEntries() {
 
         entryElement.find('.edit-btn').unbind().click(function(entry){
             return function() {
-                window.location.href = "/" + eventId + "/entries/edit/" + entry.id + "/";
+                window.location.href = "/" + entry.event + "/entries/edit/" + entry.id + "/";
             }
         }(entry));
 
@@ -146,7 +148,7 @@ function renderEntries() {
             return function() {
                 if (confirm('Are you sure you want to delete this entry?')) {
                     var data = { id: entry.id };
-                    redirectPost("/" + eventId + "/entries/delete/", data, csrf_token);
+                    redirectPost("/" + entry.event + "/entries/delete/", data, csrf_token);
                 }
             }
         }(entry));

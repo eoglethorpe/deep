@@ -28,7 +28,7 @@ DEEP | Entries
 <script src="{% watchful_static_url 'js/common/leaflet.label.js' %}"></script>
 
 <script>
-    var eventId = "{{event.pk}}";
+    var eventId = {% if event %}"{{event.pk}}" {% else %} null {% endif %};
     var csrf_token = "{% csrf_token %}";
 
     var pillar_names = { {% for pillar in pillars %}{{pillar.pk}}: '{{pillar.name}}', {% endfor %} };
@@ -131,6 +131,7 @@ DEEP | Entries
     </div>
     <div >
         <button class="btn btn-default btn-sm" id="clear-filter-btn" onclick="clearFilters();">Clear filters</button>
+        {% if event %}
         <div id="toggle-panel">
             <a href="#" data-target="#entries" class="fa fa-list active"></a>
             <a href="#" data-target="#visualizations" class="fa fa-th"></a>
@@ -138,6 +139,9 @@ DEEP | Entries
         <div id="visualizations" hidden>
             {% include 'entries/entry-visualization.html' %}
         </div>
+        {% else %}
+        <div id="toggle-panel"><a></a><a></a></div>
+        {% endif %}
         <div id="entries">
         </div>
     </div>

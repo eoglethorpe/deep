@@ -34,7 +34,7 @@ class EntryApiView(View):
 
         data = []
         for entry in entries:
-            if entry.lead.event.entry_template:
+            if event and entry.lead.event.entry_template:
                 if entry.template:
                     data.append(TemplateEntrySerializer(entry).serialize())
             else:

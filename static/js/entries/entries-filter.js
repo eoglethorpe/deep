@@ -53,7 +53,7 @@ function loadEntriesData(data) {
 
 function readEntries() {
     function updateEntries(index, count) {
-        $.getJSON("/api/v2/entries/?event="+eventId+'&index='+index+'&count='+count, function(data){
+        $.getJSON("/api/v2/entries/?" + (eventId?("event="+eventId+'&'):'') + 'index='+index+'&count='+count, function(data){
             loadEntriesData(data);
             filterEntries();
             renderEntries(false);

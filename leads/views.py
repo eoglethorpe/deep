@@ -99,8 +99,10 @@ class LeadsView(View):
     def get(self, request, event):
         context = {}
         context["current_page"] = "leads"
-        context["event"] = Event.objects.get(pk=event)
-        UserProfile.set_last_event(request, context["event"])
+        if int(event) != 0:
+            context["event"] = Event.objects.get(pk=event)
+            UserProfile.set_last_event(request, context["event"])
+
         context["all_events"] = Event.objects.all()
         context.update(get_lead_form_data())
         return render(request, "leads/leads.html", context)
