@@ -154,7 +154,7 @@ class GeoAreaView(View):
         context = {}
         context["project_id"] = project_id
         context["current_page"] = "geo-area"
-
+        context["project"] = Event.objects.get(pk=project_id)
         return render(request, "project/geo-area.html", context)
 
 class AnalysisFrameworkView(View):
