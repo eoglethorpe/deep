@@ -1,0 +1,63 @@
+@import 'common/base';
+
+body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    h1, h2, h3, h4, h5, h6 {
+        margin: 0;
+        text-transform: uppercase;
+    }
+    nav {
+        flex-basis: 100%;
+        height: $navbar-height;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 16px;
+        background-color: darken($primary-color, 10%);
+        color: #fff;
+
+        header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .deep-logo{
+                width: $deep-logo-sm-width;
+                margin-right: 24px;
+            }
+        }
+    }
+
+    aside {
+        margin-left: 32px;
+        flex-basis: 30%;
+        box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5);
+        height: calc(100vh - #{$navbar-height});
+    }
+
+    main {
+        margin-left: 32px;
+        flex-basis: 50%;
+        height: calc(100vh - #{$navbar-height});
+
+        >header {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            height: 72px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+
+            a {
+                color: $label-color;
+                font-weight: $font-weight-bold;
+
+                &.active {
+                    font-size: 1.5em;
+                    color: $primary-color;
+                }
+            }
+        }
+    }
+}

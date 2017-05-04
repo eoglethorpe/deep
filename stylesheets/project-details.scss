@@ -189,7 +189,6 @@ body {
     main {
         margin-left: 32px;
         flex-basis: 50%;
-        height: calc(100vh - #{$navbar-height});
         overflow-y: auto;
 
         >header {
@@ -238,6 +237,7 @@ body {
                 }
             }
             .input-group-list {
+                height: calc(100vh - #{$navbar-height} - 72px - 72px);
                 padding: 0 32px;
 
                 .input-group {

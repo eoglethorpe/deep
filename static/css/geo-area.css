@@ -1,0 +1,116 @@
+::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.04); }
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px; }
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.24); }
+
+body {
+  margin: 0;
+  background-color: #f0f0f0;
+  color: #414141;
+  font-size: 13px;
+  /*float-alert-toast - position it at the top-center of the screen*/ }
+  body * {
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box; }
+  body h1, body h2, body h3, body h4 {
+    font-weight: 400; }
+  body h1 {
+    font-size: 19px; }
+  body h2 {
+    font-size: 17px; }
+  body h3 {
+    font-size: 15px; }
+  body a, body a:hover, body a:active, body a:visited, body a:focus {
+    text-decoration: none; }
+  body a, body button, body input[type="submit"], body input[type="button"], body .btn, body .btn:focus, body button:focus {
+    text-transform: uppercase;
+    outline: none; }
+  body button {
+    background-color: #fff;
+    color: #414141;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: 0.2s all ease-in-out; }
+  body label {
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 500;
+    display: inline-block; }
+  body .float-alert-toast {
+    display: none;
+    /* Hidden by default. Visible on click */
+    min-width: 250px;
+    /* Set a default minimum width */
+    margin-left: -125px;
+    /* Divide value of min-width by 2 */
+    background-color: #333;
+    /* Black background color */
+    color: #fff;
+    /* White text color */
+    text-align: center;
+    /* Centered text */
+    border-radius: 2px;
+    /* Rounded borders */
+    padding: 16px;
+    /* Padding */
+    position: fixed;
+    /* Sit on top of the screen */
+    z-index: 1;
+    /* Add a z-index if needed */
+    right: 10%;
+    /* Towards the right */
+    top: 30px;
+    /* 30px from the top */ }
+
+body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start; }
+  body h1, body h2, body h3, body h4, body h5, body h6 {
+    margin: 0;
+    text-transform: uppercase; }
+  body nav {
+    flex-basis: 100%;
+    height: 56px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 16px;
+    background-color: #004d4d;
+    color: #fff; }
+    body nav header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center; }
+      body nav header .deep-logo {
+        width: 32px;
+        margin-right: 24px; }
+  body aside {
+    margin-left: 32px;
+    flex-basis: 30%;
+    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5);
+    height: calc(100vh - 56px); }
+  body main {
+    margin-left: 32px;
+    flex-basis: 50%;
+    height: calc(100vh - 56px); }
+    body main > header {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      height: 72px;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
+      body main > header a {
+        color: rgba(0, 0, 0, 0.5);
+        font-weight: 500; }
+        body main > header a.active {
+          font-size: 1.5em;
+          color: #008080; }
+
+/*# sourceMappingURL=geo-area.css.map */

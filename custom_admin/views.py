@@ -169,15 +169,15 @@ class ProjectDetailsView(View):
 
         if request.user.is_superuser:
             context["events"] = Event.objects.all().order_by('name')
-            context["usergroups"] = UserGroup.objects.all()
+            # context["usergroups"] = UserGroup.objects.all()
         else:
             context["events"] = Event.objects.filter(admins__pk=request.user.pk).order_by('name')
-            context["usergroups"] = UserGroup.objects.filter(admins__pk=request.user.pk).order_by('name')
+            # context["usergroups"] = UserGroup.objects.filter(admins__pk=request.user.pk).order_by('name')
 
-        context["entry_templates"] = EntryTemplate.objects.filter(usergroup__members__pk=request.user.pk)
-        context["countries"] = Country.objects.all()
-        context["disaster_types"] = DisasterType.objects.all()
-        context["users"] = User.objects.all()
+        # context["entry_templates"] = EntryTemplate.objects.filter(usergroup__members__pk=request.user.pk)
+        # context["countries"] = Country.objects.all()
+        # context["disaster_types"] = DisasterType.objects.all()
+        # context["users"] = User.objects.all()
 
         if "selected" in request.GET:
             context["selected_event"] = int(request.GET["selected"])
@@ -298,6 +298,22 @@ class ProjectDetailsView(View):
                 Event.objects.get(pk=int(pk)).delete()
 
         return response
+
+class GeoAreaView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        context = {}
+        context["current_page"] = "geo-area"
+
+        return render(request, "custom_admin/geo-area.html", context)
+
+class AnalysisFrameworkView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        context = {}
+        context["current_page"] = "analysis-framework"
+
+        return render(request, "custom_admin/analysis-framework.html", context)
 
 
 class CountryManagementView(View):
