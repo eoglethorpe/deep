@@ -16,12 +16,9 @@ DEEP | Analysis Framework
 {% endblock %}
 
 {% block body %}
-<nav>
-    <header>
-        <a title="DEEP" href="{% url 'login' %}"><img class="deep-logo" src="{% watchful_static_url 'img/deep-logo-sm-white.png' %}"></a>
-        <h1>Project Management Panel</h1>
-    </header>
-</nav>
+
+{% include 'simplified-navbar.html' with page_title="Project Management Panel" %}
+
 <aside>
 </aside>
 <main>
