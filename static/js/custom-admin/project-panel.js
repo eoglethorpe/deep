@@ -1,6 +1,5 @@
 var disasterTypeSelectize;
 var countriesSelectize;
-var assignedToSelectize;
 var userGroupsSelectize;
 var adminsSelectize;
 var membersSelectize;
@@ -38,7 +37,6 @@ $(document).ready(function(){
 
     disasterTypeSelectize = $("#disaster-type").selectize();
     countriesSelectize = $("#countries").selectize();
-    assignedToSelectize = $("#assigned-to").selectize();
     userGroupsSelectize = $('#user-groups').selectize();
     adminsSelectize = $('#admins').selectize();
     membersSelectize = $('#members').selectize();
@@ -60,7 +58,6 @@ $(document).ready(function(){
 
         disasterTypeSelectize[0].selectize.setValue(project.disaster_type);
         countriesSelectize[0].selectize.setValue(project.countries);
-        assignedToSelectize[0].selectize.setValue(project.assigned_to);
         userGroupsSelectize[0].selectize.setValue(project.usergroups);
         lastAdminSelection = null;
         adminsSelectize[0].selectize.setValue(project.admins);
@@ -133,7 +130,6 @@ function addNewProject() {
 
     disasterTypeSelectize[0].selectize.setValue("");
     countriesSelectize[0].selectize.setValue("");
-    assignedToSelectize[0].selectize.setValue("");
     userGroupsSelectize[0].selectize.setValue(defaultGroupSelection);
     lastAdminSelection = null;
     adminsSelectize[0].selectize.setValue(defaultAdminSelection);
