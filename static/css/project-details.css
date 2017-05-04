@@ -106,10 +106,12 @@ body {
         padding: 0 16px; }
         body aside > header > div:first-child {
           height: 64px; }
-          body aside > header > div:first-child a {
+          body aside > header > div:first-child button {
             color: #008080;
-            cursor: pointer; }
-            body aside > header > div:first-child a .fa {
+            cursor: pointer;
+            border: none;
+            outline: none; }
+            body aside > header > div:first-child button .fa {
               margin-right: 8px; }
         body aside > header > div:nth-child(2) {
           height: 24px;
@@ -136,7 +138,6 @@ body {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        cursor: pointer;
         border-left: 6px solid transparent;
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         background-color: #f9f9f9; }
@@ -154,10 +155,13 @@ body {
           justify-content: space-between;
           flex-wrap: wrap; }
           body aside #project-list .project header .name {
+            display: block;
             font-size: 1.2em;
             font-weight: 500;
             padding: 6px 0;
-            flex-basis: calc(100% - 32px); }
+            flex-basis: calc(100% - 32px);
+            color: #008080;
+            text-transform: none; }
           body aside #project-list .project header button {
             width: 32px;
             height: 32px;
@@ -216,7 +220,7 @@ body {
       display: flex;
       align-items: center;
       padding: 0 32px;
-      justify-content: flex-end; }
+      justify-content: space-between; }
       body main form .action-buttons button {
         border: none;
         padding: 10px 12px;
@@ -232,9 +236,12 @@ body {
           background-color: #3498db; }
         body main form .action-buttons button#save-and-proceed-btn {
           background-color: #008080; }
+        body main form .action-buttons button#delete-btn {
+          background-color: #e74c3c; }
     body main form .input-group-list {
       height: calc(100vh - 56px - 72px - 72px);
-      padding: 0 32px; }
+      padding: 0 32px;
+      overflow-y: auto; }
       body main form .input-group-list .input-group {
         position: relative;
         padding: 0 10px;
@@ -268,5 +275,10 @@ body {
         display: flex; }
         body main form .input-group-list .input-groups .input-group {
           flex-basis: 50%; }
+  body #new-project-modal .error {
+    padding: 16px 0 0 16px;
+    color: #e74c3c; }
+    body #new-project-modal .error .fa {
+      margin-right: 8px; }
 
 /*# sourceMappingURL=project-details.css.map */

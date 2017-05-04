@@ -49,9 +49,11 @@ body {
                 &:first-child {  // title block
                     height: 64px;
 
-                    a {
+                    button {
                         color: $primary-color;
                         cursor: pointer;
+                        border: none;
+                        outline: none;
 
                         .fa {
                             margin-right: 8px;
@@ -90,7 +92,6 @@ body {
                 display: flex;
                 flex-wrap: wrap;
                 align-items: center;
-                cursor: pointer;
                 border-left: 6px solid transparent;
                 border-bottom: 1px solid rgba(0, 0, 0, 0.1);
                 background-color: #f9f9f9;
@@ -117,10 +118,13 @@ body {
                     flex-wrap: wrap;
 
                     .name {
+                        display: block;
                         font-size: 1.2em;
                         font-weight: $font-weight-bold;
                         padding: 6px 0;
                         flex-basis: calc(100% - 32px);
+                        color: $primary-color;
+                        text-transform: none;
                     }
 
                     button {
@@ -214,7 +218,7 @@ body {
                 display: flex;
                 align-items: center;
                 padding: 0 32px;
-                justify-content: flex-end;
+                justify-content: space-between;
 
                 button {
                     border: none;
@@ -234,11 +238,15 @@ body {
                     &#save-and-proceed-btn{
                         background-color: $primary-color;
                     }
+                    &#delete-btn{
+                        background-color: $danger-color;
+                    }
                 }
             }
             .input-group-list {
                 height: calc(100vh - #{$navbar-height} - 72px - 72px);
                 padding: 0 32px;
+                overflow-y: auto;
 
                 .input-group {
                     position: relative;
@@ -290,6 +298,17 @@ body {
                         flex-basis: 50%;
                     }
                 }
+            }
+        }
+    }
+
+    #new-project-modal {
+        .error {
+            padding: 16px 0 0 16px;
+            color: $danger-color;
+
+            .fa {
+                margin-right: 8px;
             }
         }
     }
