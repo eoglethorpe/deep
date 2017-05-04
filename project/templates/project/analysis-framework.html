@@ -11,7 +11,7 @@ DEEP | Analysis Framework
 <link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/analysis-framework.css' %}" />
 <script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
-<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/project-panel/analysis-framework.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/project/analysis-framework.js' %}"></script>
 
 {% endblock %}
 
@@ -26,8 +26,8 @@ DEEP | Analysis Framework
 </aside>
 <main>
     <header>
-        <a href="{% url 'custom_admin:project_details' %}">1. Project details</a>
-        <a href="{% url 'custom_admin:geo_area' %}">2. Geo area</a>
+        <a href="{% url 'project:project_details' project_id %}">1. Project details</a>
+        <a href="{% url 'project:geo_area' project_id %}">2. Geo area</a>
         <a class="active">3. Analysis framework</a>
     </header>
 </main>

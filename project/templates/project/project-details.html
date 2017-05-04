@@ -11,7 +11,7 @@ DEEP | Project Details
 <link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/project-details.css' %}" />
 <script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
-<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/project-panel/project-details.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/project/project-details.js' %}"></script>
 {# comment #}
 <script>
 var projects = {
@@ -88,8 +88,8 @@ let myPk = '{{request.user.pk}}';
 <main>
     <header>
         <a class="active">1. Project details</a>
-        <a href="{% url 'custom_admin:geo_area' %}">2. Geo area</a>
-        <a href="{% url 'custom_admin:analysis_framework' %}">3. Analysis framework</a>
+        <a href="{% url 'project:geo_area' project_id %}">2. Geo area</a>
+        <a href="{% url 'project:analysis_framework' project_id %}">3. Analysis framework</a>
     </header>
     <div id="project-detail">
         <form method="post" action="{% url 'custom_admin:project_panel' %}">

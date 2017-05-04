@@ -50,10 +50,11 @@ urlpatterns = [
     url(r'^(?P<event>\d+)/dashboard/$', DashboardView.as_view(), name="dashboard"),
     url(r'^(?P<event>\d+)/leads/', include('leads.urls', namespace='leads')),
     url(r'^(?P<event>\d+)/entries/', include('entries.urls', namespace='entries')),
+
+    url(r'^project/(?P<project_id>\d+)/', include('project.urls', namespace='project')),
     url(r'^usergroup/', include('usergroup.urls', namespace='usergroup')),
     url(r'^custom-admin/', include('custom_admin.urls', namespace='custom_admin')),
     url(r'^report/', include('report.urls', namespace='report')),
-
 
     url(r'^user/(?P<user_id>\d+)', UserProfileView.as_view(), name="user_profile"),
 

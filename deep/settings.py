@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'users',
     'leads',
     'entries',
+    'project',
     'report',
     'usergroup',
     'custom_admin',
