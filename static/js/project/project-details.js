@@ -52,7 +52,7 @@ $(document).ready(function(){
 
 function confirmChanges() {
     if ($('#project-detail form').data('changed')) {
-        return confirm('Are you sure you want to discard your changes');
+        return confirm('Moving away will discard your changes');
     }
     return true;
 }

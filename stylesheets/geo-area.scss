@@ -117,6 +117,12 @@ body {
                     justify-content: space-between;
                     padding: 0 32px;
 
+                    h3 {
+                        small {
+                            color: $info-color;
+                        }
+                    }
+
                     .action-buttons {
                         button {
                             border: none;
@@ -144,10 +150,14 @@ body {
                 }
 
                 .input-group-list {
-                    display: flex;
-                    flex-wrap: wrap;
-                    height: calc(100vh- #{$navbar-height} - 72px - 72px);
+                    height: calc(100vh - #{$navbar-height} - 72px - 72px);
                     padding: 0 32px;
+                    overflow-y: auto;
+
+                    >div:first-child {
+                        display: flex;
+                        justify-content: space-between;
+                    }
 
                     .input-group {
                         position: relative;
@@ -204,13 +214,29 @@ body {
                         overflow-y: auto;
                     }
                     #map-container{
-                        flex-basis: 60%;
-                        background-color: pink;
+                        flex-basis: 58%;
+
+                        #the-map {
+                            height: calc(100% - 32px);
+                            width: 100%;
+                            @include shadow();
+
+                            path {
+                                stroke: #717171;
+                                stroke-width: 1px;
+                                stroke-linejoin: round;
+                            }
+                        }
+
+                        #map-controls {
+                            height: 32px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
                     }
 
                     #admin-level-list{
-                        flex-basis: 100%;
-
                         header {
                             display: flex;
                             align-items: center;
@@ -236,7 +262,7 @@ body {
 
                         }
                         #admin-levels {
-                            .admin-level {
+                            .admin-level-details {
                                 padding-top: 6px;
                                 display: flex;
                                 flex-wrap: wrap;
@@ -265,6 +291,12 @@ body {
 
                                         .fa{
                                             margin-right: 6px;
+                                        }
+                                    }
+                                    .geojson-old {
+                                        a {
+                                            text-transform: none;
+                                            color: $primary-color;
                                         }
                                     }
                                 }

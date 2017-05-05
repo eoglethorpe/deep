@@ -94,7 +94,7 @@ DEEP | Project Details
                     <select name="countries" id="countries" placeholder="Select countries" multiple>
                         <option value="">Select countries</option>
                         {% for country in countries %}
-                        <option value="{{country.pk}}" {% if country in project.countries.all %}selected {% endif %}>{{country.name}}</option>
+                        <option value="{{country.pk}}" {% if country in project.countries.all %}selected {% endif %}>{{country.name}}{% if country.reference_country %} (Modified){% endif %}</option>
                         {% endfor %}
                     </select>
                 </div>

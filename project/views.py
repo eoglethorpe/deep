@@ -3,8 +3,11 @@ from django.core.urlresolvers import reverse
 from django.views.generic import View
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.core.files.base import ContentFile
+from django.db.models import Q
 
 from leads.models import *
+from entries.models import *
 from usergroup.models import *
 from users.log import *
 
@@ -26,7 +29,10 @@ class ProjectDetailsView(View):
             context["projects"] = Event.objects.filter(admins__pk=request.user.pk).order_by('name')
             context["usergroups"] = UserGroup.objects.filter(admins__pk=request.user.pk).order_by('name')
 
-        context["countries"] = Country.objects.all()
+        context["countries"] = Country.objects.filter(
+            Q(reference_country=None) | Q(event__pk=project_id)
+        )
+
         context["users"] = User.objects.all()
         context["project"] = Event.objects.get(pk=project_id)
 
@@ -115,6 +121,8 @@ class ProjectDetailsView(View):
                         reverse('project:project_details', args=[project.pk])
                     ).log_for(request.user, event=project, group=ug)
 
+            Country.objects.filter(event=None).exclude(reference_country=None).delete()
+
             if 'save-and-proceed' in request.POST:
                 return redirect('project:geo_area', project.pk)
             else:
@@ -124,7 +132,10 @@ class ProjectDetailsView(View):
             activity = DeletionActivity().set_target('project', project.pk, project.name)
             project.delete()
             activity.log_for(request.user)
+
+            Country.objects.filter(event=None).exclude(reference_country=None).delete()
             return redirect('login')
+
 
 class GeoAreaView(View):
     @method_decorator(login_required)
@@ -134,6 +145,129 @@ class GeoAreaView(View):
         context["current_page"] = "geo-area"
         context["project"] = Event.objects.get(pk=project_id)
         return render(request, "project/geo-area.html", context)
+
+    @method_decorator(login_required)
+    def post(self, request, project_id):
+        project = Event.objects.get(pk=project_id)
+
+        if 'save' in request.POST or 'save-and-proceed' in request.POST:
+            if request.POST.get('modified') == '1':
+
+                code = request.POST.get('actual-code')
+                reference_code = request.POST.get('country-code')
+                reference_country = Country.objects.get(code=reference_code)
+
+                admin_pk_map = {}
+
+                if code == reference_code:
+                    # Cloning the country
+                    code = Country.get_unique_code()
+                    country = Country(code=code)
+                    country.name = reference_country.name
+                    country.reference_country = reference_country
+                    country.save()
+
+                    for admin_level in reference_country.adminlevel_set.all():
+                        new_level = AdminLevel()
+                        new_level.level = admin_level.level
+                        new_level.country = country
+                        new_level.name = admin_level.name
+                        new_level.property_name = admin_level.property_name
+                        new_level.property_pcode = admin_level.property_pcode
+
+                        if admin_level.geojson:
+                            geojson = ContentFile(admin_level.geojson.read())
+                            geojson.name = admin_level.geojson.name
+                            new_level.geojson = geojson
+                        new_level.save()
+                        admin_pk_map[int(admin_level.pk)] = new_level.pk
+                else:
+                    country = Country.objects.get(code=code)
+
+                country.name = request.POST['country-name']
+
+                # Country Region Data
+                region_data = {
+                    'WB Region': request.POST.get('country-wb-region'),
+                    'WB IncomeGroup': request.POST.get('country-wb-income-group'),
+                    'UN-OCHA Region': request.POST.get('country-ocha-region'),
+                    'EC-ECHO Region': request.POST.get('country-echo-region'),
+                    'UN Geographical Region':
+                        request.POST.get('country-un-geographical-region'),
+                    'UN Geographical Sub-Region':
+                        request.POST.get('country-un-geographical-sub-region'),
+                }
+                country.regions = json.dumps(region_data)
+                country.save()
+
+                # Admin areas
+                admin_level_pks = request.POST.getlist('admin-level-pk')
+                temp = []
+                for pk in admin_level_pks:
+                    if int(pk) in admin_pk_map:
+                        temp.append(admin_pk_map[int(pk)])
+                    else:
+                        temp.append(pk)
+                admin_level_pks = temp
+
+                admin_levels = request.POST.getlist('admin-level')
+                admin_level_names = request.POST.getlist('admin-level-name')
+                property_names = request.POST.getlist('property-name')
+                property_pcodes = request.POST.getlist('property-pcode')
+                geojsons = request.FILES.getlist('geojson')
+                geojsons_selected = request.POST.getlist('geojson-selected')
+
+                # Deletion are checkboxes and need to be handled differently
+                # See html comment for more info
+                temp = request.POST.getlist('delete-admin-level')
+                delete_admin_levels = []
+                t = 0
+                while t < len(temp):
+                    if temp[t] == '0':
+                        delete_admin_levels.append(False)
+                    else:
+                        t += 1
+                        delete_admin_levels.append(True)
+                    t += 1
+
+                # Post each admin level
+                geojson_file = 0
+                for i, pk in enumerate(admin_level_pks):
+
+                    to_delete = delete_admin_levels[i] or admin_levels[i] == '' \
+                        or admin_level_names[i] == '' or property_names[i] == ''
+
+                    if pk == "new":
+                        admin_level = AdminLevel()
+                        if to_delete:
+                            continue
+                    else:
+                        admin_level = AdminLevel.objects.get(pk=int(pk))
+                        if to_delete:
+                            admin_level.delete()
+                            continue
+
+                    admin_level.country = country
+                    admin_level.level = int(admin_levels[i])
+                    admin_level.name = admin_level_names[i]
+                    admin_level.property_name = property_names[i]
+                    admin_level.property_pcode = property_pcodes[i]
+
+                    if geojsons_selected[i] == 'true':
+                        admin_level.geojson = geojsons[geojson_file]
+                        geojson_file += 1
+                    admin_level.save()
+
+
+                if reference_country in project.countries.all():
+                    project.countries.remove(reference_country)
+                if country not in project.countries.all():
+                    project.countries.add(country)
+
+        if 'save-and-proceed' in request.POST:
+            return redirect('project:analysis_framework', project_id);
+        return redirect('project:geo_area', project_id);
+
 
 class AnalysisFrameworkView(View):
     @method_decorator(login_required)
