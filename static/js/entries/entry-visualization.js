@@ -390,6 +390,7 @@ function renderTimeline(){
 }
 
 function resizeCanvas() {
+    if (!eventId) { return; }
     timelineCanvas.width = $("#entry-timeline-container").innerWidth();
     timelineCanvas.height = $("#entry-timeline-container").innerHeight();
     isSelected = false;
@@ -397,6 +398,8 @@ function resizeCanvas() {
 }
 
 $(document).ready(function() {
+    if (!eventId) { return; }
+
     timelineCanvas = document.getElementById("entry-timeline");
 
     window.addEventListener('resize', resizeCanvas, false);

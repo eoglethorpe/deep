@@ -33,7 +33,7 @@ class ProjectPanelView(View):
             context["usergroups"] = UserGroup.objects.filter(admins__pk=request.user.pk).order_by('name')
 
         context["entry_templates"] = EntryTemplate.objects.filter(usergroup__members__pk=request.user.pk)
-        context["countries"] = Country.objects.all()
+        context["countries"] = Country.objects.filter(reference_country=None)
         context["disaster_types"] = DisasterType.objects.all()
         context["users"] = User.objects.all()
 
@@ -164,7 +164,11 @@ class CountryManagementView(View):
         context = {}
         context["current_page"] = "country-management"
         context["events"] = Event.objects.all()
-        context["countries"] = Country.objects.all()
+
+        if request.user.is_superuser:
+            context["countries"] = Country.objects.all()
+        else:
+            context["countries"] = Country.objects.filter(reference_country=None)
 
         if "selected" in request.GET:
             context["selected_country"] = request.GET["selected"]

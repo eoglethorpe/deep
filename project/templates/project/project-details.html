@@ -16,6 +16,13 @@ DEEP | Project Details
 <script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/project/project-details.js' %}"></script>
 
+<script>
+    let myId = '{{ request.user.pk }}';
+    let modifiedCountryCodes = [
+        {% for country in countries %}{% if country.reference_country %}'{{ country.code }}',{% endif %}{% endfor %}
+    ];
+</script>
+
 {% endblock %}
 
 {% block body %}
@@ -94,7 +101,7 @@ DEEP | Project Details
                     <select name="countries" id="countries" placeholder="Select countries" multiple>
                         <option value="">Select countries</option>
                         {% for country in countries %}
-                        <option value="{{country.pk}}" {% if country in project.countries.all %}selected {% endif %}>{{country.name}}</option>
+                        <option value="{{country.pk}}" {% if country in project.countries.all %}selected {% endif %}>{{country.name}}{% if country.reference_country %} (Modified){% endif %}</option>
                         {% endfor %}
                     </select>
                 </div>

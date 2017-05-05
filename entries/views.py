@@ -152,13 +152,16 @@ class EntriesView(View):
     def get(self, request, event):
         context = {}
         context["current_page"] = "entries"
-        context["event"] = Event.objects.get(pk=event)
+
         context["all_events"] = Event.objects.all()
-
         context["users"] = User.objects.exclude(first_name="", last_name="")
-        UserProfile.set_last_event(request, context["event"])
 
-        if context["event"].entry_template:
+        if int(event) != 0:
+            context["event"] = Event.objects.get(pk=event)
+            UserProfile.set_last_event(request, context["event"])
+
+
+        if int(event) != 0 and context["event"].entry_template:
             context["entry_template"] = context["event"].entry_template
             return render(request, "entries/template-entries.html", context)
         else:

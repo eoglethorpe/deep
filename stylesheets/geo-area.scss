@@ -34,14 +34,48 @@ body {
 
     aside {
         margin-left: 32px;
-        flex-basis: 30%;
+        flex-basis: 26%;
         box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5);
-        height: calc(100vh - #{$navbar-height});
+
+        >header {
+            height: 72px;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        #admin-boundary-list {
+            height: calc(100vh - #{$navbar-height} - 72px);
+            overflow-y: auto;
+            background-color: #f9f9f9;
+
+            .admin-boundary {
+                min-height: 48px;
+                padding: 10px 16px;
+                display: flex;
+                align-items: center;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                font-size: 1.1em;
+                cursor: pointer;
+
+                &:hover{
+                    background-color: rgba(0, 0, 0, 0.05);
+                }
+
+                &.active{
+                    background-color: $primary-color;
+                    color: #fff;
+                }
+            }
+        }
     }
 
     main {
         margin-left: 32px;
-        flex-basis: 50%;
+        flex-basis: 60%;
         height: calc(100vh - #{$navbar-height});
 
         >header {
@@ -58,6 +92,225 @@ body {
                 &.active {
                     font-size: 1.5em;
                     color: $primary-color;
+                }
+            }
+        }
+
+        #admin-boundary-detail{
+            form {
+                >header {
+                    height: 72px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 0 32px;
+
+                    h3 {
+                        small {
+                            color: $info-color;
+                        }
+                    }
+
+                    .action-buttons {
+                        button {
+                            border: none;
+                            padding: 10px 12px;
+                            margin-left: 10px;
+                            color: #fff;
+                            border-radius: 3px;
+                            @include btn-shadow-sm;
+
+                            .fa {
+                                margin-right: 8px;
+                            }
+
+                            &#save-btn{
+                                background-color: $info-color;
+                            }
+                            &#save-and-proceed-btn{
+                                background-color: $primary-color;
+                            }
+                            &#delete-btn{
+                                background-color: $danger-color;
+                            }
+                        }
+                    }
+                }
+
+                .input-group-list {
+                    height: calc(100vh - #{$navbar-height} - 72px - 72px);
+                    padding: 0 32px;
+                    overflow-y: auto;
+
+                    >div:first-child {
+                        display: flex;
+                        justify-content: space-between;
+                    }
+
+                    .input-group {
+                        position: relative;
+                        padding: 0 10px;
+                        margin-bottom: 16px;
+
+                        label {
+                            width: 100%;
+                        }
+
+                        >input, textarea {
+                            width: 100%;
+                            border: none;
+                            background-color: transparent;
+                            padding: 4px 0;
+                            outline: none;
+                            font-size: 1.1em;
+                            margin: 0;
+                            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+                        }
+
+                        .selectize-input {
+                            font-size: 1.1em!important;
+                            border: none;
+                            padding: 4px 0;
+                            background-color: transparent;
+                            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+
+                            &.has-items{
+                                padding: 0;
+                                padding-top: 5px;
+                            }
+
+                            >input{
+                                font-size: 1.1em!important;
+                                background-color: transparent;
+                            }
+                        }
+                    }
+                    .input-groups{
+                        display: flex;
+                        justify-content: space-between;
+
+                        #country-code-input {
+                            flex-basis: 30%;
+                        }
+                        #country-name-input {
+                            flex-basis: 70%;
+                        }
+                    }
+
+                    #country-detail-inputs{
+                        flex-basis: 40%;
+                        overflow-y: auto;
+                    }
+                    #map-container{
+                        flex-basis: 58%;
+
+                        #the-map {
+                            height: calc(100% - 32px);
+                            width: 100%;
+                            @include shadow();
+
+                            path {
+                                stroke: #717171;
+                                stroke-width: 1px;
+                                stroke-linejoin: round;
+                            }
+                        }
+
+                        #map-controls {
+                            height: 32px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+                    }
+
+                    #admin-level-list{
+                        header {
+                            display: flex;
+                            align-items: center;
+                            justify-content: flex-start;
+                            height: 48px;
+
+                            h4{
+                                padding: 0 10px;
+                                font-weight: $font-weight-bold;
+                            }
+
+                            a {
+                                background-color: transparent;
+                                border: none;
+                                color: $primary-color;
+                                margin-left: 24px;
+                                cursor: pointer;
+
+                                .fa{
+                                    margin-right: 6px;
+                                }
+                            }
+
+                        }
+                        #admin-levels {
+                            .admin-level-details {
+                                padding-top: 6px;
+                                display: flex;
+                                flex-wrap: wrap;
+                                justify-content: space-between;
+
+                                .input-group {
+                                    flex-basis: 28%;
+                                }
+
+                                #admin-level-input{
+                                    flex-basis: 16%;
+                                }
+
+                                .input-group-file{
+                                    padding: 0 10px;
+
+                                    input {
+                                        display: none;
+                                    }
+                                    input+label {
+                                        font-size: 1em;
+                                        color: $primary-color;
+                                        margin-left: 10px;
+                                        cursor: pointer;
+                                        font-weight: $font-weight-normal;
+
+                                        .fa{
+                                            margin-right: 6px;
+                                        }
+                                    }
+                                    .geojson-old {
+                                        a {
+                                            text-transform: none;
+                                            color: $primary-color;
+                                        }
+                                    }
+                                }
+
+                                .input-group-checkbox {
+                                    padding: 0 10px;
+
+                                    label{
+                                        display: block;
+                                        font-size: 1.1em;
+                                        cursor: pointer;
+                                        color: $danger-color;
+
+                                        input{
+                                            transform: scale(1.2);
+                                            outline: none;
+                                            margin-right: 8px;
+                                            cursor: pointer;
+                                            vertical-align: bottom;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
                 }
             }
         }

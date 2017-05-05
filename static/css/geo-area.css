@@ -163,12 +163,36 @@ body {
         margin-right: 24px; }
   body aside {
     margin-left: 32px;
-    flex-basis: 30%;
-    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5);
-    height: calc(100vh - 56px); }
+    flex-basis: 26%;
+    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5); }
+    body aside > header {
+      height: 72px;
+      background-color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 16px;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
+    body aside #admin-boundary-list {
+      height: calc(100vh - 56px - 72px);
+      overflow-y: auto;
+      background-color: #f9f9f9; }
+      body aside #admin-boundary-list .admin-boundary {
+        min-height: 48px;
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        font-size: 1.1em;
+        cursor: pointer; }
+        body aside #admin-boundary-list .admin-boundary:hover {
+          background-color: rgba(0, 0, 0, 0.05); }
+        body aside #admin-boundary-list .admin-boundary.active {
+          background-color: #008080;
+          color: #fff; }
   body main {
     margin-left: 32px;
-    flex-basis: 50%;
+    flex-basis: 60%;
     height: calc(100vh - 56px); }
     body main > header {
       display: flex;
@@ -182,5 +206,142 @@ body {
         body main > header a.active {
           font-size: 1.5em;
           color: #008080; }
+    body main #admin-boundary-detail form > header {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px; }
+      body main #admin-boundary-detail form > header h3 small {
+        color: #3498db; }
+      body main #admin-boundary-detail form > header .action-buttons button {
+        border: none;
+        padding: 10px 12px;
+        margin-left: 10px;
+        color: #fff;
+        border-radius: 3px;
+        box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+        body main #admin-boundary-detail form > header .action-buttons button:active {
+          box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+        body main #admin-boundary-detail form > header .action-buttons button .fa {
+          margin-right: 8px; }
+        body main #admin-boundary-detail form > header .action-buttons button#save-btn {
+          background-color: #3498db; }
+        body main #admin-boundary-detail form > header .action-buttons button#save-and-proceed-btn {
+          background-color: #008080; }
+        body main #admin-boundary-detail form > header .action-buttons button#delete-btn {
+          background-color: #e74c3c; }
+    body main #admin-boundary-detail form .input-group-list {
+      height: calc(100vh - 56px - 72px - 72px);
+      padding: 0 32px;
+      overflow-y: auto; }
+      body main #admin-boundary-detail form .input-group-list > div:first-child {
+        display: flex;
+        justify-content: space-between; }
+      body main #admin-boundary-detail form .input-group-list .input-group {
+        position: relative;
+        padding: 0 10px;
+        margin-bottom: 16px; }
+        body main #admin-boundary-detail form .input-group-list .input-group label {
+          width: 100%; }
+        body main #admin-boundary-detail form .input-group-list .input-group > input, body main #admin-boundary-detail form .input-group-list .input-group textarea {
+          width: 100%;
+          border: none;
+          background-color: transparent;
+          padding: 4px 0;
+          outline: none;
+          font-size: 1.1em;
+          margin: 0;
+          border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
+        body main #admin-boundary-detail form .input-group-list .input-group .selectize-input {
+          font-size: 1.1em !important;
+          border: none;
+          padding: 4px 0;
+          background-color: transparent;
+          border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
+          body main #admin-boundary-detail form .input-group-list .input-group .selectize-input.has-items {
+            padding: 0;
+            padding-top: 5px; }
+          body main #admin-boundary-detail form .input-group-list .input-group .selectize-input > input {
+            font-size: 1.1em !important;
+            background-color: transparent; }
+      body main #admin-boundary-detail form .input-group-list .input-groups {
+        display: flex;
+        justify-content: space-between; }
+        body main #admin-boundary-detail form .input-group-list .input-groups #country-code-input {
+          flex-basis: 30%; }
+        body main #admin-boundary-detail form .input-group-list .input-groups #country-name-input {
+          flex-basis: 70%; }
+      body main #admin-boundary-detail form .input-group-list #country-detail-inputs {
+        flex-basis: 40%;
+        overflow-y: auto; }
+      body main #admin-boundary-detail form .input-group-list #map-container {
+        flex-basis: 58%; }
+        body main #admin-boundary-detail form .input-group-list #map-container #the-map {
+          height: calc(100% - 32px);
+          width: 100%;
+          box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+          body main #admin-boundary-detail form .input-group-list #map-container #the-map path {
+            stroke: #717171;
+            stroke-width: 1px;
+            stroke-linejoin: round; }
+        body main #admin-boundary-detail form .input-group-list #map-container #map-controls {
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center; }
+      body main #admin-boundary-detail form .input-group-list #admin-level-list header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        height: 48px; }
+        body main #admin-boundary-detail form .input-group-list #admin-level-list header h4 {
+          padding: 0 10px;
+          font-weight: 500; }
+        body main #admin-boundary-detail form .input-group-list #admin-level-list header a {
+          background-color: transparent;
+          border: none;
+          color: #008080;
+          margin-left: 24px;
+          cursor: pointer; }
+          body main #admin-boundary-detail form .input-group-list #admin-level-list header a .fa {
+            margin-right: 6px; }
+      body main #admin-boundary-detail form .input-group-list #admin-level-list #admin-levels .admin-level-details {
+        padding-top: 6px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between; }
+        body main #admin-boundary-detail form .input-group-list #admin-level-list #admin-levels .admin-level-details .input-group {
+          flex-basis: 28%; }
+        body main #admin-boundary-detail form .input-group-list #admin-level-list #admin-levels .admin-level-details #admin-level-input {
+          flex-basis: 16%; }
+        body main #admin-boundary-detail form .input-group-list #admin-level-list #admin-levels .admin-level-details .input-group-file {
+          padding: 0 10px; }
+          body main #admin-boundary-detail form .input-group-list #admin-level-list #admin-levels .admin-level-details .input-group-file input {
+            display: none; }
+          body main #admin-boundary-detail form .input-group-list #admin-level-list #admin-levels .admin-level-details .input-group-file input + label {
+            font-size: 1em;
+            color: #008080;
+            margin-left: 10px;
+            cursor: pointer;
+            font-weight: 400; }
+            body main #admin-boundary-detail form .input-group-list #admin-level-list #admin-levels .admin-level-details .input-group-file input + label .fa {
+              margin-right: 6px; }
+          body main #admin-boundary-detail form .input-group-list #admin-level-list #admin-levels .admin-level-details .input-group-file .geojson-old a {
+            text-transform: none;
+            color: #008080; }
+        body main #admin-boundary-detail form .input-group-list #admin-level-list #admin-levels .admin-level-details .input-group-checkbox {
+          padding: 0 10px; }
+          body main #admin-boundary-detail form .input-group-list #admin-level-list #admin-levels .admin-level-details .input-group-checkbox label {
+            display: block;
+            font-size: 1.1em;
+            cursor: pointer;
+            color: #e74c3c; }
+            body main #admin-boundary-detail form .input-group-list #admin-level-list #admin-levels .admin-level-details .input-group-checkbox label input {
+              transform: scale(1.2);
+              outline: none;
+              margin-right: 8px;
+              cursor: pointer;
+              vertical-align: bottom; }
 
 /*# sourceMappingURL=geo-area.css.map */
