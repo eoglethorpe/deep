@@ -31,10 +31,10 @@ body {
         }
 
     }
-    
+
     aside {
         margin-left: 32px;
-        flex-basis: 30%;
+        flex-basis: 26%;
         box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5);
 
         >header {
@@ -194,7 +194,7 @@ body {
     }
     main {
         margin-left: 32px;
-        flex-basis: 50%;
+        flex-basis: 60%;
         overflow-y: auto;
 
         >header {
@@ -215,8 +215,11 @@ body {
             }
         }
         form {
+            width: 80%;
+            margin: auto;
+
             .action-buttons {
-                height: 72px;
+                height: 96px;
                 display: flex;
                 align-items: center;
                 padding: 0 32px;
@@ -246,11 +249,12 @@ body {
                 }
             }
             .input-group-list {
-                height: calc(100vh - #{$navbar-height} - 72px - 72px);
+                height: calc(100vh - #{$navbar-height} - 72px - 96px);
                 padding: 0 32px;
                 overflow-y: auto;
 
                 .input-group {
+                    width: 100%;
                     position: relative;
                     padding: 0 10px;
                     margin-bottom: 24px;

@@ -163,7 +163,7 @@ body {
         margin-right: 24px; }
   body aside {
     margin-left: 32px;
-    flex-basis: 30%;
+    flex-basis: 26%;
     box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5); }
     body aside > header {
       background-color: #fff;
@@ -271,7 +271,7 @@ body {
           transform: rotate(-180deg); }
   body main {
     margin-left: 32px;
-    flex-basis: 50%;
+    flex-basis: 60%;
     overflow-y: auto; }
     body main > header {
       display: flex;
@@ -285,66 +285,70 @@ body {
         body main > header a.active {
           font-size: 1.5em;
           color: #008080; }
-    body main form .action-buttons {
-      height: 72px;
-      display: flex;
-      align-items: center;
-      padding: 0 32px;
-      justify-content: space-between; }
-      body main form .action-buttons button {
-        border: none;
-        padding: 10px 12px;
-        margin-left: 10px;
-        color: #fff;
-        border-radius: 3px;
-        box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
-        body main form .action-buttons button:active {
-          box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-        body main form .action-buttons button .fa {
-          margin-right: 8px; }
-        body main form .action-buttons button#save-btn {
-          background-color: #3498db; }
-        body main form .action-buttons button#save-and-proceed-btn {
-          background-color: #008080; }
-        body main form .action-buttons button#delete-btn {
-          background-color: #e74c3c; }
-    body main form .input-group-list {
-      height: calc(100vh - 56px - 72px - 72px);
-      padding: 0 32px;
-      overflow-y: auto; }
-      body main form .input-group-list .input-group {
-        position: relative;
-        padding: 0 10px;
-        margin-bottom: 24px; }
-        body main form .input-group-list .input-group label {
-          width: 100%; }
-        body main form .input-group-list .input-group > input, body main form .input-group-list .input-group textarea {
+    body main form {
+      width: 80%;
+      margin: auto; }
+      body main form .action-buttons {
+        height: 96px;
+        display: flex;
+        align-items: center;
+        padding: 0 32px;
+        justify-content: space-between; }
+        body main form .action-buttons button {
+          border: none;
+          padding: 10px 12px;
+          margin-left: 10px;
+          color: #fff;
+          border-radius: 3px;
+          box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+          body main form .action-buttons button:active {
+            box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+          body main form .action-buttons button .fa {
+            margin-right: 8px; }
+          body main form .action-buttons button#save-btn {
+            background-color: #3498db; }
+          body main form .action-buttons button#save-and-proceed-btn {
+            background-color: #008080; }
+          body main form .action-buttons button#delete-btn {
+            background-color: #e74c3c; }
+      body main form .input-group-list {
+        height: calc(100vh - 56px - 72px - 96px);
+        padding: 0 32px;
+        overflow-y: auto; }
+        body main form .input-group-list .input-group {
           width: 100%;
-          border: none;
-          background-color: transparent;
-          padding: 4px 0;
-          outline: none;
-          font-size: 1.1em;
-          margin: 0;
-          border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
-        body main form .input-group-list .input-group .selectize-input {
-          font-size: 1.1em !important;
-          border: none;
-          padding: 4px 0;
-          background-color: transparent;
-          border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
-          body main form .input-group-list .input-group .selectize-input.has-items {
-            padding: 0;
-            padding-top: 5px; }
-          body main form .input-group-list .input-group .selectize-input > input {
+          position: relative;
+          padding: 0 10px;
+          margin-bottom: 24px; }
+          body main form .input-group-list .input-group label {
+            width: 100%; }
+          body main form .input-group-list .input-group > input, body main form .input-group-list .input-group textarea {
+            width: 100%;
+            border: none;
+            background-color: transparent;
+            padding: 4px 0;
+            outline: none;
+            font-size: 1.1em;
+            margin: 0;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
+          body main form .input-group-list .input-group .selectize-input {
             font-size: 1.1em !important;
-            background-color: transparent; }
-        body main form .input-group-list .input-group#start-date-input, body main form .input-group-list .input-group#end-date-input {
-          flex-basis: 30%; }
-      body main form .input-group-list .input-groups {
-        display: flex; }
-        body main form .input-group-list .input-groups .input-group {
-          flex-basis: 50%; }
+            border: none;
+            padding: 4px 0;
+            background-color: transparent;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
+            body main form .input-group-list .input-group .selectize-input.has-items {
+              padding: 0;
+              padding-top: 5px; }
+            body main form .input-group-list .input-group .selectize-input > input {
+              font-size: 1.1em !important;
+              background-color: transparent; }
+          body main form .input-group-list .input-group#start-date-input, body main form .input-group-list .input-group#end-date-input {
+            flex-basis: 30%; }
+        body main form .input-group-list .input-groups {
+          display: flex; }
+          body main form .input-group-list .input-groups .input-group {
+            flex-basis: 50%; }
   body #new-project-modal .error {
     padding: 16px 0 0 16px;
     color: #e74c3c; }
