@@ -53,8 +53,8 @@ WORKDIR /home/code/
 RUN mkdir /root/.ssh/
 COPY id_rsa /root/.ssh/id_rsa
 RUN chmod 600 /root/.ssh/id_rsa
+RUN eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_rsa
 RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
-
 RUN git clone -b dockertest git@github.com:eoglethorpe/deep.git
 
 # Setup venv
