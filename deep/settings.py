@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+import urllib.request
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,8 +26,17 @@ SECRET_KEY = '2egrwk!cwh6y$6lzpvmc6+lsgp417@)g0c=u^cguz(n9#-!p75'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [os.environ['ALLOWED_HOST']]
-
+def get_pub_ip():
+    try:
+        response = urllib.request.urlopen('http://169.254.169.254/latest/meta-data/public-ipv4')
+        return response.read().decode('utf-8')
+    except:
+        return None
+    finally:
+        if response:
+            response.close()
+            
+ALLOWED_HOSTS = [get_pub_ip()]
 
 # Application definition
 
