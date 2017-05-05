@@ -5,7 +5,7 @@ services:
         restart: always
         build: ./nginx/
         ports:
-            - "8090:80"
+            - "80:80"
         volumes:
             - static:/var/www/static
             - media:/var/www/media

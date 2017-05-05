@@ -34,6 +34,7 @@ RUN apt-get update && \
 	uwsgi-plugin-python3 \
 	supervisor \
 	sqlite3 \
+	curl \
 
         #DEEP specifc
         libjpeg-dev \
@@ -55,6 +56,7 @@ COPY id_rsa /root/.ssh/id_rsa
 RUN chmod 600 /root/.ssh/id_rsa
 RUN eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_rsa
 RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
+RUN echo 'b'
 RUN git clone -b dockertest git@github.com:eoglethorpe/deep.git
 
 # Setup venv
@@ -69,5 +71,7 @@ RUN . /home/code/venv/bin/activate && pip install -U appdirs uwsgi setuptools &&
 COPY mysql.cnf /home/code/deep/mysql.cnf
 
 RUN useradd -ms /bin/bash ubuntu
+
+RUN echo 'a'
 
 CMD ["chmod", "+x", "/home/code/deep/deploy/django/exec.sh"]
