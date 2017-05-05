@@ -29,7 +29,7 @@ DEBUG = True
 def get_pub_ip():
     try:
         response = urllib.request.urlopen('http://169.254.169.254/latest/meta-data/public-ipv4')
-        return response.read()
+        return response.read().decode('utf-8')
     except:
         return None
     finally:
