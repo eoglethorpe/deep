@@ -48,6 +48,40 @@ $(document).ready(function(){
     $('#project-detail form :input').change(function() {
         $('#project-detail form').data('changed', true);
     });
+
+
+    // Warnings based on selection changes
+    let lastAdminSelection = $('#admins').val();
+    $('#admins').change(function() {
+        let currentSelection = $(this).val();
+        if ((!currentSelection || currentSelection.indexOf(myId) < 0) &&
+                (lastAdminSelection && lastAdminSelection.indexOf(myId) >= 0)) {
+
+            if (!confirm('Are you sure you want to remove yourself as admin?')) {
+                $('#admins')[0].selectize.setValue(lastAdminSelection);
+                return;
+            }
+        }
+        lastAdminSelection = currentSelection;
+    });
+
+    let lastCountrySelection = $('#countries').val();
+    $('#countries').change(function() {
+        let currentSelection = $(this).val();
+
+        for (let i=0; i<modifiedCountryCodes.length; i++) {
+            let code = modifiedCountryCodes[i];
+            if ((!currentSelection || currentSelection.indexOf(code) < 0) &&
+                    (lastCountrySelection && lastCountrySelection.indexOf(code) >= 0)) {
+
+                if (!confirm('Removing a modified country will delete it after saving. Are you sure?')) {
+                    $('#countries')[0].selectize.setValue(lastCountrySelection);
+                    return;
+                }
+            }
+        }
+        lastCountrySelection = currentSelection;
+    });
 });
 
 function confirmChanges() {

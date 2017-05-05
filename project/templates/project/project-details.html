@@ -16,6 +16,13 @@ DEEP | Project Details
 <script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/project/project-details.js' %}"></script>
 
+<script>
+    let myId = '{{ request.user.pk }}';
+    let modifiedCountryCodes = [
+        {% for country in countries %}{% if country.reference_country %}'{{ country.code }}',{% endif %}{% endfor %}
+    ];
+</script>
+
 {% endblock %}
 
 {% block body %}
