@@ -34,14 +34,60 @@ body {
 
     aside {
         margin-left: 32px;
-        flex-basis: 30%;
+        flex-basis: 24%;
         box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5);
-        height: calc(100vh - #{$navbar-height});
+
+        >header {
+            background-color: #fff;
+            padding-bottom: 16px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            height: 72px;
+
+            a {
+                min-width: 84px;
+                text-align: right;
+                color: $primary-color;
+                cursor: pointer;
+
+                .fa {
+                    margin-right: 8px;
+                }
+            }
+        }
+
+        #admin-boundary-list {
+            height: calc(100vh - #{$navbar-height} - 72px);
+            overflow-y: auto;
+            background-color: #f9f9f9;
+
+            .admin-boundary {
+                min-height: 48px;
+                padding: 10px 16px;
+                display: flex;
+                align-items: center;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                font-size: 1.1em;
+                cursor: pointer;
+
+                &:hover{
+                    background-color: rgba(0, 0, 0, 0.05);
+                }
+
+                &.active{
+                    background-color: $primary-color;
+                    color: #fff;
+                }
+            }
+        }
     }
 
     main {
         margin-left: 32px;
-        flex-basis: 50%;
+        flex-basis: 64%;
         height: calc(100vh - #{$navbar-height});
 
         >header {
@@ -58,6 +104,193 @@ body {
                 &.active {
                     font-size: 1.5em;
                     color: $primary-color;
+                }
+            }
+        }
+
+        #admin-boundary-detail{
+            form {
+                >header {
+                    height: 72px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 0 32px;
+
+                    .action-buttons {
+                        button {
+                            border: none;
+                            padding: 10px 12px;
+                            margin-left: 10px;
+                            color: #fff;
+                            border-radius: 3px;
+                            @include btn-shadow-sm;
+
+                            .fa {
+                                margin-right: 8px;
+                            }
+
+                            &#save-btn{
+                                background-color: $info-color;
+                            }
+                            &#save-and-proceed-btn{
+                                background-color: $primary-color;
+                            }
+                            &#delete-btn{
+                                background-color: $danger-color;
+                            }
+                        }
+                    }
+                }
+
+                .input-group-list {
+                    display: flex;
+                    flex-wrap: wrap;
+                    height: calc(100vh- #{$navbar-height} - 72px - 72px);
+                    padding: 0 32px;
+
+                    .input-group {
+                        position: relative;
+                        padding: 0 10px;
+                        margin-bottom: 16px;
+
+                        label {
+                            width: 100%;
+                        }
+
+                        >input, textarea {
+                            width: 100%;
+                            border: none;
+                            background-color: transparent;
+                            padding: 4px 0;
+                            outline: none;
+                            font-size: 1.1em;
+                            margin: 0;
+                            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+                        }
+
+                        .selectize-input {
+                            font-size: 1.1em!important;
+                            border: none;
+                            padding: 4px 0;
+                            background-color: transparent;
+                            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+
+                            &.has-items{
+                                padding: 0;
+                                padding-top: 5px;
+                            }
+
+                            >input{
+                                font-size: 1.1em!important;
+                                background-color: transparent;
+                            }
+                        }
+                    }
+                    .input-groups{
+                        display: flex;
+                        justify-content: space-between;
+
+                        #country-code-input {
+                            flex-basis: 30%;
+                        }
+                        #country-name-input {
+                            flex-basis: 70%;
+                        }
+                    }
+
+                    #country-detail-inputs{
+                        flex-basis: 40%;
+                        overflow-y: auto;
+                    }
+                    #map-container{
+                        flex-basis: 60%;
+                        background-color: pink;
+                    }
+
+                    #admin-level-list{
+                        flex-basis: 100%;
+
+                        header {
+                            display: flex;
+                            align-items: center;
+                            justify-content: flex-start;
+                            height: 48px;
+
+                            h4{
+                                padding: 0 10px;
+                                font-weight: $font-weight-bold;
+                            }
+
+                            a {
+                                background-color: transparent;
+                                border: none;
+                                color: $primary-color;
+                                margin-left: 24px;
+                                cursor: pointer;
+
+                                .fa{
+                                    margin-right: 6px;
+                                }
+                            }
+
+                        }
+                        #admin-levels {
+                            .admin-level {
+                                padding-top: 6px;
+                                display: flex;
+                                flex-wrap: wrap;
+                                justify-content: space-between;
+
+                                .input-group {
+                                    flex-basis: 28%;
+                                }
+
+                                #admin-level-input{
+                                    flex-basis: 16%;
+                                }
+
+                                .input-group-file{
+                                    padding: 0 10px;
+
+                                    input {
+                                        display: none;
+                                    }
+                                    input+label {
+                                        font-size: 1em;
+                                        color: $primary-color;
+                                        margin-left: 10px;
+                                        cursor: pointer;
+                                        font-weight: $font-weight-normal;
+
+                                        .fa{
+                                            margin-right: 6px;
+                                        }
+                                    }
+                                }
+
+                                .input-group-checkbox {
+                                    padding: 0 10px;
+
+                                    label{
+                                        display: block;
+                                        font-size: 1.1em;
+                                        cursor: pointer;
+                                        color: $danger-color;
+
+                                        input{
+                                            transform: scale(1.2);
+                                            outline: none;
+                                            margin-right: 8px;
+                                            cursor: pointer;
+                                            vertical-align: bottom;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
                 }
             }
         }
