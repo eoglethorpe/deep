@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-import urllib2
+import urllib.request
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -28,7 +28,7 @@ DEBUG = True
 
 def get_pub_ip():
     try:
-        response = urllib2.urlopen('http://169.254.169.254/latest/meta-data/local-ipv4')
+        response = urllib.request.urlopen('http://169.254.169.254/latest/meta-data/public-ipv4')
         return response.read()
     except:
         return None
