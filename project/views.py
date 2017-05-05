@@ -19,15 +19,8 @@ class ProjectDetailsView(View):
         context["current_page"] = "project-details"
         context["project_id"] = project_id
 
-        # Either you are a super admin and can edit all crises
-        # Or you are admin of this project
-
-        if request.user.is_superuser:
-            context["projects"] = Event.objects.all().order_by('name')
-            context["usergroups"] = UserGroup.objects.all()
-        else:
-            context["projects"] = Event.objects.filter(admins__pk=request.user.pk).order_by('name')
-            context["usergroups"] = UserGroup.objects.filter(admins__pk=request.user.pk).order_by('name')
+        context["projects"] = Event.objects.filter(admins__pk=request.user.pk).order_by('name')
+        context["usergroups"] = UserGroup.objects.filter(admins__pk=request.user.pk).order_by('name')
 
         context["countries"] = Country.objects.filter(
             Q(reference_country=None) | Q(event__pk=project_id)
@@ -134,6 +127,7 @@ class ProjectDetailsView(View):
             activity.log_for(request.user)
 
             Country.objects.filter(event=None).exclude(reference_country=None).delete()
+            EntryTemplate.objects.filter(usergroup=None, event=None).delete()
             return redirect('login')
 
 
@@ -276,9 +270,32 @@ class AnalysisFrameworkView(View):
         context["project_id"] = project_id
         context["current_page"] = "analysis-framework"
 
-        if request.user.is_superuser:
-            context["projects"] = Event.objects.all().order_by('name')
-        else:
-            context["projects"] = Event.objects.filter(admins__pk=request.user.pk).order_by('name')
-            
+        project = Event.objects.get(pk=project_id)
+        if not project.entry_template:
+            new_template = EntryTemplate(name=project.name)
+            new_template.created_by = request.user
+            new_template.save()
+
+            project.entry_template = new_template
+            project.save()
+
+        context["project"] = project
+        context["projects"] = Event.objects.filter(admins__pk=request.user.pk).exclude(entry_template=None).order_by('name')
+
         return render(request, "project/analysis-framework.html", context)
+
+    @method_decorator(login_required)
+    def post(self, request, project_id):
+        project = Event.objects.get(pk=project_id)
+        if 'save-and-edit' in request.POST or 'save-and-finish' in request.POST:
+            entry_template = project.entry_template
+
+            entry_template.name = request.POST.get('template-name')
+            clone_from = request.POST.get('clone-from')
+            if clone_from != '':
+                entry_template.elements = Event.objects.get(pk=clone_from).entry_template.elements
+            entry_template.save()
+
+        if 'save-and-edit' in request.POST:
+            return redirect('custom_admin:entry_template', project.entry_template.pk)
+        return redirect('dashboard', project_id)

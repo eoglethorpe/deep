@@ -178,8 +178,11 @@ body {
                 .info{
                     padding: 32px 0;
                     font-size: 1.2em;
-                    color: $label-color;
+                    color: $warning-color;
 
+                    strong {
+                        font-weight: $font-weight-bold;
+                    }
                     .fa{
                         margin-right: 10px;
                     }
