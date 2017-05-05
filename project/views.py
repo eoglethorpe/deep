@@ -142,4 +142,9 @@ class AnalysisFrameworkView(View):
         context["project_id"] = project_id
         context["current_page"] = "analysis-framework"
 
+        if request.user.is_superuser:
+            context["projects"] = Event.objects.all().order_by('name')
+        else:
+            context["projects"] = Event.objects.filter(admins__pk=request.user.pk).order_by('name')
+            
         return render(request, "project/analysis-framework.html", context)

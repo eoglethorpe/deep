@@ -163,12 +163,47 @@ body {
         margin-right: 24px; }
   body aside {
     margin-left: 32px;
-    flex-basis: 30%;
-    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5);
-    height: calc(100vh - 56px); }
+    flex-basis: 26%;
+    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5); }
+    body aside > header {
+      height: 72px;
+      background-color: #fff;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
+    body aside #related-project-list {
+      height: calc(100vh - 56px - 72px);
+      overflow-y: auto;
+      background-color: #f9f9f9; }
+      body aside #related-project-list .project {
+        min-height: 48px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between; }
+        body aside #related-project-list .project .details .project-name {
+          font-size: 1.1em;
+          padding: 3px 0; }
+        body aside #related-project-list .project .details .template-name {
+          color: rgba(0, 0, 0, 0.5);
+          padding: 3px 0;
+          text-transform: uppercase; }
+        body aside #related-project-list .project a {
+          visibility: hidden;
+          cursor: pointer;
+          color: #008080; }
+        body aside #related-project-list .project:hover {
+          background-color: rgba(0, 0, 0, 0.05); }
+          body aside #related-project-list .project:hover a {
+            visibility: visible; }
+        body aside #related-project-list .project.active {
+          background-color: #008080;
+          color: #fff; }
   body main {
     margin-left: 32px;
-    flex-basis: 50%;
+    flex-basis: 60%;
     height: calc(100vh - 56px); }
     body main > header {
       display: flex;
@@ -182,5 +217,54 @@ body {
         body main > header a.active {
           font-size: 1.5em;
           color: #008080; }
+    body main form {
+      width: 80%;
+      margin: auto; }
+      body main form header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 96px;
+        padding: 0 32px; }
+        body main form header .action-buttons button {
+          border: none;
+          padding: 10px 12px;
+          margin-left: 10px;
+          color: #fff;
+          border-radius: 3px;
+          box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+          body main form header .action-buttons button:active {
+            box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+          body main form header .action-buttons button#save-and-edit-template-btn {
+            background-color: #3498db; }
+          body main form header .action-buttons button#save-and-finish-btn {
+            background-color: #008080; }
+          body main form header .action-buttons button .fa {
+            margin-right: 10px; }
+      body main form .input-group-list {
+        height: calc(100vh - 56px - 72px - 96px);
+        overflow-y: auto;
+        padding: 0 32px; }
+        body main form .input-group-list .input-group {
+          position: relative;
+          padding: 0 10px;
+          margin-bottom: 16px; }
+          body main form .input-group-list .input-group label {
+            width: 100%; }
+          body main form .input-group-list .input-group > input {
+            width: 100%;
+            border: none;
+            background-color: transparent;
+            padding: 4px 0;
+            outline: none;
+            font-size: 1.1em;
+            margin: 0;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
+        body main form .input-group-list .info {
+          padding: 32px 0;
+          font-size: 1.2em;
+          color: rgba(0, 0, 0, 0.5); }
+          body main form .input-group-list .info .fa {
+            margin-right: 10px; }
 
 /*# sourceMappingURL=analysis-framework.css.map */

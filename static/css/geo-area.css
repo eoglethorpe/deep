@@ -163,24 +163,16 @@ body {
         margin-right: 24px; }
   body aside {
     margin-left: 32px;
-    flex-basis: 24%;
+    flex-basis: 26%;
     box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5); }
     body aside > header {
+      height: 72px;
       background-color: #fff;
-      padding-bottom: 16px;
-      border-bottom: 2px solid rgba(0, 0, 0, 0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 0 16px;
-      height: 72px; }
-      body aside > header a {
-        min-width: 84px;
-        text-align: right;
-        color: #008080;
-        cursor: pointer; }
-        body aside > header a .fa {
-          margin-right: 8px; }
+      border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
     body aside #admin-boundary-list {
       height: calc(100vh - 56px - 72px);
       overflow-y: auto;
@@ -200,7 +192,7 @@ body {
           color: #fff; }
   body main {
     margin-left: 32px;
-    flex-basis: 64%;
+    flex-basis: 60%;
     height: calc(100vh - 56px); }
     body main > header {
       display: flex;
