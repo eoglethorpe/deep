@@ -11,7 +11,38 @@ DEEP | Geo Area
 <link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/geo-area.css' %}" />
 <script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/country-management/map.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/custom-admin/country-management/general-tab.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/project/geo-area.js' %}"></script>
+
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
+<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+
+<link rel="stylesheet" href="{% watchful_static_url 'css/leaflet.label.css' %}" >
+<script src="{% watchful_static_url 'js/common/leaflet.label.js' %}"></script>
+
+<script>
+let countries = {
+    {% for country in project.countries.all %}
+    '{{ country.code }}': {
+        modified: {% if country.reference_country %}true{% else %}false{% endif %},
+        code: {% if country.reference_country %}'{{ country.reference_country.code }}'{% else %}'{{ country.code }}'{% endif %},
+        name: '{{ country.name|escapejs }}',
+        region: JSON.parse('{{ country.regions|escapejs }}'),
+        admin_levels: [
+            {% for admin_level in country.adminlevel_set.all %}
+            {
+                id: '{{ admin_level.pk }}', level: '{{ admin_level.level }}',
+                name: '{{ admin_level.name|escapejs }}', property_name: '{{ admin_level.property_name|escapejs }}',
+                property_pcode: ' {{ admin_level.property_pcode|escapejs }}',
+                geojson: '{% if admin_level.geojson %}{{admin_level.geojson.url}}{% endif %}',
+            },
+            {% endfor %}
+        ]
+    },
+    {% endfor %}
+};
+</script>
 
 {% endblock %}
 
@@ -21,72 +52,76 @@ DEEP | Geo Area
 <aside>
     <header>
         <h2>Related admin boundaries</h2>
-        <!-- <a><i class="fa fa-plus"></i>Add new</a> -->
     </header>
     <div id="admin-boundary-list">
         {% for country in project.countries.all %}
-        <div class="admin-boundary">{{ country.name }}</div>
+        <div class="admin-boundary" data-country-code="{{ country.code }}">{{ country.name }}</div>
         {% endfor %}
     </div>
 </aside>
 <main>
     <header>
-        <a href="{% url 'project:project_details' project_id %}">1. Project details</a>
+        <a onclick="return confirmChanges()" href="{% url 'project:project_details' project_id %}">1. Project details</a>
         <a class="active">2. Geo area</a>
-        <a href="{% url 'project:analysis_framework' project_id %}" >3. Analysis framework</a>
+        <a onclick="return confirmChanges()" href="{% url 'project:analysis_framework' project_id %}" >3. Analysis framework</a>
     </header>
     <div id="admin-boundary-detail">
         <form method="post">
             {% csrf_token %}
             <header>
-                <h3>Country_name</h3>
+                <h3>Edit admin boundary <small></small></h3>
                 <div class="action-buttons">
                     <button id="save-btn" name="save"> <i class='fa fa-save'></i>Save geo area</button>
                     <button id="save-and-proceed-btn" name="save-and-proceed"> <i class='fa fa-arrow-right'></i>Save &amp; proceed</button>
                 </div>
             </header>
             <div class="input-group-list">
-                <div id="country-detail-inputs">
-                    <div class="input-groups">
-                        <div class="input-group" id="country-code-input">
-                            <label>Code</label>
-                            <input name="country-code" type="text" id="country-code" required>
+                <div>
+                    <div id="country-detail-inputs">
+                        <input id="selected-country-code" name="actual-code" type="hidden">
+                        <input id="selected-country-modified" name="modified" type="hidden" value="0">
+
+                        <div class="input-groups">
+                            <div class="input-group" id="country-code-input">
+                                <label>Code</label>
+                                <input name="country-code" type="text" id="country-code" required>
+                            </div>
+                            <div class="input-group" id="country-name-input">
+                                <label>Name</label>
+                                <input name="country-name" type="text" id="country-name" placeholder="Enter country name" required>
+                            </div>
                         </div>
-                        <div class="input-group" id="country-name-input">
-                            <label>Name</label>
-                            <input name="country-name" type="text" id="country-name" placeholder="Enter country name" required>
+                        <div class="input-group">
+                            <label>WB region</label>
+                            <input name="country-wb-region" type="text" id="country-wb-region" placeholder="Enter WB Region">
+                        </div>
+                        <div class="input-group">
+                            <label>WB income group</label>
+                            <input name="country-wb-income-group" type="text" id="country-wb-income-group" placeholder="Enter WB Income Group">
+                        </div>
+                        <div class="input-group">
+                            <label>OCHA Region</label>
+                            <input name="country-ocha-region" type="text" id="country-ocha-region" placeholder="Enter OCHA Region">
+                        </div>
+                        <div class="input-group">
+                            <label>ECHO Region</label>
+                            <input name="country-echo-region" type="text" id="country-echo-region" placeholder="Enter ECHO Region">
+                        </div>
+                        <div class="input-group">
+                            <label>UN Geographical region</label>
+                            <input name="country-un-geographical-region" type="text" id="country-un-geographical-region" placeholder="Enter UN Geographical Region">
+                        </div>
+                        <div class="input-group">
+                            <label>UN Geographical Sub Region</label>
+                            <input name="country-un-geographical-sub-region" type="text" id="country-un-geographical-sub-region" placeholder="Enter UN Geographical Sub Region">
                         </div>
                     </div>
-                    <div class="input-group">
-                        <label>WB region</label>
-                        <input name="country-wb-region" type="text" id="country-wb-region" placeholder="Enter WB Region">
-                    </div>
-                    <div class="input-group">
-                        <label>WB income group</label>
-                        <input name="country-wb-income-group" type="text" id="country-wb-income-group" placeholder="Enter WB Income Group">
-                    </div>
-                    <div class="input-group">
-                        <label>OCHA Region</label>
-                        <input name="country-ocha-region" type="text" id="country-ocha-region" placeholder="Enter OCHA Region">
-                    </div>
-                    <div class="input-group">
-                        <label>ECHO Region</label>
-                        <input name="country-echo-region" type="text" id="country-echo-region" placeholder="Enter ECHO Region">
-                    </div>
-                    <div class="input-group">
-                        <label>UN Geographical region</label>
-                        <input name="country-un-geographical-region" type="text" id="country-un-geographical-region" placeholder="Enter UN Geographical Region">
-                    </div>
-                    <div class="input-group">
-                        <label>UN Geographical Sub Region</label>
-                        <input name="country-un-geographical-sub-region" type="text" id="country-un-geographical-sub-region" placeholder="Enter UN Geographical Sub Region">
-                    </div>
-                </div>
-                <div id="map-container">
-                    <div id="the-map">
-                    </div>
-                    <div id="map-controls">
-                        <div id="admin-level-buttons"></div>
+                    <div id="map-container">
+                        <div id="the-map">
+                        </div>
+                        <div id="map-controls">
+                            <div id="admin-level-buttons"></div>
+                        </div>
                     </div>
                 </div>
                 <div id="admin-level-list">
@@ -95,44 +130,46 @@ DEEP | Geo Area
                         <a id="add-new-admin-level"><i class="fa fa-plus"></i>Add new</a>
                     </header>
                     <div id="admin-levels">
-                        <div class="admin-level">
-                            <input name="admin-level-pk" class="admin-level-pk" value="new" type="hidden">
-                            <div class="input-group" id="admin-level-input">
-                                <label>Level</label>
-                                <input name="admin-level" type="number" min="0" step="1" class="admin-level" placeholder="Enter admin level">
-                            </div>
-                            <div class="input-group">
-                                <label>Level Name</label>
-                                <input name="admin-level-name" type="text" class="admin-level-name" placeholder="Enter admin level name">
-                            </div>
-                            <div class="input-group">
-                                <label>Property name</label>
-                                <input name="property-name" type="text" class="property-name" placeholder="Enter property name">
-                            </div>
-                            <div class="input-group">
-                                <label>Property pcode</label>
-                                <input name="property-pcode" type="text" class="property-pcode" placeholder="Enter property pcode">
-                            </div>
-                            <div class="input-group-file">
-                                <label>GeoJSON file:</label>
-                                <input id="geojson-file-input" name="geojson" type="file" class="geojson file-input">
-                                <label for="geojson-file-input" class="geojson-label"><i class="fa fa-upload"></i>Choose a file</label>
-                                <p class="geojson-current"></p>
-                                <p class="geojson-old"></p> <input type="hidden" name="geojson-selected" class="geojson-selected" value="false">
-                            </div>
-                            {% comment %}
-                                Note that by putting a hidden input followed by checkbox input, we will get only the hidden value (0)
-                                if checkbox was not checked and both the checkbox and hidden values (1, 0) if it was.
-                            {% endcomment %}
-                            <div class="input-group-checkbox">
-                                <label><input name="delete-admin-level" type="checkbox" class="delete-admin-level" value="1"><span>Delete</span></label>
-                                <input name="delete-admin-level" type="hidden" value="0">
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
         </form>
     </div>
 </main>
+
+<div class="admin-level-details-template" hidden>
+    <input name="admin-level-pk" class="admin-level-pk" value="new" type="hidden">
+    <div class="input-group" id="admin-level-input">
+        <label>Level</label>
+        <input name="admin-level" type="number" min="0" step="1" class="admin-level" placeholder="Enter admin level">
+    </div>
+    <div class="input-group">
+        <label>Level Name</label>
+        <input name="admin-level-name" type="text" class="admin-level-name" placeholder="Enter admin level name">
+    </div>
+    <div class="input-group">
+        <label>Property name</label>
+        <input name="property-name" type="text" class="property-name" placeholder="Enter property name">
+    </div>
+    <div class="input-group">
+        <label>Property pcode</label>
+        <input name="property-pcode" type="text" class="property-pcode" placeholder="Enter property pcode">
+    </div>
+    <div class="input-group-file">
+        <label>GeoJSON file:</label>
+        <input id="geojson-file-input" name="geojson" type="file" class="geojson file-input">
+        <label for="geojson-file-input" class="geojson-label"><i class="fa fa-upload"></i>Choose a file</label>
+        <p class="geojson-current"></p>
+        <p class="geojson-old"></p> <input type="hidden" name="geojson-selected" class="geojson-selected" value="false">
+    </div>
+    {% comment %}
+        Note that by putting a hidden input followed by checkbox input, we will get only the hidden value (0)
+        if checkbox was not checked and both the checkbox and hidden values (1, 0) if it was.
+    {% endcomment %}
+    <div class="input-group-checkbox">
+        <label><input name="delete-admin-level" type="checkbox" class="delete-admin-level" value="1"><span>Delete</span></label>
+        <input name="delete-admin-level" type="hidden" value="0">
+    </div>
+</div>
 {% endblock %}

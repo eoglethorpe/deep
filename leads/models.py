@@ -6,9 +6,13 @@ from django.db.models import Q
 
 from datetime import datetime, date
 import json
+import random
+import string
 
 
 class Country(models.Model):
+    reference_country = models.ForeignKey('leads.Country', null=True, default=None)
+
     code = models.CharField(max_length=5, primary_key=True)
     name = models.CharField(max_length=70)
 
@@ -24,6 +28,16 @@ class Country(models.Model):
     class Meta:
         ordering = ['name']
         verbose_name_plural = 'countries'
+
+    @staticmethod
+    def get_unique_code():
+        code = ''
+        while True:
+            code = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5))
+            if Country.objects.filter(code=code).count() == 0:
+                break
+
+        return code
 
 
 class Event(models.Model):

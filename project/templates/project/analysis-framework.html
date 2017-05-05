@@ -20,6 +20,22 @@ DEEP | Analysis Framework
 {% include 'simplified-navbar.html' with page_title="Project Management Panel" %}
 
 <aside>
+    <header>
+        <h2>Related analysis frameworks</h2>
+    </header>
+    <div id="related-project-list">
+        {% for project in projects %}
+        {% if project.entry_template %}
+        <div class="project">
+            <div class="details">
+                <div class="project-name">{{ project.name }}</div>
+                <div class="template-name">{{ project.entry_template.name }}</div>
+            </div>
+            <a>Clone</a>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
 </aside>
 <main>
     <header>
@@ -27,5 +43,26 @@ DEEP | Analysis Framework
         <a href="{% url 'project:geo_area' project_id %}">2. Geo area</a>
         <a class="active">3. Analysis framework</a>
     </header>
+    <div>
+        <form>
+            <header>
+                <h2>Create new template</h2>
+                <div class="action-buttons">
+                    <button id="save-and-edit-template-btn" name="save-and-edit-template"><i class="fa fa-external-link"></i>Save &amp; edit template</button>
+                    <button id="save-and-finish-btn" name="save-and-finish"><i class="fa fa-check"></i>Save &amp; finish</button>
+                </div>
+            </header>
+            <div class="input-group-list">
+                <div class="input-group">
+                    <label>Template name</label>
+                    <input type="text" placeholder="Enter template name"></input>
+                </div>
+
+                <div class="info">
+                    <i class="fa fa-info-circle"></i>Create a new template or clone from the related project from the left pane.
+                </div>
+            </div>
+        </form>
+    </div>
 </main>
 {% endblock %}
