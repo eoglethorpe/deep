@@ -291,16 +291,18 @@ aside {
       color: #008080; }
     aside #entries .entry {
       padding: 10px 16px; }
-      aside #entries .entry .severity span, aside #entries .entry .reliability span {
-        width: 8px;
-        height: 16px;
-        display: inline-block;
-        border-radius: 2px;
-        margin-right: 1px; }
-      aside #entries .entry .severity .active, aside #entries .entry .reliability .active {
-        width: 12px;
-        height: 24px;
-        margin-bottom: -4px; }
+      aside #entries .entry .severity, aside #entries .entry .reliability {
+        margin-top: 15px; }
+        aside #entries .entry .severity span, aside #entries .entry .reliability span {
+          width: 8px;
+          height: 16px;
+          display: inline-block;
+          border-radius: 2px;
+          margin-right: 1px; }
+        aside #entries .entry .severity .active, aside #entries .entry .reliability .active {
+          width: 12px;
+          height: 24px;
+          margin-bottom: -4px; }
       aside #entries .entry .reliability ._0 {
         background-color: #daddf8; }
       aside #entries .entry .reliability ._1 {
@@ -336,6 +338,11 @@ aside {
         justify-content: space-between;
         align-items: center;
         height: 48px; }
+        aside #entries .entry .information .information-header .source-id {
+          margin-top: 10px;
+          font-weight: bold;
+          color: #3498db;
+          width: 100%; }
       aside #entries .entry .information .excerpt-text {
         text-align: justify; }
       aside #entries .entry .information .excerpt-image {
