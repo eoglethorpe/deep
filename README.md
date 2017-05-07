@@ -80,3 +80,18 @@ The website is then ready to be deployed.
 [Chrome Store](https://chrome.google.com/webstore/detail/deep-create-lead/eolekcokhpndiemngdnnicfmgehdgplp/)
 
 You can open the *options* page of the extension, to change server url and read usage guide.
+
+## Docker
+
+### Installation
+> Install Docker [For Ubuntu](https://docs.docker.com/engine/installation/linux/ubuntu/#install-from-a-package)
+
+> You can build and start Deep Docker container with `docker-compose`:
+
+```bash
+$ cd deploy/
+$ docker-compose build # to build images
+$ docker-compose up -d # to create containers and run
+$ docker-compose stop # to stop containers
+$ docker-compose rm -f # to delete containers and so on...
+```
