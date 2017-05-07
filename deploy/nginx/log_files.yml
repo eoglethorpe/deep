@@ -1,0 +1,10 @@
+files:
+  - path: /var/log/nginx/access.log
+    tag: nginx/access
+  - path: /var/log/nginx/error.log
+    tag: nginx/error
+
+destination:
+  host: logs5.papertrailapp.com
+  port: 39883
+  protocol: tls

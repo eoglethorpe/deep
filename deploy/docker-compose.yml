@@ -14,7 +14,7 @@ services:
             - django
         links:
             - django:django
-        command: bash -c "service nginx start"
+        command: bash -c "service remote_syslog start && service nginx start"
 
     django:
         restart: always
