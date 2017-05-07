@@ -129,7 +129,34 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+# Logging errors
+# change address SysLog
+if not DEBUG:
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {
+            'simple': {
+                'format': '%(asctime)s '+os.environ.get('HOSTNAME') +
+                          ' DJANGO: %(message)s',
+                'datefmt': '%Y-%m-%dT%H:%M:%S',
+            },
+        },
+        'handlers': {
+            'SysLog': {
+                'level': 'ERROR',
+                'class': 'logging.handlers.SysLogHandler',
+                'formatter': 'simple',
+                'address': ('logs5.papertrailapp.com', 39883)
+            },
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['SysLog'],
+                'propagate': True,
+            },
+        },
+    }
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
@@ -147,6 +174,7 @@ USE_TZ = True
 # Login url
 
 LOGIN_URL = "login"
+
 
 
 # Static files (CSS, JavaScript, Images)
