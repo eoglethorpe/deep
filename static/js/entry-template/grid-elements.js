@@ -423,7 +423,7 @@ class Matrix2D extends Element {
         this.makeEditable(sector.find('.title-block'));
         sector.find('.remove-sector').click(function() { sector.remove(); });
         sector.find('.edit-sector').click(function(e) {
-            e.preventDefault();
+            e.stopPropagation();
             floatingToolbar.show();
             floatingToolbar.trigger('visible');
         });
