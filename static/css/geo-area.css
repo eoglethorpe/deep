@@ -146,21 +146,6 @@ body {
   body h1, body h2, body h3, body h4, body h5, body h6 {
     margin: 0;
     text-transform: uppercase; }
-  body nav {
-    flex-basis: 100%;
-    height: 56px;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 16px;
-    background-color: #004d4d;
-    color: #fff; }
-    body nav header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center; }
-      body nav header .deep-logo {
-        width: 32px;
-        margin-right: 24px; }
   body aside {
     margin-left: 32px;
     flex-basis: 26%;
@@ -251,8 +236,11 @@ body {
           padding: 4px 0;
           outline: none;
           font-size: 1.1em;
-          margin: 0;
-          border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
+          margin: 0; }
+          body main #admin-boundary-detail form .input-group-list .input-group > input:not([readonly="readonly"]), body main #admin-boundary-detail form .input-group-list .input-group textarea:not([readonly="readonly"]) {
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
+          body main #admin-boundary-detail form .input-group-list .input-group > input:focus:not([readonly="readonly"]), body main #admin-boundary-detail form .input-group-list .input-group textarea:focus:not([readonly="readonly"]) {
+            border-bottom: 2px solid #008080; }
         body main #admin-boundary-detail form .input-group-list .input-group .selectize-input {
           font-size: 1.1em !important;
           border: none;
@@ -307,10 +295,13 @@ body {
           body main #admin-boundary-detail form .input-group-list #admin-level-list header a .fa {
             margin-right: 6px; }
       body main #admin-boundary-detail form .input-group-list #admin-level-list #admin-levels .admin-level-details {
-        padding-top: 6px;
+        margin: 0 -10px;
+        padding: 10px 10px 0 10px;
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between; }
+        body main #admin-boundary-detail form .input-group-list #admin-level-list #admin-levels .admin-level-details:nth-child(odd) {
+          background-color: #fafafa; }
         body main #admin-boundary-detail form .input-group-list #admin-level-list #admin-levels .admin-level-details .input-group {
           flex-basis: 28%; }
         body main #admin-boundary-detail form .input-group-list #admin-level-list #admin-levels .admin-level-details #admin-level-input {
