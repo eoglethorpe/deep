@@ -200,35 +200,34 @@ body{
         }
         .properties-box {
             position: absolute;
-            left: 0;
-            top: 0;
+            left: 6px;
+            top: 16px;
             min-width: 300px;
             background-color: #fff;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            box-shadow: 0 3px 15px -5px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 3px 24px -5px rgba(0, 0, 0, 1);
             border: 1px solid rgba(0, 0, 0, 0.1);
             z-index: 11;
 
             .header{
-                height: 32px;
+                height: 42px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                padding: 0 10px;
+                padding: 0 16px;
                 border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-                background-color: $primary-color;
-                color: #fff;
+                //background-color: $primary-color;
 
                 a{
                     color: inherit;
+                    font-size: 1.2em;
                 }
             }
             .property {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                padding: 0 10px;
-                min-height: 32px;
+                padding: 0 16px;
+                min-height: 36px;
 
                 label {
                     font-size: $text-size-md;
