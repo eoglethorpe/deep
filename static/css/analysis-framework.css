@@ -263,7 +263,9 @@ body {
         body main form .input-group-list .info {
           padding: 32px 0;
           font-size: 1.2em;
-          color: rgba(0, 0, 0, 0.5); }
+          color: #f39c12; }
+          body main form .input-group-list .info strong {
+            font-weight: 500; }
           body main form .input-group-list .info .fa {
             margin-right: 10px; }
 

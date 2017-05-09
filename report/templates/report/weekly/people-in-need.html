@@ -48,49 +48,7 @@
     </div>
     {% endif %}
 
-    <div class="total-ipc">
-        <label>Total IPC (calculated)</label>
-        <div>
-            <input class="number ipc-total-calculated " data-people-pk="{{field.pk}}" placeholder="Total" readonly>
-            <input class="number ipc-at-risk-calculated " data-people-pk="{{field.pk}}" placeholder="At Risk" readonly>
-            <input class="number ipc-moderate-calculated " data-people-pk="{{field.pk}}" placeholder="Moderate" readonly>
-            <input class="number ipc-severe-calculated " data-people-pk="{{field.pk}}" placeholder="Severe" readonly>
-            <input class="number ipc-planned-calculated " data-people-pk="{{field.pk}}" placeholder="Planned" readonly>
-        </div>
-    </div>
-
-    <div class="ipc">
-        <label class="sub">IPC</label>
-        <div>
-            <div>
-                <div>
-                    <label>1. None/Minimal</label>
-                    <input class="number" data-ipc="a" data-ipc-level="1" placeholder="Number">
-                </div>
-                <div>
-                    <label>2. Stressed</label>
-                    <input class="number" data-ipc="c" data-ipc-level="2" placeholder="Number">
-                </div>
-                <div>
-                    <label>3. Crisis</label>
-                    <input class="number" data-ipc="e" data-ipc-level="3" placeholder="Number">
-                </div>
-                <div>
-                    <label>4. Emergency</label>
-                    <input class="number" data-ipc="b" data-ipc-level="4" placeholder="Number">
-                </div>
-                <div>
-                    <label>5. Famine</label>
-                    <input class="number" data-ipc="d" data-ipc-level="5" placeholder="Number">
-                </div>
-            </div>
-            <div>
-                <div data-ipc="f" class="ipc-source source-new"></div>
-                <input data-ipc="g" class="" placeholder="Comment">
-            </div>
-        </div>
-    </div>
-
+    
     {% for subfield in field.peopleinneedfield_set.all %}
     <div class="pin-sub-field">
         <label class="sub">{{subfield.name}}</label>
