@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
     // Scroll to selected
+    // TODO: .project.active is undefined sometimes, check for the condition
     $('#project-list').scrollTop($('#project-list .project.active').position().top - $('#project-list').position().top);
 
     // Expand/hide project

@@ -274,10 +274,18 @@ body {
             stroke-width: 1px;
             stroke-linejoin: round; }
         body main #admin-boundary-detail form .input-group-list #map-container #map-controls {
-          height: 32px;
+          min-height: 32px;
           display: flex;
           align-items: center;
           justify-content: center; }
+          body main #admin-boundary-detail form .input-group-list #map-container #map-controls button {
+            box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3);
+            margin: 2px; }
+            body main #admin-boundary-detail form .input-group-list #map-container #map-controls button:active {
+              box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+            body main #admin-boundary-detail form .input-group-list #map-container #map-controls button.active {
+              background-color: #008080;
+              color: #fff; }
       body main #admin-boundary-detail form .input-group-list #admin-level-list header {
         display: flex;
         align-items: center;

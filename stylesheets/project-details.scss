@@ -10,28 +10,7 @@ body {
         margin: 0;
         text-transform: uppercase;
     }
-    nav {
-        flex-basis: 100%;
-        height: $navbar-height;
-        display: flex;
-        justify-content: space-between;
-        padding: 0 16px;
-        background-color: darken($primary-color, 10%);
-        color: #fff;
-
-        header{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            .deep-logo{
-                width: $deep-logo-sm-width;
-                margin-right: 24px;
-            }
-        }
-
-    }
-
+    
     aside {
         margin-left: 32px;
         flex-basis: 26%;
@@ -272,6 +251,10 @@ body {
                         font-size: 1.1em;
                         margin: 0;
                         border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+
+                        &:focus {
+                            border-bottom: 2px solid $primary-color;
+                        }
                     }
 
                     .selectize-input {
@@ -280,6 +263,10 @@ body {
                         padding: 4px 0;
                         background-color: transparent;
                         border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+
+                        &.focus {
+                            border-bottom: 2px solid $primary-color;
+                        }
 
                         &.has-items{
                             padding: 0;
