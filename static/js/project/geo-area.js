@@ -14,7 +14,7 @@ $(document).ready(function(){
         let code = $(this).data('country-code');
         let country = countries[code];
         generalTab.loadForCountry(country.code, country);
-        
+
         $('#selected-country-code').val(code);
         $('#selected-country-modified').val(country.modified?'1':'0');
         $('#selected-country-modified').change();

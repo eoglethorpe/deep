@@ -66,7 +66,7 @@ var activities = [
             <h2>Projects</h2>
             <div>
                 <i class="fa fa-search"></i><input id="search-projects" type="search" placeholder="Search projects">
-                {% if user == request.user %}<button onclick="window.location.href='{% url "custom_admin:project_panel" %}'"><i class="fa fa-plus"></i>Add new project</button>{% endif %}
+                {% if user == request.user %}<button id="new-project-btn"><i class="fa fa-plus"></i>Add new project</button>{% endif %}
             </div>
         </div>
         <div id="projects-header">
@@ -87,7 +87,7 @@ var activities = [
                 <div class="status">Active</div>
                 <div class="last-modified"><date>{{ project.modified_at | date:'d N Y' }}</date> <span>({{ project.modified_at | naturaltime }})</span></div>
                 <div class="members">{{ project.get_num_members }}</div>
-                <div class="actions">{% if user in project.admins.all or user.is_superuser %}<a href="{% url 'custom_admin:project_panel' %}?selected={{ project.pk }}" class="fa fa-edit"></a>{% endif %}</div>
+                <div class="actions">{% if user in project.admins.all %}<a href="{% url 'project:project_details'  project.pk %}" class="fa fa-edit"></a>{% endif %}</div>
             </div>
             {% endfor %}
         </div>
@@ -135,6 +135,26 @@ var activities = [
         <div class="action-buttons">
             <button class="cancel-button" data-action="dismiss"><i class="fa fa-times fa-md"></i>Cancel</button>
             <button class="proceed-button" data-action="proceed" data-persist="true"><i class="fa fa-plus fa-md"></i>Create user group</button>
+        </div>
+    </div>
+</div>
+<div class="modal-container" hidden>
+    <div class="modal" id="new-project-modal" hidden>
+        <header>
+            <h3 class="modal-header">Add new project</h3>
+        </header>
+        <div class="error"></div>
+        <div class="input-container">
+            <form method="post" action="{% url 'project:project_details' 0 %}">
+                {% csrf_token %}
+                <label>Name</label>
+                <input type="text" name="name" id="new-project-name">
+                <input type="hidden" name="add-new" value="add-new">
+            </form>
+        </div>
+        <div class="action-buttons">
+            <button class="cancel-button" data-action="dismiss"><i class="fa fa-times fa-md"></i>Cancel</button>
+            <button class="proceed-button" data-action="proceed" data-persist="true"><i class="fa fa-plus fa-md"></i>Create project</button>
         </div>
     </div>
 </div>

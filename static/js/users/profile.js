@@ -142,6 +142,7 @@ let editMode = {
 
 $(document).ready(function(){
     let newUserGroupModal = new Modal('#new-user-group-modal');
+    let newProjectModal = new Modal('#new-project-modal');
 
     $('label[data-sort]').on('click', function(){
         var sortQuery = $(this).data('sort');
@@ -211,6 +212,21 @@ $(document).ready(function(){
                     $('#new-user-group-modal').find('.error')
                         .text('Server error, check your connection and try again');
                 });
+            }
+        });
+    });
+
+    $('#new-project-btn').click(function() {
+        $('#new-project-modal .error').empty();
+        newProjectModal.show().then(null, null, function() {
+            if (newProjectModal.action == 'proceed') {
+                let name = $('#new-project-name').val();
+                if (name.trim().length == 0) {
+                    $('#new-project-modal .error').text('Please enter a name');
+                    return;
+                }
+
+                $('#new-project-modal form').submit();
             }
         });
     });
