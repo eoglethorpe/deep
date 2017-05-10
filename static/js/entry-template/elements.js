@@ -22,8 +22,10 @@ class Element {
         propertiesBox.find('.close').click(function() {
             propertiesBox.hide();
         });
-        editButton.click(function() {
+        editButton.click(function(e) {
+            e.stopPropagation();
             propertiesBox.show();
+            propertiesBox.trigger('visible');
         })
         container.append(propertiesBox);
         return propertiesBox;

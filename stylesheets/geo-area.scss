@@ -11,26 +11,6 @@ body {
         margin: 0;
         text-transform: uppercase;
     }
-    nav {
-        flex-basis: 100%;
-        height: $navbar-height;
-        display: flex;
-        justify-content: space-between;
-        padding: 0 16px;
-        background-color: darken($primary-color, 10%);
-        color: #fff;
-
-        header{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            .deep-logo{
-                width: $deep-logo-sm-width;
-                margin-right: 24px;
-            }
-        }
-    }
 
     aside {
         margin-left: 32px;
@@ -164,7 +144,14 @@ body {
                             outline: none;
                             font-size: 1.1em;
                             margin: 0;
-                            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+
+                            &:not([readonly="readonly"]) {
+                                border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+                            }
+
+                            &:focus:not([readonly="readonly"]) {
+                                border-bottom: 2px solid $primary-color;
+                            }
                         }
 
                         .selectize-input {
@@ -217,10 +204,20 @@ body {
                         }
 
                         #map-controls {
-                            height: 32px;
+                            min-height: 32px;
                             display: flex;
                             align-items: center;
                             justify-content: center;
+
+                            button{
+                                @include btn-shadow-sm;
+                                margin: 2px;
+
+                                &.active {
+                                    background-color: $primary-color;
+                                    color: #fff;
+                                }
+                            }
                         }
                     }
 
@@ -251,10 +248,16 @@ body {
                         }
                         #admin-levels {
                             .admin-level-details {
-                                padding-top: 6px;
+                                //padding-top: 6px;
+                                margin: 0 -10px;
+                                padding: 10px 10px 0 10px;
                                 display: flex;
                                 flex-wrap: wrap;
                                 justify-content: space-between;
+
+                                &:nth-child(odd) {
+                                    background-color: #fafafa;
+                                }
 
                                 .input-group {
                                     flex-basis: 28%;

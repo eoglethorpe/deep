@@ -263,4 +263,20 @@ $(document).ready(function() {
     templateEditor.init();
     templateEditor.load(templateData);
     $('#elements').sortable();
+
+    $('.properties-box').on('visible', function(){
+        $('.properties-box').not(this).hide();
+    });
+    $('.floating-toolbar').on('visible', function(){
+        $('.floating-toolbar').not(this).hide();
+    });
+
+    $(document).on('click', function(e){
+        if($(e.target).closest('.properties-box').length == 0){
+            $('.properties-box').hide();
+        }
+        if($(e.target).closest('.floating-toolbar').length == 0){
+            $('.floating-toolbar').hide();
+        }
+    });
 });
