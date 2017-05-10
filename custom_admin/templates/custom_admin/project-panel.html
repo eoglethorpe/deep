@@ -19,7 +19,7 @@ var projects = {
     "{{event.pk}}": {
         name: "{{event.name|escapejs}}",
         countries: [{% for country in event.countries.all %}"{{country.pk}}",{%endfor%}],
-        description: "{{event.description}}",
+        description: "{{event.description|escapejs}}",
         start_date: "{{event.start_date|date:'Y-m-d'}}",
         end_date: "{{event.end_date|date:'Y-m-d'}}",
         status: "{{event.status}}",
