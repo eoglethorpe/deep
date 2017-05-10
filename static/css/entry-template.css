@@ -303,6 +303,8 @@ body {
         align-items: center;
         padding: 0 16px;
         min-height: 36px; }
+        body main .properties-box .property.id-property {
+          display: none; }
         body main .properties-box .property label {
           font-size: 13px; }
         body main .properties-box .property input[type="text"] {
@@ -401,7 +403,7 @@ body {
                   flex-basis: 24px; }
                 body main .properties-box .property.nodes-property .nodes-container .nodes > .node-container:nth-child(odd) {
                   background-color: #eee; }
-        body main .properties-box .property:nth-child(even) {
+        body main .properties-box .property:nth-child(odd) {
           background-color: #eee; }
     body main .page-one-entry-selector {
       left: 32px;

@@ -229,6 +229,10 @@ body{
                 padding: 0 16px;
                 min-height: 36px;
 
+                &.id-property {
+                    display: none;
+                }
+
                 label {
                     font-size: $text-size-md;
                 }
@@ -373,7 +377,7 @@ body{
                     }
                 }
 
-                &:nth-child(even){
+                &:nth-child(odd){
                     background-color: #eee;
                 }
             }
