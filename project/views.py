@@ -36,10 +36,13 @@ class ProjectDetailsView(View):
 
     @method_decorator(login_required)
     def post(self, request, project_id):
-        project = Event.objects.get(pk=project_id)
 
         if 'add-new' in request.POST:
             project = Event()
+        else:
+            project = Event.objects.get(pk=project_id)
+
+        if 'add-new' in request.POST:
             project.name = request.POST['name']
             project.save()
             project.admins.add(request.user)

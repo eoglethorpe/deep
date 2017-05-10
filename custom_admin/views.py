@@ -21,16 +21,8 @@ class ProjectPanelView(View):
         context = {}
         context["current_page"] = "project-panel"
 
-        # Either you are a super admin and can edit all crises
-        # Or you are admin of this project
-
-        if request.user.is_superuser:
-            context["events"] = Event.objects.all().order_by('name')
-            context["usergroups"] = UserGroup.objects.all()
-            # context["entry_templates"] = EntryTemplate.objects.all()
-        else:
-            context["events"] = Event.objects.filter(admins__pk=request.user.pk).order_by('name')
-            context["usergroups"] = UserGroup.objects.filter(admins__pk=request.user.pk).order_by('name')
+        context["events"] = Event.objects.filter(admins__pk=request.user.pk).order_by('name')
+        context["usergroups"] = UserGroup.objects.filter(admins__pk=request.user.pk).order_by('name')
 
         context["entry_templates"] = EntryTemplate.objects.filter(usergroup__members__pk=request.user.pk)
         context["countries"] = Country.objects.filter(reference_country=None)

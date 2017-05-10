@@ -3,7 +3,7 @@
 <div class="filter"><input type="text" id="sources-filter" class="filter" placeholder="Source"></div>
 <div class="filter">
     <select id="users-filter" multiple>
-        <option value="">User</option>
+        <option value="">Imported by</option>
         {% for u in users %}
         <option value="{{u.pk}}">{{u.get_full_name}}</option>
         {% endfor %}
@@ -11,7 +11,7 @@
 </div>
 <div class="filter">
     <select id="areas-filter" multiple>
-        <option value="">Areas</option>
+        <option value="">Geographical areas</option>
         {% for area in areas %}
         <option value="{{area}}">{{area}}</option>
         {% endfor %}
@@ -19,7 +19,7 @@
 </div>
 <div class="filter">
     <select id="affected-groups-filter" multiple>
-        <option value="">Affected Group</option>
+        <option value="">Affected Groups</option>
         {% for group in affected_groups %}
         <option value="{{group}}">{{group}}</option>
         {% endfor %}

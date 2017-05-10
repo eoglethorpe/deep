@@ -358,7 +358,7 @@ body{
         }
     }
 
-    #new-user-group-modal {
+    #new-user-group-modal, #new-project-modal {
         .error {
             padding: 10px 24px;
             color: $danger-color;

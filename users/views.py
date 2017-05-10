@@ -252,7 +252,7 @@ class UserProfileView(View):
     def get(self, request, user_id):
         user = User.objects.get(pk=user_id)
 
-        projects = list(user.event_set.all())
+        projects = list(user.event_set.all()) + list(user.events_owned.all())
         for usergroup in user.usergroup_set.all():
             projects.extend(list(usergroup.projects.all()))
 
