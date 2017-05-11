@@ -37,15 +37,23 @@ body{
             #template-name {
                 font-size: $text-size-sl;
             }
-            button {
-                padding: 6px 16px;
-                color: #fff;
-            }
-            #save-button {
-                background-color: $primary-color;
-            }
-            #cancel-button {
-                background-color: $danger-color;
+            .action-container{
+                button {
+                    padding: 6px 16px;
+                    color: #fff;
+                }
+                .switch-page{
+                    padding: 6px 24px;
+                    @include btn-shadow-sm;
+                    color: white;
+                    background-color: $primary-color;
+                }
+                #save-button {
+                    background-color: $primary-color;
+                }
+                #cancel-button {
+                    background-color: $danger-color;
+                }
             }
         }
 
@@ -114,7 +122,6 @@ body{
                             }
                         }
                     }
-
                     .properties {
                         border-bottom: 2px solid rgba(0, 0, 0, 0.1);
                         margin-bottom: 6px;

@@ -247,6 +247,7 @@ class Matrix1D extends Element {
         titleProperty.find('input').val(this.dom.find('.title').text());
         titleProperty.find('input').change(function() {
             that.dom.find('.title').text($(this).val());
+            templateEditor.reloadElements();
         });
         container.append(titleProperty);
     }
@@ -305,7 +306,6 @@ class Matrix2D extends Element {
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<h4 class="title">2D Matrix</h4>'));
-
         dom.append($('<div class="sectors-container"><div class="sectors sortable"></div><button class="fa fa-plus add-sector"></button></div>'));
         dom.append($('<div class="pillars-container"><div class="pillars sortable"></div><button class="fa fa-plus add-pillar"></button></div>'));
         dom.resizable({ grid: GRID_SIZE, handles: 'e, w' });
@@ -626,6 +626,7 @@ class Matrix2D extends Element {
         titleProperty.find('input').val(this.dom.find('.title').text());
         titleProperty.find('input').change(function() {
             that.dom.find('.title').text($(this).val());
+            templateEditor.reloadElements();
         });
         container.append(titleProperty);
     }
