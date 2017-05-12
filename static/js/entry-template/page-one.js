@@ -63,7 +63,7 @@ class PageOneExcerptBox extends Element {
         let dom = $('<div class="element page-one-excerpt"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
-        dom.append($('<div class="excerpt-container"><label>Excerpt</label><textarea placeholder="Enter excerpt here" autoresize></textarea></div>'));
+        dom.append($('<div class="excerpt-container"><label class="title">Excerpt</label><textarea placeholder="Enter excerpt here" autoresize></textarea></div>'));
         dom.find('.excerpt-container').resizable({ grid: GRID_SIZE });
         super(container, dom);
 
@@ -120,7 +120,7 @@ class PageOneImageBox extends Element {
         let dom = $('<div class="element page-one-image"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
-        dom.append($('<div class="image-container"><label>Image</label><div class="image-box"></div></div>'));
+        dom.append($('<div class="image-container"><label class="title">Image</label><div class="image-box"></div></div>'));
         dom.find('.image-container').resizable({ grid: GRID_SIZE });
         super(container, dom);
 
