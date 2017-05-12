@@ -1,6 +1,6 @@
-<div class="filter"><input type="text" id="search" class="filter" placeholder="Search excerpt"></div>
-<div class="filter"><input type="text" id="lead-title-search" class="filter" placeholder="Lead title"></div>
-<div class="filter"><input type="text" id="sources-filter" class="filter" placeholder="Source"></div>
+<div class="filter">
+    <input type="text" id="search" class="filter" placeholder="Search excerpt">
+</div>
 <div class="filter">
     <select id="users-filter" multiple>
         <option value="">Imported by</option>
@@ -9,21 +9,23 @@
         {% endfor %}
     </select>
 </div>
-<div class="filter">
-    <select id="areas-filter" multiple>
-        <option value="">Geographical areas</option>
-        {% for area in areas %}
-        <option value="{{area}}">{{area}}</option>
-        {% endfor %}
+<div class="filter" id="date-imported-filter-container">
+    <select id="date-imported-filter">
+        <option value="">Date imported</option>
+        <option value="today">Today</option>
+        <option value="yesterday">Yesterday</option>
+        <option value="last-seven-days">Last 7 days</option>
+        <option value="this-week">This week</option>
+        <option value="last-thirty-days">Last 30 days</option>
+        <option value="this-month">This month</option>
+        <option value="range">Range</option>
     </select>
 </div>
 <div class="filter">
-    <select id="affected-groups-filter" multiple>
-        <option value="">Affected Groups</option>
-        {% for group in affected_groups %}
-        <option value="{{group}}">{{group}}</option>
-        {% endfor %}
-    </select>
+    <input type="text" id="lead-title-search" class="filter" placeholder="Lead title">
+</div>
+<div class="filter">
+    <input type="text" id="sources-filter" class="filter" placeholder="Source">
 </div>
 <div class="filter" id="date-published-filter-container">
     <select id="date-published-filter">
@@ -37,6 +39,37 @@
         <option value="range">Range</option>
     </select>
 </div>
+<div class="filter range">
+    <label>Reliability</label>
+    <select id="reliabilities-min-filter" class="reliabilities-filter" placeholder="from">
+        <option value="">from</option>
+        {% for reliability in reliabilities %}
+        <option value="{{reliability.level}}">{{reliability}}</option>
+        {% endfor %}
+    </select>
+    <select id="reliabilities-max-filter" class="reliabilities-filter" placeholder="to">
+        <option value="">to</option>
+        {% for reliability in reliabilities %}
+        <option value="{{reliability.level}}">{{reliability}}</option>
+        {% endfor %}
+    </select>
+</div>
+<div class="filter">
+    <select id="areas-filter" multiple>
+        <option value="">Geographical areas</option>
+        {% for area in areas %}
+        <option value="{{area}}">{{area}}</option>
+        {% endfor %}
+    </select>
+</div>
+<div class="filter">
+    <select id="affected-groups-filter" multiple>
+        <option value="">Affected groups</option>
+        {% for group in affected_groups %}
+        <option value="{{group}}">{{group}}</option>
+        {% endfor %}
+    </select>
+</div>
 <div class="filter">
     <select id="vulnerable-groups-filter" multiple>
         <option value="">Demographic group</option>
@@ -47,7 +80,7 @@
 </div>
 <div class="filter">
     <select id="specific-needs-groups-filter" multiple>
-        <option value="">Specific Needs Group</option>
+        <option value="">Specific needs groups</option>
         {% for group in specific_needs_groups %}
         <option value="{{group}}">{{group}}</option>
         {% endfor %}
@@ -72,21 +105,6 @@
         {% for subsector in sector.subsector_set.all %}
         <option value="{{sector.pk}}/{{subsector.pk}}">{{sector}} / {{subsector}}</option>
         {% endfor %}
-        {% endfor %}
-    </select>
-</div>
-<div class="filter range">
-    <label>Reliability</label>
-    <select id="reliabilities-min-filter" class="reliabilities-filter" placeholder="from">
-        <option value="">from</option>
-        {% for reliability in reliabilities %}
-        <option value="{{reliability.level}}">{{reliability}}</option>
-        {% endfor %}
-    </select>
-    <select id="reliabilities-max-filter" class="reliabilities-filter" placeholder="to">
-        <option value="">to</option>
-        {% for reliability in reliabilities %}
-        <option value="{{reliability.level}}">{{reliability}}</option>
         {% endfor %}
     </select>
 </div>
