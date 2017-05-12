@@ -75,6 +75,8 @@ function renderVisualizations() {
             // Source-severity
             if (originalEntries[information.entryIndex].lead_source) {
                 recalculateSeverity2(information, originalEntries[information.entryIndex].lead_source, sources);
+            } else {
+                recalculateSeverity2(information, 'None', sources);
             }
 
             // Affected group-severity
