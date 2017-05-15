@@ -274,4 +274,22 @@ $(document).ready(function() {
             $('.floating-toolbar').hide();
         }
     });
+
+
+    $('.element').on('dragstart', function(){
+        $(this).data('initial-offset', $(this).offset());
+    });
+    $('.element').on('dragstop', function(event, ui){
+        let that = $(this);
+        let r1 = this.getBoundingClientRect();
+
+        $('.element').not(this).each(function(){
+            let r2 = this.getBoundingClientRect();
+
+            if((r1.left < r2.left + r2.width && r1.left + r1.width > r2.left && r1.top < r2.top + r2.height && r1.height + r1.top > r2.top)) {
+                that.offset(that.data('initial-offset'));
+                return false;
+            }
+        });
+    });
 });
