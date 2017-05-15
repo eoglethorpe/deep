@@ -75,7 +75,7 @@ main{
             border: 1px solid transparent;
             border-bottom: 2px solid rgba(0, 0, 0, 0.3);
             flex-basis: 100%;
-            padding: 0 10px 5 10px;
+            padding: 0 0 3px 0;
             font-size: $text-size-lg;
 
             &:focus{
@@ -84,7 +84,6 @@ main{
         }
         label{
             flex-basis: 100%;
-            //margin: 0;
             margin-bottom: 4px;
             color: rgba(0, 0, 0, 0.3);
         }
@@ -95,10 +94,11 @@ main{
         }
         button{
             background-color: #f0f0f0;
-            padding: 10px 32px;
+            padding: 10px 16px;
             background-color: $primary-color;
             color: #fff;
             font-size: $text-size-lg;
+            border-radius: 2px;
             @include btn-shadow-sm();
         }
         button, a{
