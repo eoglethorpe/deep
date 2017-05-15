@@ -168,12 +168,19 @@ body {
       border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
       body aside .title-block #template-name {
         font-size: 19px; }
-      body aside .title-block button {
+      body aside .title-block .action-container button {
         padding: 6px 16px;
         color: #fff; }
-      body aside .title-block #save-button {
+      body aside .title-block .action-container .switch-page {
+        padding: 6px 24px;
+        box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3);
+        color: white;
         background-color: #008080; }
-      body aside .title-block #cancel-button {
+        body aside .title-block .action-container .switch-page:active {
+          box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+      body aside .title-block .action-container #save-button {
+        background-color: #008080; }
+      body aside .title-block .action-container #cancel-button {
         background-color: #e74c3c; }
     body aside section {
       height: calc(calc(100% - 64px - 48px) / 2);

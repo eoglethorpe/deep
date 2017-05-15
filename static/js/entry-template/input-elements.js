@@ -3,7 +3,7 @@ class InputElement extends Element {
         let dom = $('<div class="element ' + className + ' input-element"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
-        dom.append($('<div class="input-container"><label>' + defaultLabel + '</label></div>'));
+        dom.append($('<div class="input-container"><label class="title">' + defaultLabel + '</label></div>'));
         dom.find('.input-container').append(inputDom);
         dom.find('.input-container').resizable({ grid: GRID_SIZE });
         super(container, dom);
@@ -52,6 +52,7 @@ class InputElement extends Element {
         labelProperty.find('input').val(this.dom.find('label').eq(0).eq(0).text());
         labelProperty.find('input').change(function() {
             that.dom.find('label').eq(0).eq(0).text($(this).val());
+            templateEditor.reloadElements();
         });
         container.append(labelProperty);
     }
@@ -85,7 +86,7 @@ class MultiselectInput extends Element {
         let dom = $('<div class="element multiselect-element"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
-        dom.append($('<div class="input-container"><label>Groups</label></div>'));
+        dom.append($('<div class="input-container"><label class="title">Groups</label></div>'));
         dom.find('.input-container').append($('<select multiple><option value="">Select groups</option></select>'));
         dom.find('.input-container').resizable({ grid: GRID_SIZE, handles: 'e, w', });
         super(container, dom);
@@ -149,6 +150,7 @@ class MultiselectInput extends Element {
         labelProperty.find('input').val(this.dom.find('label').eq(0).text());
         labelProperty.find('input').change(function() {
             that.dom.find('label').eq(0).text($(this).val());
+            templateEditor.reloadElements();
         });
         container.append(labelProperty);
 

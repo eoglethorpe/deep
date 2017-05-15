@@ -131,7 +131,7 @@ main {
       border: 1px solid transparent;
       border-bottom: 2px solid rgba(0, 0, 0, 0.3);
       flex-basis: 100%;
-      padding: 0 10px 5 10px;
+      padding: 0 0 3px 0;
       font-size: 15px; }
       main form input[type="text"]:focus, main form input[type="password"]:focus {
         border-bottom: 2px solid #008080; }
@@ -145,10 +145,11 @@ main {
       color: #008080; }
     main form button {
       background-color: #f0f0f0;
-      padding: 10px 32px;
+      padding: 10px 16px;
       background-color: #008080;
       color: #fff;
       font-size: 15px;
+      border-radius: 2px;
       box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
       main form button:active {
         box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
