@@ -21,7 +21,7 @@ services:
         build:
             context: ./django
             args:
-                BUILD: 0
+                BUILD: 2
         expose:
             - "80"
         volumes:
@@ -31,7 +31,7 @@ services:
             - /home/code/deep/hurricanematthewsos
             - /home/code/deep/deploy
         env_file: .env
-        command: bash -c "chmod +x /home/code/deep/deploy/django/exec.sh && /home/code/deep/deploy/django/exec.sh"
+        command: bash -c "service remote_syslog start && chmod +x /home/code/deep/deploy/django/exec.sh && /home/code/deep/deploy/django/exec.sh"
 
 volumes:
     socket:

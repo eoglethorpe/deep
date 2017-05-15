@@ -74,4 +74,18 @@ RUN useradd -ms /bin/bash ubuntu
 
 RUN echo 'a'
 
+# Install remote2_syslog for logging
+RUN curl -L -o /tmp/syslog2 "https://github.com/papertrail/remote_syslog2/releases/download/v0.19/remote-syslog2_0.19_amd64.deb" && \
+    dpkg -i /tmp/syslog2 && \
+    rm /tmp/syslog2
+
+RUN curl -L -o /etc/init/remote_syslog.conf "https://raw.githubusercontent.com/papertrail/remote_syslog2/master/examples/remote_syslog.upstart.conf" && \
+    curl -L -o /etc/init.d/remote_syslog "https://raw.githubusercontent.com/papertrail/remote_syslog2/master/examples/remote_syslog.init.d" && \
+    chmod +x /etc/init.d/remote_syslog && \
+    update-rc.d remote_syslog defaults
+
+# Remote_syslog config file
+COPY log_files.yml /etc/log_files.yml
+RUN mkdir /var/log/uwsgi
+
 CMD ["chmod", "+x", "/home/code/deep/deploy/django/exec.sh"]
