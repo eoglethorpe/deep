@@ -6,16 +6,24 @@
         <div class="human-profile-field">
             <label>{{field.name}}</label>
             <input class="human-number number{% if field.total_field %} human-profile-total{% endif %}{% if field.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{field.pk}}" placeholder="Number of people" data-prefix="human" {% if field.total_field %}readonly{% endif %}>
-            <div class="human-source source-new" data-human-pk="{{field.pk}}" data-prefix="human"></div>
-            <input class="human-comment" data-human-pk="{{field.pk}}" data-prefix="human" placeholder="Comment">
+            <div class="source-warning-wrapper">
+                <div class="human-source source-new" data-human-pk="{{field.pk}}" data-prefix="human"></div>
+            </div>
+            <div class="comment-warning-wrapper">
+                <input class="human-comment" data-human-pk="{{field.pk}}" data-prefix="human" placeholder="Comment">
+            </div>
             <a></a>
 
             {% for subfield in field.humanprofilefield_set.all %}
             <div class="human-profile-subfield">
                 <label class="sub">{{subfield.name}}</label>
                 <input class="human-number number{% if subfield.total_field %} human-profile-total{% endif %}{% if subfield.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{subfield.pk}}" data-prefix="human" placeholder="Number of people">
-                <div class="human-source source-new" data-human-pk="{{subfield.pk}}" data-prefix="human"></div>
-                <input class="human-comment" data-human-pk="{{subfield.pk}}" data-prefix="human" placeholder="Comment">
+                <div class="source-warning-wrapper">
+                    <div class="human-source source-new" data-human-pk="{{subfield.pk}}" data-prefix="human"></div>
+                </div>
+                <div class="comment-warning-wrapper">
+                    <input class="human-comment" data-human-pk="{{subfield.pk}}" data-prefix="human" placeholder="Comment">
+                </div>
                 <a class="fa fa-plus add-child"></a>
             </div>
             {% endfor %}
@@ -33,16 +41,24 @@
         <div class="human-profile-field">
             <label>{{field.name}}</label>
             <input class="human-number number{% if field.total_field %} human-profile-total{% endif %}{% if field.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{field.pk}}" placeholder="Number of people" data-prefix="human" {% if field.total_field %}readonly{% endif %}>
-            <div class="human-source source-new" data-human-pk="{{field.pk}}" data-prefix="human"></div>
-            <input class="human-comment" data-human-pk="{{field.pk}}" data-prefix="human" placeholder="Comment">
+            <div class="source-warning-wrapper">
+                <div class="human-source source-new" data-human-pk="{{field.pk}}" data-prefix="human"></div>
+            </div>
+            <div class="comment-warning-wrapper">
+                <input class="human-comment" data-human-pk="{{field.pk}}" data-prefix="human" placeholder="Comment">
+            </div>
             <a></a>
 
             {% for subfield in field.humanprofilefield_set.all %}
             <div class="human-profile-subfield">
                 <label class="sub">{{subfield.name}}</label>
                 <input class="human-number number{% if subfield.total_field %} human-profile-total{% endif %}{% if subfield.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{subfield.pk}}" data-prefix="human" placeholder="Number of people">
-                <div class="human-source source-new" data-human-pk="{{subfield.pk}}" data-prefix="human"></div>
-                <input class="human-comment" data-human-pk="{{subfield.pk}}" data-prefix="human" placeholder="Comment">
+                <div class="source-warning-wrapper">
+                    <div class="human-source source-new" data-human-pk="{{subfield.pk}}" data-prefix="human"></div>
+                </div>
+                <div class="comment-warning-wrapper">
+                    <input class="human-comment" data-human-pk="{{subfield.pk}}" data-prefix="human" placeholder="Comment">
+                </div>
                 <a class="fa fa-plus add-child"></a>
             </div>
             {% endfor %}

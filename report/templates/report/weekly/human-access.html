@@ -19,8 +19,12 @@
             <div class="human-access-pin-field">
                 <label class="title">{{field.name}}</label>
                 <input class="number access-pin-number" data-access-pin-pk="{{field.pk}}" data-prefix="access-pin" placeholder="Number">
-                <div class="access-pin-source source-new" data-access-pin-pk="{{field.pk}}" data-prefix="access-pin"></div>
-                <input class="access-pin-comment" data-access-pin-pk="{{field.pk}}" data-prefix="access-pin" placeholder="Comment">
+                <div class="source-warning-wrapper">
+                    <div class="access-pin-source source-new" data-access-pin-pk="{{field.pk}}" data-prefix="access-pin"></div>
+                </div>
+                <div class="comment-warning-wrapper">
+                    <input class="access-pin-comment" data-access-pin-pk="{{field.pk}}" data-prefix="access-pin" placeholder="Comment">
+                </div>
             </div>
             {% endfor %}
         </div>

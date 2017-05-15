@@ -19,18 +19,18 @@
             </div>
 
             <div>
-                <div><div class="people-total-source source-new" data-prefix="people-total" data-people-pk="{{field.pk}}"></div></div>
-                <div><div class="people-at-risk-source  source-new" data-prefix="people-at-risk" data-people-pk="{{field.pk}}"></div></div>
-                <div><div class="people-moderate-source  source-new" data-prefix="people-moderate" data-people-pk="{{field.pk}}"></div></div>
-                <div><div class="people-severe-source  source-new" data-prefix="people-severe" data-people-pk="{{field.pk}}"></div></div>
-                <div><div class="people-planned-source  source-new" data-prefix="people-planned" data-people-pk="{{field.pk}}"></div></div>
+                <div class="source-warning-wrapper"><div class="people-total-source source-new" data-prefix="people-total" data-people-pk="{{field.pk}}"></div></div>
+                <div class="source-warning-wrapper"><div class="people-at-risk-source  source-new" data-prefix="people-at-risk" data-people-pk="{{field.pk}}"></div></div>
+                <div class="source-warning-wrapper"><div class="people-moderate-source  source-new" data-prefix="people-moderate" data-people-pk="{{field.pk}}"></div></div>
+                <div class="source-warning-wrapper"><div class="people-severe-source  source-new" data-prefix="people-severe" data-people-pk="{{field.pk}}"></div></div>
+                <div class="source-warning-wrapper"><div class="people-planned-source  source-new" data-prefix="people-planned" data-people-pk="{{field.pk}}"></div></div>
             </div>
             <div>
-                <div><input class="people-total-comment" data-prefix="people-total" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
-                <div><input class="people-at-risk-comment" data-prefix="people-at-risk" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
-                <div><input class="people-moderate-comment" data-prefix="people-moderate" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
-                <div><input class="people-severe-comment" data-prefix="people-severe" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
-                <div><input class="people-planned-comment" data-prefix="people-planned" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
+                <div class="comment-warning-wrapper"><input class="people-total-comment" data-prefix="people-total" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
+                <div class="comment-warning-wrapper"><input class="people-at-risk-comment" data-prefix="people-at-risk" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
+                <div class="comment-warning-wrapper"><input class="people-moderate-comment" data-prefix="people-moderate" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
+                <div class="comment-warning-wrapper"><input class="people-severe-comment" data-prefix="people-severe" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
+                <div class="comment-warning-wrapper"><input class="people-planned-comment" data-prefix="people-planned" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
             </div>
         </div>
     </div>
@@ -48,7 +48,7 @@
     </div>
     {% endif %}
 
-    
+
     {% for subfield in field.peopleinneedfield_set.all %}
     <div class="pin-sub-field">
         <label class="sub">{{subfield.name}}</label>
@@ -61,18 +61,18 @@
                 <input class="number people-planned  {% if field.total_field %}total-planned-subfield{% endif %}" data-prefix="people-planned" data-people-pk="{{subfield.pk}}" placeholder="Planned">
             </div>
             <div>
-                <div class="people-total-source source-new" data-prefix="people-total" data-people-pk="{{subfield.pk}}"></div>
-                <div class="people-at-risk-source  source-new" data-prefix="people-at-risk" data-people-pk="{{subfield.pk}}"></div>
-                <div class="people-moderate-source  source-new" data-prefix="people-moderate" data-people-pk="{{subfield.pk}}"></div>
-                <div class="people-severe-source  source-new" data-prefix="people-severe" data-people-pk="{{subfield.pk}}"></div>
-                <div class="people-planned-source  source-new" data-prefix="people-planned" data-people-pk="{{subfield.pk}}"></div>
+                <div class="source-warning-wrapper"><div class="people-total-source source-new" data-prefix="people-total" data-people-pk="{{subfield.pk}}"></div></div>
+                <div class="source-warning-wrapper"><div class="people-at-risk-source  source-new" data-prefix="people-at-risk" data-people-pk="{{subfield.pk}}"></div></div>
+                <div class="source-warning-wrapper"><div class="people-moderate-source  source-new" data-prefix="people-moderate" data-people-pk="{{subfield.pk}}"></div></div>
+                <div class="source-warning-wrapper"><div class="people-severe-source  source-new" data-prefix="people-severe" data-people-pk="{{subfield.pk}}"></div></div>
+                <div class="source-warning-wrapper"><div class="people-planned-source  source-new" data-prefix="people-planned" data-people-pk="{{subfield.pk}}"></div></div>
             </div>
             <div>
-                <input class="people-total-comment " data-prefix="people-total" data-people-pk="{{subfield.pk}}" placeholder="Comment">
-                <input class="people-at-risk-comment " data-prefix="people-at-risk" data-people-pk="{{subfield.pk}}" placeholder="Comment">
-                <input class="people-moderate-comment " data-prefix="people-moderate" data-people-pk="{{subfield.pk}}" placeholder="Comment">
-                <input class="people-severe-comment " data-prefix="people-severe" data-people-pk="{{subfield.pk}}" placeholder="Comment">
-                <input class="people-planned-comment " data-prefix="people-planned" data-people-pk="{{subfield.pk}}" placeholder="Comment">
+                <div class="comment-warning-wrapper"><input class="people-total-comment " data-prefix="people-total" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
+                <div class="comment-warning-wrapper"><input class="people-at-risk-comment " data-prefix="people-at-risk" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
+                <div class="comment-warning-wrapper"><input class="people-moderate-comment " data-prefix="people-moderate" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
+                <div class="comment-warning-wrapper"><input class="people-severe-comment " data-prefix="people-severe" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
+                <div class="comment-warning-wrapper"><input class="people-planned-comment " data-prefix="people-planned" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
             </div>
         </div>
     </div>
