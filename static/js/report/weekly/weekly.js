@@ -678,6 +678,7 @@ function checkRules() {
     // check for decay
     $('.human-comment').on('drop paste change input', function(){
         humanitarianProfileDecay.updateHumanComment($(this));
+        validateSource($(this), data['human']['source'][$(this).data('human-pk')]);
     });
     // $('.human-source').on('drop paste change input', function(){
     //     humanitarianProfileDecay.updateHumanSource($(this));
@@ -685,6 +686,7 @@ function checkRules() {
 
     $('.human-number').on('drop paste change input', function(){
         humanitarianProfileDecay.updateHumanNumber($(this));    // check for decay as well
+        validateSource($(this), data['human']['source'][$(this).data('human-pk')]);
 
         var errors = "";
         for (var i=0; i<human_profile_field_rules.length; i++) {
@@ -742,64 +744,143 @@ function checkRules() {
 
     $(".people-total").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["total"][$(this).data("people-pk")]);
+        validateSource($(this), data['people']['total-source'][$(this).data('people-pk')]);
     });
     $(".people-at-risk").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["at-risk"][$(this).data("people-pk")]);
+        validateSource($(this), data['people']['at-risk-source'][$(this).data('people-pk')]);
     });
     $(".people-moderate").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["moderate"][$(this).data("people-pk")]);
+        validateSource($(this), data['people']['moderate-source'][$(this).data('people-pk')]);
     });
     $(".people-severe").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["severe"][$(this).data("people-pk")]);
+        validateSource($(this), data['people']['severe-source'][$(this).data('people-pk')]);
     });
     $(".people-planned").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["planned"][$(this).data("people-pk")]);
+        validateSource($(this), data['people']['planned-source'][$(this).data('people-pk')]);
     });
 
-    $(".people-total-source").on('drop paste change input', function() {
-        peopleInNeedDecay.update($(this), data["people"]["total-source"][$(this).data("people-pk")]['old']);
-    });
-    $(".people-at-risk-source").on('drop paste change input', function() {
-        peopleInNeedDecay.update($(this), data["people"]["at-risk-source"][$(this).data("people-pk")]['old']);
-    });
-    $(".people-moderate-source").on('drop paste change input', function() {
-        peopleInNeedDecay.update($(this), data["people"]["moderate-source"][$(this).data("people-pk")]['old']);
-    });
-    $(".people-severe-source").on('drop paste change input', function() {
-        peopleInNeedDecay.update($(this), data["people"]["severe-source"][$(this).data("people-pk")]['old']);
-    });
-    $(".people-planned-source").on('drop paste change input', function() {
-        peopleInNeedDecay.update($(this), data["people"]["planned-source"][$(this).data("people-pk")]['old']);
-    });
+    // $(".people-total-source").on('drop paste change input', function() {
+    //     peopleInNeedDecay.update($(this), data["people"]["total-source"][$(this).data("people-pk")]['old']);
+    //     validateSource($(this), data['people']['total-source'][$(this).data('people-pk')]);
+    // });
+    // $(".people-at-risk-source").on('drop paste change input', function() {
+    //     peopleInNeedDecay.update($(this), data["people"]["at-risk-source"][$(this).data("people-pk")]['old']);
+    //     validateSource($(this), data['people']['at-risk-source'][$(this).data('people-pk')]);
+    // });
+    // $(".people-moderate-source").on('drop paste change input', function() {
+    //     peopleInNeedDecay.update($(this), data["people"]["moderate-source"][$(this).data("people-pk")]['old']);
+    //     validateSource($(this), data['people']['moderate-source'][$(this).data('people-pk')]);
+    // });
+    // $(".people-severe-source").on('drop paste change input', function() {
+    //     peopleInNeedDecay.update($(this), data["people"]["severe-source"][$(this).data("people-pk")]['old']);
+    //     validateSource($(this), data['people']['severe-source'][$(this).data('people-pk')]);
+    // });
+    // $(".people-planned-source").on('drop paste change input', function() {
+    //     peopleInNeedDecay.update($(this), data["people"]["planned-source"][$(this).data("people-pk")]['old']);
+    //     validateSource($(this), data['people']['planned-source'][$(this).data('people-pk')]);
+    // });
 
     $(".people-total-comment").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["total-comment"][$(this).data("people-pk")]);
+        validateSource($(this), data['people']['total-source'][$(this).data('people-pk')]);
     });
     $(".people-at-risk-comment").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["at-risk-comment"][$(this).data("people-pk")]);
+        validateSource($(this), data['people']['at-risk-source'][$(this).data('people-pk')]);
     });
     $(".people-moderate-comment").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["moderate-comment"][$(this).data("people-pk")]);
+        validateSource($(this), data['people']['moderate-source'][$(this).data('people-pk')]);
     });
     $(".people-severe-comment").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["severe-comment"][$(this).data("people-pk")]);
+        validateSource($(this), data['people']['severe-source'][$(this).data('people-pk')]);
     });
     $(".people-planned-comment").on('drop paste change input', function() {
         peopleInNeedDecay.update($(this), data["people"]["planned-comment"][$(this).data("people-pk")]);
+        validateSource($(this), data['people']['planned-source'][$(this).data('people-pk')]);
     });
 
     $(".access-pin-number").on('drop paste change input', function(){
         humanitarianAccessDecay.update($(this), data['access-pin']['numberDecay'][$(this).data('access-pin-pk')]);
+        validateSource($(this), data['access-pin']['source'][$(this).data('access-pin-pk')]);
     });
-    $(".access-pin-source").on('drop paste change input', function(){
-        humanitarianAccessDecay.update($(this), data['access-pin']['sourceDecay'][$(this).data('access-pin-pk')]);
-    });
+    // $(".access-pin-source").on('drop paste change input', function(){
+    //     humanitarianAccessDecay.update($(this), data['access-pin']['sourceDecay'][$(this).data('access-pin-pk')]);
+    //     validateSource($(this), data['access-pin']['source'][$(this).data('access-pin-pk')]);
+    // });
     $(".access-pin-comment").on('drop paste change input', function(){
         humanitarianAccessDecay.update($(this), data['access-pin']['commentDecay'][$(this).data('access-pin-pk')]);
+        validateSource($(this), data['access-pin']['source'][$(this).data('access-pin-pk')]);
     });
     $(".access-select").change(function(){
         humanitarianAccessDecay.update($(this), data['accessDecay'][$(this).data('access-pk')]);
     })
+
+    $('.ipc input').on('drop paste change input', function() {
+        validateSource($(this), data['ipc']['f']);
+    });
+}
+
+function validateSource(element, sourceData) {
+    let prefix = element.data('prefix');
+    if (!prefix) {
+        return;
+    }
+
+    let id;
+    let dataAttr;
+    let number;
+
+    if (prefix == 'ipc') {
+        number = '';
+        $('.ipc input[class="number"]').each(function() {
+            number += $(this).val().trim();
+        });
+        dataAttr = '';
+    }
+    else if (prefix.indexOf('people') == 0) {
+        id = element.data('people-pk');
+        dataAttr = '[data-people-pk="' + id + '"]';
+        number = $('.' + prefix + dataAttr).val();
+    }
+    else {
+        id = element.data(prefix + '-pk');
+        dataAttr = '[data-' + prefix + '-pk="' + id + '"]';
+        number = $('.' + prefix + '-number' + dataAttr).val();
+    }
+
+    let sourceField = $('.' + prefix + '-source' + dataAttr);
+    let commentField = $('.' + prefix + '-comment' + dataAttr);
+
+    if (number && number.trim().length > 0 && isSourceEmpty(sourceData)) {
+        let warning = 'You have not entered a source';
+        let error = 'You must enter a comment if there is no source';
+
+        if (sourceField.next('p').length > 0) {
+            sourceField.next('p').text(warning);
+        } else {
+            sourceField.after('<p>' + warning + '</p>');
+        }
+
+        if (commentField.val().trim().length == 0) {
+            if (commentField.next('p').length > 0) {
+                commentField.next('p').text(error);
+            } else {
+                commentField.after('<p>' + error + '</p>');
+            }
+        } else {
+            commentField.next('p').remove();
+        }
+    }
+    else {
+        sourceField.next('p').remove();
+        commentField.next('p').remove();
+    }
 }
 
 
