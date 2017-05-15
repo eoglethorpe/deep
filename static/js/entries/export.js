@@ -226,6 +226,35 @@ $(document).ready(function(){
         $('.export-format label.active').removeClass('active');
         $(this).closest('label').addClass('active');
     });
+
+    function onCheckGroupExpandClick() {
+        $(this).closest('.check-group').toggleClass('expanded').children('.content').slideToggle("200");
+    }
+
+    function onCheckGroupCheck() {
+        if($(this).is(':checked')) {
+            $(this).closest('.expandable').children('.content').find('input').prop('checked', true);
+        } else {
+            $(this).closest('.expandable').children('.content').find('input').prop('checked', false);
+        }
+    }
+
+
+    let checkGroup1 = $('.check-group-template').clone().removeClass('check-group-template').addClass('check-group');
+    checkGroup1.find('.check-group-expand').on('click', onCheckGroupExpandClick);
+    checkGroup1.find('header .name').text('Context #1');
+    checkGroup1.find('header input').on('change', onCheckGroupCheck);
+    checkGroup1.appendTo('.check-group-list');
+    checkGroup1.show();
+
+    let checkGroupChild1 =  $('.check-template').clone().removeClass('check-template').addClass('check');
+    checkGroupChild1.find('.name').text('Context child #1');
+    checkGroupChild1.appendTo(checkGroup1.find('.content'));
+
+    let checkGroupChild2 =  $('.check-template').clone().removeClass('check-template').addClass('check');
+    checkGroupChild2.find('.name').text('Context child #2');
+    checkGroupChild2.appendTo(checkGroup1.find('.content'));
+
 });
 
 
