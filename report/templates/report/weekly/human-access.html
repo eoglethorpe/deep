@@ -10,7 +10,7 @@
                     <option value="DNK">DNK</option>
                 </select>
                 <div class="access-source source-new" data-access-pk="{{field.pk}}"></div>
-                <input class="access-comment" data-access-pk="{{field.pk}}" type="text" name="comment" placeholder="Comment">
+                <input class="access-comment comment" data-access-pk="{{field.pk}}" type="text" name="comment" placeholder="Comment">
             </div>
             {% endfor %}
         </div>
@@ -23,7 +23,7 @@
                     <div class="access-pin-source source-new" data-access-pin-pk="{{field.pk}}" data-prefix="access-pin"></div>
                 </div>
                 <div class="comment-warning-wrapper">
-                    <input class="access-pin-comment" data-access-pin-pk="{{field.pk}}" data-prefix="access-pin" placeholder="Comment">
+                    <input class="access-pin-comment comment" data-access-pin-pk="{{field.pk}}" data-prefix="access-pin" placeholder="Comment">
                 </div>
             </div>
             {% endfor %}
