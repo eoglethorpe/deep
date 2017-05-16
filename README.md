@@ -2,9 +2,6 @@
 
 DEEP is a humanitarian tool to collect and analyze information from various publications and sources pertaining to events happening in different countries. It is meant to help the analysts easily generate reports of various events of the world.
 
-## Filing Bugs
-Issues and bugs are trakced in JIRA - please don't open any issues on GitHub. DEEP's issue tracker is [here](https://togglecorp.atlassian.net/issues/). If you are a contributor and wish to be added to the JIRA team, please get in touch with [Ewan](mailto:oglethorpe.ewan@gmail.com) 
-
 ## Public API
 
 Data collected by DEEP is currently publicly available. Read the [documents](https://github.com/eoglethorpe/deep/blob/master/API.md) for details on how to use it.
