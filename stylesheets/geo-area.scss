@@ -77,6 +77,24 @@ body {
         }
 
         #admin-boundary-detail{
+            .no-countries{
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: flex-start;
+                margin-top: 120px;
+
+                h1, h2{
+                    text-align: center;
+                    flex-basis: 100%;
+                    margin-top: 16px;
+                    letter-spacing: 0.18em;
+                }
+                h1{
+                    font-size: 2em;
+                }
+            }
             form {
                 >header {
                     height: 72px;

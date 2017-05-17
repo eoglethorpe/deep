@@ -66,6 +66,12 @@ let countries = {
         <a onclick="return confirmChanges()" href="{% url 'project:analysis_framework' project_id %}" >3. Analysis framework</a>
     </header>
     <div id="admin-boundary-detail">
+        {% if not project.countries.all %}
+            <div class="no-countries">
+                <h1>No countries selected</h1>
+                <h2>Please select a country in project details tab</h2>
+            </div>
+        {% else %}
         <form method="post">
             {% csrf_token %}
             <header>
@@ -135,6 +141,8 @@ let countries = {
                 </div>
             </div>
         </form>
+        {% endif %}
+
     </div>
 </main>
 

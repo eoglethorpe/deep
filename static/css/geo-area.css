@@ -191,6 +191,20 @@ body {
         body main > header a.active {
           font-size: 1.5em;
           color: #008080; }
+    body main #admin-boundary-detail .no-countries {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+      margin-top: 120px; }
+      body main #admin-boundary-detail .no-countries h1, body main #admin-boundary-detail .no-countries h2 {
+        text-align: center;
+        flex-basis: 100%;
+        margin-top: 16px;
+        letter-spacing: 0.18em; }
+      body main #admin-boundary-detail .no-countries h1 {
+        font-size: 2em; }
     body main #admin-boundary-detail form > header {
       height: 72px;
       display: flex;
