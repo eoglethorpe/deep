@@ -52,10 +52,14 @@ let countries = {
 <aside>
     <header>
         <h2>Related admin boundaries</h2>
+        <div class="search-block">
+            <i class="fa fa-search"></i>
+            <input id="search-geoarea" type="search" name="project-search" placeholder="Search geoareas">
+        </div>
     </header>
     <div id="admin-boundary-list">
         {% for country in project.countries.all %}
-        <div class="admin-boundary" data-country-code="{{ country.code }}">{{ country.name }}</div>
+        <div class="admin-boundary" data-country-code="{{ country.code }}" data-name="{{ country.name }}">{{ country.name }}</div>
         {% endfor %}
     </div>
 </aside>
@@ -66,6 +70,12 @@ let countries = {
         <a onclick="return confirmChanges()" href="{% url 'project:analysis_framework' project_id %}" >3. Analysis framework</a>
     </header>
     <div id="admin-boundary-detail">
+        {% if not project.countries.all %}
+            <div class="no-countries">
+                <p>No countries selected</p>
+                <p>Please select a country in project details tab</p>
+            </div>
+        {% else %}
         <form method="post">
             {% csrf_token %}
             <header>
@@ -135,6 +145,8 @@ let countries = {
                 </div>
             </div>
         </form>
+        {% endif %}
+
     </div>
 </main>
 

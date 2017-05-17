@@ -18,13 +18,43 @@ body {
         box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5);
 
         >header {
-            height: 72px;
             background-color: #fff;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 16px;
+            padding-bottom: 16px;
             border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+            flex-wrap: wrap;
+
+            h2{
+                flex-basis: 100%;
+                display: flex;
+                align-items: center;
+                height: 64px;
+            }
+            .search-block { // search block
+                height: 24px;
+                display: flex;
+                align-items: stretch;
+                justify-content: flex-start;
+                font-size: 1.1em;
+
+                .fa {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-right: 10px;
+                    color: rgba(0, 0, 0, 0.3);
+                }
+                input {
+                    font-size: inherit;
+                    background-color: transparent;
+                    border: none;
+                    outline: none;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                }
+            }
         }
 
         #admin-boundary-list {
@@ -77,6 +107,28 @@ body {
         }
 
         #admin-boundary-detail{
+            .no-countries{
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: flex-start;
+                margin-top: 120px;
+
+                p{
+                    text-align: center;
+                    flex-basis: 100%;
+                    margin-top: 8px;
+                    color: $label-color;
+                    text-transform: none;
+                    font-size: 2em;
+                    font-weight: $font-weight-thin;
+
+                    &:last-child{
+                        font-size: 1.5em;
+                    }
+                }
+            }
             form {
                 >header {
                     height: 72px;

@@ -12,4 +12,20 @@ $(document).ready(function() {
 
         $('#clone-from').val(project.data('pk'));
     });
+    // Search templates
+    $('#search-templates').on('change input drop paste', function() {
+        let searchText = $('#search-templates').val().trim().toLowerCase();
+        if (searchText.length == 0) {
+            $('#related-project-list .project').show();
+        } else {
+            $('#related-project-list .project').each(function() {
+                if (($(this).data('name')+$(this).data('template')).toLowerCase().indexOf(searchText) < 0) {
+                    $(this).hide();
+                }
+                else {
+                    $(this).show();
+                }
+            });
+        }
+    });
 });

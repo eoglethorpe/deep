@@ -482,7 +482,7 @@ function setInputData() {
     for (var pk in data["people"]["moderate-comment"])
         $(".people-moderate-comment[data-people-pk='" + pk + "']").val(data["people"]["moderate-comment"][pk]);
     for (var pk in data["people"]["severe"])
-        $(".people-severe[data-people-pk='" + pk + "']").val(data["people"]["severe"][pk]);
+        $(".people-severe-comment[data-people-pk='" + pk + "']").val(data["people"]["severe"][pk]);
     for (var pk in data["people"]["planned-comment"])
         $(".people-planned-comment[data-people-pk='" + pk + "']").val(data["people"]["planned-comment"][pk]);
 
