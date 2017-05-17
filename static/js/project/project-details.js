@@ -11,6 +11,13 @@ $(document).ready(function(){
         $(this).closest('.project').toggleClass('expanded').find('.details').slideToggle('200');
     });
 
+    $('#project-description').on('input paste drop change', function() {
+        let dom = $(this)[0];
+        dom.style.height = '1px';
+        dom.style.height = (2 + dom.scrollHeight) + 'px';
+    });
+    $('#project-description').change();
+
     $('select').selectize({plugins: ['remove_button']});
 
     // Search projects
@@ -88,7 +95,7 @@ $(document).ready(function(){
 
 function confirmChanges() {
     if ($('#project-detail form').data('changed')) {
-        return confirm('Moving away will discard your changes');
+        return confirm('There are unsaved changes on this page. Would you like to continue?');
     }
     return true;
 }

@@ -221,6 +221,14 @@ $(document).ready(function(){
                 }
             });
 
+            if (sessionStorage.scrollTop != "undefined") {
+                $('.dataTables_scrollBody').scrollTop(sessionStorage.scrollTop);
+            }
+
+            $('.dataTables_scrollBody').scroll(function() {
+                sessionStorage.scrollTop = $(this).scrollTop();
+            });
+
         }
     });
 

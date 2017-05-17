@@ -37,6 +37,22 @@ $(document).ready(function(){
     });
 
     $('#admin-boundary-list .admin-boundary:first-child').click();
+
+    // Search geoarea
+    $('#search-geoarea').on('change input drop paste', function() {
+        let searchText = $('#search-geoarea').val().trim().toLowerCase();
+        if (searchText.length == 0) {
+            $('#admin-boundary-list .admin-boundary').show();
+        } else {
+            $('#admin-boundary-list .admin-boundary').each(function() {
+                if ($(this).data('name').toLowerCase().indexOf(searchText) < 0) {
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }
+            });
+        }
+    });
 });
 
 
