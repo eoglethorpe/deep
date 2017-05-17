@@ -151,13 +151,37 @@ body {
     flex-basis: 26%;
     box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5); }
     body aside > header {
-      height: 72px;
       background-color: #fff;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 0 16px;
-      border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
+      padding-bottom: 16px;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+      flex-wrap: wrap; }
+      body aside > header h2 {
+        flex-basis: 100%;
+        display: flex;
+        align-items: center;
+        height: 64px; }
+      body aside > header .search-block {
+        height: 24px;
+        display: flex;
+        align-items: stretch;
+        justify-content: flex-start;
+        font-size: 1.1em; }
+        body aside > header .search-block .fa {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 10px;
+          color: rgba(0, 0, 0, 0.3); }
+        body aside > header .search-block input {
+          font-size: inherit;
+          background-color: transparent;
+          border: none;
+          outline: none;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
     body aside #admin-boundary-list {
       height: calc(100vh - 56px - 72px);
       overflow-y: auto;
@@ -198,13 +222,16 @@ body {
       justify-content: center;
       align-items: flex-start;
       margin-top: 120px; }
-      body main #admin-boundary-detail .no-countries h1, body main #admin-boundary-detail .no-countries h2 {
+      body main #admin-boundary-detail .no-countries p {
         text-align: center;
         flex-basis: 100%;
-        margin-top: 16px;
-        letter-spacing: 0.18em; }
-      body main #admin-boundary-detail .no-countries h1 {
-        font-size: 2em; }
+        margin-top: 8px;
+        color: rgba(0, 0, 0, 0.5);
+        text-transform: none;
+        font-size: 2em;
+        font-weight: 300; }
+        body main #admin-boundary-detail .no-countries p:last-child {
+          font-size: 1.5em; }
     body main #admin-boundary-detail form > header {
       height: 72px;
       display: flex;

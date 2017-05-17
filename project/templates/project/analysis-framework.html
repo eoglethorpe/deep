@@ -22,15 +22,21 @@ DEEP | Analysis Framework
 <aside>
     <header>
         <h2>Related analysis frameworks</h2>
+        <div class="search-block">
+            <i class="fa fa-search"></i>
+            <input id="search-templates" type="search" name="project-search" placeholder="Search templates">
+        </div>
     </header>
     <div id="related-project-list">
-        {% for project in projects %}
-        <div class="project" data-pk="{{ project.pk }}">
+        {% for p in projects %}
+        <div class="project" data-pk="{{ p.pk }}" data-name="{{ p.name }}" data-template="{{ p.entry_template.name }}">
             <div class="details">
-                <div class="project-name">{{ project.name }}</div>
-                <div class="template-name">{{ project.entry_template.name }}</div>
+                <div class="project-name">{{ p.name }}</div>
+                <div class="template-name">{{ p.entry_template.name }}</div>
             </div>
+            {% if p != project %}
             <a>Clone</a>
+            {% endif %}
         </div>
         {% endfor %}
     </div>
