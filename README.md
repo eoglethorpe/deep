@@ -4,7 +4,7 @@ DEEP is a humanitarian tool to collect and analyze information from various publ
 
 ## Public API
 
-The data collected by DEEP is publicly available. Read API.md for details on how to use the API.
+Data collected by DEEP is currently publicly available. Read the [documents](https://github.com/eoglethorpe/deep/blob/master/API.md) for details on how to use it.
 
 ## Deployment
 
