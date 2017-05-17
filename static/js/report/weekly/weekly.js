@@ -2,7 +2,6 @@ var weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturda
 var keyEvents = [];
 var dateRangeInputModal;
 
-
 function addKeyEvent(data) {
     var container = $('#key-event-list');
     var keyEvent = $('.key-event-template').clone();
@@ -299,6 +298,12 @@ $(document).ready(function(){
     });
 
     $("#save-btn").click(function() {
+        console.log($('.comment+p'));
+        if ($('.comment+p').length > 0) {
+            alert('You have entered a value with no source and comment');
+            return;
+        }
+
         getInputData();
         var d = { "data": JSON.stringify(data), "start_date": start_date };
         redirectPost(window.location.pathname, d, csrf_token);
