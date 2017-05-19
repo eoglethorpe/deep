@@ -42,50 +42,32 @@ RUN apt-get update && \
 
    rm -rf /var/lib/apt/lists/*
 
-# Make code dir and get code
-
-## we add ARG SHA for git pull workaround to only pull for new commits
-ARG SHA
-## we add ARG BUILD for git pull workaround to only pull for new commits(change in docker-compose.xml)
-ARG BUILD
-RUN mkdir /home/code/
+RUN mkdir -p /home/code/deep
 WORKDIR /home/code/
 
-RUN mkdir /root/.ssh/
-COPY id_rsa /root/.ssh/id_rsa
-RUN chmod 600 /root/.ssh/id_rsa
-RUN eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_rsa
-RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
-RUN echo 'b'
-RUN git clone -b dockertest git@github.com:eoglethorpe/deep.git
+#RUN mkdir /root/.ssh/
+#COPY id_rsa /root/.ssh/id_rsa
+#RUN chmod 600 /root/.ssh/id_rsa
+#RUN eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_rsa
+#RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
+#RUN git clone -b dockertest git@github.com:eoglethorpe/deep.git
 
-# Setup venv
-RUN pip3 install virtualenv
-RUN virtualenv venv
+# Copy deep code
+COPY ./ ./deep
 
-# Install DEEP reqs
-RUN . /home/code/venv/bin/activate && pip install -U pip
-RUN . /home/code/venv/bin/activate && pip install -U appdirs uwsgi setuptools && pip install -r deep/requirements.txt --upgrade
+# Run init script
+RUN chmod +x ./deep/deploy/django/init.sh &&\
+    ./deep/deploy/django/init.sh
 
 # Setup all the configfiles
-COPY mysql.cnf /home/code/deep/mysql.cnf
-
-RUN useradd -ms /bin/bash ubuntu
-
-RUN echo 'a'
-
-# Install remote2_syslog for logging
-RUN curl -L -o /tmp/syslog2 "https://github.com/papertrail/remote_syslog2/releases/download/v0.19/remote-syslog2_0.19_amd64.deb" && \
-    dpkg -i /tmp/syslog2 && \
-    rm /tmp/syslog2
-
-RUN curl -L -o /etc/init/remote_syslog.conf "https://raw.githubusercontent.com/papertrail/remote_syslog2/master/examples/remote_syslog.upstart.conf" && \
-    curl -L -o /etc/init.d/remote_syslog "https://raw.githubusercontent.com/papertrail/remote_syslog2/master/examples/remote_syslog.init.d" && \
-    chmod +x /etc/init.d/remote_syslog && \
-    update-rc.d remote_syslog defaults
+COPY ./deploy/django/mysql.cnf ./deep/mysql.cnf
 
 # Remote_syslog config file
-COPY log_files.yml /etc/log_files.yml
-RUN mkdir /var/log/uwsgi
+COPY ./deploy/django/log_files.yml /etc/log_files.yml
 
-CMD ["chmod", "+x", "/home/code/deep/deploy/django/exec.sh"]
+# Expose port 80
+EXPOSE 80
+
+# Start deep django server and log collector
+CMD chmod +x ./deep/deploy/django/exec.sh &&\
+    ./deep/deploy/django/exec.sh

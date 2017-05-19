@@ -1,12 +1,17 @@
 #! /bin/bash
 
-. /home/code/venv/bin/activate
-python /home/code/deep/manage.py migrate --noinput
-python /home/code/deep/manage.py collectstatic --noinput
+service remote_syslog start # start remote_syslog for papaertail log collecter
+. /home/code/venv/bin/activate # Activate python env
 
-python /home/code/deep/manage.py load_admin0
-python /home/code/deep/manage.py load_admin1
-python /home/code/deep/manage.py load_admin2
+## deep init
+# collect static files and database migrations
+#python ./deep/manage.py migrate --noinput
+#python ./deep/manage.py collectstatic --noinput
 
-/home/code/venv/bin/uwsgi --ini /home/code/deep/deploy/django/uwsgi.ini
+# load admin data and files
+#python ./deep/manage.py load_admin0
+#python ./deep/manage.py load_admin1
+#python ./deep/manage.py load_admin2
+
+/home/code/venv/bin/uwsgi --ini /home/code/deep/deploy/django/uwsgi.ini # Start uwsgi server
 
