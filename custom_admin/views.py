@@ -298,6 +298,9 @@ class EntryTemplateView(View):
         entry_template = EntryTemplate.objects.get(pk=template_id)
         entry_template.elements = json.dumps(data['elements'])
         entry_template.name = data['name']
+        if data.get('snapshots'):
+            entry_template.snapshot_pageone = data['snapshots']['pageOne']
+            entry_template.snapshot_pagetwo = data['snapshots']['pageTwo']
         entry_template.save()
 
         return redirect('custom_admin:entry_template', template_id=template_id)

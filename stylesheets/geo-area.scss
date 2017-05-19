@@ -58,7 +58,7 @@ body {
         }
 
         #admin-boundary-list {
-            height: calc(100vh - #{$navbar-height} - 72px);
+            height: calc(100vh - #{$navbar-height} - 64px - 32px - 16px);
             overflow-y: auto;
             background-color: #f9f9f9;
 

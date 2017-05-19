@@ -46,9 +46,11 @@ let templateEditor = {
 
         // Save button
         $('#save-button').click(function() {
-            redirectPost(window.location.pathname, {
-                data: JSON.stringify(that.save()),
-            }, csrf_token);
+            that.save().then(function(data) {
+                redirectPost(window.location.pathname, {
+                    data: JSON.stringify(data),
+                }, csrf_token);
+            });
         });
 
         // Page switching
@@ -181,22 +183,43 @@ let templateEditor = {
     },
 
     save: function() {
-        let page = this.getPage();
-        let data = {};
-        data.name = $('#template-name').text();
-        data.elements = [];
-        for (let i=0; i<this.elements.length; i++) {
-            if (this.getPage() != this.elements[i].page) {
+        return new Promise((resolve, reject) => {
+            let that = this;
+            let page = this.getPage();
+            let data = {};
+
+            data.name = $('#template-name').text();
+            data.elements = [];
+            for (let i=0; i<this.elements.length; i++) {
+                if (this.getPage() != this.elements[i].page) {
+                    this.switchPage();
+                }
+                let elementData = this.elements[i].save();
+                elementData.page = this.elements[i].page;
+                data.elements.push(elementData);
+            }
+            if (page != this.getPage()) {
                 this.switchPage();
             }
-            let elementData = this.elements[i].save();
-            elementData.page = this.elements[i].page;
-            data.elements.push(elementData);
-        }
-        if (page != this.getPage()) {
-            this.switchPage();
-        }
-        return data;
+
+            data.snapshots = {};
+            if (this.getPage() != 'page-one') {
+                this.switchPage();
+            }
+            html2canvas($('#page-one')[0], {
+                onrendered: function(canvas) {
+                    data.snapshots.pageOne = canvas.toDataURL();
+
+                    that.switchPage();
+                    html2canvas($('#page-two')[0], {
+                        onrendered: function(canvas) {
+                            data.snapshots.pageTwo = canvas.toDataURL();
+                            resolve(data);
+                        }
+                    });
+                }
+            });
+        });
     },
 
     getUniqueElementId: function() {
@@ -257,6 +280,7 @@ let templateEditor = {
 $(document).ready(function() {
     templateEditor.init();
     templateEditor.load(templateData);
+    console.log(templateData.snapshots);
     $('#elements').sortable();
 
     $('.properties-box').on('visible', function(){
