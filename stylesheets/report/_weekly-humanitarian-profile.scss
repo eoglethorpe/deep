@@ -44,13 +44,15 @@
                 flex-grow: 0;
                 flex-shrink: 0;
                 position: relative;
+                display: flex;
                 align-items: center;
-                
+                min-height: 23px;
+
                 .source-new {
                     display: inline-block;
+                    min-height: 23px;
                     width: 100%;
                     border: 1px solid rgba(0, 0, 0, 0.2);
-                    min-height: 23px;
                     position: relative;
 
                     .source{
@@ -85,6 +87,8 @@
                     color: $danger-color;
                     position: absolute;
                     margin: 0;
+                    flex: none;
+                    top: 23px;
                     font-size: 0.8em;
 
                     .fa{
@@ -112,7 +116,7 @@
         }
 
         .human-profile-child{
-            margin: 0 0 8px 0;
+            margin: 8px 0;
 
             input {
                 border: 1px solid rgba(0, 0, 0, 0.2);
