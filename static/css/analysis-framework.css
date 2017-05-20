@@ -183,7 +183,7 @@ body {
           outline: none;
           border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
     body aside #related-project-list {
-      height: calc(100vh - 56px - 72px);
+      height: calc(100vh - 56px - 64px - 32px - 16px);
       overflow-y: auto;
       background-color: #f9f9f9; }
       body aside #related-project-list .project {
@@ -252,7 +252,6 @@ body {
           body main form header .action-buttons button .fa {
             margin-right: 10px; }
       body main form .input-group-list {
-        height: calc(100vh - 56px - 72px - 96px);
         overflow-y: auto;
         padding: 0 32px; }
         body main form .input-group-list .input-group {
@@ -280,5 +279,41 @@ body {
             font-weight: 500; }
           body main form .input-group-list .info .fa {
             margin-right: 10px; }
+    body main .snapshots-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 500px;
+      width: 80%;
+      padding: 0 42px;
+      margin: auto; }
+      body main .snapshots-container:hover button {
+        opacity: 0.5; }
+      body main .snapshots-container button {
+        position: absolute;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        top: calc(50% - 24px);
+        background-color: rgba(0, 0, 0, 0.6);
+        color: #fff;
+        opacity: 0;
+        transition: 0.2s all ease-in-out; }
+        body main .snapshots-container button:hover {
+          opacity: 1; }
+      body main .snapshots-container #snapshot-prev {
+        left: 56px; }
+      body main .snapshots-container #snapshot-next {
+        right: 56px; }
+      body main .snapshots-container #snapshots {
+        height: 100%;
+        background-color: #919191; }
+      body main .snapshots-container img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+        object-position: center center;
+        border: 1px solid rgba(0, 0, 0, 0.2); }
 
 /*# sourceMappingURL=analysis-framework.css.map */

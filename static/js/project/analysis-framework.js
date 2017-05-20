@@ -28,4 +28,12 @@ $(document).ready(function() {
             });
         }
     });
+    $('#snapshot-next').on('click', function() {
+        $(this).hide().closest('.snapshots-container').find('img.active').removeClass('active').hide().next().show().addClass('active');
+        $('#snapshot-prev').show();
+    });
+    $('#snapshot-prev').on('click', function() {
+        $(this).hide().closest('.snapshots-container').find('img.active').removeClass('active').hide().prev().show().addClass('active');
+        $('#snapshot-next').show();
+    });
 });

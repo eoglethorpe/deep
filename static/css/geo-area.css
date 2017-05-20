@@ -183,7 +183,7 @@ body {
           outline: none;
           border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
     body aside #admin-boundary-list {
-      height: calc(100vh - 56px - 72px);
+      height: calc(100vh - 56px - 64px - 32px - 16px);
       overflow-y: auto;
       background-color: #f9f9f9; }
       body aside #admin-boundary-list .admin-boundary {

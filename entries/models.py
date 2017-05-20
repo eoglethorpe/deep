@@ -246,6 +246,8 @@ class InformationAttribute(models.Model):
 class EntryTemplate(models.Model):
     name = models.CharField(max_length=150)
     elements = models.TextField(default='[]')
+    snapshot_pageone = models.TextField(default=None, null=True)
+    snapshot_pagetwo = models.TextField(default=None, null=True)
     created_by = models.ForeignKey(User)
     created_at = models.DateTimeField(auto_now_add=True)
 
