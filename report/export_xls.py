@@ -1,5 +1,6 @@
 import string
 import json
+from datetime import datetime
 
 from excel_writer import ExcelWriter, RowCollection
 from report.models import DisasterType, ReportStatus,\
@@ -21,6 +22,25 @@ def get_dict(data, fields, default=''):
     return _data
 
 
+def get_source(data, fields, defailt=''):
+    new = get_dict(data, fields + '.new', None)
+    if new:
+        source = ''
+        for s in new:
+            date = s.get('date', None)
+            if date:
+                try:
+                    date = datetime.strptime(date, '%Y-%m-%d').strftime('%d-%m-%y')
+                except:
+                    pass
+            else:
+                date = ''
+            source += str(s.get('name')) + ' ' + date + '\n'
+        return source.strip()
+    else:
+        return get_dict(data, fields + '.old')
+
+
 def map_day(num):
     days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday',
             'Friday', 'Saturday', 'Sunday']
@@ -34,12 +54,12 @@ def map_day(num):
 
 def export_xls(title):
 
-    # Create a spreadsheet and get active workboot
+    # Create a spreadsheet and get active workbook
     ew = ExcelWriter()
     ws = ew.get_active()
     ws.title = "Weekly Report"
 
-    #                       Create title row
+    # Create title row
     titles = [
         "Crisis", "Country", "Week Covered By Report", "Day Covered By Report",
         "Type Of Disaster", "Status",
@@ -56,6 +76,7 @@ def export_xls(title):
         for ch_field in field.humanprofilefield_set.all():
             titles.append(ch_field.name+'__Number__Source__Comment')
 
+    # TODO: Replace Source/Date with Source
     # PEOPLE IN NEED
     for field in pinf:
         titles.append(
@@ -86,7 +107,7 @@ def export_xls(title):
     for field in hapf:
         titles.append(field.name+'__Number__Source/Date__Comment')
 
-    #                       Create Columns
+    # Create Columns
     col = 0
     for t in titles:
         i = col
@@ -117,9 +138,9 @@ def export_xls(title):
             cell.border = Border(
                 bottom=Side(border_style='thick'))
 
-    #                    Create Rows
+    # Create Rows
 
-    for event in Event.objects.all():
+    for event in Event.objects.filter(pk=103):
         for report in event.weeklyreport_set.all():
             rows = RowCollection(1)
             data = json.loads(report.data)
@@ -129,11 +150,13 @@ def export_xls(title):
 
             row = [
                 event.name, report.country.name,
-                'Week '+str(isoreport[1])+' '+str(isoreport[0]),
+                'Week ' + str(isoreport[1]) + ' ' + str(isoreport[0]),
                 map_day(data.get('day-select')),
+
                 DisasterType.objects.get(
                     pk=get_dict(data, 'disaster_type')).name
                 if get_dict(data, 'disaster_type') else '',
+
                 ReportStatus.objects.get(pk=get_dict(data, 'status'))
                 if get_dict(data, 'status') else '',
             ]
@@ -142,14 +165,15 @@ def export_xls(title):
             for field in hpf:
                 row.extend([
                     get_dict(data, 'human.number.'+str(field.pk)),
-                    get_dict(data, 'human.source.'+str(field.pk)+'.old'),
+                    get_source(data, 'human.source.'+str(field.pk)),
                     get_dict(data, 'human.comment.'+str(field.pk))
                 ])
+
                 for ch_field in field.humanprofilefield_set.all():
                     row.extend([
                         get_dict(data, 'human.number.'+str(ch_field.pk)),
-                        get_dict(data, 'human.source.' +
-                                 str(ch_field.pk)+'.old'),
+                        get_source(data, 'human.source.' +
+                                 str(ch_field.pk)),
                         get_dict(data, 'human.comment.'+str(ch_field.pk))
                     ])
 
@@ -161,8 +185,8 @@ def export_xls(title):
                 for _field in _fields:
                     _data.extend([
                         get_dict(data, 'people.'+_field+'.'+str(field.pk)),
-                        get_dict(data, 'people.'+_field +
-                                 '-source.'+str(field.pk)+'.old'),
+                        get_source(data, 'people.'+_field +
+                                 '-source.'+str(field.pk)),
                         get_dict(data, 'people.'+_field +
                                  '-comment.'+str(field.pk)),
                         ])
@@ -171,10 +195,10 @@ def export_xls(title):
                     _data = []
                     for _field in _fields:
                         _data.extend([
-                            get_dict(data, 'people.'+_field +
+                            get_dict(data, 'people.'+_field +'.'+
                                      str(ch_field.pk)),
-                            get_dict(data, 'people.'+_field +
-                                     '-source.'+str(ch_field.pk)+'.old'),
+                            get_source(data, 'people.'+_field +
+                                     '-source.'+str(ch_field.pk)),
                             get_dict(data, 'people'+_field +
                                      '-comment'+str(ch_field.pk)),
                             ])
@@ -187,8 +211,8 @@ def export_xls(title):
             for field in haf:
                 row.extend([
                     get_dict(data, 'access.'+str(field.pk)),
-                    get_dict(data, 'access-extra.source.' +
-                             str(field.pk)+'.old'),
+                    get_source(data, 'access-extra.source.' +
+                             str(field.pk)),
                     get_dict(data, 'access-extra.comment.'+str(field.pk)),
                     ])
 
@@ -196,7 +220,7 @@ def export_xls(title):
             for field in hapf:
                 row.extend([
                     get_dict(data, 'access-pin.number.'+str(field.pk)),
-                    get_dict(data, 'access-pin.source.'+str(field.pk)+'.old'),
+                    get_source(data, 'access-pin.source.'+str(field.pk)),
                     get_dict(data, 'access-pin.comment.'+str(field.pk)),
                     ])
             #                   Add to Row Collection

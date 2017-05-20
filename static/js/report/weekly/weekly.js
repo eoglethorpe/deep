@@ -240,6 +240,7 @@ function hideTimeline(){
 }
 
 $(document).ready(function(){
+    console.log(data);
     dateRangeInputModal = new Modal('#date-range-input');
 
     $('#toggle-panel').on('click', 'a', function(){
