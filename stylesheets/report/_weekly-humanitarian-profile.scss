@@ -102,6 +102,10 @@
                 flex-shrink: 0;
                 position: relative;
 
+                input {
+                    width: 100%;
+                }
+
                 .warning-error{
                     color: $danger-color;
                     position: absolute;

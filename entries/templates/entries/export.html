@@ -24,6 +24,38 @@ DEEP | Export
     var eventId = "{{ event.pk }}";
     var exportProgressUrl = "{% url 'export_progress' %}";
     var downloadUrl = "{% url 'download_file' %}";
+
+    var pillars = [
+        {% for pillar in pillars %}
+        {
+            id: "{{ pillar.pk }}",
+            name: "{{ pillar.name|escapejs }}",
+            contains_sectors: {% if pillar.contains_sectors %}true{% else %}false{% endif %},
+
+            subpillars: [
+                {% for subpillar in pillar.informationsubpillar_set.all %}
+                { id: "{{ subpillar.pk }}", name: "{{ subpillar.name|escapejs }}", },
+                {% endfor %}
+            ],
+        },
+        {% endfor %}
+    ];
+
+    var sectors = [
+        {% for sector in sectors %}
+        {
+            id: "{{ sector.pk }}",
+            name: "{{ sector.name|escapejs }}",
+            {% comment %}
+            subsectors: [
+                {% for subsector in sector.subsector_set.all %}
+                { id: "{{ subsector.pk }}", name: "{{ subsector.name|escapejs }}", },
+                {% endfor %}
+            ],
+            {% endcomment %}
+        },
+        {% endfor %}
+    ];
 </script>
 
 {% endblock %}
