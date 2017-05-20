@@ -22,21 +22,25 @@ def get_dict(data, fields, default=''):
     return _data
 
 
+def get_new_source(new):
+    source = ''
+    for s in new:
+        date = s.get('date', None)
+        if date:
+            try:
+                date = datetime.strptime(date, '%Y-%m-%d').strftime('%d-%m-%y')
+            except:
+                pass
+        else:
+            date = ''
+        source += str(s.get('name')) + ' ' + date + '\n'
+    return source.strip()
+
+
 def get_source(data, fields, defailt=''):
     new = get_dict(data, fields + '.new', None)
     if new:
-        source = ''
-        for s in new:
-            date = s.get('date', None)
-            if date:
-                try:
-                    date = datetime.strptime(date, '%Y-%m-%d').strftime('%d-%m-%y')
-                except:
-                    pass
-            else:
-                date = ''
-            source += str(s.get('name')) + ' ' + date + '\n'
-        return source.strip()
+        return get_new_source(new)
     else:
         return get_dict(data, fields + '.old')
 
@@ -205,7 +209,9 @@ def export_xls(title):
                     row.extend(_data)
 
             # ipc
-            row.extend([data['ipc'][ipc_field] for ipc_field in 'abcdefg'])
+            row.extend([data['ipc'][ipc_field] for ipc_field in 'abcde'])
+            row.extend([get_source(data, 'ipc.f')])
+            row.extend([data['ipc']['g']])
 
             # HUMANITARIAN ACCESS
             for field in haf:
