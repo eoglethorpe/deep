@@ -144,7 +144,7 @@ def export_xls(title):
 
     # Create Rows
 
-    for event in Event.objects.filter(pk=103):
+    for event in Event.objects.all():
         for report in event.weeklyreport_set.all():
             rows = RowCollection(1)
             data = json.loads(report.data)
