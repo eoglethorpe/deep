@@ -247,11 +247,10 @@ let leadPreviewer = {
                         }
                     }
                 }
-            }
-
-            text = text.slice(0, index) + '<span style="background-color:'+ color +'; color:'+ getContrastYIQ(color) +'" >'
+                text = text.slice(0, index) + '<span style="background-color:'+ color +'; color:'+ getContrastYIQ(color) +'" >'
                 + entry.excerpt + '</span>'
                 + text.slice(index + entry.excerpt.length)
+            }
         }
         return "<pre>" + text + "</pre>";
     },

@@ -274,7 +274,7 @@ let page1 = {
                     let matrix = this.container.find('.matrix1d[data-id="' + templateElement.id + '"]');
                     matrix.find('.subpillar.active').removeClass('active');
 
-                    if (data) {
+                    if (data && data.selections) {
                         for (let j=0; j<data.selections.length; j++) {
                             matrix.find('.pillar[data-id="' + data.selections[j].pillar + '"]')
                                 .find('.subpillar[data-id="' + data.selections[j].subpillar + '"]')
@@ -287,7 +287,7 @@ let page1 = {
                     let matrix = this.container.find('.matrix2d[data-id="' + templateElement.id + '"]');
                     matrix.find('.sector-block.active').removeClass('active');
 
-                    if (data) {
+                    if (data && data.selections) {
                         for (let j=0; j<data.selections.length; j++) {
                             matrix.find('.sector-block[data-pillar-id="' + data.selections[j].pillar + '"][data-subpillar-id="' + data.selections[j].subpillar + '"][data-sector-id="' + data.selections[j].sector + '"]')
                                 .addClass('active');
