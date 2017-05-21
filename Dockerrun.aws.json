@@ -1,0 +1,26 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Authentication": {
+        "Bucket": "elasticbeanstalk-us-west-2-519887312542",
+        "Key": "mydockercfg"
+  },
+  "Image": {
+        "Name": "eoglethorpe/deep:1.0-dev",
+        "Update": "true"
+  },
+  "Ports": [
+    {
+        "ContainerPort": "80"
+    }
+  ],
+  "Volumes": [
+    {
+        "HostDirectory": "/var/www/static",
+        "ContainerDirectory": "/var/www/static"
+    },
+    {
+        "HostDirectory": "/var/www/media",
+        "ContainerDirectory": "/var/www/media"
+    }
+  ]
+}
