@@ -1,8 +1,6 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.views.generic import View, TemplateView
+from django.views.generic import View
 from django.contrib.auth.decorators import login_required
-from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse
 
@@ -298,6 +296,9 @@ class EntryTemplateView(View):
         entry_template = EntryTemplate.objects.get(pk=template_id)
         entry_template.elements = json.dumps(data['elements'])
         entry_template.name = data['name']
+        if data.get('snapshots'):
+            entry_template.snapshot_pageone = data['snapshots']['pageOne']
+            entry_template.snapshot_pagetwo = data['snapshots']['pageTwo']
         entry_template.save()
 
         return redirect('custom_admin:entry_template', template_id=template_id)
