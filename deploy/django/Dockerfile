@@ -45,15 +45,15 @@ RUN apt-get update && \
 RUN mkdir -p /home/code/deep
 WORKDIR /home/code/
 
-#RUN mkdir /root/.ssh/
-#COPY id_rsa /root/.ssh/id_rsa
-#RUN chmod 600 /root/.ssh/id_rsa
-#RUN eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_rsa
-#RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
-#RUN git clone -b dockertest git@github.com:eoglethorpe/deep.git
+RUN mkdir /root/.ssh/
+COPY id_rsa /root/.ssh/id_rsa
+RUN chmod 600 /root/.ssh/id_rsa
+RUN eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_rsa
+RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
+RUN git clone -b dockertest git@github.com:eoglethorpe/deep.git
 
 # Copy deep code
-COPY ./ ./deep
+#COPY ./ ./deep
 
 # Run init script
 RUN chmod +x ./deep/deploy/django/init.sh &&\
