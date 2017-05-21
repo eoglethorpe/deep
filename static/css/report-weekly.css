@@ -1066,26 +1066,27 @@ main {
         main #report-content #ipc .total-ipc > div > * {
           flex-basis: 19%;
           margin: 6px 0; }
-    main #report-content #ipc .ipc {
+    main #report-content #ipc .ipc, main #report-content #ipc .ipc-forecasted {
       display: flex;
       align-items: center;
       padding: 0 10px; }
-      main #report-content #ipc .ipc > label {
+      main #report-content #ipc .ipc > label, main #report-content #ipc .ipc-forecasted > label {
+        font-weight: bold;
         flex-basis: 20%; }
-      main #report-content #ipc .ipc > div {
+      main #report-content #ipc .ipc > div, main #report-content #ipc .ipc-forecasted > div {
         flex-basis: 80%; }
-        main #report-content #ipc .ipc > div > div {
+        main #report-content #ipc .ipc > div > div, main #report-content #ipc .ipc-forecasted > div > div {
           display: flex;
           justify-content: space-around;
           align-items: center; }
-          main #report-content #ipc .ipc > div > div:nth-child(1) > * {
+          main #report-content #ipc .ipc > div > div:nth-child(1) > *, main #report-content #ipc .ipc-forecasted > div > div:nth-child(1) > * {
             flex-basis: 19%; }
-          main #report-content #ipc .ipc > div > div:nth-child(2) > * {
+          main #report-content #ipc .ipc > div > div:nth-child(2) > *, main #report-content #ipc .ipc-forecasted > div > div:nth-child(2) > * {
             flex-basis: 49%; }
     main #report-content #ipc .sub {
       padding-left: 24px;
       font-weight: 400; }
-    main #report-content #ipc .total-ipc, main #report-content #ipc .ipc {
+    main #report-content #ipc .total-ipc, main #report-content #ipc .ipc, main #report-content #ipc .ipc-forecasted {
       padding-bottom: 10px;
       padding-top: 10px;
       border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
