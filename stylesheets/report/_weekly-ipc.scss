@@ -29,12 +29,14 @@
         }
     }
 
-    .ipc{
+    .ipc,.ipc-forecasted{
         display: flex;
         align-items: center;
         padding: 0 10px;
 
-        > label{ flex-basis: 20%; }
+        > label{
+            font-weight: bold;
+            flex-basis: 20%; }
         > div{
             flex-basis: 80%;
             > div{
@@ -50,7 +52,7 @@
         padding-left: 24px;
         font-weight: $font-weight-normal;
     }
-    .total-ipc, .ipc{
+    .total-ipc, .ipc,.ipc-forecasted{
         padding-bottom: 10px;
         padding-top: 10px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
