@@ -98,7 +98,8 @@ body > nav {
     flex-shrink: 0;
     flex-grow: 0; }
     body > nav #deep-logo-container img {
-      width: 100%; }
+      width: 125px;
+      height: 40px; }
   body > nav #project-select-container {
     flex-basis: 20%; }
     body > nav #project-select-container .selectize-control.single .selectize-input, body > nav #project-select-container .selectize-control.single.single, body > nav #project-select-container .selectize-control.single .selectize-input.input-active {
@@ -553,12 +554,14 @@ main {
         flex-grow: 0;
         flex-shrink: 0;
         position: relative;
-        align-items: center; }
+        display: flex;
+        align-items: center;
+        min-height: 23px; }
         main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-warning-wrapper .source-new, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-warning-wrapper .source-new, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-warning-wrapper .source-new, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-warning-wrapper .source-new, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-warning-wrapper .source-new, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-warning-wrapper .source-new, main #report-content #casualties #human-profile-field-list .human-profile-field .source-warning-wrapper .source-new, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-warning-wrapper .source-new, main #report-content #casualties #human-profile-field-list .human-profile-child .source-warning-wrapper .source-new, main #report-content #casualties #casualties-field-list .human-profile-field .source-warning-wrapper .source-new, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-warning-wrapper .source-new, main #report-content #casualties #casualties-field-list .human-profile-child .source-warning-wrapper .source-new {
           display: inline-block;
+          min-height: 23px;
           width: 100%;
           border: 1px solid rgba(0, 0, 0, 0.2);
-          min-height: 23px;
           position: relative; }
           main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-warning-wrapper .source-new .source, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-warning-wrapper .source-new .source, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-warning-wrapper .source-new .source, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-warning-wrapper .source-new .source, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-warning-wrapper .source-new .source, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-warning-wrapper .source-new .source, main #report-content #casualties #human-profile-field-list .human-profile-field .source-warning-wrapper .source-new .source, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-warning-wrapper .source-new .source, main #report-content #casualties #human-profile-field-list .human-profile-child .source-warning-wrapper .source-new .source, main #report-content #casualties #casualties-field-list .human-profile-field .source-warning-wrapper .source-new .source, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-warning-wrapper .source-new .source, main #report-content #casualties #casualties-field-list .human-profile-child .source-warning-wrapper .source-new .source {
             display: flex;
@@ -744,6 +747,8 @@ main {
           color: #e74c3c;
           position: absolute;
           margin: 0;
+          flex: none;
+          top: 23px;
           font-size: 0.8em; }
           main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-warning-wrapper .warning-error .fa, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-warning-wrapper .warning-error .fa, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-warning-wrapper .warning-error .fa, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-warning-wrapper .warning-error .fa, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-warning-wrapper .warning-error .fa, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-warning-wrapper .warning-error .fa, main #report-content #casualties #human-profile-field-list .human-profile-field .source-warning-wrapper .warning-error .fa, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-warning-wrapper .warning-error .fa, main #report-content #casualties #human-profile-field-list .human-profile-child .source-warning-wrapper .warning-error .fa, main #report-content #casualties #casualties-field-list .human-profile-field .source-warning-wrapper .warning-error .fa, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-warning-wrapper .warning-error .fa, main #report-content #casualties #casualties-field-list .human-profile-child .source-warning-wrapper .warning-error .fa {
             margin-right: 4px; }
@@ -752,6 +757,8 @@ main {
         flex-grow: 0;
         flex-shrink: 0;
         position: relative; }
+        main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .comment-warning-wrapper input, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .comment-warning-wrapper input, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .comment-warning-wrapper input, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .comment-warning-wrapper input, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .comment-warning-wrapper input, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .comment-warning-wrapper input, main #report-content #casualties #human-profile-field-list .human-profile-field .comment-warning-wrapper input, main #report-content #casualties #human-profile-field-list .human-profile-subfield .comment-warning-wrapper input, main #report-content #casualties #human-profile-field-list .human-profile-child .comment-warning-wrapper input, main #report-content #casualties #casualties-field-list .human-profile-field .comment-warning-wrapper input, main #report-content #casualties #casualties-field-list .human-profile-subfield .comment-warning-wrapper input, main #report-content #casualties #casualties-field-list .human-profile-child .comment-warning-wrapper input {
+          width: 100%; }
         main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .comment-warning-wrapper .warning-error, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .comment-warning-wrapper .warning-error, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .comment-warning-wrapper .warning-error, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .comment-warning-wrapper .warning-error, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .comment-warning-wrapper .warning-error, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .comment-warning-wrapper .warning-error, main #report-content #casualties #human-profile-field-list .human-profile-field .comment-warning-wrapper .warning-error, main #report-content #casualties #human-profile-field-list .human-profile-subfield .comment-warning-wrapper .warning-error, main #report-content #casualties #human-profile-field-list .human-profile-child .comment-warning-wrapper .warning-error, main #report-content #casualties #casualties-field-list .human-profile-field .comment-warning-wrapper .warning-error, main #report-content #casualties #casualties-field-list .human-profile-subfield .comment-warning-wrapper .warning-error, main #report-content #casualties #casualties-field-list .human-profile-child .comment-warning-wrapper .warning-error {
           color: #e74c3c;
           position: absolute;
@@ -760,7 +767,7 @@ main {
           main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .comment-warning-wrapper .warning-error .fa, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .comment-warning-wrapper .warning-error .fa, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .comment-warning-wrapper .warning-error .fa, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .comment-warning-wrapper .warning-error .fa, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .comment-warning-wrapper .warning-error .fa, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .comment-warning-wrapper .warning-error .fa, main #report-content #casualties #human-profile-field-list .human-profile-field .comment-warning-wrapper .warning-error .fa, main #report-content #casualties #human-profile-field-list .human-profile-subfield .comment-warning-wrapper .warning-error .fa, main #report-content #casualties #human-profile-field-list .human-profile-child .comment-warning-wrapper .warning-error .fa, main #report-content #casualties #casualties-field-list .human-profile-field .comment-warning-wrapper .warning-error .fa, main #report-content #casualties #casualties-field-list .human-profile-subfield .comment-warning-wrapper .warning-error .fa, main #report-content #casualties #casualties-field-list .human-profile-child .comment-warning-wrapper .warning-error .fa {
             margin-right: 4px; }
     main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child, main #report-content #casualties #human-profile-field-list .human-profile-child, main #report-content #casualties #casualties-field-list .human-profile-child {
-      margin: 0 0 8px 0; }
+      margin: 8px 0; }
       main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child input, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child input, main #report-content #casualties #human-profile-field-list .human-profile-child input, main #report-content #casualties #casualties-field-list .human-profile-child input {
         border: 1px solid rgba(0, 0, 0, 0.2); }
       main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child > *, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child > *, main #report-content #casualties #human-profile-field-list .human-profile-child > *, main #report-content #casualties #casualties-field-list .human-profile-child > * {
@@ -1066,26 +1073,27 @@ main {
         main #report-content #ipc .total-ipc > div > * {
           flex-basis: 19%;
           margin: 6px 0; }
-    main #report-content #ipc .ipc {
+    main #report-content #ipc .ipc, main #report-content #ipc .ipc-forecasted {
       display: flex;
       align-items: center;
       padding: 0 10px; }
-      main #report-content #ipc .ipc > label {
+      main #report-content #ipc .ipc > label, main #report-content #ipc .ipc-forecasted > label {
+        font-weight: bold;
         flex-basis: 20%; }
-      main #report-content #ipc .ipc > div {
+      main #report-content #ipc .ipc > div, main #report-content #ipc .ipc-forecasted > div {
         flex-basis: 80%; }
-        main #report-content #ipc .ipc > div > div {
+        main #report-content #ipc .ipc > div > div, main #report-content #ipc .ipc-forecasted > div > div {
           display: flex;
           justify-content: space-around;
           align-items: center; }
-          main #report-content #ipc .ipc > div > div:nth-child(1) > * {
+          main #report-content #ipc .ipc > div > div:nth-child(1) > *, main #report-content #ipc .ipc-forecasted > div > div:nth-child(1) > * {
             flex-basis: 19%; }
-          main #report-content #ipc .ipc > div > div:nth-child(2) > * {
+          main #report-content #ipc .ipc > div > div:nth-child(2) > *, main #report-content #ipc .ipc-forecasted > div > div:nth-child(2) > * {
             flex-basis: 49%; }
     main #report-content #ipc .sub {
       padding-left: 24px;
       font-weight: 400; }
-    main #report-content #ipc .total-ipc, main #report-content #ipc .ipc {
+    main #report-content #ipc .total-ipc, main #report-content #ipc .ipc, main #report-content #ipc .ipc-forecasted {
       padding-bottom: 10px;
       padding-top: 10px;
       border-bottom: 1px solid rgba(0, 0, 0, 0.05); }

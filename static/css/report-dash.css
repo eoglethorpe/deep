@@ -99,7 +99,8 @@ body > nav {
     flex-shrink: 0;
     flex-grow: 0; }
     body > nav #deep-logo-container img {
-      width: 100%; }
+      width: 125px;
+      height: 40px; }
   body > nav #project-select-container {
     flex-basis: 20%; }
     body > nav #project-select-container .selectize-control.single .selectize-input, body > nav #project-select-container .selectize-control.single.single, body > nav #project-select-container .selectize-control.single .selectize-input.input-active {

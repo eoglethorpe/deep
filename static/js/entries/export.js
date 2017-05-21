@@ -143,6 +143,105 @@ let leads = {
 };
 
 
+let reportStructure = {
+    init: function() {
+
+        for (let i=0; i<pillars.length; i++) {
+            let pillar = pillars[i];
+            let checkGroup = this.addGroup('pillar-' + pillar.id, pillar.name);
+            checkGroup.attr('data-id', 'pillar-' + pillar.id);
+            checkGroup.appendTo('.check-group-list');
+
+            for (let i=0; i<pillar.subpillars.length; i++) {
+                let subpillar = pillar.subpillars[i];
+                let child = this.addChild('subpillar-' + subpillar.id, subpillar.name);
+                child.attr('data-id', subpillar.id);
+                checkGroup.find('.content').append(child);
+            }
+
+            checkGroup.find('.group-order').attr('name', 'pillar-order-' + pillar.id);
+            checkGroup.find('.content').sortable({
+                create: function() {
+                    checkGroup.find('.group-order')
+                        .val($(this).sortable('toArray', { attribute: 'data-id' }));
+                },
+
+                update: function() {
+                    checkGroup.find('.group-order')
+                        .val($(this).sortable('toArray', { attribute: 'data-id' }));
+                },
+            });
+        }
+
+        let sectorsGroup = this.addGroup('report-sectors', 'Sectors');
+        sectorsGroup.attr('data-id', 'sectors');
+        sectorsGroup.appendTo('.check-group-list');
+
+        for (let i=0; i<sectors.length; i++) {
+            let sector = sectors[i];
+
+            let child = this.addChild('sector-' + sector.id, sector.name);
+            child.attr('data-id', sector.id);
+            sectorsGroup.find('.content').append(child);
+        }
+
+        sectorsGroup.find('.group-order').attr('name', 'sector-order');
+        sectorsGroup.find('.content').sortable({
+            create: function() {
+                sectorsGroup.find('.group-order')
+                    .val($(this).sortable('toArray', { attribute: 'data-id' }));
+            },
+
+            update: function() {
+                sectorsGroup.find('.group-order')
+                    .val($(this).sortable('toArray', { attribute: 'data-id' }));
+            },
+        });
+
+        $('.check-group-list').sortable({
+            create: function() {
+                $('#list-order').val($(this).sortable('toArray', { attribute: 'data-id' }));
+            },
+
+            update: function() {
+                $('#list-order').val($(this).sortable('toArray', { attribute: 'data-id' }));
+            },
+        });
+    },
+
+    addGroup: function(id, name) {
+        let checkGroup = $('.check-group-template').clone()
+            .removeClass('check-group-template').addClass('check-group');
+
+        checkGroup.find('header input').click(function() {
+            $(this).closest('.expandable')
+                .children('.content').find('input')
+                .prop('checked', $(this).is(':checked'));
+        });
+
+        checkGroup.find('.check-group-expand').click(function() {
+            $(this).closest('.check-group').toggleClass('expanded')
+                .children('.content').slideToggle(200);
+        });
+
+        checkGroup.find('header .name').text(name);
+        checkGroup.find('header input').attr('name', id);
+        checkGroup.find('header input').prop('checked', true);
+        checkGroup.show();
+        return checkGroup;
+    },
+
+    addChild: function(id, name) {
+        let child = $('.check-template').clone()
+            .removeClass('check-template').addClass('check');
+        child.find('.name').text(name);
+        child.find('input').attr('name', id);
+        child.find('input').prop('checked', true);
+        return child;
+    },
+};
+
+
 function getExportUrl(async=true) {
     return new Promise((resolve, reject) => {
         $.ajax({
@@ -177,6 +276,7 @@ $(document).ready(function(){
     });
 
     $('#export-docx').click(function() {
+        $('#export-entries-doc-form').submit();
         getExportUrl(false).then((url) => {
             window.open(exportProgressUrl + '?url=' + encodeURIComponent(url+'&export-docx=docx'), '_blank');
         });
@@ -227,33 +327,7 @@ $(document).ready(function(){
         $(this).closest('label').addClass('active');
     });
 
-    function onCheckGroupExpandClick() {
-        $(this).closest('.check-group').toggleClass('expanded').children('.content').slideToggle("200");
-    }
-
-    function onCheckGroupCheck() {
-        if($(this).is(':checked')) {
-            $(this).closest('.expandable').children('.content').find('input').prop('checked', true);
-        } else {
-            $(this).closest('.expandable').children('.content').find('input').prop('checked', false);
-        }
-    }
-
-
-    let checkGroup1 = $('.check-group-template').clone().removeClass('check-group-template').addClass('check-group');
-    checkGroup1.find('.check-group-expand').on('click', onCheckGroupExpandClick);
-    checkGroup1.find('header .name').text('Context #1');
-    checkGroup1.find('header input').on('change', onCheckGroupCheck);
-    checkGroup1.appendTo('.check-group-list');
-    checkGroup1.show();
-
-    let checkGroupChild1 =  $('.check-template').clone().removeClass('check-template').addClass('check');
-    checkGroupChild1.find('.name').text('Context child #1');
-    checkGroupChild1.appendTo(checkGroup1.find('.content'));
-
-    let checkGroupChild2 =  $('.check-template').clone().removeClass('check-template').addClass('check');
-    checkGroupChild2.find('.name').text('Context child #2');
-    checkGroupChild2.appendTo(checkGroup1.find('.content'));
+    reportStructure.init();
 
 });
 

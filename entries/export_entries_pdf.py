@@ -17,9 +17,9 @@ def convert_docx_to_pdf(filepath):
     return pdf.read()
 
 
-def export_pdf(event, informations=None, export_geo=False):
+def export_pdf(event, informations=None, data=None, export_geo=False):
     fp = tempfile.NamedTemporaryFile(dir=settings.BASE_DIR)
-    export_docx(event, informations, export_geo).save(fp)
+    export_docx(event, informations, data=data, export_geo=export_geo).save(fp)
     return convert_docx_to_pdf(fp.name)
 
 

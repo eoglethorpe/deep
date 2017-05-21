@@ -199,7 +199,129 @@ def set_style(style):
     style.paragraph_format.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.LEFT
 
 
-def export_docx(event, informations=None, export_geo=False):
+def export_pillar(d, pillar, leads_pk, event, informations, data, export_geo):
+    pillar_header_shown = False
+
+    # Get each subpillar
+    subpillars = pillar.informationsubpillar_set.all()
+    order = data.get('pillar-order-' + str(pillar.id))[0].split(',')
+    subpillars_order = [id[10:] for id in order if id.startswith('subpillar-')]
+    subpillar_dict = dict([(str(p.id), p) for p in subpillars])
+    subpillars = [
+        subpillar_dict[id] for id in order
+        if id in subpillar_dict and data.get('subpillar-' + id) and data.get('subpillar-' + id)[0] == 'on'
+    ]
+
+    for subpillar in subpillars:
+        attributes = entry_model.InformationAttribute.objects.filter(
+                subpillar=subpillar,
+                sector=None,
+                information__entry__lead__event__pk=event)
+        
+        if informations is not None:
+            attributes = attributes.filter(
+                    information__pk__in=informations)
+
+        if len(attributes) > 0:
+            if not pillar_header_shown:
+                d.add_heading(pillar.name, level=2)
+                d.add_paragraph()
+                pillar_header_shown = True
+            d.add_heading(subpillar.name, level=3)
+            d.add_paragraph()
+
+        already_added = []
+        for attr in attributes:
+            info = attr.information
+            if info not in already_added:
+                already_added.append(info)
+                add_excerpt_info(d, info)
+                leads_pk.append(info.entry.lead.pk)
+
+
+def export_sector(d, sector, leads_pk, event, informations, data, export_geo):
+    sector_header_shown = False
+
+    if export_geo:
+        attributes = entry_model.InformationAttribute.objects.filter(
+                sector=sector,
+                information__entry__lead__event__pk=event)
+
+        if informations is not None:
+            attributes = attributes.filter(
+                    information__pk__in=informations)
+
+        if len(attributes) > 0:
+            if not sector_header_shown:
+                d.add_heading(sector.name, level=2)
+                d.add_paragraph()
+                sector_header_shown = True
+
+        already_added = []
+        for attr in attributes:
+            info = attr.information
+            if info not in already_added:
+                already_added.append(info)
+                add_excerpt_info(d, info)
+                leads_pk.append(info.entry.lead.pk)
+    else:
+        # Get each pillar
+        pillars = entry_model.InformationPillar.objects.filter(
+                    contains_sectors=True)
+
+        # Order them as required
+        list_order = data.get('list-order')[0].split(',')
+        pillars_order = [id[7:] for id in list_order if id.startswith('pillar-')]
+        pillar_dict = dict([(str(p.id), p) for p in pillars])
+        pillars = [
+                pillar_dict[id] for id in pillars_order
+                if id in pillar_dict and data.get('pillar-' + id) and data.get('pillar-' + id)[0] == 'on'
+        ]
+ 
+        for pillar in pillars:
+            pillar_header_shown = False
+
+            # Get each subpillar
+            subpillars = pillar.informationsubpillar_set.all()
+            order = data.get('pillar-order-' + str(pillar.id))[0].split(',')
+            subpillars_order = [id[10:] for id in order if id.startswith('subpillar-')]
+            subpillar_dict = dict([(str(p.id), p) for p in subpillars])
+            subpillars = [
+                    subpillar_dict[id] for id in order
+                    if id in subpillar_dict and data.get('subpillar-' + id) and data.get('subpillar-' + id)[0] == 'on'
+            ]
+
+            for subpillar in subpillars:
+                attributes = entry_model.InformationAttribute.objects.filter(
+                        subpillar=subpillar,
+                        sector=sector,
+                        information__entry__lead__event__pk=event)
+                if informations is not None:
+                    attributes = attributes.filter(
+                            information__pk__in=informations)
+
+                if len(attributes) > 0:
+                    if not sector_header_shown:
+                        d.add_heading(sector.name, level=2)
+                        d.add_paragraph()
+                        sector_header_shown = True
+                    if not pillar_header_shown:
+                        d.add_heading(pillar.name, level=3)
+                        d.add_paragraph()
+                        pillar_header_shown = True
+                    d.add_heading(subpillar.name+":", level=4)
+
+                already_added = []
+                for attr in attributes:
+                    info = attr.information
+                    if info not in already_added:
+                        already_added.append(info)
+                        add_excerpt_info(d, info)
+                        leads_pk.append(info.entry.lead.pk)
+
+
+
+def export_docx(event, informations=None, data=None, export_geo=False):
     d = docx.Document('static/doc_export/template.docx')
 
     # Set document styles
@@ -213,104 +335,26 @@ def export_docx(event, informations=None, export_geo=False):
     # The leads for which excerpts we displayed
     leads_pk = []
 
-    # First the attributes with no sectors
+    # Report structure order
+    list_order = data.get('list-order')[0].split(',')
+    for report_item in list_order:
+        if report_item.startswith('pillar-'):
 
-    # Get each pillar
-    pillars = entry_model.InformationPillar.objects.filter(
-                contains_sectors=False)
-    for pillar in pillars:
-        pillar_header_shown = False
+            pillar_id = report_item[7:]
+            pillar = entry_model.InformationPillar.objects.get(pk=int(pillar_id))
+            if not pillar.contains_sectors:
+                is_on = data.get('pillar-' + pillar_id)
+                if is_on and is_on[0] == 'on':
+                    export_pillar(d, pillar, leads_pk, event, informations,
+                                  data, export_geo)
 
-        # Get each subpillar
-        subpillars = pillar.informationsubpillar_set.all()
-        for subpillar in subpillars:
-            attributes = entry_model.InformationAttribute.objects.filter(
-                    subpillar=subpillar,
-                    sector=None,
-                    information__entry__lead__event__pk=event)
-            if informations is not None:
-                attributes = attributes.filter(
-                        information__pk__in=informations)
-
-            if len(attributes) > 0:
-                if not pillar_header_shown:
-                    d.add_heading(pillar.name, level=2)
-                    d.add_paragraph()
-                    pillar_header_shown = True
-                d.add_heading(subpillar.name, level=3)
-                d.add_paragraph()
-
-            already_added = []
-            for attr in attributes:
-                info = attr.information
-                if info not in already_added:
-                    already_added.append(info)
-                    add_excerpt_info(d, info)
-                    leads_pk.append(info.entry.lead.pk)
-
-    # Next the attributes containing sectors
-
-    # Get each sector
-    for sector in entry_model.Sector.objects.all():
-        sector_header_shown = False
-
-        if export_geo:
-            attributes = entry_model.InformationAttribute.objects.filter(
-                    sector=sector,
-                    information__entry__lead__event__pk=event)
-            if informations is not None:
-                attributes = attributes.filter(
-                        information__pk__in=informations)
-
-            if len(attributes) > 0:
-                if not sector_header_shown:
-                    d.add_heading(sector.name, level=2)
-                    d.add_paragraph()
-                    sector_header_shown = True
-
-            already_added = []
-            for attr in attributes:
-                info = attr.information
-                if info not in already_added:
-                    already_added.append(info)
-                    add_excerpt_info(d, info)
-                    leads_pk.append(info.entry.lead.pk)
-        else:
-            # Get each pillar
-            pillars = entry_model.InformationPillar.objects.filter(
-                        contains_sectors=True)
-            for pillar in pillars:
-                pillar_header_shown = False
-
-                # Get each subpillar
-                subpillars = pillar.informationsubpillar_set.all()
-                for subpillar in subpillars:
-                    attributes = entry_model.InformationAttribute.objects.filter(
-                            subpillar=subpillar,
-                            sector=sector,
-                            information__entry__lead__event__pk=event)
-                    if informations is not None:
-                        attributes = attributes.filter(
-                                information__pk__in=informations)
-
-                    if len(attributes) > 0:
-                        if not sector_header_shown:
-                            d.add_heading(sector.name, level=2)
-                            d.add_paragraph()
-                            sector_header_shown = True
-                        if not pillar_header_shown:
-                            d.add_heading(pillar.name, level=3)
-                            d.add_paragraph()
-                            pillar_header_shown = True
-                        d.add_heading(subpillar.name+":", level=4)
-
-                    already_added = []
-                    for attr in attributes:
-                        info = attr.information
-                        if info not in already_added:
-                            already_added.append(info)
-                            add_excerpt_info(d, info)
-                            leads_pk.append(info.entry.lead.pk)
+        elif report_item == 'sectors':
+            is_on = data.get('report-sectors')
+            if is_on and is_on[0] == 'on':
+                for sector in entry_model.Sector.objects.all():
+                    is_on = data.get('sector-' + str(sector.id))
+                    if is_on and is_on[0] == 'on':
+                        export_sector(d, sector, leads_pk, event, informations, data, export_geo)
 
     add_line(d.add_paragraph())
 

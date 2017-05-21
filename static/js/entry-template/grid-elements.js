@@ -3,7 +3,7 @@ class Matrix1DList extends Element {
         let dom = $('<div class="element matrix1d-list"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
-        dom.append($('<div class="container"><div class="col-1"><div class="pillar">Pillar</div><div class="subpillar">Subpillar</div></div></div>'));
+        dom.append($('<div class="container"><div class="col-1"><div class="pillar">Dimension</div><div class="subpillar">sub-dimension</div></div></div>'));
         super(container, dom);
 
         if (data){
@@ -45,7 +45,7 @@ class Matrix1D extends Element {
         dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<h4 class="title">1D Matrix</h4>'));
         dom.append($('<div class="pillars sortable"></div>'));
-        dom.append($('<button class="add-pillar"><i class="fa fa-plus"></i>Add Pillar</button>'));
+        dom.append($('<button class="add-pillar"><i class="fa fa-plus"></i></button>'));
         dom.resizable({
             grid: GRID_SIZE,
             handles: 'e, w',
@@ -74,7 +74,7 @@ class Matrix1D extends Element {
 
         let pillar = $('<div class="pillar"></div>');
         pillar.data('id', this.getUniquePillarId());
-        pillar.append($('<div class="title-block">New pillar</div>'));
+        pillar.append($('<div class="title-block">New dimension</div>'));
 
         let floatingToolbar = $('<div class="floating-toolbar"></div>');
         floatingToolbar.append('<button class="fa fa-times close"></button>');
@@ -111,7 +111,7 @@ class Matrix1D extends Element {
     addSubpillar(pillar) {
         let subpillar = $('<div class="subpillar" tabIndex="1"></div>');
         subpillar.data('id', this.getUniqueSubpillarId());
-        subpillar.append($('<div class="title-block">New subpillar</div>'));
+        subpillar.append($('<div class="title-block">New sub-dimension</div>'));
         subpillar.append($('<button class="fa fa-times remove-subpillar"></button>'));
         pillar.find('.subpillars').append(subpillar);
 
@@ -263,7 +263,7 @@ class Matrix2DList extends Element {
         let dom = $('<div class="element matrix2d-list"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
-        dom.append($('<div class="container"><div class="col-1"><div class="pillar">Pillar</div><div class="subpillar">Subpillar</div></div><div class="col-2"><div class="sector">Sector</div><div class="subsectors">Subsectors</div></div></div>'));
+        dom.append($('<div class="container"><div class="col-1"><div class="pillar">Dimension</div><div class="subpillar">sub-dimension</div></div><div class="col-2"><div class="sector">Sector</div><div class="subsectors">Subsectors</div></div></div>'));
 
         super(container, dom);
 
@@ -335,7 +335,7 @@ class Matrix2D extends Element {
     addPillar() {
         let that = this;
         let pillars = this.dom.find('.pillars');
-        let pillar = $('<div class="pillar"><div class="title-block">New pillar</div></div>');
+        let pillar = $('<div class="pillar"><div class="title-block">New dimension</div></div>');
         pillar.append($('<div class="options"><button class="fa fa-times remove-pillar"></button><button class="fa fa-edit edit-pillar"></button></div>'))
         pillar.data('id', this.getUniquePillarId());
 
@@ -369,7 +369,7 @@ class Matrix2D extends Element {
 
     addSubpillar(pillar) {
         let that = this;
-        let subpillar = $('<div class="subpillar"><div class="title-block">New subpillar</div></div>');
+        let subpillar = $('<div class="subpillar"><div class="title-block">New sub-dimension</div></div>');
         subpillar.append($('<div class="options"><button class="fa fa-times remove-subpillar"></button><button class="fa fa-edit edit-subpillar"></button></div>'))
         subpillar.data('id', this.getUniqueSubpillarId());
 

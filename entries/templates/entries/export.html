@@ -24,6 +24,38 @@ DEEP | Export
     var eventId = "{{ event.pk }}";
     var exportProgressUrl = "{% url 'export_progress' %}";
     var downloadUrl = "{% url 'download_file' %}";
+
+    var pillars = [
+        {% for pillar in pillars %}
+        {
+            id: "{{ pillar.pk }}",
+            name: "{{ pillar.name|escapejs }}",
+            contains_sectors: {% if pillar.contains_sectors %}true{% else %}false{% endif %},
+
+            subpillars: [
+                {% for subpillar in pillar.informationsubpillar_set.all %}
+                { id: "{{ subpillar.pk }}", name: "{{ subpillar.name|escapejs }}", },
+                {% endfor %}
+            ],
+        },
+        {% endfor %}
+    ];
+
+    var sectors = [
+        {% for sector in sectors %}
+        {
+            id: "{{ sector.pk }}",
+            name: "{{ sector.name|escapejs }}",
+            {% comment %}
+            subsectors: [
+                {% for subsector in sector.subsector_set.all %}
+                { id: "{{ subsector.pk }}", name: "{{ subsector.name|escapejs }}", },
+                {% endfor %}
+            ],
+            {% endcomment %}
+        },
+        {% endfor %}
+    ];
 </script>
 
 {% endblock %}
@@ -41,7 +73,7 @@ DEEP | Export
     <section id="entries-export">
         <h2>Entries</h2>
         <div>
-            <form id="export-entries-doc-form" action="{% url 'entries:exportdoc' event=event.pk %}">
+            <form id="export-entries-doc-form" action="{% url 'entries:exportdoc' event=event.pk %}" method="post">
                 <div id="filter-section">
                     <h4>Filters</h4>
                     <div class="filters">
@@ -58,12 +90,16 @@ DEEP | Export
                 </div>
                 <div id="structure-section">
                     <h4>Report Structure</h4>
+                    
+                    <input id="list-order" name="list-order" value="" type="hidden">
                     <div class="check-group-list">
                     </div>
+
                     <div class="check-template" hidden><label><input type="checkbox"><span class="name"></span><span class="number"></span></label></div>
                     <div class="check-group-template expandable" hidden>
                         <header class="check"><label><input type="checkbox"><span class="name"></span><span class="number"></span></label><a class="fa fa-chevron-down check-group-expand"></a></header>
                         <div class="content" hidden></div>
+                        <input class="group-order" type="hidden">
                     </div>
                 </div>
                 <div id="action-section">

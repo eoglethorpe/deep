@@ -82,15 +82,21 @@ class ExportDoc(View):
     def get(self, request, event):
         # Get filtered informations from token
         informations = None
+        request_data = None
+
         if request.GET.get('token'):
             try:
                 export_token = ExportToken.objects.get(token=request.GET['token'])
-                informations = json.loads(export_token.data)
+                data = json.loads(export_token.data)
+                informations = data['informations']
+                request_data = data['post_data']
             except:
                 pass
 
         if not informations:
             informations = filter_informations(request.GET, Event.objects.get(pk=event)).values_list('id', flat=True)
+        if not request_data:
+            request_data = dict(request.GET)
 
         # Excel export
         if request.GET.get('export-xls') == 'xls':
@@ -123,9 +129,9 @@ class ExportDoc(View):
         else:
             format_name = 'Generic Export'
             if request.GET.get('export-pdf') == 'pdf':
-                response.write(export_pdf(int(event), informations))
+                response.write(export_pdf(int(event), informations, data=request_data))
             else:
-                export_docx(int(event), informations).save(response)
+                export_docx(int(event), informations, data=request_data).save(response)
 
         response['Content-Disposition'] = 'attachment; filename = "{}.{}"'.format(
             generate_filename('Entries ' + format_name), file_format)
@@ -142,8 +148,13 @@ class ExportDoc(View):
                 break
 
         export_token = ExportToken(token=uniqueToken)
-        export_token.data = json.dumps(list(filter_informations(request.POST, Event.objects.get(pk=event)).values_list('id', flat=True)))
+        export_token.data = json.dumps({
+            'informations': list(filter_informations(
+                request.POST, Event.objects.get(pk=event)).values_list('id', flat=True)),
+            'post_data': dict(request.POST),
+        })
         export_token.save()
+
         return JsonResponse({ 'token': export_token.token })
 
 

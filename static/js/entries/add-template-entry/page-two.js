@@ -558,7 +558,7 @@ let page2 = {
 
                 if (templateElement.type == 'matrix2d' && templateElement.list) {
                     let data = entry.elements.find(d => d.id == templateElement.id);
-                    if (data) {
+                    if (data && data.selections) {
                         let listContainer = entryElement.find('.matrix2d-list-container[data-id="' + data.id + '"]');
                         let list = listContainer.find('.matrix2d-list');
 
@@ -616,7 +616,7 @@ let page2 = {
                 }
                 else if (templateElement.type == 'matrix1d' && templateElement.list) {
                     let data = entry.elements.find(d => d.id == templateElement.id);
-                    if (data) {
+                    if (data && data.selections) {
                         let listContainer = entryElement.find('.matrix1d-list-container[data-id="' + data.id + '"]');
                         let list = listContainer.find('.matrix1d-list');
 
