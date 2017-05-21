@@ -69,10 +69,6 @@ body {
                         >.check-group {
                             min-height: 48px;
                             padding-top: 6px;
-
-                            &:nth-child(odd) {
-                                background-color: #fff;
-                            }
                         }
                     }
                     .check-group {
@@ -124,6 +120,7 @@ body {
                             padding: 6px 16px;
                             display: flex;
                             align-items: center;
+                            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
                         }
                     }
 

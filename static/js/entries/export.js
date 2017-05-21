@@ -149,27 +149,64 @@ let reportStructure = {
         for (let i=0; i<pillars.length; i++) {
             let pillar = pillars[i];
             let checkGroup = this.addGroup('pillar-' + pillar.id, pillar.name);
+            checkGroup.attr('data-id', 'pillar-' + pillar.id);
             checkGroup.appendTo('.check-group-list');
 
             for (let i=0; i<pillar.subpillars.length; i++) {
                 let subpillar = pillar.subpillars[i];
                 let child = this.addChild('subpillar-' + subpillar.id, subpillar.name);
+                child.attr('data-id', subpillar.id);
                 checkGroup.find('.content').append(child);
             }
 
-            checkGroup.find('.content').sortable();
+            checkGroup.find('.group-order').attr('name', 'pillar-order-' + pillar.id);
+            checkGroup.find('.content').sortable({
+                create: function() {
+                    checkGroup.find('.group-order')
+                        .val($(this).sortable('toArray', { attribute: 'data-id' }));
+                },
+
+                update: function() {
+                    checkGroup.find('.group-order')
+                        .val($(this).sortable('toArray', { attribute: 'data-id' }));
+                },
+            });
         }
 
-        let sectorsGroup = this.addGroup('sectors', 'Sectors');
+        let sectorsGroup = this.addGroup('report-sectors', 'Sectors');
+        sectorsGroup.attr('data-id', 'sectors');
         sectorsGroup.appendTo('.check-group-list');
 
         for (let i=0; i<sectors.length; i++) {
             let sector = sectors[i];
-            sectorsGroup.find('.content')
-                .append(this.addChild('sector-' + sector.id, sector.name));
+
+            let child = this.addChild('sector-' + sector.id, sector.name);
+            child.attr('data-id', sector.id);
+            sectorsGroup.find('.content').append(child);
         }
 
-        $('.check-group-list').sortable();
+        sectorsGroup.find('.group-order').attr('name', 'sector-order');
+        sectorsGroup.find('.content').sortable({
+            create: function() {
+                sectorsGroup.find('.group-order')
+                    .val($(this).sortable('toArray', { attribute: 'data-id' }));
+            },
+
+            update: function() {
+                sectorsGroup.find('.group-order')
+                    .val($(this).sortable('toArray', { attribute: 'data-id' }));
+            },
+        });
+
+        $('.check-group-list').sortable({
+            create: function() {
+                $('#list-order').val($(this).sortable('toArray', { attribute: 'data-id' }));
+            },
+
+            update: function() {
+                $('#list-order').val($(this).sortable('toArray', { attribute: 'data-id' }));
+            },
+        });
     },
 
     addGroup: function(id, name) {
@@ -239,6 +276,7 @@ $(document).ready(function(){
     });
 
     $('#export-docx').click(function() {
+        $('#export-entries-doc-form').submit();
         getExportUrl(false).then((url) => {
             window.open(exportProgressUrl + '?url=' + encodeURIComponent(url+'&export-docx=docx'), '_blank');
         });

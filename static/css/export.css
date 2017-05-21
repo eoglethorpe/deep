@@ -225,8 +225,6 @@ body {
             body main section form #structure-section .check-group-list > .check-group {
               min-height: 48px;
               padding-top: 6px; }
-              body main section form #structure-section .check-group-list > .check-group:nth-child(odd) {
-                background-color: #fff; }
           body main section form #structure-section .check-group label {
             font-size: 1em;
             display: flex;
@@ -253,7 +251,8 @@ body {
             min-height: 32px;
             padding: 6px 16px;
             display: flex;
-            align-items: center; }
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
         body main section form #action-section {
           border-top: 1px solid rgba(0, 0, 0, 0.1);
           flex-basis: 100%; }

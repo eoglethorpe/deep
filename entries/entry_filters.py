@@ -58,6 +58,7 @@ def filter_informations(data, event=None):
                 subsectors.append(value[1])
             else:
                 sectors.append(value)
+
         informations = informations.filter(
             Q(informationattribute__sector__pk__in=sectors) |
             Q(informationattribute__subsectors__pk__in=subsectors)
