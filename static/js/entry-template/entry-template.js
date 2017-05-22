@@ -284,7 +284,7 @@ let templateEditor = {
 $(document).ready(function() {
     templateEditor.init();
     templateEditor.load(templateData);
-    console.log(templateData.snapshots);
+
     $('#elements').sortable();
 
     $('.properties-box').on('visible', function(){
@@ -303,22 +303,46 @@ $(document).ready(function() {
         }
     });
 
-
-    $('.element').on('dragstart', function(){
-        $(this).data('initial-offset', $(this).offset());
-    });
-    $('.element').on('dragstop', function(event, ui){
-        let that = $(this);
-        let r1 = this.getBoundingClientRect();
-
-        $('.element').not(this).each(function(){
+    function checkElementCollision(element, targetObjects){
+        let r1 = element.getBoundingClientRect();
+        let hit = false;
+        targetObjects.not(element).each(function(){
             let r2 = this.getBoundingClientRect();
 
             if((r1.left < r2.left + r2.width && r1.left + r1.width > r2.left && r1.top < r2.top + r2.height && r1.height + r1.top > r2.top)) {
-                that.offset(that.data('initial-offset'));
+                hit = true;
                 return false;
             }
         });
+        return hit;
+    }
+
+    $('main .ui-resizable').on('mousedown', function(){
+        $(this).data('width', $(this).width());
+        $(this).data('height', $(this).height());
+        $(this).data('mousedown', true);
+    });
+    $('main .ui-resizable').on('mouseup', function(){
+        $(this).data('mousedown', false);
+        if($(this).data('resizing')){
+            if(checkElementCollision(this, $('main .ui-resizable'))){
+                $(this).width($(this).data('width'));
+                $(this).height($(this).data('height'));
+            }
+            $(this).data('resizing', false);
+        }
+    });
+    $('main .ui-resizable').on('resize', function() {
+        $(this).data('resizing', true);
+    });
+
+    $('main .element').on('dragstart', function(){
+        $(this).data('initial-offset', $(this).offset());
+    });
+    $('main .element').on('dragstop', function(event, ui){
+        if(checkElementCollision(this, $('main .element'))){
+            $(this).offset($(this).data('initial-offset'));
+        }
     });
 
     if (location.hash.indexOf('page2') > 0) {
