@@ -203,7 +203,8 @@ let templateEditor = {
             }
 
             data.snapshots = {};
-            if (this.getPage() != 'page-one') {
+            var currentPage = this.getPage();
+            if (currentPage != 'page-one') {
                 this.switchPage();
             }
             html2canvas($('#page-one')[0], {
@@ -214,6 +215,9 @@ let templateEditor = {
                     html2canvas($('#page-two')[0], {
                         onrendered: function(canvas) {
                             data.snapshots.pageTwo = canvas.toDataURL();
+                            if(currentPage = 'page-one'){
+                                that.switchPage();
+                            }
                             resolve(data);
                         }
                     });
@@ -316,4 +320,8 @@ $(document).ready(function() {
             }
         });
     });
+
+    if (location.hash.indexOf('page2') > 0) {
+        templateEditor.switchPage();
+    }
 });

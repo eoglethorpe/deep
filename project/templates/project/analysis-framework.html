@@ -53,7 +53,7 @@ DEEP | Analysis Framework
             <header>
                 <h2>Edit template</h2>
                 <div class="action-buttons">
-                    <button id="save-and-edit-template-btn" name="save-and-edit"><i class="fa fa-external-link"></i>Save &amp; edit template</button>
+                    <!-- <button id="save-and-edit-template-btn" name="save-and-edit"><i class="fa fa-external-link"></i>Save &amp; edit template</button> -->
                     <button id="save-and-finish-btn" name="save-and-finish"><i class="fa fa-check"></i>Save &amp; finish</button>
                 </div>
             </header>
@@ -71,6 +71,7 @@ DEEP | Analysis Framework
         <div class="snapshots-container">
             <label>Template preview</label>
             <button id="snapshot-next"><i class="fa fa-chevron-right"></i></button>
+            <a target="_blank" href="{% url 'custom_admin:entry_template' project.entry_template.pk %}" id="edit-framework"><i class="fa fa-pencil"></i><span>Edit Framework</span></a>
             <button id="snapshot-prev" hidden><i class="fa fa-chevron-left"></i></button>
             <div id="snapshots">
                 <img class="snapshot-page-one active" src="{{ project.entry_template.snapshot_pageone }}">

@@ -88,7 +88,7 @@ nav {
     text-transform: uppercase; }
   nav #left-part {
     display: flex;
-    align-items: flex-end; }
+    align-items: center; }
     nav #left-part h2 {
       font-size: 1.5em;
       margin-left: 16px;
