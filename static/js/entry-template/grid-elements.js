@@ -88,7 +88,7 @@ class Matrix1D extends Element {
 
         pillar.append($('<div class="subpillars sortable"></div>'));
         pillar.append($('<button class="add-subpillar"><i class="fa fa-plus"></i></button>'));
-        pillar.prepend($('<div class="options"><button class="fa fa-times remove-pillar"></button><button class="fa fa-edit edit-pillar"></button></div>'));
+        pillar.prepend($('<div class="options"><button class="fa fa-edit edit-pillar"></button><button class="fa fa-times remove-pillar"></button></div>'));
         this.dom.find('.pillars').append(pillar);
 
         this.addSubpillar(pillar);
@@ -125,6 +125,10 @@ class Matrix1D extends Element {
 
     makeEditable(element) {
         element.click(function() {
+            let label = $(this).text().toLowerCase();
+            if (['new dimension', 'new sub-dimension', 'new sector'].indexOf(label) >= 0) {
+                $(this).text('');
+            }
             $(this).closest('.element').find('div').attr('contenteditable', 'false');
             $(this).attr('contenteditable', 'true');
             $(this).closest('.element').draggable({ disabled: true });
@@ -336,7 +340,7 @@ class Matrix2D extends Element {
         let that = this;
         let pillars = this.dom.find('.pillars');
         let pillar = $('<div class="pillar"><div class="title-block">New dimension</div></div>');
-        pillar.append($('<div class="options"><button class="fa fa-times remove-pillar"></button><button class="fa fa-edit edit-pillar"></button></div>'))
+        pillar.append($('<div class="options"><button class="fa fa-edit edit-pillar"></button><button class="fa fa-times remove-pillar"></button></div>'))
         pillar.data('id', this.getUniquePillarId());
 
         let floatingToolbar = $('<div class="floating-toolbar"></div>');
@@ -370,7 +374,7 @@ class Matrix2D extends Element {
     addSubpillar(pillar) {
         let that = this;
         let subpillar = $('<div class="subpillar"><div class="title-block">New sub-dimension</div></div>');
-        subpillar.append($('<div class="options"><button class="fa fa-times remove-subpillar"></button><button class="fa fa-edit edit-subpillar"></button></div>'))
+        subpillar.append($('<div class="options"><button class="fa fa-edit edit-subpillar"></button><button class="fa fa-times remove-subpillar"></button></div>'))
         subpillar.data('id', this.getUniqueSubpillarId());
 
         let floatingToolbar = $('<div class="floating-toolbar" hidden></div>');
@@ -399,7 +403,7 @@ class Matrix2D extends Element {
         let that = this;
         let sectors = this.dom.find('.sectors');
         let sector = $('<div class="sector"><div class="title-block">New sector</div></div>');
-        sector.append($('<div class="options"><button class="fa fa-times remove-sector"></button><button class="fa fa-edit edit-sector"></button></div>'));
+        sector.append($('<div class="options"><button class="fa fa-edit edit-sector"></button><button class="fa fa-times remove-sector"></button></div>'));
         sector.data('id', this.getUniqueSectorId());
 
         let floatingToolbar = $('<div class="floating-toolbar"></div>');
@@ -443,6 +447,10 @@ class Matrix2D extends Element {
 
     makeEditable(element) {
         element.click(function() {
+            let label = $(this).text().toLowerCase();
+            if (['new dimension', 'new sub-dimension', 'new sector'].indexOf(label) >= 0) {
+                $(this).text('');
+            }
             $(this).closest('.element').find('div').attr('contenteditable', 'false');
             $(this).attr('contenteditable', 'true');
             $(this).closest('.element').draggable({ disabled: true });
