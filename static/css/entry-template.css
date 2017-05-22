@@ -525,7 +525,7 @@ body {
         align-items: center;
         height: 48px;
         top: -48px;
-        right: 24px;
+        left: 24px;
         background-color: #f0f0f0;
         box-shadow: 0 2px 15px -3px rgba(0, 0, 0, 0.5);
         border: 2px solid rgba(0, 0, 0, 0.1);
@@ -671,12 +671,12 @@ body {
               position: absolute;
               border-style: solid; }
           body main .matrix2d .pillars-container .pillars .pillar > .floating-toolbar:after {
-            left: 116px;
+            left: 16px;
             bottom: -24px;
             border-width: 12px;
             border-color: #f0f0f0 transparent transparent transparent; }
           body main .matrix2d .pillars-container .pillars .pillar > .floating-toolbar:before {
-            left: 114px;
+            left: 14px;
             bottom: -30px;
             border-width: 14px;
             border-color: rgba(0, 0, 0, 0.1) transparent transparent transparent; }
@@ -733,12 +733,12 @@ body {
                     position: absolute;
                     border-style: solid; }
                   body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar .floating-toolbar:after {
-                    left: 106px;
+                    left: 16px;
                     top: -24px;
                     border-width: 12px;
                     border-color: transparent transparent #f0f0f0 transparent; }
                   body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar .floating-toolbar:before {
-                    left: 104px;
+                    left: 14px;
                     top: -30px;
                     border-width: 14px;
                     border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent; }
