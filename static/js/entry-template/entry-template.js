@@ -5,42 +5,42 @@ let templateEditor = {
         this.elements = [];
 
         $('#matrix1d-widget button').on('click', function() {
-            that.addElement(new Matrix1D(that.getContainer(), $('#page-two .entry')));
+            that.addElement(new Matrix1D(that.getContainer(), $('#page-two .entry')), true);
             that.reloadElements();
         });
 
         $('#matrix2d-widget button').on('click', function() {
-            that.addElement(new Matrix2D(that.getContainer(), $('#page-two .entry')));
+            that.addElement(new Matrix2D(that.getContainer(), $('#page-two .entry')), true);
             that.reloadElements();
         });
 
         $('#number-widget button').on('click', function() {
-            that.addElement(new NumberInput(that.getContainer()));
+            that.addElement(new NumberInput(that.getContainer()), true);
             that.reloadElements();
         });
 
         $('#date-widget button').on('click', function() {
-            that.addElement(new DateInput(that.getContainer()));
+            that.addElement(new DateInput(that.getContainer()), true);
             that.reloadElements();
         });
 
         $('#scale-widget button').on('click', function() {
-            that.addElement(new ScaleElement(that.getContainer()));
+            that.addElement(new ScaleElement(that.getContainer()), true);
             that.reloadElements();
         });
 
         $('#multiselect-widget button').on('click', function() {
-            that.addElement(new MultiselectInput(that.getContainer()));
+            that.addElement(new MultiselectInput(that.getContainer()), true);
             that.reloadElements();
         });
 
         $('#organigram-widget button').on('click', function() {
-            that.addElement(new OrganigramInput(that.getContainer()));
+            that.addElement(new OrganigramInput(that.getContainer()), true);
             that.reloadElements();
         });
 
         $('#geolocations-widget button').on('click', function() {
-            that.addElement(new GeolocationsInput(that.getContainer()));
+            that.addElement(new GeolocationsInput(that.getContainer()), true);
             that.reloadElements();
         });
 
@@ -60,9 +60,23 @@ let templateEditor = {
         });
     },
 
-    addElement: function(element) {
+    addElement: function(element, newElement=false) {
         element.page = this.getPage();
         this.elements.push(element);
+
+        if (newElement) {
+            let maxY = 0;
+            $('.element').not(element.dom[0]).each(function() {
+                let r = this.getBoundingClientRect();
+
+                if((r.top + r.height) > maxY) {
+                    maxY = r.top + r.height;
+                }
+            });
+            console.log(maxY);
+            element.dom.css('top', maxY+'px' );
+        }
+
     },
 
     reloadElements: function() {
@@ -317,12 +331,12 @@ $(document).ready(function() {
         return hit;
     }
 
-    $('main .ui-resizable').on('mousedown', function(){
+    $('main').on('mousedown', '.ui-resizable', function(){
         $(this).data('width', $(this).width());
         $(this).data('height', $(this).height());
         $(this).data('mousedown', true);
     });
-    $('main .ui-resizable').on('mouseup', function(){
+    $('main').on('mouseup', '.ui-resizable', function(){
         $(this).data('mousedown', false);
         if($(this).data('resizing')){
             if(checkElementCollision(this, $('main .ui-resizable'))){
@@ -332,14 +346,14 @@ $(document).ready(function() {
             $(this).data('resizing', false);
         }
     });
-    $('main .ui-resizable').on('resize', function() {
+    $('main').on('resize', '.ui-resizable', function() {
         $(this).data('resizing', true);
     });
 
-    $('main .element').on('dragstart', function(){
+    $('main').on('dragstart', '.element', function(){
         $(this).data('initial-offset', $(this).offset());
     });
-    $('main .element').on('dragstop', function(event, ui){
+    $('main').on('dragstop', '.element', function(event, ui){
         if(checkElementCollision(this, $('main .element'))){
             $(this).offset($(this).data('initial-offset'));
         }
