@@ -192,11 +192,11 @@ body{
             }
             .handle{
                 cursor: move;
-                left: 0;
+                right: 0;
             }
             .edit{
                 cursor: pointer;
-                left: 24px;
+                right: 24px;
             }
 
             &:hover {
@@ -555,7 +555,7 @@ body{
                         align-items: center;
                         height: 48px;
                         top: -48px;
-                        left: 24px;
+                        right: 24px;
                         background-color: #f0f0f0;
                         box-shadow: 0 2px 15px -3px rgba(0, 0, 0, 0.5);
                         border: 2px solid rgba(0, 0, 0, 0.1);
@@ -650,7 +650,7 @@ body{
                 display: none;
                 position: absolute;
                 top: 0;
-                left: 0;
+                left: 90px;
                 z-index: 10;
 
                 >button{
@@ -766,13 +766,13 @@ body{
                         }
                         >.floating-toolbar{
                             &:after {
-                                left: 6px;
+                                left: 116px;
                                 bottom: -24px;
                                 border-width: 12px;
                                 border-color: #f0f0f0 transparent transparent transparent;
                             }
                             &:before {
-                                left: 4px;
+                                left: 114px;
                                 bottom: -30px;
                                 border-width: 14px;
                                 border-color: rgba(0, 0, 0, 0.1) transparent transparent transparent;
@@ -782,7 +782,7 @@ body{
                         .options {
                             display: none;
                             position: absolute;
-                            left: 0;
+                            left: 106px;
                             top: 0;
                             z-index: 10;
 
@@ -850,13 +850,13 @@ body{
                                             border-style: solid;
                                         }
                                         &:after {
-                                            left: 6px;
+                                            left: 106px;
                                             top: -24px;
                                             border-width: 12px;
                                             border-color: transparent transparent #f0f0f0 transparent;
                                         }
                                         &:before {
-                                            left: 4px;
+                                            left: 104px;
                                             top: -30px;
                                             border-width: 14px;
                                             border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
@@ -957,7 +957,7 @@ body{
                         .options {
                             display: none;
                             position: absolute;
-                            left: 0;
+                            right: 0;
                             top: 0;
                             z-index: 10;
 

@@ -66,7 +66,7 @@ let templateEditor = {
 
         if (newElement) {
             let maxY = 0;
-            $('.element').not(element.dom[0]).each(function() {
+            $('main .element').not(element.dom[0]).each(function() {
                 let r = this.getBoundingClientRect();
 
                 if((r.top + r.height) > maxY) {
@@ -74,7 +74,7 @@ let templateEditor = {
                 }
             });
             console.log(maxY);
-            element.dom.css('top', maxY+'px' );
+            element.dom.css('top', (maxY-48)+'px');
         }
 
     },
@@ -316,7 +316,16 @@ $(document).ready(function() {
             $('.floating-toolbar').hide();
         }
     });
-
+    $(document).keypress(function(e) {
+    if(e.which == 13) {
+        if($('.floating-toolbar').is(':visible')){
+            $('.floating-toolbar').hide();
+        }
+        if($('.properties-box').is(':visible')){
+            $('.properties-box').hide();
+        }
+    }
+});
     function checkElementCollision(element, targetObjects){
         let r1 = element.getBoundingClientRect();
         let hit = false;
