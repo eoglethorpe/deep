@@ -5,42 +5,42 @@ let templateEditor = {
         this.elements = [];
 
         $('#matrix1d-widget button').on('click', function() {
-            that.addElement(new Matrix1D(that.getContainer(), $('#page-two .entry')));
+            that.addElement(new Matrix1D(that.getContainer(), $('#page-two .entry')), true);
             that.reloadElements();
         });
 
         $('#matrix2d-widget button').on('click', function() {
-            that.addElement(new Matrix2D(that.getContainer(), $('#page-two .entry')));
+            that.addElement(new Matrix2D(that.getContainer(), $('#page-two .entry')), true);
             that.reloadElements();
         });
 
         $('#number-widget button').on('click', function() {
-            that.addElement(new NumberInput(that.getContainer()));
+            that.addElement(new NumberInput(that.getContainer()), true);
             that.reloadElements();
         });
 
         $('#date-widget button').on('click', function() {
-            that.addElement(new DateInput(that.getContainer()));
+            that.addElement(new DateInput(that.getContainer()), true);
             that.reloadElements();
         });
 
         $('#scale-widget button').on('click', function() {
-            that.addElement(new ScaleElement(that.getContainer()));
+            that.addElement(new ScaleElement(that.getContainer()), true);
             that.reloadElements();
         });
 
         $('#multiselect-widget button').on('click', function() {
-            that.addElement(new MultiselectInput(that.getContainer()));
+            that.addElement(new MultiselectInput(that.getContainer()), true);
             that.reloadElements();
         });
 
         $('#organigram-widget button').on('click', function() {
-            that.addElement(new OrganigramInput(that.getContainer()));
+            that.addElement(new OrganigramInput(that.getContainer()), true);
             that.reloadElements();
         });
 
         $('#geolocations-widget button').on('click', function() {
-            that.addElement(new GeolocationsInput(that.getContainer()));
+            that.addElement(new GeolocationsInput(that.getContainer()), true);
             that.reloadElements();
         });
 
@@ -60,9 +60,23 @@ let templateEditor = {
         });
     },
 
-    addElement: function(element) {
+    addElement: function(element, newElement=false) {
         element.page = this.getPage();
         this.elements.push(element);
+
+        if (newElement) {
+            let maxY = 0;
+            $('main .element').not(element.dom[0]).each(function() {
+                let r = this.getBoundingClientRect();
+
+                if((r.top + r.height) > maxY) {
+                    maxY = r.top + r.height;
+                }
+            });
+            console.log(maxY);
+            element.dom.css('top', (maxY-48)+'px');
+        }
+
     },
 
     reloadElements: function() {
@@ -203,7 +217,8 @@ let templateEditor = {
             }
 
             data.snapshots = {};
-            if (this.getPage() != 'page-one') {
+            var currentPage = this.getPage();
+            if (currentPage != 'page-one') {
                 this.switchPage();
             }
             html2canvas($('#page-one')[0], {
@@ -214,6 +229,9 @@ let templateEditor = {
                     html2canvas($('#page-two')[0], {
                         onrendered: function(canvas) {
                             data.snapshots.pageTwo = canvas.toDataURL();
+                            if(currentPage = 'page-one'){
+                                that.switchPage();
+                            }
                             resolve(data);
                         }
                     });
@@ -280,7 +298,7 @@ let templateEditor = {
 $(document).ready(function() {
     templateEditor.init();
     templateEditor.load(templateData);
-    console.log(templateData.snapshots);
+
     $('#elements').sortable();
 
     $('.properties-box').on('visible', function(){
@@ -298,22 +316,59 @@ $(document).ready(function() {
             $('.floating-toolbar').hide();
         }
     });
-
-
-    $('.element').on('dragstart', function(){
-        $(this).data('initial-offset', $(this).offset());
-    });
-    $('.element').on('dragstop', function(event, ui){
-        let that = $(this);
-        let r1 = this.getBoundingClientRect();
-
-        $('.element').not(this).each(function(){
+    $(document).keypress(function(e) {
+    if(e.which == 13) {
+        if($('.floating-toolbar').is(':visible')){
+            $('.floating-toolbar').hide();
+        }
+        if($('.properties-box').is(':visible')){
+            $('.properties-box').hide();
+        }
+    }
+});
+    function checkElementCollision(element, targetObjects){
+        let r1 = element.getBoundingClientRect();
+        let hit = false;
+        targetObjects.not(element).each(function(){
             let r2 = this.getBoundingClientRect();
 
             if((r1.left < r2.left + r2.width && r1.left + r1.width > r2.left && r1.top < r2.top + r2.height && r1.height + r1.top > r2.top)) {
-                that.offset(that.data('initial-offset'));
+                hit = true;
                 return false;
             }
         });
+        return hit;
+    }
+
+    $('main').on('mousedown', '.ui-resizable', function(){
+        $(this).data('width', $(this).width());
+        $(this).data('height', $(this).height());
+        $(this).data('mousedown', true);
     });
+    $('main').on('mouseup', '.ui-resizable', function(){
+        $(this).data('mousedown', false);
+        if($(this).data('resizing')){
+            if(checkElementCollision(this, $('main .ui-resizable'))){
+                $(this).width($(this).data('width'));
+                $(this).height($(this).data('height'));
+            }
+            $(this).data('resizing', false);
+        }
+    });
+    $('main').on('resize', '.ui-resizable', function() {
+        $(this).data('resizing', true);
+    });
+
+    $('main').on('dragstart', '.element', function(){
+        $(this).data('initial-offset', $(this).offset());
+    });
+    $('main').on('dragstop', '.element', function(event, ui){
+        if(checkElementCollision(this, $('main .element'))){
+            $(this).offset($(this).data('initial-offset'));
+        }
+    });
+
+    if (location.hash.indexOf('page2') > 0) {
+        templateEditor.switchPage();
+    }
 });

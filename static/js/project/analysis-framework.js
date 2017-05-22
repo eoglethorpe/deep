@@ -36,4 +36,15 @@ $(document).ready(function() {
         $(this).hide().closest('.snapshots-container').find('img.active').removeClass('active').hide().prev().show().addClass('active');
         $('#snapshot-next').show();
     });
+    $('#edit-framework').on('click', function(){
+        var url = $(this).attr('href');
+        url = url.replace('#page1', '');
+        url = url.replace('#page2', '');
+        if($('#snapshot-prev').is(':visible')){
+            $(this).attr('href', url+'#page2');
+        }
+        else{
+            $(this).attr('href', url+'#page1');
+        }
+    });
 });

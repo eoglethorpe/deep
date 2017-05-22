@@ -292,7 +292,7 @@ class AnalysisFrameworkView(View):
     @method_decorator(login_required)
     def post(self, request, project_id):
         project = Event.objects.get(pk=project_id)
-        if 'save-and-edit' in request.POST or 'save-and-finish' in request.POST:
+        if 'save-and-finish' in request.POST:
             entry_template = project.entry_template
 
             entry_template.name = request.POST.get('template-name')
@@ -301,6 +301,4 @@ class AnalysisFrameworkView(View):
                 entry_template.elements = Event.objects.get(pk=clone_from).entry_template.elements
             entry_template.save()
 
-        if 'save-and-edit' in request.POST:
-            return redirect('custom_admin:entry_template', project.entry_template.pk)
         return redirect('dashboard', project_id)

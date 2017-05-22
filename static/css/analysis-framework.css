@@ -87,7 +87,7 @@ nav {
     text-transform: uppercase; }
   nav #left-part {
     display: flex;
-    align-items: flex-end; }
+    align-items: center; }
     nav #left-part h2 {
       font-size: 1.5em;
       margin-left: 16px;
@@ -290,6 +290,8 @@ body {
       margin: auto; }
       body main .snapshots-container:hover button {
         opacity: 0.5; }
+      body main .snapshots-container:hover #edit-framework {
+        opacity: 0.5; }
       body main .snapshots-container button {
         position: absolute;
         width: 48px;
@@ -303,17 +305,43 @@ body {
         body main .snapshots-container button:hover {
           opacity: 1; }
       body main .snapshots-container #snapshot-prev {
-        left: 56px; }
+        left: 56px;
+        z-index: 3; }
       body main .snapshots-container #snapshot-next {
+        z-index: 3;
         right: 56px; }
+      body main .snapshots-container #edit-framework {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        height: 36px;
+        z-index: 3;
+        width: auto;
+        padding: 0 10px;
+        background-color: rgba(0, 0, 0, 0.6);
+        transition: 0.2s all ease-in-out;
+        bottom: 12px;
+        color: #fff;
+        opacity: 0;
+        border-radius: 8px;
+        right: 56px;
+        top: auto;
+        transition: none; }
+        body main .snapshots-container #edit-framework .fa {
+          margin-right: 8px; }
+        body main .snapshots-container #edit-framework span {
+          display: inline-block; }
+        body main .snapshots-container #edit-framework:hover {
+          opacity: 1; }
       body main .snapshots-container #snapshots {
         height: 100%;
-        background-color: #919191; }
-      body main .snapshots-container img {
-        height: 100%;
-        width: 100%;
-        object-fit: contain;
-        object-position: center center;
-        border: 1px solid rgba(0, 0, 0, 0.2); }
+        position: relative; }
+        body main .snapshots-container #snapshots img {
+          height: 100%;
+          width: 100%;
+          object-fit: contain;
+          object-position: center center;
+          background-color: #fff;
+          border: 1px solid rgba(0, 0, 0, 0.2); }
 
 /*# sourceMappingURL=analysis-framework.css.map */
