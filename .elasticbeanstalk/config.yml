@@ -1,12 +1,10 @@
 branch-defaults:
-  default:
-    environment: null
   eb:
-    environment: test-dev
+    environment: deep-dev
 global:
-  application_name: test
+  application_name: deep-prod
   branch: null
-  default_ec2_keyname: shelter2
+  default_ec2_keyname: aws-eb
   default_platform: Docker 1.12.6
   default_region: us-east-1
   instance_profile: null
