@@ -48,7 +48,7 @@ class Matrix1D extends Element {
         dom.append($('<button class="add-pillar"><i class="fa fa-plus"></i></button>'));
         dom.resizable({
             grid: GRID_SIZE,
-            handles: 'e, w',
+            handles: 'e',
         });
         super(container, dom);
         let that = this;
@@ -308,7 +308,7 @@ class Matrix2D extends Element {
         dom.append($('<h4 class="title">2D Matrix</h4>'));
         dom.append($('<div class="sectors-container"><div class="sectors sortable"></div><button class="fa fa-plus add-sector"></button></div>'));
         dom.append($('<div class="pillars-container"><div class="pillars sortable"></div><button class="fa fa-plus add-pillar"></button></div>'));
-        dom.resizable({ grid: GRID_SIZE, handles: 'e, w' });
+        dom.resizable({ grid: GRID_SIZE, handles: 'e' });
 
         super(container, dom);
 
