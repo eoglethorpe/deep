@@ -76,7 +76,8 @@ class ScaleElement extends Element {
             let value = $('<div class="value-container"><input class="default" name="default" type="radio"><input type="text" class="name" placeholder="Enter value name, e.g.: Critical"><input class="color" type="color"><button class="remove-value"><i class="fa fa-times"></i></button></div>');
             value.data('id', that.getUniqueId());
 
-            value.find('.remove-value').click(function() {
+            value.find('.remove-value').click(function(e) {
+                e.stopPropagation();
                 value.remove();
                 that.refreshScale();
             });
