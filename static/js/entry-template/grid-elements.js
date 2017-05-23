@@ -43,6 +43,7 @@ class Matrix1D extends Element {
         let dom = $('<div class="element matrix1d"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
+        dom.append($('<div class="fa fa-trash delete-element"></div>'));
         dom.append($('<h4 class="title">1D Matrix</h4>'));
         dom.append($('<div class="pillars sortable"></div>'));
         dom.append($('<button class="add-pillar"><i class="fa fa-plus"></i></button>'));
@@ -309,6 +310,7 @@ class Matrix2D extends Element {
         let dom = $('<div class="element matrix2d"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
+        dom.append($('<div class="fa fa-trash delete-element"></div>'));
         dom.append($('<h4 class="title">2D Matrix</h4>'));
         dom.append($('<div class="sectors-container"><div class="sectors sortable"></div><button class="fa fa-plus add-sector"></button></div>'));
         dom.append($('<div class="pillars-container"><div class="pillars sortable"></div><button class="fa fa-plus add-pillar"></button></div>'));

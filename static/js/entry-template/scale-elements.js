@@ -3,6 +3,7 @@ class ScaleElement extends Element {
         let dom = $('<div class="element scale-element"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
+        dom.append($('<div class="fa fa-trash delete-element"></div>'));
         dom.append($('<div class="scale-container"><label class="title">Scale</label></div>'));
         dom.find('.scale-container').append($('<div class="scale"></div>'));
         dom.find('.scale-container').resizable({ grid: GRID_SIZE });

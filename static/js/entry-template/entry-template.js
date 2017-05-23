@@ -65,16 +65,28 @@ let templateEditor = {
         this.elements.push(element);
 
         if (newElement) {
-            let maxY = 0;
-            $('main .element').not(element.dom[0]).each(function() {
-                let r = this.getBoundingClientRect();
+            if(element.page == 'page-one'){
+                let maxY = 0;
+                $('main .element').not(element.dom[0]).each(function() {
+                    let r = this.getBoundingClientRect();
 
-                if((r.top + r.height) > maxY) {
-                    maxY = r.top + r.height;
-                }
-            });
-            console.log(maxY);
-            element.dom.css('top', (maxY-48)+'px');
+                    if((r.top + r.height) > maxY) {
+                        maxY = r.top + r.height;
+                    }
+                });
+                element.dom.css('top', (maxY-48)+'px');
+            }
+            else if(element.page == 'page-two'){
+                let maxX = 0;
+                $('main .element').not(element.dom[0]).each(function() {
+                    let r = this.getBoundingClientRect();
+
+                    if((r.left + r.width) > maxX) {
+                        maxX = r.left + r.width;
+                    }
+                });
+                element.dom.css('left', maxX+'px');
+            }
         }
 
     },
@@ -98,11 +110,13 @@ let templateEditor = {
             }
 
             if (element.isRemovable()) {
-                elementProperties.find('.delete-element').click(function() {
+                let removeElement = function() {
                     elementProperties.remove();
                     that.elements.splice(that.elements.indexOf(element), 1);
                     element.dom.remove();
-                });
+                };
+                elementProperties.find('.delete-element').click(removeElement);
+                element.dom.find('.delete-element').click(removeElement);
             }
             else {
                 elementProperties.find('.delete-element').hide();
@@ -318,12 +332,7 @@ $(document).ready(function() {
     });
     $(document).keypress(function(e) {
     if(e.which == 13) {
-        if($('.floating-toolbar').is(':visible')){
-            $('.floating-toolbar').hide();
-        }
-        if($('.properties-box').is(':visible')){
-            $('.properties-box').hide();
-        }
+        if($('.floating-toolbar').is(':visible')){}
     }
 });
     function checkElementCollision(element, targetObjects){

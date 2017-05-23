@@ -74,7 +74,7 @@ let page1 = {
 
     addExcerptBox: function(element) {
         let that = this;
-        let excerptBox = $('<div class="excerpt-box-container"><label>Image</label><textarea placeholder="Enter excerpt here"></textarea></div>');
+        let excerptBox = $('<div class="excerpt-box-container"><label>Excerpt</label><textarea placeholder="Enter excerpt here"></textarea></div>');
         excerptBox.css('width', element.size.width);
         excerptBox.css('height', element.size.height);
         excerptBox.css('left', element.position.left);

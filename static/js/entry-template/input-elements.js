@@ -3,6 +3,7 @@ class InputElement extends Element {
         let dom = $('<div class="element ' + className + ' input-element"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
+        dom.append($('<div class="fa fa-trash delete-element"></div>'));
         dom.append($('<div class="input-container"><label class="title">' + defaultLabel + '</label></div>'));
         dom.find('.input-container').append(inputDom);
         dom.find('.input-container').resizable({ grid: GRID_SIZE });
@@ -86,6 +87,7 @@ class MultiselectInput extends Element {
         let dom = $('<div class="element multiselect-element"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
+        dom.append($('<div class="fa fa-trash delete-element"></div>'));
         dom.append($('<div class="input-container"><label class="title">Groups</label></div>'));
         dom.find('.input-container').append($('<select multiple><option value="">Select groups</option></select>'));
         dom.find('.input-container').resizable({ grid: GRID_SIZE, handles: 'e, w', });
