@@ -15,6 +15,8 @@ from users.log import *
 class ProjectDetailsView(View):
     @method_decorator(login_required)
     def get(self, request, project_id):
+        project = Event.objects.get(pk=project_id)
+
         context = {}
         context["current_page"] = "project-details"
         context["project_id"] = project_id
@@ -27,7 +29,7 @@ class ProjectDetailsView(View):
         )
 
         context["users"] = User.objects.all()
-        context["project"] = Event.objects.get(pk=project_id)
+        context["project"] = project
 
         if "selected_group" in request.GET:
             context["selected_group"] = int(request.GET["selected_group"])

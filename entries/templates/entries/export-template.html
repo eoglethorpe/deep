@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+{% load watchful_url %}
+
+{% block title %}
+DEEP | Export
+{% endblock %}
+
+{% block head %}
+<link href="{% watchful_static_url 'css/jquery-ui.min.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/selectize.css' %}" type="text/css" rel="stylesheet"/>
+<link href="{% watchful_static_url 'css/modal.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/export.css' %}" type="text/css" rel="stylesheet">
+
+<script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entries/template-export.js' %}"></script>
+
+<script>
+var eventId = "{{ event.pk }}";
+var exportProgressUrl = "{% url 'export_progress' %}";
+var downloadUrl = "{% url 'download_file' %}";
+
+{% if entry_template %}
+let templateData = {
+    name: '{{ entry_template.name }}',
+    elements: JSON.parse('{{ entry_template.elements|escapejs }}'),
+};
+{% endif %}
+</script>
+
+{% endblock %}
+
+{% block body %}
+
+{% include 'navbar.html' %}
+
+<aside id="preview-section">
+    <div>No preview available</div>
+    <iframe src="about:blank" hidden></iframe>
+</aside>
+
+<main>
+    <section id="entries-export">
+        <h2>Entries</h2>
+        <div>
+            <form id="export-entries-doc-form" action="{% url 'entries:exportdoc' event=event.pk %}" method="post">
+                <div id="filter-section">
+                    <h4>Filters</h4>
+                    <div class="filters">
+                        
+                        <div class="filter-group" id="basic-information-filters">
+                            <header>
+                                <h5>Basic Information:</h5>
+                            </header>
+                            <div class="filters-container">
+                                <div class="filter">
+                                    <input type="text" name="excerpt" id="search" placeholder="Search excerpt">
+                                </div>
+                                <div class="filter">
+                                    <select name="users" id="users-filter" multiple>
+                                        <option value="">Imported by</option>
+                                        {% for u in users %}
+                                        <option value="{{u.pk}}">{{u.get_full_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="filter">
+                                    <select id="date-imported-filter">
+                                        <option value="">Date imported</option>
+                                        <option value="today">Today</option>
+                                        <option value="yesterday">Yesterday</option>
+                                        <option value="last-seven-days">Last 7 days</option>
+                                        <option value="this-week">This week</option>
+                                        <option value="last-thirty-days">Last 30 days</option>
+                                        <option value="this-month">This month</option>
+                                        <option value="range">Range</option>
+                                    </select>
+                                </div>
+                                <input id="date-imported-start" name="date_imported_start" type="hidden">
+                                <input id="date-imported-end" name="date_imported_end" type="hidden">
+                            </div>
+                        </div>
+
+                        <div class="filter-group" id="entry-attributes-filters">
+                            <header>
+                                <h5>Entry Attributes:</h5>
+                            </header>
+                            <div class="filters-container">
+                            </div>
+                        </div>
+
+                        <div class="filter-group" id="lead-information-filters">
+                            <header>
+                                <h5>Lead Information:</h5>
+                            </header>
+                            <div class="filters-container">
+                                <div class="filter">
+                                    <input type="text" name="lead_title" id="lead-title-search" placeholder="Lead title">
+                                </div>
+                                <div class="filter">
+                                    <input type="text" name="source" id="sources-filter" placeholder="Source">
+                                </div>
+                                <div class="filter">
+                                    <select id="date-published-filter">
+                                        <option value="">Date published</option>
+                                        <option value="today">Today</option>
+                                        <option value="yesterday">Yesterday</option>
+                                        <option value="last-seven-days">Last 7 days</option>
+                                        <option value="this-week">This week</option>
+                                        <option value="last-thirty-days">Last 30 days</option>
+                                        <option value="this-month">This month</option>
+                                        <option value="range">Range</option>
+                                    </select>
+                                </div>
+                                <input id="date-published-start" name="date_published_start" type="hidden">
+                                <input id="date-published-end" name="date_published_end" type="hidden">
+                            </div>
+                        </div>
+
+                        <div class="filter-group" id="leads-selection">
+                            <header >
+                                <h5 onclick="$(this).closest('.filter-group').toggleClass('filters-shown').find('.filters-container').slideToggle('200')"><label>Leads: <span id='selected-leads-count'></span></label><i class="fa fa-chevron-down"></i></h5>
+                            </header>
+                            <div class="filters-container" hidden>
+                                {% include 'entries/export-leads.html' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="structure-section">
+                    <h4>Report Structure</h4>
+                    
+                    <input id="list-order" name="list-order" value="" type="hidden">
+                    <div class="check-group-list">
+                    </div>
+
+                    <div class="check-template" hidden><label><input type="checkbox"><span class="name"></span><span class="number"></span></label></div>
+                    <div class="check-group-template expandable" hidden>
+                        <header class="check"><label><input type="checkbox"><span class="name"></span><span class="number"></span></label><a class="fa fa-chevron-down check-group-expand"></a></header>
+                        <div class="content" hidden></div>
+                        <input class="group-order" type="hidden">
+                    </div>
+                </div>
+                <div id="action-section">
+                    <div>
+                        <div class="export-format">
+                            <label class="active"><input type="radio" name="export-format" value="generic" checked> Generic</label>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn-pdf" id="export-pdf" type="button"><i class="fa fa-file-pdf-o"></i>Export pdf</button>
+                            <button class="btn-word" id="export-docx" type="button"><i class="fa fa-file-word-o"></i>Export docx</button>
+                            <button class="btn-word" id="preview-docx" type="button"><i class="fa fa-file-word-o"></i>Preview docx</button>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn-excel" type="button" id="export-xlsx"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
+                        <button class="btn-json export-button" type="button" data-url="{% url 'api_entries:entries' %}?event={{event.pk}}&file=1"><i class="fa fa-file-text-o"></i>Export json</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+
+<div class="modal-container" hidden>
+<div id="date-range-input" class="modal" hidden>
+    <header>
+        <h3 class="modal-title">Enter date range</h3>
+    </header>
+    <div class="input-container">
+        <label>start date:</label>
+        <input type="date" id="start-date" class="form-control">
+    </div>
+    <div class="input-container">
+        <label>end date:</label>
+        <input type="date" id="end-date" class="form-control">
+    </div>
+    <div class="action-buttons">
+        <button id="cancel-btn" class="cancel" data-action="dismiss"><i class="fa fa-times"></i>Cancel</button>
+        <button id="ok-btn" class="success" data-action="proceed"><i class="fa fa-check"></i>Ok</button>
+    </div>
+</div>
+
+<div class="date-filter-template" hidden>
+    <select>
+        <option value=""></option>
+        <option value="today">Today</option>
+        <option value="yesterday">Yesterday</option>
+        <option value="last-seven-days">Last 7 days</option>
+        <option value="this-week">This week</option>
+        <option value="last-thirty-days">Last 30 days</option>
+        <option value="this-month">This month</option>
+        <option value="range">Range</option>
+    </select>
+    <input class="date-start" type="hidden">
+    <input class="date-end" type="hidden">
+</div>
+
+{% endblock %}
+
