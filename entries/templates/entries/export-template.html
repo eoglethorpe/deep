@@ -45,7 +45,7 @@ let templateData = {
     <section id="entries-export">
         <h2>Entries</h2>
         <div>
-            <form id="export-entries-doc-form" action="{% url 'entries:exportdoc' event=event.pk %}" method="post">
+            <form id="entries-export-form" action="{% url 'entries:exportdoc' event=event.pk %}" method="post">
                 <div id="filter-section">
                     <h4>Filters</h4>
                     <div class="filters">

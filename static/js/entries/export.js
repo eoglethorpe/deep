@@ -276,7 +276,6 @@ $(document).ready(function(){
     });
 
     $('#export-docx').click(function() {
-        $('#export-entries-doc-form').submit();
         getExportUrl(false).then((url) => {
             window.open(exportProgressUrl + '?url=' + encodeURIComponent(url+'&export-docx=docx'), '_blank');
         });

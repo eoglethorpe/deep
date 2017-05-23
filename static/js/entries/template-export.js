@@ -15,7 +15,65 @@ $(document).ready(function() {
     $('#date-imported-filter').selectize();
     $('#users-filter').selectize();
 
+
+    $('#entries-export-form').submit(function(e) {
+        e.preventDefault();
+    });
+
+    $('#export-docx').click(function() {
+        getExportUrl(false).then((url) => {
+            window.open(exportProgressUrl + '?url=' + encodeURIComponent(url + '&export-docx=docx'), '_blank');
+        });
+    });
+
+    $('#export-pdf').click(function() {
+        getExportUrl(false).then((url) => {
+            window.open(exportProgressUrl + '?url=' + encodeURIComponent(url+'&export-pdf=pdf'), '_blank');
+        });
+    });
+
+    // $('#export-xlsx').click(function() {
+    //     getExportUrl(false).then((url) => {
+    //         window.open(exportProgressUrl + '?url=' + encodeURIComponent(url+'&export-xls=xls'), '_blank');
+    //     });
+    // });
+
+    $('#preview-docx').click(function() {
+        $('#preview-section').find('iframe').hide();
+        $('#preview-section').find('>div').show();
+        $('#preview-section').find('>div').html('<span class="fa fa-spin fa-spinner"></span>Exporting file for preview');
+
+        getExportUrl().then((url) => {
+            $.getJSON(downloadUrl + '?url=' + encodeURIComponent(url+'&export-docx=docx'), function(data) {
+                let tempUrl = window.location.origin + downloadUrl + "?path="
+                    + encodeURIComponent(data.path) + "&filename="
+                    + encodeURIComponent(data.filename) + "&content_type="
+                    + encodeURIComponent(data.content_type);
+
+                $('#preview-section').find('iframe').attr('src', 'https://docs.google.com/viewer?url=' + encodeURIComponent(tempUrl) + '&embedded=true&chrome=false&dov=1');
+                $('#preview-section').find('>div').hide();
+                $('#preview-section').find('iframe').show();
+            });
+        });
+    });
+
 });
+
+
+function getExportUrl(async=true) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: 'POST',
+            url: window.location.origin + $('#entries-export-form').attr('action') + '?timestamp=' + (new Date().getTime()),
+            data: $('#entries-export-form').serialize(),
+            success: function(response) {
+                resolve(window.location.origin + $('#entries-export-form').attr('action') + '?token=' + response.token +
+                        '&export-format=analysis-generic&timestamp=?' + (new Date().getTime()));
+            },
+            async: async,
+        });
+    });
+}
 
 
 let dateRangeInputModal;

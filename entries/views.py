@@ -14,8 +14,8 @@ from leads.models import *
 from entries.models import *
 from entries.strippers import *
 from entries.entry_filters import filter_informations
-from entries.export_entries_docx import export_docx, export_docx_new_format
-from entries.export_entries_pdf import export_pdf, export_pdf_new_format
+from entries.export_entries_docx import export_docx, export_docx_new_format, export_analysis_docx
+from entries.export_entries_pdf import export_pdf, export_analysis_pdf, export_pdf_new_format
 from entries.export_entries_xls import export_xls
 from report.export_xls import export_xls as export_xls_weekly
 from entries.refresh_pcodes import *
@@ -116,12 +116,19 @@ class ExportDoc(View):
 
         response = HttpResponse(content_type=content_type)
 
-        if request.GET.get('export-format') == 'geo':
+        if request.GET.get('export-format') == 'analysis-generic':
+            format_name = 'Generic Export'
+            if request.GET.get('export-pdf') == 'pdf':
+                response.write(export_analysis_pdf(int(event), informations, data=request_data))
+            else:
+                export_analysis_docx(int(event), informations, data=request_data).save(response)
+
+        elif request.GET.get('export-format') == 'geo':
             format_name = 'Geo Export'
             if request.GET.get('export-pdf') == 'pdf':
-                response.write(export_pdf(int(event), informations, export_geo=True))
+                response.write(export_pdf(int(event), informations, data=request_data, export_geo=True))
             else:
-                export_docx(int(event), informations, export_geo=True).save(response)
+                export_docx(int(event), informations, data=request_data, export_geo=True).save(response)
 
         elif request.GET.get('export-format') == 'briefing':
             format_name = 'Briefing Note'

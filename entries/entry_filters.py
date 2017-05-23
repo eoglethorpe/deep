@@ -15,6 +15,9 @@ def filter_informations(data, event=None):
         else:
             informations = informations.filter(entry__template__isnull=False)
 
+    if event and event.entry_template:
+        return informations.distinct()
+
     if data.get('leads'):
         informations = informations.filter(entry__lead__pk__in=json.loads(data.get('leads')))
 

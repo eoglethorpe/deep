@@ -4,6 +4,7 @@ import datetime
 import tempfile
 import base64
 import re
+import json
 
 import docx
 # from docx import RT
@@ -365,8 +366,8 @@ def export_docx(event, informations=None, data=None, export_geo=False):
 
     if len(leads_pk) == 0:
         leads = []
-    else:
         leads_pk = list(set(leads_pk))
+    else:
         leads = entry_model.Lead.objects.filter(pk__in=leads_pk)
 
     for lead in leads:
@@ -398,9 +399,160 @@ def export_docx(event, informations=None, data=None, export_geo=False):
     return d
 
 
+def export_analysis_docx(event, informations=None, data=None):
+    event = entry_model.Event.objects.get(pk=event)
+    if not event.entry_template:
+        raise Exception('Event has no analysis framework')
+
+    d = docx.Document('static/doc_export/template.docx')
+
+    # Set document styles
+    set_style(d.styles["Normal"])
+    set_style(d.styles["Heading 1"])
+    set_style(d.styles["Heading 2"])
+    set_style(d.styles["Heading 3"])
+    set_style(d.styles["Heading 4"])
+    set_style(d.styles["Heading 5"])
+
+    # Leads that are exported, needed for bibliography
+    leads_pk = []
+
+    infos = entry_model.EntryInformation.objects.filter(
+            entry__lead__event=event)
+    if informations:
+        infos = infos.filter(pk__in=informations)
+    infos = infos.distinct()
+
+    for info in infos:
+        info.data = json.loads(info.elements)
+
+    elements = json.loads(event.entry_template.elements)
+
+    # Start with matrix1d
+    matrix1ds = [e for e in elements if e['type'] == 'matrix1d']
+    for matrix1d in matrix1ds:
+
+        # Get all infos which have selections in this matrix
+        interested_infos = []
+        for info in infos:
+            data = next((d for d in info.data if d['id'] == matrix1d['id']), None)
+            if data and data['selections'] and len(data['selections']) > 0:
+                interested_infos.append((info, data))
+
+        for pillar in matrix1d['pillars']:
+            pillar_heading = False
+
+            for subpillar in pillar['subpillars']:
+                subpillar_heading = False
+
+                # Get all infos that are tagged with this pillar and subpillar
+                for info, data in interested_infos:
+                    if any(s for s in data['selections'] if
+                            s['pillar'] == pillar['id'] and s['subpillar'] == subpillar['id']):
+
+                        if not pillar_heading:
+                            pillar_heading = True
+                            d.add_heading(pillar['name'], level=2)
+
+                        if not subpillar_heading:
+                            subpillar_heading = True
+                            d.add_heading(subpillar['name'], level=3)
+
+                        p = d.add_paragraph()
+                        p.add_run(info.excerpt)
+
+                        leads_pk.append(info.entry.lead.pk)
+
+    # Next matrix 2d
+    matrix2ds = [e for e in elements if e['type'] == 'matrix2d']
+    for matrix2d in matrix2ds:
+
+        interested_infos = []
+        for info in infos:
+            data = next((d for d in info.data if d['id'] == matrix2d['id']), None)
+            if data and data['selections'] and len(data['selections']) > 0:
+                interested_infos.append((info, data))
+
+        # Similar to above but for each sector
+        for sector in matrix2d['sectors']:
+            sector_heading = False
+
+            for pillar in matrix2d['pillars']:
+                pillar_heading = False
+
+                for subpillar in pillar['subpillars']:
+                    subpillar_heading = False
+
+                    for info, data in interested_infos:
+                        if any(s for s in data['selections'] if
+                                s['pillar'] == pillar['id'] and
+                                s['subpillar'] == subpillar['id'] and
+                                s['sector'] == sector['id']):
+
+                            if not sector_heading:
+                                sector_heading = True
+                                d.add_heading(sector['title'], level=2)
+
+                            if not pillar_heading:
+                                pillar_heading = True
+                                d.add_heading(pillar['title'], level=3)
+
+                            if not subpillar_heading:
+                                subpillar_heading = True
+                                d.add_heading(subpillar['title'], level=4)
+
+                            p = d.add_paragraph()
+                            p.add_run(info.excerpt)
+
+                            leads_pk.append(info.entry.lead.pk)
+
+    add_line(d.add_paragraph())
+
+    # Bibliography
+    d.add_paragraph()
+    d.add_heading("Bibliography", level=1)
+    d.add_paragraph()
+
+    if len(leads_pk) == 0:
+        leads = []
+        leads_pk = list(set(leads_pk))
+    else:
+        leads = entry_model.Lead.objects.filter(pk__in=leads_pk)
+
+    for lead in leads:
+        p = d.add_paragraph()
+        if lead.source_name and lead.source_name != "":
+            p.add_run(lead.source_name.title())
+        else:
+            p.add_run("Missing source".title())
+
+        p.add_run(". {}.".format(lead.name.title()))
+        if lead.published_at:
+            p.add_run(" {}.".format(lead.published_at.strftime("%m/%d/%Y")))
+
+        p = d.add_paragraph()
+        if lead.url and lead.url != "":
+            add_hyperlink(p, lead.url, lead.url)
+
+        elif entry_model.Attachment.objects.filter(lead=lead).count() > 0:
+            add_hyperlink(p, lead.attachment.upload.url,
+                          lead.attachment.upload.url)
+
+        else:
+            p.add_run("Missing url.")
+
+        d.add_paragraph()
+
+    d.add_page_break()
+
+    return d
+
+
+
 def export_docx_new_format(event, informations=None):
     """
-    Export As Specified in Issue
+    Export A
+    s Specified in Issue
 
     #259
     New Export format in word - Briefing note template
