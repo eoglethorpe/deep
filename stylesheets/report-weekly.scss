@@ -98,21 +98,26 @@ aside{
         .entry{
             padding: 10px 16px;
 
-            .severity, .reliability{
-                margin-top: 15px;
-                span{
-                    width: 8px;
-                    height: 16px;
-                    display: inline-block;
-                    border-radius: 2px;
-                    margin-right: 1px;
-                }
-                // @for $i from 0 through 5 { ._#{$i}{ opacity: ($i/5); } }
-                .active{ width: 12px; height: 24px; margin-bottom: -4px; }
+            .entry-header{
+                margin-bottom: 8px;
             }
+            .sr-container{
+                display: flex;
+                .severity, .reliability{
+                    margin-right: 20px;
+                    span{
+                        width: 8px;
+                        height: 16px;
+                        display: inline-block;
+                        border-radius: 2px;
+                        margin-right: 1px;
+                    }
+                    // @for $i from 0 through 5 { ._#{$i}{ opacity: ($i/5); } }
+                    .active{ width: 12px; height: 24px; margin-bottom: -4px; }
+                }
             // .reliability{ span{ background-color: $reliability-base; } }
             // .severity{ span{ background-color: $severity-base; } }
-
+            }
             .reliability {
                 @for $i from 0 through 6 { ._#{$i}{ background-color: lighten($reliability-base, (6-$i)*10); } }
             }
@@ -134,7 +139,8 @@ aside{
                         margin-top: 10px;
                         font-weight: bold;
                         color: $info-color;
-                        width: 100%
+                        width: 100%;
+                        margin-top: -5px;
                     }
                 }
                 .excerpt-text{

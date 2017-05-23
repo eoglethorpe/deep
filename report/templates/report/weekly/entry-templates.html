@@ -4,25 +4,29 @@
         <h4></h4>
         <div><label>Source:</label><a class="source"  target = "_blank" href="#"></a></div>
     </div>
+    <div>
+        <label>Information's date:</label><date></date>
+    </div>
     <div class="information-list">
     </div>
 </div>
 
 <div class="information-template" hidden>
     <div class="information-header">
+        <div class="sr-container">
+            <div class="reliability">
+                {% for reliability in reliabilities %}
+                <span data-id="{{reliability.pk}}" class="_{{reliability.level}}  {% if data.reliability == reliability %}active{% endif %}" title="{{reliability}}"></span>
+                {% endfor %}
+            </div>
+            <div class="severity">
+                {% for severity in severities %}
+                <span data-id="{{severity.pk}}" class="_{{severity.level}}  {% if data.severity == severity %}active{% endif %}" title="{{severity}}"></span>
+                {% endfor %}
+            </div>
+        </div>
         <div>
-            <label>Information's date:</label><date></date>
             <div class="source-id" title="Click and drag Source ID">Source ID</div>
-        </div>
-        <div class="reliability">
-            {% for reliability in reliabilities %}
-            <span data-id="{{reliability.pk}}" class="_{{reliability.level}}  {% if data.reliability == reliability %}active{% endif %}" title="{{reliability}}"></span>
-            {% endfor %}
-        </div>
-        <div class="severity">
-            {% for severity in severities %}
-            <span data-id="{{severity.pk}}" class="_{{severity.level}}  {% if data.severity == severity %}active{% endif %}" title="{{severity}}"></span>
-            {% endfor %}
         </div>
     </div>
     <p class="excerpt-text"></p>
@@ -33,7 +37,7 @@
 <div class="template-information-template" hidden>
     <div class="information-header">
         <div>
-            <div class="source-id">Source id</div>
+            <div class="source-id">Source ID</div>
         </div>
     </div>
     <p class="excerpt-text"></p>

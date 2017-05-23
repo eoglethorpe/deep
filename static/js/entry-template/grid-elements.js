@@ -49,7 +49,7 @@ class Matrix1D extends Element {
         dom.append($('<button class="add-pillar"><i class="fa fa-plus"></i></button>'));
         dom.resizable({
             grid: GRID_SIZE,
-            handles: 'e, w',
+            handles: 'e',
         });
         super(container, dom);
         let that = this;
@@ -99,8 +99,10 @@ class Matrix1D extends Element {
         pillar.find('.remove-pillar').click(function() {
             pillar.remove();
         });
-        pillar.find('.edit-pillar').click(function() {
-            pillar.find('.floating-toolbar').show();
+        pillar.find('.edit-pillar').click(function(e) {
+            e.stopPropagation();
+            floatingToolbar.show();
+            floatingToolbar.trigger('visible');
         });
 
         this.makeEditable(pillar.find('.title-block'));
@@ -314,7 +316,7 @@ class Matrix2D extends Element {
         dom.append($('<h4 class="title">2D Matrix</h4>'));
         dom.append($('<div class="sectors-container"><div class="sectors sortable"></div><button class="fa fa-plus add-sector"></button></div>'));
         dom.append($('<div class="pillars-container"><div class="pillars sortable"></div><button class="fa fa-plus add-pillar"></button></div>'));
-        dom.resizable({ grid: GRID_SIZE, handles: 'e, w' });
+        dom.resizable({ grid: GRID_SIZE, handles: 'e' });
 
         super(container, dom);
 
@@ -440,7 +442,8 @@ class Matrix2D extends Element {
     addSubsector(sector) {
         let subsector = $('<div class="subsector"><input placeholder="Enter subsector"><button class="fa fa-times remove-subsector"></button></div>')
         subsector.data('id', this.getUniqueSubsectorId());
-        subsector.find('.remove-subsector').click(function() {
+        subsector.find('.remove-subsector').click(function(e) {
+            e.stopPropagation();
             subsector.remove();
         });
         subsector.appendTo(sector.find('.floating-toolbar').find('.subsectors'));

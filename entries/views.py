@@ -37,7 +37,6 @@ class ExportProgressView(View):
         return render(request, 'entries/export-progress.html', context)
 
 
-
 class ExportView(View):
     @method_decorator(login_required)
     def get(self, request, event):
@@ -47,21 +46,25 @@ class ExportView(View):
         context["all_events"] = Event.objects.all()
 
         context["users"] = User.objects.exclude(first_name="", last_name="")
-        context["pillars"] = InformationPillar.objects.all()
-        context["subpillars"] = InformationSubpillar.objects.all()
-        context["sectors"] = Sector.objects.all()
-        context["subsectors"] = Subsector.objects.all()
-        context["vulnerable_groups"] = VulnerableGroup.objects.all()
-        context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
-        context["reliabilities"] = Reliability.objects.all().order_by('level')
-        context["severities"] = Severity.objects.all().order_by('level')
-        context["affected_groups"] = AffectedGroup.objects.all()
-        context["areas"] = AdminLevelSelection.objects.filter(entryinformation__entry__lead__event__pk=event).values_list('name', flat=True)
-
         context["lead_users"] = User.objects.filter(assigned_leads__event__pk=event)
 
         UserProfile.set_last_event(request, context["event"])
-        return render(request, "entries/export.html", context)
+
+        if context["event"].entry_template:
+            context["entry_template"] = context["event"].entry_template
+            return render(request, 'entries/export-template.html', context)
+        else:
+            context["pillars"] = InformationPillar.objects.all()
+            context["subpillars"] = InformationSubpillar.objects.all()
+            context["sectors"] = Sector.objects.all()
+            context["subsectors"] = Subsector.objects.all()
+            context["vulnerable_groups"] = VulnerableGroup.objects.all()
+            context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
+            context["reliabilities"] = Reliability.objects.all().order_by('level')
+            context["severities"] = Severity.objects.all().order_by('level')
+            context["affected_groups"] = AffectedGroup.objects.all()
+            context["areas"] = AdminLevelSelection.objects.filter(entryinformation__entry__lead__event__pk=event).values_list('name', flat=True)
+            return render(request, "entries/export.html", context)
 
 
 class ExportXls(View):
@@ -170,7 +173,6 @@ class EntriesView(View):
         if int(event) != 0:
             context["event"] = Event.objects.get(pk=event)
             UserProfile.set_last_event(request, context["event"])
-
 
         if int(event) != 0 and context["event"].entry_template:
             context["entry_template"] = context["event"].entry_template
