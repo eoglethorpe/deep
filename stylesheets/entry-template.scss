@@ -175,7 +175,7 @@ body{
             position: absolute;
             border: 1px dotted $primary-color;
 
-            .handle, .edit {
+            .handle, .edit, .delete-element{
                 display: none;
                 color: #000;
                 padding: 2px;
@@ -198,9 +198,13 @@ body{
                 cursor: pointer;
                 right: 24px;
             }
-
+            .delete-element{
+                cursor: pointer;
+                color: $danger-color;
+                right: 48px;
+            }
             &:hover {
-                .handle, .edit {
+                .handle, .edit, .delete-element {
                     display: inherit;
                 }
             }

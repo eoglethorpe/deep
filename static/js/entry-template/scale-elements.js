@@ -3,6 +3,7 @@ class ScaleElement extends Element {
         let dom = $('<div class="element scale-element"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
+        dom.append($('<div class="fa fa-trash delete-element"></div>'));
         dom.append($('<div class="scale-container"><label class="title">Scale</label></div>'));
         dom.find('.scale-container').append($('<div class="scale"></div>'));
         dom.find('.scale-container').resizable({ grid: GRID_SIZE });
@@ -75,7 +76,8 @@ class ScaleElement extends Element {
             let value = $('<div class="value-container"><input class="default" name="default" type="radio"><input type="text" class="name" placeholder="Enter value name, e.g.: Critical"><input class="color" type="color"><button class="remove-value"><i class="fa fa-times"></i></button></div>');
             value.data('id', that.getUniqueId());
 
-            value.find('.remove-value').click(function() {
+            value.find('.remove-value').click(function(e) {
+                e.stopPropagation();
                 value.remove();
                 that.refreshScale();
             });

@@ -265,7 +265,7 @@ body {
       display: inline-block;
       position: absolute;
       border: 1px dotted #008080; }
-      body main .element .handle, body main .element .edit {
+      body main .element .handle, body main .element .edit, body main .element .delete-element {
         display: none;
         color: #000;
         padding: 2px;
@@ -275,7 +275,7 @@ body {
         top: 0;
         z-index: 10;
         opacity: 0.3; }
-        body main .element .handle:hover, body main .element .edit:hover {
+        body main .element .handle:hover, body main .element .edit:hover, body main .element .delete-element:hover {
           opacity: 1; }
       body main .element .handle {
         cursor: move;
@@ -283,7 +283,11 @@ body {
       body main .element .edit {
         cursor: pointer;
         right: 24px; }
-      body main .element:hover .handle, body main .element:hover .edit {
+      body main .element .delete-element {
+        cursor: pointer;
+        color: #e74c3c;
+        right: 48px; }
+      body main .element:hover .handle, body main .element:hover .edit, body main .element:hover .delete-element {
         display: inherit; }
     body main .properties-box {
       position: absolute;
