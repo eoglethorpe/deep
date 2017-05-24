@@ -84,14 +84,30 @@ You can open the *options* page of the extension, to change server url and read 
 ## Docker
 
 ### Installation
-> Install Docker [For Ubuntu](https://docs.docker.com/engine/installation/linux/ubuntu/#install-from-a-package)
+> Install Docker
+- [For Ubuntu](https://docs.docker.com/engine/installation/linux/ubuntu/#install-from-a-package)
 
-> You can build and start Deep Docker container with `docker-compose`:
+> Login to DockerHub
 
 ```bash
-$ cd deploy/
-$ docker-compose build # to build images
-$ docker-compose up -d # to create containers and run
-$ docker-compose stop # to stop containers
-$ docker-compose rm -f # to delete containers and so on...
+$ docker login
 ```
+> You can build and push Deep Docker image [replace `1.1-dev` with required version]:
+
+```bash
+$ docker build --tag eoglethorpe/deep:1.1-dev . # build image
+$ docker push eoglethorpe/deep:1.1-dev # push image to dockerhub
+```
+
+> To Build and run locally [replace `deep-dev` with required name and `eoglethorpe/deep:1.1-dev` with
+  required image name]
+
+```bash
+$ docker build --tag eoglethorpe/deep:1.1-dev . # replace 1.1-dev with required version. build image
+$ docker run -d -e ALLOWED_HOST='localhost' -p 8080:80 --name deep-dev eoglethorpe/deep:1.1-dev # run container
+$ docker stop deep-dev # to stop container
+$ docker rm deep-dev # to remove container
+```
+
+### Deploy into EBS
+- View branch `eb`

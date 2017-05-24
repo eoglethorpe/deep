@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for deep project.
 
@@ -33,7 +34,7 @@ def get_pub_ip():
             'http://169.254.169.254/latest/meta-data/public-ipv4')
         return response.text
     except:
-        return '*.*.*.*'
+        return 'localhost'
 
 ALLOWED_HOSTS = [get_pub_ip(), os.environ.get('ALLOWED_HOST')]
 
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'storages',
     'rest_framework',
     'corsheaders',
     'django_cleanup',
@@ -178,17 +180,37 @@ LOGIN_URL = "login"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
-MEDIA_URL = '/media/'
+        os.path.join(BASE_DIR, "static"),
+    ]
 
-if os.environ.get('IN_DOCKER'):
-    STATIC_ROOT = os.environ['STATIC_ROOT']
-    MEDIA_ROOT = os.environ['MEDIA_ROOT']
+if os.environ.get('USE_S3', False):
+    # AWS S3 Bucket Credentials
+    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+
+    AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+    # Static configuration
+    STATICFILES_LOCATION = 'static'
+    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
+    STATICFILES_STORAGE = 'deep.s3_storages.StaticStorage'
+
+    # Media configuration
+    MEDIAFILES_LOCATION = 'media'
+    MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
+    DEFAULT_FILE_STORAGE = 'deep.s3_storages.MediaStorage'
+
 else:
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
+
+    if os.environ.get('IN_DOCKER'):
+        STATIC_ROOT = os.environ['STATIC_ROOT']
+        MEDIA_ROOT = os.environ['MEDIA_ROOT']
+    else:
+        MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # django-cors-headers configurations
 CORS_ORIGIN_ALLOW_ALL = True

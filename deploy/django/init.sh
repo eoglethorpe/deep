@@ -9,6 +9,7 @@ virtualenv venv
 # Install DEEP reqs
 . ./venv/bin/activate
 pip install -U pip
+pip install -U --upgrade pip
 pip install -U appdirs uwsgi setuptools
 pip install -r ./deep/requirements.txt --upgrade
 
@@ -27,5 +28,3 @@ chmod +x /etc/init.d/remote_syslog
 update-rc.d remote_syslog defaults
 
 mkdir /var/log/uwsgi
-
-

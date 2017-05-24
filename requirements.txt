@@ -21,3 +21,5 @@ python-docx==0.8.6
 readability-lxml==0.6.2
 requests==2.13.0
 six==1.10.0
+boto3==1.4.4
+django-storages==1.5.2
