@@ -419,7 +419,7 @@ def export_analysis_docx(event, informations=None, data=None):
 
     infos = entry_model.EntryInformation.objects.filter(
             entry__lead__event=event)
-    if informations:
+    if informations is not None:
         infos = infos.filter(pk__in=informations)
     infos = infos.distinct()
 
@@ -427,6 +427,95 @@ def export_analysis_docx(event, informations=None, data=None):
         info.data = json.loads(info.elements)
 
     elements = json.loads(event.entry_template.elements)
+
+    # First we apply filters, not yet applied to the informations
+    # This includes attributes filters
+
+    for element in elements:
+        # Multiselect and organigram are similar in structure
+        if element['type'] in ['multiselect', 'organigram']:
+            options = data.get(element['id'])
+            if options:
+                options = set(options)
+                infos = [i for i in infos
+                         if any(d for d in i.data
+                                if d['id'] == element['id'] and d.get('value')
+                                and (options & set(d['value'])))]
+
+        # Geolocations
+        # TODO
+        elif element['type'] == 'matrix1d':
+            filters = data.get(element['id'])
+            if filters:
+                filters = set([tuple(f.split(':')) if ':' in f else (f, None) for f in filters])
+
+                infos = [i for i in infos
+                         if any(d for d in i.data
+                                if d['id'] == element['id'] and d.get('selections')
+                                and (
+                                    set(
+                                        [(s.get('pillar'), s.get('subpillar')) for s in d['selections']] +
+                                        [(s.get('pillar'), None) for s in d['selections'] if s.get('subpillar') is not None]
+                                    ) & filters
+                                ))]
+
+        elif element['type'] == 'matrix2d':
+            # Pillar subpillars
+            filters = data.get(element['id'])
+            if filters:
+                filters = set([tuple(f.split(':')) if ':' in f else (f, None) for f in filters])
+
+                infos = [i for i in infos
+                         if any(d for d in i.data
+                                if d['id'] == element['id'] and d.get('selections')
+                                and (
+                                    set(
+                                        [(s.get('pillar'), s.get('subpillar')) for s in d['selections']] +
+                                        [(s.get('pillar'), None) for s in d['selections'] if s.get('subpillar') is not None]
+                                    ) & filters
+                                ))]
+
+            # Sectors and subsectors
+            filters = data.get(element['id'] + '_sectors')
+            if filters:
+                filters = set([tuple(f.split(':')) if ':' in f else (f, None) for f in filters])
+
+                infos = [i for i in infos
+                         if any(d for d in i.data
+                                if d['id'] == element['id'] and d.get('selections')
+                                and (
+                                    set(
+                                        [(s.get('sector'), ss)
+                                         for s in d['selections'] if s.get('subsectors')
+                                         for ss in s['subsectors'] if d.get('selections')]
+                                        +
+                                        [(s.get('sector'), None) for s in d['selections'] if not s.get('subsectors')]
+                                    ) & filters
+                                ))]
+
+        elif element['type'] == 'scale':
+
+            scales = {}
+            for i, scale in enumerate(element['scaleValues']):
+                scales[scale['id']] = i
+
+            min_filter = data.get(element['id'] + '_min')[0]
+            if min_filter:
+                min_val = scales[min_filter]
+                infos = [i for i in infos
+                         if any(d for d in i.data
+                                if d['id'] == element['id'] and d.get('value')
+                                and scales[d['value']] >= min_val)]
+
+            max_filter = data.get(element['id'] + '_max')[0]
+            if max_filter:
+                max_val = scales[max_filter]
+                infos = [i for i in infos
+                         if any(d for d in i.data
+                                if d['id'] == element['id'] and d.get('value')
+                                and scales[d['value']] <= max_val)]
+
+    # Next export the filtered informations
 
     # Start with matrix1d
     matrix1ds = [e for e in elements if e['type'] == 'matrix1d']

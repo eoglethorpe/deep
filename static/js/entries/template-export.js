@@ -252,9 +252,9 @@ let attributesFilters = {
                 });
             }
         }
-        else if (element.type == 'geolocations') {
-            this.addTextFilter(element.id, element.label);
-        }
+        // else if (element.type == 'geolocations') {
+        //     this.addTextFilter(element.id, element.label);
+        // }
         else if (element.type == 'matrix1d') {
             let filter = this.addMultiSelectFilter(element.id, element.title).find('select');
 
@@ -296,7 +296,7 @@ let attributesFilters = {
                 }
             }
             
-            filter = this.addMultiSelectFilter(element.id + '-sectors',
+            filter = this.addMultiSelectFilter(element.id + '_sectors',
                     'Sectors and subsectors').find('select');
             for (let i=0; i<element.sectors.length; i++) {
                 let sector = element.sectors[i];
@@ -334,7 +334,7 @@ let attributesFilters = {
 
     addTextFilter: function(id, label) {
         let filter = $('<div class="filter"></div>');
-        filter.append('<input placeholder="' + label + '">');
+        filter.append('<input placeholder="' + label + '" name="' + id + '">');
 
         this.filtersContainer.append(filter);
         return filter;
@@ -363,7 +363,7 @@ let attributesFilters = {
     },
 
     addMultiSelectFilter: function(id, label) {
-        let filter = $('<div class="filter"><select multiple></select></div>');
+        let filter = $('<div class="filter"><select multiple name="' + id + '"></select></div>');
         filter.find('select').append($('<option value="">' + label + '</option>'));
         filter.find('select').selectize();
 
@@ -375,8 +375,8 @@ let attributesFilters = {
         let filter = $('<div class="filter range-filter"></div>');
 
         filter.append('<label>' + label + '</label>');
-        filter.append('<select class="min-filter"><option value="">From</option></select>');
-        filter.append('<select class="max-filter"><option value="">To</option></select>');
+        filter.append('<select class="min-filter" name="' + id  + '_min"><option value="">From</option></select>');
+        filter.append('<select class="max-filter" name="' + id + '_max"><option value="">To</option></select>');
         filter.find('select').selectize();
 
         filter.find('select').change(function() {

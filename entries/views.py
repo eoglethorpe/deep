@@ -96,9 +96,9 @@ class ExportDoc(View):
             except:
                 pass
 
-        if not informations:
+        if informations is None:
             informations = filter_informations(request.GET, Event.objects.get(pk=event)).values_list('id', flat=True)
-        if not request_data:
+        if request_data is None:
             request_data = dict(request.GET)
 
         # Excel export
