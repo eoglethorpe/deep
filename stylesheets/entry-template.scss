@@ -397,13 +397,18 @@ body{
         .page-one-entry-selector {
             left: 32px;
             top: 32px;
+            min-width: 108px;
 
             .select-container {
                 width: 200px;
+                min-width: 108px;
 
                 select {
+                    min-width: 108px;
                     width: 100%;
                     height: 100%;
+                }
+                input{
                 }
             }
         }
@@ -443,6 +448,8 @@ body{
             top: 72px;
 
             .image-container {
+                min-width: 48px;
+                min-height: 48px;
                 display: inline-block;
                 width: 200px;
                 height: 200px;
@@ -464,7 +471,10 @@ body{
         }
 
         .input-element {
+            min-width: 96px;
+
             .input-container {
+                min-width: 96px;
                 width: 100%;
                 height: 100%;
 
@@ -520,6 +530,8 @@ body{
         }
 
         .matrix1d {
+            min-width: 240px;
+
             .title {
                 height: 32px;
                 padding: 0 16px;
@@ -706,6 +718,8 @@ body{
         }
 
         .matrix2d {
+            min-width: 300px;
+
             .title{
                 height: 32px;
                 padding: 0 16px;
@@ -1144,6 +1158,7 @@ body{
                     z-index: 1;
 
                     .container, .excerpt-container, .input-container {
+                        min-width: 96px;
                         height: 100%;
                     }
                 }
