@@ -2,6 +2,8 @@
 from deep.serializer import Serializer
 from leads.models import *
 
+import os
+
 
 class CountrySerializer(Serializer):
     fields = {
@@ -73,6 +75,7 @@ class LeadSerializer(Serializer):
         'url': 'url',
         'website': 'website',
         'attachment': 'attachment',
+        'number_of_entries': 'number_of_entries',
     }
 
     def get_attachment(self, lead):
@@ -82,8 +85,14 @@ class LeadSerializer(Serializer):
                 'name': os.path.basename(attachment.upload.name),
                 'url': attachment.upload.url
             }
-        except:
+        except Exception as e:
             return None
+
+    def get_number_of_entries(self, lead):
+        total = 0
+        for entry in lead.entry_set.all():
+            total += entry.entryinformation_set.count()
+        return total
 
 
 class SosSerializer(Serializer):

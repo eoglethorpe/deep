@@ -100,8 +100,8 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
         <div class="actions">
             <!--button class="btn btn-default" name="post" value="save-and-another">Save and add another</button-->
             <a href="{% url 'leads:leads' event.pk %}" onclick="return confirm('All changes will be discarded. Are you sure?');" id="cancel-btn" class="btn btn-default">Cancel</a>
-            <button class="submit-btn btn btn-primary" type="submit">Submit</button>
-            <button name="add-entry" class="submit-btn btn btn-primary" type="submit">Submit and Add Entry</button>
+            <button class="submit-btn" type="submit">Submit</button>
+            <button name="add-entry" class="submit-btn" type="submit">Submit and Add Entry</button>
         </div>
     </form>
 </section>
@@ -136,7 +136,7 @@ Dropzone.options.attachmentDropzone = {
         });
 
         var dz = this;
-        this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
+        $("button[type=submit]").on("click", function(e) {
             // if (!confirm("Are you sure you want to save these changes?")) {
             //    e.preventDefault();
             //    e.stopPropagation();
@@ -157,7 +157,11 @@ Dropzone.options.attachmentDropzone = {
 
         // for multiple, successmultiple
         this.on("success", function(files, response) {
-            window.location.href = url; //"{% url 'leads:leads' event=event.pk %}";
+            if (response.url) {
+                window.location.href = response.url;
+            } else {
+                window.location.href = url;
+            }
         });
 
         // for multiple, errormultiple

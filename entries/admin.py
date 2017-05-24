@@ -47,3 +47,5 @@ admin.site.register(Reliability)
 admin.site.register(Severity)
 
 admin.site.register(Entry, EntryAdmin)
+
+admin.site.register(EntryTemplate)

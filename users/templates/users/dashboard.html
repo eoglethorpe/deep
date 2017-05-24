@@ -34,20 +34,6 @@ DEEP | Dashboard
         },{% endfor %}
     ];
 
-    var weekly_reports = [
-        {% for report in weekly_reports %}
-        {
-            start_date: new Date("{{ report.0|date:'Y-m-d' }}"), end_date: new Date("{{ report.1|date:'Y-m-d' }}"),
-            countries: [{% for country in report.2 %} "{{country.code}}", {% endfor %}],
-            crises: [{% for crisis in report.3 %} "{{crisis.pk}}", {% endfor %}],
-            report_ids: [{% for report_id in report.4 %} "{{report_id}}", {% endfor %}],
-            label: "{{report.5}}",
-            data: [{% for data in report.6 %} {{data|safe}}, {% endfor %}],
-            created_at: [{% for dt in report.7 %} "{{ dt|date:'Y-m-d' }}", {% endfor %}],
-        },
-        {% endfor %}
-    ]
-
     var countries = {
         {% for country in countries %}
         "{{country.code}}": "{{country.name}}",
@@ -109,6 +95,7 @@ DEEP | Dashboard
                 <div class="weeks"></div>
             </header>
             <div id="reports">
+                <p class="loading-message">Loading reports ...</p>
             </div>
             <div id="horizontal-scroll">
                 <div class="aside"></div>

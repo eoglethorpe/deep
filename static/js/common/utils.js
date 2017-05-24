@@ -82,8 +82,6 @@ $(document).ready(function(){
     addTodayButtons();
 });
 
-
-
 function formatDate(date) {
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
@@ -94,6 +92,18 @@ function formatDate(date) {
     if (day.length < 2) day = '0' + day;
 
     return [day, month, year].join('-');
+}
+
+function formatDateReverse(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
 }
 
 function formatTime(time) {
@@ -139,7 +149,6 @@ function searchAndHighlight(content, searchString) {
     }
     return text;
 }
-
 
 // get cookie
 function getCookie(name) {
@@ -218,6 +227,12 @@ Date.prototype.getWeekYear = function ()
     return target.getFullYear();
 }
 
+// Add number of days to a date
+Date.prototype.addDays = function(days) {
+    this.setDate(this.getDate() + parseInt(days));
+    return this;
+};
+
 // http://stackoverflow.com/a/16591175/4328459
 function getDateOfISOWeek(w, y) {
     var simple = new Date(y, 0, 1 + (w - 1) * 7);
@@ -248,6 +263,7 @@ function getNumberValue(element){
 // formats number in 1 000 000 format
 function formatNumber(numInput){
     var val = (('' + numInput.val()).replace(/\s/g, '')).split('').reverse().join('');
+    val = val.replace(/[^0-9\.]/gi, '');
 
     var newVal = '';
     for(var i=0; i<val.length; i++){
@@ -300,7 +316,56 @@ function migrate(data, dataModel) {
     }
 }
 
+// Check if object has all invalid values
+function isNullObject(obj) {
+    if (obj instanceof Array) {
+        if (obj.length > 0) {
+            return false;
+        }
+    }
+    else if (obj instanceof Object) {
+        for (var key in obj) {
+            if (!isNullObject(obj[key])) {
+                return false;
+            }
+        }
+    }
+    else {
+        if (obj) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Auto resize based on children
+function autoResize(dom) {
+    let maxHeight = 120;
+    let maxWidth = 120;
+    dom.find('>*').each(function() {
+        let height = $(this).height() + parseInt($(this).css('top'));
+        if (height > maxHeight) {
+            maxHeight = height;
+        }
+
+        let width = $(this).width() + parseInt($(this).css('left'));
+        if (width > maxWidth) {
+            maxWidth = width;
+        }
+    });
+    dom.css('height', (maxHeight+32)+'px');
+    dom.css('min-width', (maxWidth+32)+'px');
+}
+
 //TODO: Queue, Callback
 function showToast(msg){
     $('.float-alert-toast').html(msg).fadeIn().delay(3000).fadeOut(400);
+}
+
+function rgb2hex(orig){
+    var rgb = orig.replace(/\s/g,'').match(/^rgba?\((\d+),(\d+),(\d+)/i);
+    return (rgb && rgb.length === 4) ? "#" +
+        ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+        ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+        ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : orig;
 }

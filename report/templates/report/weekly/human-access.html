@@ -9,7 +9,7 @@
                     <option value="No">No</option>
                     <option value="DNK">DNK</option>
                 </select>
-                <input class="access-source" data-access-pk="{{field.pk}}" type="text" name="source" placeholder="Source/Date">
+                <div class="access-source source-new" data-access-pk="{{field.pk}}"></div>
                 <input class="access-comment" data-access-pk="{{field.pk}}" type="text" name="comment" placeholder="Comment">
             </div>
             {% endfor %}
@@ -19,7 +19,7 @@
             <div class="human-access-pin-field">
                 <label class="title">{{field.name}}</label>
                 <input class="number access-pin-number" data-access-pin-pk="{{field.pk}}" placeholder="Number">
-                <input class="access-pin-source source-droppable" data-access-pin-pk="{{field.pk}}" placeholder="Source/Date">
+                <div class="access-pin-source source-new" data-access-pin-pk="{{field.pk}}"></div>
                 <input class="access-pin-comment" data-access-pin-pk="{{field.pk}}" placeholder="Comment">
             </div>
             {% endfor %}

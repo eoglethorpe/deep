@@ -34,6 +34,12 @@ class HumanProfileField(models.Model):
     dashboard_displaced_field = models.BooleanField(default=False)
     severity_score_total_pin_field = models.BooleanField(default=False)
 
+    TABS = (
+        ('HUM', 'Humanitarian profile'),
+        ('CAS', 'Casualties'),
+    )
+    tab = models.CharField(max_length=3, choices=TABS, default='HUM')
+
     def __str__(self):
         if self.parent:
             return self.name + " [" + self.parent.name + "]"
@@ -69,6 +75,8 @@ class PeopleInNeedField(models.Model):
 
     severity_score_total_pin_field = models.BooleanField(default=False)
 
+    order = models.IntegerField(default=1)
+
     def __str__(self):
         if self.parent:
             return self.name + " [" + self.parent.name + "]"
@@ -76,6 +84,7 @@ class PeopleInNeedField(models.Model):
 
     class Meta:
         verbose_name_plural = "PIN Fields"
+        ordering = ['order']
 
 
 

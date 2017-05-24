@@ -24,6 +24,51 @@ var activeSeverities  = [];
 var searchFilterText = "";
 var leadTitleFilterText = "";
 
+
+function loadEntriesData(data) {
+    data = data.data;
+
+    // TODO only append entries whose pk are not present
+    let newEntryIndex = originalEntries.length;
+    originalEntries = originalEntries.concat(data);
+    originalEntries.sort(function(e1, e2) {
+        return new Date(e2.created_at) - new Date(e1.created_at);
+    });
+
+    // Get areas options
+    for (var i=0; i<data.length; ++i) {
+        for (var j=0; j<data[i].informations.length; ++j) {
+            var info = data[i].informations[j];
+            info.entryIndex = i + newEntryIndex;
+
+            if (info.map_selections) {
+                for (var k=0; k<info.map_selections.length; ++k) {
+                    var ms = info.map_selections[k];
+                    areasSelectize[0].selectize.addOption({value:ms.name, text:ms.name});
+                }
+            }
+        }
+    }
+}
+
+function readEntries() {
+    function updateEntries(index, count) {
+        $.getJSON("/api/v2/entries/?" + (eventId?("event="+eventId+'&'):'') + 'index='+index+'&count='+count, function(data){
+            loadEntriesData(data);
+            filterEntries();
+            renderEntries(false);
+
+            if (data.data.length != 0) {
+                updateEntries(index+count, count);
+            } else {
+                renderEntries(true);
+            }
+        });
+    };
+
+    updateEntries(0, 5);
+}
+
 function clearFilters() {
     filters = {};
     $('input').val('');
@@ -105,29 +150,7 @@ function initEntryFilters() {
     selectizes.push($('#severities-min-filter').selectize({plugins: ['remove_button']}));
     selectizes.push($('#severities-max-filter').selectize({plugins: ['remove_button']}));
 
-    $.getJSON("/api/v2/entries/?event="+eventId, function(data){
-        data = data.data;
-        data.sort(function(e1, e2) {
-            return new Date(e2.modified_at) - new Date(e1.modified_at);
-        });
-        originalEntries = data;
-        entries = data;
-        entriesTimeline = data;
-
-        // Get areas options
-        for (var i=0; i<entries.length; ++i) {
-            for (var j=0; j<entries[i].informations.length; ++j) {
-                var info = entries[i].informations[j];
-                info.entryIndex = i;
-                for (var k=0; k<info.map_selections.length; ++k) {
-                    var ms = info.map_selections[k];
-                    areasSelectize[0].selectize.addOption({value:ms.name, text:ms.name});
-                }
-            }
-        }
-
-        renderEntries();
-    });
+    readEntries();
 
     // Filters
 
@@ -154,6 +177,9 @@ function initEntryFilters() {
                     var startDate = new Date($('#date-range-input #start-date').val());
                     var endDate = new Date($('#date-range-input #end-date').val());
                     addFilter('published-at', !startDate || !endDate, function(info) {
+                        if (!originalEntries[info.entryIndex].lead_published_at) {
+                            return false;
+                        }
                         var date = new Date(originalEntries[info.entryIndex].lead_published_at);
                         return dateInRange(date, startDate, endDate);
                     });
@@ -164,8 +190,9 @@ function initEntryFilters() {
 
         } else {
             addFilter('published-at', filterBy == "" || filterBy == null, function(info) {
-                if (originalEntries[info.entryIndex].lead_published_at)
+                if (originalEntries[info.entryIndex].lead_published_at) {
                     return filterDate(filterBy, new Date(originalEntries[info.entryIndex].lead_published_at));
+                }
                 return false;
             });
             previousPublishedDateFilterSelection = filterBy;
@@ -180,7 +207,7 @@ function initEntryFilters() {
                         var startDate = new Date($('#date-range-input #start-date').val());
                         var endDate = new Date($('#date-range-input #end-date').val());
                         addFilter('imported-at', !startDate || !endDate, function(info) {
-                            var date = new Date(originalEntries[info.entryIndex].modified_at);
+                            var date = new Date(originalEntries[info.entryIndex].created_at);
                             return dateInRange(date, startDate, endDate);
                         });
                     } else {
@@ -189,8 +216,8 @@ function initEntryFilters() {
                 });
             } else {
                 addFilter('imported-at', filterBy == "" || filterBy == null, function(info) {
-                    if (originalEntries[info.entryIndex].modified_at) {
-                        return filterDate(filterBy, new Date(originalEntries[info.entryIndex].modified_at));
+                    if (originalEntries[info.entryIndex].created_at) {
+                        return filterDate(filterBy, new Date(originalEntries[info.entryIndex].created_at));
                     }
                     return false;
                 });
@@ -202,7 +229,7 @@ function initEntryFilters() {
     $('#users-filter').change(function() {
         var filterBy = $(this).val();
         addFilter('users', filterBy == null, function(info){
-            return filterBy.indexOf(originalEntries[info.entryIndex].modified_by+'') >= 0;
+            return filterBy.indexOf(originalEntries[info.entryIndex].created_by+'') >= 0;
         });
     });
     $('#areas-filter').change(function() {
@@ -351,6 +378,12 @@ function initEntryFilters() {
         addFilter('reliabilities', minFilterBy == "" || maxFilterBy == "", function(info){
             return info.reliability >= minFilterBy && info.reliability <= maxFilterBy;
         });
+
+        if (minFilterBy || maxFilterBy) {
+            $(this).closest('range').addClass('filled');
+        } else {
+            $(this).closest('range').removeClass('filled');
+        }
     });
 
     $('.severities-filter').change(function() {
@@ -360,6 +393,12 @@ function initEntryFilters() {
         addFilter('severities', minFilterBy == "" || maxFilterBy == "", function(info){
             return info.severity >= minFilterBy && info.severity <= maxFilterBy;
         });
+
+        if (minFilterBy || maxFilterBy) {
+            $(this).closest('range').addClass('filled');
+        } else {
+            $(this).closest('range').removeClass('filled');
+        }
     });
 }
 
@@ -376,7 +415,7 @@ function filterByTimeline() {
             if (info.date)
                 return new Date(info.date) >= dateStart && new Date(info.date) <= dateEnd;
             else
-                return new Date(originalEntries[info.entryIndex].modified_at) >= dateStart && new Date(originalEntries[info.entryIndex].modified_at) <= dateEnd;
+                return new Date(originalEntries[info.entryIndex].created_at) >= dateStart && new Date(originalEntries[info.entryIndex].created_at) <= dateEnd;
         }
         filterEntries();
     } else {

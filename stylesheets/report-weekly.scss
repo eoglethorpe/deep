@@ -83,6 +83,7 @@ aside{
         box-sizing: border-box;
         overflow-y: auto;
         overflow-x: hidden;
+
         h4{
 
             font-size: 18px;
@@ -95,49 +96,44 @@ aside{
         }
         .entry{
             padding: 10px 16px;
+
             .severity, .reliability{
                 span{
                     width: 8px;
-                    margin-right: 1px;
                     height: 16px;
-                    background-color: #ccc;
-                    border-radius: 2px;
                     display: inline-block;
+                    border-radius: 2px;
+                    margin-right: 1px;
                 }
+                // @for $i from 0 through 5 { ._#{$i}{ opacity: ($i/5); } }
+                .active{ width: 12px; height: 24px; margin-bottom: -4px; }
             }
-            $reliability-base: #1A237E;
-            .reliability{
-                ._1{ background-color: lighten($reliability-base, 50%); }
-                ._2{ background-color: lighten($reliability-base, 40%); }
-                ._3{ background-color: lighten($reliability-base, 30%);  }
-                ._4{ background-color: lighten($reliability-base, 20%); }
-                ._5{ background-color: lighten($reliability-base, 10%); }
-                ._6{ background-color: lighten($reliability-base, 5%); }
-                .active{ width: 12px; height: 24px; margin-bottom: -4px;}
+            // .reliability{ span{ background-color: $reliability-base; } }
+            // .severity{ span{ background-color: $severity-base; } }
+
+            .reliability {
+                @for $i from 0 through 6 { ._#{$i}{ background-color: lighten($reliability-base, (6-$i)*10); } }
             }
-            $severity-base: #B71C1C;
-            .severity{
-                ._1{ background-color: lighten($severity-base, 40%); }
-                ._2{ background-color: lighten($severity-base, 30%); }
-                ._3{ background-color: lighten($severity-base, 20%);  }
-                ._4{ background-color: lighten($severity-base, 10%); }
-                ._5{ background-color: lighten($severity-base, 5%); }
-                ._6{ background-color: lighten($severity-base, 0%); }
-                .active{ width: 12px; height: 24px; margin-bottom: -4px;}
+            .severity {
+                @for $i from 0 through 6 { ._#{$i}{ background-color: lighten($severity-base, (6-$i)*10); } }
             }
+
             label{
                 margin-right: 8px;
             }
             .information{
-
                 .information-header{
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
                     height: 48px;
                 }
-                .excerpt{
+                .excerpt-text{
                     text-align: justify;
+                }
+                .excerpt-image{
+                    width: 100%;
+                    border: 2px dashed $primary-color;
                 }
             }
             hr{
@@ -158,7 +154,6 @@ main{
 
     #navigator{
         height: 56px;
-        //border-bottom: 2px solid rgba(0, 0, 0, 0.05);
         display: flex;
         align-items: stretch;
         justify-content: space-between;
@@ -166,7 +161,6 @@ main{
         padding: 0 10px;
         background-color: #fff;
         box-shadow: 0 -2px 13px -3px rgba(0, 0, 0, 0.3);
-
 
         a{
             flex-grow: 1;

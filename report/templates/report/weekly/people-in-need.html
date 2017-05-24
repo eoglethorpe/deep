@@ -19,11 +19,11 @@
             </div>
 
             <div>
-                <div><input class="people-total-source  source-droppable" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
-                <div><input class="people-at-risk-source  source-droppable" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
-                <div><input class="people-moderate-source  source-droppable" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
-                <div><input class="people-severe-source  source-droppable" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
-                <div><input class="people-planned-source  source-droppable" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
+                <div><div class="people-total-source source-new" data-people-pk="{{field.pk}}"></div></div>
+                <div><div class="people-at-risk-source  source-new" data-people-pk="{{field.pk}}"></div></div>
+                <div><div class="people-moderate-source  source-new" data-people-pk="{{field.pk}}"></div></div>
+                <div><div class="people-severe-source  source-new" data-people-pk="{{field.pk}}"></div></div>
+                <div><div class="people-planned-source  source-new" data-people-pk="{{field.pk}}"></div></div>
             </div>
             <div>
                 <div><input class="people-total-comment " data-people-pk="{{field.pk}}" placeholder="Comment"></div>
@@ -65,27 +65,27 @@
             <div>
                 <div>
                     <label>1. None/Minimal</label>
-                    <input data-ipc="a" data-ipc-level="1" placeholder="Number">
+                    <input class="number" data-ipc="a" data-ipc-level="1" placeholder="Number">
                 </div>
                 <div>
                     <label>2. Stressed</label>
-                    <input data-ipc="c" data-ipc-level="2" placeholder="Number">
+                    <input class="number" data-ipc="c" data-ipc-level="2" placeholder="Number">
                 </div>
                 <div>
                     <label>3. Crisis</label>
-                    <input data-ipc="e" data-ipc-level="3" placeholder="Number">
+                    <input class="number" data-ipc="e" data-ipc-level="3" placeholder="Number">
                 </div>
                 <div>
                     <label>4. Emergency</label>
-                    <input data-ipc="b" data-ipc-level="4" placeholder="Number">
+                    <input class="number" data-ipc="b" data-ipc-level="4" placeholder="Number">
                 </div>
                 <div>
                     <label>5. Famine</label>
-                    <input data-ipc="d" data-ipc-level="5" placeholder="Number">
+                    <input class="number" data-ipc="d" data-ipc-level="5" placeholder="Number">
                 </div>
             </div>
             <div>
-                <input data-ipc="f" class="" placeholder="Source">
+                <div data-ipc="f" class="ipc-source source-new"></div>
                 <input data-ipc="g" class="" placeholder="Comment">
             </div>
         </div>
@@ -103,11 +103,11 @@
                 <input class="number people-planned  {% if field.total_field %}total-planned-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Planned">
             </div>
             <div>
-                <input class="people-total-source  source-droppable" data-people-pk="{{subfield.pk}}" placeholder="Source/Date">
-                <input class="people-at-risk-source  source-droppable" data-people-pk="{{subfield.pk}}" placeholder="Source/Date">
-                <input class="people-moderate-source  source-droppable" data-people-pk="{{subfield.pk}}" placeholder="Source/Date">
-                <input class="people-severe-source  source-droppable" data-people-pk="{{subfield.pk}}" placeholder="Source/Date">
-                <input class="people-planned-source  source-droppable" data-people-pk="{{subfield.pk}}" placeholder="Source/Date">
+                <div class="people-total-source source-new" data-people-pk="{{subfield.pk}}"></div>
+                <div class="people-at-risk-source  source-new" data-people-pk="{{subfield.pk}}"></div>
+                <div class="people-moderate-source  source-new" data-people-pk="{{subfield.pk}}"></div>
+                <div class="people-severe-source  source-new" data-people-pk="{{subfield.pk}}"></div>
+                <div class="people-planned-source  source-new" data-people-pk="{{subfield.pk}}"></div>
             </div>
             <div>
                 <input class="people-total-comment " data-people-pk="{{subfield.pk}}" placeholder="Comment">

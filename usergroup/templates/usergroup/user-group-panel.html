@@ -68,8 +68,8 @@ let activities = [
         </div>
         <div class="action-buttons">
             {% if request.user in usergroup.admins.all %}
-            <a id="save-group-info-btn" hidden><i class="fa fa-save"></i></a>
-            <a id="edit-group-info-btn" ><i class="fa fa-edit"></i></a>
+            <a id="save-group-info-btn" title="Click to Save" hidden><i class="fa fa-save "></i></a>
+            <a id="edit-group-info-btn" title="Click to Edit" ><i class="fa fa-edit"></i></a>
             <a id="save-group-info-progress-btn" hidden><i class="fa fa-spinner fa-pulse"></i></a>
             {% endif %}
         </div>
@@ -98,9 +98,9 @@ let activities = [
                         <div class="admin">Admin</div>
                     </div>
                     <div class="action-container">
-                        <div class="check-action"><i class="fa fa-check"></i></div>
-                        <div class="add-admin-action"><i class="fa fa-user-secret"></i></div>
-                        <div class="delete-action"><i class="fa fa-trash-o"></i></div>
+                        <div class="check-action" title="Select" ><i class="fa fa-check"></i></div>
+                        <div class="add-admin-action" title="Add as Admin" ><i class="fa fa-user-secret"></i></div>
+                        <div class="delete-action" title="Delete Member"><i class="fa fa-trash-o"></i></div>
                     </div>
                 </div>
                 {% endfor %}
@@ -126,7 +126,12 @@ let activities = [
         </div>
         <div id="templates-wrapper" hidden>
             <div id="templates">
-                Templates
+                {% for template in usergroup.entry_templates.all %}
+                <div class="template" data-url="{% url 'custom_admin:entry_template' template.pk %}">
+                    <div class="name">{{template.name}}</div>
+                    <a href="{% url 'custom_admin:entry_template' template.pk %}"><i class="fa fa-pencil" title="Edit Template"></i></a>
+                </div>
+                {% endfor %}
             </div>
         </div>
         <div id="clear-selection-toast">
@@ -148,6 +153,7 @@ let activities = [
         <a></a>
     </div>
 </aside>
+
 <div class="modal-container" hidden>
     <div id="add-members-modal" class="modal" hidden>
         <header>
@@ -181,6 +187,23 @@ let activities = [
         <div class="action-buttons">
             <button id="cancel-btn" class="cancel" data-action="dismiss"><i class="fa fa-times"></i>Cancel</button>
             <button id="ok-btn" class="success" data-action="proceed"><i class="fa fa-plus"></i>Add selected</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-container" hidden>
+    <div class="modal" id="new-template-modal" hidden>
+        <header>
+            <h3 class="modal-header">Add new template</h3>
+        </header>
+        <div class="error"></div>
+        <div class="input-container">
+            <label>Name</label>
+            <input type="text" name="name" id="new-template-name">
+        </div>
+        <div class="action-buttons">
+            <button class="cancel-button" data-action="dismiss"><i class="fa fa-times fa-md"></i>Cancel</button>
+            <button class="proceed-button" data-action="proceed" data-persist="true"><i class="fa fa-plus fa-md"></i>Create template</button>
         </div>
     </div>
 </div>

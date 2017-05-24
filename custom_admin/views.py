@@ -12,6 +12,8 @@ from report.models import *
 from usergroup.models import *
 from users.log import *
 
+import json
+
 
 class CrisisPanelView(View):
     @method_decorator(login_required)
@@ -24,10 +26,13 @@ class CrisisPanelView(View):
 
         if request.user.is_superuser:
             context["events"] = Event.objects.all().order_by('name')
+            context["usergroups"] = UserGroup.objects.all()
+            # context["entry_templates"] = EntryTemplate.objects.all()
         else:
             context["events"] = Event.objects.filter(admins__pk=request.user.pk).order_by('name')
+            context["usergroups"] = UserGroup.objects.filter(admins__pk=request.user.pk).order_by('name')
 
-        context["usergroups"] = UserGroup.objects.all()
+        context["entry_templates"] = EntryTemplate.objects.filter(usergroup__members__pk=request.user.pk)
         context["countries"] = Country.objects.all()
         context["disaster_types"] = DisasterType.objects.all()
         context["users"] = User.objects.all()
@@ -84,7 +89,15 @@ class CrisisPanelView(View):
             else:
                 event.spill_over = None
 
+            if 'entry-template' in request.POST:
+                if request.POST["entry-template"] and request.POST["entry-template"] != "":
+                    event.entry_template = EntryTemplate.objects.get(pk=int(request.POST["entry-template"]))
+                else:
+                    event.entry_template = None
             event.save()
+
+            if event.admins.count() == 0:
+                event.admins.add(request.user)
 
             activity.set_target(
                 'project', event.pk, event.name,
@@ -267,3 +280,22 @@ class CountryManagementView(View):
                 pass
 
         return response
+
+
+class EntryTemplateView(View):
+    @method_decorator(login_required)
+    def get(self, request, template_id):
+        context = {}
+        context['entry_template'] = EntryTemplate.objects.get(pk=template_id)
+        return render(request, "custom_admin/entry-template.html", context)
+
+    @method_decorator(login_required)
+    def post(self, request, template_id=None):
+        data = json.loads(request.POST.get('data'))
+
+        entry_template = EntryTemplate.objects.get(pk=template_id)
+        entry_template.elements = json.dumps(data['elements'])
+        entry_template.name = data['name']
+        entry_template.save()
+
+        return redirect('custom_admin:entry_template', template_id=template_id)

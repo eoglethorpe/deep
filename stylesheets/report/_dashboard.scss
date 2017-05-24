@@ -15,7 +15,26 @@ main{
             margin: 0;
             text-transform: uppercase;
         }
+
+        .loader {
+            margin-left: 16px;
+        }
     }
+
+    .loader{
+        border: 2px solid rgba(0,0,0,0.2);
+        border-radius: 50%;
+        border-top: 2px solid #008080;
+        width: 20px;
+        height: 20px;
+        animation: spin 1s linear infinite;
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    }
+
     > section{
         box-sizing: border-box;
 
@@ -86,10 +105,17 @@ main{
                 label{
                     margin: 0;
 
+                    // Assigned to
                     &:nth-child(1){ flex-basis: 10%; }
+                    // Name / Events
                     &:nth-child(2){ flex-basis: 15%; }
-                    &:nth-child(3), &:nth-child(4), &:nth-child(5), &:nth-child(6), &:nth-child(7){ flex-basis: 11%; }
+                    // Affected, Displaced, In need, Access Constraints, Geo Ranking
+                    &:nth-child(3), &:nth-child(4), &:nth-child(5), &:nth-child(6), &:nth-child(7){
+                        flex-basis: 10%;
+                    }
+                    // Availability, Recency
                     &:nth-child(8), &:nth-child(9){ flex-basis: 7.5%; }
+                    // Change
                     &:nth-child(10){ flex-basis: 5%; }
 
                     &[data-sort]{ cursor: pointer; }
@@ -147,6 +173,9 @@ main{
                             display: block;
                             font-size: $text-size-xs;
                             color: $label-color;
+                            word-break: break-all;
+                            text-indent: -8px;
+                            margin-left: 8px;
 
                             .fa{ margin-right: 4px; }
                         }
@@ -162,6 +191,8 @@ main{
                     .viz{
                         height: 50px;
                         margin-top: 6px;
+                        width: 100%;
+                        overflow: hidden;
                         text-align: center;
                         position: relative;
 
@@ -245,8 +276,6 @@ main{
                     border: none;
                     cursor: pointer;
                     color: $primary-color;
-
-
                 }
             }
             #weekly-reports{
@@ -271,7 +300,7 @@ main{
                     date{ font-family: 'Inconsolata', monospace; }
                     .action-buttons{
                         text-align: right;
-                        flex-basis: 40%;
+                        flex-basis: 44%;
 
                         a{
                             color: $primary-color;
@@ -287,19 +316,20 @@ main{
                         }
 
                     }
-
-
                     &:nth-child(odd){ background-color: #fff; }
                 }
-                .empty-text{
+                .empty-text, .loading-text{
                     height: 100%;
                     margin: 0;
-                    display: flex;
                     justify-content: center;
                     align-items: center;
-                    display: flex;
-                    font-size: 3em;
+                    font-size: 2em;
+                    text-transform: uppercase;
+                    font-weight: $font-weight-thin;
                     color: rgba(0, 0, 0, 0.3);
+                }
+                .loading-text{
+                    display: flex;
                 }
             }
         }
@@ -315,5 +345,4 @@ main{
 }
 .jqsfield {
     font-size: 13px !important;
-    /*set the text color here */
 }

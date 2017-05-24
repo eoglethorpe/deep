@@ -3,10 +3,14 @@ var articleDate = null;
 var tabId;
 
 
-chrome.tabs.executeScript(null, {code: 'chrome.runtime.sendMessage({ data: document.documentElement.innerHTML });' });
+// TODO: check for message broadcaster to avoid conflicts
+// maybe use app name and version
+chrome.tabs.executeScript(null, {code: 'chrome.runtime.sendMessage({ currentPageHtml: document.documentElement.innerHTML });' });
 chrome.runtime.onMessage.addListener( function(request, sender) {
-    extension.currentPage = '<html>'+request.data+'</html>';
-    extension.loadTitle();
+    if(request.currentPageHtml){
+        extension.currentPage = '<html>'+request.currentPageHtml+'</html>';
+        extension.loadTitle();
+    }
 });
 
 $(document).ready(function(){

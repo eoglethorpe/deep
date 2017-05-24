@@ -4,6 +4,7 @@ var assignedToSelectize;
 var userGroupsSelectize;
 var adminsSelectize;
 var spilloverSelectize;
+var entryTemplateSelectize;
 
 let lastAdminSelection;
 
@@ -40,6 +41,7 @@ $(document).ready(function(){
     userGroupsSelectize = $('#user-groups').selectize();
     adminsSelectize = $('#admins').selectize();
     spilloverSelectize = $("#spillover").selectize();
+    entryTemplateSelectize = $("#entry-template").selectize();
 
     $('.crisis').on('click', function() {
         var pk = $(this).data("crisis-pk");
@@ -52,6 +54,7 @@ $(document).ready(function(){
 
         $("#crisis-name").val(crisis.name);
         $(".crisis-status").val([crisis.status]);
+
         disasterTypeSelectize[0].selectize.setValue(crisis.disaster_type);
         countriesSelectize[0].selectize.setValue(crisis.countries);
         assignedToSelectize[0].selectize.setValue(crisis.assigned_to);
@@ -59,6 +62,13 @@ $(document).ready(function(){
         lastAdminSelection = null;
         adminsSelectize[0].selectize.setValue(crisis.admins);
         spilloverSelectize[0].selectize.setValue(crisis.spillover);
+        entryTemplateSelectize[0].selectize.setValue(crisis.entry_template);
+
+        if (crisis.num_entries == 0) {
+            entryTemplateSelectize[0].selectize.enable();
+        } else {
+            entryTemplateSelectize[0].selectize.disable();
+        }
 
         $("#crisis-start-date").val(crisis.start_date);
         $("#crisis-end-date").val(crisis.end_date);
@@ -78,16 +88,10 @@ $(document).ready(function(){
         }
     });
 
-    if ($('.crisis.active').length > 0) {
-        $('.crisis.active').click();
-    } else {
-        addNewCrisis();
-    }
-
     $('#admins').change(function(){
         let currentSelection = $(this).val();
+
         if (lastAdminSelection != null && lastAdminSelection != "") {
-            let myPk = defaultAdminSelection[0];
             if (lastAdminSelection.indexOf(myPk) >= 0 &&
                 (currentSelection == null || currentSelection == "" || currentSelection.indexOf(myPk) < 0))
             {
@@ -95,10 +99,21 @@ $(document).ready(function(){
                     adminsSelectize[0].selectize.setValue(lastAdminSelection);
                     return;
                 }
+                // alert('You cannot remove the owner of this crisis');
+                // adminsSelectize[0].selectize.setValue(lastAdminSelection);
+                // return;
             }
         }
+
         lastAdminSelection = currentSelection;
     });
+
+
+    if ($('.crisis.active').length > 0) {
+        $('.crisis.active').click();
+    } else {
+        addNewCrisis();
+    }
 });
 
 function addNewCrisis() {
@@ -109,6 +124,7 @@ function addNewCrisis() {
 
     $("#crisis-name").val("");
     $(".crisis-status").val([1]);
+
     disasterTypeSelectize[0].selectize.setValue("");
     countriesSelectize[0].selectize.setValue("");
     assignedToSelectize[0].selectize.setValue("");
@@ -116,6 +132,9 @@ function addNewCrisis() {
     lastAdminSelection = null;
     adminsSelectize[0].selectize.setValue(defaultAdminSelection);
     spilloverSelectize[0].selectize.setValue("");
+    entryTemplateSelectize[0].selectize.setValue("");
+
+    entryTemplateSelectize[0].selectize.enable();
 
     $("#crisis-start-date").val("");
     $("#crisis-end-date").val("");

@@ -99,10 +99,8 @@ body > nav {
     flex-grow: 0; }
     body > nav #deep-logo-container img {
       width: 100%; }
-  body > nav #report-link-wrapper {
-    flex-basis: 10%; }
   body > nav #crisis-select-container {
-    flex-basis: 28%; }
+    flex-basis: 20%; }
     body > nav #crisis-select-container .selectize-control.single .selectize-input, body > nav #crisis-select-container .selectize-control.single.single, body > nav #crisis-select-container .selectize-control.single .selectize-input.input-active {
       background-color: transparent !important; }
     body > nav #crisis-select-container .selectize-input {
@@ -122,10 +120,14 @@ body > nav {
         border-style: solid;
         border-width: 5px 5px 0 5px;
         border-color: #808080 transparent transparent transparent; }
-    body > nav #crisis-select-container a {
-      vertical-align: middle; }
+    body > nav #crisis-select-container #crisis-dropdown-alt {
+      vertical-align: middle;
+      color: #fff;
+      font-size: 12px; }
+      body > nav #crisis-select-container #crisis-dropdown-alt .fa {
+        width: 16px; }
   body > nav #main-menu {
-    flex-basis: 32%; }
+    flex-basis: 50%; }
   body > nav #extra-menu {
     flex-basis: calc(20% - 96px);
     display: flex;
@@ -201,36 +203,50 @@ body {
     body header #filters {
       flex-basis: 100%;
       box-sizing: border-box; }
-    body header #entry-filters {
+    body header #filters {
       display: flex;
-      justify-content: space-between; }
-      body header #entry-filters label {
-        flex-basis: 100%; }
-      body header #entry-filters #left-block {
-        flex-basis: 80%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap; }
-        body header #entry-filters #left-block > input[type="text"].filter {
-          padding: 4px 6px;
-          border: 1px solid rgba(0, 0, 0, 0.1);
-          box-sizing: border-box; }
-        body header #entry-filters #left-block .filter {
-          flex-basis: 20%;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      padding: 10px 16px;
+      position: relative; }
+      body header #filters .filter {
+        flex-basis: calc(100% / 7 - 2px);
+        margin: 1px; }
+        body header #filters .filter > input, body header #filters .filter > select, body header #filters .filter > div {
           outline: none;
           border: none; }
-        body header #entry-filters #left-block #search, body header #entry-filters #left-block #lead-title-search {
-          flex-basis: 13%; }
-        body header #entry-filters #left-block #sources-filter {
-          flex-basis: 14%; }
-      body header #entry-filters #right-block {
-        flex-basis: 20%;
-        display: flex;
-        justify-content: space-around; }
-        body header #entry-filters #right-block .filter {
-          flex-basis: 50%;
-          box-sizing: border-box; }
+        body header #filters .filter > input {
+          width: 100%;
+          height: 100%;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          padding: 0 6px; }
+        body header #filters .filter.range {
+          display: flex;
+          position: relative; }
+          body header #filters .filter.range > {
+            flex-basis: 50%; }
+          body header #filters .filter.range > label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 6px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            text-transform: none;
+            color: rgba(0, 0, 0, 0.3);
+            background-color: #fff;
+            z-index: 1;
+            font-size: 1em;
+            font-weight: 400; }
+          body header #filters .filter.range:hover label, body header #filters .filter.range.filled label {
+            display: none; }
+      body header #filters > input {
+        padding: 4px 6px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-sizing: border-box; }
 
 aside {
   width: 30%;
@@ -269,43 +285,42 @@ aside {
       padding: 10px 16px; }
       aside #entries .entry .severity span, aside #entries .entry .reliability span {
         width: 8px;
-        margin-right: 1px;
         height: 16px;
-        background-color: #ccc;
+        display: inline-block;
         border-radius: 2px;
-        display: inline-block; }
-      aside #entries .entry .reliability ._1 {
-        background-color: #aab0ed; }
-      aside #entries .entry .reliability ._2 {
-        background-color: #7f88e5; }
-      aside #entries .entry .reliability ._3 {
-        background-color: #5561dc; }
-      aside #entries .entry .reliability ._4 {
-        background-color: #2b3ad3; }
-      aside #entries .entry .reliability ._5 {
-        background-color: #232fa8; }
-      aside #entries .entry .reliability ._6 {
-        background-color: #1e2993; }
-      aside #entries .entry .reliability .active {
+        margin-right: 1px; }
+      aside #entries .entry .severity .active, aside #entries .entry .reliability .active {
         width: 12px;
         height: 24px;
         margin-bottom: -4px; }
+      aside #entries .entry .reliability ._0 {
+        background-color: #daddf8; }
+      aside #entries .entry .reliability ._1 {
+        background-color: #afb5f0; }
+      aside #entries .entry .reliability ._2 {
+        background-color: #858de7; }
+      aside #entries .entry .reliability ._3 {
+        background-color: #5a65df; }
+      aside #entries .entry .reliability ._4 {
+        background-color: #2f3dd7; }
+      aside #entries .entry .reliability ._5 {
+        background-color: #222eb1; }
+      aside #entries .entry .reliability ._6 {
+        background-color: #1a2386; }
+      aside #entries .entry .severity ._0 {
+        background-color: white; }
       aside #entries .entry .severity ._1 {
-        background-color: #f2adad; }
+        background-color: #f9d9d9; }
       aside #entries .entry .severity ._2 {
-        background-color: #ec8080; }
+        background-color: #f2adad; }
       aside #entries .entry .severity ._3 {
-        background-color: #e55454; }
+        background-color: #ec8080; }
       aside #entries .entry .severity ._4 {
-        background-color: #de2828; }
+        background-color: #e55454; }
       aside #entries .entry .severity ._5 {
-        background-color: #cd1f1f; }
+        background-color: #de2828; }
       aside #entries .entry .severity ._6 {
         background-color: #b71c1c; }
-      aside #entries .entry .severity .active {
-        width: 12px;
-        height: 24px;
-        margin-bottom: -4px; }
       aside #entries .entry label {
         margin-right: 8px; }
       aside #entries .entry .information .information-header {
@@ -313,8 +328,11 @@ aside {
         justify-content: space-between;
         align-items: center;
         height: 48px; }
-      aside #entries .entry .information .excerpt {
+      aside #entries .entry .information .excerpt-text {
         text-align: justify; }
+      aside #entries .entry .information .excerpt-image {
+        width: 100%;
+        border: 2px dashed #008080; }
       aside #entries .entry hr {
         margin: 0;
         border: 1px solid rgba(0, 0, 0, 0.05); }
@@ -487,42 +505,228 @@ main {
       box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
       main #report-content #key-events button:active {
         box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
-    main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field:nth-child(odd) {
+    main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field:nth-child(odd), main #report-content #humanitarian-profile #casualties-field-list .human-profile-field:nth-child(odd), main #report-content #casualties #human-profile-field-list .human-profile-field:nth-child(odd), main #report-content #casualties #casualties-field-list .human-profile-field:nth-child(odd) {
       background-color: #fff; }
-    main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child {
+    main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child, main #report-content #casualties #human-profile-field-list .human-profile-field, main #report-content #casualties #human-profile-field-list .human-profile-subfield, main #report-content #casualties #human-profile-field-list .human-profile-child, main #report-content #casualties #casualties-field-list .human-profile-field, main #report-content #casualties #casualties-field-list .human-profile-subfield, main #report-content #casualties #casualties-field-list .human-profile-child {
       width: 100%;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-around;
       align-items: center; }
-      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field input, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield input, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child input {
+      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field input, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield input, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child input, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field input, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield input, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child input, main #report-content #casualties #human-profile-field-list .human-profile-field input, main #report-content #casualties #human-profile-field-list .human-profile-subfield input, main #report-content #casualties #human-profile-field-list .human-profile-child input, main #report-content #casualties #casualties-field-list .human-profile-field input, main #report-content #casualties #casualties-field-list .human-profile-subfield input, main #report-content #casualties #casualties-field-list .human-profile-child input {
         outline: none;
         box-shadow: none;
         border: 1px solid transparent;
         box-sizing: border-box;
         padding: 3px 5px; }
-      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .sub, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .sub, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .sub {
+      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .sub, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .sub, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .sub, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .sub, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .sub, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .sub, main #report-content #casualties #human-profile-field-list .human-profile-field .sub, main #report-content #casualties #human-profile-field-list .human-profile-subfield .sub, main #report-content #casualties #human-profile-field-list .human-profile-child .sub, main #report-content #casualties #casualties-field-list .human-profile-field .sub, main #report-content #casualties #casualties-field-list .human-profile-subfield .sub, main #report-content #casualties #casualties-field-list .human-profile-child .sub {
         padding-left: 24px;
         font-weight: 400; }
-      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field > *, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield > *, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child > * {
+      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field > *, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield > *, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child > *, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field > *, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield > *, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child > *, main #report-content #casualties #human-profile-field-list .human-profile-field > *, main #report-content #casualties #human-profile-field-list .human-profile-subfield > *, main #report-content #casualties #human-profile-field-list .human-profile-child > *, main #report-content #casualties #casualties-field-list .human-profile-field > *, main #report-content #casualties #casualties-field-list .human-profile-subfield > *, main #report-content #casualties #casualties-field-list .human-profile-child > * {
         flex-basis: 23%;
         box-sizing: border-box;
         margin: 8px 0; }
-      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field > a, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield > a, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child > a {
+      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field > a, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield > a, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child > a, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field > a, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield > a, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child > a, main #report-content #casualties #human-profile-field-list .human-profile-field > a, main #report-content #casualties #human-profile-field-list .human-profile-subfield > a, main #report-content #casualties #human-profile-field-list .human-profile-child > a, main #report-content #casualties #casualties-field-list .human-profile-field > a, main #report-content #casualties #casualties-field-list .human-profile-subfield > a, main #report-content #casualties #casualties-field-list .human-profile-child > a {
         flex-basis: 24px;
         cursor: pointer;
         color: #008080; }
-      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field > div, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield > div, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child > div {
+      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field > div, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield > div, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child > div, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field > div, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield > div, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child > div, main #report-content #casualties #human-profile-field-list .human-profile-field > div, main #report-content #casualties #human-profile-field-list .human-profile-subfield > div, main #report-content #casualties #human-profile-field-list .human-profile-child > div, main #report-content #casualties #casualties-field-list .human-profile-field > div, main #report-content #casualties #casualties-field-list .human-profile-subfield > div, main #report-content #casualties #casualties-field-list .human-profile-child > div {
         flex-basis: 100%; }
-    main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child {
+      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new, main #report-content #casualties #casualties-field-list .human-profile-field .source-new, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new, main #report-content #casualties #casualties-field-list .human-profile-child .source-new {
+        display: inline-block;
+        flex-basis: 23%;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        min-height: 24px;
+        position: relative; }
+        main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          align-items: center;
+          background-color: #fff;
+          padding: 6px;
+          position: relative;
+          cursor: pointer;
+          word-break: break-all; }
+          main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .name, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .name, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .name, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .name, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .name, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .name, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .name, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .name, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .name, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .name, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .name, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .name {
+            flex-basis: 85%;
+            overflow: hidden;
+            flex-grow: 0;
+            flex-shrink: 0; }
+          main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .delete, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .delete, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .delete, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .delete, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .delete, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .delete, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .delete, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .delete, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .delete, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .delete, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .delete, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .delete {
+            flex-basis: 5%;
+            color: #e74c3c; }
+          main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source date, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source date, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source date, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source date, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source date, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source date, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source date, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source date, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source date, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source date, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source date, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source date {
+            flex-basis: 100%;
+            font-family: 'Inconsolata', monospace; }
+          main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card {
+            position: absolute;
+            z-index: 1;
+            color: #fff;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            background-color: #414141;
+            border-radius: 5px;
+            cursor: default;
+            box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card.focus, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card.focus, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card.focus, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card.focus, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card.focus, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card.focus, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card.focus, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card.focus, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card.focus, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card.focus, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card.focus, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card.focus {
+              display: flex; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card a, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card a, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card a, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card a, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card a, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card a, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card a, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card a, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card a, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card a, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card a, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card a {
+              color: #fff; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .severity-color, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .severity-color, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .severity-color, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .severity-color, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .severity-color, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .severity-color, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .severity-color, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .severity-color, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .severity-color, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .severity-color, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .severity-color, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .severity-color {
+              flex-basis: 36px;
+              flex-grow: 0;
+              flex-shrink: 0;
+              width: 0;
+              height: 0;
+              border-top: 36px solid blue;
+              border-right: 36px solid transparent;
+              border-top-radius: 5px;
+              margin-bottom: 8px; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .source-url, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .source-url, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .source-url, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .source-url, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .source-url, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .source-url, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .source-url, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .source-url, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .source-url, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .source-url, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .source-url, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .source-url {
+              flex-basis: 24px;
+              flex-grow: 0;
+              flex-shrink: 0;
+              padding: 6px 4px;
+              cursor: pointer; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .source-excerpt-container, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .source-excerpt-container, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .source-excerpt-container, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .source-excerpt-container, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .source-excerpt-container, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .source-excerpt-container, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .source-excerpt-container, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .source-excerpt-container, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .source-excerpt-container, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .source-excerpt-container, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .source-excerpt-container, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .source-excerpt-container {
+              flex-basis: 100%;
+              flex-grow: 0;
+              flex-shrink: 0;
+              padding: 0 24px;
+              margin: -16px 0;
+              text-align: justify; }
+              main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .source-excerpt-container .source-details, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .source-excerpt-container .source-details, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .source-excerpt-container .source-details, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .source-excerpt-container .source-details, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .source-excerpt-container .source-details, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .source-excerpt-container .source-details, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .source-excerpt-container .source-details, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .source-excerpt-container .source-details, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .source-excerpt-container .source-details, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .source-excerpt-container .source-details, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .source-excerpt-container .source-details, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .source-excerpt-container .source-details {
+                flex-wrap: wrap;
+                align-items: flex-start; }
+                main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .source-excerpt-container .source-details > div, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .source-excerpt-container .source-details > div, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .source-excerpt-container .source-details > div, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .source-excerpt-container .source-details > div, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .source-excerpt-container .source-details > div, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .source-excerpt-container .source-details > div, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .source-excerpt-container .source-details > div, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .source-excerpt-container .source-details > div, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .source-excerpt-container .source-details > div, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .source-excerpt-container .source-details > div, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .source-excerpt-container .source-details > div, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .source-excerpt-container .source-details > div {
+                  display: flex;
+                  flex-wrap: wrap;
+                  flex-basis: 100%;
+                  margin-bottom: 8px;
+                  align-items: baseline; }
+                  main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .source-excerpt-container .source-details > div label, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .source-excerpt-container .source-details > div label, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .source-excerpt-container .source-details > div label, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .source-excerpt-container .source-details > div label, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .source-excerpt-container .source-details > div label, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .source-excerpt-container .source-details > div label, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .source-excerpt-container .source-details > div label, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .source-excerpt-container .source-details > div label, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .source-excerpt-container .source-details > div label, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .source-excerpt-container .source-details > div label, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .source-excerpt-container .source-details > div label, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .source-excerpt-container .source-details > div label {
+                    text-align: left;
+                    color: #fff;
+                    width: 72px; }
+                  main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .source-excerpt-container .source-details > div span, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .source-excerpt-container .source-details > div span, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .source-excerpt-container .source-details > div span, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .source-excerpt-container .source-details > div span, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .source-excerpt-container .source-details > div span, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .source-excerpt-container .source-details > div span, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .source-excerpt-container .source-details > div span, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .source-excerpt-container .source-details > div span, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .source-excerpt-container .source-details > div span, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .source-excerpt-container .source-details > div span, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .source-excerpt-container .source-details > div span, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .source-excerpt-container .source-details > div span {
+                    flex-basis: calc(100% - 72px);
+                    align-self: flex-end; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .source-flip, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .source-flip, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .source-flip, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .source-flip, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .source-flip, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .source-flip, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .source-flip, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .source-flip, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .source-flip, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .source-flip, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .source-flip, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .source-flip {
+              flex-basis: 24px;
+              flex-grow: 0;
+              flex-shrink: 0;
+              align-self: flex-end;
+              padding: 4px 6px;
+              cursor: pointer; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .reliability-color, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .reliability-color, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .reliability-color, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .reliability-color, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .reliability-color, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .reliability-color, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .reliability-color, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .reliability-color, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .reliability-color, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .reliability-color, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .reliability-color, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .reliability-color {
+              flex-basis: 36px;
+              flex-grow: 0;
+              flex-shrink: 0;
+              width: 0;
+              height: 0;
+              border-bottom: 36px solid red;
+              border-left: 36px solid transparent; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card:before, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card:before, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card:before, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card:before, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card:before, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card:before, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card:before, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card:before, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card:before, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card:before, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card:before, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card:before {
+              content: "";
+              position: absolute;
+              width: 0;
+              height: 0; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .reliability-color._0, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._0, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .reliability-color._0, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .reliability-color._0, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._0, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .reliability-color._0, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .reliability-color._0, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._0, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .reliability-color._0, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .reliability-color._0, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._0, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .reliability-color._0 {
+              border-bottom: 36px solid #daddf8; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .reliability-color._1, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._1, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .reliability-color._1, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .reliability-color._1, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._1, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .reliability-color._1, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .reliability-color._1, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._1, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .reliability-color._1, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .reliability-color._1, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._1, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .reliability-color._1 {
+              border-bottom: 36px solid #afb5f0; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .reliability-color._2, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._2, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .reliability-color._2, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .reliability-color._2, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._2, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .reliability-color._2, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .reliability-color._2, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._2, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .reliability-color._2, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .reliability-color._2, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._2, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .reliability-color._2 {
+              border-bottom: 36px solid #858de7; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .reliability-color._3, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._3, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .reliability-color._3, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .reliability-color._3, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._3, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .reliability-color._3, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .reliability-color._3, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._3, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .reliability-color._3, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .reliability-color._3, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._3, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .reliability-color._3 {
+              border-bottom: 36px solid #5a65df; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .reliability-color._4, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._4, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .reliability-color._4, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .reliability-color._4, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._4, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .reliability-color._4, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .reliability-color._4, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._4, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .reliability-color._4, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .reliability-color._4, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._4, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .reliability-color._4 {
+              border-bottom: 36px solid #2f3dd7; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .reliability-color._5, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._5, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .reliability-color._5, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .reliability-color._5, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._5, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .reliability-color._5, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .reliability-color._5, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._5, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .reliability-color._5, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .reliability-color._5, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._5, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .reliability-color._5 {
+              border-bottom: 36px solid #222eb1; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .reliability-color._6, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._6, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .reliability-color._6, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .reliability-color._6, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._6, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .reliability-color._6, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .reliability-color._6, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._6, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .reliability-color._6, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .reliability-color._6, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .reliability-color._6, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .reliability-color._6 {
+              border-bottom: 36px solid #1a2386; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .severity-color._0, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .severity-color._0, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .severity-color._0, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .severity-color._0, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .severity-color._0, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .severity-color._0, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .severity-color._0, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .severity-color._0, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .severity-color._0, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .severity-color._0, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .severity-color._0, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .severity-color._0 {
+              border-top: 36px solid white; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .severity-color._1, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .severity-color._1, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .severity-color._1, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .severity-color._1, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .severity-color._1, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .severity-color._1, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .severity-color._1, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .severity-color._1, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .severity-color._1, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .severity-color._1, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .severity-color._1, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .severity-color._1 {
+              border-top: 36px solid #f9d9d9; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .severity-color._2, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .severity-color._2, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .severity-color._2, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .severity-color._2, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .severity-color._2, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .severity-color._2, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .severity-color._2, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .severity-color._2, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .severity-color._2, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .severity-color._2, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .severity-color._2, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .severity-color._2 {
+              border-top: 36px solid #f2adad; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .severity-color._3, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .severity-color._3, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .severity-color._3, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .severity-color._3, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .severity-color._3, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .severity-color._3, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .severity-color._3, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .severity-color._3, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .severity-color._3, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .severity-color._3, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .severity-color._3, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .severity-color._3 {
+              border-top: 36px solid #ec8080; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .severity-color._4, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .severity-color._4, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .severity-color._4, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .severity-color._4, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .severity-color._4, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .severity-color._4, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .severity-color._4, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .severity-color._4, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .severity-color._4, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .severity-color._4, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .severity-color._4, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .severity-color._4 {
+              border-top: 36px solid #e55454; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .severity-color._5, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .severity-color._5, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .severity-color._5, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .severity-color._5, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .severity-color._5, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .severity-color._5, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .severity-color._5, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .severity-color._5, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .severity-color._5, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .severity-color._5, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .severity-color._5, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .severity-color._5 {
+              border-top: 36px solid #de2828; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card .severity-color._6, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card .severity-color._6, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card .severity-color._6, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card .severity-color._6, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card .severity-color._6, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card .severity-color._6, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card .severity-color._6, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card .severity-color._6, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card .severity-color._6, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card .severity-color._6, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card .severity-color._6, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card .severity-color._6 {
+              border-top: 36px solid #b71c1c; }
+          main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card-left, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card-left, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card-left, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card-left, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card-left, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card-left, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card-left, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card-left, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card-left, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card-left, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card-left, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card-left {
+            right: calc(100% + 16px);
+            top: auto;
+            bottom: auto;
+            left: auto;
+            width: 380px; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card-left:before, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card-left:before, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card-left:before, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card-left:before, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card-left:before, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card-left:before, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card-left:before, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card-left:before, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card-left:before, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card-left:before, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card-left:before, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card-left:before {
+              bottom: auto;
+              left: auto;
+              right: -16px;
+              top: 16px;
+              border-top: 8px solid transparent;
+              border-left: 16px solid #414141;
+              border-bottom: 8px solid transparent; }
+          main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card-right, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card-right, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card-right, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card-right, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card-right, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card-right, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card-right, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card-right, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card-right, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card-right, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card-right, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card-right {
+            left: calc(100% + 16px);
+            top: 0;
+            bottom: auto;
+            right: auto;
+            width: 320px; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card-right:before, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card-right:before, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card-right:before, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card-right:before, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card-right:before, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card-right:before, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card-right:before, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card-right:before, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card-right:before, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card-right:before, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card-right:before, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card-right:before {
+              bottom: auto;
+              left: -16px;
+              right: auto;
+              top: 16px;
+              border-top: 8px solid transparent;
+              border-right: 16px solid #414141;
+              border-bottom: 8px solid transparent; }
+          main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card-top, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card-top, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card-top, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card-top, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card-top, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card-top, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card-top, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card-top, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card-top, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card-top, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card-top, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card-top {
+            left: auto;
+            top: auto;
+            right: auto;
+            bottom: calc(100% + 16px);
+            width: 360px; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card-top:before, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card-top:before, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card-top:before, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card-top:before, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card-top:before, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card-top:before, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card-top:before, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card-top:before, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card-top:before, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card-top:before, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card-top:before, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card-top:before {
+              top: auto;
+              right: auto;
+              bottom: -16px;
+              left: calc(50% - 10px);
+              border-right: 8px solid transparent;
+              border-top: 16px solid #414141;
+              border-left: 8px solid transparent; }
+          main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card-bottom, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card-bottom, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card-bottom, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card-bottom, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card-bottom, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card-bottom, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card-bottom, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card-bottom, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card-bottom, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card-bottom, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card-bottom, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card-bottom {
+            left: auto;
+            bottom: auto;
+            right: auto;
+            top: calc(100% + 16px);
+            width: 360px; }
+            main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source .display-card-bottom:before, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source .display-card-bottom:before, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source .display-card-bottom:before, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source .display-card-bottom:before, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source .display-card-bottom:before, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source .display-card-bottom:before, main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source .display-card-bottom:before, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source .display-card-bottom:before, main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source .display-card-bottom:before, main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source .display-card-bottom:before, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source .display-card-bottom:before, main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source .display-card-bottom:before {
+              bottom: auto;
+              right: auto;
+              top: -16px;
+              left: calc(50% - 10px);
+              border-right: 8px solid transparent;
+              border-bottom: 16px solid #414141;
+              border-left: 8px solid transparent; }
+          main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-new .source:nth-child(odd), main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-new .source:nth-child(odd), main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-new .source:nth-child(odd), main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-new .source:nth-child(odd), main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-new .source:nth-child(odd), main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-new .source:nth-child(odd), main #report-content #casualties #human-profile-field-list .human-profile-field .source-new .source:nth-child(odd), main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-new .source:nth-child(odd), main #report-content #casualties #human-profile-field-list .human-profile-child .source-new .source:nth-child(odd), main #report-content #casualties #casualties-field-list .human-profile-field .source-new .source:nth-child(odd), main #report-content #casualties #casualties-field-list .human-profile-subfield .source-new .source:nth-child(odd), main #report-content #casualties #casualties-field-list .human-profile-child .source-new .source:nth-child(odd) {
+            background-color: #f5f5f5; }
+    main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child, main #report-content #casualties #human-profile-field-list .human-profile-child, main #report-content #casualties #casualties-field-list .human-profile-child {
       margin: 0 0 8px 0; }
-      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child input {
+      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child input, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child input, main #report-content #casualties #human-profile-field-list .human-profile-child input, main #report-content #casualties #casualties-field-list .human-profile-child input {
         border: 1px solid rgba(0, 0, 0, 0.2); }
-      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child > * {
+      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child > *, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child > *, main #report-content #casualties #human-profile-field-list .human-profile-child > *, main #report-content #casualties #casualties-field-list .human-profile-child > * {
         margin: 0 !important; }
-      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .remove-child {
+      main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .remove-child, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .remove-child, main #report-content #casualties #human-profile-field-list .human-profile-child .remove-child, main #report-content #casualties #casualties-field-list .human-profile-child .remove-child {
         color: #e74c3c; }
-    main #report-content #humanitarian-profile #humanitarian-profile-field-error {
+    main #report-content #humanitarian-profile .field-error, main #report-content #casualties .field-error {
       padding: 16px;
       text-align: center;
       color: #e74c3c;
@@ -531,7 +735,7 @@ main {
       outline: none;
       padding: 4px 10px;
       width: 100%;
-      border: 1px solid transparent;
+      border: 1px solid rgba(0, 0, 0, 0.2);
       margin: 6px 0; }
     main #report-content #people-in-need .pin-field, main #report-content #people-in-need .pin-sub-field {
       display: flex;
@@ -589,6 +793,192 @@ main {
       padding-bottom: 10px;
       padding-top: 10px;
       border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
+    main #report-content #people-in-need .source-new {
+      display: inline-block;
+      width: 100%;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      min-height: 24px;
+      position: relative; }
+      main #report-content #people-in-need .source-new .source {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #fff;
+        padding: 6px;
+        position: relative;
+        cursor: pointer;
+        word-break: break-all; }
+        main #report-content #people-in-need .source-new .source .name {
+          flex-basis: 85%;
+          overflow: hidden;
+          flex-grow: 0;
+          flex-shrink: 0; }
+        main #report-content #people-in-need .source-new .source .delete {
+          flex-basis: 5%;
+          color: #e74c3c; }
+        main #report-content #people-in-need .source-new .source date {
+          flex-basis: 100%;
+          font-family: 'Inconsolata', monospace; }
+        main #report-content #people-in-need .source-new .source .display-card {
+          position: absolute;
+          z-index: 1;
+          color: #fff;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          background-color: #414141;
+          border-radius: 5px;
+          cursor: default;
+          box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+          main #report-content #people-in-need .source-new .source .display-card.focus {
+            display: flex; }
+          main #report-content #people-in-need .source-new .source .display-card a {
+            color: #fff; }
+          main #report-content #people-in-need .source-new .source .display-card .severity-color {
+            flex-basis: 36px;
+            flex-grow: 0;
+            flex-shrink: 0;
+            width: 0;
+            height: 0;
+            border-top: 36px solid blue;
+            border-right: 36px solid transparent;
+            border-top-radius: 5px;
+            margin-bottom: 8px; }
+          main #report-content #people-in-need .source-new .source .display-card .source-url {
+            flex-basis: 24px;
+            flex-grow: 0;
+            flex-shrink: 0;
+            padding: 6px 4px;
+            cursor: pointer; }
+          main #report-content #people-in-need .source-new .source .display-card .source-excerpt-container {
+            flex-basis: 100%;
+            flex-grow: 0;
+            flex-shrink: 0;
+            padding: 0 24px;
+            margin: -16px 0;
+            text-align: justify; }
+            main #report-content #people-in-need .source-new .source .display-card .source-excerpt-container .source-details {
+              flex-wrap: wrap;
+              align-items: flex-start; }
+              main #report-content #people-in-need .source-new .source .display-card .source-excerpt-container .source-details > div {
+                display: flex;
+                flex-wrap: wrap;
+                flex-basis: 100%;
+                margin-bottom: 8px;
+                align-items: baseline; }
+                main #report-content #people-in-need .source-new .source .display-card .source-excerpt-container .source-details > div label {
+                  text-align: left;
+                  color: #fff;
+                  width: 72px; }
+                main #report-content #people-in-need .source-new .source .display-card .source-excerpt-container .source-details > div span {
+                  flex-basis: calc(100% - 72px);
+                  align-self: flex-end; }
+          main #report-content #people-in-need .source-new .source .display-card .source-flip {
+            flex-basis: 24px;
+            flex-grow: 0;
+            flex-shrink: 0;
+            align-self: flex-end;
+            padding: 4px 6px;
+            cursor: pointer; }
+          main #report-content #people-in-need .source-new .source .display-card .reliability-color {
+            flex-basis: 36px;
+            flex-grow: 0;
+            flex-shrink: 0;
+            width: 0;
+            height: 0;
+            border-bottom: 36px solid red;
+            border-left: 36px solid transparent; }
+          main #report-content #people-in-need .source-new .source .display-card:before {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0; }
+          main #report-content #people-in-need .source-new .source .display-card .reliability-color._0 {
+            border-bottom: 36px solid #daddf8; }
+          main #report-content #people-in-need .source-new .source .display-card .reliability-color._1 {
+            border-bottom: 36px solid #afb5f0; }
+          main #report-content #people-in-need .source-new .source .display-card .reliability-color._2 {
+            border-bottom: 36px solid #858de7; }
+          main #report-content #people-in-need .source-new .source .display-card .reliability-color._3 {
+            border-bottom: 36px solid #5a65df; }
+          main #report-content #people-in-need .source-new .source .display-card .reliability-color._4 {
+            border-bottom: 36px solid #2f3dd7; }
+          main #report-content #people-in-need .source-new .source .display-card .reliability-color._5 {
+            border-bottom: 36px solid #222eb1; }
+          main #report-content #people-in-need .source-new .source .display-card .reliability-color._6 {
+            border-bottom: 36px solid #1a2386; }
+          main #report-content #people-in-need .source-new .source .display-card .severity-color._0 {
+            border-top: 36px solid white; }
+          main #report-content #people-in-need .source-new .source .display-card .severity-color._1 {
+            border-top: 36px solid #f9d9d9; }
+          main #report-content #people-in-need .source-new .source .display-card .severity-color._2 {
+            border-top: 36px solid #f2adad; }
+          main #report-content #people-in-need .source-new .source .display-card .severity-color._3 {
+            border-top: 36px solid #ec8080; }
+          main #report-content #people-in-need .source-new .source .display-card .severity-color._4 {
+            border-top: 36px solid #e55454; }
+          main #report-content #people-in-need .source-new .source .display-card .severity-color._5 {
+            border-top: 36px solid #de2828; }
+          main #report-content #people-in-need .source-new .source .display-card .severity-color._6 {
+            border-top: 36px solid #b71c1c; }
+        main #report-content #people-in-need .source-new .source .display-card-left {
+          right: calc(100% + 16px);
+          top: auto;
+          bottom: auto;
+          left: auto;
+          width: 380px; }
+          main #report-content #people-in-need .source-new .source .display-card-left:before {
+            bottom: auto;
+            left: auto;
+            right: -16px;
+            top: 16px;
+            border-top: 8px solid transparent;
+            border-left: 16px solid #414141;
+            border-bottom: 8px solid transparent; }
+        main #report-content #people-in-need .source-new .source .display-card-right {
+          left: calc(100% + 16px);
+          top: 0;
+          bottom: auto;
+          right: auto;
+          width: 320px; }
+          main #report-content #people-in-need .source-new .source .display-card-right:before {
+            bottom: auto;
+            left: -16px;
+            right: auto;
+            top: 16px;
+            border-top: 8px solid transparent;
+            border-right: 16px solid #414141;
+            border-bottom: 8px solid transparent; }
+        main #report-content #people-in-need .source-new .source .display-card-top {
+          left: auto;
+          top: auto;
+          right: auto;
+          bottom: calc(100% + 16px);
+          width: 360px; }
+          main #report-content #people-in-need .source-new .source .display-card-top:before {
+            top: auto;
+            right: auto;
+            bottom: -16px;
+            left: calc(50% - 10px);
+            border-right: 8px solid transparent;
+            border-top: 16px solid #414141;
+            border-left: 8px solid transparent; }
+        main #report-content #people-in-need .source-new .source .display-card-bottom {
+          left: auto;
+          bottom: auto;
+          right: auto;
+          top: calc(100% + 16px);
+          width: 360px; }
+          main #report-content #people-in-need .source-new .source .display-card-bottom:before {
+            bottom: auto;
+            right: auto;
+            top: -16px;
+            left: calc(50% - 10px);
+            border-right: 8px solid transparent;
+            border-bottom: 16px solid #414141;
+            border-left: 8px solid transparent; }
+        main #report-content #people-in-need .source-new .source:nth-child(odd) {
+          background-color: #f5f5f5; }
     main #report-content #humanitarian-access > div {
       display: flex; }
       main #report-content #humanitarian-access > div input, main #report-content #humanitarian-access > div select {
@@ -610,6 +1000,8 @@ main {
             width: 10%; }
           main #report-content #humanitarian-access > div #human-access-field-list .human-access-field input {
             width: 24%; }
+          main #report-content #humanitarian-access > div #human-access-field-list .human-access-field .source-new {
+            width: 23%; }
       main #report-content #humanitarian-access > div #human-access-pin-field-list {
         flex-basis: 40%; }
         main #report-content #humanitarian-access > div #human-access-pin-field-list .human-access-pin-field {
@@ -630,6 +1022,193 @@ main {
               width: 65%; }
             main #report-content #humanitarian-access > div #human-access-pin-field-list .human-access-pin-field input:nth-child(4) {
               width: 100%; }
+          main #report-content #humanitarian-access > div #human-access-pin-field-list .human-access-pin-field .source-new {
+            width: 65%; }
+    main #report-content #humanitarian-access .source-new {
+      display: inline-block;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      min-height: 24px;
+      position: relative; }
+      main #report-content #humanitarian-access .source-new .source {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #fff;
+        padding: 6px;
+        position: relative;
+        cursor: pointer;
+        word-break: break-all; }
+        main #report-content #humanitarian-access .source-new .source .name {
+          flex-basis: 85%;
+          overflow: hidden;
+          flex-grow: 0;
+          flex-shrink: 0; }
+        main #report-content #humanitarian-access .source-new .source .delete {
+          flex-basis: 5%;
+          color: #e74c3c; }
+        main #report-content #humanitarian-access .source-new .source date {
+          flex-basis: 100%;
+          font-family: 'Inconsolata', monospace; }
+        main #report-content #humanitarian-access .source-new .source .display-card {
+          position: absolute;
+          z-index: 1;
+          color: #fff;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          background-color: #414141;
+          border-radius: 5px;
+          cursor: default;
+          box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+          main #report-content #humanitarian-access .source-new .source .display-card.focus {
+            display: flex; }
+          main #report-content #humanitarian-access .source-new .source .display-card a {
+            color: #fff; }
+          main #report-content #humanitarian-access .source-new .source .display-card .severity-color {
+            flex-basis: 36px;
+            flex-grow: 0;
+            flex-shrink: 0;
+            width: 0;
+            height: 0;
+            border-top: 36px solid blue;
+            border-right: 36px solid transparent;
+            border-top-radius: 5px;
+            margin-bottom: 8px; }
+          main #report-content #humanitarian-access .source-new .source .display-card .source-url {
+            flex-basis: 24px;
+            flex-grow: 0;
+            flex-shrink: 0;
+            padding: 6px 4px;
+            cursor: pointer; }
+          main #report-content #humanitarian-access .source-new .source .display-card .source-excerpt-container {
+            flex-basis: 100%;
+            flex-grow: 0;
+            flex-shrink: 0;
+            padding: 0 24px;
+            margin: -16px 0;
+            text-align: justify; }
+            main #report-content #humanitarian-access .source-new .source .display-card .source-excerpt-container .source-details {
+              flex-wrap: wrap;
+              align-items: flex-start; }
+              main #report-content #humanitarian-access .source-new .source .display-card .source-excerpt-container .source-details > div {
+                display: flex;
+                flex-wrap: wrap;
+                flex-basis: 100%;
+                margin-bottom: 8px;
+                align-items: baseline; }
+                main #report-content #humanitarian-access .source-new .source .display-card .source-excerpt-container .source-details > div label {
+                  text-align: left;
+                  color: #fff;
+                  width: 72px; }
+                main #report-content #humanitarian-access .source-new .source .display-card .source-excerpt-container .source-details > div span {
+                  flex-basis: calc(100% - 72px);
+                  align-self: flex-end; }
+          main #report-content #humanitarian-access .source-new .source .display-card .source-flip {
+            flex-basis: 24px;
+            flex-grow: 0;
+            flex-shrink: 0;
+            align-self: flex-end;
+            padding: 4px 6px;
+            cursor: pointer; }
+          main #report-content #humanitarian-access .source-new .source .display-card .reliability-color {
+            flex-basis: 36px;
+            flex-grow: 0;
+            flex-shrink: 0;
+            width: 0;
+            height: 0;
+            border-bottom: 36px solid red;
+            border-left: 36px solid transparent; }
+          main #report-content #humanitarian-access .source-new .source .display-card:before {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0; }
+          main #report-content #humanitarian-access .source-new .source .display-card .reliability-color._0 {
+            border-bottom: 36px solid #daddf8; }
+          main #report-content #humanitarian-access .source-new .source .display-card .reliability-color._1 {
+            border-bottom: 36px solid #afb5f0; }
+          main #report-content #humanitarian-access .source-new .source .display-card .reliability-color._2 {
+            border-bottom: 36px solid #858de7; }
+          main #report-content #humanitarian-access .source-new .source .display-card .reliability-color._3 {
+            border-bottom: 36px solid #5a65df; }
+          main #report-content #humanitarian-access .source-new .source .display-card .reliability-color._4 {
+            border-bottom: 36px solid #2f3dd7; }
+          main #report-content #humanitarian-access .source-new .source .display-card .reliability-color._5 {
+            border-bottom: 36px solid #222eb1; }
+          main #report-content #humanitarian-access .source-new .source .display-card .reliability-color._6 {
+            border-bottom: 36px solid #1a2386; }
+          main #report-content #humanitarian-access .source-new .source .display-card .severity-color._0 {
+            border-top: 36px solid white; }
+          main #report-content #humanitarian-access .source-new .source .display-card .severity-color._1 {
+            border-top: 36px solid #f9d9d9; }
+          main #report-content #humanitarian-access .source-new .source .display-card .severity-color._2 {
+            border-top: 36px solid #f2adad; }
+          main #report-content #humanitarian-access .source-new .source .display-card .severity-color._3 {
+            border-top: 36px solid #ec8080; }
+          main #report-content #humanitarian-access .source-new .source .display-card .severity-color._4 {
+            border-top: 36px solid #e55454; }
+          main #report-content #humanitarian-access .source-new .source .display-card .severity-color._5 {
+            border-top: 36px solid #de2828; }
+          main #report-content #humanitarian-access .source-new .source .display-card .severity-color._6 {
+            border-top: 36px solid #b71c1c; }
+        main #report-content #humanitarian-access .source-new .source .display-card-left {
+          right: calc(100% + 16px);
+          top: auto;
+          bottom: auto;
+          left: auto;
+          width: 380px; }
+          main #report-content #humanitarian-access .source-new .source .display-card-left:before {
+            bottom: auto;
+            left: auto;
+            right: -16px;
+            top: 16px;
+            border-top: 8px solid transparent;
+            border-left: 16px solid #414141;
+            border-bottom: 8px solid transparent; }
+        main #report-content #humanitarian-access .source-new .source .display-card-right {
+          left: calc(100% + 16px);
+          top: 0;
+          bottom: auto;
+          right: auto;
+          width: 320px; }
+          main #report-content #humanitarian-access .source-new .source .display-card-right:before {
+            bottom: auto;
+            left: -16px;
+            right: auto;
+            top: 16px;
+            border-top: 8px solid transparent;
+            border-right: 16px solid #414141;
+            border-bottom: 8px solid transparent; }
+        main #report-content #humanitarian-access .source-new .source .display-card-top {
+          left: auto;
+          top: auto;
+          right: auto;
+          bottom: calc(100% + 16px);
+          width: 360px; }
+          main #report-content #humanitarian-access .source-new .source .display-card-top:before {
+            top: auto;
+            right: auto;
+            bottom: -16px;
+            left: calc(50% - 10px);
+            border-right: 8px solid transparent;
+            border-top: 16px solid #414141;
+            border-left: 8px solid transparent; }
+        main #report-content #humanitarian-access .source-new .source .display-card-bottom {
+          left: auto;
+          bottom: auto;
+          right: auto;
+          top: calc(100% + 16px);
+          width: 360px; }
+          main #report-content #humanitarian-access .source-new .source .display-card-bottom:before {
+            bottom: auto;
+            right: auto;
+            top: -16px;
+            left: calc(50% - 10px);
+            border-right: 8px solid transparent;
+            border-bottom: 16px solid #414141;
+            border-left: 8px solid transparent; }
+        main #report-content #humanitarian-access .source-new .source:nth-child(odd) {
+          background-color: #f5f5f5; }
     main #report-content #weekly-severity-score label {
       margin-top: 10px;
       margin-bottom: 5px; }

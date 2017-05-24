@@ -3,5 +3,5 @@ from entries.api_views import *
 
 
 urlpatterns = [
-        url(r'^entries/$', EntryApiView.as_view(), name="events"),
+        url(r'^entries/$', EntryApiView.as_view(), name="entries"),
     ]

@@ -81,6 +81,11 @@ $(document).ready(function(){
     dateRangeInputModal = new Modal('#date-range-input');
     var addLeadModal = new Modal('#add-lead-modal');
 
+    $('#assigned-to-filter').selectize();
+    date_created_filter = $('#date-created-filter').selectize();
+    date_published_filter = $('#date-published-filter').selectize();
+    $('#confidentiality-filter').selectize();
+    $('#status-filter').selectize();
 
     var leadsTable = $('#leads-table').DataTable( {
         "order": [[ 0, "desc" ]],
@@ -91,7 +96,7 @@ $(document).ready(function(){
             type: "GET",
             dataType: "json",
             dataSrc: 'data',
-            url: "/api/v2/leads/?event=" + currentEvent,
+            url: "/api/v2/leads/" + (currentEvent ? ("?event=" + currentEvent) : ""),
         },
         columns: [
             {
@@ -119,34 +124,29 @@ $(document).ready(function(){
                 }
             },
             { data: null,width: "5%", render: function(data, type, row) { return confidentialities[data.confidentiality]; } },
-            { data: "source",width: "20%"},
+            { data: "source",width: "15%"},
+            { data: "number_of_entries",width: "5%"},
             { data: null,width: "5%", render: function(data, type, row) { return statuses[data.status]; } },
             { data: null,width: "10%",render: function(data, type, row){
                 var getPendingBtn = function(){
-                    return (data.status == "PEN") ? '<a class=" btn-action btn-mark-processed" data-toggle="tooltip" data-placement="bottom" title="Mark Processed" onclick="markProcessed('+data.id+', \'PRO\');"><i class="fa fa-exclamation-triangle fa-lg"></i>  </a>' : '<a class=" btn-action btn-mark-pending" data-toggle="tooltip" data-placement="bottom" title="Mark Pending" onclick="markProcessed('+data.id+', \'PEN\');"><i class="fa fa-check fa-lg"></i></a>';
+                    return (data.status == "PEN") ? '<a class=" btn-action btn-mark-processed" data-toggle="tooltip" data-placement="bottom" title="Mark Processed" onclick="markProcessed('+data.id+', \'PRO\', ' + data.event + ');"><i class="fa fa-exclamation-triangle fa-lg"></i>  </a>' : '<a class=" btn-action btn-mark-pending" data-toggle="tooltip" data-placement="bottom" title="Mark Pending" onclick="markProcessed('+data.id+', \'PEN\', ' + data.event + ');"><i class="fa fa-check fa-lg"></i></a>';
                 };
-                return '<a class=" btn-action btn-add-entry" data-toggle="tooltip" data-placement="bottom" title="Add Entry" href="/'+currentEvent+'/entries/add/'+data.id+'"><i class="fa fa-share fa-lg"></i></a> <a class=" btn-action btn-edit fa-lg" data-toggle="tooltip" data-placement="bottom" title="Edit Lead" href="/'+currentEvent+'/leads/edit/'+data.id+'"><i class="fa fa-edit"></i></a>'+getPendingBtn();
+                return '<a class=" btn-action btn-add-entry" data-toggle="tooltip" data-placement="bottom" title="Add Entry" href="/'+data.event+'/entries/add/'+data.id+'"><i class="fa fa-share fa-lg"></i></a> <a class=" btn-action btn-edit fa-lg" data-toggle="tooltip" data-placement="bottom" title="Edit Lead" href="/'+currentEvent+'/leads/edit/'+data.id+'"><i class="fa fa-edit"></i></a>'+getPendingBtn();
 
             }}
         ],
         initComplete: function(){
             assigned_to_col = this.api().column(2);
             confidentiality_col = this.api().column(5);
-            status_col = this.api().column(7);
+            status_col = this.api().column(8);
 
             assigned_to_col.data().unique().sort().each(
                 function ( value, index ) {
-                    $('#assigned-to-filter').append( '<option value="'+value+'">'+value+'</option>' );
+                    $('#assigned-to-filter')[0].selectize.addOption({ value: value, text: value });
                 }
             );
 
             var that = this;
-
-            $('#assigned-to-filter').selectize();
-            date_created_filter = $('#date-created-filter').selectize();
-            date_published_filter = $('#date-published-filter').selectize();
-            $('#confidentiality-filter').selectize();
-            $('#status-filter').selectize();
 
             $('#assigned-to-filter').on('change', function(){
                 assigned_to_col
@@ -262,7 +262,7 @@ $(document).ready(function(){
         return content;
     }
 
-    function format (data) {
+    function format(data) {
         if (data.published_at == null)
             data.published_at = "n/a";
         if (data.source == null)
@@ -277,15 +277,15 @@ $(document).ready(function(){
                     '<h3>' + data.name + '</h3>' +
                     '<div class="extra"><span><i class="fa fa-user"></i>' + data.created_by_name + '</span><span><i class="fa fa-calendar"></i>' + (new Date(data.created_at)).toLocaleDateString() + '</span></div>' +
                     '<div class="actions">' +
-                        '<button class="btn-add-entry" onclick="window.location.href=\'/' + currentEvent + '/entries/add/' + data.id + '/\'"><i class="fa fa-share"></i>Add Entry</button>' +
-                        '<button class="btn-add-entry" onclick="window.location.href=\'/' + currentEvent + '/leads/add-sos/' + data.id + '/\'"><i class="fa fa-share"></i>Add Survey of Survey</button>' +
-                        '<button class="btn-edit" onclick="window.location.href=\'/' + currentEvent + '/leads/edit/' + data.id + '/\'"><i class="fa fa-edit"></i>Edit</button>' +
+                        '<button class="btn-add-entry" onclick="window.location.href=\'/' + data.event + '/entries/add/' + data.id + '/\'"><i class="fa fa-share"></i>Add Entry</button>' +
+                        '<button class="btn-add-entry" onclick="window.location.href=\'/' + data.event + '/leads/add-sos/' + data.id + '/\'"><i class="fa fa-share"></i>Add Survey of Survey</button>' +
+                        '<button class="btn-edit" onclick="window.location.href=\'/' + data.event + '/leads/edit/' + data.id + '/\'"><i class="fa fa-edit"></i>Edit</button>' +
                         (
                             (data.status == "PEN") ?
-                            '<button class="btn-mark-processed" onclick="markProcessed('+data.id+', \'PRO\');"><i class="fa fa-check"></i>Mark Processed</button>' :
-                            '<button class="btn-mark-processed" onclick="markProcessed('+data.id+', \'PEN\');"><i class="fa fa-check"></i>Mark Pending</button>'
+                            '<button class="btn-mark-processed" onclick="markProcessed('+data.id+', \'PRO\', ' + data.event + ');"><i class="fa fa-check"></i>Mark Processed</button>' :
+                            '<button class="btn-mark-processed" onclick="markProcessed('+data.id+', \'PEN\', ' + data.event + ');"><i class="fa fa-check"></i>Mark Pending</button>'
                         ) +
-                        '<button class="btn-delete" onclick="deleteLead('+data.id+');"><i class="fa fa-trash"></i>Delete</button>' +
+                        '<button class="btn-delete" onclick="deleteLead('+data.id+', ' + data.event + ');"><i class="fa fa-trash"></i>Delete</button>' +
                     '</div>' +
                     '<div class="details">' +
                         '<div><label>status:</label>' + statuses[data.status] + '</div>' +
@@ -402,14 +402,16 @@ $(document).ready(function(){
 });
 
 
-function markProcessed(id, status) {
+function markProcessed(id, status, eventId) {
+    $('#process-form').attr('action', $('#process-form').attr('action').replace('0', eventId));
     $("#process-id").val(id);
     $("#process-status").val(status);
     $("#process-form").submit();
 }
 
-function deleteLead(id) {
+function deleteLead(id, eventId) {
     if (confirm("Are you sure you want to delete this lead?\nAll entries related to this lead will also be deleted.")) {
+        $('#delete-form').attr('action', $('#delete-form').attr('action').replace('0', eventId));
         $("#delete-id").val(id);
         $("#delete-form").submit();
     }

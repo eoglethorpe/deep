@@ -8,13 +8,13 @@
         var crisisDropdown = $('#crisis-dropdown').selectize({
             onDropdownOpen: function(dropdown) {
                 crisisDropdown.clear();
-                dropdown.stop().hide().slideToggle();
+                //dropdown.stop().hide().slideToggle();
             },
             onDropdownClose: function(dropdown) {
                 if(crisisDropdown.getValue() == ''){
                     crisisDropdown.setValue(currentDropdownVal);
                 }
-                dropdown.stop().show().slideToggle();
+                //dropdown.stop().show().slideToggle();
             }
         })[0].selectize;
         $('#crisis-dropdown').change(function() {
@@ -47,7 +47,11 @@
         });
 
         $('div[data-url]').click(function() {
-            window.location.href = $(this).data('url');
+            if ($(this).data('target') == 'new-tab') {
+                window.open($(this).data('url'), '_blank');
+            } else {
+                window.location.href = $(this).data('url');
+            }
         });
     });
 </script>
@@ -63,9 +67,7 @@
     </div>
 
     <!-- Report -->
-    <div id=report-link-container>
-        <a class="{% if current_page == 'report' %}active{% endif %} menu-item" href="{% url 'report:dashboard' %}{% if event %}?event={{event.pk}}&country={{event.countries.all.0.code}}{% endif %}">Report</a>
-    </div>
+
 
     <!-- Event selector -->
     <div id="crisis-select-container">
@@ -73,7 +75,9 @@
         <select id="crisis-dropdown" placeholder="Select event">
             <option>Select event</option>
             {% if event %}
-            <option value="{% url 'dashboard' %}">None</option>
+            <option value="{% url 'dashboard' %}">All events</option>
+            {% else %}
+            <option value="{% url request.resolver_match.view_name 0 %}" selected>All events</option>
             {% endif %}
             {% for ev in all_events %}
             <option value="{% url request.resolver_match.view_name event=ev.pk %}" {% if event and event == ev %}selected{% endif %}>{{ev}}</option>
@@ -81,7 +85,7 @@
         </select>
         {% else %}
         {% if event %}
-        <a href="#" style="color: #fff; font-weight: bold; width: 100%; overflow: hidden;"><span class="fa fa-location-arrow" style="margin-right: 8px;"></span>{{event}}</a>
+        <div id="crisis-dropdown-alt"><span class="fa fa-location-arrow"></span>{{event}}</div>
         {% endif %}
         {% endif %}
     </div>
@@ -91,8 +95,12 @@
         {% if event %}
         <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' event=event.pk %}">Leads</a>
         <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' event=event.pk %}">Entries</a>
-        <a class="{% if current_page == 'sos' %}active{% endif %} menu-item" href="{% url 'leads:sos' event=event.pk %}">Survey of surveys</a>
+        <a class="{% if current_page == 'sos' %}active{% endif %} menu-item" href="{% url 'leads:sos' event=event.pk %}">Assessment Registry</a>
+        <a class="{% if current_page == 'report' %}active{% endif %} menu-item" href="{% url 'report:dashboard' %}{% if event %}?event={{event.pk}}&country={{event.countries.all.0.code}}{% endif %}">Weekly Snapshot</a>
         <a class="{% if current_page == 'export' %}active{% endif %} menu-item" href="{% url 'entries:export' event=event.pk %}">Export</a>
+        {% else %}
+        <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' 0 %}">Leads</a>
+        <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' 0 %}">Entries</a>
         {% endif %}
     </div>
     <div id="extra-menu">
@@ -104,13 +112,14 @@
             <a class="dropdown-toggle"><div class="name"><i class="fa fa-user"></i>{{ user.first_name }}</div><i class="fa fa-chevron-down"></i></a>
             <div class="items" hidden>
                 <div data-url="{% url 'user_profile' user.pk %}"><i class="fa fa-user"></i>Profile</small></div>
+                <div data-url="{% url 'password_change' %}"><i class="fa fa-key"></i>Change password</small></div>
                 <div data-url="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</div>
-                {% if request.user.is_superuser %}
                 <hr>
+                {% if request.user.is_superuser %}
                 <div data-url="/admin"><i class="fa fa-user-secret"></i>Admin panel</div>
                 <div data-url="{% url 'custom_admin:country_management' %}"><i class="fa fa-globe"></i>Country Panel</div>
-                <div data-url="{% url 'custom_admin:crisis_panel' %}"><i class="fa fa-wrench"></i>Crisis Panel</div>
                 {% endif %}
+                <div data-url="{% url 'custom_admin:crisis_panel' %}"><i class="fa fa-wrench"></i>Crisis Panel</div>
                 {% if request.user.userprofile.hid %}
                 <hr>
                 <!-- TODO: Maybe show link to official hid profile page -->

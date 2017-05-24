@@ -311,7 +311,8 @@ body {
         display: flex;
         justify-content: space-between; }
         body main header .action-buttons a {
-          cursor: pointer; }
+          cursor: pointer;
+          color: white; }
       body main header #navigator {
         flex-basis: 60%;
         align-self: flex-end;
@@ -372,9 +373,9 @@ body {
         position: absolute;
         right: 35%;
         bottom: -172px;
-        border-radius: 3px;
-        height: 64px;
         width: 30%;
+        border-radius: 3px;
+        height: 72px;
         z-index: 6;
         background-color: #414141;
         color: #fff;
@@ -383,7 +384,8 @@ body {
         -webkit-user-select: none;
         display: flex;
         justify-content: space-between;
-        align-items: center; }
+        align-items: center;
+        padding-bottom: 16px; }
         body main section #clear-selection-toast > div {
           margin: 0 16px;
           color: rgba(255, 255, 255, 0.7);
@@ -475,6 +477,8 @@ body {
                   font-weight: 300;
                   color: rgba(0, 0, 0, 0.3);
                   transition: 0.2s all ease-in-out; }
+            body main section #members-wrapper #members .member.cannot-edit .action-container {
+              display: none; }
             body main section #members-wrapper #members .member:not(.cannot-edit):hover {
               box-shadow: 0 5px 15px -4px rgba(0, 0, 0, 0.4); }
               body main section #members-wrapper #members .member:not(.cannot-edit):hover .action-container > div {
@@ -547,7 +551,34 @@ body {
               background-color: rgba(0, 0, 0, 0.2); }
       body main section #templates-wrapper {
         height: calc(100vh - 144px - 56px);
-        overflow-y: scroll; }
+        overflow-y: auto; }
+        body main section #templates-wrapper #templates {
+          max-height: calc(100vh - 144px - 56px);
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+          overflow-y: auto;
+          padding: 16px; }
+          body main section #templates-wrapper #templates .template {
+            flex-basis: 23.5%;
+            background-color: #fff;
+            margin: 8px;
+            margin-top: 16px;
+            height: 96px;
+            padding: 16px;
+            box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.3);
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between; }
+            body main section #templates-wrapper #templates .template .name {
+              font-size: 1.1em;
+              text-transform: uppercase;
+              padding: 4px 0 4px 8px;
+              font-weight: 500; }
+            body main section #templates-wrapper #templates .template a {
+              color: #414141; }
+            body main section #templates-wrapper #templates .template .fa {
+              padding: 4px 8px 4px 0; }
   body aside {
     flex-basis: 24%;
     height: calc(100vh - 56px);

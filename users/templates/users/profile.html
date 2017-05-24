@@ -59,8 +59,8 @@ var activities = [
         </div>
         <div class="action-buttons">
             {% if user == request.user %}
-            <a id="save-user-info-btn" hidden><i class="fa fa-save"></i></a>
-            <a id="edit-user-info-btn" ><i class="fa fa-edit"></i></a>
+            <a id="save-user-info-btn" title="Click to Save" hidden><i class="fa fa-save"></i></a>
+            <a id="edit-user-info-btn" title="Click to Edit" ><i class="fa fa-edit"></i></a>
             <a id="save-user-info-progress-btn" hidden><i class="fa fa-spinner fa-pulse"></i></a>
             {% endif %}
         </div>
@@ -77,7 +77,7 @@ var activities = [
             <label class="groups" data-sort=".groups">Groups</label>
         </div>
         <div id="projects">
-            {% for crisis in user.event_set.all %}
+            {% for crisis in projects %}
             <div class="project">
                 <div class="name">{{crisis.name}}</div>
                 <div class="type">{{crisis.disaster_type.name}}</div>
@@ -128,8 +128,8 @@ var activities = [
             <textarea name="description" id="new-user-group-description"></textarea>
         </div>
         <div class="action-buttons">
-            <button data-action="dismiss">Cancel</button>
-            <button data-action="proceed" data-persist="true">Create user group</button>
+            <button class="cancel-button" data-action="dismiss"><i class="fa fa-times fa-md"></i>Cancel</button>
+            <button class="proceed-button" data-action="proceed" data-persist="true"><i class="fa fa-plus fa-md"></i>Create user group</button>
         </div>
     </div>
 </div>

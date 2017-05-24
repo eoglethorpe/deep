@@ -5,6 +5,7 @@ from django.views.generic import View
 from leads.models import Country, Event, Lead, SurveyOfSurvey
 from leads.api_serializers import *
 from deep.json_utils import *
+from deep.filename_generator import generate_filename
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -20,10 +21,21 @@ class CountryApiView(View):
         if code:
             countries = countries.filter(code=code)
 
+        index = request.GET.get('index')
+        if index:
+            countries = countries[int(index):]
+        count = request.GET.get('count')
+        if count:
+            countries = countries[:int(count)]
+
         data = []
         for country in countries:
             data.append(CountrySerializer(country).serialize())
-        return JsonResult(data=data)
+
+        response = JsonResult(data=data)
+        if request.GET.get('file') == '1':
+            response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(generate_filename('Countries Export'))
+        return response
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -39,10 +51,22 @@ class EventApiView(View):
         if event_id:
             events = events.filter(pk=event_id)
 
+        index = request.GET.get('index')
+        if index:
+            events = events[int(index):]
+        count = request.GET.get('count')
+        if count:
+            events = events[:int(count)]
+
         data = []
         for event in events:
             data.append(EventSerializer(event).serialize())
-        return JsonResult(data=data)
+
+        response = JsonResult(data=data)
+        if request.GET.get('file') == '1':
+            response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(generate_filename('Events Export'))
+        return response
+
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -62,11 +86,26 @@ class LeadApiView(View):
         if lead_id:
             leads = leads.filter(pk=lead_id)
 
+        has_entries = request.GET.get('has_entries')
+        if has_entries:
+            leads = leads.filter(entry__isnull=False)
+
+        index = request.GET.get('index')
+        if index:
+            leads = leads[int(index):]
+        count = request.GET.get('count')
+        if count:
+            leads = leads[:int(count)]
+
+
         data = []
         for lead in leads:
             data.append(LeadSerializer(lead).serialize())
 
-        return JsonResult(data=data)
+        response = JsonResult(data=data)
+        if request.GET.get('file') == '1':
+            response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(generate_filename('Leads Export'))
+        return response
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -86,7 +125,18 @@ class SosApiView(View):
         if sos_id:
             soses = soses.filter(pk=sos_id)
 
+        index = request.GET.get('index')
+        if index:
+            soses = soses[int(index):]
+        count = request.GET.get('count')
+        if count:
+            soses = soses[:int(count)]
+
         data = []
         for sos in soses:
             data.append(SosSerializer(sos).serialize())
-        return JsonResult(data=data)
+
+        response = JsonResult(data=data)
+        if request.GET.get('file') == '1':
+            response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(generate_filename('Assessment Registry Export'))
+        return response

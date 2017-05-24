@@ -100,10 +100,8 @@ body > nav {
     flex-grow: 0; }
     body > nav #deep-logo-container img {
       width: 100%; }
-  body > nav #report-link-wrapper {
-    flex-basis: 10%; }
   body > nav #crisis-select-container {
-    flex-basis: 28%; }
+    flex-basis: 20%; }
     body > nav #crisis-select-container .selectize-control.single .selectize-input, body > nav #crisis-select-container .selectize-control.single.single, body > nav #crisis-select-container .selectize-control.single .selectize-input.input-active {
       background-color: transparent !important; }
     body > nav #crisis-select-container .selectize-input {
@@ -123,10 +121,14 @@ body > nav {
         border-style: solid;
         border-width: 5px 5px 0 5px;
         border-color: #808080 transparent transparent transparent; }
-    body > nav #crisis-select-container a {
-      vertical-align: middle; }
+    body > nav #crisis-select-container #crisis-dropdown-alt {
+      vertical-align: middle;
+      color: #fff;
+      font-size: 12px; }
+      body > nav #crisis-select-container #crisis-dropdown-alt .fa {
+        width: 16px; }
   body > nav #main-menu {
-    flex-basis: 32%; }
+    flex-basis: 50%; }
   body > nav #extra-menu {
     flex-basis: calc(20% - 96px);
     display: flex;
@@ -237,6 +239,8 @@ body {
           transition: all 0.2s ease-in-out;
           display: flex;
           justify-content: flex-start; }
+          body main > header .user-info #full-name label {
+            color: white; }
           body main > header .user-info #full-name > div {
             padding: 0 10px; }
             body main > header .user-info #full-name > div label {
@@ -358,6 +362,7 @@ body {
         body main #user-group-list #user-groups .user-group {
           height: 80%;
           width: 144px;
+          margin-right: 16px;
           background-color: #fff;
           display: flex;
           border: 1px solid rgba(0, 0, 0, 0.05);
@@ -409,5 +414,9 @@ body {
     display: block; }
     body #new-user-group-modal .error:empty {
       display: none; }
+  body #new-user-group-modal .cancel-button {
+    color: #e74c3c; }
+  body #new-user-group-modal .proceed-button {
+    color: #3498db; }
 
 /*# sourceMappingURL=user-profile.css.map */

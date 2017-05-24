@@ -82,6 +82,10 @@ body{
 
 
                 #full-name{
+                    label{
+                        color: white;
+                    }
+
                     flex-basis: 60%;
                     font-size: 32px;
                     padding: 4px 16px;;
@@ -259,6 +263,7 @@ body{
                 .user-group{
                     height: 80%;
                     width: 144px;
+                    margin-right: 16px;
                     background-color: #fff;
                     display: flex;
                     border: 1px solid rgba(0, 0, 0, 0.05);
@@ -339,6 +344,13 @@ body{
             &:empty {
                 display: none;
             }
+
+        }
+        .cancel-button{
+            color: $danger-color;
+        }
+        .proceed-button{
+            color: $info-color;
         }
     }
 }

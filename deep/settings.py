@@ -38,6 +38,15 @@ def get_pub_ip():
 
 ALLOWED_HOSTS = [get_pub_ip(), os.environ.get('ALLOWED_HOST')]
 
+# Email
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'deepnotifications1@gmail.com'
+EMAIL_HOST_PASSWORD = 'deep1234'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+ADMINS = [('Ewan', 'ewanogle@gmail.com'), ('Togglecorp', 'info@togglecorp.com')]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -158,6 +167,7 @@ if not DEBUG:
             },
         },
     }
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 

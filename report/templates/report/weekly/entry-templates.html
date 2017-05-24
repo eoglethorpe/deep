@@ -9,7 +9,10 @@
 
 <div class="information-template" hidden>
     <div class="information-header">
-        <div><label>Information's date:</label><date></date></div>
+        <div>
+            <label>Information's date:</label><date class="source-id"></date>
+            <!-- <div class="source-id">Source id</div> -->
+        </div>
         <div class="reliability">
             {% for reliability in reliabilities %}
             <span data-id="{{reliability.pk}}" class="_{{reliability.level}}  {% if data.reliability == reliability %}active{% endif %}" title="{{reliability}}"></span>
@@ -21,5 +24,17 @@
             {% endfor %}
         </div>
     </div>
-    <p class="excerpt"></p>
+    <p class="excerpt-text"></p>
+    <img class="excerpt-image" hidden></img>
+</div>
+
+
+<div class="template-information-template" hidden>
+    <div class="information-header">
+        <div>
+            <div class="source-id">Source id</div>
+        </div>
+    </div>
+    <p class="excerpt-text"></p>
+    <img class="excerpt-image" hidden></img>
 </div>

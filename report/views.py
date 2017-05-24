@@ -4,6 +4,7 @@ from django.db.models import Count, Min, Max
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.core.serializers.json import DjangoJSONEncoder
 
 from users.log import *
 from leads.models import *
@@ -11,6 +12,7 @@ from entries.models import *
 from report.models import *
 
 import collections
+import json
 from math import ceil
 from datetime import datetime, timedelta
 
@@ -34,26 +36,27 @@ class ReportDashboardView(View):
         country = Country.objects.get(pk=country_id)
         event = Event.objects.get(pk=event_id)
 
-        # Get all weekly reports for this event and country
-        weekly_reports = WeeklyReport.objects.filter(event=event, country=country)
-        context["weekly_reports"] = weekly_reports
-
         dt = datetime.now()
         context["new_week_date"] = dt - timedelta(days=dt.weekday()+7)       # starting from monday, but previous week
-        context["new_week_date_end"] = context["new_week_date"] + timedelta(days=6)
-        # if weekly_reports.count() > 0 and \
-        #         weekly_reports.first().start_date >= context["new_week_date"].date():
-        #     context["new_week_date"] = None
-
-        for report in context["weekly_reports"]:
-            report.end_date = report.start_date + timedelta(days=6)
 
         context["country"] = country
         context["event"] = event
         context["current_page"] = "report"
 
+        # For event and report selection
+        for country in context["countries"]:
+            events = []
+            for event in Event.objects.filter(countries=country):
+                reports = []
+                for report in WeeklyReport.objects.filter(event=event, country=country):
+                    reports.append({
+                        'id': report.pk,
+                        'start_date': report.start_date,
+                    })
+                events.append({ 'id': event.pk, 'name': event.name, 'reports': reports })
+            country.events = json.dumps(events, cls=DjangoJSONEncoder)
+
         # for sparklines and other viz
-        context["weekly_reports_all"] = WeeklyReport.objects.all()
         context["affected_field_id_list"] = HumanProfileField.objects.filter(dashboard_affected_field=True)
         context["displaced_field_id_list"] = HumanProfileField.objects.filter(dashboard_displaced_field=True)
         context["in_need_field_id_list"] = PeopleInNeedField.objects.filter(dashboard_in_need_field=True)
@@ -77,16 +80,29 @@ class WeeklyReportView(View):
         context["current_page"] = "report"
 
         context["users"] = User.objects.exclude(first_name="", last_name="")
-        context["pillars"] = InformationPillar.objects.all()
-        context["subpillars"] = InformationSubpillar.objects.all()
-        context["sectors"] = Sector.objects.all()
-        context["subsectors"] = Subsector.objects.all()
-        context["vulnerable_groups"] = VulnerableGroup.objects.all()
-        context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
-        context["reliabilities"] = Reliability.objects.all().order_by('level')
-        context["severities"] = Severity.objects.all().order_by('level')
-        context["affected_groups"] = AffectedGroup.objects.all()
-        context["sources"] = Source.objects.all()
+        UserProfile.set_last_event(request, context["event"])
+
+        if context["event"].entry_template:
+            context["entry_template"] = context["event"].entry_template
+        else:
+            context["pillars"] = InformationPillar.objects.all()
+            context["subpillars"] = InformationSubpillar.objects.all()
+            context["sectors"] = Sector.objects.all()
+            context["subsectors"] = Subsector.objects.all()
+            context["vulnerable_groups"] = VulnerableGroup.objects.all()
+            context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
+            context["reliabilities"] = Reliability.objects.all().order_by('level')
+            context["severities"] = Severity.objects.all().order_by('level')
+            context["affected_groups"] = AffectedGroup.objects.all()
+
+            context["appearing_pillars"] = {}
+            for field in InformationPillar.APPEAR_IN:
+                context["appearing_pillars"][field[0]] = InformationPillar.objects.filter(appear_in=field[0])
+
+            context["appearing_subpillars"] = {}
+            for field in InformationSubpillar.APPEAR_IN:
+                context["appearing_subpillars"][field[0]] = InformationSubpillar.objects.filter(appear_in=field[0])
+
 
         # for severity score total people in need
         context["severity_score_total_pin_id"] = PeopleInNeedField.objects.filter(severity_score_total_pin_field=True)
@@ -119,10 +135,6 @@ class WeeklyReportView(View):
             PeopleInNeedField.objects.filter(parent__isnull=True)
         context["human_access_fields"] = HumanAccessField.objects.all()
         context["human_access_pin_fields"] = HumanAccessPinField.objects.all()
-
-        context["appearing_pillars"] = {}
-        for field in InformationPillar.APPEAR_IN:
-            context["appearing_pillars"][field[0]] = InformationPillar.objects.filter(appear_in=field[0])
 
         return render(request, "report/weekly.html", context)
 

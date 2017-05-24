@@ -1,169 +1,364 @@
 @import 'common/base';
 @import 'common/navbar';
 
+body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 
-$word-color: $info-color;
-$excel-color: $primary-color;
+    >nav {
+        flex-basis: 100%;
+    }
 
-#main{
-    padding: 24px 16px 0 16px;
+    main {
+        flex-basis: 70%;
+        border-left: 2px solid rgba(0, 0, 0, 0.1);
 
-    h1, h2, h3, h4{
-        margin: 0;
-        text-transform: uppercase;
-    }
-    h1{
-        color: $primary-color;
-        margin-bottom: 16px;
-    }
-    h2{
-        font-weight: $font-weight-bold;
-        margin-bottom: 24px;
-    }
-    h3{
-        font-size: $text-size-md;
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-    ul{
-        list-style: none;
-        padding-left: 0;
-        li{
-            padding: 10px 32px;
-            margin-bottom: 10px;
-            border: none;
-            background-color: #fff;
-            font-weight: bold;
-            color: $label-color;
-            @include btn-shadow-sm();
+        h1, h2, h3, h4, h5, h6 {
+            margin: 0;
+            text-transform: uppercase;
         }
-    }
-    #export-entries{
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        align-items: flex-start;
-        margin-bottom: 16px;
 
-        h1{
-            flex-basis: 100%;
-        }
-        #export-entries-doc{
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            flex-basis: 73%;
-            margin-right: 16px;
-            padding: 16px;
-            box-sizing: border-box;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+        section {
+            min-height: 108px;
+            padding-bottom: 10px;
 
-            #export-entries-doc-form{
-                flex-basis: 100%;
+            h2 {
+                height: 54px;
                 display: flex;
-                justify-content: space-between;
+                align-items: center;
+                padding: 0 16px;
+                background-color: #fff;
+                box-shadow: 0 1px 15px -5px rgba(0, 0, 0, 0.5);
             }
-            label{
-                margin-bottom: 3px;
-            }
-            >div:nth-child(2){
-                flex-basis: 60%;
-            }
-            >div:last-child{
-                flex-basis: 35%;
-            }
-            #filters{
+
+            h3 {
+                height: 48px;
                 display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
+                align-items: center;
+                padding: 0 16px;
+                background-color: #f5f5f5;
+            }
+
+            h4 {
+                height: 32px;
+                display: flex;
+                align-items: center;
+                padding: 0 16px;
+            }
+
+            .content {
+                padding: 16px;
+            }
+
+            form{
+                display: flex;
                 flex-wrap: wrap;
+                #filter-section{
+                    flex-basis: 64%;
+                    border-right: 1px solid rgba(0, 0, 0, 0.1);
 
-                >div{
-                    flex-basis: 49%;
+                }
+                #structure-section{
+                    flex-basis: 36%;
+                }
+                #action-section{
+                    border-top: 1px solid rgba(0, 0, 0, 0.1);
+                    flex-basis: 100%;
+                }
+                .filters {
+                    padding: 0 16px;
 
-                    &:last-child{
-                        flex-basis: 49%;
-                    }
-                    >input[type="text"], input[type="number"]{
-                        width: 100%;
-                        outline: none;
-                        padding: 4px 6px;
-                        margin-bottom: 8px;
-                        border: 1px solid rgba(0, 0, 0, 0.1);
-                        box-sizing: border-box;
-                        background-color: #fff;
+                    .filter-group {
+                        padding-bottom: 8px;
 
-                        &:focus{
-                            border-color: $primary-color;
+                        &#basic-information-filters, &#lead-information-filters {
+                            .filters-container {
+                                .filter {
+                                    flex-basis: calc(100% / 4 - 2px);
+                                }
+                            }
+                        }
+                        &#entry-attributes-filters {
+                            .filters-container {
+                                .filter{
+                                    flex-basis: calc(100% / 4 - 2px);
+                                }
+                            }
+                        }
+                        &#leads-selection {
+                            header {
+                                h5 {
+                                    flex-basis: auto;
+                                    align-self: stretch;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                    cursor: pointer;
+
+                                    label{
+                                        color: rgba(0, 0, 0, 0.5);
+                                    }
+
+                                    i {
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        margin-left: 10px;
+                                        background-color: rgba(0, 0, 0, 0.05);
+                                        width: 24px;
+                                        height: 24px;
+                                        border-radius: 50%;
+                                        transition: all 0.2s ease-in-out;
+                                    }
+
+                                    &:hover {
+                                        i{
+                                            background-color: rgba(0, 0, 0, 0.1);
+                                        }
+                                    }
+                                }
+                            }
+                            .filters-container {
+                                display: none;
+                            }
+                            &.filters-shown {
+                                header {
+                                    h5 {
+                                        i {
+                                            transform: rotate(180deg);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        >header {
+                            height: 24px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                        }
+
+                        .filters-container {
+                            display: flex;
+                            justify-content: flex-start;
+                            flex-wrap: wrap;
+
+                            .filter {
+                                margin: 1px;
+                                box-shadow: 0 1px 7px -5px rgba(0, 0, 0, 0.3);
+
+                                > input {
+                                    width: 100%;
+                                    height: 100%;
+                                    padding: 0 4px;
+                                    border: 1px solid rgba(0, 0, 0, 0.1);
+                                    outline: none;
+                                }
+
+                                &.range-filter {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    position: relative;
+
+                                    label {
+                                        position: absolute;
+                                        width: 100%;
+                                        height: 100%;
+                                        display: flex;
+                                        align-items: center;
+                                        text-transform: none;
+                                        color: rgba(0, 0, 0, 0.4);
+                                        font-size: 1em;
+                                        font-weight: $font-weight-normal;
+                                        padding: 0 6px;
+                                        top: 0;
+                                        left: 0;
+                                        z-index: 1;
+                                        background-color: #fff;
+                                        border: 1px solid rgba(0, 0, 0, 0.1);
+                                    }
+                                    >div {
+                                        flex-basis: 50%;
+                                    }
+
+                                    &.filled, &:hover {
+                                        label {
+                                            display: none;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
-                    .selectize-control{
-                        margin-bottom: 8px;
-                    }
                 }
-                #severity-filter-container,#reliability-filter-container{
+
+            }
+
+            &#entries-export {
+                h2 {
+                    flex-basis: 100%;
+                }
+
+                .lead-filters {
                     display: flex;
-                    flex-wrap: wrap;
-                    justify-content: space-between;
-
-                    label{
-                        flex-basis: 100%;
-                    }
-                    >div{
-                        flex-basis: 48%;
+                    .filter {
+                        flex-basis: 25%;
                     }
                 }
-            }
-            .hierarchy{
-                margin-top: 32px;
-            }
 
-            button{
-                color: #fff;
-                background-color: $word-color;
-                padding: 6px 10px;
-                @include btn-shadow-md;
+                .leads-container {
+                    flex-basis: 100%;
 
-                i{
-                    margin-right: 8px;
+                    header {
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+                        label{
+                            display: flex;
+                            align-items: center;
+                            vertical-align: super;
+                            font-size: 1em;
+
+                            input{
+                                margin-top: 2px;
+                            }
+                        }
+                        >*{
+                            color: $label-color;
+                            text-transform: uppercase;
+                            font-size: 0.9em;
+                            font-weight: $font-weight-bold;
+                        }
+                    }
+                    .leads{
+                        height: 192px;
+                        overflow-y: scroll;
+                    }
+
+                    header, .lead {
+                        display: flex;
+                        align-items: center;
+                        min-height: 24px;
+                        padding: 6px 16px;
+
+                        .select{
+                            flex-basis: 96px;
+                        }
+                        .created-at{
+                            flex-basis: 20%;
+                            time, date{
+                                font-family: 'Inconsolata', monospace;
+                            }
+                            date{
+                                margin-right: 10px;
+                            }
+                        }
+                        .title{
+                            flex-basis: calc(80% - 96px);
+                        }
+                    }
+                    .lead:nth-child(even){
+                        background-color: #f9f9f9;
+                    }
+                }
+
+                .export-format {
+                    padding: 0 16px;
+                    height: 32px;
+                    display: flex;
+
+                    label {
+                        display: flex;
+                        align-items: center;
+                        padding: 0 16px;
+                        cursor: pointer;
+                        font-size: 1em;
+                        font-weight: $font-weight-normal;
+                        border-bottom: 2px solid rgba(0, 0, 0, 0.16);
+
+                        &.active {
+                            font-weight: $font-weight-bold;
+                            border-bottom: 2px solid $primary-color;
+                            color: $primary-color;
+                        }
+                        input {
+                            display: none;
+                        }
+                    }
+                }
+
+                .action-buttons {
+                    padding: 10px 16px;
+                }
+                #preview-docx {
+                    margin-left: 16px;
+                }
+                .excel-export {
+                    flex-basis: 24%;
+                }
+                #action-section {
+                    display: flex;
+
+                    >div {
+                        flex-basis: 50%;
+
+                        &:nth-child(2) {
+                            border-left: 1px solid rgba(0, 0, 0, 0.1);
+                            padding: 42px 0 0 16px;
+                        }
+                    }
                 }
             }
         }
-        #export-entries-excel{
-            flex-basis: 25%;
-            padding: 16px;
-            box-sizing: border-box;
-            border: 1px solid rgba(0, 0, 0, 0.1);
 
-            button{
-                background-color: $excel-color;
-                color: #fff;
-                padding: 6px 10px;
-                @include btn-shadow-md;
+        button {
+            padding: 6px 16px;
+            @include btn-shadow-sm;
 
-                .fa{
-                    margin-right: 10px;
-                }
-            }
-        }
-    }
-    #sos-export{
-        width: 25%;
-
-        #sos-export-excel{
-            padding: 16px;
-            box-sizing: border-box;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-        button{
-            background-color: $excel-color;
-            color: #fff;
-            padding: 6px 12px;
-            @include btn-shadow-md;
-
-            .fa{
+            .fa {
                 margin-right: 8px;
             }
+            &.btn-word {
+                background-color: #295497;
+                color: #fff;
+            }
+            &.btn-pdf {
+                background-color: #c11e07;
+                color: #fff;
+            }
+            &.btn-excel {
+                background-color: #1f7244;
+                color: #fff;
+            }
+        }
+
+    }
+
+    aside {
+        flex-basis: 30%;
+        height: calc(100vh - #{$navbar-height});
+
+        >div {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            text-transform: uppercase;
+            color: rgba(0, 0, 0, 0.3);
+
+            >span {
+                margin-bottom: 16px;
+            }
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
     }
 }

@@ -1,0 +1,29 @@
+@import 'common/base';
+@import 'common/navbar';
+
+body{
+    height: 100vh;
+    background-color: red;
+    @import 'entries/add-template-entries-page-one';
+    @import 'entries/add-template-entries-page-two';
+
+    .modal{
+        .map-section{
+            .buttons-container{
+                text-align: center;
+                padding: 4px;
+                background-color: #f0f0f0;
+            }
+        }
+        .control-section{
+            padding: 10px 16px 0 16px;
+
+            label{
+                margin-bottom: 6px;
+            }
+            .selectize-control{
+                margin-bottom: 16px;
+            }
+        }
+    }
+}

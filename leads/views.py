@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
 from django.conf import settings
+from django.core.files import File
 
 from datetime import datetime
 import json
@@ -17,6 +18,7 @@ from leads.models import *
 from entries.models import *
 from entries.strippers import *
 from entries.refresh_pcodes import refresh_pcodes
+from deep.filename_generator import generate_filename
 
 from excel_writer import ExcelWriter, RowCollection
 
@@ -26,15 +28,22 @@ def get_simplified_lead(lead, context):
     # Make sure to catch any exception.
 
     try:
+        images = None
         if lead.lead_type == "URL":
             doc = WebDocument(lead.url)
 
             if doc.html:
-                context["lead_simplified"] = \
+                context["lead_simplified"], images = \
                     HtmlStripper(doc.html).simplify()
             elif doc.pdf:
-                context["lead_simplified"] = \
+                context["lead_simplified"], images = \
                     PdfStripper(doc.pdf).simplify()
+            elif doc.docx:
+                context["lead_simplified"], images = \
+                    DocxStripper(doc.docx).simplify()
+            elif doc.pptx:
+                context["lead_simplified"], images = \
+                    PptxStripper(doc.pptx).simplify()
 
         elif lead.lead_type == "MAN":
             context["lead_simplified"] = lead.description
@@ -46,13 +55,26 @@ def get_simplified_lead(lead, context):
             except:
                 name, extension = attachment.upload.name, ""
             if extension == ".pdf":
-                context["lead_simplified"] = \
+                context["lead_simplified"], images = \
                     PdfStripper(attachment.upload).simplify()
             elif extension in [".html", ".htm"]:
-                context["lead_simplified"] = \
+                context["lead_simplified"], images = \
                     HtmlStripper(attachment.upload.read()).simplify()
+            elif extension in [".docx", ]:
+                context["lead_simplified"], images = \
+                    DocxStripper(attachment.upload).simplify()
+            elif extension in [".pptx", ]:
+                context["lead_simplified"], images = \
+                    PptxStripper(attachment.upload).simplify()
             else:
                 context["lead_simplified"] = attachment.upload.read()
+
+        LeadImage.objects.filter(lead=lead).delete()
+        for image in images:
+            lead_image = LeadImage(lead=lead)
+            lead_image.image.save(os.path.basename(image.name), File(image), True)
+            lead_image.save()
+
     except Exception as e:
         # raise e
         # print(e)
@@ -77,8 +99,10 @@ class LeadsView(View):
     def get(self, request, event):
         context = {}
         context["current_page"] = "leads"
-        context["event"] = Event.objects.get(pk=event)
-        UserProfile.set_last_event(request, context["event"])
+        if int(event) != 0:
+            context["event"] = Event.objects.get(pk=event)
+            UserProfile.set_last_event(request, context["event"])
+
         context["all_events"] = Event.objects.all()
         context.update(get_lead_form_data())
         return render(request, "leads/leads.html", context)
@@ -119,10 +143,18 @@ class AddSoS(View):
             if "lead_simplified" in context:
                 SimplifiedLead(lead=lead, text=context["lead_simplified"]).save()
 
-        if lead.lead_type == 'URL' and lead.url.endswith('.pdf'):
-            context["is_pdf"] = True
-        else:
-            context["is_pdf"] = False
+        if lead.lead_type == 'URL':
+            context['lead_url'] = lead.url
+        elif lead.lead_type == 'ATT':
+            context['lead_url'] = request.build_absolute_uri(lead.attachment.upload.url)
+
+        if context.get('lead_url'):
+            if context['lead_url'].endswith('.pdf'):
+                context["format"] = 'pdf'
+            elif context['lead_url'].endswith('.docx'):
+                context["format"] = 'docx'
+            elif context['lead_url'].endswith('.pptx'):
+                context["format"] = 'pptx'
 
         # Get fields options
         context["proximities"] = ProximityToSource.objects.all()
@@ -367,6 +399,8 @@ class AddLead(View):
                 "url": reverse('entries:add', args=[event, lead.pk])
             })
         if "add-entry" in request.POST:
+            if lead.lead_type == Lead.ATTACHMENT_LEAD:
+                return JsonResponse({'url': reverse('entries:add', args=[event, lead.pk])})
             return redirect('entries:add', event, lead.pk)
 
         return redirect("leads:leads", event=event)
@@ -413,7 +447,6 @@ class DeleteLead(View):
 
 
 class ExportSosXls(View):
-    @method_decorator(login_required)
     def get(self, request, event):
         ew = ExcelWriter()
 
@@ -498,4 +531,4 @@ class ExportSosXls(View):
 
             ew.append(rows.rows)
 
-        return ew.get_http_response("survey of surveys")
+        return ew.get_http_response(generate_filename('Assessment Registry Export'))

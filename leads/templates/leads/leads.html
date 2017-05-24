@@ -12,8 +12,8 @@ DEEP | Leads
 <link href="{% watchful_static_url 'css/leads.css' %}" type="text/css" rel="stylesheet">
 
 <script>
-    var currentEvent = {{event.pk}};
-    var postUrl = "{% url 'leads:add' event.pk %}";
+    var currentEvent = {% if event %} {{ event.pk }} {% else %} null {% endif %};
+    var postUrl = "{% url 'leads:add' event=0 %}";
 </script>
 
 <script type="text/javascript" src="{% watchful_static_url 'js/common/datatables.min.js' %}"></script>
@@ -28,7 +28,11 @@ DEEP | Leads
 {% include 'navbar.html' %}
 
 <main>
+    {% if event %}
     <a id="add-lead-btn" href="{% url 'leads:add' event=event.pk %}" ><i class="fa fa-plus"></i>Add new lead</a>
+    {% else %}
+    <a id="add-lead-btn" style="visiblity: hidden;"><i class="fa fa-plus"></i>Add new lead</a>
+    {% endif %}
     <div id="filters">
         <label>Apply filter:</label>
         <select id="assigned-to-filter" placeholder="Assigned to">
@@ -78,6 +82,7 @@ DEEP | Leads
                     <th>Published</th>
                     <th>Confidentiality</th>
                     <th>Source</th>
+                    <th>No. of Entries</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -91,12 +96,12 @@ DEEP | Leads
     </div>
 </div>
 
-<form id="process-form" method="post" action="{% url 'leads:mark_processed' event=event.pk %}" hidden>
+<form id="process-form" method="post" action="{% url 'leads:mark_processed' event=0 %}" hidden>
     {% csrf_token %}
     <input id="process-id" name="id" type="text">
     <input id="process-status" name="status" type="text">
 </form>
-<form id="delete-form" method="post" action="{% url 'leads:delete' event=event.pk %}" hidden>
+<form id="delete-form" method="post" action="{% url 'leads:delete' event=0 %}" hidden>
     {% csrf_token %}
     <input id="delete-id" name="id" type="text">
 </form>

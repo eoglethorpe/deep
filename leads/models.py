@@ -40,7 +40,9 @@ class Event(models.Model):
     name = models.CharField(max_length=100)
     countries = models.ManyToManyField(Country, blank=True)
     disaster_type = models.ForeignKey('report.DisasterType', null=True, blank=True, default=None)
+    entry_template = models.ForeignKey('entries.EntryTemplate', null=True, blank=True, default=None)
 
+    # owners = models.ManyToManyField(User, default=None, blank=True, related_name="events_superowned")
     admins = models.ManyToManyField(User, blank=True, related_name="events_owned")
 
     # TO DELETE
@@ -55,6 +57,10 @@ class Event(models.Model):
     end_date = models.DateField(null=True, blank=True, default=None)
 
     status = models.IntegerField(default=1, choices=STATUSES)
+
+    def get_num_entries(self):
+        from entries.models import Entry
+        return Entry.objects.filter(lead__event__pk=self.pk).count()
 
     def __str__(self):
         return self.name
@@ -161,6 +167,14 @@ class SimplifiedLead(models.Model):
     lead = models.OneToOneField(Lead)
     # simplified text
     text = models.TextField()
+
+    def __str__(self):
+        return self.lead.name
+
+
+class LeadImage(models.Model):
+    lead = models.ForeignKey(Lead)
+    image = models.FileField(Lead, upload_to='leadimages/')
 
     def __str__(self):
         return self.lead.name

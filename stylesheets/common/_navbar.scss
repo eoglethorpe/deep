@@ -38,11 +38,8 @@ body{
                 width: 100%;
             }
         }
-        #report-link-wrapper{
-            flex-basis: 10%;
-        }
         #crisis-select-container{
-            flex-basis: 28%;
+            flex-basis: 20%;
 
             .selectize-control.single{
                 .selectize-input, &.single, .selectize-input.input-active{
@@ -69,12 +66,18 @@ body{
                     border-color: #808080 transparent transparent transparent;
                 }
             }
-            a{
+            #crisis-dropdown-alt{
                 vertical-align: middle;
+                color: #fff;
+                font-size: $text-size-sm;
+
+                .fa{
+                    width: 16px;
+                }
             }
         }
         #main-menu{
-            flex-basis: 32%;
+            flex-basis: 50%;
         }
         #extra-menu{
             flex-basis: calc(20% - #{$deep-logo-width});

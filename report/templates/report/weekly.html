@@ -10,13 +10,18 @@ DEEP | Weekly Report
 <link href="{% watchful_static_url 'css/report-weekly.css' %}" type="text/css" rel="stylesheet">
 <link href="{% watchful_static_url 'css/selectize.css' %}" type="text/css" rel="stylesheet">
 <link href="{% watchful_static_url 'css/modal.css' %}" type="text/css" rel="stylesheet">
+{% if entry_template %}
+<script src="{% watchful_static_url 'js/entries/template-entries-manager.js' %}"></script>
+{% else %}
 <script src="{% watchful_static_url 'js/entries/entries-filter.js' %}"></script>
+{% endif %}
 <script src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 <script src="{% watchful_static_url 'js/report/weekly/children-fields.js' %}"></script>
 <script src="{% watchful_static_url 'js/report/weekly/weekly.js' %}"></script>
 <script src="{% watchful_static_url 'js/report/weekly/decay.js' %}"></script>
+<script src="{% watchful_static_url 'js/report/weekly/source.js' %}"></script>
 
 <script>
 var eventId = "{{event.pk}}";
@@ -40,23 +45,32 @@ var dataModel = {
     "events": [],
     "human": {
         "number": {}, "source": {}, "comment": {},
-        "numberDecay": {}, "sourceDecay": {}, "commentDecay": {}
+        "numberDecay": {}, "sourceDecay": {}, "commentDecay": {},
     },
     "human-children": {},
     "people": {
         "total": {}, "at-risk": {}, "moderate": {}, "severe": {}, "planned": {},
         "total-source": {}, "at-risk-source": {}, "moderate-source": {}, "severe-source": {}, "planned-source": {},
         "total-comment": {}, "at-risk-comment": {}, "moderate-comment": {}, "severe-comment": {}, "planned-comment": {},
+        "totalDecay": {}, "atRiskDecay": {}, "moderateDecay": {}, "severeDecay": {}, "plannedDecay": {},
+        "totalSourceDecay": {}, "atRiskSourceDecay": {}, "moderateSourceDecay": {}, "severeSourceDecay": {}, "plannedSourceDecay": {},
+        "totalCommentDecay": {}, "atRiskCommentDecay": {}, "moderateCommentDecay": {}, "severeCommentDecay": {}, "plannedCommentDecay": {},
     },
     "ipc": {"a":null, "b":null, "c":null, "d":null, "e":null, "f":null, "g":null},
-    "access": {}, "access-extra": { "source": {}, "comment": {} },
-    "access-pin": { "number": {}, "source": {}, "comment": {} },
-    "final-severity-score": { score: null, comment: null }
+    "access": {}, "accessDecay": {},
+    "access-extra": { "source": {}, "comment": {} },
+    "access-pin": {
+        "number": {}, "source": {}, "comment": {},
+        "numberDecay": {}, "sourceDecay": {}, "commentDecay": {},
+    },
+    "final-severity-score": { score: null, comment: null },
 
 };
 // Migrate anything that exists in the data model but not in the actual data
 migrate(data, dataModel);
 // TODO: Check this ^^^ is working.
+
+var newData = $.extend(true, {}, data);
 
 var csrf_token = "{% csrf_token %}";
 
@@ -70,9 +84,15 @@ var start_date = "{{start_date|date:'d-M-Y'}}";
 var start_date = "{{report.start_date|date:'d-M-Y'}}";
 {% endif %}
 
+
+{% if not entry_template %}
 var appearing_pillars = {
     {% for field, pillars in appearing_pillars.items %}{{field}}: [{% for pillar in pillars %}"{{pillar.pk}}", {% endfor %}], {% endfor %}
 };
+appearing_pillars = $.extend(true, {}, appearing_pillars, {
+    {% for field, subpillars in appearing_subpillars.items %}{{field}}: [{% for subpillar in subpillars %}"{{subpillar.pillar.pk}}/{{subpillar.pk}}", {% endfor %}], {% endfor %}
+});
+{% endif %}
 
 var human_profile_field_rules = [
     {% for rule in human_profile_field_rules %}
@@ -108,6 +128,25 @@ var timelineCategories = [{% for category in category_timelines %}"{{category}}"
 
 //var severityScoreTotalPinHumanId = '{{ severity_score_total_pin_human_id.0.pk }}';
 
+{% if entry_template %}
+let templateData = {
+    name: '{{ entry_template.name }}',
+    elements: JSON.parse('{{ entry_template.elements|escapejs }}'),
+};
+{% else %}
+let templateData = null;
+
+var RELIABILITIES = {
+    {% for reliability in reliabilities %}
+    {{reliability.level}}: '{{reliability}}',
+    {% endfor %}
+};
+var SEVERITIES = {
+    {% for severity in severities %}
+    {{severity.level}}: '{{severity}}',
+    {% endfor %}
+};
+{% endif %}
 </script>
 {% endblock %}
 
@@ -120,13 +159,15 @@ var timelineCategories = [{% for category in category_timelines %}"{{category}}"
         <button class="btn-save" id="save-btn"><i class="fa fa-save"></i>Save Changes</button>
     </div>
     <div id="filters">
+        {% if not entry_template %}
         {% include 'entries/entry-filters.html' %}
+        {% endif %}
     </div>
 </header>
 <aside>
     <div id="entry-list-header">
         <h2>Entries</h2>
-        <a id="last-seven-days-btn" href="#">Show entries from last 7 days</a>
+        <a id="last-seven-days-btn">Show entries from last 7 days</a>
     </div>
     <div id="entries">
     </div>
@@ -134,8 +175,9 @@ var timelineCategories = [{% for category in category_timelines %}"{{category}}"
 <main>
     <div id="navigator">
         <a data-target="#reporting-parameters" class="active">Reporting parameters</a>
-        <a data-target="#key-events">Key events</a>
+        <a data-target="#key-events" data-pillar-tag="KEY">Key events</a>
         <a data-target="#humanitarian-profile" data-pillar-tag="HPR">Humanitarian profile</a>
+        <a data-target="#casualties" data-pillar-tag="CAS">Casualties</a>
         <a data-target="#people-in-need" data-pillar-tag="PIN">People in need</a>
         <a data-target="#humanitarian-access" data-pillar-tag="HAC">Humanitarian access</a>
         <a data-target="#weekly-severity-score" data-pillar-tag="WSC">Severity Score</a>
@@ -151,25 +193,63 @@ var timelineCategories = [{% for category in category_timelines %}"{{category}}"
 </main>
 {% include 'report/weekly/entry-templates.html' %}
 
+<div class='source-template' hidden>
+    <span class="name"></span>
+    <span class="delete fa fa-times"></span>
+    <date></date>
+    <div class="display-card" hidden>
+        <div class="severity-color"></div>
+        <a target="_blank" class="source-url"><i class="fa fa-external-link"></i></a>
+        <div class="source-excerpt-container">
+            <div class="source-excerpt-text">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </div>
+            <div class="source-details" hidden>
+                <div>
+                    <label>Lead title:</label>
+                    <span class="lead-title-details"></span>
+                </div>
+                <div>
+                    <label>Added by:</label>
+                    <span class="added-by-details"></span>
+                </div>
+                <div>
+                    <label>Reliability:</label>
+                    <span class="reliability-details"></span>
+                </div>
+                <div>
+                    <label>Severity:</label>
+                    <span class="severity-details"></span>
+                </div>
+                <div>
+                    <label>Date of submission:</label>
+                    <span class="date-of-sub-details"></span>
+                </div>
+            </div>
+        </div>
+        <div class="source-flip"><i class="fa fa-retweet"></i></div>
+        <div class="reliability-color"></div>
+    </div>
+</div>
 
 <div class="modal-container" hidden>
-    <div id="date-range-input" class="modal" hidden>
-        <header>
-            <h3 class="modal-title">Enter date range</h3>
-        </header>
-        <div class="input-container">
-            <label>start date:</label>
-            <input type="date" id="start-date" class="form-control">
-        </div>
-        <div class="input-container">
-            <label>end date:</label>
-            <input type="date" id="end-date" class="form-control">
-        </div>
-        <div class="action-buttons">
-            <button id="cancel-btn" class="cancel" data-action="dismiss"><i class="fa fa-times"></i>Cancel</button>
-            <button id="ok-btn" class="success" data-action="proceed"><i class="fa fa-check"></i>Ok</button>
-        </div>
+<div id="date-range-input" class="modal" hidden>
+    <header>
+        <h3 class="modal-title">Enter date range</h3>
+    </header>
+    <div class="input-container">
+        <label>start date:</label>
+        <input type="date" id="start-date" class="form-control">
     </div>
+    <div class="input-container">
+        <label>end date:</label>
+        <input type="date" id="end-date" class="form-control">
+    </div>
+    <div class="action-buttons">
+        <button id="cancel-btn" class="cancel" data-action="dismiss"><i class="fa fa-times"></i>Cancel</button>
+        <button id="ok-btn" class="success" data-action="proceed"><i class="fa fa-check"></i>Ok</button>
+    </div>
+</div>
 </div>
 
 {% endblock %}

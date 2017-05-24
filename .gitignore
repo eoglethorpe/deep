@@ -6,11 +6,14 @@ db.sqlite3
 mysql.cnf
 hid.cnf
 
+deep-error-log
 *.css.map
 os
 
 # Media files, uploaded by users
 media/
+static/global_export/
+temp_downloads/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -77,4 +80,4 @@ target/
 
 # SASS cache
 .sass-cache/
-.env
+media_test

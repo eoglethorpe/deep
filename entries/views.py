@@ -1,26 +1,41 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 
 from users.log import *
 from users.models import *
 from leads.models import *
 from entries.models import *
 from entries.strippers import *
-# from . import export_xls, export_docx, export_fields
+from entries.entry_filters import filter_informations
 from entries.export_entries_docx import export_docx, export_docx_new_format
+from entries.export_entries_pdf import export_pdf, export_pdf_new_format
 from entries.export_entries_xls import export_xls
+from report.export_xls import export_xls as export_xls_weekly
 from entries.refresh_pcodes import *
 from leads.views import get_simplified_lead
+from deep.filename_generator import generate_filename
 
 import os
+import string
 import json
+import random
 import time
+from datetime import datetime, timedelta
 from collections import OrderedDict
+
+
+class ExportProgressView(View):
+    def get(self, request):
+        context = { 'export_url' : request.GET.get('url') }
+        return render(request, 'entries/export-progress.html', context)
+
 
 
 class ExportView(View):
@@ -41,47 +56,95 @@ class ExportView(View):
         context["reliabilities"] = Reliability.objects.all().order_by('level')
         context["severities"] = Severity.objects.all().order_by('level')
         context["affected_groups"] = AffectedGroup.objects.all()
+        context["areas"] = AdminLevelSelection.objects.filter(entryinformation__entry__lead__event__pk=event).values_list('name', flat=True)
+
+        context["lead_users"] = User.objects.filter(assigned_leads__event__pk=event)
 
         UserProfile.set_last_event(request, context["event"])
         return render(request, "entries/export.html", context)
 
 
 class ExportXls(View):
-    @method_decorator(login_required)
     def get(self, request, event):
-        return export_xls('DEEP Entries-%s' % time.strftime("%Y-%m-%d"), int(event))
-
-
-class ExportDocx(View):
-    @method_decorator(login_required)
-    def get(self, request, event):
-        # order = request.GET.get("order").split(',')
-        order = []
-
-        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-        response['Content-Disposition'] = 'attachment; filename = DEEP Entries-%s.docx' % time.strftime("%Y-%m-%d")
-
-        if 'new-format' in request.GET:
-            export_docx_new_format(order, int(event)).save(response)
+        if request.GET.get('global') == '1':
+            return export_xls(generate_filename('Entries Global Export'))
         else:
-            export_docx(order, int(event)).save(response)
+            return export_xls(generate_filename('Entries Export'))
+
+
+class ExportXlsWeekly(View):
+    def get(self, request, event):
+        return export_xls_weekly(generate_filename('Weekly Snapshot Export'))
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ExportDoc(View):
+    def get(self, request, event):
+        # Get filtered informations from token
+        informations = None
+        if request.GET.get('token'):
+            try:
+                export_token = ExportToken.objects.get(token=request.GET['token'])
+                informations = json.loads(export_token.data)
+            except:
+                pass
+
+        if not informations:
+            informations = filter_informations(request.GET, Event.objects.get(pk=event)).values_list('id', flat=True)
+
+        # Excel export
+        if request.GET.get('export-xls') == 'xls':
+            return export_xls(generate_filename('Entries Export'), None, informations)
+
+        # Docx and pdf export
+
+        format_name = ''
+        file_format = 'pdf' if (request.GET.get('export-pdf') == 'pdf') else 'docx'
+
+        content_type = 'application/pdf' if (request.GET.get('export-pdf') == 'pdf') else\
+                       'application/vnd.openxmlformats'\
+                       '-officedocument.wordprocessingml.document'
+
+        response = HttpResponse(content_type=content_type)
+
+        if request.GET.get('export-format') == 'geo':
+            format_name = 'Geo Export'
+            if request.GET.get('export-pdf') == 'pdf':
+                response.write(export_pdf(int(event), informations, export_geo=True))
+            else:
+                export_docx(int(event), informations, export_geo=True).save(response)
+
+        elif request.GET.get('export-format') == 'briefing':
+            format_name = 'Briefing Note'
+            if request.GET.get('export-pdf') == 'pdf':
+                response.write(export_pdf_new_format(int(event), informations))
+            else:
+                export_docx_new_format(int(event), informations).save(response)
+        else:
+            format_name = 'Generic Export'
+            if request.GET.get('export-pdf') == 'pdf':
+                response.write(export_pdf(int(event), informations))
+            else:
+                export_docx(int(event), informations).save(response)
+
+        response['Content-Disposition'] = 'attachment; filename = "{}.{}"'.format(
+            generate_filename('Entries ' + format_name), file_format)
 
         return response
 
-    @method_decorator(login_required)
     def post(self, request, event):
-        # order = request.POST.get("order").split(',')
-        order = []
+        ExportToken.objects.filter(created_at__lt=(datetime.now() - timedelta(hours=1))).delete()
 
-        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-        response['Content-Disposition'] = 'attachment; filename = DEEP Entries-%s.docx' % time.strftime("%Y-%m-%d")
+        uniqueToken = None
+        while True:
+            uniqueToken = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20))
+            if ExportToken.objects.filter(token=uniqueToken).count() == 0:
+                break
 
-        if 'new-format' in request.POST:
-            export_docx_new_format(order, int(event), json.loads(request.POST["informations"])).save(response)
-        else:
-            export_docx(order, int(event), json.loads(request.POST["informations"])).save(response)
-
-        return response
+        export_token = ExportToken(token=uniqueToken)
+        export_token.data = json.dumps(list(filter_informations(request.POST, Event.objects.get(pk=event)).values_list('id', flat=True)))
+        export_token.save()
+        return JsonResponse({ 'token': export_token.token })
 
 
 class EntriesView(View):
@@ -89,36 +152,41 @@ class EntriesView(View):
     def get(self, request, event):
         context = {}
         context["current_page"] = "entries"
-        context["event"] = Event.objects.get(pk=event)
+
         context["all_events"] = Event.objects.all()
-
         context["users"] = User.objects.exclude(first_name="", last_name="")
-        context["pillars"] = InformationPillar.objects.all()
-        context["subpillars"] = InformationSubpillar.objects.all()
-        context["sectors"] = Sector.objects.all()
-        context["subsectors"] = Subsector.objects.all()
-        context["vulnerable_groups"] = VulnerableGroup.objects.all()
-        context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
-        context["reliabilities"] = Reliability.objects.all().order_by('level')
-        context["severities"] = Severity.objects.all().order_by('level')
-        context["affected_groups"] = AffectedGroup.objects.all()
-        context["sources"] = []
 
-        for lead in Lead.objects.filter(event=event):
-            if lead.source_name and \
-                    lead.source_name not in context["sources"] and \
-                    Entry.objects.filter(lead=lead).count() > 0:
-                context["sources"].append(lead.source_name)
+        if int(event) != 0:
+            context["event"] = Event.objects.get(pk=event)
+            UserProfile.set_last_event(request, context["event"])
 
-        UserProfile.set_last_event(request, context["event"])
-        return render(request, "entries/entries.html", context)
+
+        if int(event) != 0 and context["event"].entry_template:
+            context["entry_template"] = context["event"].entry_template
+            return render(request, "entries/template-entries.html", context)
+        else:
+            context["pillars"] = InformationPillar.objects.all()
+            context["subpillars"] = InformationSubpillar.objects.all()
+            context["sectors"] = Sector.objects.all()
+            context["subsectors"] = Subsector.objects.all()
+            context["vulnerable_groups"] = VulnerableGroup.objects.all()
+            context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
+            context["reliabilities"] = Reliability.objects.all().order_by('level')
+            context["severities"] = Severity.objects.all().order_by('level')
+            context["affected_groups"] = AffectedGroup.objects.all()
+
+            return render(request, "entries/entries.html", context)
 
 
 class AddEntry(View):
     @method_decorator(login_required)
-    def get(self, request, event, lead_id=None, id=None):
+    def get(self, request, event, lead_id=None, id=None, template_id=None):
         refresh_pcodes()
         context = {}
+
+        if template_id is None:
+            if Event.objects.get(pk=event).entry_template:
+                template_id = Event.objects.get(pk=event).entry_template.pk
 
         if not id:
             lead = Lead.objects.get(pk=lead_id)
@@ -129,6 +197,8 @@ class AddEntry(View):
             entry = Entry.objects.get(pk=id)
             lead = entry.lead
             context["entry"] = entry
+            if entry.template:
+                template_id = entry.template.pk
 
         context["current_page"] = "entries"
         context["event"] = Event.objects.get(pk=event)
@@ -145,31 +215,51 @@ class AddEntry(View):
             if "lead_simplified" in context:
                 SimplifiedLead(lead=lead, text=context["lead_simplified"]).save()
 
-        context["pillars_one"] = InformationPillar.objects.filter(contains_sectors=False)
-        context["pillars_two"] = InformationPillar.objects.filter(contains_sectors=True)
-        context["sectors"] = Sector.objects.all()
-        context["vulnerable_groups"] = VulnerableGroup.objects.all()
-        context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
-        context["reliabilities"] = Reliability.objects.all().order_by('level')
-        context["severities"] = Severity.objects.all().order_by('level')
-        context["affected_groups"] = AffectedGroup.objects.all()
+        if lead.lead_type == 'URL':
+            context['lead_url'] = lead.url
+        elif lead.lead_type == 'ATT':
+            context['lead_url'] = request.build_absolute_uri(lead.attachment.upload.url)
 
-        if lead.lead_type == 'URL' and lead.url.endswith('.pdf'):
-            context["is_pdf"] = True
+        if context.get('lead_url'):
+            if context['lead_url'].endswith('.pdf'):
+                context["format"] = 'pdf'
+            elif context['lead_url'].endswith('.docx'):
+                context["format"] = 'docx'
+            elif context['lead_url'].endswith('.pptx'):
+                context["format"] = 'pptx'
+
+        # With template
+        if template_id:
+            context["entry_template"] = EntryTemplate.objects.get(pk=template_id)
+            UserProfile.set_last_event(request, context["event"])
+            return render(request, "entries/add-template-entry.html", context)
+
+        # Without template
         else:
-            context["is_pdf"] = False
+            context["pillars_one"] = InformationPillar.objects.filter(contains_sectors=False)
+            context["pillars_two"] = InformationPillar.objects.filter(contains_sectors=True)
+            context["sectors"] = Sector.objects.all()
+            context["vulnerable_groups"] = VulnerableGroup.objects.all()
+            context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
+            context["reliabilities"] = Reliability.objects.all().order_by('level')
+            context["severities"] = Severity.objects.all().order_by('level')
+            context["affected_groups"] = AffectedGroup.objects.all()
 
-        try:
-            context["default_reliability"] = Reliability.objects.get(is_default=True)
-            context["default_severity"] = Severity.objects.get(is_default=True)
-        except:
-            pass
+            try:
+                context["default_reliability"] = Reliability.objects.get(is_default=True)
+                context["default_severity"] = Severity.objects.get(is_default=True)
+            except:
+                pass
+
 
         UserProfile.set_last_event(request, context["event"])
         return render(request, "entries/add-entry.html", context)
 
     @method_decorator(login_required)
-    def post(self, request, event, lead_id=None, id=None):
+    def post(self, request, event, lead_id=None, id=None, template_id=None):
+        if template_id is None:
+            if Event.objects.get(pk=event).entry_template:
+                template_id = Event.objects.get(pk=event).entry_template.pk
         if not id:
             lead = Lead.objects.get(pk=lead_id)
             activity = CreationActivity()
@@ -177,8 +267,8 @@ class AddEntry(View):
             entry = Entry.objects.get(pk=id)
             lead = entry.lead
             activity = EditionActivity()
-
-        excerpts = json.loads(request.POST["excerpts"]);
+            if entry.template:
+                template_id = entry.template.pk
 
         lead_entries = Entry.objects.filter(lead=lead)
         if lead_entries.count() > 0:
@@ -186,6 +276,10 @@ class AddEntry(View):
             entry.entryinformation_set.all().delete()
         else:
             entry = Entry(lead=lead)
+            entry.created_by = request.user
+
+        if template_id:
+            entry.template = EntryTemplate.objects.get(pk=template_id)
 
         entry.modified_by = request.user
         entry.save()
@@ -195,9 +289,27 @@ class AddEntry(View):
             reverse('entries:edit', args=[entry.lead.event.pk, entry.pk])
         ).log_for(request.user, event=entry.lead.event)
 
+
+        # With entry template
+        if template_id:
+            entries = json.loads(request.POST['entries'])
+            for e in entries:
+                information = EntryInformation(entry=entry)
+                information.excerpt = e['excerpt']
+                information.image = e['image']
+                information.elements = json.dumps(e['elements'])
+                information.save()
+
+            return redirect('entries:entries', event)
+
+
+        # Without template
+        excerpts = json.loads(request.POST["excerpts"]);
+
         for excerpt in excerpts:
             information = EntryInformation(entry=entry)
             information.excerpt = excerpt["excerpt"]
+            information.image = excerpt['image']
 
             information.bob = excerpt['bob']
             information.reliability = Reliability.objects.get(pk=int(excerpt["reliability"]))
@@ -253,7 +365,10 @@ class AddEntry(View):
                     for subsector in attr["subsectors"]:
                         ia.subsectors.add(Subsector.objects.get(pk=int(subsector)))
 
-
+        if 'next_pending' in request.POST:
+            next_pending = Lead.objects.filter(~Q(pk=lead.pk), event__pk=event, status='PEN').order_by('-created_at')
+            if next_pending.count() > 0:
+                return redirect('entries:add', event=event, lead_id=next_pending[0].pk)
         return redirect('entries:entries', event)
 
 
@@ -267,4 +382,4 @@ class DeleteEntry(View):
         event = entry.lead.event
         entry.delete()
         activity.log_for(request.user, event=event)
-        return redirect('entries:entries', event=event)
+        return redirect('entries:entries', event=event.pk)
