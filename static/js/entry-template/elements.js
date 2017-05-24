@@ -22,8 +22,10 @@ class Element {
         propertiesBox.find('.close').click(function() {
             propertiesBox.hide();
         });
-        editButton.click(function() {
+        editButton.click(function(e) {
+            e.stopPropagation();
             propertiesBox.show();
+            propertiesBox.trigger('visible');
         })
         container.append(propertiesBox);
         return propertiesBox;
@@ -56,7 +58,7 @@ class Element {
     addIdProperty(container) {
         let that = this;
 
-        let idProperty = $('<div class="property"></div>');
+        let idProperty = $('<div class="id-property property"></div>');
         idProperty.append($('<label>Id</label>'));
         idProperty.append($('<input type="text">'));
         idProperty.find('input').val(this.id);

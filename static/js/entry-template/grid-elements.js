@@ -247,6 +247,7 @@ class Matrix1D extends Element {
         titleProperty.find('input').val(this.dom.find('.title').text());
         titleProperty.find('input').change(function() {
             that.dom.find('.title').text($(this).val());
+            templateEditor.reloadElements();
         });
         container.append(titleProperty);
     }
@@ -305,7 +306,6 @@ class Matrix2D extends Element {
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<h4 class="title">2D Matrix</h4>'));
-
         dom.append($('<div class="sectors-container"><div class="sectors sortable"></div><button class="fa fa-plus add-sector"></button></div>'));
         dom.append($('<div class="pillars-container"><div class="pillars sortable"></div><button class="fa fa-plus add-pillar"></button></div>'));
         dom.resizable({ grid: GRID_SIZE, handles: 'e, w' });
@@ -358,7 +358,11 @@ class Matrix2D extends Element {
         this.addSubpillar(pillar);
         pillar.find('.add-subpillar').click(function() { that.addSubpillar(pillar); });
         pillar.find('.remove-pillar').click(function() { pillar.remove(); });
-        pillar.find('.edit-pillar').click(function() { floatingToolbar.show(); });
+        pillar.find('.edit-pillar').click(function(e) {
+            e.stopPropagation();
+            floatingToolbar.show();
+            floatingToolbar.trigger('visible');
+        });
 
         return pillar;
     }
@@ -382,7 +386,11 @@ class Matrix2D extends Element {
 
         this.makeEditable(subpillar.find('.title-block'));
         subpillar.find('.remove-subpillar').click(function() { subpillar.remove(); });
-        subpillar.find('.edit-subpillar').click(function() { floatingToolbar.show(); });
+        subpillar.find('.edit-subpillar').click(function(e) {
+            e.stopPropagation();
+            floatingToolbar.show();
+            floatingToolbar.trigger('visible');
+        });
 
         return subpillar;
     }
@@ -414,7 +422,11 @@ class Matrix2D extends Element {
 
         this.makeEditable(sector.find('.title-block'));
         sector.find('.remove-sector').click(function() { sector.remove(); });
-        sector.find('.edit-sector').click(function() { floatingToolbar.show(); });
+        sector.find('.edit-sector').click(function(e) {
+            e.stopPropagation();
+            floatingToolbar.show();
+            floatingToolbar.trigger('visible');
+        });
 
         return sector;
     }
@@ -614,6 +626,7 @@ class Matrix2D extends Element {
         titleProperty.find('input').val(this.dom.find('.title').text());
         titleProperty.find('input').change(function() {
             that.dom.find('.title').text($(this).val());
+            templateEditor.reloadElements();
         });
         container.append(titleProperty);
     }

@@ -74,8 +74,9 @@ aside{
             font-size: 1.5em;
             color:$primary-color;
         }
-        a{
+        #last-seven-days-btn{
             color: $primary-color;
+            cursor: pointer;
         }
     }
     #entries{
@@ -98,6 +99,7 @@ aside{
             padding: 10px 16px;
 
             .severity, .reliability{
+                margin-top: 15px;
                 span{
                     width: 8px;
                     height: 16px;
@@ -127,6 +129,13 @@ aside{
                     justify-content: space-between;
                     align-items: center;
                     height: 48px;
+
+                    .source-id{
+                        margin-top: 10px;
+                        font-weight: bold;
+                        color: $info-color;
+                        width: 100%
+                    }
                 }
                 .excerpt-text{
                     text-align: justify;
@@ -191,11 +200,11 @@ main{
                 margin-bottom: 16px;
             }
         }
-
         @import 'report/weekly-reporting-parameters';
         @import 'report/weekly-key-events';
         @import 'report/weekly-humanitarian-profile';
         @import 'report/weekly-people-in-need';
+        @import 'report/weekly-ipc';
         @import 'report/weekly-humanitarian-access';
         @import 'report/weekly-severity-score';
     }

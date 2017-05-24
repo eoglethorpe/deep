@@ -1,4 +1,5 @@
 @import 'common/base';
+@import 'common/simplified-navbar';
 
 body{
     display: flex;
@@ -17,41 +18,6 @@ body{
         color: $primary-color;
         cursor: pointer;
     }
-    >nav{
-        flex-basis: 100%;
-        height: $navbar-height;
-        background-color: darken($primary-color, 10%);
-        color: #fff;
-        display: flex;
-        justify-content: space-between;
-        padding: 0 16px;
-        align-items: center;
-        @include shadow;
-
-        >header{
-            flex-basis: 60%;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-
-            .deep-logo{
-                width: $deep-logo-sm-width;
-                margin-right: 24px;
-            }
-        }
-        a{
-            color: #fff;
-            cursor: pointer;
-
-            .fa {
-                margin-right: 10px;
-            }
-            &:hover {
-                color: #fff;
-            }
-        }
-    }
-
     aside{
         position: relative;
         flex-basis: 33%;
@@ -71,15 +37,23 @@ body{
             #template-name {
                 font-size: $text-size-sl;
             }
-            button {
-                padding: 6px 16px;
-                color: #fff;
-            }
-            #save-button {
-                background-color: $primary-color;
-            }
-            #cancel-button {
-                background-color: $danger-color;
+            .action-container{
+                button {
+                    padding: 6px 16px;
+                    color: #fff;
+                }
+                .switch-page{
+                    padding: 6px 24px;
+                    @include btn-shadow-sm;
+                    color: white;
+                    background-color: $primary-color;
+                }
+                #save-button {
+                    background-color: $primary-color;
+                }
+                #cancel-button {
+                    background-color: $danger-color;
+                }
             }
         }
 
@@ -148,7 +122,6 @@ body{
                             }
                         }
                     }
-
                     .properties {
                         border-bottom: 2px solid rgba(0, 0, 0, 0.1);
                         margin-bottom: 6px;
@@ -234,35 +207,38 @@ body{
         }
         .properties-box {
             position: absolute;
-            left: 0;
-            top: 0;
+            left: 6px;
+            top: 16px;
             min-width: 300px;
             background-color: #fff;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            box-shadow: 0 3px 15px -5px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 3px 24px -5px rgba(0, 0, 0, 1);
             border: 1px solid rgba(0, 0, 0, 0.1);
             z-index: 11;
 
             .header{
-                height: 32px;
+                height: 42px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                padding: 0 10px;
+                padding: 0 16px;
                 border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-                background-color: $primary-color;
-                color: #fff;
+                //background-color: $primary-color;
 
                 a{
                     color: inherit;
+                    font-size: 1.2em;
                 }
             }
             .property {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                padding: 0 10px;
-                min-height: 32px;
+                padding: 0 16px;
+                min-height: 36px;
+
+                &.id-property {
+                    display: none;
+                }
 
                 label {
                     font-size: $text-size-md;
@@ -408,7 +384,7 @@ body{
                     }
                 }
 
-                &:nth-child(even){
+                &:nth-child(odd){
                     background-color: #eee;
                 }
             }

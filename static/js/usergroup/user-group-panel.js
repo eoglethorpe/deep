@@ -521,7 +521,7 @@ $(document).ready(function(){
             }
         }
         else if (selection.data('target') == '#projects-wrapper') {
-            window.location.href = crisis_panel_url + '?selected_group=' + userGroupPk;
+            window.location.href = project_panel_url + '?selected_group=' + userGroupPk;
         }
         else if (selection.data('target') == '#templates-wrapper') {
             templates.addNewTemplate();

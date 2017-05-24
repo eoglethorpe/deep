@@ -138,6 +138,7 @@ let source = {
         }
 
         sourceData = getNewSourceData(sourceData);
+        validateSource(container, sourceData);
 
         let that = this;
         container.empty();
@@ -255,3 +256,9 @@ function getOldSourceData(sourceData) {
     }
     return sourceData['old'];
 };
+
+
+function isSourceEmpty(sourceData) {
+    sourceData = getNewSourceData(sourceData);
+    return !sourceData.old && sourceData.new.length == 0;
+}

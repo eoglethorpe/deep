@@ -1,5 +1,5 @@
 @import 'common/base';
-@import 'common/navbar';
+@import 'common/simplified-navbar';
 
 body{
     display: flex;
@@ -11,36 +11,6 @@ body{
         margin: 0;
         text-transform: uppercase;
     }
-    nav{
-        flex-basis: 100%;
-        height: $navbar-height;
-        background-color: darken($primary-color, 10%);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: #fff;
-
-        >header{
-            flex-basis: 60%;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-
-            .deep-logo{
-                width: $deep-logo-sm-width;
-                margin-right: 24px;
-            }
-        }
-        a{
-            color: #fff;
-            cursor: pointer;
-
-            i{
-                margin-right: 10px;
-            }
-        }
-    }
-
     main{
         flex-basis: 76%;
         height: calc(100vh - #{$navbar-height});
@@ -162,23 +132,80 @@ body{
                 align-items: center;
                 justify-content: space-between;
 
-                button{
+                div {
                     height: 100%;
-                    background-color: $info-color;
-                    color: $text-color-light;
-                    border: none;
-                    margin-right: -16px;
-                    padding: 0 24px;
+                    display: flex;
 
-                    .fa{
-                        margin-right: 10px;
+                    .fa-search {
+                        width: 18px;
+                        margin-bottom: 12px;
+                        align-self: flex-end;
+                    }
+                    input {
+                        align-self: flex-end;
+                        margin-right: 12px;
+                        margin-bottom: 4px;
+                        padding: 6px 8px;
+                        border: none;
+                        outline: none;
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+                        &:focus {
+                            border-bottom-color: $primary-color;
+                        }
+                    }
+
+                    button{
+                        height: 100%;
+                        background-color: $info-color;
+                        color: $text-color-light;
+                        border: none;
+                        margin-right: -16px;
+                        padding: 0 24px;
+
+                        .fa{
+                            margin-right: 10px;
+                        }
+                    }
+                }
+
+            }
+
+            date {
+                font-family: $font-monospace;
+            }
+
+            .name { flex-basis: 20%; }
+            .rights { flex-basis: 15%; }
+            .created-on { flex-basis: 15%; }
+            .status { flex-basis: 15%; }
+            .last-modified {
+                flex-basis: 15%;
+
+                span {
+                    color: $label-color;
+                }
+            }
+            .members { flex-basis: 10%; }
+            .actions {
+                flex-basis: 10%;
+
+                a {
+                    color: $primary-color;
+                    width: 32px;
+                    height: 32px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 50%;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: rgba(0, 0, 0, 0.1);
                     }
                 }
             }
-            .name{ flex-basis: 30%; }
-            .type{ flex-basis: 20%; }
-            .countries{flex-basis: 25%; }
-            .groups{flex-basis: 25%; }
+
             #projects-header {
                 height: 36px;
                 display: flex;
@@ -217,13 +244,9 @@ body{
                     display: flex;
                     align-items: center;
                     justify-content: flex-start;
-                    cursor: pointer;
 
                     &:nth-child(even){
                         background-color: #fff;
-                    }
-                    &:hover{
-                        background-color: rgba(0, 0, 0, 0.2);
                     }
                 }
             }
@@ -335,7 +358,7 @@ body{
         }
     }
 
-    #new-user-group-modal {
+    #new-user-group-modal, #new-project-modal {
         .error {
             padding: 10px 24px;
             color: $danger-color;

@@ -47,7 +47,7 @@ body {
                 padding: 0 16px;
             }
 
-            .content {
+            >.content {
                 padding: 16px;
             }
 
@@ -59,8 +59,74 @@ body {
                     border-right: 1px solid rgba(0, 0, 0, 0.1);
 
                 }
-                #structure-section{
+                #structure-section {
                     flex-basis: 36%;
+
+                    .check-group-list {
+                        max-height: 486px;
+                        overflow-y: auto;
+
+                        >.check-group {
+                            min-height: 48px;
+                            padding-top: 6px;
+
+                            &:nth-child(odd) {
+                                background-color: #fff;
+                            }
+                        }
+                    }
+                    .check-group {
+                        label {
+                            font-size: 1em;
+                            display: flex;
+                            align-items: center;
+
+                            input {
+                                outline: none;
+                            }
+                        }
+
+                        &.expandable {
+                            > header {
+                                a {
+                                    width: 24px;
+                                    height: 24px;
+                                    margin-left: 10px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    border-radius: 50%;
+                                    background-color: rgba(0, 0, 0, 0.06);
+                                    transition: all 0.2s ease-in-out;
+
+                                    &:hover {
+                                        background-color: rgba(0, 0, 0, 0.1);
+                                    }
+                                }
+                            }
+
+                            .content {
+                                padding-left: 16px;
+                            }
+                        }
+
+                        &.expanded {
+                            > header {
+                                a {
+                                    transform: rotate(180deg);
+                                }
+                            }
+                        }
+
+
+                        .check {
+                            min-height: 32px;
+                            padding: 6px 16px;
+                            display: flex;
+                            align-items: center;
+                        }
+                    }
+
                 }
                 #action-section{
                     border-top: 1px solid rgba(0, 0, 0, 0.1);

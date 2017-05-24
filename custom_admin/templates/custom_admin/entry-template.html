@@ -23,6 +23,7 @@ DEEP | Entry Template Editor
 <script type="text/javascript" src="{% watchful_static_url 'js/entry-template/input-elements.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entry-template/chart-elements.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entry-template/entry-template.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entry-template/html2canvas.js' %}"></script>
 
 <script>
 let csrf_token = "{% csrf_token %}";
@@ -37,18 +38,13 @@ let templateData = {
 
 {% block body %}
 
-<nav>
-    <header>
-        <a title="DEEP" href="{% url 'login' %}"><img class="deep-logo" src="{% watchful_static_url 'img/deep-logo-sm-white.png' %}"></a>
-        <h1>Entry Template Editor</h1>
-    </header>
-    <a onclick="window.location.href = document.referrer;"><i class="fa fa-long-arrow-left"></i>Back</a>
-</nav>
+{% include 'simplified-navbar.html' with page_title='Entry template editor' %}
 
 <aside>
     <section class="title-block">
         <h2 id="template-name">New template</h2>
         <div class="action-container">
+            <button id="switch-in-bar" class="switch-page">Switch page</button>
             <button id="save-button" title="Save">Save</button>
             <button id="cancel-button" title="Cancel">Cancel</button>
         </div>
@@ -102,7 +98,6 @@ let templateData = {
                     <h4></h4>
                     <div class="action-container">
                         <button><i class="delete-element fa fa-trash" title="Delete element"></i></button>
-                        <button><i class="toggle-properties fa fa-chevron-down"></i></button>
                     </div>
                 </div>
                 <div class="properties">
@@ -111,7 +106,7 @@ let templateData = {
         </div>
     </section>
     <footer>
-        <button id="switch-page" >Switch page</button>
+        <button id="switch-in-footer" class="switch-page" >Switch page</button>
     </footer>
 </aside>
 

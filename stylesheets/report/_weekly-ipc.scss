@@ -1,0 +1,125 @@
+#ipc{
+    input{
+        outline: none;
+        padding: 4px 10px;
+        width: 100%;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        margin: 6px 0;
+    }
+
+    .total-ipc{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+        background-color: #fff;
+        margin-bottom: 10px;
+
+        > label{ flex-basis: 20%; }
+        > div{
+            flex-basis: 80%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+
+            >*{
+                flex-basis: 19%;
+                margin: 6px 0;
+            }
+        }
+    }
+
+    .ipc{
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+
+        > label{ flex-basis: 20%; }
+        > div{
+            flex-basis: 80%;
+            > div{
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                &:nth-child(1){ >*{ flex-basis: 19%; } }
+                &:nth-child(2){ >*{ flex-basis: 49%; } }
+            }
+        }
+    }
+    .sub{
+        padding-left: 24px;
+        font-weight: $font-weight-normal;
+    }
+    .total-ipc, .ipc{
+        padding-bottom: 10px;
+        padding-top: 10px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    .source-warning-wrapper{
+        width: 100%;
+
+        .source-new {
+            display: inline-block;
+            width: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            min-height: 24px;
+            position: relative;
+
+            .source{
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: center;
+                background-color: #fff;
+                padding: 6px;
+                position: relative;
+                cursor: pointer;
+                word-break: break-all;
+
+                .name{
+                    flex-basis: 85%;
+                    overflow: hidden;
+                    flex-grow: 0;
+                    flex-shrink: 0;
+                }
+                .delete{
+                    flex-basis: 5%;
+                    color: $error-color;
+                }
+                date{
+                    flex-basis: 100%;
+                    font-family: 'Inconsolata', monospace;
+                }
+                @import 'display-card';
+            }
+        }
+        .warning-error{
+            color: $danger-color;
+            position: absolute;
+            margin: 0;
+            font-size: 0.8em;
+
+            .fa{
+                margin-right: 4px;
+            }
+        }
+        &.error-padding{
+            padding-bottom: 12px;
+        }
+    }
+    .comment-warning-wrapper{
+        .warning-error{
+            color: $danger-color;
+            position: absolute;
+            margin: 0;
+            font-size: 0.8em;
+
+            .fa{
+                margin-right: 4px;
+            }
+        }
+        &.error-padding{
+            padding-bottom: 12px;
+        }
+    }
+}

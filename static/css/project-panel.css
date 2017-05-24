@@ -1,0 +1,308 @@
+::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.04); }
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px; }
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.24); }
+
+body {
+  margin: 0;
+  background-color: #f0f0f0;
+  color: #414141;
+  font-size: 13px;
+  /*float-alert-toast - position it at the top-center of the screen*/ }
+  body * {
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box; }
+  body h1, body h2, body h3, body h4 {
+    font-weight: 400; }
+  body h1 {
+    font-size: 19px; }
+  body h2 {
+    font-size: 17px; }
+  body h3 {
+    font-size: 15px; }
+  body a, body a:hover, body a:active, body a:visited, body a:focus {
+    text-decoration: none; }
+  body a, body button, body input[type="submit"], body input[type="button"], body .btn, body .btn:focus, body button:focus {
+    text-transform: uppercase;
+    outline: none; }
+  body button {
+    background-color: #fff;
+    color: #414141;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: 0.2s all ease-in-out; }
+  body label {
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 500;
+    display: inline-block; }
+  body .float-alert-toast {
+    display: none;
+    /* Hidden by default. Visible on click */
+    min-width: 250px;
+    /* Set a default minimum width */
+    margin-left: -125px;
+    /* Divide value of min-width by 2 */
+    background-color: #333;
+    /* Black background color */
+    color: #fff;
+    /* White text color */
+    text-align: center;
+    /* Centered text */
+    border-radius: 2px;
+    /* Rounded borders */
+    padding: 16px;
+    /* Padding */
+    position: fixed;
+    /* Sit on top of the screen */
+    z-index: 1;
+    /* Add a z-index if needed */
+    right: 10%;
+    /* Towards the right */
+    top: 30px;
+    /* 30px from the top */ }
+
+nav {
+  flex-basis: 100%;
+  height: 56px;
+  background-color: #004d4d;
+  z-index: 1010;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 0 16px;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  nav a:hover, nav a:active {
+    color: #fff; }
+  nav h1, nav h2, nav h3, nav h4, nav a {
+    margin: 0;
+    text-transform: uppercase; }
+  nav #left-part {
+    display: flex;
+    align-items: flex-end; }
+    nav #left-part h2 {
+      font-size: 1.5em;
+      margin-left: 16px;
+      color: #fff; }
+    nav #left-part #deep-logo-container {
+      width: 36px;
+      flex-shrink: 0;
+      flex-grow: 0; }
+      nav #left-part #deep-logo-container img {
+        width: 100%; }
+  nav .dropdown {
+    flex-basis: 232px;
+    position: relative;
+    cursor: pointer;
+    outline: none; }
+    nav .dropdown .dropdown-toggle {
+      color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      justify-content: space-around; }
+      nav .dropdown .dropdown-toggle .fa {
+        margin-right: 10px; }
+    nav .dropdown .items {
+      position: absolute;
+      top: calc(8px + 56px / 2);
+      right: 0;
+      background-color: #fff;
+      width: 100%;
+      min-width: 200px;
+      z-index: 1011;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.3); }
+      nav .dropdown .items hr {
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        margin: 0; }
+      nav .dropdown .items a, nav .dropdown .items button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 16px;
+        text-transform: uppercase;
+        color: #414141;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        text-decoration: none;
+        background-color: transparent; }
+        nav .dropdown .items a .fa, nav .dropdown .items button .fa {
+          width: 32px; }
+        nav .dropdown .items a:hover, nav .dropdown .items button:hover {
+          background-color: rgba(0, 0, 0, 0.1); }
+
+body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start; }
+  body h1, body h2, body h3, body h4 {
+    margin: 0;
+    text-transform: uppercase; }
+  body aside {
+    flex-basis: 27%; }
+    body aside #project-header {
+      height: 144px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding: 10px 16px 0 16px;
+      align-items: center;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.3); }
+      body aside #project-header h2 {
+        flex-basis: 60%;
+        font-weight: 500;
+        font-size: 19px;
+        color: #008080; }
+      body aside #project-header a {
+        cursor: pointer;
+        color: #008080; }
+        body aside #project-header a .fa {
+          margin-right: 10px; }
+      body aside #project-header #search-wrapper {
+        flex-basis: 100%;
+        position: relative;
+        margin: 8px 0; }
+        body aside #project-header #search-wrapper input {
+          width: 100%;
+          height: 32px;
+          padding: 0 16px 0 32px;
+          outline: none;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          border-radius: 3px;
+          background-color: transparent; }
+          body aside #project-header #search-wrapper input:focus {
+            border-color: #008080; }
+        body aside #project-header #search-wrapper i {
+          position: absolute;
+          left: 10px;
+          top: 8px;
+          color: rgba(0, 0, 0, 0.3);
+          font-size: 16px; }
+      body aside #project-header #project-status-radio {
+        flex-basis: 100%;
+        align-self: flex-end; }
+        body aside #project-header #project-status-radio label {
+          padding: 6px 16px;
+          margin-bottom: 0;
+          cursor: pointer;
+          color: rgba(0, 0, 0, 0.5);
+          vertical-align: bottom;
+          user-select: none; }
+        body aside #project-header #project-status-radio .active {
+          color: #008080;
+          border-bottom: 2px solid #008080; }
+        body aside #project-header #project-status-radio input {
+          display: none; }
+    body aside #project-list {
+      height: calc(100vh - 56px - 144px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 0 16px; }
+      body aside #project-list .project {
+        padding: 10px 16px;
+        cursor: pointer; }
+        body aside #project-list .project:nth-child(odd) {
+          background-color: #fafafa; }
+        body aside #project-list .project:hover {
+          background-color: rgba(0, 0, 0, 0.1); }
+      body aside #project-list .project.active {
+        background-color: #008080;
+        color: #fff; }
+  body main {
+    flex-basis: 60%;
+    background-color: #fff;
+    min-height: calc(100vh - 56px);
+    padding: 0 32px;
+    box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+    body main label {
+      margin-bottom: 6px;
+      font-weight: bold; }
+    body main a {
+      margin-bottom: 6px;
+      color: #008080; }
+    body main .selectize-control {
+      margin-bottom: 8px; }
+      body main .selectize-control .selectize-input {
+        border-radius: 3px;
+        padding: 6px 10px; }
+    body main form header {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px; }
+      body main form header h2 {
+        font-weight: 500;
+        font-size: 19px;
+        color: #008080; }
+      body main form header #action-buttons {
+        display: flex;
+        justify-content: space-between; }
+        body main form header #action-buttons button {
+          margin-left: 10px;
+          padding: 6px 16px;
+          color: #fff;
+          box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5); }
+          body main form header #action-buttons button:active {
+            box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.5); }
+          body main form header #action-buttons button .fa {
+            margin-right: 10px; }
+        body main form header #action-buttons #save-btn {
+          background-color: #3498db; }
+        body main form header #action-buttons #delete-btn {
+          background-color: #e74c3c; }
+    body main form .input-group {
+      overflow-y: auto;
+      height: calc(100vh - 56px - 64px);
+      padding: 0 16px; }
+      body main form .input-group > div {
+        margin-bottom: 24px; }
+        body main form .input-group > div > input[type="text"], body main form .input-group > div textarea {
+          width: 100%;
+          padding: 6px 10px;
+          outline: none;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          border-radius: 3px;
+          background-color: transparent; }
+          body main form .input-group > div > input[type="text"]:focus, body main form .input-group > div textarea:focus {
+            border-color: #008080; }
+      body main form .input-group #date-field-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center; }
+        body main form .input-group #date-field-wrapper div {
+          flex-basis: 48%; }
+          body main form .input-group #date-field-wrapper div input {
+            width: 100%;
+            padding: 6px 10px;
+            outline: none;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+            background-color: transparent; }
+            body main form .input-group #date-field-wrapper div input:focus {
+              border-color: #008080; }
+      body main form .input-group #project-status-wrapper label {
+        margin-right: 16px;
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.5);
+        vertical-align: bottom; }
+      body main form .input-group #project-status-wrapper .project-status {
+        margin: 5px; }
+      body main form .input-group #project-status-wrapper input {
+        outline: none;
+        vertical-align: sub; }
+      body main form .input-group #project-members-wrapper {
+        display: flex;
+        justify-content: space-between; }
+        body main form .input-group #project-members-wrapper div {
+          flex-basis: 48%; }
+
+/*# sourceMappingURL=project-panel.css.map */

@@ -1,0 +1,308 @@
+@import 'common/base';
+@import 'common/simplified-navbar';
+
+body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    h1, h2, h3, h4, h5, h6 {
+        margin: 0;
+        text-transform: uppercase;
+    }
+
+    aside {
+        margin-left: 32px;
+        flex-basis: 26%;
+        box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5);
+
+        >header {
+            background-color: #fff;
+            padding-bottom: 16px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+
+            >div {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 16px;
+
+                &:first-child {  // title block
+                    height: 64px;
+
+                    button {
+                        color: $primary-color;
+                        cursor: pointer;
+                        border: none;
+                        outline: none;
+
+                        .fa {
+                            margin-right: 8px;
+                        }
+                    }
+                }
+                &:nth-child(2) { // search block
+                    height: 24px;
+                    align-items: stretch;
+                    justify-content: flex-start;
+                    font-size: 1.1em;
+
+                    .fa {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin-right: 10px;
+                        color: rgba(0, 0, 0, 0.3);
+                    }
+                    input {
+                        font-size: inherit;
+                        background-color: transparent;
+                        border: none;
+                        outline: none;
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                    }
+                }
+            }
+        }
+        #project-list {
+            height: calc(100vh - #{$navbar-height} - 64px - 32px - 16px);
+            overflow-y: auto;
+
+            .project {
+                min-height: 48px;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                border-left: 6px solid transparent;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                background-color: #f9f9f9;
+
+                &.active {
+                    background-color: #fff;
+                    border-left: 6px solid $primary-color;
+                }
+                &:hover {
+                    header {
+                        button {
+                            opacity: 1;
+                        }
+                    }
+                }
+
+                header {
+                    padding: 10px 16px;
+                    flex-basis: 100%;
+                    min-height: 56px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+
+                    .name {
+                        display: block;
+                        font-size: 1.2em;
+                        font-weight: $font-weight-bold;
+                        padding: 6px 0;
+                        flex-basis: calc(100% - 32px);
+                        color: $primary-color;
+                        text-transform: none;
+                    }
+
+                    button {
+                        width: 32px;
+                        height: 32px;
+                        background-color: transparent;
+                        border: none;
+                        border-radius: 50%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        transition: 0.2s all ease-in-out;
+                        opacity: 0;
+
+                        &:hover{
+                            background-color: rgba(0, 0, 0, 0.05);
+                        }
+                    }
+
+                    .dates{
+                        flex-basis: 100%;
+
+                        label{
+                            margin-right: 10px;
+
+                            date{
+                                font-family: $font-monospace;
+                                font-size: 1.33em;
+                            }
+                        }
+                    }
+                }
+
+                .details {
+                    flex-basis: 100%;
+                    padding: 10px 16px;
+
+                    .project-description{
+                        text-align: justify;
+                        color: #616161;
+                    }
+                    .action-buttons {
+                        text-align: right;
+                        padding: 10px 0;
+
+                        button {
+                            color: $primary-color;
+                            text-transform: uppercase;
+                            background-color: transparent;
+                            outline: none;
+                            border: none;
+                        }
+                    }
+                }
+
+                &.expanded{
+                    header{
+                        button{
+                            transform: rotate(-180deg);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    main {
+        margin-left: 32px;
+        flex-basis: 60%;
+        overflow-y: auto;
+
+        >header {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            height: 72px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+
+            a {
+                color: $label-color;
+                font-weight: $font-weight-bold;
+
+                &.active {
+                    font-size: 1.5em;
+                    color: $primary-color;
+                }
+            }
+        }
+        form {
+            width: 80%;
+            margin: auto;
+
+            .action-buttons {
+                height: 96px;
+                display: flex;
+                align-items: center;
+                padding: 0 32px;
+                justify-content: space-between;
+
+                button {
+                    border: none;
+                    padding: 10px 12px;
+                    margin-left: 10px;
+                    color: #fff;
+                    border-radius: 3px;
+                    @include btn-shadow-sm;
+
+                    .fa {
+                        margin-right: 8px;
+                    }
+
+                    &#save-btn{
+                        background-color: $info-color;
+                    }
+                    &#save-and-proceed-btn{
+                        background-color: $primary-color;
+                    }
+                    &#delete-btn{
+                        background-color: $danger-color;
+                    }
+                }
+            }
+            .input-group-list {
+                height: calc(100vh - #{$navbar-height} - 72px - 96px);
+                padding: 0 32px;
+                overflow-y: auto;
+
+                .input-group {
+                    width: 100%;
+                    position: relative;
+                    padding: 0 10px;
+                    margin-bottom: 24px;
+
+                    label {
+                        width: 100%;
+                    }
+
+                    >input, textarea {
+                        width: 100%;
+                        border: none;
+                        background-color: transparent;
+                        padding: 4px 0;
+                        outline: none;
+                        font-size: 1.1em;
+                        margin: 0;
+                        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+
+                        &:focus {
+                            border-bottom: 2px solid $primary-color;
+                        }
+                    }
+
+                    .selectize-input {
+                        font-size: 1.1em!important;
+                        border: none;
+                        padding: 4px 0;
+                        background-color: transparent;
+                        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+
+                        &.focus {
+                            border-bottom: 2px solid $primary-color;
+                        }
+
+                        &.has-items{
+                            padding: 0;
+                            padding-top: 5px;
+                        }
+
+                        >input{
+                            font-size: 1.1em!important;
+                            background-color: transparent;
+                        }
+                    }
+
+                    &#start-date-input, &#end-date-input{
+                        flex-basis: 30%;
+                    }
+                }
+
+                .input-groups{
+                    display: flex;
+
+                    .input-group{
+                        flex-basis: 50%;
+                    }
+                }
+            }
+        }
+    }
+
+    #new-project-modal {
+        .error {
+            padding: 16px 0 0 16px;
+            color: $danger-color;
+
+            .fa {
+                margin-right: 8px;
+            }
+        }
+    }
+}

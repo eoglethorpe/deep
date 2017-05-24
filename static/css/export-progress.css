@@ -112,5 +112,7 @@ body {
     transform: rotate(360deg) scale(1); } }
 #post-load {
   display: none; }
+  #post-load .fa {
+    color: #008080; }
 
 /*# sourceMappingURL=export-progress.css.map */

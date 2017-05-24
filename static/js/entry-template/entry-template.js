@@ -46,13 +46,15 @@ let templateEditor = {
 
         // Save button
         $('#save-button').click(function() {
-            redirectPost(window.location.pathname, {
-                data: JSON.stringify(that.save()),
-            }, csrf_token);
+            that.save().then(function(data) {
+                redirectPost(window.location.pathname, {
+                    data: JSON.stringify(data),
+                }, csrf_token);
+            });
         });
 
         // Page switching
-        $('#switch-page').click(function() {
+        $('.switch-page').click(function() {
             that.switchPage();
             that.reloadElements();
         });
@@ -74,7 +76,12 @@ let templateEditor = {
 
             let elementProperties = $('#elements .element-template').clone();
             elementProperties.removeClass('element-template').addClass('element');
-            elementProperties.find('h4').text(element.getTitle());
+            if(element.dom.find('.title').text().length > 0){
+                elementProperties.find('h4').text(element.getTitle() + ' (' + element.dom.find('.title').text() + ')');
+            }
+            else{
+                elementProperties.find('h4').text(element.getTitle());
+            }
 
             if (element.isRemovable()) {
                 elementProperties.find('.delete-element').click(function() {
@@ -86,20 +93,6 @@ let templateEditor = {
             else {
                 elementProperties.find('.delete-element').hide();
             }
-            // element.addPropertiesTo(elementProperties.find('.properties'));
-            //
-            // elementProperties.find('.properties').hide();
-            // elementProperties.find('.toggle-properties').click(function() {
-            //     let btn = $(this);
-            //     elementProperties.find('.properties').slideToggle(function() {
-            //         if ($(this).is(':visible')) {
-            //             btn.removeClass('fa-chevron-down').addClass('fa-chevron-up');
-            //         } else {
-            //             btn.removeClass('fa-chevron-up').addClass('fa-chevron-down');
-            //         }
-            //     });
-            // });
-            //
             $('#elements').append(elementProperties);
             elementProperties.show();
         }
@@ -190,22 +183,43 @@ let templateEditor = {
     },
 
     save: function() {
-        let page = this.getPage();
-        let data = {};
-        data.name = $('#template-name').text();
-        data.elements = [];
-        for (let i=0; i<this.elements.length; i++) {
-            if (this.getPage() != this.elements[i].page) {
+        return new Promise((resolve, reject) => {
+            let that = this;
+            let page = this.getPage();
+            let data = {};
+
+            data.name = $('#template-name').text();
+            data.elements = [];
+            for (let i=0; i<this.elements.length; i++) {
+                if (this.getPage() != this.elements[i].page) {
+                    this.switchPage();
+                }
+                let elementData = this.elements[i].save();
+                elementData.page = this.elements[i].page;
+                data.elements.push(elementData);
+            }
+            if (page != this.getPage()) {
                 this.switchPage();
             }
-            let elementData = this.elements[i].save();
-            elementData.page = this.elements[i].page;
-            data.elements.push(elementData);
-        }
-        if (page != this.getPage()) {
-            this.switchPage();
-        }
-        return data;
+
+            data.snapshots = {};
+            if (this.getPage() != 'page-one') {
+                this.switchPage();
+            }
+            html2canvas($('#page-one')[0], {
+                onrendered: function(canvas) {
+                    data.snapshots.pageOne = canvas.toDataURL();
+
+                    that.switchPage();
+                    html2canvas($('#page-two')[0], {
+                        onrendered: function(canvas) {
+                            data.snapshots.pageTwo = canvas.toDataURL();
+                            resolve(data);
+                        }
+                    });
+                }
+            });
+        });
     },
 
     getUniqueElementId: function() {
@@ -249,10 +263,14 @@ let templateEditor = {
         if ($('#page-one').is(':visible')) {
             $('#page-one').hide();
             $('#page-two').css('display','flex');
+            $('#switch-in-bar').css('display','inline-block');
+            $('#switch-in-footer').css('display','none');
             $('body').removeClass('page-one').addClass('page-two');
         } else {
             $('#page-two').hide();
             $('#page-one').show();
+            $('#switch-in-footer').css('display','inline-block');
+            $('#switch-in-bar').css('display','none');
             $('body').removeClass('page-two').addClass('page-one');
         }
     },
@@ -262,5 +280,40 @@ let templateEditor = {
 $(document).ready(function() {
     templateEditor.init();
     templateEditor.load(templateData);
+    console.log(templateData.snapshots);
     $('#elements').sortable();
+
+    $('.properties-box').on('visible', function(){
+        $('.properties-box').not(this).hide();
+    });
+    $('.floating-toolbar').on('visible', function(){
+        $('.floating-toolbar').not(this).hide();
+    });
+
+    $(document).on('click', function(e){
+        if($(e.target).closest('.properties-box').length == 0){
+            $('.properties-box').hide();
+        }
+        if($(e.target).closest('.floating-toolbar').length == 0){
+            $('.floating-toolbar').hide();
+        }
+    });
+
+
+    $('.element').on('dragstart', function(){
+        $(this).data('initial-offset', $(this).offset());
+    });
+    $('.element').on('dragstop', function(event, ui){
+        let that = $(this);
+        let r1 = this.getBoundingClientRect();
+
+        $('.element').not(this).each(function(){
+            let r2 = this.getBoundingClientRect();
+
+            if((r1.left < r2.left + r2.width && r1.left + r1.width > r2.left && r1.top < r2.top + r2.height && r1.height + r1.top > r2.top)) {
+                that.offset(that.data('initial-offset'));
+                return false;
+            }
+        });
+    });
 });

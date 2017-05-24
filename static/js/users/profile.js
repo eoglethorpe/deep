@@ -142,6 +142,7 @@ let editMode = {
 
 $(document).ready(function(){
     let newUserGroupModal = new Modal('#new-user-group-modal');
+    let newProjectModal = new Modal('#new-project-modal');
 
     $('label[data-sort]').on('click', function(){
         var sortQuery = $(this).data('sort');
@@ -215,6 +216,21 @@ $(document).ready(function(){
         });
     });
 
+    $('#new-project-btn').click(function() {
+        $('#new-project-modal .error').empty();
+        newProjectModal.show().then(null, null, function() {
+            if (newProjectModal.action == 'proceed') {
+                let name = $('#new-project-name').val();
+                if (name.trim().length == 0) {
+                    $('#new-project-modal .error').text('Please enter a name');
+                    return;
+                }
+
+                $('#new-project-modal form').submit();
+            }
+        });
+    });
+
     $('#avatar-input').change(function(){
         if (this.files && this.files[0]) {
             var reader = new FileReader();
@@ -224,5 +240,29 @@ $(document).ready(function(){
             }
             reader.readAsDataURL(this.files[0]);
         }
+    });
+
+    $('#search-projects').on('input paste change drop', function() {
+        let searchText = $(this).val();
+        if (!searchText) {
+            $('#projects .project').show();
+            return;
+        }
+
+        $('#projects .project').each(function() {
+            let matched = false;
+            $(this).find($(this).data('search')).each(function() {
+                if ($(this).text().toLowerCase().indexOf(searchText) >= 0) {
+                    matched = true;
+                    return false;
+                }
+            });
+
+            if (matched) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
     });
 });

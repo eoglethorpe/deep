@@ -38,7 +38,7 @@ body{
                 width: 100%;
             }
         }
-        #crisis-select-container{
+        #project-select-container{
             flex-basis: 20%;
 
             .selectize-control.single{
@@ -66,7 +66,7 @@ body{
                     border-color: #808080 transparent transparent transparent;
                 }
             }
-            #crisis-dropdown-alt{
+            #project-dropdown-alt{
                 vertical-align: middle;
                 color: #fff;
                 font-size: $text-size-sm;
@@ -122,10 +122,18 @@ body{
                         border: 1px solid rgba(0, 0, 0, 0.05);
                         margin: 0;
                     }
-                    div{
+                    a, button {
+                        display: block;
+                        width: 100%;
+                        text-align: left;
                         padding: 16px;
                         text-transform: uppercase;
                         color: $text-color;
+                        cursor: pointer;
+                        outline: none;
+                        border: none;
+                        text-decoration: none;
+                        background-color: transparent;
 
                         .fa{
                             width: 32px;

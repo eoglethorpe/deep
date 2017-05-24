@@ -7,7 +7,7 @@ var weeks = [];
 
 var active_countries = {};
 var filtered_reports = {};
-var active_crises_number = 0;
+var active_projects_number = 0;
 var global_monitoring_number = 0;
 
 var dateFilterSelectize;
@@ -69,9 +69,9 @@ function onEachMapFeature(feature, layer) {
     }
 
     layer.on('click', function() {
-        if (feature.properties.iso_a2 in crises_per_country)
+        if (feature.properties.iso_a2 in projects_per_country)
             loadTimetable(feature.properties.iso_a2);
-        else if (feature.properties.iso_a3 in crises_per_country)
+        else if (feature.properties.iso_a3 in projects_per_country)
             loadTimetable(feature.properties.iso_a3);
     });
 }
@@ -140,24 +140,24 @@ $(document).ready(function(){
     dateFilterSelectize = $("#date-created-filter").selectize();
     $("#disaster-type-filter").selectize();
 
-    // Get active countries list from active crises list
-    for (var i=0; i<active_crises.length; ++i) {
-        var crisis = active_crises[i];
-        for (var j=0; j<crisis.countries.length; ++j) {
-            var country = crisis.countries[j].code;
+    // Get active countries list from active projects list
+    for (var i=0; i<active_projects.length; ++i) {
+        var project = active_projects[i];
+        for (var j=0; j<project.countries.length; ++j) {
+            var country = project.countries[j].code;
             if (!active_countries[country])
                 active_countries[country] = []
-            active_countries[country].push(crisis) ;
-            if(crisis.status == '0'){
+            active_countries[country].push(project) ;
+            if(project.status == '0'){
                 global_monitoring_number+=1;
             }
             else{
-                active_crises_number+=1;
+                active_projects_number+=1;
             }
         }
     }
 
-    $("#number-of-active-crisises span").text(active_crises_number);
+    $("#number-of-active-projectes span").text(active_projects_number);
     $("#number-of-global-monitoring span").text(global_monitoring_number);
 
     // Show the map

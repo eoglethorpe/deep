@@ -175,6 +175,10 @@ class EntriesView(View):
             context["severities"] = Severity.objects.all().order_by('level')
             context["affected_groups"] = AffectedGroup.objects.all()
 
+            context["sources"] = Lead.objects.filter(event__pk=event, entry__isnull=False)\
+                    .values_list('source_name', flat=True)
+            context["sources"] = list(set(context["sources"]))
+
             return render(request, "entries/entries.html", context)
 
 

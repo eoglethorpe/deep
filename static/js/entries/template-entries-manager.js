@@ -107,19 +107,28 @@ let entriesManager = {
             return info.excerpt.toLowerCase().includes(this.value.toLowerCase());
         });
 
+        this.addMultiselectFilter('user', 'Imported by', function(info) {
+            return this.value.indexOf(that.entries[info.entryIndex].created_by+'') >= 0;
+        });
+
+        this.addDateFilter('date-imported', 'Date imported', function(info) {
+            let date = new Date(that.entries[info.entryIndex].created_at);
+            if (this.value == 'range') {
+                return dateInRange(date, new Date(this.startDate), new Date(this.endDate));
+            } else {
+                return filterDate(this.value, date);
+            }
+        });
+
         this.addTextFilter('lead-title', 'Lead title', function(info) {
             return that.entries[info.entryIndex].lead_title.toLowerCase().includes(this.value.toLowerCase());
         });
 
-        this.addTextFilter('lead-source', 'Lead source', function(info) {
+        this.addTextFilter('lead-source', 'Source', function(info) {
             if (that.entries[info.entryIndex].lead_source) {
                 return that.entries[info.entryIndex].lead_source.toLowerCase().includes(this.value.toLowerCase());
             }
             return false;
-        });
-
-        this.addMultiselectFilter('user', 'User', function(info) {
-            return this.value.indexOf(that.entries[info.entryIndex].created_by+'') >= 0;
         });
 
         this.addDateFilter('date-published', 'Date published', function(info) {

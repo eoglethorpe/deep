@@ -221,6 +221,14 @@ $(document).ready(function(){
                 }
             });
 
+            if (sessionStorage.scrollTop != "undefined") {
+                $('.dataTables_scrollBody').scrollTop(sessionStorage.scrollTop);
+            }
+
+            $('.dataTables_scrollBody').scroll(function() {
+                sessionStorage.scrollTop = $(this).scrollTop();
+            });
+
         }
     });
 
@@ -302,61 +310,65 @@ $(document).ready(function(){
         ;
     }
 
-    var dragging = false;
-    $('body').bind("dragover", function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        if( !dragging ){
-            $('#drag-overlay').show();
-            dragging = true;
-        }
-    });
-    $('body').bind("dragleave", function(e){
-        e.preventDefault();
-        e.stopPropagation();
+    if (currentEvent) {
+        postUrl = postUrl.replace('0', currentEvent+'');
 
-        if(dragging){
-            if (!e.originalEvent.clientX && !e.originalEvent.clientY){
-                $('#drag-overlay').hide();
-                dragging = false;
+        var dragging = false;
+        $('body').bind("dragover", function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            if( !dragging ){
+                $('#drag-overlay').show();
+                dragging = true;
             }
-        }
-    });
-    $('body').bind("drop", function(e){
-        e.preventDefault();
-        e.stopPropagation();
+        });
+        $('body').bind("dragleave", function(e){
+            e.preventDefault();
+            e.stopPropagation();
 
-        $('#drag-overlay').hide();
-        dragging = false;
+            if(dragging){
+                if (!e.originalEvent.clientX && !e.originalEvent.clientY){
+                    $('#drag-overlay').hide();
+                    dragging = false;
+                }
+            }
+        });
+        $('body').bind("drop", function(e){
+            e.preventDefault();
+            e.stopPropagation();
 
-        droppedFiles = e.originalEvent.dataTransfer.files;
+            $('#drag-overlay').hide();
+            dragging = false;
 
-        $('#attachments-list').text('');
-        $('#manual-text').text('');
+            droppedFiles = e.originalEvent.dataTransfer.files;
 
-        if (droppedFiles.length > 0) {
-            $('.manual-row').hide();
-            $('.attachment-row').show();
-            $.each(droppedFiles, function(i, file) {
-                $('#attachments-list').append(file.name + " ");
-            });
-            addLeadModal.show().then(null, null, function(){
-                $('#add-lead-form').find('input[type="submit"]').click();
-            });
-        }
-        else {
-            var text = e.originalEvent.dataTransfer.getData("text");
-            if (text && text.length > 0) {
-                $('.manual-row').show();
-                $('.attachment-row').hide();
-                $('#manual-text').text(text);
+            $('#attachments-list').text('');
+            $('#manual-text').text('');
 
+            if (droppedFiles.length > 0) {
+                $('.manual-row').hide();
+                $('.attachment-row').show();
+                $.each(droppedFiles, function(i, file) {
+                    $('#attachments-list').append(file.name + " ");
+                });
                 addLeadModal.show().then(null, null, function(){
                     $('#add-lead-form').find('input[type="submit"]').click();
                 });
             }
-        }
-    });
+            else {
+                var text = e.originalEvent.dataTransfer.getData("text");
+                if (text && text.length > 0) {
+                    $('.manual-row').show();
+                    $('.attachment-row').hide();
+                    $('#manual-text').text(text);
+
+                    addLeadModal.show().then(null, null, function(){
+                        $('#add-lead-form').find('input[type="submit"]').click();
+                    });
+                }
+            }
+        });
+    }
 
     $("#confidentiality").selectize();
     $("#assigned-to").selectize();

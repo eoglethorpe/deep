@@ -3,21 +3,21 @@
 <script>
     $(document).ready(function(){
         {% if all_events %}
-        var currentDropdownVal = $('#crisis-dropdown').val();
+        var currentDropdownVal = $('#project-dropdown').val();
 
-        var crisisDropdown = $('#crisis-dropdown').selectize({
+        var projectDropdown = $('#project-dropdown').selectize({
             onDropdownOpen: function(dropdown) {
-                crisisDropdown.clear();
+                projectDropdown.clear();
                 //dropdown.stop().hide().slideToggle();
             },
             onDropdownClose: function(dropdown) {
-                if(crisisDropdown.getValue() == ''){
-                    crisisDropdown.setValue(currentDropdownVal);
+                if(projectDropdown.getValue() == ''){
+                    projectDropdown.setValue(currentDropdownVal);
                 }
                 //dropdown.stop().show().slideToggle();
             }
         })[0].selectize;
-        $('#crisis-dropdown').change(function() {
+        $('#project-dropdown').change(function() {
             if ($(this).val() != null && $(this).val() != '' && $(this).val() != currentDropdownVal){
                 window.location.href = $(this).val();
             }
@@ -27,9 +27,9 @@
         // HumanitarianId link
         $('#link-with-hid').click(function() {
             {% if hid_config and hid_config.development %}
-            window.location.href = 'http://auth.dev.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id|safe }}&scope=profile&state=833912&redirect_uri={{ hid_config.redirect_url|safe }}';
+            window.location.href = 'https://api2.dev.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id|safe }}&scope=profile&state=833912&redirect_uri={{ hid_config.redirect_url|safe }}';
             {% else %}
-            window.location.href = 'http://auth.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id|safe }}&scope=profile&state=833912&redirect_uri={{ hid_config.redirect_url|safe }}';
+            window.location.href = 'https://auth.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id|safe }}&scope=profile&state=833912&redirect_uri={{ hid_config.redirect_url|safe }}';
             {% endif %}
         });
 
@@ -42,8 +42,10 @@
         $('body nav').on('click', '.dropdown-toggle', function(){
             $(this).closest('.dropdown').find('.items').toggle();
         });
-        $('body nav').on('blur', '.dropdown', function(){
-            $(this).find('.items').hide();
+        $(document).on('click', function(e) {
+            if (!$('body nav .dropdown').is(e.target) && $('body nav .dropdown').has(e.target).length == 0) {
+                $('body nav .dropdown').find('.items').hide();
+            }
         });
 
         $('div[data-url]').click(function() {
@@ -70,9 +72,9 @@
 
 
     <!-- Event selector -->
-    <div id="crisis-select-container">
+    <div id="project-select-container">
         {% if all_events %}
-        <select id="crisis-dropdown" placeholder="Select event">
+        <select id="project-dropdown" placeholder="Select event">
             <option>Select event</option>
             {% if event %}
             <option value="{% url 'dashboard' %}">All events</option>
@@ -85,7 +87,7 @@
         </select>
         {% else %}
         {% if event %}
-        <div id="crisis-dropdown-alt"><span class="fa fa-location-arrow"></span>{{event}}</div>
+        <div id="project-dropdown-alt"><span class="fa fa-location-arrow"></span>{{event}}</div>
         {% endif %}
         {% endif %}
     </div>
@@ -111,21 +113,18 @@
         <div class="dropdown" id="user-menu" tabindex="-1">
             <a class="dropdown-toggle"><div class="name"><i class="fa fa-user"></i>{{ user.first_name }}</div><i class="fa fa-chevron-down"></i></a>
             <div class="items" hidden>
-                <div data-url="{% url 'user_profile' user.pk %}"><i class="fa fa-user"></i>Profile</small></div>
-                <div data-url="{% url 'password_change' %}"><i class="fa fa-key"></i>Change password</small></div>
-                <div data-url="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</div>
+                <a href="{% url 'user_profile' user.pk %}"><i class="fa fa-user"></i>Profile</small></a>
+                <a href="{% url 'password_change' %}"><i class="fa fa-key"></i>Change password</small></a>
+                <button onclick="window.location.href = '{% url 'logout' %}';"><i class="fa fa-sign-out"></i>Logout</button>
                 <hr>
                 {% if request.user.is_superuser %}
-                <div data-url="/admin"><i class="fa fa-user-secret"></i>Admin panel</div>
-                <div data-url="{% url 'custom_admin:country_management' %}"><i class="fa fa-globe"></i>Country Panel</div>
+                <a href="/admin"><i class="fa fa-user-secret"></i>Admin panel</a>
+                <a href="{% url 'custom_admin:country_management' %}"><i class="fa fa-globe"></i>Country Panel</a>
                 {% endif %}
-                <div data-url="{% url 'custom_admin:crisis_panel' %}"><i class="fa fa-wrench"></i>Crisis Panel</div>
-                {% if request.user.userprofile.hid %}
+                <a href="{% url 'custom_admin:project_panel' %}"><i class="fa fa-wrench"></i>Project Panel</a>
                 <hr>
-                <!-- TODO: Maybe show link to official hid profile page -->
-                {% else %}
-                <hr>
-                <div id="link-with-hid" data-url="#"><i class="fa fa-link"></i>Link with HID</div>
+                {% if not request.user.userprofile.hid %}
+                <button id="link-with-hid"><i class="fa fa-link"></i>Link with HID</button>
                 {% endif %}
             </div>
         </div>

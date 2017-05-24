@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 
     'storages',
     'rest_framework',
@@ -64,6 +65,7 @@ INSTALLED_APPS = [
     'users',
     'leads',
     'entries',
+    'project',
     'report',
     'usergroup',
     'custom_admin',

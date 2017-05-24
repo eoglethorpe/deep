@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load watchful_url %}
+
+{% block title %}
+DEEP | Analysis Framework
+{% endblock %}
+
+{% block head %}
+
+<link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/analysis-framework.css' %}" />
+<script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/project/analysis-framework.js' %}"></script>
+
+{% endblock %}
+
+{% block body %}
+
+{% include 'simplified-navbar.html' with page_title="Project Management Panel" %}
+
+<aside>
+    <header>
+        <h2>Related analysis frameworks</h2>
+        <div class="search-block">
+            <i class="fa fa-search"></i>
+            <input id="search-templates" type="search" name="project-search" placeholder="Search templates">
+        </div>
+    </header>
+    <div id="related-project-list">
+        {% for p in projects %}
+        <div class="project" data-pk="{{ p.pk }}" data-name="{{ p.name }}" data-template="{{ p.entry_template.name }}">
+            <div class="details">
+                <div class="project-name">{{ p.name }}</div>
+                <div class="template-name">{{ p.entry_template.name }}</div>
+            </div>
+            {% if p != project %}
+            <a>Clone</a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</aside>
+<main>
+    <header>
+        <a href="{% url 'project:project_details' project_id %}">1. Project details</a>
+        <a href="{% url 'project:geo_area' project_id %}">2. Geo area</a>
+        <a class="active">3. Analysis framework</a>
+    </header>
+    <div id="template-form-container">
+        <form method="post">
+            {% csrf_token %}
+            <header>
+                <h2>Edit template</h2>
+                <div class="action-buttons">
+                    <button id="save-and-edit-template-btn" name="save-and-edit"><i class="fa fa-external-link"></i>Save &amp; edit template</button>
+                    <button id="save-and-finish-btn" name="save-and-finish"><i class="fa fa-check"></i>Save &amp; finish</button>
+                </div>
+            </header>
+            <div class="input-group-list">
+                <div class="input-group">
+                    <label>Template name</label>
+                    <input name="template-name" type="text" placeholder="Enter template name" value="{{ project.entry_template.name }}" required>
+                </div>
+                <input id="clone-from" name="clone-from" type="hidden" value="">
+                <div class="info" hidden>
+                    <i class="fa fa-exclamation-triangle"></i>The current template will be replaced by a clone of <span></span>
+                </div>
+            </div>
+        </form>
+        <div class="snapshots-container">
+            <label>Template preview</label>
+            <button id="snapshot-next"><i class="fa fa-chevron-right"></i></button>
+            <button id="snapshot-prev" hidden><i class="fa fa-chevron-left"></i></button>
+            <div id="snapshots">
+                <img class="snapshot-page-one active" src="{{ project.entry_template.snapshot_pageone }}">
+                <img class="snapshot-page-two" src="{{ project.entry_template.snapshot_pagetwo }}" hidden>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

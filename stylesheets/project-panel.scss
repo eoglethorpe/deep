@@ -1,4 +1,5 @@
 @import 'common/base';
+@import 'common/simplified-navbar';
 
 body{
     display: flex;
@@ -9,46 +10,12 @@ body{
         margin: 0;
         text-transform: uppercase;
     }
-    nav{
-        flex-basis: 100%;
-        height: $navbar-height;
-        background-color: darken($primary-color, 10%);
-        color: #fff;
-        display: flex;
-        justify-content: space-between;
-        padding: 0 16px;
-        align-items: center;
-        @include shadow;
-
-        >header{
-            flex-basis: 60%;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-
-            .deep-logo{
-                width: $deep-logo-sm-width;
-                margin-right: 24px;
-            }
-        }
-        a{
-            color: #fff;
-            cursor:pointer;
-
-            .fa{
-                margin-right: 10px;
-            }
-            &:hover{
-                color: #fff;
-             }
-        }
-    }
     aside{
-        $crisis-header-height: 144px;
+        $project-header-height: 144px;
         flex-basis: 27%;
 
-        #crisis-header{
-            height: $crisis-header-height;
+        #project-header{
+            height: $project-header-height;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
@@ -98,7 +65,7 @@ body{
                 }
             }
 
-            #crisis-status-radio{
+            #project-status-radio{
                 flex-basis: 100%;
                 align-self: flex-end;
 
@@ -119,13 +86,13 @@ body{
                 }
             }
         }
-        #crisis-list{
-            height: calc(100vh - #{$navbar-height} - #{$crisis-header-height});
+        #project-list{
+            height: calc(100vh - #{$navbar-height} - #{$project-header-height});
             overflow-y: auto;
             overflow-x: hidden;
             padding: 0 16px;
 
-            .crisis{
+            .project{
                 padding: 10px 16px;
                 cursor: pointer;
 
@@ -137,13 +104,19 @@ body{
                     background-color: rgba(0, 0, 0, 0.1);
                 }
             }
-            .crisis.active{
+            .project.active{
                 background-color: $primary-color;
                 color: #fff;
             }
         }
     }
     main{
+        flex-basis: 60%;
+        background-color: #fff;
+        min-height: calc(100vh - #{$navbar-height});
+        padding: 0 32px;
+        @include shadow;
+
         label {
             margin-bottom: 6px;
             font-weight: bold;
@@ -152,60 +125,57 @@ body{
             margin-bottom: 6px;
             color: $primary-color;
         }
-        flex-basis: 60%;
-        background-color: #fff;
-        height: calc(100vh - #{$navbar-height});
-        padding: 10px 32px 0 32px;
-        @include shadow;
 
         .selectize-control{
             margin-bottom: 8px;
 
             .selectize-input{
-                min-height: 32px;
                 border-radius: 3px;
-                padding: 6px 4px;
+                padding: 6px 10px;
             }
         }
 
         form{
-            padding: 10px 16px;
+            header {
+                height: 64px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 16px;
 
-            h2{
-                font-weight: $font-weight-bold;
-                font-size: $text-size-sl;
-                margin-bottom: 32px;
-                color: $primary-color;
-            }
-            >div{
-                margin-bottom: 16px;
+                h2{
+                    font-weight: $font-weight-bold;
+                    font-size: $text-size-sl;
+                    color: $primary-color;
+                }
 
-                >input[type="text"]{
-                    width: 100%;
-                    height: 32px;
-                    padding: 0 16px 0 8px;
-                    outline: none;
-                    border: 1px solid rgba(0, 0, 0, 0.1);
-                    border-radius: 3px;
-                    background-color: transparent;
+                #action-buttons{
+                    display: flex;
+                    justify-content: space-between;
 
-                    &:focus{
-                        border-color: $primary-color;
+                    button{
+                        margin-left: 10px;
+                        padding: 6px 16px;
+                        color: #fff;
+                        @include btn-shadow-md();
+
+                        .fa { margin-right: 10px; }
                     }
+                    #save-btn{ background-color: $info-color; }
+                    #delete-btn{ background-color: $danger-color; }
                 }
             }
-            #date-field-wrapper{
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
+            .input-group {
+                overflow-y: auto;
+                height: calc(100vh - #{$navbar-height} - 64px);
+                padding: 0 16px;
 
-                div{
-                    flex-basis: 48%;
+                >div {
+                    margin-bottom: 24px;
 
-                    input{
+                    >input[type="text"], textarea {
                         width: 100%;
-                        height: 32px;
-                        padding: 0 16px 0 8px;
+                        padding: 6px 10px;
                         outline: none;
                         border: 1px solid rgba(0, 0, 0, 0.1);
                         border-radius: 3px;
@@ -216,35 +186,51 @@ body{
                         }
                     }
                 }
-            }
-            #crisis-status-wrapper{
-                label{
-                    margin-right: 16px;
-                    cursor: pointer;
-                    color: $label-color;
-                    vertical-align: bottom;
-                }
-                .crisis-status{
-                    margin: 5px;
-                }
-                input{
-                    outline: none;
-                    vertical-align: sub;
-                }
-            }
-            #action-buttons{
-                display: flex;
-                justify-content: space-between;
+                #date-field-wrapper{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
 
-                button{
-                    padding: 6px 16px;
-                    color: #fff;
-                    @include btn-shadow-md();
+                    div{
+                        flex-basis: 48%;
 
-                    .fa{ margin-right: 10px; }
+                        input{
+                            width: 100%;
+                            padding: 6px 10px;
+                            outline: none;
+                            border: 1px solid rgba(0, 0, 0, 0.1);
+                            border-radius: 3px;
+                            background-color: transparent;
+
+                            &:focus{
+                                border-color: $primary-color;
+                            }
+                        }
+                    }
                 }
-                #save-btn{ background-color: $info-color; }
-                #delete-btn{ background-color: $danger-color; }
+                #project-status-wrapper{
+                    label{
+                        margin-right: 16px;
+                        cursor: pointer;
+                        color: $label-color;
+                        vertical-align: bottom;
+                    }
+                    .project-status{
+                        margin: 5px;
+                    }
+                    input{
+                        outline: none;
+                        vertical-align: sub;
+                    }
+                }
+                #project-members-wrapper {
+                    display: flex;
+                    justify-content: space-between;
+
+                    div {
+                        flex-basis: 48%;
+                    }
+                }
             }
         }
     }

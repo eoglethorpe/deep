@@ -34,6 +34,7 @@
                 display: flex;
                 justify-content: space-between;
                 flex-wrap: wrap;
+                align-items: center;
                 margin-bottom: 10px;
 
                 label{
@@ -43,50 +44,82 @@
                 }
                 input{
                     margin-bottom: 6px;
-
                     &:nth-child(2){ width: 33%; }
-                    &:nth-child(3){ width: 65%; }
-                    &:nth-child(4){ width: 100%; }
                 }
-                .source-new {
+                .source-warning-wrapper{
                     width: 65%;
-                }
+                    margin-bottom: 4px;
 
+                    .warning-error{
+                        color: $danger-color;
+                        position: absolute;
+                        margin: 0;
+                        font-size: 0.8em;
+
+                        .fa{
+                            margin-right: 4px;
+                        }
+                    }
+                    &.error-padding{
+                        padding-bottom: 12px;
+                    }
+                }
+                .comment-warning-wrapper{
+                    width: 100%;
+
+                    input{
+                        width: 100%;
+                    }
+                    .warning-error{
+                        color: $danger-color;
+                        position: absolute;
+                        margin: 0;
+                        font-size: 0.8em;
+
+                        .fa{
+                            margin-right: 4px;
+                        }
+                    }
+                    &.error-padding{
+                        padding-bottom: 12px;
+                    }
+                }
             }
         }
-    }
-    .source-new {
-        display: inline-block;
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        min-height: 24px;
-        position: relative;
-
-        .source{
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #fff;
-            padding: 6px;
+        .source-new {
+            display: inline-block;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            min-height: 24px;
+            width: 100%;
             position: relative;
-            cursor: pointer;
-            word-break: break-all;
 
-            .name{
-                flex-basis: 85%;
-                overflow: hidden;
-                flex-grow: 0;
-                flex-shrink: 0;
+            .source{
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: center;
+                background-color: #fff;
+                padding: 6px;
+                position: relative;
+                cursor: pointer;
+                word-break: break-all;
+
+                .name{
+                    flex-basis: 85%;
+                    overflow: hidden;
+                    flex-grow: 0;
+                    flex-shrink: 0;
+                }
+                .delete{
+                    flex-basis: 5%;
+                    color: $error-color;
+                }
+                date{
+                    flex-basis: 100%;
+                    font-family: 'Inconsolata', monospace;
+                }
+                @import 'display-card';
             }
-            .delete{
-                flex-basis: 5%;
-                color: $error-color;
-            }
-            date{
-                flex-basis: 100%;
-                font-family: 'Inconsolata', monospace;
-            }
-            @import 'display-card';
         }
     }
 }
