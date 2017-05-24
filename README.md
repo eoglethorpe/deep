@@ -104,7 +104,17 @@ $ docker push eoglethorpe/deep:1.1-dev # push image to dockerhub
 
 ```bash
 $ docker build --tag eoglethorpe/deep:1.1-dev . # replace 1.1-dev with required version. build image
+
 $ docker run -d -e ALLOWED_HOST='localhost' -p 8080:80 --name deep-dev eoglethorpe/deep:1.1-dev # run container
+
+$ docker run -d -e ALLOWED_HOST='localhost' \
+    -e USE_S3='True' \ # With s3 for static and media
+    -e AWS_STORAGE_BUCKET_NAME='bucket-name' \
+    -e AWS_ACCESS_KEY_ID='a-key' \
+    -e AWS_SECRET_ACCESS_KEY='s-key' \
+    -p 8080:80 \
+    --name deep-dev eoglethorpe/deep:1.1-dev
+
 $ docker stop deep-dev # to stop container
 $ docker rm deep-dev # to remove container
 ```
