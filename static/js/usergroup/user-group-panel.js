@@ -355,45 +355,6 @@ let projects = {
     },
 }
 
-let templates = {
-    init: function() {
-        this.newTemplateModal = new Modal('#new-template-modal');
-    },
-
-    addNewTemplate: function() {
-        let newTemplateModal = this.newTemplateModal;
-        $('#new-template-modal').find('.error').empty();
-
-        newTemplateModal.show().then(null, null, function(){
-            if(newTemplateModal.action == 'proceed'){
-                let name = $('#new-template-name').val();
-                if (name.trim().length == 0) {
-                    $('#new-template-modal').find('.error').text('Please enter a name');
-                    return;
-                }
-
-                ajax.request({
-                    request: 'add-entry-template',
-                    name: name,
-                }).done(function(response) {
-                    if (response.status && response.data.done) {
-                        let url = response.data.url;
-                        window.location.href = url;
-                    } else if (response.status && response.data.nameExists) {
-                        $('#new-template-modal').find('.error')
-                            .text('An entry template with this name already exists in DEEP');
-                    } else {
-                        $('#new-template-modal').find('.error').text(response.message);
-                    }
-                }).fail(function() {
-                    $('#new-template-modal').find('.error')
-                        .text('Server error, check your connection and try again');
-                });
-            }
-        });
-    },
-};
-
 function refresh() {
     members.refresh();
     users.refresh();
@@ -486,7 +447,6 @@ $(document).ready(function(){
     activityLog.init();
     members.init();
     projects.init();
-    templates.init();
 
     //Clear selection button
     $('#clear-selection-toast .clear-btn').click(function(){
@@ -522,9 +482,6 @@ $(document).ready(function(){
         }
         else if (selection.data('target') == '#projects-wrapper') {
             window.location.href = project_panel_url + '?selected_group=' + userGroupPk;
-        }
-        else if (selection.data('target') == '#templates-wrapper') {
-            templates.addNewTemplate();
         }
     });
 

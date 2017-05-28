@@ -69,7 +69,6 @@ let activities = [
         <div id="navigator">
             <a data-target="#members-wrapper" class="nav-active">Members</a>
             <a data-target="#projects-wrapper">Projects</a>
-            <a data-target="#templates-wrapper">Templates</a>
         </div>
         <div id="search-items-wrapper">
             <i class="fa fa-search"></i>
@@ -113,16 +112,6 @@ let activities = [
                     <div class="type">{{project.disaster_type.name}}</div>
                     <div class="countries">{% for country in project.countries.all %}{{country}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
                     <div class="start-date"><date hidden>{{project.start_date|date:"Y-m-d"}}</date>{{project.start_date}}</div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        <div id="templates-wrapper" hidden>
-            <div id="templates">
-                {% for template in usergroup.entry_templates.all %}
-                <div class="template" data-url="{% url 'custom_admin:entry_template' template.pk %}">
-                    <div class="name">{{template.name}}</div>
-                    <a href="{% url 'custom_admin:entry_template' template.pk %}"><i class="fa fa-pencil" title="Edit Template"></i></a>
                 </div>
                 {% endfor %}
             </div>
