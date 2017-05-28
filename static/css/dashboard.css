@@ -285,8 +285,17 @@ body #timeline {
         height: 12px;
         flex: none; }
 body #non-acaps {
-  padding: 16px; }
+  display: flex;
+  height: calc(100vh - 56px);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  body #non-acaps img {
+    height: 30vh;
+    filter: brightness(60%); }
   body #non-acaps p {
-    font-weight: 500; }
+    color: rgba(0, 0, 0, 0.3);
+    font-size: 3em;
+    text-transform: uppercase; }
 
 /*# sourceMappingURL=dashboard.css.map */

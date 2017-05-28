@@ -161,10 +161,21 @@ body{
     }
 
     #non-acaps {
-        padding: 16px;
+       display: flex;
+       height: calc(100vh - #{$navbar-height});
+       justify-content: center;
+       align-items: center;
+       flex-direction: column;
 
-        p {
-            font-weight: $font-weight-bold;
-        }
+       img {
+           height: 30vh;
+           filter: brightness(60%);
+       }
+
+       p {
+           color: rgba(0, 0, 0, 0.3);
+           font-size: 3em;
+           text-transform: uppercase;
+       }
     }
 }
