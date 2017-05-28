@@ -262,6 +262,11 @@ class Matrix1D extends Element {
     getAllowedPage() {
         return 'page-one';
     }
+
+    remove() {
+        this.list.remove();
+        super.remove();
+    }
 }
 
 
@@ -646,5 +651,10 @@ class Matrix2D extends Element {
 
     getAllowedPage() {
         return 'page-one';
+    }
+
+    remove() {
+        this.list.remove();
+        super.remove();
     }
 }

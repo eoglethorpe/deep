@@ -227,6 +227,7 @@ body {
                     }
                 }
             }
+
             .input-group-list {
                 height: calc(100vh - #{$navbar-height} - 72px - 96px);
                 padding: 0 32px;
@@ -238,8 +239,16 @@ body {
                     padding: 0 10px;
                     margin-bottom: 24px;
 
-                    label {
+                    >label {
                         width: 100%;
+
+                        a {
+                            color: $primary-color;
+
+                            .fa {
+                                margin-left: 8px;
+                            }
+                        }
                     }
 
                     >input, textarea {
@@ -255,6 +264,25 @@ body {
                         &:focus {
                             border-bottom: 2px solid $primary-color;
                         }
+                    }
+
+                    .radio-group {
+                        margin-top: 6px;
+
+                        label {
+                            display: inline-flex;
+                            align-items: center;
+                            margin-right: 10px;
+                            cursor: pointer;
+
+                            input {
+                                margin: 0 4px 0 0;
+                            }
+                        }
+                    }
+
+                    .selectize-control.single {
+                        background-color: transparent;
                     }
 
                     .selectize-input {

@@ -63,9 +63,13 @@ DEEP | Project Details
 </aside>
 <main>
     <header>
+        {% if project.is_acaps %}
+        <a class="active">Project details</a>
+        {% else %}
         <a class="active">1. Project details</a>
         <a onclick="return confirmChanges()" href="{% url 'project:geo_area' project_id %}">2. Geo area</a>
         <a onclick="return confirmChanges()" href="{% url 'project:analysis_framework' project_id %}">3. Analysis framework</a>
+        {% endif %}
     </header>
     <div id="project-detail">
         <form method="post">
@@ -74,7 +78,9 @@ DEEP | Project Details
                 <button name="delete" id="delete-btn" onclick="return confirm('Are you sure you want to delete this project?');"> <i class='fa fa-trash'></i>Delete project</button>
                 <div>
                     <button id="save-btn" name="save"> <i class='fa fa-save'></i>Save project</button>
+                    {% if not project.is_acaps %}
                     <button id="save-and-proceed-btn" name="save-and-proceed"> <i class='fa fa-arrow-right'></i>Save &amp; proceed</button>
+                    {% endif %}
                 </div>
             </div>
             <div class="input-group-list">
@@ -82,6 +88,15 @@ DEEP | Project Details
                     <label>Name</label>
                     <input name="project-name" type="text" id="project-name" placeholder="Enter project name" value="{{ project.name }}" required>
                 </div>
+                {% if project.is_acaps %}
+                <div class="input-group">
+                    <label>Status</label>
+                    <div class="radio-group">
+                        <label><input name="project-status" value="0" type="radio" {% if project.status == 0 %}checked{% endif %}>Global monitoring</label>
+                        <label><input name="project-status" value="1" type="radio" {% if project.status == 1 %}checked{% endif %}>Active project</label>
+                    </div>
+                </div>
+                {% endif %}
                 <div class="input-groups">
                     <div class="input-group">
                         <label id="padded-label">Start date:</label>
@@ -98,16 +113,40 @@ DEEP | Project Details
                 </div>
                 <div class="input-group">
                     <label>Countries</label>
-                    <select name="countries" id="countries" placeholder="Select countries" multiple>
+                    <select name="countries" id="countries" multiple>
                         <option value="">Select countries</option>
                         {% for country in countries %}
                         <option value="{{country.pk}}" {% if country in project.countries.all %}selected {% endif %}>{{country.name}}{% if country.reference_country %} (Modified){% endif %}</option>
                         {% endfor %}
                     </select>
                 </div>
+                {% if project.is_acaps %}
+                <div class="input-group">
+                    <label>Disaster type</label>
+                    <select name="disaster-type">
+                        <option value="">Select disaster type</option>
+                        {% for disaster_type in disaster_types %}
+                        <option value="{{disaster_type.pk}}" {% if disaster_type == project.disaster_type %}selected{% endif %}>{{ disaster_type.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label><a target="_blank" href="http://glidenumber.net/">Glide Number<span class="fa fa-external-link"></span></a></label>
+                    <input name="glide-number" type="text" placeholder="Enter Glide Number" {% if project.glide_number %}value="{{ project.glide_number }}"{% endif %}>
+                </div>
+                <div class="input-group">
+                    <label>Spillover Effect</label>
+                    <select name="spillover">
+                        <option value="">Select a project</option>
+                        {% for p in projects %}
+                        <option value="{{p.pk}}" {% if project.spill_over == p %}selected{% endif %}>{{p.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endif %}
                 <div class="input-group">
                     <label>User groups</label>
-                    <select name="user-groups" id="user-groups" placeholder="User groups" multiple>
+                    <select name="user-groups" id="user-groups" multiple>
                         <option value="">User groups</option>
                         {% for group in usergroups %}
                         <option value="{{group.pk}}" {% if project in group.projects.all %}selected{% endif %}>{{group.name}}</option>
@@ -116,7 +155,7 @@ DEEP | Project Details
                 </div>
                 <div class="input-group">
                     <label>Other Members</label>
-                    <select name="members" id="members" placeholder="Members" multiple>
+                    <select name="members" id="members" multiple>
                         <option value="">Members</option>
                         {% for u in users %}
                         {% if u.first_name != "" %}
@@ -127,7 +166,7 @@ DEEP | Project Details
                 </div>
                 <div class="input-group">
                     <label>Admins</label>
-                    <select name="admins" id="admins" placeholder="Admins" multiple>
+                    <select name="admins" id="admins" multiple>
                         <option value="">Admins</option>
                         {% for u in users %}
                         {% if u.first_name != "" %}

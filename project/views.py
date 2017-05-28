@@ -9,6 +9,7 @@ from django.db.models import Q
 from leads.models import *
 from entries.models import *
 from usergroup.models import *
+from report.models import *
 from users.log import *
 
 
@@ -30,6 +31,7 @@ class ProjectDetailsView(View):
 
         context["users"] = User.objects.all()
         context["project"] = project
+        context['disaster_types'] = DisasterType.objects.all()
 
         if "selected_group" in request.GET:
             context["selected_group"] = int(request.GET["selected_group"])
@@ -69,6 +71,27 @@ class ProjectDetailsView(View):
                 project.end_date = request.POST["project-end-date"]
             else:
                 project.end_date = None
+
+            if project.is_acaps():
+                if request.POST.get('project-status') != '':
+                    project.status = int(request.POST['project-status'])
+
+                if request.POST.get('disaster-type') != '':
+                    project.disaster_type = \
+                        DisasterType.objects.get(pk=int(request.POST['disaster-type']))
+                else:
+                    project.disaster_type = None
+
+                if request.POST.get('glide-number') != '':
+                    project.glide_number = request.POST['glide-number']
+                else:
+                    project.glide_number = None
+
+                if request.POST.get('spillover') != '':
+                    project.spill_over = \
+                        Event.objects.get(pk=int(request.POST['spillover']))
+                else:
+                    project.spill_over = None
 
             project.save()
 

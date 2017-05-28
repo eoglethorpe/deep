@@ -84,4 +84,8 @@ class Element {
     getAllowedPage() {
         return 'all';
     }
+
+    remove() {
+        this.dom.remove();
+    }
 };

@@ -305,8 +305,12 @@ body {
           position: relative;
           padding: 0 10px;
           margin-bottom: 24px; }
-          body main form .input-group-list .input-group label {
+          body main form .input-group-list .input-group > label {
             width: 100%; }
+            body main form .input-group-list .input-group > label a {
+              color: #008080; }
+              body main form .input-group-list .input-group > label a .fa {
+                margin-left: 8px; }
           body main form .input-group-list .input-group > input, body main form .input-group-list .input-group textarea {
             width: 100%;
             border: none;
@@ -318,6 +322,17 @@ body {
             border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
             body main form .input-group-list .input-group > input:focus, body main form .input-group-list .input-group textarea:focus {
               border-bottom: 2px solid #008080; }
+          body main form .input-group-list .input-group .radio-group {
+            margin-top: 6px; }
+            body main form .input-group-list .input-group .radio-group label {
+              display: inline-flex;
+              align-items: center;
+              margin-right: 10px;
+              cursor: pointer; }
+              body main form .input-group-list .input-group .radio-group label input {
+                margin: 0 4px 0 0; }
+          body main form .input-group-list .input-group .selectize-control.single {
+            background-color: transparent; }
           body main form .input-group-list .input-group .selectize-input {
             font-size: 1.1em !important;
             border: none;

@@ -454,7 +454,9 @@ $(document).ready(function(){
     });
 
     $('.project').click(function() {
-        window.location.href = $(this).data('url');
+        if ($(this).data('url')) {
+            window.location.href = $(this).data('url');
+        }
     });
 
     $('#search-items').on('input paste change', function(){

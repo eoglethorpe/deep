@@ -107,7 +107,7 @@ let activities = [
             </div>
             <div id="projects">
                 {% for project in usergroup.projects.all %}
-                <div class="project" data-url="{% url 'custom_admin:project_panel' %}?selected={{project.pk}}">
+                <div class="project" {% if user in project.admins.all %}data-url="{% url 'project:project_details' project.pk %}"{% endif %}>
                     <div class="name">{{project.name}}</div>
                     <div class="type">{{project.disaster_type.name}}</div>
                     <div class="countries">{% for country in project.countries.all %}{{country}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
