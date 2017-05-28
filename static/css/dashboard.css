@@ -284,5 +284,9 @@ body #timeline {
       body #timeline #timeline-table #horizontal-scroll .weeks #scrollbar {
         height: 12px;
         flex: none; }
+body #non-acaps {
+  padding: 16px; }
+  body #non-acaps p {
+    font-weight: 500; }
 
 /*# sourceMappingURL=dashboard.css.map */

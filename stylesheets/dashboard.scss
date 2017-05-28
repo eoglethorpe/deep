@@ -159,4 +159,12 @@ body{
             }
         }
     }
+
+    #non-acaps {
+        padding: 16px;
+
+        p {
+            font-weight: $font-weight-bold;
+        }
+    }
 }

@@ -95,6 +95,12 @@ class Event(models.Model):
             Q(groups_owned__projects__pk=self.pk)
         ).distinct()
 
+    @staticmethod
+    def get_events_for(user):
+        return Event.objects.filter(
+            Q(members=user) | Q(admins=user) | Q(usergroup__members=user)
+        ).distinct()
+
     def __str__(self):
         return self.name
 

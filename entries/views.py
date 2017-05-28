@@ -43,7 +43,7 @@ class ExportView(View):
         context = {}
         context["current_page"] = "export"
         context["event"] = Event.objects.get(pk=event)
-        context["all_events"] = Event.objects.all()
+        context["all_events"] = Event.get_events_for(request.user)
 
         context["users"] = User.objects.exclude(first_name="", last_name="")
         context["lead_users"] = User.objects.filter(assigned_leads__event__pk=event)
@@ -174,7 +174,7 @@ class EntriesView(View):
         context = {}
         context["current_page"] = "entries"
 
-        context["all_events"] = Event.objects.all()
+        context["all_events"] = Event.get_events_for(request.user)
         context["users"] = User.objects.exclude(first_name="", last_name="")
 
         if int(event) != 0:

@@ -22,8 +22,13 @@ class ProjectDetailsView(View):
         context["current_page"] = "project-details"
         context["project_id"] = project_id
 
-        context["projects"] = Event.objects.filter(admins__pk=request.user.pk).order_by('name')
-        context["usergroups"] = UserGroup.objects.filter(admins__pk=request.user.pk).order_by('name')
+        context["projects"] = Event.objects.filter(
+            Q(admins=request.user) | Q(usergroup__admins=request.user)
+        ).distinct().order_by('name')
+
+        context["usergroups"] = UserGroup.objects.filter(
+            Q(admins=request.user) | Q(projects=project)
+        ).distinct().order_by('name')
 
         context["countries"] = Country.objects.filter(
             Q(reference_country=None) | Q(event__pk=project_id)
