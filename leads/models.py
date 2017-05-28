@@ -89,6 +89,12 @@ class Event(models.Model):
         from usergroup.models import UserGroup
         return UserGroup.objects.filter(acaps=True, projects__pk=self.pk).count() > 0
 
+    def get_admins(self):
+        return User.objects.filter(
+            Q(events_owned__pk=self.pk) |
+            Q(groups_owned__projects__pk=self.pk)
+        ).distinct()
+
     def __str__(self):
         return self.name
 

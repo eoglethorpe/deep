@@ -82,12 +82,12 @@ var activities = [
             {% for project in projects %}
             <div class="project" data-search=".name">
                 <div class="name">{{ project.name }}</div>
-                <div class="rights">{% if user in project.admins.all %}Admin{% else %}User{% endif %}</div>
+                <div class="rights">{% if user in project.get_admins %}Admin{% else %}User{% endif %}</div>
                 <div class="created-on"><date>{% if project.created_at %}{{ project.created_at | date:'d N Y' }}{% else %}N/A{% endif %}</date></div>
                 <div class="status">Active</div>
                 <div class="last-modified"><date>{{ project.modified_at | date:'d N Y' }}</date> <span>({{ project.modified_at | naturaltime }})</span></div>
                 <div class="members">{{ project.get_num_members }}</div>
-                <div class="actions">{% if user in project.admins.all %}<a href="{% url 'project:project_details'  project.pk %}" class="fa fa-edit"></a>{% endif %}</div>
+                <div class="actions">{% if user in project.get_admins %}<a href="{% url 'project:project_details'  project.pk %}" class="fa fa-edit"></a>{% endif %}</div>
             </div>
             {% endfor %}
         </div>
