@@ -33,11 +33,11 @@ $(document).ready(function() {
         });
     });
 
-    // $('#export-xlsx').click(function() {
-    //     getExportUrl(false).then((url) => {
-    //         window.open(exportProgressUrl + '?url=' + encodeURIComponent(url+'&export-xls=xls'), '_blank');
-    //     });
-    // });
+    $('#export-xlsx').click(function() {
+        getExportUrl(false).then((url) => {
+            window.open(exportProgressUrl + '?url=' + encodeURIComponent(url+'&export-xls=xls'), '_blank');
+        });
+    });
 
     $('#preview-docx').click(function() {
         $('#preview-section').find('iframe').hide();

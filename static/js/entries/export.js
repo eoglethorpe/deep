@@ -153,7 +153,7 @@ let reportStructure = {
             checkGroup.appendTo('.check-group-list');
 
             for (let j=0; j<pillar.subpillars.length; j++) {
-                let subpillar = pillar.subpillars[i];
+                let subpillar = pillar.subpillars[j];
                 let child = this.addChild('subpillar-' + subpillar.id, subpillar.name);
                 child.attr('data-id', subpillar.id);
                 checkGroup.find('.content').append(child);
