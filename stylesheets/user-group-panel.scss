@@ -568,10 +568,37 @@ body{
             }
             #projects-wrapper{
                 height: calc(100vh - 144px - #{$navbar-height});
-                .name{ flex-basis: 30%; }
-                .type{ flex-basis: 30%; }
-                .countries{flex-basis: 25%; }
-                .start-date{flex-basis: 15%; }
+                .name{ flex-basis: 20%; }
+                .countries{flex-basis: 20%; }
+                .start-date{flex-basis: 10%; }
+                .created-on { flex-basis: 15%; }
+                .status { flex-basis: 10%; }
+                .last-modified {
+                    flex-basis: 15%;
+
+                    span {
+                        color: $label-color;
+                    }
+                }
+                .members { flex-basis: 10%; }
+                .actions {
+                    flex-basis: 5%;
+
+                    a {
+                        color: $primary-color;
+                        width: 32px;
+                        height: 32px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 50%;
+                        cursor: pointer;
+
+                        &:hover {
+                            background-color: rgba(0, 0, 0, 0.1);
+                        }
+                    }
+                }
                 #projects-header {
                     height: 48px;
                     display: flex;
@@ -610,13 +637,9 @@ body{
                         display: flex;
                         align-items: center;
                         justify-content: flex-start;
-                        cursor: pointer;
 
                         &:nth-child(even){
                             background-color: #fff;
-                        }
-                        &:hover{
-                            background-color: rgba(0, 0, 0, 0.2);
                         }
                     }
                 }

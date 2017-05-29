@@ -1,4 +1,5 @@
 {% load watchful_url %}
+{% load check_acaps %}
 
 <script>
     $(document).ready(function(){
@@ -95,14 +96,20 @@
     <!-- Main menu -->
     <div id="main-menu">
         {% if event %}
-        <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' event=event.pk %}">Leads</a>
-        <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' event=event.pk %}">Entries</a>
-        <a class="{% if current_page == 'sos' %}active{% endif %} menu-item" href="{% url 'leads:sos' event=event.pk %}">Assessment Registry</a>
-        <a class="{% if current_page == 'report' %}active{% endif %} menu-item" href="{% url 'report:dashboard' %}{% if event %}?event={{event.pk}}&country={{event.countries.all.0.code}}{% endif %}">Weekly Snapshot</a>
-        <a class="{% if current_page == 'export' %}active{% endif %} menu-item" href="{% url 'entries:export' event=event.pk %}">Export</a>
+            <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' event=event.pk %}">Leads</a>
+            <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' event=event.pk %}">Entries</a>
+
+            {% if event.is_acaps %}
+            <a class="{% if current_page == 'sos' %}active{% endif %} menu-item" href="{% url 'leads:sos' event=event.pk %}">Assessment Registry</a>
+            {% endif %}
+            {% if request.user|allow_acaps %}
+            <a class="{% if current_page == 'report' %}active{% endif %} menu-item" href="{% url 'report:dashboard' %}?event={{event.pk}}&country={{event.countries.all.0.code}}">Weekly Snapshot</a>
+            {% endif %}
+
+            <a class="{% if current_page == 'export' %}active{% endif %} menu-item" href="{% url 'entries:export' event=event.pk %}">Export</a>
         {% else %}
-        <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' 0 %}">Leads</a>
-        <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' 0 %}">Entries</a>
+            <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' 0 %}">Leads</a>
+            <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' 0 %}">Entries</a>
         {% endif %}
     </div>
     <div id="extra-menu">
@@ -121,7 +128,11 @@
                 <a href="/admin"><i class="fa fa-user-secret"></i>Admin panel</a>
                 <a href="{% url 'custom_admin:country_management' %}"><i class="fa fa-globe"></i>Country Panel</a>
                 {% endif %}
-                <a href="{% url 'custom_admin:project_panel' %}"><i class="fa fa-wrench"></i>Project Panel</a>
+
+                {% if event %}
+                <a href="{% url 'project:project_details' event.pk %}"><i class="fa fa-wrench"></i>Project Panel</a>
+                {% endif %}
+
                 <hr>
                 {% if not request.user.userprofile.hid %}
                 <button id="link-with-hid"><i class="fa fa-link"></i>Link with HID</button>

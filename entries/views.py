@@ -1,9 +1,8 @@
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
-from django.views.generic import View, TemplateView
+from django.views.generic import View
 from django.contrib.auth.decorators import login_required
-from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse
 from django.db.models import Q
@@ -43,7 +42,7 @@ class ExportView(View):
         context = {}
         context["current_page"] = "export"
         context["event"] = Event.objects.get(pk=event)
-        context["all_events"] = Event.objects.all()
+        context["all_events"] = Event.get_events_for(request.user)
 
         context["users"] = User.objects.exclude(first_name="", last_name="")
         context["lead_users"] = User.objects.filter(assigned_leads__event__pk=event)
@@ -96,9 +95,9 @@ class ExportDoc(View):
             except:
                 pass
 
-        if not informations:
+        if informations is None:
             informations = filter_informations(request.GET, Event.objects.get(pk=event)).values_list('id', flat=True)
-        if not request_data:
+        if request_data is None:
             request_data = dict(request.GET)
 
         # Excel export
@@ -174,7 +173,7 @@ class EntriesView(View):
         context = {}
         context["current_page"] = "entries"
 
-        context["all_events"] = Event.objects.all()
+        context["all_events"] = Event.get_events_for(request.user)
         context["users"] = User.objects.exclude(first_name="", last_name="")
 
         if int(event) != 0:

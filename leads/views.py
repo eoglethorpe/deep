@@ -103,7 +103,7 @@ class LeadsView(View):
             context["event"] = Event.objects.get(pk=event)
             UserProfile.set_last_event(request, context["event"])
 
-        context["all_events"] = Event.objects.all()
+        context["all_events"] = Event.get_events_for(request.user)
         context.update(get_lead_form_data())
         return render(request, "leads/leads.html", context)
 
@@ -119,7 +119,7 @@ class SoSView(View):
         context["current_page"] = "sos"
         context["event"] = Event.objects.get(pk=event)
         UserProfile.set_last_event(request, context["event"])
-        context["all_events"] = Event.objects.all()
+        context["all_events"] = Event.get_events_for(request.user)
         context.update(get_lead_form_data())
         return render(request, "leads/sos.html", context)
 

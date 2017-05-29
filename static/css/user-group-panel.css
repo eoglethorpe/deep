@@ -553,13 +553,34 @@ body {
       body main section #projects-wrapper {
         height: calc(100vh - 144px - 56px); }
         body main section #projects-wrapper .name {
-          flex-basis: 30%; }
-        body main section #projects-wrapper .type {
-          flex-basis: 30%; }
+          flex-basis: 20%; }
         body main section #projects-wrapper .countries {
-          flex-basis: 25%; }
+          flex-basis: 20%; }
         body main section #projects-wrapper .start-date {
+          flex-basis: 10%; }
+        body main section #projects-wrapper .created-on {
           flex-basis: 15%; }
+        body main section #projects-wrapper .status {
+          flex-basis: 10%; }
+        body main section #projects-wrapper .last-modified {
+          flex-basis: 15%; }
+          body main section #projects-wrapper .last-modified span {
+            color: rgba(0, 0, 0, 0.5); }
+        body main section #projects-wrapper .members {
+          flex-basis: 10%; }
+        body main section #projects-wrapper .actions {
+          flex-basis: 5%; }
+          body main section #projects-wrapper .actions a {
+            color: #008080;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            cursor: pointer; }
+            body main section #projects-wrapper .actions a:hover {
+              background-color: rgba(0, 0, 0, 0.1); }
         body main section #projects-wrapper #projects-header {
           height: 48px;
           display: flex;
@@ -587,12 +608,9 @@ body {
             padding: 10px 16px;
             display: flex;
             align-items: center;
-            justify-content: flex-start;
-            cursor: pointer; }
+            justify-content: flex-start; }
             body main section #projects-wrapper #projects .project:nth-child(even) {
               background-color: #fff; }
-            body main section #projects-wrapper #projects .project:hover {
-              background-color: rgba(0, 0, 0, 0.2); }
   body aside {
     flex-basis: 24%;
     height: calc(100vh - 56px);

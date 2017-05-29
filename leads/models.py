@@ -83,7 +83,23 @@ class Event(models.Model):
         return Entry.objects.filter(lead__event__pk=self.pk).count()
 
     def get_num_members(self):
-        return len(User.objects.filter(Q(usergroup__projects__pk=self.pk) | Q(event__pk=self.pk)).distinct())
+        return User.objects.filter(Q(usergroup__projects__pk=self.pk) | Q(event__pk=self.pk)).distinct().count()
+
+    def is_acaps(self):
+        from usergroup.models import UserGroup
+        return UserGroup.objects.filter(acaps=True, projects__pk=self.pk).count() > 0
+
+    def get_admins(self):
+        return User.objects.filter(
+            Q(events_owned__pk=self.pk) |
+            Q(groups_owned__projects__pk=self.pk)
+        ).distinct()
+
+    @staticmethod
+    def get_events_for(user):
+        return Event.objects.filter(
+            Q(members=user) | Q(admins=user) | Q(usergroup__members=user)
+        ).distinct()
 
     def __str__(self):
         return self.name

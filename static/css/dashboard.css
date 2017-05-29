@@ -284,5 +284,18 @@ body #timeline {
       body #timeline #timeline-table #horizontal-scroll .weeks #scrollbar {
         height: 12px;
         flex: none; }
+body #non-acaps {
+  display: flex;
+  height: calc(100vh - 56px);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  body #non-acaps img {
+    height: 30vh;
+    filter: brightness(60%); }
+  body #non-acaps p {
+    color: rgba(0, 0, 0, 0.3);
+    font-size: 3em;
+    text-transform: uppercase; }
 
 /*# sourceMappingURL=dashboard.css.map */

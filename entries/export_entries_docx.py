@@ -209,8 +209,9 @@ def export_pillar(d, pillar, leads_pk, event, informations, data, export_geo):
     subpillars_order = [id[10:] for id in order if id.startswith('subpillar-')]
     subpillar_dict = dict([(str(p.id), p) for p in subpillars])
     subpillars = [
-        subpillar_dict[id] for id in order
-        if id in subpillar_dict and data.get('subpillar-' + id) and data.get('subpillar-' + id)[0] == 'on'
+        subpillar_dict[id] for id in subpillars_order
+        if id in subpillar_dict and data.get('subpillar-' + id)
+        and data.get('subpillar-' + id)[0] == 'on'
     ]
 
     for subpillar in subpillars:
@@ -218,7 +219,7 @@ def export_pillar(d, pillar, leads_pk, event, informations, data, export_geo):
                 subpillar=subpillar,
                 sector=None,
                 information__entry__lead__event__pk=event)
-        
+
         if informations is not None:
             attributes = attributes.filter(
                     information__pk__in=informations)
@@ -272,24 +273,30 @@ def export_sector(d, sector, leads_pk, event, informations, data, export_geo):
 
         # Order them as required
         list_order = data.get('list-order')[0].split(',')
-        pillars_order = [id[7:] for id in list_order if id.startswith('pillar-')]
+        pillars_order = [
+            id[7:] for id in list_order if id.startswith('pillar-')
+        ]
         pillar_dict = dict([(str(p.id), p) for p in pillars])
         pillars = [
-                pillar_dict[id] for id in pillars_order
-                if id in pillar_dict and data.get('pillar-' + id) and data.get('pillar-' + id)[0] == 'on'
+            pillar_dict[id] for id in pillars_order
+            if id in pillar_dict and data.get('pillar-' + id)
+            and data.get('pillar-' + id)[0] == 'on'
         ]
- 
+
         for pillar in pillars:
             pillar_header_shown = False
 
             # Get each subpillar
             subpillars = pillar.informationsubpillar_set.all()
             order = data.get('pillar-order-' + str(pillar.id))[0].split(',')
-            subpillars_order = [id[10:] for id in order if id.startswith('subpillar-')]
+            subpillars_order = [
+                id[10:] for id in order if id.startswith('subpillar-')
+            ]
             subpillar_dict = dict([(str(p.id), p) for p in subpillars])
             subpillars = [
-                    subpillar_dict[id] for id in order
-                    if id in subpillar_dict and data.get('subpillar-' + id) and data.get('subpillar-' + id)[0] == 'on'
+                subpillar_dict[id] for id in subpillars_order
+                if id in subpillar_dict and data.get('subpillar-' + id)
+                and data.get('subpillar-' + id)[0] == 'on'
             ]
 
             for subpillar in subpillars:
@@ -321,7 +328,6 @@ def export_sector(d, sector, leads_pk, event, informations, data, export_geo):
                         leads_pk.append(info.entry.lead.pk)
 
 
-
 def export_docx(event, informations=None, data=None, export_geo=False):
     d = docx.Document('static/doc_export/template.docx')
 
@@ -342,7 +348,8 @@ def export_docx(event, informations=None, data=None, export_geo=False):
         if report_item.startswith('pillar-'):
 
             pillar_id = report_item[7:]
-            pillar = entry_model.InformationPillar.objects.get(pk=int(pillar_id))
+            pillar = entry_model.InformationPillar.objects.get(
+                pk=int(pillar_id))
             if not pillar.contains_sectors:
                 is_on = data.get('pillar-' + pillar_id)
                 if is_on and is_on[0] == 'on':
@@ -355,7 +362,8 @@ def export_docx(event, informations=None, data=None, export_geo=False):
                 for sector in entry_model.Sector.objects.all():
                     is_on = data.get('sector-' + str(sector.id))
                     if is_on and is_on[0] == 'on':
-                        export_sector(d, sector, leads_pk, event, informations, data, export_geo)
+                        export_sector(d, sector, leads_pk, event, informations,
+                                      data, export_geo)
 
     add_line(d.add_paragraph())
 
@@ -400,6 +408,7 @@ def export_docx(event, informations=None, data=None, export_geo=False):
 
 
 def export_analysis_docx(event, informations=None, data=None):
+    request_data = data
     event = entry_model.Event.objects.get(pk=event)
     if not event.entry_template:
         raise Exception('Event has no analysis framework')
@@ -419,7 +428,7 @@ def export_analysis_docx(event, informations=None, data=None):
 
     infos = entry_model.EntryInformation.objects.filter(
             entry__lead__event=event)
-    if informations:
+    if informations is not None:
         infos = infos.filter(pk__in=informations)
     infos = infos.distinct()
 
@@ -428,27 +437,158 @@ def export_analysis_docx(event, informations=None, data=None):
 
     elements = json.loads(event.entry_template.elements)
 
-    # Start with matrix1d
-    matrix1ds = [e for e in elements if e['type'] == 'matrix1d']
-    for matrix1d in matrix1ds:
+    # First we apply filters, not yet applied to the informations
+    # This includes attributes filters
 
-        # Get all infos which have selections in this matrix
-        interested_infos = []
-        for info in infos:
-            data = next((d for d in info.data if d['id'] == matrix1d['id']), None)
-            if data and data['selections'] and len(data['selections']) > 0:
-                interested_infos.append((info, data))
+    for element in elements:
+        # Multiselect and organigram are similar in structure
+        if element['type'] in ['multiselect', 'organigram']:
+            options = request_data.get(element['id'])
+            if options:
+                options = set(options)
+                infos = [i for i in infos
+                         if any(d for d in i.data
+                                if d['id'] == element['id'] and d.get('value')
+                                and (options & set(d['value'])))]
 
-        for pillar in matrix1d['pillars']:
+        # Geolocations
+        # TODO
+        elif element['type'] == 'matrix1d':
+            filters = request_data.get(element['id'])
+            if filters:
+                filters = set([tuple(f.split(':')) if ':' in f else (f, None)
+                               for f in filters])
+
+                infos = [i for i in infos
+                         if any(d for d in i.data
+                                if d['id'] == element['id']
+                                and d.get('selections')
+                                and (
+                                    set(
+                                        [(s.get('pillar'), s.get('subpillar'))
+                                         for s in d['selections']] +
+                                        [(s.get('pillar'), None) for s
+                                         in d['selections']
+                                         if s.get('subpillar') is not None]
+                                    ) & filters
+                                ))]
+
+        elif element['type'] == 'matrix2d':
+            # Pillar subpillars
+            filters = request_data.get(element['id'])
+            if filters:
+                filters = set([tuple(f.split(':')) if ':' in f else (f, None)
+                               for f in filters])
+
+                infos = [i for i in infos
+                         if any(d for d in i.data
+                                if d['id'] == element['id']
+                                and d.get('selections')
+                                and (
+                                    set(
+                                        [(s.get('pillar'), s.get('subpillar'))
+                                         for s in d['selections']] +
+                                        [(s.get('pillar'), None) for s
+                                         in d['selections']
+                                         if s.get('subpillar') is not None]
+                                    ) & filters
+                                ))]
+
+            # Sectors and subsectors
+            filters = request_data.get(element['id'] + '_sectors')
+            if filters:
+                filters = set([tuple(f.split(':')) if ':' in f else (f, None)
+                               for f in filters])
+
+                infos = [i for i in infos
+                         if any(d for d in i.data
+                                if d['id'] == element['id']
+                                and d.get('selections')
+                                and (
+                                    set(
+                                        [(s.get('sector'), ss)
+                                         for s in d['selections']
+                                         if s.get('subsectors')
+                                         for ss in s['subsectors']
+                                         if d.get('selections')]
+                                        +
+                                        [(s.get('sector'), None) for s
+                                         in d['selections']
+                                         if not s.get('subsectors')]
+                                    ) & filters
+                                ))]
+
+        elif element['type'] == 'scale':
+
+            scales = {}
+            for i, scale in enumerate(element['scaleValues']):
+                scales[scale['id']] = i
+
+            min_filter = request_data.get(element['id'] + '_min')[0]
+            if min_filter:
+                min_val = scales[min_filter]
+                infos = [i for i in infos
+                         if any(d for d in i.data
+                                if d['id'] == element['id'] and d.get('value')
+                                and scales[d['value']] >= min_val)]
+
+            max_filter = request_data.get(element['id'] + '_max')[0]
+            if max_filter:
+                max_val = scales[max_filter]
+                infos = [i for i in infos
+                         if any(d for d in i.data
+                                if d['id'] == element['id'] and d.get('value')
+                                and scales[d['value']] <= max_val)]
+
+    # Next export the filtered informations
+    # Structuring order
+    report_order = request_data.get('list-order')[0].split(',')
+
+    for order in report_order:
+        order_id = order.split(':')
+        if order_id[0] == 'pillar':
+            matrix1d = next(e for e in elements if e['id'] == order_id[1])
+            if not matrix1d or matrix1d['type'] != 'matrix1d':
+                continue
+
+            pillar = next(p for p in matrix1d['pillars']
+                          if p['id'] == order_id[2])
+            if not pillar:
+                continue
+
+            is_on = request_data.get(order)
+            if not is_on or is_on[0] != 'on':
+                continue
+
+            # Get all infos which have selections in this matrix
+            interested_infos = []
+            for info in infos:
+                data = next((d for d in info.data
+                             if d['id'] == matrix1d['id']), None)
+                if data and data['selections'] and len(data['selections']) > 0:
+                    interested_infos.append((info, data))
+
             pillar_heading = False
 
-            for subpillar in pillar['subpillars']:
+            subpillar_order = request_data.get('order:' + order)[0].split(',')
+            for so in subpillar_order:
+                so_id = so.split(':')
+                subpillar = next(s for s in pillar['subpillars']
+                                 if s['id'] == so_id[2])
+                if not subpillar:
+                    continue
+
+                is_on = request_data.get(so)
+                if not is_on or is_on[0] != 'on':
+                    continue
+
                 subpillar_heading = False
 
-                # Get all infos that are tagged with this pillar and subpillar
+                # Get all infos tagged with this pillar and subpillar
                 for info, data in interested_infos:
                     if any(s for s in data['selections'] if
-                            s['pillar'] == pillar['id'] and s['subpillar'] == subpillar['id']):
+                           s['pillar'] == pillar['id']
+                           and s['subpillar'] == subpillar['id']):
 
                         if not pillar_heading:
                             pillar_heading = True
@@ -463,48 +603,89 @@ def export_analysis_docx(event, informations=None, data=None):
 
                         leads_pk.append(info.entry.lead.pk)
 
-    # Next matrix 2d
-    matrix2ds = [e for e in elements if e['type'] == 'matrix2d']
-    for matrix2d in matrix2ds:
+        elif order_id[0] == 'sectors':
+            is_on = request_data.get(order)
+            if not is_on or is_on[0] != 'on':
+                continue
 
-        interested_infos = []
-        for info in infos:
-            data = next((d for d in info.data if d['id'] == matrix2d['id']), None)
-            if data and data['selections'] and len(data['selections']) > 0:
-                interested_infos.append((info, data))
+            matrix2d = next(e for e in elements if e['id'] == order_id[1])
+            if not matrix2d or matrix2d['type'] != 'matrix2d':
+                continue
 
-        # Similar to above but for each sector
-        for sector in matrix2d['sectors']:
-            sector_heading = False
+            interested_infos = []
+            for info in infos:
+                data = next((d for d in info.data
+                             if d['id'] == matrix2d['id']),
+                            None)
+                if data and data['selections'] and len(data['selections']) > 0:
+                    interested_infos.append((info, data))
 
-            for pillar in matrix2d['pillars']:
-                pillar_heading = False
+            sector_order = request_data.get('order:' + order)[0].split(',')
+            for sco in sector_order:
+                sco_id = sco.split(':')
+                sector = next(s for s in matrix2d['sectors']
+                              if s['id'] == sco_id[2])
 
-                for subpillar in pillar['subpillars']:
-                    subpillar_heading = False
+                is_on = request_data.get(sco)
+                if not is_on or is_on[0] != 'on':
+                    continue
 
-                    for info, data in interested_infos:
-                        if any(s for s in data['selections'] if
-                                s['pillar'] == pillar['id'] and
-                                s['subpillar'] == subpillar['id'] and
-                                s['sector'] == sector['id']):
+                sector_heading = False
 
-                            if not sector_heading:
-                                sector_heading = True
-                                d.add_heading(sector['title'], level=2)
+                for po in report_order:
+                    po_id = po.split(':')
+                    if po_id[0] != 'pillar' or po_id[1] != order_id[1]:
+                        continue
 
-                            if not pillar_heading:
-                                pillar_heading = True
-                                d.add_heading(pillar['title'], level=3)
+                    pillar = next(p for p in matrix2d['pillars']
+                                  if p['id'] == po_id[2])
+                    if not pillar:
+                        continue
 
-                            if not subpillar_heading:
-                                subpillar_heading = True
-                                d.add_heading(subpillar['title'], level=4)
+                    is_on = request_data.get(po)
+                    if not is_on or is_on[0] != 'on':
+                        continue
 
-                            p = d.add_paragraph()
-                            p.add_run(info.excerpt)
+                    pillar_heading = False
 
-                            leads_pk.append(info.entry.lead.pk)
+                    subpillar_order = request_data.get('order:' + po)[0]\
+                        .split(',')
+
+                    for so in subpillar_order:
+                        so_id = so.split(':')
+                        subpillar = next(s for s in pillar['subpillars']
+                                         if s['id'] == so_id[2])
+                        if not subpillar:
+                            continue
+
+                        is_on = request_data.get(so)
+                        if not is_on or is_on[0] != 'on':
+                            continue
+
+                        subpillar_heading = False
+
+                        for info, data in interested_infos:
+                            if any(s for s in data['selections'] if
+                                    s['pillar'] == pillar['id'] and
+                                    s['subpillar'] == subpillar['id'] and
+                                    s['sector'] == sector['id']):
+
+                                if not sector_heading:
+                                    sector_heading = True
+                                    d.add_heading(sector['title'], level=2)
+
+                                if not pillar_heading:
+                                    pillar_heading = True
+                                    d.add_heading(pillar['title'], level=3)
+
+                                if not subpillar_heading:
+                                    subpillar_heading = True
+                                    d.add_heading(subpillar['title'], level=4)
+
+                                p = d.add_paragraph()
+                                p.add_run(info.excerpt)
+
+                                leads_pk.append(info.entry.lead.pk)
 
     add_line(d.add_paragraph())
 
@@ -546,7 +727,6 @@ def export_analysis_docx(event, informations=None, data=None):
     d.add_page_break()
 
     return d
-
 
 
 def export_docx_new_format(event, informations=None):

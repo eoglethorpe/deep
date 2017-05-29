@@ -28,13 +28,15 @@ class ReportDashboardView(View):
         country_id = request.GET.get("country")
         if not country_id:
             country_id = context["countries"][0].pk
+        country = Country.objects.get(pk=country_id)
 
         event_id = request.GET.get("event")
         if not event_id:
-            event_id = Event.objects.filter(countries__pk=country_id)[0].pk
-
-        country = Country.objects.get(pk=country_id)
+            event_id = Event.objects.filter(countries__pk=country_id, usergroup__acaps=True)[0].pk
         event = Event.objects.get(pk=event_id)
+        if not event.is_acaps():
+            event = Event.objects.filter(countries__pk=country_id, usergroup__acaps=True)[0]
+            event_id = event.pk
 
         dt = datetime.now()
         context["new_week_date"] = dt - timedelta(days=dt.weekday()+7)       # starting from monday, but previous week
@@ -46,7 +48,7 @@ class ReportDashboardView(View):
         # For event and report selection
         for country in context["countries"]:
             events = []
-            for event in Event.objects.filter(countries=country):
+            for event in Event.objects.filter(countries=country, usergroup__acaps=True):
                 reports = []
                 for report in WeeklyReport.objects.filter(event=event, country=country):
                     reports.append({

@@ -152,7 +152,7 @@ let reportStructure = {
             checkGroup.attr('data-id', 'pillar-' + pillar.id);
             checkGroup.appendTo('.check-group-list');
 
-            for (let i=0; i<pillar.subpillars.length; i++) {
+            for (let j=0; j<pillar.subpillars.length; j++) {
                 let subpillar = pillar.subpillars[i];
                 let child = this.addChild('subpillar-' + subpillar.id, subpillar.name);
                 child.attr('data-id', subpillar.id);
@@ -249,8 +249,8 @@ function getExportUrl(async=true) {
             url: window.location.origin + $('#export-entries-doc-form').attr('action') + '?timestamp=' + (new Date().getTime()),
             data: $('#export-entries-doc-form').serialize(),
             success: function(response) {
-                resolve(window.location.origin + $('#export-entries-doc-form').attr('action') + '?token='+response.token
-                    + '&export-format=' + $('input[name=export-format]:checked').val() + '&timestamp=' + (new Date().getTime()));
+                resolve(window.location.origin + $('#export-entries-doc-form').attr('action') + '?token='+response.token +
+                    '&export-format=' + $('input[name=export-format]:checked').val() + '&timestamp=' + (new Date().getTime()));
             },
             async: async,
         });
@@ -296,10 +296,10 @@ $(document).ready(function(){
         $('#preview-section').find('>div').html('<span class="fa fa-spin fa-spinner"></span>Exporting file for preview');
         getExportUrl().then((url) => {
             $.getJSON(downloadUrl + '?url=' + encodeURIComponent(url+'&export-docx=docx'), function(data) {
-                let tempUrl = window.location.origin + downloadUrl + "?path="
-                    + encodeURIComponent(data.path) + "&filename="
-                    + encodeURIComponent(data.filename) + "&content_type="
-                    + encodeURIComponent(data.content_type);
+                let tempUrl = window.location.origin + downloadUrl + "?path=" +
+                    encodeURIComponent(data.path) + "&filename=" +
+                    encodeURIComponent(data.filename) + "&content_type=" +
+                    encodeURIComponent(data.content_type);
 
                 $('#preview-section').find('iframe').attr('src', 'https://docs.google.com/viewer?url=' + encodeURIComponent(tempUrl) + '&embedded=true&chrome=false&dov=1');
                 $('#preview-section').find('>div').hide();

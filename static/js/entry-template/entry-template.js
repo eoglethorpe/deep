@@ -112,8 +112,8 @@ let templateEditor = {
             if (element.isRemovable()) {
                 let removeElement = function() {
                     elementProperties.remove();
+                    element.remove();
                     that.elements.splice(that.elements.indexOf(element), 1);
-                    element.dom.remove();
                 };
                 elementProperties.find('.delete-element').click(removeElement);
                 element.dom.find('.delete-element').click(removeElement);

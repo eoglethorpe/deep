@@ -226,7 +226,7 @@ class Matrix1D extends Element {
         let i = this.dom.find('.pillar').length;
         while (true) {
             let id = 'pillar-' + i;
-            if (this.dom.find('.pillar[data-id="' + id + '"]')) {
+            if (this.dom.find('.pillar[data-id="' + id + '"]').length == 0) {
                 return id;
             }
             i++;
@@ -237,7 +237,7 @@ class Matrix1D extends Element {
         let i = this.dom.find('.subpillar').length;
         while (true) {
             let id = 'subpillar-' + i;
-            if (this.dom.find('.subpillar[data-id="' + id + '"]')) {
+            if (this.dom.find('.subpillar[data-id="' + id + '"]').length == 0) {
                 return id;
             }
             i++;
@@ -261,6 +261,11 @@ class Matrix1D extends Element {
 
     getAllowedPage() {
         return 'page-one';
+    }
+
+    remove() {
+        this.list.remove();
+        super.remove();
     }
 }
 
@@ -589,7 +594,7 @@ class Matrix2D extends Element {
         let i = this.dom.find('.pillar').length;
         while (true) {
             let id = 'pillar-' + i;
-            if (this.dom.find('.pillar[data-id="' + id + '"]')) {
+            if (this.dom.find('.pillar[data-id="' + id + '"]').length == 0) {
                 return id;
             }
             i++;
@@ -600,7 +605,7 @@ class Matrix2D extends Element {
         let i = this.dom.find('.subpillar').length;
         while (true) {
             let id = 'subpillar-' + i;
-            if (this.dom.find('.subpillar[data-id="' + id + '"]')) {
+            if (this.dom.find('.subpillar[data-id="' + id + '"]').length == 0) {
                 return id;
             }
             i++;
@@ -611,7 +616,7 @@ class Matrix2D extends Element {
         let i = this.dom.find('.sector').length;
         while (true) {
             let id = 'sector-' + i;
-            if (this.dom.find('.sector[data-id="' + id + '"]')) {
+            if (this.dom.find('.sector[data-id="' + id + '"]').length == 0) {
                 return id;
             }
             i++;
@@ -622,7 +627,7 @@ class Matrix2D extends Element {
         let i = this.dom.find('.subsector').length;
         while (true) {
             let id = 'subsector-' + i;
-            if (this.dom.find('.subsector[data-id="' + id + '"]')) {
+            if (this.dom.find('.subsector[data-id="' + id + '"]').length == 0) {
                 return id;
             }
             i++;
@@ -646,5 +651,10 @@ class Matrix2D extends Element {
 
     getAllowedPage() {
         return 'page-one';
+    }
+
+    remove() {
+        this.list.remove();
+        super.remove();
     }
 }

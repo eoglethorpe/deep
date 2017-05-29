@@ -15,7 +15,7 @@ class ReportApiView(View):
         return JSON_METHOD_NOT_ALLOWED
 
     def get(self, request):
-        reports = WeeklyReport.objects.all()
+        reports = WeeklyReport.objects.filter(event__usergroup__acaps=True)
 
         event = request.GET.get('event')
         if event:

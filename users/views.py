@@ -185,7 +185,8 @@ class DashboardView(View):
             UserProfile.set_last_event(request, context["event"])
         else:
             UserProfile.set_last_event(request, None)
-        context["all_events"] = Event.objects.all()
+
+        context["all_events"] = Event.get_events_for(request.user)
 
         # Filter options in dashboard
         context["disaster_types"] = DisasterType.objects.all()
