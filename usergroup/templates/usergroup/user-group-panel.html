@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load watchful_url %}
+{% load humanize %}
 
 {% block title %}
 DEEP | User Group Panel
@@ -101,17 +102,25 @@ let activities = [
         <div id="projects-wrapper" hidden>
             <div id="projects-header">
                 <label class="name" data-sort=".name">Name</label>
-                <label class="type" data-sort=".type">Type</label>
-                <label class="countries" data-sort=".countries">Countries</label>
+                <label class="created-on" data-sort=".created-on">Created on</label>
                 <label class="start-date" data-sort=".start-date date">Start Date</label>
+                <label class="countries" data-sort=".countries">Countries</label>
+                <label class="status" data-sort=".status">Status</label>
+                <label class="last-modified" data-sort=".last-modified">Last modified</label>
+                <label class="members" data-sort=".members">Members</label>
+                <label class="actions">Actions</label>
             </div>
             <div id="projects">
                 {% for project in usergroup.projects.all %}
                 <div class="project" {% if user in project.get_admins %}data-url="{% url 'project:project_details' project.pk %}"{% endif %}>
                     <div class="name">{{project.name}}</div>
-                    <div class="type">{{project.disaster_type.name}}</div>
-                    <div class="countries">{% for country in project.countries.all %}{{country}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
+                    <div class="created-on"><date>{% if project.created_at %}{{ project.created_at | date:'d N Y' }}{% else %}N/A{% endif %}</date></div>
                     <div class="start-date"><date hidden>{{project.start_date|date:"Y-m-d"}}</date>{{project.start_date}}</div>
+                    <div class="countries">{% for country in project.countries.all %}{{country}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
+                    <div class="status">Active</div>
+                    <div class="last-modified"><date>{{ project.modified_at | date:'d N Y' }}</date> <span>({{ project.modified_at | naturaltime }})</span></div>
+                    <div class="members">{{ project.get_num_members }}</div>
+                    <div class="actions">{% if user in project.get_admins %}<a href="{% url 'project:project_details'  project.pk %}" class="fa fa-edit"></a>{% endif %}</div>
                 </div>
                 {% endfor %}
             </div>
@@ -172,20 +181,23 @@ let activities = [
         </div>
     </div>
 </div>
-
 <div class="modal-container" hidden>
-    <div class="modal" id="new-template-modal" hidden>
+    <div class="modal" id="new-project-modal" hidden>
         <header>
-            <h3 class="modal-header">Add new template</h3>
+            <h3 class="modal-header">Add new project</h3>
         </header>
         <div class="error"></div>
         <div class="input-container">
-            <label>Name</label>
-            <input type="text" name="name" id="new-template-name">
+            <form method="post" action="{% url 'project:project_details' 0 %}">
+                {% csrf_token %}
+                <label>Name</label>
+                <input type="text" name="name" id="new-project-name">
+                <input type="hidden" name="add-new" value="add-new">
+            </form>
         </div>
         <div class="action-buttons">
             <button class="cancel-button" data-action="dismiss"><i class="fa fa-times fa-md"></i>Cancel</button>
-            <button class="proceed-button" data-action="proceed" data-persist="true"><i class="fa fa-plus fa-md"></i>Create template</button>
+            <button class="proceed-button" data-action="proceed" data-persist="true"><i class="fa fa-plus fa-md"></i>Create project</button>
         </div>
     </div>
 </div>
