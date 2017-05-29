@@ -5,12 +5,22 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
 from django.db.models import Q
+from django.contrib.auth.models import User
 
-from leads.models import *
-from entries.models import *
-from usergroup.models import *
-from report.models import *
-from users.log import *
+from leads.models import \
+    Event, \
+    Country
+from entries.models import EntryTemplate, AdminLevel
+from usergroup.models import UserGroup
+from report.models import DisasterType
+from users.log import \
+    CreationActivity, \
+    DeletionActivity, \
+    EditionActivity, \
+    AdditionActivity, \
+    RemovalActivity
+
+import json
 
 
 class ProjectDetailsView(View):
@@ -56,6 +66,10 @@ class ProjectDetailsView(View):
             project.save()
             project.admins.add(request.user)
 
+            if 'group-id' in request.POST:
+                UserGroup.objects.get(pk=request.POST['group-id'])\
+                    .projects.add(project)
+
             CreationActivity().set_target(
                 'project', project.pk, project.name,
                 reverse('project:project_details', args=[project.pk])
@@ -83,7 +97,8 @@ class ProjectDetailsView(View):
 
                 if request.POST.get('disaster-type') != '':
                     project.disaster_type = \
-                        DisasterType.objects.get(pk=int(request.POST['disaster-type']))
+                        DisasterType.objects.get(
+                            pk=int(request.POST['disaster-type']))
                 else:
                     project.disaster_type = None
 
@@ -137,7 +152,8 @@ class ProjectDetailsView(View):
                     if usergroup not in prev_groups:
                         AdditionActivity().set_target(
                             'project', project.pk, project.name,
-                            reverse('project:project_details', args=[project.pk])
+                            reverse('project:project_details',
+                                    args=[project.pk])
                         ).log_for(request.user, event=project, group=usergroup)
 
             for ug in prev_groups:
@@ -147,7 +163,8 @@ class ProjectDetailsView(View):
                         reverse('project:project_details', args=[project.pk])
                     ).log_for(request.user, event=project, group=ug)
 
-            Country.objects.filter(event=None).exclude(reference_country=None).delete()
+            Country.objects.filter(event=None)\
+                .exclude(reference_country=None).delete()
 
             if 'save-and-proceed' in request.POST:
                 return redirect('project:geo_area', project.pk)
@@ -155,11 +172,13 @@ class ProjectDetailsView(View):
                 return redirect('project:project_details', project.pk)
 
         elif "delete" in request.POST:
-            activity = DeletionActivity().set_target('project', project.pk, project.name)
+            activity = DeletionActivity().set_target(
+                'project', project.pk, project.name)
             project.delete()
             activity.log_for(request.user)
 
-            Country.objects.filter(event=None).exclude(reference_country=None).delete()
+            Country.objects.filter(event=None)\
+                .exclude(reference_country=None).delete()
             EntryTemplate.objects.filter(usergroup=None, event=None).delete()
             return redirect('login')
 
@@ -215,10 +234,14 @@ class GeoAreaView(View):
 
                 # Country Region Data
                 region_data = {
-                    'WB Region': request.POST.get('country-wb-region'),
-                    'WB IncomeGroup': request.POST.get('country-wb-income-group'),
-                    'UN-OCHA Region': request.POST.get('country-ocha-region'),
-                    'EC-ECHO Region': request.POST.get('country-echo-region'),
+                    'WB Region':
+                        request.POST.get('country-wb-region'),
+                    'WB IncomeGroup':
+                        request.POST.get('country-wb-income-group'),
+                    'UN-OCHA Region':
+                        request.POST.get('country-ocha-region'),
+                    'EC-ECHO Region':
+                        request.POST.get('country-echo-region'),
                     'UN Geographical Region':
                         request.POST.get('country-un-geographical-region'),
                     'UN Geographical Sub-Region':
@@ -261,8 +284,10 @@ class GeoAreaView(View):
                 geojson_file = 0
                 for i, pk in enumerate(admin_level_pks):
 
-                    to_delete = delete_admin_levels[i] or admin_levels[i] == '' \
-                        or admin_level_names[i] == '' or property_names[i] == ''
+                    to_delete = delete_admin_levels[i] \
+                        or admin_levels[i] == '' \
+                        or admin_level_names[i] == '' \
+                        or property_names[i] == ''
 
                     if pk == "new":
                         admin_level = AdminLevel()
@@ -285,15 +310,14 @@ class GeoAreaView(View):
                         geojson_file += 1
                     admin_level.save()
 
-
                 if reference_country in project.countries.all():
                     project.countries.remove(reference_country)
                 if country not in project.countries.all():
                     project.countries.add(country)
 
         if 'save-and-proceed' in request.POST:
-            return redirect('project:analysis_framework', project_id);
-        return redirect('project:geo_area', project_id);
+            return redirect('project:analysis_framework', project_id)
+        return redirect('project:geo_area', project_id)
 
 
 class AnalysisFrameworkView(View):
@@ -313,7 +337,8 @@ class AnalysisFrameworkView(View):
             project.save()
 
         context["project"] = project
-        context["projects"] = Event.objects.filter(admins__pk=request.user.pk).exclude(entry_template=None).order_by('name')
+        context["projects"] = Event.objects.filter(admins__pk=request.user.pk)\
+            .exclude(entry_template=None).order_by('name')
 
         return render(request, "project/analysis-framework.html", context)
 
@@ -326,7 +351,8 @@ class AnalysisFrameworkView(View):
             entry_template.name = request.POST.get('template-name')
             clone_from = request.POST.get('clone-from')
             if clone_from != '':
-                entry_template.elements = Event.objects.get(pk=clone_from).entry_template.elements
+                entry_template.elements = Event.objects.get(pk=clone_from)\
+                    .entry_template.elements
             entry_template.save()
 
         return redirect('dashboard', project_id)
