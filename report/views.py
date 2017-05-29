@@ -1,25 +1,28 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
-from django.db.models import Count, Min, Max
+from django.db.models import Count
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.serializers.json import DjangoJSONEncoder
+from django.http import Http404
 
 from users.log import *
 from leads.models import *
 from entries.models import *
 from report.models import *
+from leads.templatetags.check_acaps import allow_acaps
 
-import collections
 import json
-from math import ceil
 from datetime import datetime, timedelta
 
 
 class ReportDashboardView(View):
     @method_decorator(login_required)
     def get(self, request):
+        if not allow_acaps(request.user):
+            raise Http404
+
         context = {}
         context["countries"] = Country.objects.annotate(
             num_events=Count('event')
@@ -71,6 +74,8 @@ class ReportDashboardView(View):
 class WeeklyReportView(View):
     @method_decorator(login_required)
     def get(self, request, country_id=None, event_id=None, report_id=None):
+        if not allow_acaps(request.user):
+            raise Http404
 
         country = Country.objects.get(pk=country_id)
         event = Event.objects.get(pk=event_id)
@@ -142,6 +147,8 @@ class WeeklyReportView(View):
 
     @method_decorator(login_required)
     def post(self, request, country_id=None, event_id=None, report_id=None):
+        if not allow_acaps(request.user):
+            raise Http404
 
         country = Country.objects.get(pk=country_id)
         event = Event.objects.get(pk=event_id)
