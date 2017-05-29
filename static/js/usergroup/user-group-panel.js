@@ -427,6 +427,8 @@ $(document).ready(function(){
     ajax.init();
 
     var addMembersModal = new Modal('#add-members-modal');
+    let newProjectModal = new Modal('#new-project-modal');
+
     users.init();
     // Tab navigation
     $('#navigator').on('click', 'a', function(){
@@ -453,12 +455,6 @@ $(document).ready(function(){
         members.clearSelection();
     });
 
-    $('.project').click(function() {
-        if ($(this).data('url')) {
-            window.location.href = $(this).data('url');
-        }
-    });
-
     $('#search-items').on('input paste change', function(){
         refresh();
     });
@@ -483,7 +479,18 @@ $(document).ready(function(){
             }
         }
         else if (selection.data('target') == '#projects-wrapper') {
-            window.location.href = project_panel_url + '?selected_group=' + userGroupPk;
+            $('#new-project-modal .error').empty();
+            newProjectModal.show().then(null, null, function() {
+                if (newProjectModal.action == 'proceed') {
+                    let name = $('#new-project-name').val();
+                    if (name.trim().length == 0) {
+                        $('#new-project-modal .error').text('Please enter a name');
+                        return;
+                    }
+
+                    $('#new-project-modal form').submit();
+                }
+            });
         }
     });
 

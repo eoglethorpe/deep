@@ -287,5 +287,28 @@ body {
                 }
             }
         }
+        #edit-framework-no-snapshot {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 36px;
+            width: 40%;
+            margin: auto;
+            margin-top: 48px;
+            z-index: 3;
+            padding: 0 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            transition: 0.2s all ease-in-out;
+            color: #fff;
+            border-radius: 8px;
+            transition: none;
+
+            .fa{
+                margin-right: 8px;
+            }
+            span{
+                display: inline-block;
+            }
+        }
     }
 }
