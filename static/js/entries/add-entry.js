@@ -161,7 +161,7 @@ function refreshCurrentEntryLists() {
     for (var i=0; i<currentExcerpt.map_selections.length; ++i){
         var ms = currentExcerpt.map_selections[i];
         var title = ms.split(':')[2];
-        text.push(title)
+        text.push(title);
     }
     if(text.length != 0){
         currentEntry.find('.geo-locations-list').html('<span>'+text.join('</span><span>')+'</span>');

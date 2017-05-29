@@ -3,6 +3,7 @@ $(document).ready(function() {
     attributesFilters.init(templateData.elements, $('#entry-attributes-filters .filters-container'));
 
     leads.init($('#entries-export .leads-container'), $('#entries-export .lead-filters'));
+    reportStructure.init();
 
     $('#date-published-filter').change(function() {
         setDateRange($(this).val(), 'date-published');
@@ -45,10 +46,10 @@ $(document).ready(function() {
 
         getExportUrl().then((url) => {
             $.getJSON(downloadUrl + '?url=' + encodeURIComponent(url+'&export-docx=docx'), function(data) {
-                let tempUrl = window.location.origin + downloadUrl + "?path="
-                    + encodeURIComponent(data.path) + "&filename="
-                    + encodeURIComponent(data.filename) + "&content_type="
-                    + encodeURIComponent(data.content_type);
+                let tempUrl = window.location.origin + downloadUrl + "?path=" +
+                    encodeURIComponent(data.path) + "&filename=" +
+                    encodeURIComponent(data.filename) + "&content_type=" +
+                    encodeURIComponent(data.content_type);
 
                 $('#preview-section').find('iframe').attr('src', 'https://docs.google.com/viewer?url=' + encodeURIComponent(tempUrl) + '&embedded=true&chrome=false&dov=1');
                 $('#preview-section').find('>div').hide();
@@ -472,3 +473,146 @@ function setDateRange(filter, id){
 
     startDate.change();
 }
+
+
+let reportStructure = {
+    init: function() {
+        let matrix1ds = templateData.elements.filter(d => d.type=='matrix1d');
+        let matrix2ds = templateData.elements.filter(d => d.type=='matrix2d');
+
+        for (let i=0; i<matrix1ds.length; i++) {
+            let matrix = matrix1ds[i];
+
+            for (let j=0; j<matrix.pillars.length; j++) {
+                let pillar = matrix.pillars[j];
+                let id = 'pillar:' + matrix.id + ':' + pillar.id;
+                let checkGroup = this.addGroup(id, pillar.name);
+                checkGroup.attr('data-id', id);
+                checkGroup.appendTo('.check-group-list');
+
+                for (let k=0; k<pillar.subpillars.length; k++) {
+                    let subpillar = pillar.subpillars[k];
+                    let id = 'subpillar:' + matrix.id + ':' + subpillar.id;
+                    let child = this.addChild(id, subpillar.name);
+                    child.attr('data-id', id);
+                    checkGroup.find('.content').append(child);
+                }
+
+                checkGroup.find('.group-order').attr('name', 'order:' + id);
+                checkGroup.find('.content').sortable({
+                    create: function() {
+                        checkGroup.find('.group-order')
+                            .val($(this).sortable('toArray', { attribute: 'data-id' }));
+                    },
+
+                    update: function() {
+                        checkGroup.find('.group-order')
+                            .val($(this).sortable('toArray', { attribute: 'data-id' }));
+                    },
+                });
+            }
+        }
+
+        for (let i=0; i<matrix2ds.length; i++) {
+            let matrix = matrix2ds[i];
+
+            for (let j=0; j<matrix.pillars.length; j++) {
+                let pillar = matrix.pillars[j];
+                let id = 'pillar:' + matrix.id + ':' + pillar.id;
+                let checkGroup = this.addGroup(id, pillar.title);
+                checkGroup.attr('data-id', id);
+                checkGroup.appendTo('.check-group-list');
+
+                for (let k=0; k<pillar.subpillars.length; k++) {
+                    let subpillar = pillar.subpillars[k];
+                    let id = 'subpillar:' + matrix.id + ':' + subpillar.id;
+                    let child = this.addChild(id, subpillar.title);
+                    child.attr('data-id', id);
+                    checkGroup.find('.content').append(child);
+                }
+
+                checkGroup.find('.group-order').attr('name', 'order:' + id);
+                checkGroup.find('.content').sortable({
+                    create: function() {
+                        checkGroup.find('.group-order')
+                            .val($(this).sortable('toArray', { attribute: 'data-id' }));
+                    },
+
+                    update: function() {
+                        checkGroup.find('.group-order')
+                            .val($(this).sortable('toArray', { attribute: 'data-id' }));
+                    },
+                });
+            }
+
+            let id = 'sectors:' + matrix.id;
+            let sectorsGroup = this.addGroup(id, matrix.title + ' sectors');
+            sectorsGroup.attr('data-id', id);
+            sectorsGroup.appendTo('.check-group-list');
+
+            for (let j=0; j<matrix.sectors.length; j++) {
+                let sector = matrix.sectors[j];
+                let id = 'sector:' + matrix.id + ':' + sector.id;
+
+                let child = this.addChild(id, sector.title);
+                child.attr('data-id', id);
+                sectorsGroup.find('.content').append(child);
+            }
+
+
+            sectorsGroup.find('.group-order').attr('name', 'order:' + id);
+            sectorsGroup.find('.content').sortable({
+                create: function() {
+                    sectorsGroup.find('.group-order')
+                        .val($(this).sortable('toArray', { attribute: 'data-id' }));
+                },
+
+                update: function() {
+                    sectorsGroup.find('.group-order')
+                        .val($(this).sortable('toArray', { attribute: 'data-id' }));
+                },
+            });
+        }
+
+        $('.check-group-list').sortable({
+            create: function() {
+                $('#list-order').val($(this).sortable('toArray', { attribute: 'data-id' }));
+            },
+
+            update: function() {
+                $('#list-order').val($(this).sortable('toArray', { attribute: 'data-id' }));
+            },
+        });
+    },
+
+    addGroup: function(id, name) {
+        let checkGroup = $('.check-group-template').clone()
+            .removeClass('check-group-template').addClass('check-group');
+
+        checkGroup.find('header input').click(function() {
+            $(this).closest('.expandable')
+                .children('.content').find('input')
+                .prop('checked', $(this).is(':checked'));
+        });
+
+        checkGroup.find('.check-group-expand').click(function() {
+            $(this).closest('.check-group').toggleClass('expanded')
+                .children('.content').slideToggle(200);
+        });
+
+        checkGroup.find('header .name').text(name);
+        checkGroup.find('header input').attr('name', id);
+        checkGroup.find('header input').prop('checked', true);
+        checkGroup.show();
+        return checkGroup;
+    },
+
+    addChild: function(id, name) {
+        let child = $('.check-template').clone()
+            .removeClass('check-template').addClass('check');
+        child.find('.name').text(name);
+        child.find('input').attr('name', id);
+        child.find('input').prop('checked', true);
+        return child;
+    },
+};

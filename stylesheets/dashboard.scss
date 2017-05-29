@@ -1,18 +1,19 @@
 @import 'common/base';
 @import 'common/navbar';
 
-body{
+body {
     $map-height: 44vh;
 
-    h1, h2, h3, h4{
+    h1, h2, h3, h4 {
         margin: 0;
         text-transform: uppercase;
     }
-    #map{
+
+    #map {
         display: flex;
         justify-content: space-between;
 
-        #the-map{
+        #the-map {
             background-color: transparent;
             height: $map-height;
             flex-basis: 75%;

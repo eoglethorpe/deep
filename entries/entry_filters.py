@@ -1,6 +1,5 @@
-from entries.models import *
+from entries.models import EntryInformation
 from django.db.models import Q
-from django.utils.dateparse import parse_datetime
 
 import json
 
@@ -17,16 +16,21 @@ def filter_informations(data, event=None):
 
     # Non analysis framework
     if data.get('leads'):
-        informations = informations.filter(entry__lead__pk__in=json.loads(data.get('leads')))
+        informations = informations.filter(
+            entry__lead__pk__in=json.loads(data.get('leads')))
 
     if data.get('excerpt'):
-        informations = informations.filter(excerpt__icontains=data.get('excerpt'))
+        informations = informations.filter(
+            excerpt__icontains=data.get('excerpt'))
     if data.get('lead_title'):
-        informations = informations.filter(entry__lead__name__icontains=data.get('lead_title'))
+        informations = informations.filter(
+            entry__lead__name__icontains=data.get('lead_title'))
     if data.get('source'):
-        informations = informations.filter(entry__lead__source_name__icontains=data.get('source'))
+        informations = informations.filter(
+            entry__lead__source_name__icontains=data.get('source'))
     if data.get('users'):
-        informations = informations.filter(entry__created_by__pk__in=data.getlist('users'))
+        informations = informations.filter(
+            entry__created_by__pk__in=data.getlist('users'))
 
     if data.get('date_published_start') and data.get('date_published_end'):
         informations = informations.filter(
@@ -47,13 +51,18 @@ def filter_informations(data, event=None):
     # Non analysis framework
     else:
         if data.get('areas'):
-            informations = informations.filter(map_selections__name__in=data.getlist('areas'))
+            informations = informations.filter(
+                map_selections__name__in=data.getlist('areas'))
         if data.get('affected_groups'):
-            informations = informations.filter(affected_groups__pk__in=data.getlist('affected_groups'))
+            informations = informations.filter(
+                affected_groups__pk__in=data.getlist('affected_groups'))
         if data.get('vulnerable_groups'):
-            informations = informations.filter(vulnerable_groups__pk__in=data.getlist('vulnerable_groups'))
+            informations = informations.filter(
+                vulnerable_groups__pk__in=data.getlist('vulnerable_groups'))
         if data.get('specific_needs_groups'):
-            informations = informations.filter(specific_needs_groups__pk__in=data.getlist('specific_needs_groups'))
+            informations = informations.filter(
+                specific_needs_groups__pk__in=data.getlist(
+                    'specific_needs_groups'))
 
         if data.get('pillars'):
             pillars = []
@@ -95,6 +104,5 @@ def filter_informations(data, event=None):
                 severity__level__gte=data.get('severity_min'),
                 severity__level__lte=data.get('severity_max'),
             )
-
 
     return informations.distinct()
