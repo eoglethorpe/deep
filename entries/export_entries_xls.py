@@ -232,23 +232,11 @@ def export_analysis_xls(title, event_pk=None, information_pks=None):
         "Date Imported", "Lead Title", "Source", "Excerpt"
     ]
 
-    """
-    if event_pk:
-        countries = entry_models.Event.objects.get(pk=event_pk).countries.\
-                                 all().distinct()
-    else:
-        countries = entry_models.Country.objects.all().distinct()
-
-    for country in countries:
-        admin_levels = country.adminlevel_set.all()
-        for admin_level in admin_levels:
-            titles.append(admin_level.name)
-    """
-
     event = entry_models.Event.objects.get(pk=event_pk)
     elements = json.loads(event.entry_template.elements)
     sTypes = ['date', 'scale', 'number', 'multiselect', 'organigram']
     element_ids = []
+    geo_elements = []
 
     for element in elements:
         eType = element['type']
@@ -259,9 +247,22 @@ def export_analysis_xls(title, event_pk=None, information_pks=None):
         elif eType == 'matrix2d':
             titles.append([element['title'], 'Dimension', 'Sub-Dimension',
                            'Sector', 'Subsector'])
+        elif eType == 'geolocations':
+            geo_elements.append(element['id'])
         else:
             continue
         element_ids.append([element['id'], eType])
+
+    if event_pk:
+        countries = entry_models.Event.objects.get(pk=event_pk).countries.\
+                                 all().distinct()
+    else:
+        countries = entry_models.Country.objects.all().distinct()
+
+    for country in countries:
+        admin_levels = country.adminlevel_set.all()
+        for admin_level in admin_levels:
+            titles.append(admin_level.name)
 
     index = 0
     for t in titles:
@@ -300,37 +301,43 @@ def export_analysis_xls(title, event_pk=None, information_pks=None):
 
     grouped_rows = []
     for i, info in enumerate(informations):
-        # try:
-        rows = RowCollection(1)
+        try:
+            rows = RowCollection(1)
 
-        rows.add_values([
-            format_date(info.entry.lead.published_at),
-            info.entry.created_by, format_date(info.entry.created_at.date()),
-            info.entry.lead.name, info.entry.lead.source_name,
-            xstr(info.excerpt)
-        ])
+            rows.add_values([
+                format_date(info.entry.lead.published_at),
+                info.entry.created_by,
+                format_date(info.entry.created_at.date()),
+                info.entry.lead.name, info.entry.lead.source_name,
+                xstr(info.excerpt)
+            ])
 
-        attributes = []
-        infoE = json.loads(info.elements)
-        for element_id, element_type in element_ids:
-            element = list_filter(infoE, 'id', element_id)
-            get_analysis_data(elements, element, element_type, rows)
+            attributes = []
+            infoE = json.loads(info.elements)
+            for element_id, element_type in element_ids:
+                element = list_filter(infoE, 'id', element_id)
+                get_analysis_data(elements, element, element_type, rows)
 
-        rows.permute_and_add_list(attributes)
+            rows.permute_and_add_list(attributes)
 
-        # for country in countries:
-        #     admin_levels = country.adminlevel_set.all()
-        #     for admin_level in admin_levels:
-        #         selections = []
-        #         for map_selection in info.map_selections.all():
-        #             if admin_level == map_selection.admin_level:
-        #                 selections.append(map_selection.name)
-        #         rows.permute_and_add(selections)
+            for country in countries:
+                admin_levels = country.adminlevel_set.all()
+                for admin_level in admin_levels:
+                    selections = []
+                    for map_selections in [geoE for geoE in infoE
+                                           if geoE.get('id') in geo_elements]:
+                        for map_selection in map_selections.get('value', []):
+                            map_selection_list = map_selection.split(':')
+                            if (len(map_selection_list) == 3):
+                                m_iso3, m_admin, m_name = map_selection_list
+                                if admin_level.level == int(m_admin):
+                                    selections.append(m_name)
+                    rows.permute_and_add(selections)
 
-        ew.append(rows.rows, ws)
-        grouped_rows.append(rows.group_rows)
-        # except:
-        # pass
+            ew.append(rows.rows, ws)
+            grouped_rows.append(rows.group_rows)
+        except:
+            pass
 
     ew.append(grouped_rows, wsg)
 
