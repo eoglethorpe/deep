@@ -64,42 +64,40 @@ def get_analysis_data(elements, element, eType, rows):
         elif eType == 'matrix1d':
             matrix_values = []
             selections = element.get('selections', [])
-            sub_dimensions = [{'id': subp.get('id'), 'name': subp.get('name')}
-                              for pillar in elementTemplate.get('pillars', [])
-                              for subp in pillar.get('subpillars', [])]
             for selection in selections:
-                dimension = list_filter(elementTemplate.get('pillars'), 'id',
-                                        selection.get('pillar'), key='name')
-                sub_dimension = list_filter(sub_dimensions, 'id',
-                                            selection.get('subpillar'),
-                                            key='name')
-                matrix_values.append([dimension, sub_dimension])
+                dimension = list_filter(elementTemplate.get('pillars', []),
+                                        'id', selection.get('pillar'))
+                sub_dimension = list_filter(dimension.get('subpillars', []),
+                                            'id', selection.get('subpillar'),
+                                            key='name') if dimension else ''
+                matrix_values.append([
+                    dimension.get('name') if dimension else '',
+                    sub_dimension])
             rows.permute_and_add_list(matrix_values)
 
         elif eType == 'matrix2d':
             matrix_values = []
             selections = element.get('selections', [])
-            sub_dimensions = [{'id': subp.get('id'), 'name': subp.get('title')}
-                              for pillar in elementTemplate.get('pillars', [])
-                              for subp in pillar.get('subpillars', [])]
-            sub_sectors = [{'id': subp.get('id'), 'name': subp.get('title')}
-                           for sector in elementTemplate.get('sectors', [])
-                           for subp in sector.get('subsectors', [])]
             for selection in selections:
-                dimension = list_filter(elementTemplate['pillars'], 'id',
-                                        selection['pillar'], key='title')
-                sub_dimension = list_filter(sub_dimensions, 'id',
-                                            selection['subpillar'], key='name')
-                sector = list_filter(elementTemplate['sectors'], 'id',
-                                     selection['sector'], key='title')
+                dimension = list_filter(elementTemplate.get('pillars', []),
+                                        'id', selection.get('pillar'))
+                sub_dimension = list_filter(dimension.get('subpillars', []),
+                                            'id', selection.get('subpillar'),
+                                            key='title') if dimension else ''
+                sector = list_filter(elementTemplate.get('sectors'), 'id',
+                                     selection.get('sector'))
                 sub_sector = []
-                for _sub_sector in selection.get('subsectors', []):
-                    sub_sector.append(list_filter(sub_sectors, 'id',
-                                                  _sub_sector,
-                                                  key='name'))
+                if sector:
+                    for _sub_sector in selection.get('subsectors', []):
+                        sub_sector.append(
+                                list_filter(sector.get('subsectors', []),
+                                            'id', _sub_sector,
+                                            key='title'))
 
-                matrix_values.append([dimension, sub_dimension, sector,
-                                      ', '.join(sub_sector)])
+                matrix_values.append([
+                    dimension.get('title') if dimension else '',
+                    sub_dimension, sector.get('title') if sector else '',
+                    ', '.join(sub_sector)])
             rows.permute_and_add_list(matrix_values)
 
     except Exception as e:
