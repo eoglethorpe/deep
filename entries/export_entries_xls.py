@@ -132,7 +132,7 @@ def export_xls(title, event_pk=None, information_pks=None):
         countries = entry_models.Country.objects.all().distinct()
 
     for country in countries:
-        admin_levels = country.adminlevel_set.all()
+        admin_levels = country.adminlevel_set.all().distinct()
         for admin_level in admin_levels:
             titles.append(admin_level.name)
 

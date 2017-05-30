@@ -15,24 +15,21 @@ from entries.strippers import *
 from entries.entry_filters import filter_informations
 from entries.export_entries_docx import export_docx, export_docx_new_format, export_analysis_docx
 from entries.export_entries_pdf import export_pdf, export_analysis_pdf, export_pdf_new_format
-from entries.export_entries_xls import export_xls
+from entries.export_entries_xls import export_xls, export_analysis_xls
 from report.export_xls import export_xls as export_xls_weekly
 from entries.refresh_pcodes import *
 from leads.views import get_simplified_lead
 from deep.filename_generator import generate_filename
 
-import os
 import string
 import json
 import random
-import time
 from datetime import datetime, timedelta
-from collections import OrderedDict
 
 
 class ExportProgressView(View):
     def get(self, request):
-        context = { 'export_url' : request.GET.get('url') }
+        context = {'export_url': request.GET.get('url')}
         return render(request, 'entries/export-progress.html', context)
 
 
@@ -102,7 +99,10 @@ class ExportDoc(View):
 
         # Excel export
         if request.GET.get('export-xls') == 'xls':
-            return export_xls(generate_filename('Entries Export'), None, informations)
+            if request.GET.get('export-format') == 'analysis-generic':
+                return export_analysis_xls(generate_filename('Entries Export'), event, informations)
+            else:
+                return export_xls(generate_filename('Entries Export'), event, informations)
 
         # Docx and pdf export
 
