@@ -77,10 +77,12 @@
         {% if all_events %}
         <select id="project-dropdown" placeholder="Select event">
             <option>Select event</option>
+            {% if request.user|allow_acaps %}
             {% if event %}
             <option value="{% url 'dashboard' %}">All events</option>
             {% else %}
             <option value="{% url request.resolver_match.view_name 0 %}" selected>All events</option>
+            {% endif %}
             {% endif %}
             {% for ev in all_events %}
             <option value="{% url request.resolver_match.view_name event=ev.pk %}" {% if event and event == ev %}selected{% endif %}>{{ev}}</option>
@@ -101,8 +103,6 @@
 
             {% if event.is_acaps %}
             <a class="{% if current_page == 'sos' %}active{% endif %} menu-item" href="{% url 'leads:sos' event=event.pk %}">Assessment Registry</a>
-            {% endif %}
-            {% if request.user|allow_acaps %}
             <a class="{% if current_page == 'report' %}active{% endif %} menu-item" href="{% url 'report:dashboard' %}?event={{event.pk}}&country={{event.countries.all.0.code}}">Weekly Snapshot</a>
             {% endif %}
 

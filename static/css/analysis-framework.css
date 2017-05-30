@@ -279,6 +279,15 @@ body {
             font-weight: 500; }
           body main form .input-group-list .info .fa {
             margin-right: 10px; }
+          body main form .input-group-list .info .buttons {
+            padding: 8px 8px 0 0; }
+            body main form .input-group-list .info .buttons button, body main form .input-group-list .info .buttons input {
+              padding: 6px;
+              outline: none;
+              border: none;
+              background-color: #f39c12;
+              color: #fff;
+              cursor: pointer; }
     body main .snapshots-container {
       position: relative;
       display: flex;

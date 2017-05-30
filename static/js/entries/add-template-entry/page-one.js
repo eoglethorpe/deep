@@ -81,6 +81,10 @@ let page1 = {
         excerptBox.css('top', element.position.top);
         excerptBox.appendTo(this.container);
 
+        if (element.label) {
+            excerptBox.find('label').text(element.label);
+        }
+
         excerptBox.find('textarea').on('change input drop paste keyup', function() {
             if (that.selectedEntryIndex < 0) {
                 addEntry('', '');
@@ -100,6 +104,10 @@ let page1 = {
         imageBox.css('left', element.position.left);
         imageBox.css('top', element.position.top);
         imageBox.appendTo(this.container);
+
+        if (element.label) {
+            imageBox.find('label').text(element.label);
+        }
         return imageBox;
     },
 
