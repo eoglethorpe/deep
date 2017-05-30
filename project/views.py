@@ -1,3 +1,4 @@
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.views.generic import View
@@ -28,13 +29,18 @@ class ProjectDetailsView(View):
     def get(self, request, project_id):
         project = Event.objects.get(pk=project_id)
 
+        if request.user not in project.get_admins():
+            return HttpResponseForbidden()
+
         context = {}
         context["current_page"] = "project-details"
         context["project_id"] = project_id
 
-        context["projects"] = Event.objects.filter(
-            Q(admins=request.user) | Q(usergroup__admins=request.user)
-        ).distinct().order_by('name')
+        # context["projects"] = Event.objects.filter(
+        #     Q(admins=request.user) | Q(usergroup__admins=request.user)
+        # ).distinct().order_by('name')
+        context['projects'] = Event.objects.filter(admins=request.user)\
+            .distinct().order_by('name')
 
         context["usergroups"] = UserGroup.objects.filter(
             Q(admins=request.user) | Q(projects=project)
@@ -78,6 +84,9 @@ class ProjectDetailsView(View):
             return redirect('project:project_details', project.pk)
 
         elif "save" in request.POST or 'save-and-proceed' in request.POST:
+            if request.user not in project.get_admins():
+                return HttpResponseForbidden()
+
             project.name = request.POST["project-name"]
             project.description = request.POST["project-description"]
 
@@ -186,15 +195,22 @@ class ProjectDetailsView(View):
 class GeoAreaView(View):
     @method_decorator(login_required)
     def get(self, request, project_id):
+        project = Event.objects.get(pk=project_id)
+        if request.user not in project.get_admins():
+            return HttpResponseForbidden()
+
         context = {}
         context["project_id"] = project_id
         context["current_page"] = "geo-area"
-        context["project"] = Event.objects.get(pk=project_id)
+        context["project"] = project
+
         return render(request, "project/geo-area.html", context)
 
     @method_decorator(login_required)
     def post(self, request, project_id):
         project = Event.objects.get(pk=project_id)
+        if request.user not in project.get_admins():
+            return HttpResponseForbidden()
 
         if 'save' in request.POST or 'save-and-proceed' in request.POST:
             if request.POST.get('modified') == '1':
@@ -328,6 +344,9 @@ class AnalysisFrameworkView(View):
         context["current_page"] = "analysis-framework"
 
         project = Event.objects.get(pk=project_id)
+        if request.user not in project.get_admins():
+            return HttpResponseForbidden()
+
         if not project.entry_template:
             new_template = EntryTemplate(name=project.name)
             new_template.created_by = request.user
@@ -345,14 +364,31 @@ class AnalysisFrameworkView(View):
     @method_decorator(login_required)
     def post(self, request, project_id):
         project = Event.objects.get(pk=project_id)
-        if 'save-and-finish' in request.POST:
-            entry_template = project.entry_template
+        if request.user not in project.get_admins():
+            return HttpResponseForbidden()
 
+        entry_template = project.entry_template
+        if 'clone-and-save' in request.POST \
+                or 'save-and-finish' in request.POST:
             entry_template.name = request.POST.get('template-name')
+
+        if 'clone-and-save' in request.POST or 'clone' in request.POST:
             clone_from = request.POST.get('clone-from')
             if clone_from != '':
-                entry_template.elements = Event.objects.get(pk=clone_from)\
-                    .entry_template.elements
-            entry_template.save()
+                clone_template = Event.objects.get(pk=clone_from)\
+                    .entry_template
+                entry_template.elements = clone_template.elements
+                entry_template.snapshot_pageone = \
+                    clone_template.snapshot_pageone
+                entry_template.snapshot_pagetwo = \
+                    clone_template.snapshot_pagetwo
 
-        return redirect('dashboard', project_id)
+        entry_template.save()
+
+        if 'save-and-finish' in request.POST:
+            return redirect('dashboard', project_id)
+        else:
+            return redirect('project:analysis_framework', project_id)
+
+
+# EOF

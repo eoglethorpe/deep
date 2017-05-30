@@ -12,6 +12,13 @@ $(document).ready(function() {
 
         $('#clone-from').val(project.data('pk'));
     });
+
+    $('#cancel-clone').click(function() {
+        let info = $('#template-form-container .info');
+        $('#clone-from').val(null);
+        info.fadeOut();
+    });
+
     // Search templates
     $('#search-templates').on('change input drop paste', function() {
         let searchText = $('#search-templates').val().trim().toLowerCase();
@@ -28,6 +35,7 @@ $(document).ready(function() {
             });
         }
     });
+
     $('#snapshot-next').on('click', function() {
         $(this).hide().closest('.snapshots-container').find('img.active').removeClass('active').hide().next().show().addClass('active');
         $('#snapshot-prev').show();
@@ -36,6 +44,7 @@ $(document).ready(function() {
         $(this).hide().closest('.snapshots-container').find('img.active').removeClass('active').hide().prev().show().addClass('active');
         $('#snapshot-next').show();
     });
+
     $('#edit-framework').on('click', function(){
         var url = $(this).attr('href');
         url = url.replace('#page1', '');

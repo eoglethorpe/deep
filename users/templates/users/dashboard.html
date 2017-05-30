@@ -17,7 +17,7 @@ DEEP | Dashboard
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 
-{% if request.user|allow_acaps %}
+{% if event and event.is_acaps %}
 <script type="text/javascript" src="{% watchful_static_url 'js/dashboard.js' %}"></script>
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
@@ -54,7 +54,7 @@ DEEP | Dashboard
 {% block body %}
 {% include 'navbar.html' %}
 
-{% if request.user|allow_acaps %}
+{% if event and event.is_acaps %}
 <main>
     <section id="map">
         <div id="the-map"></div>
@@ -138,7 +138,7 @@ DEEP | Dashboard
 
 <div id="non-acaps">
     <img src="{% watchful_static_url 'img/deep-logo-sm-white.png' %}">
-    <p>Under construction</p>
+    <p>Dashboard under construction</p>
 </div>
 
 {% endif %}

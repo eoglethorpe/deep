@@ -88,10 +88,11 @@ class Event(models.Model):
         return UserGroup.objects.filter(acaps=True, projects__pk=self.pk).count() > 0
 
     def get_admins(self):
-        return User.objects.filter(
-            Q(events_owned__pk=self.pk) |
-            Q(groups_owned__projects__pk=self.pk)
-        ).distinct()
+        return User.objects.filter(events_owned__pk=self.pk)
+        # return User.objects.filter(
+        #     Q(events_owned__pk=self.pk) |
+        #     Q(groups_owned__projects__pk=self.pk)
+        # ).distinct()
 
     @staticmethod
     def get_events_for(user):

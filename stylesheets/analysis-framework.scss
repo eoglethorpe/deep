@@ -198,8 +198,22 @@ body {
                     strong {
                         font-weight: $font-weight-bold;
                     }
-                    .fa{
+
+                    .fa {
                         margin-right: 10px;
+                    }
+
+                    .buttons {
+                        padding: 8px 8px 0 0;
+
+                        button, input {
+                            padding: 6px;
+                            outline: none;
+                            border: none;
+                            background-color: $warning-color;
+                            color: #fff;
+                            cursor: pointer;
+                        }
                     }
                 }
             }

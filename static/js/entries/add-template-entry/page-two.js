@@ -128,10 +128,18 @@ let page2 = {
         excerptBox.css('left', element.left);
         excerptBox.appendTo(this.template);
 
+        if (element.excerptLabel) {
+            excerptBox.find('label').text(element.excerptLabel);
+        }
+
         let imageBox = $('<div class="image-box-container"><label>Image</label><div class="image-box"><img></div></div>')
         imageBox.css('width', element.width);
         imageBox.css('left', element.left);
         imageBox.appendTo(this.template);
+
+        if (element.imageLabel) {
+            imageBox.find('label').text(element.imageLabel);
+        }
 
         this.container.on('change input paste drop', '.excerpt-box-container textarea', function() {
             let index = parseInt($(this).closest('.entry').data('index'));
