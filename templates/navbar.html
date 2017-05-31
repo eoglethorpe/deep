@@ -129,7 +129,7 @@
                 <a href="{% url 'custom_admin:country_management' %}"><i class="fa fa-globe"></i>Country Panel</a>
                 {% endif %}
 
-                {% if event %}
+                {% if event and request.user in event.get_admins %}
                 <a href="{% url 'project:project_details' event.pk %}"><i class="fa fa-wrench"></i>Project Panel</a>
                 {% endif %}
 

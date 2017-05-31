@@ -207,12 +207,19 @@ body {
                         padding: 8px 8px 0 0;
 
                         button, input {
-                            padding: 6px;
+                            padding: 6px 16px;
                             outline: none;
                             border: none;
-                            background-color: $warning-color;
                             color: #fff;
                             cursor: pointer;
+                        }
+
+                        input {
+                            background-color: $info-color;
+                        }
+
+                        button {
+                            background-color: $danger-color;
                         }
                     }
                 }

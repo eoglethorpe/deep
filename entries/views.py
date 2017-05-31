@@ -100,7 +100,7 @@ class ExportDoc(View):
         # Excel export
         if request.GET.get('export-xls') == 'xls':
             if request.GET.get('export-format') == 'analysis-generic':
-                return export_analysis_xls(generate_filename('Entries Export'), event, informations)
+                return export_analysis_xls(generate_filename('Entries Export'), event, informations, request_data=request_data)
             else:
                 return export_xls(generate_filename('Entries Export'), event, informations)
 

@@ -243,7 +243,7 @@ let templateEditor = {
                     html2canvas($('#page-two')[0], {
                         onrendered: function(canvas) {
                             data.snapshots.pageTwo = canvas.toDataURL();
-                            if(currentPage = 'page-one'){
+                            if(currentPage = 'page-two'){
                                 that.switchPage();
                             }
                             resolve(data);
@@ -317,9 +317,11 @@ $(document).ready(function() {
 
     $('.properties-box').on('visible', function(){
         $('.properties-box').not(this).hide();
+        $('.floating-toolbar').hide();
     });
     $('.floating-toolbar').on('visible', function(){
         $('.floating-toolbar').not(this).hide();
+        $('.properties-box').hide();
     });
 
     $(document).on('click', function(e){

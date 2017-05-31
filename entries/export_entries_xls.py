@@ -5,6 +5,7 @@ from excel_writer import ExcelWriter, RowCollection
 from entries import models as entry_models
 from openpyxl.styles import Font  # , Color
 from django.db.models import Q
+from entries.export_entries_docx import analysis_filter
 
 
 def format_date(date):
@@ -218,7 +219,8 @@ def export_xls(title, event_pk=None, information_pks=None):
     return ew.get_http_response(title)
 
 
-def export_analysis_xls(title, event_pk=None, information_pks=None):
+def export_analysis_xls(title, event_pk=None, information_pks=None,
+                        request_data=None):
 
     # Create a spreadsheet and get active workbook
     ew = ExcelWriter()
@@ -286,18 +288,14 @@ def export_analysis_xls(title, event_pk=None, information_pks=None):
     ew.auto_fit_cells_in_row(1, ws)
     ew.auto_fit_cells_in_row(1, wsg)
 
-    if event_pk:
-        # Add each information in each entry belonging to this event
-        informations = entry_models.EntryInformation.objects.filter(
-                            ~Q(entry__template=None),
-                            entry__lead__event__pk=event_pk).distinct()
-    else:
-        # All information
-        informations = entry_models.EntryInformation.objects.\
-                                    filter(~Q(entry__template=None)).distinct()
+    # Add each information in each entry belonging to this event
+    informations = entry_models.EntryInformation.objects.filter(
+        ~Q(entry__template=None),
+        entry__lead__event__pk=event_pk).distinct()
 
     if information_pks:
         informations = informations.filter(pk__in=information_pks)
+    informations = analysis_filter(informations, request_data, elements)
 
     grouped_rows = []
     for i, info in enumerate(informations):

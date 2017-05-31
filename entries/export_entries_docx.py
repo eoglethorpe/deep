@@ -407,35 +407,11 @@ def export_docx(event, informations=None, data=None, export_geo=False):
     return d
 
 
-def export_analysis_docx(event, informations=None, data=None):
-    request_data = data
-    event = entry_model.Event.objects.get(pk=event)
-    if not event.entry_template:
-        raise Exception('Event has no analysis framework')
-
-    d = docx.Document('static/doc_export/template.docx')
-
-    # Set document styles
-    set_style(d.styles["Normal"])
-    set_style(d.styles["Heading 1"])
-    set_style(d.styles["Heading 2"])
-    set_style(d.styles["Heading 3"])
-    set_style(d.styles["Heading 4"])
-    set_style(d.styles["Heading 5"])
-
-    # Leads that are exported, needed for bibliography
-    leads_pk = []
-
-    infos = entry_model.EntryInformation.objects.filter(
-            entry__lead__event=event)
-    if informations is not None:
-        infos = infos.filter(pk__in=informations)
+def analysis_filter(infos, request_data, elements):
     infos = infos.distinct()
 
     for info in infos:
         info.data = json.loads(info.elements)
-
-    elements = json.loads(event.entry_template.elements)
 
     # First we apply filters, not yet applied to the informations
     # This includes attributes filters
@@ -539,6 +515,36 @@ def export_analysis_docx(event, informations=None, data=None):
                          if any(d for d in i.data
                                 if d['id'] == element['id'] and d.get('value')
                                 and scales[d['value']] <= max_val)]
+
+    return infos
+
+
+def export_analysis_docx(event, informations=None, data=None):
+    request_data = data
+    event = entry_model.Event.objects.get(pk=event)
+    if not event.entry_template:
+        raise Exception('Event has no analysis framework')
+
+    d = docx.Document('static/doc_export/template.docx')
+
+    # Set document styles
+    set_style(d.styles["Normal"])
+    set_style(d.styles["Heading 1"])
+    set_style(d.styles["Heading 2"])
+    set_style(d.styles["Heading 3"])
+    set_style(d.styles["Heading 4"])
+    set_style(d.styles["Heading 5"])
+
+    # Leads that are exported, needed for bibliography
+    leads_pk = []
+
+    infos = entry_model.EntryInformation.objects.filter(
+            entry__lead__event=event)
+    if informations is not None:
+        infos = infos.filter(pk__in=informations)
+
+    elements = json.loads(event.entry_template.elements)
+    infos = analysis_filter(infos, request_data, elements)
 
     # Next export the filtered informations
     # Structuring order

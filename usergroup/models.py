@@ -16,7 +16,7 @@ class UserGroup(models.Model):
     projects = models.ManyToManyField(Event, blank=True)
     entry_templates = models.ManyToManyField(EntryTemplate, blank=True)
     slug = models.SlugField(editable=False)
-    acaps = models.BooleanField(default=False)
+    acaps = models.BooleanField(default=False, verbose_name='Global crisis monitoring')
 
     def __str__(self):
         return self.name

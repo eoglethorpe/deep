@@ -94,6 +94,7 @@ body {
                                     border-radius: 50%;
                                     background-color: rgba(0, 0, 0, 0.06);
                                     transition: all 0.2s ease-in-out;
+                                    cursor: pointer;
 
                                     &:hover {
                                         background-color: rgba(0, 0, 0, 0.1);
@@ -121,6 +122,18 @@ body {
                             display: flex;
                             align-items: center;
                             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                            cursor: move;
+
+                            &:before {
+                                content: '';
+                                font-family: 'font-awesome';
+                                margin-right: 6px;
+                                color: $label-color;
+                            }
+
+                            label {
+                                cursor: pointer;
+                            }
                         }
                     }
 

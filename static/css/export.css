@@ -1,3 +1,4 @@
+@charset "UTF-8";
 ::-webkit-scrollbar-track {
   background-color: rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.04); }
@@ -241,7 +242,8 @@ body {
             justify-content: center;
             border-radius: 50%;
             background-color: rgba(0, 0, 0, 0.06);
-            transition: all 0.2s ease-in-out; }
+            transition: all 0.2s ease-in-out;
+            cursor: pointer; }
             body main section form #structure-section .check-group.expandable > header a:hover {
               background-color: rgba(0, 0, 0, 0.1); }
           body main section form #structure-section .check-group.expandable .content {
@@ -253,7 +255,15 @@ body {
             padding: 6px 16px;
             display: flex;
             align-items: center;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            cursor: move; }
+            body main section form #structure-section .check-group .check:before {
+              content: '';
+              font-family: 'font-awesome';
+              margin-right: 6px;
+              color: rgba(0, 0, 0, 0.5); }
+            body main section form #structure-section .check-group .check label {
+              cursor: pointer; }
         body main section form #action-section {
           border-top: 1px solid rgba(0, 0, 0, 0.1);
           flex-basis: 100%; }

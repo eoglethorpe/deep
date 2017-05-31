@@ -282,12 +282,15 @@ body {
           body main form .input-group-list .info .buttons {
             padding: 8px 8px 0 0; }
             body main form .input-group-list .info .buttons button, body main form .input-group-list .info .buttons input {
-              padding: 6px;
+              padding: 6px 16px;
               outline: none;
               border: none;
-              background-color: #f39c12;
               color: #fff;
               cursor: pointer; }
+            body main form .input-group-list .info .buttons input {
+              background-color: #3498db; }
+            body main form .input-group-list .info .buttons button {
+              background-color: #e74c3c; }
     body main .snapshots-container {
       position: relative;
       display: flex;
