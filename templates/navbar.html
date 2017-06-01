@@ -122,7 +122,7 @@
             <div class="items" hidden>
                 <a href="{% url 'user_profile' user.pk %}"><i class="fa fa-user"></i>Profile</small></a>
                 <a href="{% url 'password_change' %}"><i class="fa fa-key"></i>Change password</small></a>
-                <button onclick="window.location.href = '{% url 'logout' %}';"><i class="fa fa-sign-out"></i>Logout</button>
+                <a onclick="window.location.href = '{% url 'logout' %}';"><i class="fa fa-sign-out"></i>Logout</a>
                 <hr>
                 {% if request.user.is_superuser %}
                 <a href="/admin"><i class="fa fa-user-secret"></i>Admin panel</a>
@@ -135,7 +135,7 @@
 
                 <hr>
                 {% if not request.user.userprofile.hid %}
-                <button id="link-with-hid"><i class="fa fa-link"></i>Link with HID</button>
+                <a id="link-with-hid"><i class="fa fa-link"></i>Link with HID</a>
                 {% endif %}
             </div>
         </div>
