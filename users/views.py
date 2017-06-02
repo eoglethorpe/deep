@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from django.core.validators import validate_email
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -180,13 +180,15 @@ class DashboardView(View):
 
         context = {}
         context["current_page"] = "dashboard"
+        context["all_events"] = Event.get_events_for(request.user)
         if event:
             context["event"] = Event.objects.get(pk=event)
+            if context['event'] not in context['all_events']:
+                return HttpResponseForbidden()
             UserProfile.set_last_event(request, context["event"])
         else:
             UserProfile.set_last_event(request, None)
 
-        context["all_events"] = Event.get_events_for(request.user)
 
         # Filter options in dashboard
         context["disaster_types"] = DisasterType.objects.all()

@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
 from django.http import JsonResponse, HttpResponse
@@ -19,6 +19,7 @@ from entries.models import *
 from entries.strippers import *
 from entries.refresh_pcodes import refresh_pcodes
 from deep.filename_generator import generate_filename
+from leads.templatetags.check_acaps import allow_acaps
 
 from excel_writer import ExcelWriter, RowCollection
 
@@ -99,11 +100,13 @@ class LeadsView(View):
     def get(self, request, event):
         context = {}
         context["current_page"] = "leads"
+        context["all_events"] = Event.get_events_for(request.user)
         if int(event) != 0:
             context["event"] = Event.objects.get(pk=event)
+            if context['event'] not in context['all_events']:
+                return HttpResponseForbidden()
             UserProfile.set_last_event(request, context["event"])
 
-        context["all_events"] = Event.get_events_for(request.user)
         context.update(get_lead_form_data())
         return render(request, "leads/leads.html", context)
 
@@ -115,11 +118,16 @@ class LeadsView(View):
 class SoSView(View):
     @method_decorator(login_required)
     def get(self, request, event):
+        if not allow_acaps(request.user):
+            return HttpResponseForbidden()
+
         context = {}
         context["current_page"] = "sos"
         context["event"] = Event.objects.get(pk=event)
-        UserProfile.set_last_event(request, context["event"])
         context["all_events"] = Event.get_events_for(request.user)
+        if context['event'] not in context['all_events']:
+            return HttpResponseForbidden()
+        UserProfile.set_last_event(request, context["event"])
         context.update(get_lead_form_data())
         return render(request, "leads/sos.html", context)
 
@@ -128,10 +136,15 @@ class AddSoS(View):
     @method_decorator(login_required)
     def get(self, request, event, lead_id, sos_id=None):
         refresh_pcodes()
+        if not allow_acaps(request.user):
+            return HttpResponseForbidden()
 
         context = {}
         context["current_page"] = "sos"
         context["event"] = Event.objects.get(pk=event)
+        if context['event'] not in Event.get_events_for(request.user):
+            return HttpResponseForbidden()
+
         context["lead"] = Lead.objects.get(pk=lead_id)
         lead = context["lead"]
 
@@ -283,6 +296,8 @@ class AddLead(View):
         context["current_page"] = "leads"
         context["event"] = Event.objects.get(pk=event)
         context["events"] = Event.objects.all()
+        if context['event'] not in Event.get_events_for(request.user):
+            return HttpResponseForbidden()
         UserProfile.set_last_event(request, context["event"])
         if id:
             context["lead"] = Lead.objects.get(pk=id)

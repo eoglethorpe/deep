@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from django.views.generic import View
@@ -40,6 +40,8 @@ class ExportView(View):
         context["current_page"] = "export"
         context["event"] = Event.objects.get(pk=event)
         context["all_events"] = Event.get_events_for(request.user)
+        if context['event'] not in context['all_events']:
+            return HttpResponseForbidden()
 
         context["users"] = User.objects.exclude(first_name="", last_name="")
         context["lead_users"] = User.objects.filter(assigned_leads__event__pk=event)
@@ -178,6 +180,8 @@ class EntriesView(View):
 
         if int(event) != 0:
             context["event"] = Event.objects.get(pk=event)
+            if context['event'] not in context['all_events']:
+                return HttpResponseForbidden()
             UserProfile.set_last_event(request, context["event"])
 
         if int(event) != 0 and context["event"].entry_template:
@@ -225,6 +229,8 @@ class AddEntry(View):
 
         context["current_page"] = "entries"
         context["event"] = Event.objects.get(pk=event)
+        if context['event'] not in Event.get_events_for(request.user):
+            return HttpResponseForbidden()
         context["dummy_list"] = range(5)
         # context["all_events"] = Event.objects.all()
 

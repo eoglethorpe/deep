@@ -100,6 +100,10 @@ class Event(models.Model):
             Q(members=user) | Q(admins=user) | Q(usergroup__members=user)
         ).distinct()
 
+    def allow(self, user):
+        return user in self.members.all() or user in self.admins.all() or \
+            user in User.objects.filter(usergroup__projects=self)
+
     def __str__(self):
         return self.name
 
