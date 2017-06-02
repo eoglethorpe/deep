@@ -40,6 +40,9 @@ $(document).ready(function(){
     let addProjectModal = new Modal('#new-project-modal');
 
     $('#add-new-project').click(function() {
+        if (!confirmChanges()) {
+            return;
+        }
         addProjectModal.show().then(null, null, function() {
             if(addProjectModal.action == 'proceed'){
                 if ($('#new-project-name').val().trim().length == 0) {

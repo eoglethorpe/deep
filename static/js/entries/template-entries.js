@@ -154,6 +154,10 @@ let entriesList = {
                                     let pillar = templateElement.pillars.find(p => p.id == data.selections[l].pillar);
                                     let subpillar = pillar.subpillars.find(s => s.id == data.selections[l].subpillar);
                                     let sector = templateElement.sectors.find(s => s.id == data.selections[l].sector);
+                                    if (!pillar || !subpillar || !sector) {
+                                        continue;
+                                    }
+
                                     text += '<div class="row">'
                                     text += '<div class="col"><div>' + pillar.title + '</div><div>' + subpillar.title + '</div></div>';
                                     text += '<div class="col"><div>' + sector.title + '</div><div>';
@@ -181,6 +185,10 @@ let entriesList = {
                                 for (let l=0; l<data.selections.length; l++) {
                                     let pillar = templateElement.pillars.find(p => p.id == data.selections[l].pillar);
                                     let subpillar = pillar.subpillars.find(s => s.id == data.selections[l].subpillar);
+                                    if (!pillar || !subpillar) {
+                                        continue;
+                                    }
+
                                     text += '<div class="row">'
                                     text += '<div class="col"><div>' + pillar.name + '</div><div>' + subpillar.name + '</div></div>';
                                     text += '</div>';
