@@ -101,6 +101,12 @@ let entriesList = {
         this.container.find('.entry').remove();
 
         let entries = entriesManager.filteredEntries;
+
+        if (entries.length == 0) {
+            this.container.find('.message').show();
+            this.container.find('.message').text('No entries for this project');
+        }
+
         for (let i=0; i<entries.length; i++) {
             let entry = entries[i];
             if (entry.informations.length == 0) {

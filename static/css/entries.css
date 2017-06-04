@@ -591,6 +591,11 @@ main #filters {
     box-sizing: border-box; }
 main #entries {
   padding: 0 16px; }
+  main #entries p.message {
+    text-align: center;
+    margin-top: 100px;
+    font-size: 1.5em;
+    color: rgba(0, 0, 0, 0.5); }
   main #entries .entry {
     margin-bottom: 10px;
     box-shadow: 0 0 15px -3px rgba(0, 0, 0, 0.5); }

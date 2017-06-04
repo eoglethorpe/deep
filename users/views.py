@@ -181,10 +181,15 @@ class DashboardView(View):
         context = {}
         context["current_page"] = "dashboard"
         context["all_events"] = Event.get_events_for(request.user)
+
+        if context['all_events'].count() == 0:
+            return redirect('user_profile', request.user.pk)
+
         if event:
             context["event"] = Event.objects.get(pk=event)
             if context['event'] not in context['all_events']:
-                return HttpResponseForbidden()
+                UserProfile.set_last_event(request, None)
+                return redirect('dashboard')
             UserProfile.set_last_event(request, context["event"])
         else:
             UserProfile.set_last_event(request, None)
