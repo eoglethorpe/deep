@@ -42,4 +42,8 @@ DEEP | Survey of surveys
     </table>
 <main>
 
+<form id="delete-form" method="post" action="{% url 'leads:delete_sos' event=event.pk %}" hidden>
+    {% csrf_token %}
+    <input id="delete-id" name="id" type="text">
+</form>
 {% endblock %}

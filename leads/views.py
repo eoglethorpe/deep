@@ -461,6 +461,23 @@ class DeleteLead(View):
         return redirect('leads:leads', event=event.pk)
 
 
+class DeleteSoS(View):
+    @method_decorator(login_required)
+    def post(self, request, event):
+        if not allow_acaps(request.user):
+            return HttpResponseForbidden()
+
+        sos = SurveyOfSurvey.objects.get(pk=request.POST["id"])
+        activity = DeletionActivity().set_target(
+            'survey-of-survey', sos.pk, sos.title,
+        )
+        event = sos.lead.event
+        sos.delete()
+
+        activity.log_for(request.user, event=event)
+        return redirect('leads:sos', event=event.pk)
+
+
 class ExportSosXls(View):
     def get(self, request, event):
         ew = ExcelWriter()

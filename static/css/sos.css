@@ -225,11 +225,15 @@ main {
     main #sos-table tbody .even, main #sos-table tbody .even + tr:not(.odd) {
       background-color: #fff; }
     main #sos-table tbody .btn-action {
+      display: block;
       color: #3498db;
       cursor: pointer; }
       main #sos-table tbody .btn-action .fa {
         color: inherit;
         margin-right: 10px; }
+    main #sos-table tbody .btn-delete {
+      margin-top: 8px;
+      color: #e74c3c; }
     main #sos-table tbody .row-detail {
       padding: 10px 24px; }
       main #sos-table tbody .row-detail .fa {

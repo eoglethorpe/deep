@@ -73,6 +73,7 @@ main{
                 background-color: #fff;
             }
             .btn-action{
+                display: block;
                 color: $info-color;
                 cursor: pointer;
 
@@ -80,6 +81,10 @@ main{
                     color: inherit;
                     margin-right: 10px;
                 }
+            }
+            .btn-delete {
+                margin-top: 8px;
+                color: $danger-color;
             }
             .row-detail{
                 padding: 10px 24px;

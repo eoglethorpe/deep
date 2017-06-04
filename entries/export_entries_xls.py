@@ -122,7 +122,7 @@ def export_xls(title, event_pk=None, information_pks=None):
     titles = [
         "Date of Lead Publication", "Date of Information", "Created By",
         "Date Imported", "Lead Title", "Source", "Excerpt", "Reliability",
-        "Severity", "Number", "Demographic Groups", "Specific Needs Groups",
+        "Severity", "Demographic Groups", "Specific Needs Groups",
         "Affected Groups", "Pillar", "Subpillar", "Sector", "Subsector",
     ]
 
@@ -171,7 +171,7 @@ def export_xls(title, event_pk=None, information_pks=None):
                 format_date(info.entry.created_at.date()),
                 info.entry.lead.name,
                 info.entry.lead.source_name, xstr(info.excerpt),
-                info.reliability.name, info.severity.name, info.number
+                info.reliability.name, info.severity.name,
             ])
 
             # Column Name `Demographic Groups` Renamed to
@@ -355,7 +355,7 @@ def export_and_save(event_pk, filename):
         "Country", "Date of Lead Publication", "Date of Information",
         "Created By",
         "Date Imported", "Lead Title", "Source", "Excerpt", "Reliability",
-        "Severity", "Number", "Demographic Groups", "Specific Needs Groups",
+        "Severity", "Demographic Groups", "Specific Needs Groups",
         "Affected Groups", "Pillar", "Subpillar", "Sector", "Subsector",
     ]
 
@@ -395,7 +395,7 @@ def export_and_save(event_pk, filename):
                 format_date(info.entry.created_at.date()),
                 info.entry.lead.name, info.entry.lead.source_name,
                 xstr(info.excerpt), info.reliability.name,
-                info.severity.name, info.number
+                info.severity.name
             ])
 
             # Column Name `Demographic Groups` Renamed to

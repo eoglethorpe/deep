@@ -286,7 +286,7 @@ $(document).ready(function(){
                     '<div class="extra"><span><i class="fa fa-user"></i>' + data.created_by_name + '</span><span><i class="fa fa-calendar"></i>' + (new Date(data.created_at)).toLocaleDateString() + '</span></div>' +
                     '<div class="actions">' +
                         '<button class="btn-add-entry" onclick="window.location.href=\'/' + data.event + '/entries/add/' + data.id + '/\'"><i class="fa fa-share"></i>Add Entry</button>' +
-                        '<button class="btn-add-entry" onclick="window.location.href=\'/' + data.event + '/leads/add-sos/' + data.id + '/\'"><i class="fa fa-share"></i>Add Survey of Survey</button>' +
+                        '<button class="btn-add-entry" onclick="window.location.href=\'/' + data.event + '/leads/add-sos/' + data.id + '/\'"><i class="fa fa-share"></i>Add Assessment Registry</button>' +
                         '<button class="btn-edit" onclick="window.location.href=\'/' + data.event + '/leads/edit/' + data.id + '/\'"><i class="fa fa-edit"></i>Edit</button>' +
                         (
                             (data.status == "PEN") ?
