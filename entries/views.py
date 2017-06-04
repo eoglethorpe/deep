@@ -241,12 +241,12 @@ class AddEntry(View):
             context["lead_simplified"] = simplified_lead.text
         except:
             get_simplified_lead(lead, context)
-            if "lead_simplified" in context:
+            if "lead_simplified" in context and context['lead_simplified']:
                 SimplifiedLead(lead=lead, text=context["lead_simplified"]).save()
 
         if lead.lead_type == 'URL':
             context['lead_url'] = lead.url
-        elif lead.lead_type == 'ATT':
+        elif lead.lead_type == 'ATT' and Attachment.objects.filter(lead=lead).count() > 0:
             context['lead_url'] = request.build_absolute_uri(lead.attachment.upload.url)
 
         if context.get('lead_url'):

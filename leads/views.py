@@ -55,6 +55,7 @@ def get_simplified_lead(lead, context):
                 name, extension = os.path.splitext(attachment.upload.name)
             except:
                 name, extension = attachment.upload.name, ""
+
             if extension == ".pdf":
                 context["lead_simplified"], images = \
                     PdfStripper(attachment.upload).simplify()
@@ -67,7 +68,7 @@ def get_simplified_lead(lead, context):
             elif extension in [".pptx", ]:
                 context["lead_simplified"], images = \
                     PptxStripper(attachment.upload).simplify()
-            else:
+            elif extension in ['.txt', ]:
                 context["lead_simplified"] = attachment.upload.read()
 
         LeadImage.objects.filter(lead=lead).delete()
@@ -397,7 +398,7 @@ class AddLead(View):
         SimplifiedLead.objects.filter(lead=lead).delete()
         temp = {}
         get_simplified_lead(lead, temp)
-        if "lead_simplified" in temp:
+        if "lead_simplified" in temp and temp["lead_simplified"]:
             SimplifiedLead(lead=lead, text=temp["lead_simplified"]).save()
 
         if error != "":
@@ -414,8 +415,8 @@ class AddLead(View):
                 "url": reverse('entries:add', args=[event, lead.pk])
             })
         if "add-entry" in request.POST:
-            if lead.lead_type == Lead.ATTACHMENT_LEAD:
-                return JsonResponse({'url': reverse('entries:add', args=[event, lead.pk])})
+            # if lead.lead_type == Lead.ATTACHMENT_LEAD:
+            #     return JsonResponse({'url': reverse('entries:add', args=[event, lead.pk])})
             return redirect('entries:add', event, lead.pk)
 
         return redirect("leads:leads", event=event)
