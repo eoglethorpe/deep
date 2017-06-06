@@ -13,14 +13,5 @@
         "ContainerPort": "80"
     }
   ],
-  "Volumes": [
-    {
-        "HostDirectory": "/var/www/static",
-        "ContainerDirectory": "/var/www/static"
-    },
-    {
-        "HostDirectory": "/var/www/media",
-        "ContainerDirectory": "/var/www/media"
-    }
-  ]
+  "Volumes": []
 }
