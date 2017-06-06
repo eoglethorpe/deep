@@ -1,1 +1,23 @@
-permission denied bro
+{% extends 'base.html' %}
+{% load watchful_url %}
+
+{% block title %}
+DEEP | 403 error
+{% endblock %}
+
+{% block head %}
+
+<link href="{% watchful_static_url 'css/403.css' %}" type="text/css" rel="stylesheet">
+
+{% endblock %}
+
+{% block body %}
+
+<main>
+    <img src="{% watchful_static_url 'img/deep-logo-sm-white.png' %}">
+    <h1>Error 403</h1>
+    <h2>This is where the Kraken lives</h2>
+    <h3>Quick, <a href="{% url 'login' %}">return to DEEP</a></h3>
+</main>
+
+{% endblock %}
