@@ -150,6 +150,11 @@ class LoginView(View):
                 try:
                     profile = UserProfile.objects.get(user=user)
                     login(request, user)
+
+                    next_page = request.POST.get('next')
+                    if next_page:
+                        return redirect(next_page)
+
                     # if request.GET.get('next'):
                     #     return redirect(request.GET['next'])
                     last_event = UserProfile.get_last_event(request)

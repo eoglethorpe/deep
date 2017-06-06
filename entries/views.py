@@ -207,13 +207,13 @@ class EntriesView(View):
 
 class AddEntry(View):
     @method_decorator(login_required)
-    def get(self, request, event, lead_id=None, id=None, template_id=None):
+    def get(self, request, event, lead_id=None, id=None):
         refresh_pcodes()
         context = {}
 
-        if template_id is None:
-            if Event.objects.get(pk=event).entry_template:
-                template_id = Event.objects.get(pk=event).entry_template.pk
+        template_id = None
+        if Event.objects.get(pk=event).entry_template:
+            template_id = Event.objects.get(pk=event).entry_template.pk
 
         if not id:
             lead = Lead.objects.get(pk=lead_id)
