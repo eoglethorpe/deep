@@ -2,18 +2,22 @@
 {% load watchful_url %}
 
 {% block title %}
-DEEP | 404 Error
+DEEP | 403 error
 {% endblock %}
 
 {% block head %}
+
 <link href="{% watchful_static_url 'css/404.css' %}" type="text/css" rel="stylesheet">
+
 {% endblock %}
 
 {% block body %}
 
-<h1>
-    <a href="{% url 'login' %}">error: 404</a>
-</h1>
-<p><a href="{% url 'login' %}">lost in the <span>deep</span> ?</a></p>
+<main>
+    <img src="{% watchful_static_url 'img/deep-logo-sm-white.png' %}">
+    <h1>Error 404</h1>
+    <h2>Unchartered areas</h2>
+    <h3>Quick, <a href="{% url 'login' %}">return to DEEP</a></h3>
+</main>
 
 {% endblock %}
