@@ -128,7 +128,7 @@ class PdfStripper:
 
         fp = self.doc
         fp.seek(0)
-        outfp = tempfile.TemporaryFile("w+")
+        outfp = tempfile.TemporaryFile("w+", encoding='utf-8')
 
         rmgr = PDFResourceManager()
         params = LAParams()
