@@ -69,6 +69,8 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'django403.middleware.Django403Middleware',
 ]
 
 ROOT_URLCONF = 'deep.urls'
