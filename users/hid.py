@@ -22,6 +22,10 @@ class HumanitarianId:
         token = request.session['hid_token']
         user_id = request.session['hid_user']
 
+        if not token or not user_id:
+            self.status = False
+            return
+
         if config.development:
             url = 'https://api2.dev.humanitarian.id/api/v2/user/' + user_id
         else:
@@ -77,15 +81,14 @@ class HumanitarianId:
         config = HidConfig()
         if config.client_id:
             if config.development:
-                url = 'https://api2.dev.humanitarian.id/api/v2/jsonwebtoken'
+                url = 'https://api2.dev.humanitarian.id/account.json?access_token=' + access_token
             else:
-                url = 'https://auth.humanitarian.id/api/v2/jsonwebtoken'
+                url = 'https://auth.humanitarian.id/account.json?access_token=' + access_token
 
-            r = requests.get(url, headers={ 'Authorization': 'Bearer ' + access_token})
+            r = requests.get(url)
             if r.status_code == 200:
                 data = r.json()
-                if len(data) > 0:
-                    return (data[0]['token'], data[0]['user'])
+                return access_token, data['_id']
             else:
                 print(r.json())
         return None, None
