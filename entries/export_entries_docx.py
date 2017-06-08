@@ -709,11 +709,11 @@ def export_analysis_docx(event, informations=None, data=None):
     for lead in leads:
         p = d.add_paragraph()
         if lead.source_name and lead.source_name != "":
-            p.add_run(lead.source_name.title())
+            p.add_run(xstr(lead.source_name).title())
         else:
             p.add_run("Missing source".title())
 
-        p.add_run(". {}.".format(lead.name.title()))
+        p.add_run(". {}.".format(xstr(lead.name).title()))
         if lead.published_at:
             p.add_run(" {}.".format(lead.published_at.strftime("%m/%d/%Y")))
 
