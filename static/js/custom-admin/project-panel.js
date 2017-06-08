@@ -13,8 +13,8 @@ function filterProjects() {
     var searchText = $('#project-search').val().trim().toLowerCase();
 
     $('.project').each(function(){
-        if ((projectStatus == '2' || $(this).data('project-status') == projectStatus)
-            && (searchText.length == 0 || $(this).text().trim().toLowerCase().indexOf(searchText) != -1))
+        if ((projectStatus == '2' || $(this).data('project-status') == projectStatus) &&
+            (searchText.length === 0 || $(this).text().trim().toLowerCase().indexOf(searchText) != -1))
         {
             $(this).show();
         } else {
@@ -65,7 +65,7 @@ $(document).ready(function(){
         spilloverSelectize[0].selectize.setValue(project.spillover);
         entryTemplateSelectize[0].selectize.setValue(project.entry_template);
 
-        if (project.num_entries == 0) {
+        if (project.num_entries === 0) {
             entryTemplateSelectize[0].selectize.enable();
         } else {
             entryTemplateSelectize[0].selectize.disable();
@@ -93,9 +93,9 @@ $(document).ready(function(){
     $('#admins').change(function(){
         let currentSelection = $(this).val();
 
-        if (lastAdminSelection != null && lastAdminSelection != "") {
+        if (lastAdminSelection !== null && lastAdminSelection !== "") {
             if (lastAdminSelection.indexOf(myPk) >= 0 &&
-                (currentSelection == null || currentSelection == "" || currentSelection.indexOf(myPk) < 0))
+                (currentSelection === null || currentSelection === "" || currentSelection.indexOf(myPk) < 0))
             {
                 if (!confirm("You are about to remove yourself as admin, are you sure?")) {
                     adminsSelectize[0].selectize.setValue(lastAdminSelection);

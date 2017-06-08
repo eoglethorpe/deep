@@ -41,7 +41,7 @@ $(document).ready(function(){
     // Search geoarea
     $('#search-geoarea').on('change input drop paste', function() {
         let searchText = $('#search-geoarea').val().trim().toLowerCase();
-        if (searchText.length == 0) {
+        if (searchText.length === 0) {
             $('#admin-boundary-list .admin-boundary').show();
         } else {
             $('#admin-boundary-list .admin-boundary').each(function() {

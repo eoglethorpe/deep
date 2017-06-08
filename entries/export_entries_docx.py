@@ -6,6 +6,8 @@ import base64
 import re
 import json
 
+from xml.sax.saxutils import escape
+
 import docx
 # from docx import RT
 from docx.enum.dml import MSO_THEME_COLOR_INDEX
@@ -29,10 +31,10 @@ def valid_xml_char_ordinal(c):
     )
 
 
-def xstr(conv):
+def xstr(s):
     """remove illegal characters from a string (errors from PDFs etc)"""
-    s = "".join(filter(lambda x: x in string.printable, conv))
-    return ''.join(c for c in s if valid_xml_char_ordinal(c))
+    s = escape(s)
+    return ''.join(c for c in s if valid_xml_char_ordinal(c) and c in string.printable)
 
 
 # See:
@@ -605,7 +607,7 @@ def export_analysis_docx(event, informations=None, data=None):
                             d.add_heading(subpillar['name'], level=3)
 
                         p = d.add_paragraph()
-                        p.add_run(info.excerpt)
+                        p.add_run(xstr(info.excerpt))
 
                         leads_pk.append(info.entry.lead.pk)
 
@@ -689,7 +691,7 @@ def export_analysis_docx(event, informations=None, data=None):
                                     d.add_heading(subpillar['title'], level=4)
 
                                 p = d.add_paragraph()
-                                p.add_run(info.excerpt)
+                                p.add_run(xstr(info.excerpt))
 
                                 leads_pk.append(info.entry.lead.pk)
 
