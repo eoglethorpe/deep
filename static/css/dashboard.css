@@ -297,8 +297,10 @@ body #non-acaps {
     color: rgba(0, 0, 0, 0.5);
     font-size: 3em;
     text-transform: uppercase; }
-  body #non-acaps h5, body #non-acaps h6 {
+  body #non-acaps > div > div {
+    padding: 10px 0;
     color: rgba(0, 0, 0, 0.5);
+    font-weight: 500;
     font-size: 1.2em;
     text-transform: uppercase;
     text-align: center; }

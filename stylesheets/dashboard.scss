@@ -178,17 +178,22 @@ body {
            font-size: 3em;
            text-transform: uppercase;
        }
-       h5,h6{
-           color: rgba(0, 0, 0, 0.5);
-           font-size: 1.2em;
-           text-transform: uppercase;
-           text-align: center;
-       }
+       >div{
+           >div{
+               padding: 10px 0;
+               color: rgba(0, 0, 0, 0.5);
+               font-weight: $font-weight-bold;
+               font-size: 1.2em;
+               text-transform: uppercase;
+               text-align: center;
+           }
+
+           }
        .fa{
            font-size: 0.9em;
            margin-left: 10px;
            color: rgba(0, 0, 0, 0.5);
-           
+
        }
     }
 }

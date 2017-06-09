@@ -11,10 +11,14 @@ body{
         margin: 0;
         text-transform: uppercase;
     }
+    h2{
+        color: $primary-color;
+        font-weight: bold;
+    }
     main{
         flex-basis: 76%;
         height: calc(100vh - #{$navbar-height});
-        $header-height: 144px;
+        $header-height: 180px;
 
         >header{
             flex-basis: 100%;
@@ -24,7 +28,7 @@ body{
             padding: 0 16px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: stretch;
 
             #avatar-input{
                 position: absolute;
@@ -35,44 +39,56 @@ body{
                 top: -100px;
             }
             img{
-                width: 80px;
-                height: 80px;
+                align-self: center;
+                width: 100px;
+                height: 100px;
                 object-fit: cover;
                 object-position: center;
                 background-color: #fff;
                 border-radius: 50%;
                 border: 2px solid rgba(0, 0, 0, 0.3);
             }
-            .user-info{
+            .user-info {
                 flex-basis: calc(100% - 112px - 96px);
-                align-self: stretch;
                 display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: center;
+                //align-self: stretch;
+                //flex-direction: column;
+                //justify-content: flex-start;
 
 
-                #full-name{
-                    label{
-                        color: white;
-                    }
-
-                    flex-basis: 60%;
+                #full-name {
+                    flex-basis: 100%;
                     font-size: 32px;
-                    padding: 4px 16px;;
+                    padding: 0px 16px;
                     border-bottom: 2px solid rgba(0, 0, 0, 0);
-                    transition: all 0.2s ease-in-out;
+
+                    height: 45%;
+                    overflow: hidden;
 
                     display: flex;
+                    margin-top: -10px;
+                    // padding-top: 16px;
+                    align-items: flex-start;
                     justify-content: flex-start;
 
+                    label{
+                        transition: all 0.2s ease-in-out;
+                        // color: #fff;
+                    }
                     >div{
                         padding: 0 10px;
 
-                        label{
+                        label {
+                            visibility: hidden;
                             opacity: 0;
+                            // display: none;
                         }
-                        .name{
+                        .name {
                             position: relative;
+                            line-height: 1;
 
                             &[contenteditable="true"]{
                                 border-bottom: 2px solid rgba(0, 0, 0, 0.1);
@@ -91,7 +107,9 @@ body{
                             flex-basis: 50%;
 
                             label{
+                                // display: block;
                                 opacity: 1;
+                                visibility: visible;
                             }
                             .name{
                                 text-transform: none;
@@ -100,10 +118,108 @@ body{
                     }
                 }
                 .extra{
-                    flex-basis: 40%;
-                    padding: 0 26px;
+                    height: 55%;
+                    padding: 0 16px;
+                    flex-basis: 100%;
                     font-size: $text-size-lg;
-                    color: $label-color-light;
+                    color: #fff;
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: flex-start;
+
+                    >div {
+                        padding: 0 10px;
+                    }
+
+                    .username {
+                        flex-basis: 100%;
+                        padding: 4px 10px;
+                    }
+
+                    label {
+                        display: none;
+                        // color: #fff;
+                    }
+
+                    #user-organization {
+                        padding: 4px 0;
+
+                        &[contenteditable="true"]{
+                            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+                            outline: none;
+
+                            &:focus{
+                                border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+                            }
+                        }
+                    }
+
+                    #user-organization-wrapper, #user-country-select-wrapper {
+                        flex-basis: 100%;
+                    }
+
+                    .selectize-control {
+                        margin-left: -5px;
+                        background-color: transparent;
+
+                        .selectize-input {
+                            font-size: 1.2em;
+                            background-color: transparent;
+                            border: none;
+                            text-transform: uppercase;
+
+                            input {
+                                background-color: transparent;
+                            }
+
+                            &:after {
+                                display: none;
+                            }
+                        }
+
+                        .selectize-dropdown {
+                            .option {
+                                color: $text-color;
+
+                                &:hover {
+                                    color: #fff;
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+            &.edit-mode {
+                .user-info {
+                    .extra {
+                        .username {
+                            display: none;
+                        }
+                        label {
+                            display: block;
+                        }
+                        #user-organization-wrapper, #user-country-select-wrapper {
+                            flex-basis: 50%;
+
+                            >div {
+                                border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+                            }
+                        }
+
+                        .selectize-control {
+                            .selectize-input {
+                                &:after {
+                                    display: block;
+                                    border-color: #fff transparent transparent transparent;
+                                }
+
+                                &.focus {
+                                    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+                                }
+                            }
+                        }
+                    }
                 }
             }
             .action-buttons{
