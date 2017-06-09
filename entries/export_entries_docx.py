@@ -207,8 +207,7 @@ def export_pillar(d, pillar, leads_pk, event, informations, data, export_geo):
 
     # Get each subpillar
     subpillars = pillar.informationsubpillar_set.all()
-    order = data.get('pillar-order-' + str(pillar.id))[0].split(',')
-    subpillars_order = [id[10:] for id in order if id.startswith('subpillar-')]
+    subpillars_order = data.get('pillar-order-' + str(pillar.id))[0].split(',')
     subpillar_dict = dict([(str(p.id), p) for p in subpillars])
     subpillars = [
         subpillar_dict[id] for id in subpillars_order
@@ -290,10 +289,7 @@ def export_sector(d, sector, leads_pk, event, informations, data, export_geo):
 
             # Get each subpillar
             subpillars = pillar.informationsubpillar_set.all()
-            order = data.get('pillar-order-' + str(pillar.id))[0].split(',')
-            subpillars_order = [
-                id[10:] for id in order if id.startswith('subpillar-')
-            ]
+            subpillars_order = data.get('pillar-order-' + str(pillar.id))[0].split(',')
             subpillar_dict = dict([(str(p.id), p) for p in subpillars])
             subpillars = [
                 subpillar_dict[id] for id in subpillars_order
