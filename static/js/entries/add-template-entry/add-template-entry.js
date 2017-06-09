@@ -1,8 +1,8 @@
 
 function checkEntryEmpty(index) {
     return (
-        (entries[index].excerpt.trim().length == 0) &&
-        (entries[index].image.trim().length == 0)
+        (entries[index].excerpt.trim().length === 0) &&
+        (entries[index].image.trim().length === 0)
     );
 }
 

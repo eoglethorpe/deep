@@ -85,13 +85,21 @@ let page1 = {
             excerptBox.find('label').text(element.label);
         }
 
-        excerptBox.find('textarea').on('change input drop paste keyup', function() {
+        let textArea = excerptBox.find('textarea');
+        textArea.on('change input drop paste keyup', function() {
             if (that.selectedEntryIndex < 0) {
                 addEntry('', '');
             }
 
             entries[that.selectedEntryIndex].excerpt = $(this).val();
             that.refresh();
+        });
+
+        excerptBox.append('<a class="fa fa-circle"></a>');
+        excerptBox.find('a').click(function() {
+            let text = textArea.val();
+            textArea.val(reformatText(text));
+            textArea.trigger('change');
         });
 
         return excerptBox;
