@@ -597,6 +597,7 @@ def export_analysis_docx(event, informations=None, data=None):
                         if not pillar_heading:
                             pillar_heading = True
                             d.add_heading(pillar['name'], level=2)
+                            d.add_paragraph()
 
                         if not subpillar_heading:
                             subpillar_heading = True
@@ -677,10 +678,12 @@ def export_analysis_docx(event, informations=None, data=None):
                                 if not sector_heading:
                                     sector_heading = True
                                     d.add_heading(sector['title'], level=2)
+                                    d.add_paragraph()
 
                                 if not pillar_heading:
                                     pillar_heading = True
                                     d.add_heading(pillar['title'], level=3)
+                                    d.add_paragraph()
 
                                 if not subpillar_heading:
                                     subpillar_heading = True
