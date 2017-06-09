@@ -1,5 +1,5 @@
-#page-one{
-    .image-viewer-main{
+#page-one {
+    .image-viewer-main {
         position: absolute;
         width: 100vw;
         height: 100vh;
@@ -369,15 +369,23 @@
                 text-align: left;
 
                 label {
-                    font-weight: bold;
                     font-size: 12px;
+                    font-weight: bold;
                     margin-bottom: 4px;
                 }
 
                 textarea{
-                    width: 100%;
                     height: calc(100% - 20px);
                     padding: 16px;
+                    width: 100%;
+                }
+
+                a {
+                    bottom: 16px;
+                    color: #27ae60;
+                    cursor: pointer;
+                    position: absolute;
+                    right: 24px;
                 }
                 // &:before{
                 //     font-weight: bold;
