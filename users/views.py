@@ -272,6 +272,7 @@ class UserProfileView(View):
         context = {
             'user': user,
             'projects': list(set(projects)),
+            'countries': Country.objects.all(),
         }
         return render(request, "users/profile.html", context)
 

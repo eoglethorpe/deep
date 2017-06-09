@@ -148,18 +148,21 @@ body {
   body h1, body h2, body h3, body h4 {
     margin: 0;
     text-transform: uppercase; }
+  body h2 {
+    color: #008080;
+    font-weight: bold; }
   body main {
     flex-basis: 76%;
     height: calc(100vh - 56px); }
     body main > header {
       flex-basis: 100%;
-      height: 144px;
+      height: 180px;
       background-color: #008080;
       color: #fff;
       padding: 0 16px;
       display: flex;
       justify-content: space-between;
-      align-items: center; }
+      align-items: stretch; }
       body main > header #avatar-input {
         position: absolute;
         height: 0;
@@ -168,8 +171,9 @@ body {
         left: -100px;
         top: -100px; }
       body main > header img {
-        width: 80px;
-        height: 80px;
+        align-self: center;
+        width: 100px;
+        height: 100px;
         object-fit: cover;
         object-position: center;
         background-color: #fff;
@@ -177,26 +181,31 @@ body {
         border: 2px solid rgba(0, 0, 0, 0.3); }
       body main > header .user-info {
         flex-basis: calc(100% - 112px - 96px);
-        align-self: stretch;
         display: flex;
-        flex-direction: column;
-        justify-content: flex-start; }
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center; }
         body main > header .user-info #full-name {
-          flex-basis: 60%;
+          flex-basis: 100%;
           font-size: 32px;
-          padding: 4px 16px;
+          padding: 0px 16px;
           border-bottom: 2px solid transparent;
-          transition: all 0.2s ease-in-out;
+          height: 45%;
+          overflow: hidden;
           display: flex;
+          margin-top: -10px;
+          align-items: flex-start;
           justify-content: flex-start; }
           body main > header .user-info #full-name label {
-            color: white; }
+            transition: all 0.2s ease-in-out; }
           body main > header .user-info #full-name > div {
             padding: 0 10px; }
             body main > header .user-info #full-name > div label {
+              visibility: hidden;
               opacity: 0; }
             body main > header .user-info #full-name > div .name {
-              position: relative; }
+              position: relative;
+              line-height: 1; }
               body main > header .user-info #full-name > div .name[contenteditable="true"] {
                 border-bottom: 2px solid rgba(0, 0, 0, 0.1);
                 outline: none; }
@@ -207,14 +216,64 @@ body {
             body main > header .user-info #full-name.edit > div {
               flex-basis: 50%; }
               body main > header .user-info #full-name.edit > div label {
-                opacity: 1; }
+                opacity: 1;
+                visibility: visible; }
               body main > header .user-info #full-name.edit > div .name {
                 text-transform: none; }
         body main > header .user-info .extra {
-          flex-basis: 40%;
-          padding: 0 26px;
+          height: 55%;
+          padding: 0 16px;
+          flex-basis: 100%;
           font-size: 15px;
-          color: rgba(255, 255, 255, 0.5); }
+          color: #fff;
+          display: flex;
+          flex-wrap: wrap;
+          align-items: flex-start; }
+          body main > header .user-info .extra > div {
+            padding: 0 10px; }
+          body main > header .user-info .extra .username {
+            flex-basis: 100%;
+            padding: 4px 10px; }
+          body main > header .user-info .extra label {
+            display: none; }
+          body main > header .user-info .extra #user-organization {
+            padding: 4px 0; }
+            body main > header .user-info .extra #user-organization[contenteditable="true"] {
+              border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+              outline: none; }
+              body main > header .user-info .extra #user-organization[contenteditable="true"]:focus {
+                border-bottom: 2px solid rgba(0, 0, 0, 0.3); }
+          body main > header .user-info .extra #user-organization-wrapper, body main > header .user-info .extra #user-country-select-wrapper {
+            flex-basis: 100%; }
+          body main > header .user-info .extra .selectize-control {
+            margin-left: -5px;
+            background-color: transparent; }
+            body main > header .user-info .extra .selectize-control .selectize-input {
+              font-size: 1.2em;
+              background-color: transparent;
+              border: none;
+              text-transform: uppercase; }
+              body main > header .user-info .extra .selectize-control .selectize-input input {
+                background-color: transparent; }
+              body main > header .user-info .extra .selectize-control .selectize-input:after {
+                display: none; }
+            body main > header .user-info .extra .selectize-control .selectize-dropdown .option {
+              color: #414141; }
+              body main > header .user-info .extra .selectize-control .selectize-dropdown .option:hover {
+                color: #fff; }
+      body main > header.edit-mode .user-info .extra .username {
+        display: none; }
+      body main > header.edit-mode .user-info .extra label {
+        display: block; }
+      body main > header.edit-mode .user-info .extra #user-organization-wrapper, body main > header.edit-mode .user-info .extra #user-country-select-wrapper {
+        flex-basis: 50%; }
+        body main > header.edit-mode .user-info .extra #user-organization-wrapper > div, body main > header.edit-mode .user-info .extra #user-country-select-wrapper > div {
+          border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
+      body main > header.edit-mode .user-info .extra .selectize-control .selectize-input:after {
+        display: block;
+        border-color: #fff transparent transparent transparent; }
+      body main > header.edit-mode .user-info .extra .selectize-control .selectize-input.focus {
+        border-bottom: 2px solid rgba(0, 0, 0, 0.3); }
       body main > header .action-buttons {
         flex-basis: 96px;
         font-size: 1.5em;
@@ -321,7 +380,7 @@ body {
           body main #project-list #projects .project:nth-child(even) {
             background-color: #fff; }
     body main #user-group-list {
-      height: calc(50vh - 144px - 56px); }
+      height: calc(50vh - 180px - 56px); }
       body main #user-group-list #user-group-list-header {
         height: 48px;
         display: flex;

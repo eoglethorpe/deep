@@ -1,3 +1,5 @@
+let countrySelect = null;
+
 let ajax = {
     init: function() {
         setupCsrfForAjax();
@@ -106,6 +108,11 @@ let editMode = {
 
         let parent = editButton.closest('header');
         if (editButton.hasClass('edit')) {
+            parent.removeClass('edit-mode');
+            countrySelect.disable();
+
+            parent.find('#user-organization').prop('contenteditable', false);
+
             editButton.removeClass('edit');
             editButton.find('.fa').removeClass('fa-times').addClass('fa-edit');
             editButton.prop('title', 'Click to Edit');
@@ -123,6 +130,11 @@ let editMode = {
 
             $('#save-user-info-btn').hide();
         } else {
+            parent.addClass('edit-mode');
+            countrySelect.enable();
+
+            parent.find('#user-organization').prop('contenteditable', true);
+
             editButton.addClass('edit');
             editButton.find('.fa').removeClass('fa-edit').addClass('fa-times ');
             editButton.prop('title', 'Click to Cancel');
@@ -141,6 +153,9 @@ let editMode = {
 };
 
 $(document).ready(function(){
+    countrySelect = $('#user-country-select').selectize()[0].selectize;
+    countrySelect.disable();
+
     let newUserGroupModal = new Modal('#new-user-group-modal');
     let newProjectModal = new Modal('#new-project-modal');
 

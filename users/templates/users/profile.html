@@ -7,9 +7,11 @@ DEEP | User Profile
 {% endblock %}
 
 {% block head %}
+<link rel="stylesheet" href="{% watchful_static_url 'css/selectize.css' %}" >
 <link rel="stylesheet" href="{% watchful_static_url 'css/user-profile.css' %}" >
 <link rel="stylesheet" href="{% watchful_static_url 'css/modal.css' %}" >
 
+<script src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 <script src="{% watchful_static_url 'js/users/profile.js' %}"></script>
@@ -40,8 +42,8 @@ var activities = [
     <header>
         <input type="file" name="avatar" id="avatar-input" accept="image/*">
         <img id="user-avatar" src="{% if user.userprofile.photo %}{{ user.userprofile.photo.url }}{% else %}{% watchful_static_url 'img/default-avatar.png' %}{% endif %}">
-        <div class="user-info">
-            <h2 id="full-name">
+        <div class="user-info ">
+            <div id="full-name">
                 <div>
                     <label>First name:</label>
                     <div id="first-name" class="name" spellcheck="false">{{ user.first_name }}</div>
@@ -50,8 +52,22 @@ var activities = [
                     <label>Last name:</label>
                     <div id="last-name" class="name" spellcheck="false">{{ user.last_name }}</div>
                 </div>
-            </h2>
-            <div class="extra">{{ user.username }}</div>
+            </div>
+            <div class="extra">
+                <div class="username">{{ user.username }}</div>
+                <div class="input-group" id="user-organization-wrapper">
+                    <label>Organization</label>
+                    <div id="user-organization">{{ user.userprofile.organization }}</div>
+                </div>
+                <div class="input-group" id="user-country-select-wrapper">
+                    <label>Country</label>
+                    <select id="user-country-select">
+                        {% for c in countries %}
+                        <option value="{{ c.pk }}">{{ c.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
         </div>
         <div class="action-buttons">
             {% if user == request.user %}
@@ -63,7 +79,7 @@ var activities = [
     </header>
     <section id="project-list">
         <div id="project-list-header">
-            <h2>Projects</h2>
+            <h2>Your Projects</h2>
             <div>
                 <i class="fa fa-search"></i><input id="search-projects" type="search" placeholder="Search projects">
                 {% if user == request.user %}<button id="new-project-btn"><i class="fa fa-plus"></i>Add new project</button>{% endif %}
@@ -94,7 +110,7 @@ var activities = [
     </section>
     <section id="user-group-list">
         <div id="user-group-list-header">
-            <h2>User groups</h2>
+            <h2>Your User groups</h2>
             {% if user == request.user %}<button id="new-user-group-btn"><i class="fa fa-plus"></i>Add new User group</button>{% endif %}
         </div>
         <div id="user-groups">
