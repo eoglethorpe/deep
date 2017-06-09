@@ -11,7 +11,8 @@ from django.contrib.auth.models import User
 from leads.models import \
     Event, \
     Country
-from entries.models import EntryTemplate, AdminLevel
+from entries.models import EntryTemplate, AdminLevel, \
+    EntryInformation
 from usergroup.models import UserGroup
 from report.models import DisasterType
 from users.log import \
@@ -354,6 +355,9 @@ class AnalysisFrameworkView(View):
 
             project.entry_template = new_template
             project.save()
+
+        context['num_entries'] = EntryInformation.objects.filter(
+            entry__template=project.entry_template).distinct().count()
 
         context["project"] = project
         context["projects"] = Event.objects.filter(admins__pk=request.user.pk)\

@@ -211,6 +211,70 @@ body {
         body aside #related-project-list .project.active {
           background-color: #008080;
           color: #fff; }
+  body .snapshots-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 500px;
+    width: 80%;
+    padding: 0 42px;
+    margin: auto; }
+    body .snapshots-container:hover button {
+      opacity: 0.5; }
+    body .snapshots-container:hover #edit-framework {
+      opacity: 0.5; }
+    body .snapshots-container button {
+      position: absolute;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      top: calc(50% - 24px);
+      background-color: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      opacity: 0;
+      transition: 0.2s all ease-in-out; }
+      body .snapshots-container button:hover {
+        opacity: 1; }
+    body .snapshots-container #snapshot-prev, body .snapshots-container #modal-snapshot-prev {
+      left: 56px;
+      z-index: 3; }
+    body .snapshots-container #snapshot-next, body .snapshots-container #modal-snapshot-next {
+      z-index: 3;
+      right: 56px; }
+    body .snapshots-container #edit-framework {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      height: 36px;
+      z-index: 3;
+      width: auto;
+      padding: 0 10px;
+      background-color: rgba(0, 0, 0, 0.6);
+      transition: 0.2s all ease-in-out;
+      bottom: 12px;
+      color: #fff;
+      opacity: 0;
+      border-radius: 8px;
+      right: 56px;
+      top: auto;
+      transition: none; }
+      body .snapshots-container #edit-framework .fa {
+        margin-right: 8px; }
+      body .snapshots-container #edit-framework span {
+        display: inline-block; }
+      body .snapshots-container #edit-framework:hover {
+        opacity: 1; }
+    body .snapshots-container .snapshots {
+      height: 100%;
+      position: relative; }
+      body .snapshots-container .snapshots img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+        object-position: center center;
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.2); }
   body main {
     margin-left: 32px;
     flex-basis: 60%;
@@ -291,70 +355,6 @@ body {
               background-color: #3498db; }
             body main form .input-group-list .info .buttons button {
               background-color: #e74c3c; }
-    body main .snapshots-container {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 500px;
-      width: 80%;
-      padding: 0 42px;
-      margin: auto; }
-      body main .snapshots-container:hover button {
-        opacity: 0.5; }
-      body main .snapshots-container:hover #edit-framework {
-        opacity: 0.5; }
-      body main .snapshots-container button {
-        position: absolute;
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        top: calc(50% - 24px);
-        background-color: rgba(0, 0, 0, 0.6);
-        color: #fff;
-        opacity: 0;
-        transition: 0.2s all ease-in-out; }
-        body main .snapshots-container button:hover {
-          opacity: 1; }
-      body main .snapshots-container #snapshot-prev {
-        left: 56px;
-        z-index: 3; }
-      body main .snapshots-container #snapshot-next {
-        z-index: 3;
-        right: 56px; }
-      body main .snapshots-container #edit-framework {
-        position: absolute;
-        display: flex;
-        align-items: center;
-        height: 36px;
-        z-index: 3;
-        width: auto;
-        padding: 0 10px;
-        background-color: rgba(0, 0, 0, 0.6);
-        transition: 0.2s all ease-in-out;
-        bottom: 12px;
-        color: #fff;
-        opacity: 0;
-        border-radius: 8px;
-        right: 56px;
-        top: auto;
-        transition: none; }
-        body main .snapshots-container #edit-framework .fa {
-          margin-right: 8px; }
-        body main .snapshots-container #edit-framework span {
-          display: inline-block; }
-        body main .snapshots-container #edit-framework:hover {
-          opacity: 1; }
-      body main .snapshots-container #snapshots {
-        height: 100%;
-        position: relative; }
-        body main .snapshots-container #snapshots img {
-          height: 100%;
-          width: 100%;
-          object-fit: contain;
-          object-position: center center;
-          background-color: #fff;
-          border: 1px solid rgba(0, 0, 0, 0.2); }
     body main #edit-framework-no-snapshot {
       display: flex;
       align-items: center;
@@ -374,5 +374,10 @@ body {
         margin-right: 8px; }
       body main #edit-framework-no-snapshot span {
         display: inline-block; }
+  body .modal-container #clone-viewer {
+    width: 60vw;
+    height: 60vh; }
+    body .modal-container #clone-viewer .snapshots-container {
+      width: 100%; }
 
 /*# sourceMappingURL=analysis-framework.css.map */
