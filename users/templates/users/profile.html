@@ -63,7 +63,7 @@ var activities = [
     </header>
     <section id="project-list">
         <div id="project-list-header">
-            <h2>Projects</h2>
+            <h2>Your Projects</h2>
             <div>
                 <i class="fa fa-search"></i><input id="search-projects" type="search" placeholder="Search projects">
                 {% if user == request.user %}<button id="new-project-btn"><i class="fa fa-plus"></i>Add new project</button>{% endif %}
@@ -94,7 +94,7 @@ var activities = [
     </section>
     <section id="user-group-list">
         <div id="user-group-list-header">
-            <h2>User groups</h2>
+            <h2>Your User groups</h2>
             {% if user == request.user %}<button id="new-user-group-btn"><i class="fa fa-plus"></i>Add new User group</button>{% endif %}
         </div>
         <div id="user-groups">
