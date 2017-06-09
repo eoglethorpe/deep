@@ -56,9 +56,9 @@ class Matrix1D extends Element {
 
         this.list = new Matrix1DList(container2, data?data.list:null);
 
-        this.addPillar();
+        this.addPillar().data('new', true);
         dom.find('.add-pillar').click(function() {
-            that.addPillar();
+            that.addPillar().data('new', true);
         });
 
         this.dom.find('.pillars').sortable({ axis: 'y' });
@@ -92,12 +92,14 @@ class Matrix1D extends Element {
         pillar.prepend($('<div class="options"><button class="fa fa-edit edit-pillar"></button><button class="fa fa-times remove-pillar"></button></div>'));
         this.dom.find('.pillars').append(pillar);
 
-        this.addSubpillar(pillar);
+        this.addSubpillar(pillar).data('new', true);
         pillar.find('.add-subpillar').click(function() {
-            that.addSubpillar(pillar);
+            that.addSubpillar(pillar).data('new', true);
         });
         pillar.find('.remove-pillar').click(function() {
-            pillar.remove();
+            if (pillar.data('new') || confirmRemoval()) {
+                pillar.remove();
+            }
         });
         pillar.find('.edit-pillar').click(function(e) {
             e.stopPropagation();
@@ -119,7 +121,9 @@ class Matrix1D extends Element {
         pillar.find('.subpillars').append(subpillar);
 
         subpillar.find('.remove-subpillar').click(function() {
-            subpillar.remove();
+            if (subpillar.data('new') || confirmRemoval()) {
+                subpillar.remove();
+            }
         });
 
         this.makeEditable(subpillar.find('.title-block'), 'New sub-dimension');
@@ -143,7 +147,7 @@ class Matrix1D extends Element {
             $(this).attr('contenteditable', 'false');
             $(this).closest('.element').draggable({ disabled: false });
             $(this).parents('.sortable').sortable({ disabled: false });
-            if ($(this).text().trim().length == 0) {
+            if ($(this).text().trim().length === 0) {
                 $(this).text(defaultLabel);
             }
         });
@@ -192,7 +196,7 @@ class Matrix1D extends Element {
             pillarElement.find('.subpillars').empty();
             pillarElement.find('.title-block').text(pillar.name);
 
-            if (pillar.id) { pillarElement.data('id', pillar.id) };
+            if (pillar.id) { pillarElement.data('id', pillar.id); }
             if (pillar.color) { pillarElement.find('.floating-toolbar input[type="color"]').val(pillar.color); }
             if (pillar.tooltip) { pillarElement.find('.floating-toolbar input[type="text"]').val(pillar.tooltip); }
 
@@ -200,7 +204,7 @@ class Matrix1D extends Element {
                 let subpillar = pillar.subpillars[j];
                 let subpillarElement = that.addSubpillar(pillarElement);
                 subpillarElement.find('.title-block').text(subpillar.name);
-                if (subpillar.id) { subpillarElement.data('id', subpillar.id) };
+                if (subpillar.id) { subpillarElement.data('id', subpillar.id); }
             }
         }
 
@@ -229,7 +233,7 @@ class Matrix1D extends Element {
         let i = this.dom.find('.pillar').length;
         while (true) {
             let id = 'pillar-' + i;
-            if (this.dom.find('.pillar[data-id="' + id + '"]').length == 0) {
+            if (this.dom.find('.pillar[data-id="' + id + '"]').length === 0) {
                 return id;
             }
             i++;
@@ -240,7 +244,7 @@ class Matrix1D extends Element {
         let i = this.dom.find('.subpillar').length;
         while (true) {
             let id = 'subpillar-' + i;
-            if (this.dom.find('.subpillar[data-id="' + id + '"]').length == 0) {
+            if (this.dom.find('.subpillar[data-id="' + id + '"]').length === 0) {
                 return id;
             }
             i++;
@@ -332,11 +336,11 @@ class Matrix2D extends Element {
 
         let that = this;
 
-        this.addPillar();
-        this.addSector();
+        this.addPillar().data('new', true);
+        this.addSector().data('new', true);
 
-        dom.find('.add-pillar').click(function() { that.addPillar(); });
-        dom.find('.add-sector').click(function() { that.addSector(); });
+        dom.find('.add-pillar').click(function() { that.addPillar().data('new', true); });
+        dom.find('.add-sector').click(function() { that.addSector().data('new', true); });
 
         dom.find('.pillars').sortable({ axis: 'y' });
         dom.find('.sectors').sortable({ axis: 'x' });
@@ -352,7 +356,7 @@ class Matrix2D extends Element {
         let that = this;
         let pillars = this.dom.find('.pillars');
         let pillar = $('<div class="pillar"><div class="title-block">New dimension</div></div>');
-        pillar.append($('<div class="options"><button class="fa fa-edit edit-pillar"></button><button class="fa fa-times remove-pillar"></button></div>'))
+        pillar.append($('<div class="options"><button class="fa fa-edit edit-pillar"></button><button class="fa fa-times remove-pillar"></button></div>'));
         pillar.data('id', this.getUniquePillarId());
 
         let floatingToolbar = $('<div class="floating-toolbar"></div>');
@@ -361,7 +365,7 @@ class Matrix2D extends Element {
         floatingToolbar.append('<input type="text" placeholder="Tooltip">');
         floatingToolbar.find('.close').click(function() {
             floatingToolbar.hide();
-        })
+        });
         floatingToolbar.hide();
         pillar.append(floatingToolbar);
 
@@ -373,7 +377,11 @@ class Matrix2D extends Element {
 
         this.addSubpillar(pillar);
         pillar.find('.add-subpillar').click(function() { that.addSubpillar(pillar); });
-        pillar.find('.remove-pillar').click(function() { pillar.remove(); });
+        pillar.find('.remove-pillar').click(function() {
+            if (pillar.data('new') || confirmRemoval()) {
+                pillar.remove();
+            }
+        });
         pillar.find('.edit-pillar').click(function(e) {
             e.stopPropagation();
             floatingToolbar.show();
@@ -386,7 +394,7 @@ class Matrix2D extends Element {
     addSubpillar(pillar) {
         let that = this;
         let subpillar = $('<div class="subpillar"><div class="title-block">New sub-dimension</div></div>');
-        subpillar.append($('<div class="options"><button class="fa fa-edit edit-subpillar"></button><button class="fa fa-times remove-subpillar"></button></div>'))
+        subpillar.append($('<div class="options"><button class="fa fa-edit edit-subpillar"></button><button class="fa fa-times remove-subpillar"></button></div>'));
         subpillar.data('id', this.getUniqueSubpillarId());
 
         let floatingToolbar = $('<div class="floating-toolbar" hidden></div>');
@@ -401,7 +409,11 @@ class Matrix2D extends Element {
         pillar.find('.subpillars').append(subpillar);
 
         this.makeEditable(subpillar.find('.title-block'), 'New sub-dimension');
-        subpillar.find('.remove-subpillar').click(function() { subpillar.remove(); });
+        subpillar.find('.remove-subpillar').click(function() {
+            if (subpillar.data('new') || confirmRemoval()) {
+                subpillar.remove();
+            }
+        });
         subpillar.find('.edit-subpillar').click(function(e) {
             e.stopPropagation();
             floatingToolbar.show();
@@ -424,20 +436,24 @@ class Matrix2D extends Element {
         floatingToolbar.append('<label>Subsectors</label>');
         floatingToolbar.append('<button class="fa fa-plus add-subsector"></button><div class="subsectors"></div>');
         floatingToolbar.find('.add-subsector').click(function() {
-            that.addSubsector(sector);
+            that.addSubsector(sector).data('new', true);
         });
 
 
         floatingToolbar.find('.close').click(function() {
             floatingToolbar.hide();
-        })
+        });
         floatingToolbar.hide();
         sector.append(floatingToolbar);
 
         sectors.append(sector);
 
         this.makeEditable(sector.find('.title-block'), 'New sector');
-        sector.find('.remove-sector').click(function() { sector.remove(); });
+        sector.find('.remove-sector').click(function() {
+            if (sector.data('new') || confirmRemoval()) {
+                sector.remove();
+            }
+        });
         sector.find('.edit-sector').click(function(e) {
             e.stopPropagation();
             floatingToolbar.show();
@@ -448,11 +464,13 @@ class Matrix2D extends Element {
     }
 
     addSubsector(sector) {
-        let subsector = $('<div class="subsector"><input placeholder="Enter subsector"><button class="fa fa-times remove-subsector"></button></div>')
+        let subsector = $('<div class="subsector"><input placeholder="Enter subsector"><button class="fa fa-times remove-subsector"></button></div>');
         subsector.data('id', this.getUniqueSubsectorId());
         subsector.find('.remove-subsector').click(function(e) {
             e.stopPropagation();
-            subsector.remove();
+            if (subsector.data('new') || confirmRemoval()) {
+                subsector.remove();
+            }
         });
         subsector.appendTo(sector.find('.floating-toolbar').find('.subsectors'));
         return subsector;
@@ -475,7 +493,7 @@ class Matrix2D extends Element {
             $(this).attr('contenteditable', 'false');
             $(this).closest('.element').draggable({ disabled: false });
             $(this).parents('.sortable').sortable({ disabled: false });
-            if ($(this).text().trim().length == 0) {
+            if ($(this).text().trim().length === 0) {
                 $(this).text(defaultLabel);
             }
         });
@@ -554,17 +572,17 @@ class Matrix2D extends Element {
                 pillarDom.find('.subpillars .subpillar').remove();
                 pillarDom.find('.title-block').text(pillar.title);
 
-                if (pillar.id) { pillarDom.data('id', pillar.id) };
-                if (pillar.color) { pillarDom.find('.floating-toolbar input[type="color"]').val(pillar.color); };
-                if (pillar.tooltip) { pillarDom.find('.floating-toolbar input[type="text"]').val(pillar.tooltip); };
+                if (pillar.id) { pillarDom.data('id', pillar.id); }
+                if (pillar.color) { pillarDom.find('.floating-toolbar input[type="color"]').val(pillar.color); }
+                if (pillar.tooltip) { pillarDom.find('.floating-toolbar input[type="text"]').val(pillar.tooltip); }
 
                 for (let j=0; j<pillar.subpillars.length; j++) {
                     let subpillar = pillar.subpillars[j];
                     let subpillarDom = this.addSubpillar(pillarDom);
                     subpillarDom.find('.title-block').text(subpillar.title);
 
-                    if (subpillar.id) { subpillarDom.data('id', subpillar.id) };
-                    if (subpillar.tooltip) { subpillarDom.find('.floating-toolbar input[type="text"]').val(subpillar.tooltip); };
+                    if (subpillar.id) { subpillarDom.data('id', subpillar.id); }
+                    if (subpillar.tooltip) { subpillarDom.find('.floating-toolbar input[type="text"]').val(subpillar.tooltip); }
                 }
             }
         }
@@ -575,7 +593,7 @@ class Matrix2D extends Element {
                 let sector = data.sectors[i];
                 let sectorDom = this.addSector();
                 sectorDom.find('.title-block').text(sector.title);
-                if (sector.id) { sectorDom.data('id', sector.id) };
+                if (sector.id) { sectorDom.data('id', sector.id); }
 
                 if (sector.subsectors) {
                     for (let j=0; j<sector.subsectors.length; j++) {
@@ -600,7 +618,7 @@ class Matrix2D extends Element {
         let i = this.dom.find('.pillar').length;
         while (true) {
             let id = 'pillar-' + i;
-            if (this.dom.find('.pillar[data-id="' + id + '"]').length == 0) {
+            if (this.dom.find('.pillar[data-id="' + id + '"]').length === 0) {
                 return id;
             }
             i++;
@@ -611,7 +629,7 @@ class Matrix2D extends Element {
         let i = this.dom.find('.subpillar').length;
         while (true) {
             let id = 'subpillar-' + i;
-            if (this.dom.find('.subpillar[data-id="' + id + '"]').length == 0) {
+            if (this.dom.find('.subpillar[data-id="' + id + '"]').length === 0) {
                 return id;
             }
             i++;
@@ -622,7 +640,7 @@ class Matrix2D extends Element {
         let i = this.dom.find('.sector').length;
         while (true) {
             let id = 'sector-' + i;
-            if (this.dom.find('.sector[data-id="' + id + '"]').length == 0) {
+            if (this.dom.find('.sector[data-id="' + id + '"]').length === 0) {
                 return id;
             }
             i++;
@@ -633,7 +651,7 @@ class Matrix2D extends Element {
         let i = this.dom.find('.subsector').length;
         while (true) {
             let id = 'subsector-' + i;
-            if (this.dom.find('.subsector[data-id="' + id + '"]').length == 0) {
+            if (this.dom.find('.subsector[data-id="' + id + '"]').length === 0) {
                 return id;
             }
             i++;
