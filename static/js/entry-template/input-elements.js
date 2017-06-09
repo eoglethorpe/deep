@@ -106,6 +106,7 @@ class MultiselectInput extends Element {
                 text: 'General ones',
             },
         ];
+        this.new = true;
 
         if (data) {
             this.load(data);
@@ -121,7 +122,7 @@ class MultiselectInput extends Element {
             left: this.dom.position().left,
             label: this.dom.find('label').eq(0).text(),
             options: this.options,
-        }
+        };
     }
 
     load(data) {
@@ -138,6 +139,7 @@ class MultiselectInput extends Element {
             this.dom.find('label').eq(0).text(data.label);
         }
         if (data.options) {
+            this.new = false;
             this.options = data.options;
         }
     }
@@ -164,8 +166,11 @@ class MultiselectInput extends Element {
             let option = $('<div class="option-container"><input type="text" placeholder="Enter an option"><button class="remove-option"><i class="fa fa-times"></i></button></div>');
             option.find('input').data('id', that.getUniqueId());
 
-            option.find('.remove-option').click(function() {
-                option.remove();
+            option.find('.remove-option').click(function(e) {
+                e.stopPropagation();
+                if (option.data('new') || confirmRemoval()) {
+                    option.remove();
+                }
                 that.refreshOptions();
             });
 
@@ -179,11 +184,14 @@ class MultiselectInput extends Element {
             return option;
         };
         optionsProperty.find('.add-option').click(function() {
-            addOption();
+            addOption().data('new', true);
         });
 
         for (let i=0; i<this.options.length; i++) {
             let option = addOption();
+            if (this.new) {
+                option.data('new', true);
+            }
             option.find('input').val(this.options[i].text);
             option.find('input').data('id', this.options[i].id);
         }

@@ -286,7 +286,10 @@ class EntryTemplateView(View):
     @method_decorator(login_required)
     def get(self, request, template_id):
         context = {}
-        context['entry_template'] = EntryTemplate.objects.get(pk=template_id)
+        template = EntryTemplate.objects.get(pk=template_id)
+        context['entry_template'] = template
+        context['num_entries'] = EntryInformation.objects.filter(
+            entry__template=template).distinct().count()
         return render(request, "custom_admin/entry-template.html", context)
 
     @method_decorator(login_required)

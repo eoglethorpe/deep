@@ -16,6 +16,10 @@ DEEP | Analysis Framework
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/project/analysis-framework.js' %}"></script>
 
+<script>
+const num_entries = '{{ num_entries }}';
+</script>
+
 {% endblock %}
 
 {% block body %}
@@ -37,7 +41,7 @@ DEEP | Analysis Framework
                 <div class="project-name">{{ p.name }}</div>
                 <div class="template-name">{{ p.entry_template.name }}</div>
             </div>
-            {% if p != project %}
+            {% if p != project and p.entry_template %}
             <a>View</a>
             {% endif %}
         </div>

@@ -17,6 +17,7 @@ class ScaleElement extends Element {
             { name: 'Severe conditions', color: '#b71c1c' },
             { name: 'Critical situation', color: '#b71c1c' },
         ];
+        this.new = true;
 
         if (data) {
             this.load(data);
@@ -32,7 +33,7 @@ class ScaleElement extends Element {
             size:  { width: this.dom.find('.scale-container').css('width'), height: this.dom.find('.scale-container').css('height') },
             label: this.dom.find('label').eq(0).text(),
             scaleValues: this.scaleValues,
-        }
+        };
     }
 
     load(data) {
@@ -50,6 +51,7 @@ class ScaleElement extends Element {
             this.dom.find('label').eq(0).text(data.label);
         }
         if (data.scaleValues) {
+            this.new = false;
             this.scaleValues = data.scaleValues;
         }
     }
@@ -78,7 +80,9 @@ class ScaleElement extends Element {
 
             value.find('.remove-value').click(function(e) {
                 e.stopPropagation();
-                value.remove();
+                if (value.data('new') || confirmRemoval()) {
+                    value.remove();
+                }
                 that.refreshScale();
             });
 
@@ -96,7 +100,7 @@ class ScaleElement extends Element {
             return value;
         };
         scaleProperty.find('.add-value').click(function() {
-            addValue();
+            addValue().data('new', true);
             this.refreshScale();
         });
 
@@ -105,6 +109,10 @@ class ScaleElement extends Element {
 
         for (let i=0; i<this.scaleValues.length; i++) {
             let value = addValue();
+            if (this.new) {
+                value.data('new', true);
+            }
+
             if (this.scaleValues[i].id) {
                 value.data('id', this.scaleValues[i].id);
             }
@@ -112,6 +120,7 @@ class ScaleElement extends Element {
             value.find('.name').val(this.scaleValues[i].name);
             value.find('.color').val(this.scaleValues[i].color);
         }
+        this.new = false;
         this.refreshScale();
     }
 
@@ -120,7 +129,7 @@ class ScaleElement extends Element {
         while (true) {
             i++;
             let id = 'scale-' + i;
-            if (this.scaleProperty.find('.value-container[data-id="' + id + '"]').length == 0) {
+            if (this.scaleProperty.find('.value-container[data-id="' + id + '"]').length === 0) {
                 return id;
             }
         }

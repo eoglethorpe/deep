@@ -1,3 +1,7 @@
+function confirmRemoval() {
+    return (num_entries === 0 ||
+        confirm('This template has got ' + num_entries + ' entries which will lose the attribute you are trying to remove. Are you sure?'));
+}
 
 let templateEditor = {
     init: function() {
@@ -5,42 +9,42 @@ let templateEditor = {
         this.elements = [];
 
         $('#matrix1d-widget button').on('click', function() {
-            that.addElement(new Matrix1D(that.getContainer(), $('#page-two .entry')), true);
+            that.addElement(new Matrix1D(that.getContainer(), $('#page-two .entry')), true).dom.data('new', true);
             that.reloadElements();
         });
 
         $('#matrix2d-widget button').on('click', function() {
-            that.addElement(new Matrix2D(that.getContainer(), $('#page-two .entry')), true);
+            that.addElement(new Matrix2D(that.getContainer(), $('#page-two .entry')), true).dom.data('new', true);
             that.reloadElements();
         });
 
         $('#number-widget button').on('click', function() {
-            that.addElement(new NumberInput(that.getContainer()), true);
+            that.addElement(new NumberInput(that.getContainer()), true).dom.data('new', true);
             that.reloadElements();
         });
 
         $('#date-widget button').on('click', function() {
-            that.addElement(new DateInput(that.getContainer()), true);
+            that.addElement(new DateInput(that.getContainer()), true).dom.data('new', true);
             that.reloadElements();
         });
 
         $('#scale-widget button').on('click', function() {
-            that.addElement(new ScaleElement(that.getContainer()), true);
+            that.addElement(new ScaleElement(that.getContainer()), true).dom.data('new', true);
             that.reloadElements();
         });
 
         $('#multiselect-widget button').on('click', function() {
-            that.addElement(new MultiselectInput(that.getContainer()), true);
+            that.addElement(new MultiselectInput(that.getContainer()), true).dom.data('new', true);
             that.reloadElements();
         });
 
         $('#organigram-widget button').on('click', function() {
-            that.addElement(new OrganigramInput(that.getContainer()), true);
+            that.addElement(new OrganigramInput(that.getContainer()), true).dom.data('new', true);
             that.reloadElements();
         });
 
         $('#geolocations-widget button').on('click', function() {
-            that.addElement(new GeolocationsInput(that.getContainer()), true);
+            that.addElement(new GeolocationsInput(that.getContainer()), true).dom.data('new', true);
             that.reloadElements();
         });
 
@@ -89,6 +93,7 @@ let templateEditor = {
             }
         }
 
+        return element;
     },
 
     reloadElements: function() {
@@ -111,9 +116,11 @@ let templateEditor = {
 
             if (element.isRemovable()) {
                 let removeElement = function() {
-                    elementProperties.remove();
-                    element.remove();
-                    that.elements.splice(that.elements.indexOf(element), 1);
+                    if (element.dom.data('new') || confirmRemoval()) {
+                        elementProperties.remove();
+                        element.remove();
+                        that.elements.splice(that.elements.indexOf(element), 1);
+                    }
                 };
                 elementProperties.find('.delete-element').click(removeElement);
                 element.dom.find('.delete-element').click(removeElement);
@@ -243,7 +250,7 @@ let templateEditor = {
                     html2canvas($('#page-two')[0], {
                         onrendered: function(canvas) {
                             data.snapshots.pageTwo = canvas.toDataURL();
-                            if(currentPage = 'page-two'){
+                            if (currentPage == 'page-two') {
                                 that.switchPage();
                             }
                             resolve(data);
@@ -325,10 +332,10 @@ $(document).ready(function() {
     });
 
     $(document).on('click', function(e){
-        if($(e.target).closest('.properties-box').length == 0){
+        if($(e.target).closest('.properties-box').length === 0){
             $('.properties-box').hide();
         }
-        if($(e.target).closest('.floating-toolbar').length == 0){
+        if($(e.target).closest('.floating-toolbar').length === 0){
             $('.floating-toolbar').hide();
         }
     });
@@ -383,3 +390,4 @@ $(document).ready(function() {
         templateEditor.switchPage();
     }
 });
+

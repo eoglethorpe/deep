@@ -2,17 +2,31 @@ let projectViewer = {
     init: function() {
         this.cloneViewerModal = new Modal('#clone-viewer');
     },
+
     show: function() {
         let that = this;
         this.cloneViewerModal.show().then(null, null, function(){
             if (that.cloneViewerModal.action == 'proceed') {
                 if (confirm('The current template will be replaced with a copy of this template')){
-                    $('#clone-from').val(that.projectId);
-                    $('#clone-and-save').click();
+                    that.clone();
                 }
             }
         });
     },
+
+    clone: function() {
+        if (num_entries > 0) {
+            if (confirm('You have got ' + num_entries + ' entries whose attributes will be lost by ' +
+                'changing the template. Please be very very sure.')) {
+                $('#clone-from').val(this.projectId);
+                $('#clone-and-save').click();
+            }
+            return;
+        }
+        $('#clone-from').val(this.projectId);
+        $('#clone-and-save').click();
+    },
+
     fill: function(projectId, projectName, projectImageOne, projectImageTwo){
         this.projectId = projectId;
         $('#clone-viewer .modal-header').text(projectName+ ": Analysis Framework");
@@ -40,7 +54,7 @@ $(document).ready(function() {
     // Search templates
     $('#search-templates').on('change input drop paste', function() {
         let searchText = $('#search-templates').val().trim().toLowerCase();
-        if (searchText.length == 0) {
+        if (searchText.length === 0) {
             $('#related-project-list .project').show();
         } else {
             $('#related-project-list .project').each(function() {

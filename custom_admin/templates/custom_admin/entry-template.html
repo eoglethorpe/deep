@@ -32,6 +32,9 @@ let templateData = {
     name: '{{ entry_template.name }}',
     elements: JSON.parse('{{ entry_template.elements|escapejs }}'),
 };
+
+
+const num_entries = '{{ num_entries }}';
 </script>
 
 {% endblock %}
