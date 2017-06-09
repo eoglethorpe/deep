@@ -1,16 +1,34 @@
+let projectViewer = {
+    init: function() {
+        this.cloneViewerModal = new Modal('#clone-viewer');
+    },
+    show: function() {
+        let that = this;
+        this.cloneViewerModal.show().then(null, null, function(){
+            if (that.cloneViewerModal.action == 'proceed') {
+                if (confirm('The current template will be replaced with a copy of this template')){
+                    $('#clone-from').val(that.projectId);
+                    $('#clone-and-save').click();
+                }
+            }
+        });
+    },
+    fill: function(projectId, projectName, projectImageOne, projectImageTwo){
+        this.projectId = projectId;
+        $('#clone-viewer .modal-header').text(projectName+ ": Analysis Framework");
+        $('#clone-viewer .snapshot-page-one').attr('src', projectImageOne);
+        $('#clone-viewer .snapshot-page-two').attr('src', projectImageTwo);
+    },
+};
 
 $(document).ready(function() {
+    projectViewer.init();
+
     $('#related-project-list .project a').on('click', function() {
-        let info = $('#template-form-container .info');
         let project = $(this).closest('.project');
 
-        info.find('span').html(
-            '<strong>' + project.find('.project-name').text() + '</strong> / ' +
-            project.find('.template-name').text()
-        );
-        info.fadeIn();
-
-        $('#clone-from').val(project.data('pk'));
+        projectViewer.fill(project.data('pk'), project.data('name'),project.data('image-one'),project.data('image-two'));
+        projectViewer.show();
     });
 
     $('#cancel-clone').click(function() {
@@ -43,6 +61,14 @@ $(document).ready(function() {
     $('#snapshot-prev').on('click', function() {
         $(this).hide().closest('.snapshots-container').find('img.active').removeClass('active').hide().prev().show().addClass('active');
         $('#snapshot-next').show();
+    });
+    $('#modal-snapshot-next').on('click', function() {
+        $(this).hide().closest('.snapshots-container').find('img.active').removeClass('active').hide().next().show().addClass('active');
+        $('#modal-snapshot-prev').show();
+    });
+    $('#modal-snapshot-prev').on('click', function() {
+        $(this).hide().closest('.snapshots-container').find('img.active').removeClass('active').hide().prev().show().addClass('active');
+        $('#modal-snapshot-next').show();
     });
 
     $('#edit-framework').on('click', function(){

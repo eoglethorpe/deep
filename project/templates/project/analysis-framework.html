@@ -8,7 +8,10 @@ DEEP | Analysis Framework
 {% block head %}
 
 <link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}" />
+<link rel="stylesheet" href="{% watchful_static_url 'css/modal.css' %}" >
 <link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/analysis-framework.css' %}" />
+
+<script src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/project/analysis-framework.js' %}"></script>
@@ -29,13 +32,13 @@ DEEP | Analysis Framework
     </header>
     <div id="related-project-list">
         {% for p in projects %}
-        <div class="project" data-pk="{{ p.pk }}" data-name="{{ p.name }}" data-template="{{ p.entry_template.name }}">
+        <div class="project" data-pk="{{ p.pk }}" data-name="{{ p.name }}" data-template="{{ p.entry_template.name }}" data-image-one="{{ p.entry_template.snapshot_pageone }}" data-image-two="{{ p.entry_template.snapshot_pagetwo }}">
             <div class="details">
                 <div class="project-name">{{ p.name }}</div>
                 <div class="template-name">{{ p.entry_template.name }}</div>
             </div>
             {% if p != project %}
-            <a>Clone</a>
+            <a>View</a>
             {% endif %}
         </div>
         {% endfor %}
@@ -64,10 +67,9 @@ DEEP | Analysis Framework
                 </div>
                 <input id="clone-from" name="clone-from" type="hidden" value="">
                 <div class="info" hidden>
-                    <i class="fa fa-exclamation-triangle"></i>Please confirm: the current template will be replaced by a clone of <span></span>
                     <div class="buttons">
                         <input type="submit" name="clone" value="Clone">
-                        <input type="submit" name="clone-and-save" value="Clone &amp; save changes">
+                        <input type="submit" name="clone-and-save" value="Clone &amp; save changes" id="clone-and-save">
                         <button type="button" id="cancel-clone">Cancel</button>
                     </div>
                 </div>
@@ -79,7 +81,7 @@ DEEP | Analysis Framework
             <button id="snapshot-next"><i class="fa fa-chevron-right"></i></button>
             <a target="_blank" href="{% url 'custom_admin:entry_template' project.entry_template.pk %}" id="edit-framework"><i class="fa fa-pencil"></i><span>Edit Framework</span></a>
             <button id="snapshot-prev" hidden><i class="fa fa-chevron-left"></i></button>
-            <div id="snapshots">
+            <div class="snapshots">
                 <img class="snapshot-page-one active" src="{{ project.entry_template.snapshot_pageone }}">
                 <img class="snapshot-page-two" src="{{ project.entry_template.snapshot_pagetwo }}" hidden>
             </div>
@@ -87,6 +89,26 @@ DEEP | Analysis Framework
         {% else %}
         <a class = "no-snapshot-link" target="_blank" href="{% url 'custom_admin:entry_template' project.entry_template.pk %}" id="edit-framework-no-snapshot"><i class="fa fa-pencil"></i><span>Edit Framework</span></a>
         {% endif %}
+    </div>
+    <div class="modal-container" hidden>
+        <div class="modal" id="clone-viewer" hidden>
+            <header>
+                <h3 class="modal-header">Analysis framework</h3>
+            </header>
+            <div class="error"></div>
+            <div class="snapshots-container">
+                <button id="modal-snapshot-next"><i class="fa fa-chevron-right"></i></button>
+                <button id="modal-snapshot-prev" hidden><i class="fa fa-chevron-left"></i></button>
+                <div class="snapshots">
+                    <img class="snapshot-page-one active">
+                    <img class="snapshot-page-two" hidden>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="cancel-button" data-action="dismiss"><i class="fa fa-times fa-md"></i>Cancel</button>
+                <button class="clone-button" data-action="proceed" data-persist="true">Clone</button>
+            </div>
+        </div>
     </div>
 </main>
 {% endblock %}
