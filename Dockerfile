@@ -33,6 +33,7 @@ RUN apt-get update && \
 	python3-pip \
 	uwsgi-plugin-python3 \
 	supervisor \
+    locales \
 	sqlite3 \
 	curl \
 
@@ -41,6 +42,9 @@ RUN apt-get update && \
         libmysqlclient-dev &&\
 
    rm -rf /var/lib/apt/lists/*
+
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
 
 RUN mkdir -p /home/code/deep
 WORKDIR /home/code/
