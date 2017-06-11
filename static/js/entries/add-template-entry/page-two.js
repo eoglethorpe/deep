@@ -384,7 +384,7 @@ let page2 = {
 
         //// Map
 
-        modalDialog.find('.map-section').append($('<div class="map" style="width: 100%; height: 250px;"></div>'));
+        modalDialog.find('.map-section').append($('<div class="map"></div>'));
         modalDialog.find('.map-section').append($('<div class="buttons-container"></div>'));
         let map = new Map(modalDialog.find('.map'), modalDialog.find('.buttons-container'));
 

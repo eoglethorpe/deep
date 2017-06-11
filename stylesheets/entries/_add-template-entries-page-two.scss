@@ -1,7 +1,7 @@
 #page-two{
     height: calc(100vh - #{$navbar-height});
     overflow-y: auto;
-
+     
     #button-pane{
         position: fixed;
         z-index: 100;
@@ -111,6 +111,7 @@
                 }
                 .geolocations, .organigram, .matrix1d-list-container, .matrix2d-list-container {
                     top: 0;
+
                 }
                 .apply-button {
                     cursor: pointer;
@@ -180,6 +181,7 @@
         }
 
     }
+
 }
 
 .chart-div {
