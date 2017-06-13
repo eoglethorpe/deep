@@ -202,6 +202,13 @@ def set_style(style):
     style.paragraph_format.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.LEFT
 
 
+def order_attributes(attributes, data):
+    if data.get('order_by') == 'DATE_ASCENDING':
+        return attributes.order_by('information__entry__lead__published_at')
+    else:
+        return attributes.order_by('-information__entry__lead__published_at')
+
+
 def export_pillar(d, pillar, leads_pk, event, informations, data, export_geo):
     pillar_header_shown = False
 
@@ -220,6 +227,8 @@ def export_pillar(d, pillar, leads_pk, event, informations, data, export_geo):
                 subpillar=subpillar,
                 sector=None,
                 information__entry__lead__event__pk=event)
+
+        attributes = order_attributes(attributes, data)
 
         if informations is not None:
             attributes = attributes.filter(
@@ -249,6 +258,8 @@ def export_sector(d, sector, leads_pk, event, informations, data, export_geo):
         attributes = entry_model.InformationAttribute.objects.filter(
                 sector=sector,
                 information__entry__lead__event__pk=event)
+
+        attributes = order_attributes(attributes, data)
 
         if informations is not None:
             attributes = attributes.filter(
@@ -302,6 +313,9 @@ def export_sector(d, sector, leads_pk, event, informations, data, export_geo):
                         subpillar=subpillar,
                         sector=sector,
                         information__entry__lead__event__pk=event)
+
+                attributes = order_attributes(attributes, data)
+
                 if informations is not None:
                     attributes = attributes.filter(
                             information__pk__in=informations)
@@ -407,6 +421,11 @@ def export_docx(event, informations=None, data=None, export_geo=False):
 
 def analysis_filter(infos, request_data, elements):
     infos = infos.distinct()
+
+    if request_data.get('order_by') == 'DATE_ASCENDING':
+        infos = infos.order_by('entry__lead__published_at')
+    else:
+        infos = infos.order_by('-entry__lead__published_at')
 
     for info in infos:
         info.data = json.loads(info.elements)
