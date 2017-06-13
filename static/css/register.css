@@ -135,6 +135,23 @@ main {
       font-size: 15px; }
       main form input[type="text"]:focus, main form input[type="password"]:focus {
         border-bottom: 2px solid #008080; }
+    main form .selectize-control.single {
+      background-color: transparent; }
+      main form .selectize-control.single .selectize-input {
+        background-color: transparent;
+        border: none;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+        font-size: 15px;
+        padding: 4px 0; }
+        main form .selectize-control.single .selectize-input.focus {
+          border-bottom: 2px solid #008080; }
+        main form .selectize-control.single .selectize-input.has-items {
+          padding: 0;
+          padding-top: 5px; }
+        main form .selectize-control.single .selectize-input > input {
+          font-size: 1.1em !important;
+          background-color: transparent;
+          border: none; }
     main form label {
       flex-basis: 100%;
       margin-bottom: 4px;

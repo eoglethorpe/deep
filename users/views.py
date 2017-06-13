@@ -27,7 +27,9 @@ class RegisterView(View):
 
     def get(self, request):
         # Return the register template.
-        return render(request, "users/register.html")
+        context = {}
+        context['countries'] = Country.objects.all()
+        return render(request, "users/register.html", context)
 
     def post(self, request):
 
@@ -38,6 +40,7 @@ class RegisterView(View):
         password = request.POST["password"]
         repassword = request.POST["re-password"]
         organization = request.POST["organization"]
+        country_code = request.POST['country']
 
         error = ""
 
@@ -68,6 +71,7 @@ class RegisterView(View):
             profile = UserProfile()
             profile.user = user
             profile.organization = organization
+            profile.country = Country.objects.get(code=country_code)
             profile.save()
 
             user = authenticate(username=email, password=password)
@@ -314,10 +318,19 @@ class UserProfileView(View):
         # TODO check if user has permission for whatever request
 
         # Edit profile
-        if request['request'] == 'edit-name':
+        if request['request'] == 'edit-attributes':
             response['done'] = False
             user.first_name = request['firstName']
             user.last_name = request['lastName']
+
+            profile = user.userprofile
+            profile.organization = request['organization']
+            if request.get('country'):
+                profile.country = Country.objects.get(
+                    code=request['country'])
+            else:
+                profile.country = None
+            profile.save()
             user.save()
             response['done'] = True
 

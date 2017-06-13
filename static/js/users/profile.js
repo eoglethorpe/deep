@@ -73,9 +73,11 @@ let editMode = {
             $('#edit-user-info-btn').hide();
 
             ajax.request({
-                request: 'edit-name',
+                request: 'edit-attributes',
                 firstName: $('#first-name').text(),
-                lastName: $('#last-name').text()
+                lastName: $('#last-name').text(),
+                organization: $('#user-organization').text(),
+                country: $('#user-country-select').val(),
             }).done(function(response) {
                 if (response.status && response.data.done) {
 
@@ -98,7 +100,7 @@ let editMode = {
             }).fail(function() {
                 // ERROR
                 $('#save-user-info-progress-btn').hide();
-            })
+            });
         });
     },
 

@@ -602,6 +602,7 @@ def export_analysis_docx(event, informations=None, data=None):
                         if not subpillar_heading:
                             subpillar_heading = True
                             d.add_heading(subpillar['name'], level=3)
+                            d.add_paragraph()
 
                         p = d.add_paragraph()
                         p.add_run(xstr(info.excerpt))

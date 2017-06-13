@@ -35,19 +35,19 @@ function filterDate(filter, date){
         case "last-seven-days":
             min = new Date();
             min.setDate(min.getDate() - 7);
-            return dateInRange(date, min, (new Date));
+            return dateInRange(date, min, new Date());
         case "this-week":
             min = new Date();
             min.setDate(min.getDate() - min.getDay());
-            return dateInRange(date, min, (new Date));
+            return dateInRange(date, min, new Date());
         case "last-thirty-days":
             min = new Date();
             min.setDate(min.getDate() - 30);
-            return dateInRange(date, min, (new Date));
+            return dateInRange(date, min, new Date());
         case "this-month":
             min = new Date();
             min.setDate(1);
-            return dateInRange(date, min, (new Date));
+            return dateInRange(date, min, new Date());
         default:
             return true;
     }
@@ -271,13 +271,13 @@ $(document).ready(function(){
     }
 
     function format(data) {
-        if (data.published_at == null)
+        if (data.published_at === null)
             data.published_at = "n/a";
-        if (data.source == null)
+        if (data.source === null)
             data.source = "n/a";
-        if (data.content_format == null)
+        if (data.content_format === null)
             data.content_format = "n/a";
-        if (data.assigned_to == null)
+        if (data.assigned_to === null)
             data.content_format = "n/a";
 
         // `data` is the original data object for the row
@@ -297,7 +297,7 @@ $(document).ready(function(){
                     '</div>' +
                     '<div class="details">' +
                         '<div><label>status:</label>' + statuses[data.status] + '</div>' +
-                        '<div><label>published at:</label>' + data.published_at + '</div>' +
+                        '<div><label>published at:</label>' + formatDate(data.published_at) + '</div>' +
                         '<div><label>source:</label>' + data.source + '</div>' +
                         '<div><label>confidentiality:</label>' + confidentialities[data.confidentiality] + '</div>' +
                         (data.website? '<div><label>website:</label>'+data.website+'</div>' : '') +

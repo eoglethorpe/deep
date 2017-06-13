@@ -62,8 +62,9 @@ var activities = [
                 <div class="input-group" id="user-country-select-wrapper">
                     <label>Country</label>
                     <select id="user-country-select">
+                        <option value=""></option>
                         {% for c in countries %}
-                        <option value="{{ c.pk }}">{{ c.name }}</option>
+                        <option value="{{ c.pk }}" {% if c == user.userprofile.country %}selected{% endif %}>{{ c.name }}</option>
                         {% endfor %}
                     </select>
                 </div>

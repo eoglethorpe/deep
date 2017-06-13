@@ -6,7 +6,15 @@ DEEP | Register
 {% endblock %}
 
 {% block head %}
+<link rel="stylesheet" href="{% watchful_static_url 'css/selectize.css' %}" >
 <link href="{% watchful_static_url 'css/register.css' %}" type="text/css" rel="stylesheet">
+
+<script src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $('#country').selectize();
+    });
+</script>
 {% endblock %}
 
 {% block body %}
@@ -34,7 +42,15 @@ DEEP | Register
         </div>
         <div>
             <label>Organization</label>
-            <input type="text" placeholder="Organization" name="organization" {% if organization %}value="{{organization}}"{% endif %}>
+            <input type="text" placeholder="Organization" name="organization" {% if organization %}value="{{organization}}"{% endif %} required>
+        </div>
+        <div>
+            <label>Country</label>
+            <select name="country" id="country" required>
+                {% for country in countries %}
+                <option value="{{ country.pk }}">{{ country }}<option>
+                {% endfor %}
+            </select>
         </div>
         <div>
             <label>Email</label>
