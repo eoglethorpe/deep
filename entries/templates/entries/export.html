@@ -68,9 +68,27 @@ DEEP | Export
 
 <main>
     <section id="entries-export">
-        <h2>Entries</h2>
         <div>
             <form id="export-entries-doc-form" action="{% url 'entries:exportdoc' event=event.pk %}" method="post">
+                <header>
+                    <div class="export-format">
+                        <label class="active"><input type="radio" name="export-format" value="generic" checked> Generic</label>
+                        <label><input type="radio" name="export-format" value="geo"> Geo</label>
+                        <label><input type="radio" name="export-format" value="briefing"> Briefing note</label>
+                    </div>
+                    <div class="action-buttons">
+                        <div class="preview-buttons">
+                            <button class="btn-word" id="preview-docx" type="button"><i class="fa fa-file-word-o"></i>Preview docx</button>
+                        </div>
+                        <div class="export-buttons">
+                            <button class="btn-pdf" id="export-pdf" type="button"><i class="fa fa-file-pdf-o"></i>Export pdf</button>
+                            <button class="btn-word" id="export-docx" type="button"><i class="fa fa-file-word-o"></i>Export docx</button>
+                            <button class="btn-excel" type="button" id="export-xlsx"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
+                            <button class="btn-json export-button" type="button" data-url="{% url 'api_entries:entries' %}?event={{event.pk}}&file=1"><i class="fa fa-file-text-o"></i>Export json</button>
+                        </div>
+                    </div>
+                </header>
+                 
                 <div id="filter-section">
                     <h4>Filters</h4>
                     <div class="filters">
@@ -83,8 +101,18 @@ DEEP | Export
                                 {% include 'entries/export-leads.html' %}
                             </div>
                         </div>
+                        <div class="filter-group" id="lead-published-order">
+                            <h5>Leads published date order</h5>
+
+                            <div class="radio-group">
+                                <label><input name="published-date-order-input" type="radio" checked="checked">Most recent to ancient</label>
+                                <label><input name="published-date-order-input" type="radio">Ancient to most recent</label>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
+                 
                 <div id="structure-section">
                     <h4>Report Structure</h4>
                     
@@ -99,27 +127,11 @@ DEEP | Export
                         <input class="group-order" type="hidden">
                     </div>
                 </div>
-                <div id="action-section">
-                    <div>
-                        <div class="export-format">
-                            <label class="active"><input type="radio" name="export-format" value="generic" checked> Generic</label>
-                            <label><input type="radio" name="export-format" value="geo"> Geo</label>
-                            <label><input type="radio" name="export-format" value="briefing"> Briefing note</label>
-                        </div>
-                        <div class="action-buttons">
-                            <button class="btn-pdf" id="export-pdf" type="button"><i class="fa fa-file-pdf-o"></i>Export pdf</button>
-                            <button class="btn-word" id="export-docx" type="button"><i class="fa fa-file-word-o"></i>Export docx</button>
-                            <button class="btn-word" id="preview-docx" type="button"><i class="fa fa-file-word-o"></i>Preview docx</button>
-                        </div>
-                    </div>
-                    <div>
-                        <button class="btn-excel" type="button" id="export-xlsx"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
-                        <button class="btn-json export-button" type="button" data-url="{% url 'api_entries:entries' %}?event={{event.pk}}&file=1"><i class="fa fa-file-text-o"></i>Export json</button>
-                    </div>
-                </div>
+                
             </form>
         </div>
     </section>
+    <!--
     <section>
         <h2>Assessment Registry</h2>
         <div class="content">
@@ -134,6 +146,7 @@ DEEP | Export
             <button class="btn-json export-button" data-url="{% url 'api_report:reports' %}?event={{event.pk}}&file=1"><i class="fa fa-file-text-o"></i>Export json</button>
         </div>
     </section>
+    -->
 </main>
 
 <div class="modal-container" hidden>
