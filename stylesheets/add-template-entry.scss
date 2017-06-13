@@ -8,7 +8,14 @@ body{
     @import 'entries/add-template-entries-page-two';
 
     .modal{
+        height: 800px;
+        width: 800px !important;
         .map-section{
+            .map{
+                height: 537px;
+                width: 100%;
+
+            }
             .buttons-container{
                 text-align: center;
                 padding: 4px;

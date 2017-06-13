@@ -704,15 +704,21 @@ body {
         cursor: pointer; }
         body .matrix2d-list-container .matrix2d-list .row .subsectors-dropdown .item:hover {
           background-color: rgba(0, 0, 0, 0.06); }
-  body .modal .map-section .buttons-container {
-    text-align: center;
-    padding: 4px;
-    background-color: #f0f0f0; }
-  body .modal .control-section {
-    padding: 10px 16px 0 16px; }
-    body .modal .control-section label {
-      margin-bottom: 6px; }
-    body .modal .control-section .selectize-control {
-      margin-bottom: 16px; }
+  body .modal {
+    height: 800px;
+    width: 800px !important; }
+    body .modal .map-section .map {
+      height: 537px;
+      width: 100%; }
+    body .modal .map-section .buttons-container {
+      text-align: center;
+      padding: 4px;
+      background-color: #f0f0f0; }
+    body .modal .control-section {
+      padding: 10px 16px 0 16px; }
+      body .modal .control-section label {
+        margin-bottom: 6px; }
+      body .modal .control-section .selectize-control {
+        margin-bottom: 16px; }
 
 /*# sourceMappingURL=add-template-entry.css.map */
