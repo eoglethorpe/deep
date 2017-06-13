@@ -161,6 +161,7 @@ let reportStructure = {
 
             checkGroup.find('.group-order').attr('name', 'pillar-order-' + pillar.id);
             checkGroup.find('.content').sortable({
+                axis: 'y',
                 create: function() {
                     checkGroup.find('.group-order')
                         .val($(this).sortable('toArray', { attribute: 'data-id' }));
@@ -187,6 +188,7 @@ let reportStructure = {
 
         sectorsGroup.find('.group-order').attr('name', 'sector-order');
         sectorsGroup.find('.content').sortable({
+            axis: 'y',
             create: function() {
                 sectorsGroup.find('.group-order')
                     .val($(this).sortable('toArray', { attribute: 'data-id' }));
@@ -199,6 +201,7 @@ let reportStructure = {
         });
 
         $('.check-group-list').sortable({
+            axis: 'y',
             create: function() {
                 $('#list-order').val($(this).sortable('toArray', { attribute: 'data-id' }));
             },

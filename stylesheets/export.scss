@@ -80,7 +80,7 @@ body {
                     flex-basis: 64%;
                 }
                 #structure-section {
-                    flex-basis: 36%;
+                    flex-basis: 35%;
                     padding: 0 24px;
 
                     h4 {
@@ -91,6 +91,7 @@ body {
                     .check-group-list {
                         height: calc(100vh - 48px - 64px - #{$navbar-height} - 4px);
                         overflow-y: auto;
+                        position: relative;
                         //border-left: 1px solid rgba(0, 0, 0, 0.1);
 
                         >.check-group {

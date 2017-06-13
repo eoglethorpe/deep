@@ -230,14 +230,15 @@ body {
       body main section form #filter-section {
         flex-basis: 64%; }
       body main section form #structure-section {
-        flex-basis: 36%;
+        flex-basis: 35%;
         padding: 0 24px; }
         body main section form #structure-section h4 {
           border-bottom: 2px solid rgba(0, 0, 0, 0.1);
           padding: 0; }
         body main section form #structure-section .check-group-list {
           height: calc(100vh - 48px - 64px - 56px - 4px);
-          overflow-y: auto; }
+          overflow-y: auto;
+          position: relative; }
           body main section form #structure-section .check-group-list > .check-group {
             min-height: 48px;
             padding-top: 6px; }
