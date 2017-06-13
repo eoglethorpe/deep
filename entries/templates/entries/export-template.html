@@ -43,13 +43,26 @@ let templateData = {
 
 <main>
     <section id="entries-export">
-        <h2>Entries</h2>
         <div>
             <form id="entries-export-form" action="{% url 'entries:exportdoc' event=event.pk %}" method="post">
+                <header>
+                    <div></div>
+                    <div class="action-buttons">
+                        <div class="preview-buttons">
+                            <button class="btn-word" id="preview-docx" type="button"><i class="fa fa-file-word-o"></i>Preview docx</button>
+                        </div>
+                        <div class="export-buttons">
+                            <button class="btn-word" id="export-docx" type="button"><i class="fa fa-file-word-o"></i>Export docx</button>
+                            <button class="btn-pdf" id="export-pdf" type="button"><i class="fa fa-file-pdf-o"></i>Export pdf</button>
+                            <button class="btn-excel" type="button" id="export-xlsx"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
+                        </div>
+                    </div> 
+                </header>
                 <div id="filter-section">
-                    <h4>Filters</h4>
+                    <header>
+                        <h4>Filters</h4>
+                    </header>
                     <div class="filters">
-                        
                         <div class="filter-group" id="basic-information-filters">
                             <header>
                                 <h5>Basic Information:</h5>
@@ -127,8 +140,18 @@ let templateData = {
                                 {% include 'entries/export-leads.html' %}
                             </div>
                         </div>
+
+                        <div class="filter-group" id="lead-published-order">
+                            <h5>Leads published date order</h5>
+
+                            <div class="radio-group">
+                                <label><input name="published-date-order-input" type="radio" checked="checked">Most recent to ancient</label>
+                                <label><input name="published-date-order-input" type="radio">Ancient to most recent</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                 
                 <div id="structure-section">
                     <h4>Report Structure</h4>
                     
@@ -141,22 +164,6 @@ let templateData = {
                         <header class="check"><label><input type="checkbox"><span class="name"></span><span class="number"></span></label><a class="fa fa-chevron-down check-group-expand"></a></header>
                         <div class="content" hidden></div>
                         <input class="group-order" type="hidden">
-                    </div>
-                </div>
-                <div id="action-section">
-                    <div>
-                        <div class="export-format">
-                            <label class="active"><input type="radio" name="export-format" value="generic" checked> Generic</label>
-                        </div>
-                        <div class="action-buttons">
-                            <button class="btn-pdf" id="export-pdf" type="button"><i class="fa fa-file-pdf-o"></i>Export pdf</button>
-                            <button class="btn-word" id="export-docx" type="button"><i class="fa fa-file-word-o"></i>Export docx</button>
-                            <button class="btn-word" id="preview-docx" type="button"><i class="fa fa-file-word-o"></i>Preview docx</button>
-                        </div>
-                    </div>
-                    <div>
-                        <button class="btn-excel" type="button" id="export-xlsx"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
-                        <!--button class="btn-json export-button" type="button" data-url="{% url 'api_entries:entries' %}?event={{event.pk}}&file=1"><i class="fa fa-file-text-o"></i>Export json</button-->
                     </div>
                 </div>
             </form>
