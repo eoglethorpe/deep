@@ -51,6 +51,13 @@ let countryEvents = {
     {% endfor %}
 };
 
+var exportProgressUrl = "{% url 'export_progress' %}";
+
+$(document).ready(function() {
+    $('.export-button').click(function() {
+        window.open(exportProgressUrl + '?url=' + encodeURIComponent(window.location.origin + $(this).data('url')), '_blank');
+    });
+});
 </script>
 {% endblock %}
 
@@ -58,8 +65,14 @@ let countryEvents = {
 {% include 'navbar.html' %}
 <main>
     <header>
-        <h1>Report Dashboard</h1>
-        <span class="loader"></span>
+        <div>
+            <h1>Report Dashboard</h1>
+            <span class="loader"></span>
+        </div>
+        <div class="content">
+            <button class="btn-excel export-button" data-url="{% url 'entries:exportxls_weekly' event=event.pk %}"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
+            <button class="btn-json export-button" data-url="{% url 'api_report:reports' %}?event={{event.pk}}&file=1"><i class="fa fa-file-text-o"></i>Export json</button>
+        </div>
     </header>
     <section id="country-panel">
         <div id="country-panel-header">

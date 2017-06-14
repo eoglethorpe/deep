@@ -10,6 +10,21 @@ main{
         display: flex;
         align-items: center;
         padding: 0 16px;
+        padding-right: 0;
+        justify-content: space-between;
+
+        button {
+            padding: 6px 10px;
+            @include btn-shadow-sm;
+
+            .fa {
+                margin-right: 8px;
+            }
+            &.btn-excel {
+                background-color: #1f7244;
+                color: #fff;
+            }
+        }
 
         h1{
             margin: 0;
@@ -19,6 +34,7 @@ main{
         .loader {
             margin-left: 16px;
         }
+
     }
 
     .loader{

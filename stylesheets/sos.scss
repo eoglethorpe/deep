@@ -13,8 +13,41 @@ body{
 .dataTables_filter{
     margin-bottom: 8px;
 }
+button {
+    padding: 6px 10px;
+    @include btn-shadow-sm;
+
+    .fa {
+        margin-right: 8px;
+    }
+    &.btn-word {
+        background-color: #295497;
+        color: #fff;
+    }
+    &.btn-pdf {
+        background-color: #c11e07;
+        color: #fff;
+    }
+    &.btn-excel {
+        background-color: #1f7244;
+        color: #fff;
+    }
+}
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h1{
+        font-weight: $font-weight-bold;
+        padding: 0 12px;
+        text-transform: uppercase;
+    }
+    >div{
+        margin-right: 12px;
+    }
+}
 main{
-    margin-top: 16px;
     padding: 10px 16px;
 
     input[type="search"]{
