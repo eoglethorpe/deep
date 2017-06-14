@@ -18,41 +18,41 @@ DEEP | Export
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/export.js' %}"></script>
 
 <script>
-    var eventId = "{{ event.pk }}";
-    var exportProgressUrl = "{% url 'export_progress' %}";
-    var downloadUrl = "{% url 'download_file' %}";
+var eventId = "{{ event.pk }}";
+var exportProgressUrl = "{% url 'export_progress' %}";
+var downloadUrl = "{% url 'download_file' %}";
 
-    var pillars = [
-        {% for pillar in pillars %}
-        {
-            id: "{{ pillar.pk }}",
-            name: "{{ pillar.name|escapejs }}",
-            contains_sectors: {% if pillar.contains_sectors %}true{% else %}false{% endif %},
+var pillars = [
+    {% for pillar in pillars %}
+    {
+        id: "{{ pillar.pk }}",
+        name: "{{ pillar.name|escapejs }}",
+        contains_sectors: {% if pillar.contains_sectors %}true{% else %}false{% endif %},
 
-            subpillars: [
-                {% for subpillar in pillar.informationsubpillar_set.all %}
-                { id: "{{ subpillar.pk }}", name: "{{ subpillar.name|escapejs }}", },
-                {% endfor %}
-            ],
-        },
-        {% endfor %}
-    ];
+        subpillars: [
+            {% for subpillar in pillar.informationsubpillar_set.all %}
+            { id: "{{ subpillar.pk }}", name: "{{ subpillar.name|escapejs }}", },
+            {% endfor %}
+        ],
+    },
+    {% endfor %}
+];
 
-    var sectors = [
-        {% for sector in sectors %}
-        {
-            id: "{{ sector.pk }}",
-            name: "{{ sector.name|escapejs }}",
-            {% comment %}
-            subsectors: [
-                {% for subsector in sector.subsector_set.all %}
-                { id: "{{ subsector.pk }}", name: "{{ subsector.name|escapejs }}", },
-                {% endfor %}
-            ],
-            {% endcomment %}
-        },
-        {% endfor %}
-    ];
+var sectors = [
+    {% for sector in sectors %}
+    {
+        id: "{{ sector.pk }}",
+        name: "{{ sector.name|escapejs }}",
+        {% comment %}
+        subsectors: [
+            {% for subsector in sector.subsector_set.all %}
+            { id: "{{ subsector.pk }}", name: "{{ subsector.name|escapejs }}", },
+            {% endfor %}
+        ],
+        {% endcomment %}
+    },
+    {% endfor %}
+];
 </script>
 
 {% endblock %}
@@ -88,7 +88,7 @@ DEEP | Export
                         </div>
                     </div>
                 </header>
-                 
+
                 <div id="filter-section">
                     <h4>Filters</h4>
                     <div class="filters">
@@ -112,10 +112,10 @@ DEEP | Export
                     </div>
 
                 </div>
-                 
+
                 <div id="structure-section">
                     <h4>Report Structure</h4>
-                    
+
                     <input id="list-order" name="list-order" value="" type="hidden">
                     <div class="check-group-list">
                     </div>
@@ -127,45 +127,45 @@ DEEP | Export
                         <input class="group-order" type="hidden">
                     </div>
                 </div>
-                
+
             </form>
         </div>
     </section>
     <!--
     <section>
-        <h2>Assessment Registry</h2>
-        <div class="content">
-            <button class="btn-excel export-button" data-url="{% url 'leads:exportsosxls' event=event.pk %}"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
-            <button class="btn-json export-button" data-url="{% url 'api_leads:sos' %}?event={{event.pk}}&file=1"><i class="fa fa-file-text-o"></i>Export json</button>
-        </div>
-    </section>
-    <section>
-        <h2>Weekly snapshot</h2>
-        <div class="content">
-            <button class="btn-excel export-button" data-url="{% url 'entries:exportxls_weekly' event=event.pk %}"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
-            <button class="btn-json export-button" data-url="{% url 'api_report:reports' %}?event={{event.pk}}&file=1"><i class="fa fa-file-text-o"></i>Export json</button>
-        </div>
-    </section>
-    -->
+    <h2>Assessment Registry</h2>
+    <div class="content">
+    <button class="btn-excel export-button" data-url="{% url 'leads:exportsosxls' event=event.pk %}"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
+    <button class="btn-json export-button" data-url="{% url 'api_leads:sos' %}?event={{event.pk}}&file=1"><i class="fa fa-file-text-o"></i>Export json</button>
+</div>
+</section>
+<section>
+<h2>Weekly snapshot</h2>
+<div class="content">
+<button class="btn-excel export-button" data-url="{% url 'entries:exportxls_weekly' event=event.pk %}"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
+<button class="btn-json export-button" data-url="{% url 'api_report:reports' %}?event={{event.pk}}&file=1"><i class="fa fa-file-text-o"></i>Export json</button>
+</div>
+</section>
+-->
 </main>
 
 <div class="modal-container" hidden>
-<div id="date-range-input" class="modal" hidden>
-    <header>
-        <h3 class="modal-title">Enter date range</h3>
-    </header>
-    <div class="input-container">
-        <label>start date:</label>
-        <input type="date" id="start-date" class="form-control">
+    <div id="date-range-input" class="modal" hidden>
+        <header>
+            <h3 class="modal-title">Enter date range</h3>
+        </header>
+        <div class="input-container">
+            <label>start date:</label>
+            <input type="date" id="start-date" class="form-control">
+        </div>
+        <div class="input-container">
+            <label>end date:</label>
+            <input type="date" id="end-date" class="form-control">
+        </div>
+        <div class="action-buttons">
+            <button id="cancel-btn" class="cancel" data-action="dismiss"><i class="fa fa-times"></i>Cancel</button>
+            <button id="ok-btn" class="success" data-action="proceed"><i class="fa fa-check"></i>Ok</button>
+        </div>
     </div>
-    <div class="input-container">
-        <label>end date:</label>
-        <input type="date" id="end-date" class="form-control">
-    </div>
-    <div class="action-buttons">
-        <button id="cancel-btn" class="cancel" data-action="dismiss"><i class="fa fa-times"></i>Cancel</button>
-        <button id="ok-btn" class="success" data-action="proceed"><i class="fa fa-check"></i>Ok</button>
-    </div>
-</div>
 
-{% endblock %}
+    {% endblock %}

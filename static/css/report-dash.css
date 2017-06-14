@@ -188,7 +188,19 @@ main {
     height: 48px;
     display: flex;
     align-items: center;
-    padding: 0 16px; }
+    padding: 0 16px;
+    padding-right: 0;
+    justify-content: space-between; }
+    main > header button {
+      padding: 6px 10px;
+      box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+      main > header button:active {
+        box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+      main > header button .fa {
+        margin-right: 8px; }
+      main > header button.btn-excel {
+        background-color: #1f7244;
+        color: #fff; }
     main > header h1 {
       margin: 0;
       text-transform: uppercase; }

@@ -189,8 +189,35 @@ body {
 .dataTables_filter {
   margin-bottom: 8px; }
 
+button {
+  padding: 6px 10px;
+  box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+  button:active {
+    box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+  button .fa {
+    margin-right: 8px; }
+  button.btn-word {
+    background-color: #295497;
+    color: #fff; }
+  button.btn-pdf {
+    background-color: #c11e07;
+    color: #fff; }
+  button.btn-excel {
+    background-color: #1f7244;
+    color: #fff; }
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+  header h1 {
+    font-weight: 500;
+    padding: 0 12px;
+    text-transform: uppercase; }
+  header > div {
+    margin-right: 12px; }
+
 main {
-  margin-top: 16px;
   padding: 10px 16px; }
   main input[type="search"] {
     height: 28px;
