@@ -6,7 +6,6 @@ from report.api_serializers import *
 from report.models import *
 from deep.json_utils import *
 from deep.filename_generator import generate_filename
-from leads.templatetags.check_acaps import allow_acaps
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -16,9 +15,6 @@ class ReportApiView(View):
         return JSON_METHOD_NOT_ALLOWED
 
     def get(self, request):
-        if not allow_acaps(request.user):
-            return HttpResponseForbidden()
-
         reports = WeeklyReport.objects.filter(event__usergroup__acaps=True)
 
         event = request.GET.get('event')
