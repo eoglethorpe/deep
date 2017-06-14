@@ -358,6 +358,8 @@ class AnalysisFrameworkView(View):
 
         context['num_entries'] = EntryInformation.objects.filter(
             entry__template=project.entry_template).distinct().count()
+        context['num_shared_projects'] = Event.objects.filter(
+            entry_template=project.entry_template).distinct().count()
 
         context["project"] = project
         context["projects"] = Event.objects.filter(admins__pk=request.user.pk)\
@@ -371,23 +373,30 @@ class AnalysisFrameworkView(View):
         if request.user not in project.get_admins():
             return HttpResponseForbidden()
 
-        entry_template = project.entry_template
-        if 'clone-and-save' in request.POST \
-                or 'save-and-finish' in request.POST:
-            entry_template.name = request.POST.get('template-name')
-
-        if 'clone-and-save' in request.POST or 'clone' in request.POST:
+        if 'share' in request.POST:
             clone_from = request.POST.get('clone-from')
             if clone_from != '':
                 clone_template = Event.objects.get(pk=clone_from)\
                     .entry_template
-                entry_template.elements = clone_template.elements
-                entry_template.snapshot_pageone = \
-                    clone_template.snapshot_pageone
-                entry_template.snapshot_pagetwo = \
-                    clone_template.snapshot_pagetwo
+                project.entry_template = clone_template
+                project.save()
 
-        entry_template.save()
+        else:
+            entry_template = project.entry_template
+            entry_template.name = request.POST.get('template-name')
+
+            if 'clone' in request.POST:
+                clone_from = request.POST.get('clone-from')
+                if clone_from != '':
+                    clone_template = Event.objects.get(pk=clone_from)\
+                        .entry_template
+                    entry_template.elements = clone_template.elements
+                    entry_template.snapshot_pageone = \
+                        clone_template.snapshot_pageone
+                    entry_template.snapshot_pagetwo = \
+                        clone_template.snapshot_pagetwo
+
+            entry_template.save()
 
         if 'save-and-finish' in request.POST:
             return redirect('dashboard', project_id)

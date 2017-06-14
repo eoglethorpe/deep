@@ -17,7 +17,8 @@ DEEP | Analysis Framework
 <script type="text/javascript" src="{% watchful_static_url 'js/project/analysis-framework.js' %}"></script>
 
 <script>
-const num_entries = '{{ num_entries }}';
+const num_entries = {{ num_entries }};
+const num_shared_projects = {{ num_shared_projects }};
 </script>
 
 {% endblock %}
@@ -72,9 +73,8 @@ const num_entries = '{{ num_entries }}';
                 <input id="clone-from" name="clone-from" type="hidden" value="">
                 <div class="info" hidden>
                     <div class="buttons">
-                        <input type="submit" name="clone" value="Clone">
-                        <input type="submit" name="clone-and-save" value="Clone &amp; save changes" id="clone-and-save">
-                        <button type="button" id="cancel-clone">Cancel</button>
+                        <input type="submit" name="share" value="Share" id="share">
+                        <input type="submit" name="clone" value="Clone &amp; save changes" id="clone">
                     </div>
                 </div>
             </div>
@@ -110,7 +110,8 @@ const num_entries = '{{ num_entries }}';
             </div>
             <div class="action-buttons">
                 <button class="cancel-button" data-action="dismiss"><i class="fa fa-times fa-md"></i>Cancel</button>
-                <button class="clone-button" data-action="proceed" data-persist="true">Clone</button>
+                <button class="share-button" data-action="share" data-persist="true">Share</button>
+                <button class="clone-button" data-action="clone" data-persist="true">Clone</button>
             </div>
         </div>
     </div>

@@ -6,25 +6,34 @@ let projectViewer = {
     show: function() {
         let that = this;
         this.cloneViewerModal.show().then(null, null, function(){
-            if (that.cloneViewerModal.action == 'proceed') {
+            if (that.cloneViewerModal.action === 'clone') {
                 if (confirm('The current template will be replaced with a copy of this template')){
                     that.clone();
+                }
+            }
+            else if (that.cloneViewerModal.action === 'share') {
+                if (confirm('The two projects will share same template')) {
+                    that.clone(true);
                 }
             }
         });
     },
 
-    clone: function() {
+    clone: function(share=false) {
         if (num_entries > 0) {
-            if (confirm('You have got ' + num_entries + ' entries whose attributes will be lost by ' +
-                'changing the template. Please be very very sure.')) {
-                $('#clone-from').val(this.projectId);
-                $('#clone-and-save').click();
+            if (!confirm('You have got ' + num_entries + ' entries whose attributes will be lost by ' +
+                'removing the current template. Please be very very sure.')) {
+                return;
             }
-            return;
         }
+
         $('#clone-from').val(this.projectId);
-        $('#clone-and-save').click();
+        if (share) {
+            $('#share').click();
+        }
+        else {
+            $('#clone').click();
+        }
     },
 
     fill: function(projectId, projectName, projectImageOne, projectImageTwo){
@@ -43,12 +52,6 @@ $(document).ready(function() {
 
         projectViewer.fill(project.data('pk'), project.data('name'),project.data('image-one'),project.data('image-two'));
         projectViewer.show();
-    });
-
-    $('#cancel-clone').click(function() {
-        let info = $('#template-form-container .info');
-        $('#clone-from').val(null);
-        info.fadeOut();
     });
 
     // Search templates
@@ -86,7 +89,15 @@ $(document).ready(function() {
     });
 
     $('#edit-framework').on('click', function(){
-        var url = $(this).attr('href');
+        if (num_shared_projects > 1) {
+            const n = num_shared_projects - 1;
+            if (!confirm('This template is shared by ' + n + ' other project' + (n>1?'s':'') +
+                '. Editing it will affect all of them. Please be very very sure.')) {
+                return false;
+            }
+        }
+
+        let url = $(this).attr('href');
         url = url.replace('#page1', '');
         url = url.replace('#page2', '');
         if($('#snapshot-prev').is(':visible')){
