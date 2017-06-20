@@ -6,6 +6,11 @@ class Matrix1DList extends Element {
         dom.append($('<div class="container"><div class="col-1"><div class="pillar">Dimension</div><div class="subpillar">sub-dimension</div></div></div>'));
         super(container, dom);
 
+        templateEditor.switchPage();
+        this.page = 'page-two';
+        templateEditor.repositionElement(this);
+        templateEditor.switchPage();
+
         if (data){
             this.load(data);
         }
@@ -283,8 +288,12 @@ class Matrix2DList extends Element {
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
         dom.append($('<div class="container"><div class="col-1"><div class="pillar">Dimension</div><div class="subpillar">sub-dimension</div></div><div class="col-2"><div class="sector">Sector</div><div class="subsectors">Subsectors</div></div></div>'));
-
         super(container, dom);
+
+        templateEditor.switchPage();
+        this.page = 'page-two';
+        templateEditor.repositionElement(this);
+        templateEditor.switchPage();
 
         if (data){
             this.load(data);

@@ -69,31 +69,35 @@ let templateEditor = {
         this.elements.push(element);
 
         if (newElement) {
-            if(element.page == 'page-one'){
-                let maxY = 0;
-                $('main .element').not(element.dom[0]).each(function() {
-                    let r = this.getBoundingClientRect();
-
-                    if((r.top + r.height) > maxY) {
-                        maxY = r.top + r.height;
-                    }
-                });
-                element.dom.css('top', (maxY-48)+'px');
-            }
-            else if(element.page == 'page-two'){
-                let maxX = 0;
-                $('main .element').not(element.dom[0]).each(function() {
-                    let r = this.getBoundingClientRect();
-
-                    if((r.left + r.width) > maxX) {
-                        maxX = r.left + r.width;
-                    }
-                });
-                element.dom.css('left', maxX+'px');
-            }
+            this.repositionElement(element);
         }
 
         return element;
+    },
+
+    repositionElement: function(element) {
+        if(element.page == 'page-one'){
+            let maxY = 0;
+            $('main .element').not(element.dom[0]).each(function() {
+                let r = this.getBoundingClientRect();
+
+                if((r.top + r.height) > maxY) {
+                    maxY = r.top + r.height;
+                }
+            });
+            element.dom.css('top', (maxY-48)+'px');
+        }
+        else if(element.page == 'page-two'){
+            let maxX = 0;
+            $('main .element').not(element.dom[0]).each(function() {
+                let r = this.getBoundingClientRect();
+
+                if((r.left + r.width) > maxX) {
+                    maxX = r.left + r.width;
+                }
+            });
+            element.dom.css('left', maxX+'px');
+        }
     },
 
     reloadElements: function() {
@@ -250,7 +254,7 @@ let templateEditor = {
                     html2canvas($('#page-two')[0], {
                         onrendered: function(canvas) {
                             data.snapshots.pageTwo = canvas.toDataURL();
-                            if (currentPage == 'page-two') {
+                            if (currentPage == 'page-one') {
                                 that.switchPage();
                             }
                             resolve(data);
