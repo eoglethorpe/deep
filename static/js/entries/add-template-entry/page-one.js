@@ -204,7 +204,7 @@ let page1 = {
             row.append('<td rowspan="' + pillar.subpillars.length + '" title="' + pillar.tooltip + '" style="background-color: ' + color + '; color: ' + getContrastYIQ(color) + ';" class="pillar">' + pillar.title + '</td>');
 
             for (let j=0; j<pillar.subpillars.length; j++) {
-                if (j != 0) {
+                if (j !== 0) {
                     row = $('<tr></tr>');
                     table.append(row);
                 }
@@ -257,7 +257,7 @@ let page1 = {
             let entry = entries[i];
             entrySelect[0].selectize.addOption({
                 value: i,
-                text: entry.excerpt.length == 0 ? 'New entry' : entry.excerpt.substr(0, 40),
+                text: entry.excerpt.length === 0 ? 'New entry' : entry.excerpt.substr(0, 40),
             });
         }
 
@@ -270,7 +270,7 @@ let page1 = {
             let entry = entries[this.selectedEntryIndex];
 
             this.excerptBox.find('textarea').val(entry.excerpt);
-            if (entry.image.length == 0) {
+            if (entry.image.length === 0) {
                 this.imageBox.find('.image-box').html('');
             } else {
                 this.imageBox.find('.image-box').html(
@@ -327,4 +327,4 @@ let page1 = {
 
         addOrReplaceEntry(excerpt, image);
     },
-}
+};

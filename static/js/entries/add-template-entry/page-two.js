@@ -1,5 +1,5 @@
 
-let page2 = {
+const page2 = {
     init: function() {
         this.container = $('#page-two');
         this.template = this.container.find('.entry-template');
@@ -132,7 +132,7 @@ let page2 = {
             excerptBox.find('label').text(element.excerptLabel);
         }
 
-        let imageBox = $('<div class="image-box-container"><label>Image</label><div class="image-box"><img></div></div>')
+        let imageBox = $('<div class="image-box-container"><label>Image</label><div class="image-box"><img></div></div>');
         imageBox.css('width', element.width);
         imageBox.css('left', element.left);
         imageBox.appendTo(this.template);
@@ -391,7 +391,7 @@ let page2 = {
         // Control sections
         let controlSection1 = $('<div></div>');
         controlSection1.append($('<label>Select a country</label><select class="country"><option value="">Select a country</option></select>'));
-        controlSection1.append($('<label>Add locations</label><select class="locations" multiple><option value="">Add locations</option></select>'))
+        controlSection1.append($('<label>Add locations</label><select class="locations" multiple><option value="">Add locations</option></select>'));
         controlSection1.find('select').selectize();
 
         // Country selection
@@ -423,7 +423,7 @@ let page2 = {
         });
         map.selectCallback = function() {
             locationSelectize.setValue(map.selections, true);
-        }
+        };
 
         // let controlSection2 = $('<div></div>');
         // controlSection2.append($('<div class="selection-list"></div>'));
@@ -541,6 +541,15 @@ let page2 = {
             entryContainer.appendTo(this.container.find('.entries'));
             entryElement.find('.action-buttons').detach().prependTo(entryContainer);
             entryElement.show();
+
+            entryContainer.find('.action-buttons .delete-entry-button').click(() => {
+                removeEntry(i);
+            });
+            entryContainer.find('.action-buttons .edit-entry-button').click(() => {
+                page1.selectedEntryIndex = i;
+                page1.refresh();
+                switchPage();
+            });
 
             entryElement.find('select').selectize();
 
@@ -667,7 +676,7 @@ let page2 = {
                 }
                 else if (templateElement.type == 'scale') {
                     entryElement.find('.scale-container[data-id="' + templateElement.id + '"] .scale span.active').removeClass('active');
-                    let selected = templateElement.scaleValues.find(e => e.default==true).id;
+                    let selected = templateElement.scaleValues.find(e => e.default === true).id;
                     if (data && data.value) {
                         selected = data.value;
                     }
