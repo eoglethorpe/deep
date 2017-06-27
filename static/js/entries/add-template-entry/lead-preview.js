@@ -83,7 +83,7 @@ let leadPreviewer = {
                         $('#image-cropper-canvas-container').hide();
                     });
                     $('#screenshot-done-btn').one('click', function(){
-                        // addOrReplaceExcerpt('', imageCropper.getCroppedImage());
+                        addOrReplaceEntry('', imageCropper.getCroppedImage());
 
                         imageCropper.stop();
                         $('#image-cropper-canvas-container').hide();

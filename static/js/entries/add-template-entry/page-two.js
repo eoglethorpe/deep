@@ -567,6 +567,7 @@ const page2 = {
                         let dom = $(this)[0];
                         dom.style.height = '1px';
                         dom.style.height = (2 + dom.scrollHeight) + 'px';
+                        autoResize($(this).closest('.entry'));
                     });
             }
 
