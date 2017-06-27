@@ -120,7 +120,7 @@ let leadPreviewer = {
         });
 
         //Sort images
-        $('#sort-images').selectize();
+        //$('#sort-images').selectize();
         $('#sort-images').change(function(){
             if ($(this).find(':selected').val() === 'size-asc') {
                 that.sortLeadImages('asc');

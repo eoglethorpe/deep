@@ -6,14 +6,19 @@ class ImageCropper{
         this.drawCropRect = false;
         this.img = image;
         this.imgBounds = imageBounds;
-        this.canvas.width = imageBounds.w;
-        this.canvas.height = imageBounds.h;
+        let scale = window.devicePixelRatio;
+        this.imgBounds.x *= scale;
+        this.imgBounds.y *= scale;
+        this.imgBounds.w *= scale;
+        this.imgBounds.h *= scale;
+        this.canvas.width = this.imgBounds.w;
+        this.canvas.height = this.imgBounds.h;
     }
     start(){
         let that = this;
-        this.canvas.addEventListener('mousedown', function(e){ that.onMouseDown(that, e) }, false);
-        this.canvas.addEventListener('mouseup', function(e){ that.onMouseUp(that, e) }, false);
-        this.canvas.addEventListener('mousemove', function(e){ that.onMouseMove(that, e) }, false);
+        this.canvas.addEventListener('mousedown', function(e){ that.onMouseDown(that, e); }, false);
+        this.canvas.addEventListener('mouseup', function(e){ that.onMouseUp(that, e); }, false);
+        this.canvas.addEventListener('mousemove', function(e){ that.onMouseMove(that, e); }, false);
         this.render();
     }
     stop(){

@@ -52,9 +52,9 @@ var extension = {
         if (extension.currentTabUrl && extension.currentPage) {
             var loc = document.createElement('a');
             loc.href = extension.currentTabUrl;
-            var doc = (new DOMParser).parseFromString(extension.currentPage, 'text/html');
+            var doc = (new DOMParser()).parseFromString(extension.currentPage, 'text/html');
             article = new Readability(loc, doc).parse();
-            if (article != null){
+            if (article){
                 $('#title').val(article.title).addClass('filled');
             }
         }
