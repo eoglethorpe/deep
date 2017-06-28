@@ -44,8 +44,34 @@ $(document).ready(function(){
     $('#publish-date-container a').on('click', function(){
         let dateInput = $('#publish-date');
         dateInput[0].type = 'date';
-        dateInput[0].valueAsDate = new Date;
+        dateInput[0].valueAsDate = new Date();
         dateInput.focus().addClass('filled');
         dateInput.trigger('change');
+    });
+     
+    $('#event-select').on('change', function() {
+         
+        if($(this).val() !== 0) {
+            let pk = $(this).val();
+            if($('.selected-event').filter(function(){ return $(this).data('pk') == pk; }).length > 0) {
+                return;
+            }
+            let selectedEventElement = $(`
+                <div class="selected-event">
+                    <span class="name"></span>
+                    <button><i class="fa fa-times"></i></button>
+                </div>
+            `);
+            selectedEventElement.find('.name').text($(this).find('option[value="'+pk+'"]').text());
+            selectedEventElement.data('pk', pk);
+             
+            selectedEventElement.find('button').on('click', function() {
+                $(this).closest('.selected-event').remove();   
+                return false;
+            });
+
+            selectedEventElement.appendTo('#selected-events');
+        }
+         
     });
 });

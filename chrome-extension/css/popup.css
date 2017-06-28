@@ -6,7 +6,7 @@
 }
 body{
     width: 600px;
-    height: 588px;
+    height: 540px;
     font-size: 13px;
     margin: 0;
 }
@@ -18,7 +18,7 @@ a, a:visited, a:focus, a:active{
     font-weight: 400;
 }
 #add-lead-form{
-    padding: 24px 32px;
+    padding: 16px 24px;
 }
 #duplicate-lead-warning{
     margin: 0;
@@ -30,16 +30,44 @@ a, a:visited, a:focus, a:active{
 }
 h1{
     margin: 0;
-    height: 54px;
     font-size: 1.5em;
     font-weight: 600;
     color: #008080;
+    margin-bottom: 8px;
+}
+#selected-events {
+    display: flex;
+    flex-wrap: wrap;
+}
+.selected-event {
+    font-size: 12px;
+    line-height: 1;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 2px 4px;
+    margin: 1px;
+    border-radius: 9px;
+}
+.selected-event button {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    width: 16px;
+    height: 16px;
+    margin: -1px -3px -1px 3px;
+    font-size: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: rgba(255, 0, 0, 0.6);
+    outline: none;
+}
+.selected-event button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 #action{
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    height: 54px;
+    height: 48px;
 }
 #add-lead-form #action .fa{
     margin-left: 10px;

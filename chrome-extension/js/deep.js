@@ -96,7 +96,7 @@ var deep = {
                 }
 
                 // source of the article/news
-                if(response.source != null){
+                if(response.source){
                     $('#source').val(response.source).addClass('filled');
                 }
 
