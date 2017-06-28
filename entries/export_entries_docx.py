@@ -422,7 +422,7 @@ def export_docx(event, informations=None, data=None, export_geo=False):
 def analysis_filter(infos, request_data, elements):
     infos = infos.distinct()
 
-    if request_data.get('order_by') and data.get('order_by')[0] == 'DATE_ASCENDING':
+    if request_data.get('order_by') and request_data.get('order_by')[0] == 'DATE_ASCENDING':
         infos = infos.order_by('entry__lead__published_at')
     else:
         infos = infos.order_by('-entry__lead__published_at')

@@ -60,7 +60,7 @@ let leadPreviewer = {
         $('input[type=radio][name=lead-view-option]').change(function() {
             that.changePreview(this.value);
         });
-        this.changePreview(leadSimplified!=""?"simplified":"original");
+        this.changePreview(leadSimplified !== "" ? "simplified" : "original");
 
         this.refresh();
     },
@@ -88,7 +88,7 @@ let leadPreviewer = {
                         imageCropper.stop();
                         $('#image-cropper-canvas-container').hide();
                     });
-                }
+                };
                 img.src = response.image;
             }
         });
@@ -247,9 +247,9 @@ let leadPreviewer = {
                         }
                     }
                 }
-                text = text.slice(0, index) + '<span style="background-color:'+ color +'; color:'+ getContrastYIQ(color) +'" >'
-                + entry.excerpt + '</span>'
-                + text.slice(index + entry.excerpt.length)
+                text = text.slice(0, index) + '<span style="background-color:'+ color +'; color:'+ getContrastYIQ(color) +'" >' +
+                    entry.excerpt + '</span>' +
+                    text.slice(index + entry.excerpt.length);
             }
         }
         return "<pre>" + text + "</pre>";
