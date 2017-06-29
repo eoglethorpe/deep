@@ -26,6 +26,7 @@ def write_file(r, fp):
             fp.write(chunk)
     return fp
 
+
 class StripError(Exception):
     def __init__(self, *args, **kwargs):
         super(StripError, self).__init__(*args, **kwargs)

@@ -51,8 +51,10 @@ $(document).ready(function(){
      
     $('#event-select').on('change', function() {
          
-        if($(this).val() !== 0) {
+        if($(this).val()) {
             let pk = $(this).val();
+            $(this).val('');
+
             if($('.selected-event').filter(function(){ return $(this).data('pk') == pk; }).length > 0) {
                 return;
             }

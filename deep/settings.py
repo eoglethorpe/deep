@@ -27,14 +27,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-#Email
-EMAIL_HOST='smtp.gmail.com'
+# Email
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'deepnotifications1@gmail.com'
 EMAIL_HOST_PASSWORD = 'deep1234'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-ADMINS = [('Ewan','ewanogle@gmail.com'), ('Togglecorp','info@togglecorp.com')]
+ADMINS = [('Ewan', 'ewanogle@gmail.com'),
+          ('Togglecorp', 'info@togglecorp.com')]
 
 # Application definition
 
@@ -49,7 +50,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'corsheaders',
-    'django_cleanup',
+    # 'django_cleanup',
     'users',
     'leads',
     'entries',

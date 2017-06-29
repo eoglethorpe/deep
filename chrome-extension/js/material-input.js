@@ -75,6 +75,10 @@ var materialSelect = {
             optionDiv.on('click', function(){
                 that.selectOption($(this));
             });
+
+            if (!$(this).val()) {
+                optionDiv.hide();
+            }
         });
 
         this.selectOption(this.optionContainer.find('.option[data-val="'+this.select.val()+'"]'), false);

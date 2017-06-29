@@ -1,22 +1,31 @@
-from django.http import HttpResponse, HttpResponseForbidden
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
-from django.views.generic import View, TemplateView
-from django.http import JsonResponse, HttpResponse
+from django.views.generic import View
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
-from django.conf import settings
 from django.core.files import File
+from django.contrib.auth.models import User
 
-from datetime import datetime
 import json
 import os
 
-from users.log import *
-from users.models import *
-from leads.models import *
-from entries.models import *
-from entries.strippers import *
+from users.log import CreationActivity, EditionActivity,\
+    DeletionActivity
+from users.models import UserProfile
+
+from leads.models import Lead, Event, Country, Attachment,\
+    SimplifiedLead, LeadImage, ProximityToSource, UnitOfAnalysis,\
+    DataCollectionTechnique, SamplingType, SectorQuantification,\
+    SectorAnalyticalValue, AssessmentFrequency, AssessmentConfidentiality,\
+    AssessmentStatus, SurveyOfSurvey, SectorCovered
+
+from entries.models import AdminLevel, AdminLevelSelection, AffectedGroup
+
+from entries.strippers import WebDocument, HtmlStripper, PdfStripper,\
+    DocxStripper, PptxStripper
+
 from entries.refresh_pcodes import refresh_pcodes
 from deep.filename_generator import generate_filename
 from leads.templatetags.check_acaps import allow_acaps
@@ -54,7 +63,7 @@ def get_simplified_lead(lead, context):
             try:
                 name, extension = os.path.splitext(attachment.upload.name)
             except:
-                name, extension = attachment.upload.name, ""
+                extension = ""
 
             if extension == ".pdf":
                 context["lead_simplified"], images = \
@@ -75,7 +84,8 @@ def get_simplified_lead(lead, context):
         if images:
             for image in images:
                 lead_image = LeadImage(lead=lead)
-                lead_image.image.save(os.path.basename(image.name), File(image), True)
+                lead_image.image.save(os.path.basename(image.name),
+                                      File(image), True)
                 lead_image.save()
 
     except Exception as e:
@@ -90,7 +100,7 @@ def get_lead_form_data():
     """
 
     data = {}
-    data["sources"] = Source.objects.all()
+    # data["sources"] = Source.objects.all()
     data["confidentialities"] = Lead.CONFIDENTIALITIES
     data["statuses"] = Lead.STATUSES
     data["users"] = User.objects.exclude(first_name="", last_name="")
@@ -156,12 +166,14 @@ class AddSoS(View):
         except:
             get_simplified_lead(lead, context)
             if "lead_simplified" in context:
-                SimplifiedLead(lead=lead, text=context["lead_simplified"]).save()
+                SimplifiedLead(lead=lead,
+                               text=context["lead_simplified"]).save()
 
         if lead.lead_type == 'URL':
             context['lead_url'] = lead.url
         elif lead.lead_type == 'ATT':
-            context['lead_url'] = request.build_absolute_uri(lead.attachment.upload.url)
+            context['lead_url'] = request.build_absolute_uri(
+                lead.attachment.upload.url)
 
         if context.get('lead_url'):
             if context['lead_url'].endswith('.pdf'):
@@ -174,7 +186,8 @@ class AddSoS(View):
         # Get fields options
         context["proximities"] = ProximityToSource.objects.all()
         context["units_of_analysis"] = UnitOfAnalysis.objects.all()
-        context["data_collection_techniques"] = DataCollectionTechnique.objects.all()
+        context["data_collection_techniques"] = \
+            DataCollectionTechnique.objects.all()
         context["sampling_types"] = SamplingType.objects.all()
         context["quantifications"] = SectorQuantification.objects.all()
         context["analytical_values"] = SectorAnalyticalValue.objects.all()
@@ -185,8 +198,10 @@ class AddSoS(View):
         context["affected_groups"] = AffectedGroup.objects.all()
 
         try:
-            context["default_quantification"] = SectorQuantification.objects.get(is_default=True)
-            context["default_analytical_value"] = SectorAnalyticalValue.objects.get(is_default=True)
+            context["default_quantification"] = \
+                SectorQuantification.objects.get(is_default=True)
+            context["default_analytical_value"] = \
+                SectorAnalyticalValue.objects.get(is_default=True)
         except:
             pass
 
@@ -218,20 +233,31 @@ class AddSoS(View):
         sos.lead_organization = request.POST["lead-organization"]
         sos.partners = request.POST["other-assesment-partners"]
         sos.affected_groups = request.POST["affected_groups"]
-        if request.POST["start-of-field"] and request.POST["start-of-field"] != "":
+        if request.POST["start-of-field"] and \
+                request.POST["start-of-field"] != "":
             sos.start_data_collection = request.POST["start-of-field"]
         if request.POST["end-of-field"] and request.POST["end-of-field"] != "":
             sos.end_data_collection = request.POST["end-of-field"]
-        if request.POST["assesment-frequency"] and request.POST["assesment-frequency"] != "":
-            sos.frequency = AssessmentFrequency.objects.get(pk=request.POST["assesment-frequency"])
-        if request.POST["assesment-status"] and request.POST["assesment-status"] != "":
-            sos.status = AssessmentStatus.objects.get(pk=request.POST["assesment-status"])
-        if request.POST["assesment-confidentiality"] and request.POST["assesment-confidentiality"] != "":
-            sos.confidentiality = AssessmentConfidentiality.objects.get(pk=request.POST["assesment-confidentiality"])
-        if request.POST["source-proximity"] and request.POST["source-proximity"] != "":
-            sos.proximity_to_source = ProximityToSource.objects.get(pk=request.POST["source-proximity"])
-        if request.POST["sampling-type"] and request.POST["sampling-type"] != "":
-            sos.sampling_type = SamplingType.objects.get(pk=request.POST["sampling-type"])
+        if request.POST["assesment-frequency"] and \
+                request.POST["assesment-frequency"] != "":
+            sos.frequency = AssessmentFrequency.objects\
+                .get(pk=request.POST["assesment-frequency"])
+        if request.POST["assesment-status"] and \
+                request.POST["assesment-status"] != "":
+            sos.status = AssessmentStatus.objects.get(
+                pk=request.POST["assesment-status"])
+        if request.POST["assesment-confidentiality"] and \
+                request.POST["assesment-confidentiality"] != "":
+            sos.confidentiality = AssessmentConfidentiality.objects.get(
+                pk=request.POST["assesment-confidentiality"])
+        if request.POST["source-proximity"] and \
+                request.POST["source-proximity"] != "":
+            sos.proximity_to_source = ProximityToSource.objects.get(
+                pk=request.POST["source-proximity"])
+        if request.POST["sampling-type"] and \
+                request.POST["sampling-type"] != "":
+            sos.sampling_type = SamplingType.objects.get(
+                pk=request.POST["sampling-type"])
         sos.created_by = request.user
         sos.sectors_covered = request.POST["sectors_covered"]
         sos.save()
@@ -278,18 +304,22 @@ class AddSoS(View):
         #     sos.affected_groups.add(AffectedGroup.objects.get(name=group))
 
         sos.unit_of_analysis.clear()
-        if request.POST["analysis-unit"] and request.POST["analysis-unit"] != "null":
+        if request.POST["analysis-unit"] and \
+                request.POST["analysis-unit"] != "null":
             pks = request.POST["analysis-unit"].split(",")
             for pk in pks:
                 sos.unit_of_analysis.add(UnitOfAnalysis.objects.get(pk=pk))
 
         sos.data_collection_technique.clear()
-        if request.POST["data-collection-technique"] and request.POST["data-collection-technique"] != "null":
+        if request.POST["data-collection-technique"] and \
+                request.POST["data-collection-technique"] != "null":
             pks = request.POST["data-collection-technique"].split(",")
             for pk in pks:
-                sos.data_collection_technique.add(DataCollectionTechnique.objects.get(pk=pk))
+                sos.data_collection_technique.add(
+                    DataCollectionTechnique.objects.get(pk=pk))
 
         return redirect('leads:sos', event)
+
 
 class AddLead(View):
     @method_decorator(login_required)
@@ -402,6 +432,15 @@ class AddLead(View):
         if "lead_simplified" in temp and temp["lead_simplified"]:
             SimplifiedLead(lead=lead, text=temp["lead_simplified"]).save()
 
+        if "clone_to" in request.POST and request.POST.get('clone_to'):
+            clone_to = request.POST['clone_to'].split(',')
+            clone_to = [int(x) for x in clone_to]
+            for pk in clone_to:
+                try:
+                    lead.clone_to(Event.objects.get(pk=pk))
+                except Exception as e:
+                    pass
+
         if error != "":
             context = {}
             context["current_page"] = "leads"
@@ -417,7 +456,8 @@ class AddLead(View):
             })
         if "add-entry" in request.POST:
             # if lead.lead_type == Lead.ATTACHMENT_LEAD:
-            #     return JsonResponse({'url': reverse('entries:add', args=[event, lead.pk])})
+            #     return JsonResponse({'url': reverse('entries:add',
+            #                                         args=[event, lead.pk])})
             return redirect('entries:add', event, lead.pk)
 
         return redirect("leads:leads", event=event)
@@ -516,17 +556,23 @@ class ExportSosXls(View):
         # Fill data
         for i, sos in enumerate(soses):
             rows = RowCollection(1)
-            rows.add_values([sos.pk, sos.title, sos.lead_organization, sos.partners,
-                             sos.proximity_to_source.name if sos.proximity_to_source else ""])
+            rows.add_values([sos.pk, sos.title, sos.lead_organization,
+                             sos.partners,
+                             sos.proximity_to_source.name
+                             if sos.proximity_to_source else ""])
 
             rows.permute_and_add(sos.unit_of_analysis.all())
-            rows.add_values([sos.start_data_collection if sos.start_data_collection else "",
-                             sos.end_data_collection if sos.end_data_collection else ""])
+            rows.add_values([sos.start_data_collection
+                             if sos.start_data_collection else "",
+                             sos.end_data_collection
+                             if sos.end_data_collection else ""])
             rows.permute_and_add(sos.data_collection_technique.all())
             rows.add_values([sos.frequency.name if sos.frequency else "",
                              sos.status.name if sos.status else "",
-                             sos.confidentiality.name if sos.confidentiality else "",
-                             sos.sampling_type.name if sos.sampling_type else ""])
+                             sos.confidentiality.name
+                             if sos.confidentiality else "",
+                             sos.sampling_type.name
+                             if sos.sampling_type else ""])
 
             ags = json.loads(sos.affected_groups)
             affected_groups = []
@@ -540,13 +586,15 @@ class ExportSosXls(View):
                 if sc.identifier in scids:
                     s = scs[scids.index(sc.identifier)]
                     try:
-                        q = SectorQuantification.objects.get(pk=s["quantification"])
+                        q = SectorQuantification.objects.get(
+                            pk=s["quantification"])
                         q = q.name
                     except:
                         q = ""
 
                     try:
-                        a = SectorAnalyticalValue.objects.get(pk=s["analytical_value"])
+                        a = SectorAnalyticalValue.objects.get(
+                            pk=s["analytical_value"])
                         a = a.name
                     except:
                         a = ""
@@ -565,4 +613,5 @@ class ExportSosXls(View):
 
             ew.append(rows.rows)
 
-        return ew.get_http_response(generate_filename('Assessment Registry Export'))
+        return ew.get_http_response(
+            generate_filename('Assessment Registry Export'))
