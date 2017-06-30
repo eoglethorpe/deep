@@ -4,7 +4,7 @@ var dataReady = false;
 
 
 $.getJSON("/api/v2/reports", function(data){
-    if(data.status == true){
+    if(data.status === true){
         reports = data.data;
         $('header .loader').hide();
         dataReady = true;
@@ -53,8 +53,8 @@ $(document).ready(function(){
         var projectStatus = $('input[type=radio][name=project-status]:checked').val();
         var searchText = $('#country-search').val().trim().toLowerCase();
         $('.country').each(function(){
-            if ((projectStatus == '2' || $(this).data('project-status') == projectStatus)
-                && (searchText.length == 0 || $(this).text().trim().toLowerCase().indexOf(searchText) != -1))
+            if ((projectStatus == '2' || $(this).data('project-status') == projectStatus) &&
+                (searchText.length === 0 || $(this).text().trim().toLowerCase().indexOf(searchText) != -1))
             {
                 $(this).show();
             } else {
@@ -92,7 +92,7 @@ $(document).ready(function(){
                 return sortAsc? parseFloat(textA) - parseFloat(textB) : parseFloat(textB) - parseFloat(textA);
             }
         });
-        $.each(countryListItems, function(index, item){ countryList.append(item) });
+        $.each(countryListItems, function(index, item) { countryList.append(item); });
 
         var asc = $('.asc');
         asc.data('sort-asc', null);
@@ -269,7 +269,7 @@ function fillCountryDetails(){
             fillPercent(countryElement.find('.change .percent'), reportChange);
 
             if(reportChange < 0){
-            } else if(reportChange == 0){
+            } else if(reportChange === 0){
                 countryElement.find('.change .viz svg').remove();
                 $('<div class="no-change-block" data-toggle="tooltip" title="No change"></div>').appendTo(countryElement.find('.change .viz'));
             } else{
@@ -304,7 +304,7 @@ function fillCountryDetails(){
             Math.max(...accessConstraintsList)
         ]);
 
-        let sparkLineXMax = Math.max(...[affectedList.length, displacedList.length, pinList.length, accessConstraintsList.length, geoRankList.length]);
+        let sparkLineXMax = Math.max(affectedList.length, displacedList.length, pinList.length, accessConstraintsList.length, geoRankList.length);
 
         setTimeout(function(countryElement, affectedList, displacedList, pinList, accessConstraintsList, geoRankList, sparkLineYMax) {
             return function() {
@@ -317,7 +317,7 @@ function fillCountryDetails(){
                 let geoRankingBarWidth = geoRankingWidth/geoRankList.length*0.7;
                 let geoRankingGap = geoRankingWidth/geoRankList.length*0.3;
                 countryElement.find('.geo-ranking .viz').sparkline(geoRankList.reverse(), {type: 'bar', height: '48px', chartRangeMin: 0, chartRangeMax: 3, barWidth: geoRankingBarWidth, barSpacing: geoRankingGap, barColor: '#cc2d06'});
-            }
+            };
         }(countryElement, affectedList, displacedList, pinList, accessConstraintsList, geoRankList, sparkLineYMax), 0);
     }
 }
