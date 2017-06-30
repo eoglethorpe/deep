@@ -101,7 +101,7 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
         <div id="lead-preview-container">
             {% if format == 'pdf' %}
                 <iframe id="lead-preview" src="{{ lead_url }}"></iframe>
-            {% elif format == 'docx' or format == 'pptx' %}
+            {% elif format == 'docx' or format == 'pptx' or format == 'xlsx' or format == 'doc' or format == 'ppt' or format == 'xls' %}
                 <iframe id="lead-preview" src="https://docs.google.com/viewer?url={{ lead_url|urlencode }}&embedded=true&chrome=false&dov=1"></iframe>
             {% else %}
                 <iframe sandbox="allow-scripts allow-same-origin" id="lead-preview" src="{{ lead_url }}"></iframe>

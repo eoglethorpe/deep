@@ -176,12 +176,7 @@ class AddSoS(View):
                 lead.attachment.upload.url)
 
         if context.get('lead_url'):
-            if context['lead_url'].endswith('.pdf'):
-                context["format"] = 'pdf'
-            elif context['lead_url'].endswith('.docx'):
-                context["format"] = 'docx'
-            elif context['lead_url'].endswith('.pptx'):
-                context["format"] = 'pptx'
+            context['format'] = context['lead_url'].rpartition('.')[-1]
 
         # Get fields options
         context["proximities"] = ProximityToSource.objects.all()
