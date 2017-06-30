@@ -242,7 +242,10 @@ class AddEntry(View):
         except:
             get_simplified_lead(lead, context)
             if "lead_simplified" in context and context['lead_simplified']:
-                SimplifiedLead(lead=lead, text=context["lead_simplified"]).save()
+                try:
+                    SimplifiedLead(lead=lead, text=context["lead_simplified"]).save()
+                except:
+                    pass
 
         if lead.lead_type == 'URL':
             context['lead_url'] = lead.url

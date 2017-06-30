@@ -567,7 +567,7 @@ body{
                 }
             }
             #projects-wrapper{
-                height: calc(100vh - 144px - #{$navbar-height});
+                height: calc(100vh - 144px - #{$navbar-height} - 24px);
                 .name{ flex-basis: 20%; }
                 .countries{flex-basis: 20%; }
                 .start-date{flex-basis: 10%; }

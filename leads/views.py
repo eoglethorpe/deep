@@ -166,8 +166,11 @@ class AddSoS(View):
         except:
             get_simplified_lead(lead, context)
             if "lead_simplified" in context:
-                SimplifiedLead(lead=lead,
-                               text=context["lead_simplified"]).save()
+                try:
+                    SimplifiedLead(lead=lead,
+                                   text=context["lead_simplified"]).save()
+                except:
+                    pass
 
         if lead.lead_type == 'URL':
             context['lead_url'] = lead.url
@@ -424,8 +427,12 @@ class AddLead(View):
         SimplifiedLead.objects.filter(lead=lead).delete()
         temp = {}
         get_simplified_lead(lead, temp)
+
         if "lead_simplified" in temp and temp["lead_simplified"]:
-            SimplifiedLead(lead=lead, text=temp["lead_simplified"]).save()
+            try:
+                SimplifiedLead(lead=lead, text=temp["lead_simplified"]).save()
+            except:
+                pass
 
         if "clone_to" in request.POST and request.POST.get('clone_to'):
             clone_to = request.POST['clone_to'].split(',')
@@ -445,14 +452,15 @@ class AddLead(View):
             context["error"] = error
             return render(request, "leads/add-lead.html",
                           context)
+
         if "redirect-url" in request.POST:
             return JsonResponse({
                 "url": reverse('entries:add', args=[event, lead.pk])
             })
         if "add-entry" in request.POST:
-            # if lead.lead_type == Lead.ATTACHMENT_LEAD:
-            #     return JsonResponse({'url': reverse('entries:add',
-            #                                         args=[event, lead.pk])})
+            if len(request.FILES) > 0:
+                return JsonResponse({'url': reverse('entries:add',
+                                                    args=[event, lead.pk])})
             return redirect('entries:add', event, lead.pk)
 
         return redirect("leads:leads", event=event)
