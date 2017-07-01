@@ -19,7 +19,7 @@ class UserGroupPanelView(View):
         context = {}
         context['usergroup'] = UserGroup.objects.get(slug=group_slug)
         context['users'] = User.objects.exclude(first_name='')
-        context['activities'] = ActivityLog.objects.filter(user__usergroup__slug=group_slug)
+        context['activities'] = ActivityLog.objects.filter(group__slug=group_slug,)
         if request.GET.get('error'):
             context['error'] = request.GET['error']
             context['name'] = request.GET['name']
