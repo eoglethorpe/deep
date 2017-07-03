@@ -257,6 +257,11 @@ main {
       border-right: 1px solid rgba(0, 0, 0, 0.03); }
   main #leads-table-wrapper .dataTables_scrollBody {
     border-bottom: 2px solid rgba(0, 0, 0, 0.2); }
+  main #leads-table-wrapper #leads-table a {
+    cursor: pointer;
+    color: #008080; }
+  main #leads-table-wrapper #leads-table .file-type {
+    font-size: 1.1em; }
   main #leads-table-wrapper #leads-table tbody tr[role="row"] {
     cursor: pointer; }
     main #leads-table-wrapper #leads-table tbody tr[role="row"] td:not(:last-child) {
