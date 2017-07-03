@@ -163,13 +163,6 @@ body {
       display: flex;
       justify-content: space-between;
       align-items: stretch; }
-      body main > header #avatar-input {
-        position: absolute;
-        height: 0;
-        width: 0;
-        opacity: 0;
-        left: -100px;
-        top: -100px; }
       body main > header img {
         align-self: center;
         width: 100px;
@@ -180,100 +173,16 @@ body {
         border-radius: 50%;
         border: 2px solid rgba(0, 0, 0, 0.3); }
       body main > header .user-info {
-        flex-basis: calc(100% - 112px - 96px);
+        align-self: center;
+        flex-basis: 100%;
+        margin-left: 16px;
         display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: center; }
-        body main > header .user-info #full-name {
-          flex-basis: 100%;
-          font-size: 32px;
-          padding: 0px 16px;
-          border-bottom: 2px solid transparent;
-          height: 45%;
-          overflow: hidden;
-          display: flex;
-          margin-top: -10px;
-          align-items: flex-start;
-          justify-content: flex-start; }
-          body main > header .user-info #full-name label {
-            transition: all 0.2s ease-in-out; }
-          body main > header .user-info #full-name > div {
-            padding: 0 10px; }
-            body main > header .user-info #full-name > div label {
-              visibility: hidden;
-              opacity: 0; }
-            body main > header .user-info #full-name > div .name {
-              position: relative;
-              line-height: 1; }
-              body main > header .user-info #full-name > div .name[contenteditable="true"] {
-                border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-                outline: none; }
-                body main > header .user-info #full-name > div .name[contenteditable="true"]:focus {
-                  border-bottom: 2px solid rgba(0, 0, 0, 0.3); }
-          body main > header .user-info #full-name.edit {
-            justify-content: space-between; }
-            body main > header .user-info #full-name.edit > div {
-              flex-basis: 50%; }
-              body main > header .user-info #full-name.edit > div label {
-                opacity: 1;
-                visibility: visible; }
-              body main > header .user-info #full-name.edit > div .name {
-                text-transform: none; }
-        body main > header .user-info .extra {
-          height: 55%;
-          padding: 0 16px;
-          flex-basis: 100%;
-          font-size: 15px;
-          color: #fff;
-          display: flex;
-          flex-wrap: wrap;
-          align-items: flex-start; }
-          body main > header .user-info .extra > div {
-            padding: 0 10px; }
-          body main > header .user-info .extra .username {
-            flex-basis: 100%;
-            padding: 4px 10px; }
-          body main > header .user-info .extra label {
-            display: none; }
-          body main > header .user-info .extra #user-organization {
-            padding: 4px 0; }
-            body main > header .user-info .extra #user-organization[contenteditable="true"] {
-              border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-              outline: none; }
-              body main > header .user-info .extra #user-organization[contenteditable="true"]:focus {
-                border-bottom: 2px solid rgba(0, 0, 0, 0.3); }
-          body main > header .user-info .extra #user-organization-wrapper, body main > header .user-info .extra #user-country-select-wrapper {
-            flex-basis: 100%; }
-          body main > header .user-info .extra .selectize-control {
-            margin-left: -5px;
-            background-color: transparent; }
-            body main > header .user-info .extra .selectize-control .selectize-input {
-              font-size: 1.2em;
-              background-color: transparent;
-              border: none;
-              text-transform: uppercase; }
-              body main > header .user-info .extra .selectize-control .selectize-input input {
-                background-color: transparent; }
-              body main > header .user-info .extra .selectize-control .selectize-input:after {
-                display: none; }
-            body main > header .user-info .extra .selectize-control .selectize-dropdown .option {
-              color: #414141; }
-              body main > header .user-info .extra .selectize-control .selectize-dropdown .option:hover {
-                color: #fff; }
-      body main > header.edit-mode .user-info .extra .username {
-        display: none; }
-      body main > header.edit-mode .user-info .extra label {
-        display: block; }
-      body main > header.edit-mode .user-info .extra #user-organization-wrapper, body main > header.edit-mode .user-info .extra #user-country-select-wrapper {
-        flex-basis: 50%; }
-        body main > header.edit-mode .user-info .extra #user-organization-wrapper > div, body main > header.edit-mode .user-info .extra #user-country-select-wrapper > div {
-          border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
-      body main > header.edit-mode .user-info .extra .selectize-control .selectize-input:after {
-        display: block;
-        border-color: #fff transparent transparent transparent; }
-      body main > header.edit-mode .user-info .extra .selectize-control .selectize-input.focus {
-        border-bottom: 2px solid rgba(0, 0, 0, 0.3); }
+        flex-direction: column; }
+        body main > header .user-info .name {
+          font-size: 2em; }
+        body main > header .user-info .username, body main > header .user-info .organization, body main > header .user-info .country {
+          font-size: 1.2em;
+          margin: 3px 0; }
       body main > header .action-buttons {
         flex-basis: 96px;
         font-size: 1.5em;
@@ -462,5 +371,74 @@ body {
     color: #e74c3c; }
   body #new-user-group-modal .proceed-button, body #new-project-modal .proceed-button {
     color: #3498db; }
+  body #edit-user-modal header {
+    display: flex;
+    justify-content: space-between; }
+  body #edit-user-modal .input-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; }
+    body #edit-user-modal .input-container #avatar-input {
+      position: absolute;
+      height: 0;
+      width: 0;
+      opacity: 0;
+      left: -100px;
+      top: -100px; }
+    body #edit-user-modal .input-container #edit-user-avatar {
+      align-self: center;
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      object-position: center;
+      background-color: #fff;
+      border-radius: 50%;
+      border: 2px solid rgba(0, 0, 0, 0.3);
+      margin-bottom: 24px;
+      cursor: pointer; }
+    body #edit-user-modal .input-container form {
+      flex-basis: 100%;
+      width: 100%; }
+      body #edit-user-modal .input-container form > input {
+        margin-bottom: 16px; }
+      body #edit-user-modal .input-container form #user-country-select-wrapper {
+        width: 100%; }
+        body #edit-user-modal .input-container form #user-country-select-wrapper .selectize-control {
+          width: 100%; }
+          body #edit-user-modal .input-container form #user-country-select-wrapper .selectize-control .selectize-input {
+            padding: 8px;
+            background-color: transparent;
+            border: none;
+            border-bottom: 2px solid #f0f0f0;
+            border-radius: 0;
+            box-shadow: none; }
+            body #edit-user-modal .input-container form #user-country-select-wrapper .selectize-control .selectize-input > div {
+              padding: 0; }
+          body #edit-user-modal .input-container form #user-country-select-wrapper .selectize-control .item {
+            margin: 0;
+            background-color: transparent;
+            line-height: 1; }
+          body #edit-user-modal .input-container form #user-country-select-wrapper .selectize-control input {
+            border: 0;
+            padding: 0; }
+    body #edit-user-modal .input-container .btn-wrapper {
+      display: flex;
+      justify-content: space-between;
+      margin: 24px 0 0 0;
+      align-items: center;
+      width: 100%; }
+      body #edit-user-modal .input-container .btn-wrapper a {
+        flex-basis: 48%;
+        width: 48%;
+        text-align: center;
+        text-transform: uppercase;
+        background-color: #f0f0f0;
+        padding: 8px 0;
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer; }
+        body #edit-user-modal .input-container .btn-wrapper a .fa {
+          margin-right: 10px; }
 
 /*# sourceMappingURL=user-profile.css.map */
