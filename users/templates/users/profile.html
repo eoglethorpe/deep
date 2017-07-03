@@ -177,7 +177,7 @@ var activities = [
         <div class="error"></div>
         <div class="input-container">
             <input type="file" name="avatar" id="avatar-input" accept="image/*">
-            <img id="edit-user-avatar" src="{% if user.userprofile.photo %}{{ user.userprofile.photo.url }}{% else %}{% watchful_static_url 'img/default-avatar.png' %}{% endif %}">
+            <img id="edit-user-avatar" title="Click to upload new picture" src="{% if user.userprofile.photo %}{{ user.userprofile.photo.url }}{% else %}{% watchful_static_url 'img/default-avatar.png' %}{% endif %}">
             <form method="post">
                 <label>First Name</label>
                 <input type="text" name="name" id="first-name" value="{{ user.first_name }}">

@@ -356,6 +356,8 @@ body{
                 border: 2px solid rgba(0, 0, 0, 0.3);
                 margin-bottom: 24px;
                 cursor: pointer;
+
+                &:hover { transform: scale(1.1); }
             }
             form{
                 flex-basis: 100%;
@@ -414,9 +416,30 @@ body{
                     color: inherit;
                     cursor: pointer;
 
+                    &:hover {
+                        color: #fff;
+                        background-color: $primary-color;
+                    }
+
                     .fa{
                         margin-right: 10px;
                     }
+                }
+            }
+        }
+        .action-buttons{
+            .cancel-button{
+                padding: 8px 8px;
+                &:hover {
+                    color: #fff;
+                    background-color: $danger-color;
+                }
+            }
+            .proceed-button{
+                padding: 8px 8px;
+                &:hover {
+                    color: #fff;
+                    background-color: $info-color;
                 }
             }
         }

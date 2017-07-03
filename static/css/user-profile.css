@@ -397,6 +397,8 @@ body {
       border: 2px solid rgba(0, 0, 0, 0.3);
       margin-bottom: 24px;
       cursor: pointer; }
+      body #edit-user-modal .input-container #edit-user-avatar:hover {
+        transform: scale(1.1); }
     body #edit-user-modal .input-container form {
       flex-basis: 100%;
       width: 100%; }
@@ -438,7 +440,20 @@ body {
         text-decoration: none;
         color: inherit;
         cursor: pointer; }
+        body #edit-user-modal .input-container .btn-wrapper a:hover {
+          color: #fff;
+          background-color: #008080; }
         body #edit-user-modal .input-container .btn-wrapper a .fa {
           margin-right: 10px; }
+  body #edit-user-modal .action-buttons .cancel-button {
+    padding: 8px 8px; }
+    body #edit-user-modal .action-buttons .cancel-button:hover {
+      color: #fff;
+      background-color: #e74c3c; }
+  body #edit-user-modal .action-buttons .proceed-button {
+    padding: 8px 8px; }
+    body #edit-user-modal .action-buttons .proceed-button:hover {
+      color: #fff;
+      background-color: #3498db; }
 
 /*# sourceMappingURL=user-profile.css.map */
