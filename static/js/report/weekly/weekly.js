@@ -72,9 +72,9 @@ function renderEntries(){
                 information.find('.excerpt-image').show();
             }
             if (entries[i].informations[j].date){
-                information.find('date').text(formatDate(new Date(entries[i].informations[j].date)));
+                entry.find('date').text(formatDate(new Date(entries[i].informations[j].date)));
             } else{
-                information.find('date').text("N/A");
+                entry.find('date').text("N/A");
             }
 
             information.find(".reliability").find('._'+entries[i].informations[j].reliability).addClass('active');
