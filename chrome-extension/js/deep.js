@@ -46,7 +46,7 @@ var deep = {
                     let eventSelectElement = $('#event-select');
 
                     eventSelectElement.empty();
-                    eventSelectElement.append('<option value="">Select event</option>');
+                    eventSelectElement.append('<option value="">Add project</option>');
                     for(i = 0; i < response.length; i++){
                         eventSelectElement.append('<option value="'+response[i].id+'"'+(response[i].id==deep.currentEvent?' selected>':'>')+response[i].name+'</option>');
                     }

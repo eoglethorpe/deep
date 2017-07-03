@@ -9,10 +9,8 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
 <link href="{% watchful_static_url 'css/add-lead.css' %}" type="text/css" rel="stylesheet">
 <link href="{% watchful_static_url 'css/selectize.css' %}" type="text/css" rel="stylesheet">
 <link href="{% watchful_static_url 'css/dropzone.css' %}" type="text/css" rel="stylesheet">
-<link href="{% watchful_static_url 'css/jquery-ui.min.css' %}" type="text/css" rel="stylesheet">
 <script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/dropzone.js' %}"></script>
-<script type="text/javascript" src="{% watchful_static_url 'js/common/jquery-ui.min.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/leads/add-lead.js' %}"></script>
 
@@ -64,7 +62,8 @@ DEEP | {% if lead %}Edit{% else %}Add{% endif %} Lead
         </select>
         <label>Publication date:</label>
         <div style="position:relative;">
-            <input type="date" name="publish-date" placeholder="yyyy-mm-dd" {% if lead %}value="{{lead.published_at|date:"Y-m-d"}}"{% endif %}>
+            <input type="date" name="publish-date" class="publish-date" placeholder="yyyy-mm-dd" {% if lead %}value="{{lead.published_at|date:"Y-m-d"}}"{% endif %}>
+            <input type="text" class="date-picker" data-alt=".publish-date" {% if lead %}value="{{lead.published_at|date:"d-m-Y"}}"{% endif %}>
         </div>
         <div id="radio-btn-container">
             <label>Type:</label>

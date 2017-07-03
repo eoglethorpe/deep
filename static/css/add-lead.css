@@ -196,14 +196,14 @@ body > nav {
     padding: 48px;
     background-color: #fff;
     box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-    #main form input[type="date"] {
+    #main form input[type="date"], #main form input.date-picker {
       width: 100%;
       margin: 0 0 10px 0;
-      padding: 2px 16px;
+      padding: 4px 16px;
       outline: none;
       border: 1px solid rgba(0, 0, 0, 0.1);
       background-color: #fff; }
-      #main form input[type="date"]:focus {
+      #main form input[type="date"]:focus, #main form input.date-picker:focus {
         border-color: #008080; }
     #main form > input[type="text"], #main form input[type="number"] {
       width: 100%;
