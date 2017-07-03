@@ -354,7 +354,6 @@ function refreshPageTwo() {
         }
         entry.find('.entry-date').val(excerpt.date);
         entry.find('.date-picker-template').removeClass('date-picker-template').addClass('date-picker');
-        entry.find('.date-picker').val(excerpt.date);
         entry.find('.entry-number').val(excerpt.number);
 
         entry.find('.vulnerable-group-select').val(excerpt.vulnerable_groups);

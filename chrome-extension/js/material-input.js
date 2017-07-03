@@ -160,27 +160,28 @@ function refreshSelectInputs(){
     });
 }
 $(document).ready(function(){
-    $('.text-input input').on('change input paste', function(){
-        if($(this).val().length == 0){
+    $('.text-input input:not([type="date"])').on('change input paste', function(){
+        if($(this).val().length === 0){
             $(this).removeClass('filled');
         }else{
             $(this).addClass('filled');
         }
     });
-    var dateInputs = $('.text-input input[type="date"]');
-    dateInputs.each(function(){
-        if(!$(this).val()){
-            $(this)[0].type = 'text';
-        }
-    });
-    dateInputs.on('focus', function(){
-        $(this)[0].type = 'date';
-    });
-    dateInputs.on('focusout change', function(){
-        if(!$(this).val()){
-            $(this)[0].type = 'text';
-        } else {
-            $(this)[0].type = 'date';
-        }
-    });
+
+    // var dateInputs = $('.text-input input[type="date"]');
+    // dateInputs.each(function(){
+    //     if(!$(this).val()){
+    //         $(this)[0].type = 'text';
+    //     }
+    // });
+    // dateInputs.on('focus', function(){
+    //     $(this)[0].type = 'date';
+    // });
+    // dateInputs.on('focusout change', function(){
+    //     if(!$(this).val()){
+    //         $(this)[0].type = 'text';
+    //     } else {
+    //         $(this)[0].type = 'date';
+    //     }
+    // });
 });

@@ -15,8 +15,14 @@
         </div>
         <div class="key-event-template" hidden>
             <div class="col"><input class="event-value" placeholder="Event name"></div>
-            <div class="col"><input type="date" class="start-date"></div>
-            <div class="col"><input type="date" class="end-date"></div>
+            <div class="col">
+                <input type="date" class="start-date">
+                <input type="text" class="date-picker-template" date-alt=".start-date">
+            </div>
+            <div class="col">
+                <input type="date" class="end-date">
+                <input type="text" class="date-picker-template" date-alt=".end-date">
+            </div>
             <div class="col">
                 <select class="category-select" placeholder="Select category">
                     {% for category in category_timelines %}

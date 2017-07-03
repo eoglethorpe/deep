@@ -9,6 +9,7 @@ function addKeyEvent(data) {
     keyEvent.removeClass('key-event-template');
     keyEvent.addClass('key-event');
     keyEvent.removeClass('key-event-template');
+
     if(data){
         keyEvent.find('.event-value').val(data.value);
         keyEvent.find('.start-date').val(data.start_date);
@@ -26,6 +27,9 @@ function addKeyEvent(data) {
     keyEvent.find('select').selectize();
     keyEvent.appendTo(container);
     keyEvent.slideDown('slow');
+
+    keyEvent.find('.date-picker-template').removeClass('date-picker-template')
+        .addClass('date-picker');
 
     addTodayButtons();
 }
