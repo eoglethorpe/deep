@@ -191,6 +191,8 @@ main {
     padding: 0 16px;
     padding-right: 0;
     justify-content: space-between; }
+    main > header .title-container {
+      display: flex; }
     main > header button {
       padding: 6px 10px;
       box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
