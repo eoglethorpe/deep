@@ -86,6 +86,9 @@ class PageOneExcerptBox extends Element {
         if (data.position) {
             this.setPosition(data.position);
         }
+        if (data.label) {
+            this.dom.find('label').eq(0).text(data.label);
+        }
     }
 
     save() {
@@ -94,6 +97,7 @@ class PageOneExcerptBox extends Element {
             type: 'pageOneExcerptBox',
             size:  { width: this.dom.find('.excerpt-container').css('width'), height: this.dom.find('.excerpt-container').css('height') },
             position: this.getPosition(),
+            label: this.dom.find('label').eq(0).text(),
         };
     }
 
@@ -106,7 +110,17 @@ class PageOneExcerptBox extends Element {
     }
 
     addPropertiesTo(container) {
+        let that = this;
 
+        let labelProperty = $('<div class="property"></div>');
+        labelProperty.append($('<label>Label</label>'));
+        labelProperty.append($('<input type="text">'));
+        labelProperty.find('input').val(this.dom.find('label').eq(0).text());
+        labelProperty.find('input').change(function() {
+            that.dom.find('label').eq(0).text($(this).val());
+            templateEditor.reloadElements();
+        });
+        container.append(labelProperty);
     }
 
     getAllowedPage() {
@@ -143,6 +157,9 @@ class PageOneImageBox extends Element {
         if (data.position) {
             this.setPosition(data.position);
         }
+        if (data.label) {
+            this.dom.find('label').eq(0).text(data.label);
+        }
     }
 
     save() {
@@ -151,6 +168,7 @@ class PageOneImageBox extends Element {
             type: 'pageOneImageBox',
             size:  { width: this.dom.find('.image-container').width(), height: this.dom.find('.image-container').height() },
             position: this.getPosition(),
+            label: this.dom.find('label').eq(0).text(),
         };
     }
 
@@ -163,6 +181,17 @@ class PageOneImageBox extends Element {
     }
 
     addPropertiesTo(container) {
+        let that = this;
+
+        let labelProperty = $('<div class="property"></div>');
+        labelProperty.append($('<label>Label</label>'));
+        labelProperty.append($('<input type="text">'));
+        labelProperty.find('input').val(this.dom.find('label').eq(0).text());
+        labelProperty.find('input').change(function() {
+            that.dom.find('label').eq(0).text($(this).val());
+            templateEditor.reloadElements();
+        });
+        container.append(labelProperty);
 
     }
 

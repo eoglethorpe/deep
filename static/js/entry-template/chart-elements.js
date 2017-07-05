@@ -4,6 +4,7 @@ class OrganigramInput extends Element {
         let dom = $('<div class="element organigram"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
+        dom.append($('<div class="fa fa-trash delete-element"></div>'));
         dom.append($('<div class="container"><div class="header"><label class="title">Organigram</label></header></div>'));
         dom.find('.container').find('.header').append($('<img src="/static/img/organigram.png">'));
         dom.find('.container').append($('<div class="items"><span>Item1</span><span>Item2</span></div>'));
@@ -15,6 +16,7 @@ class OrganigramInput extends Element {
             { id: 'node-2', name: 'Affected', parent: 'node-1' },
             { id: 'node-3', name: 'Not affected', parent: 'node-1' },
         ];
+        this.new = true;
 
         if (data) {
             this.load(data);
@@ -48,6 +50,7 @@ class OrganigramInput extends Element {
             this.dom.find('label').eq(0).text(data.label);
         }
         if (data.nodes) {
+            this.new = false;
             this.nodes = data.nodes;
         }
     }
@@ -86,8 +89,12 @@ class OrganigramInput extends Element {
 
             node.find('select').selectize();
 
-            node.find('.remove-node').click(function() {
-                node.remove();
+            node.find('.remove-node').click(function(e) {
+                e.stopPropagation();
+                if (node.data('new') || confirmRemoval()) {
+                    node.remove();
+                }
+                that.refreshNodes();
             });
 
             nodesProperty.find('.nodes').append(node);
@@ -97,11 +104,14 @@ class OrganigramInput extends Element {
         };
 
         nodesProperty.find('.add-node').click(function() {
-            addNode();
+            addNode().data('new', true);
         });
 
         for (let i=0; i<this.nodes.length; i++) {
             let node = addNode();
+            if (this.new) {
+                node.data('new', true);
+            }
             node.find('.name').val(this.nodes[i].name);
             node.find('.name').data('id', this.nodes[i].id);
             that.addOptions(node);
@@ -169,6 +179,7 @@ class GeolocationsInput extends Element {
         let dom = $('<div class="element geolocations"></div>');
         dom.append($('<div class="fa fa-arrows handle"></div>'));
         dom.append($('<div class="fa fa-edit edit"></div>'));
+        dom.append($('<div class="fa fa-trash delete-element"></div>'));
         dom.append($('<div class="container"><div class="header"><label class="title">Geolocations</label></div></div>'));
         dom.find('.container').find('.header').append($('<img src="/static/img/mapicon.png">'));
         dom.find('.container').append($('<div class="locations"><span>Location1</span><span>Location2</span></div>'));

@@ -1,18 +1,19 @@
 @import 'common/base';
 @import 'common/navbar';
 
-body{
+body {
     $map-height: 44vh;
 
-    h1, h2, h3, h4{
+    h1, h2, h3, h4 {
         margin: 0;
         text-transform: uppercase;
     }
-    #map{
+
+    #map {
         display: flex;
         justify-content: space-between;
 
-        #the-map{
+        #the-map {
             background-color: transparent;
             height: $map-height;
             flex-basis: 75%;
@@ -158,5 +159,41 @@ body{
                 }
             }
         }
+    }
+
+    #non-acaps {
+       display: flex;
+       height: calc(100vh - #{$navbar-height});
+       justify-content: center;
+       align-items: center;
+       flex-direction: column;
+
+       img {
+           height: 30vh;
+           filter: brightness(80%);
+       }
+
+       p {
+           color: rgba(0, 0, 0, 0.5);
+           font-size: 3em;
+           text-transform: uppercase;
+       }
+       >div{
+           >div{
+               padding: 10px 0;
+               color: rgba(0, 0, 0, 0.5);
+               font-weight: $font-weight-bold;
+               font-size: 1.2em;
+               text-transform: uppercase;
+               text-align: center;
+           }
+
+           }
+       .fa{
+           font-size: 0.9em;
+           margin-left: 10px;
+           color: rgba(0, 0, 0, 0.5);
+
+       }
     }
 }

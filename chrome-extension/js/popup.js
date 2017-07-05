@@ -41,11 +41,48 @@ $(document).ready(function(){
     $('#submit-and-add-entry').on('click', function(e){
         $('#add-lead-form').append('<input type="hidden" name="redirect-url" value="true">');
     });
+
+    const publishDatePicker = $('#publish-date-picker');
+    publishDatePicker.datepicker({
+        altField: $('#publish-date'),
+        altFormat: 'yy-mm-dd',
+        dateFormat: 'dd-mm-yy',
+        onSelect: function() {
+            $('#publish-date').change();
+            $('#publish-date-picker').change();
+        },
+    });
+
     $('#publish-date-container a').on('click', function(){
-        let dateInput = $('#publish-date');
-        dateInput[0].type = 'date';
-        dateInput[0].valueAsDate = new Date;
-        dateInput.focus().addClass('filled');
-        dateInput.trigger('change');
+        publishDatePicker.datepicker('setDate', new Date());
+        publishDatePicker.trigger('change');
+    });
+     
+    $('#event-select').on('change', function() {
+         
+        if($(this).val()) {
+            let pk = $(this).val();
+            $(this).val('');
+
+            if($('.selected-event').filter(function(){ return $(this).data('pk') == pk; }).length > 0) {
+                return;
+            }
+            let selectedEventElement = $(`
+                <div class="selected-event">
+                    <span class="name"></span>
+                    <button><i class="fa fa-times"></i></button>
+                </div>
+            `);
+            selectedEventElement.find('.name').text($(this).find('option[value="'+pk+'"]').text());
+            selectedEventElement.data('pk', pk);
+             
+            selectedEventElement.find('button').on('click', function() {
+                $(this).closest('.selected-event').remove();   
+                return false;
+            });
+
+            selectedEventElement.appendTo('#selected-events');
+        }
+         
     });
 });

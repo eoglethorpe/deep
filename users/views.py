@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from django.core.validators import validate_email
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -27,7 +27,9 @@ class RegisterView(View):
 
     def get(self, request):
         # Return the register template.
-        return render(request, "users/register.html")
+        context = {}
+        context['countries'] = Country.objects.all()
+        return render(request, "users/register.html", context)
 
     def post(self, request):
 
@@ -38,6 +40,7 @@ class RegisterView(View):
         password = request.POST["password"]
         repassword = request.POST["re-password"]
         organization = request.POST["organization"]
+        country_code = request.POST['country']
 
         error = ""
 
@@ -68,6 +71,7 @@ class RegisterView(View):
             profile = UserProfile()
             profile.user = user
             profile.organization = organization
+            profile.country = Country.objects.get(code=country_code)
             profile.save()
 
             user = authenticate(username=email, password=password)
@@ -150,6 +154,11 @@ class LoginView(View):
                 try:
                     profile = UserProfile.objects.get(user=user)
                     login(request, user)
+
+                    next_page = request.POST.get('next')
+                    if next_page:
+                        return redirect(next_page)
+
                     # if request.GET.get('next'):
                     #     return redirect(request.GET['next'])
                     last_event = UserProfile.get_last_event(request)
@@ -180,12 +189,20 @@ class DashboardView(View):
 
         context = {}
         context["current_page"] = "dashboard"
+        context["all_events"] = Event.get_events_for(request.user)
+
+        if context['all_events'].count() == 0:
+            return redirect('user_profile', request.user.pk)
+
         if event:
             context["event"] = Event.objects.get(pk=event)
+            if context['event'] not in context['all_events']:
+                UserProfile.set_last_event(request, None)
+                return redirect('dashboard')
             UserProfile.set_last_event(request, context["event"])
         else:
             UserProfile.set_last_event(request, None)
-        context["all_events"] = Event.objects.all()
+
 
         # Filter options in dashboard
         context["disaster_types"] = DisasterType.objects.all()
@@ -259,6 +276,7 @@ class UserProfileView(View):
         context = {
             'user': user,
             'projects': list(set(projects)),
+            'countries': Country.objects.all(),
         }
         return render(request, "users/profile.html", context)
 
@@ -300,10 +318,19 @@ class UserProfileView(View):
         # TODO check if user has permission for whatever request
 
         # Edit profile
-        if request['request'] == 'edit-name':
+        if request['request'] == 'edit-attributes':
             response['done'] = False
             user.first_name = request['firstName']
             user.last_name = request['lastName']
+
+            profile = user.userprofile
+            profile.organization = request['organization']
+            if request.get('country'):
+                profile.country = Country.objects.get(
+                    code=request['country'])
+            else:
+                profile.country = None
+            profile.save()
             user.save()
             response['done'] = True
 

@@ -40,4 +40,4 @@ class Modal{
             addTodayButtons();
         });
     }
-};
+}

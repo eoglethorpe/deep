@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^edit/(?P<id>\d+)/$', views.AddLead.as_view(), name='edit'),
     url(r'^mark_processed/$', views.MarkProcessed.as_view(), name='mark_processed'),
     url(r'^delete/$', views.DeleteLead.as_view(), name='delete'),
+    url(r'^delete-sos/$', views.DeleteSoS.as_view(), name='delete_sos'),
     url(r'^sos/$', views.SoSView.as_view(), name="sos"),
 
     url(r'^exportsosxls/$', views.ExportSosXls.as_view(), name="exportsosxls"),

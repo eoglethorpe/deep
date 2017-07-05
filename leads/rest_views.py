@@ -31,15 +31,19 @@ class LeadViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         event = self.request.GET.get("event")
+        if not Event.objects.get(pk=event).allow(self.request.user):
+            return []
         if event:
             return Lead.objects.filter(event__pk=event)
         return Lead.objects.all()
 
 
 class EventViewSet(viewsets.ModelViewSet):
-    queryset = Event.objects.all()
     serializer_class = EventSerializer
     perimission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        return Event.get_events_for(self.request.user)
 
 
 class SosViewSet(viewsets.ModelViewSet):
@@ -49,6 +53,8 @@ class SosViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         refresh_pcodes()
         event = self.request.GET.get("event")
+        if not Event.objects.get(pk=event).allow(self.request.user):
+            return []
         if event:
             return SurveyOfSurvey.objects.filter(lead__event__pk=event)
         return SurveyOfSurvey.objects.all()

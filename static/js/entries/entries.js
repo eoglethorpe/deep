@@ -41,6 +41,11 @@ function renderEntries() {
     }
 
     $("#entries").empty();
+
+    if (entries.length == 0) {
+        $('#entries').html('<p class="message">No entries for this project</p>');
+    }
+
     for (var i=0; i<entries.length; ++i) {
         var entry = entries[i];
 

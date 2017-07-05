@@ -27,7 +27,7 @@ $(document).ready(function(){
                     return list.join(", ");
                 }
             },
-            { data: null,width: "15%", render: function(data, type, row) { return data["affected_groups"].join(", "); } },
+            { data: null,width: "15%", render: function(data, type, row) { return data['affected_groups'] && data["affected_groups"].join(", "); } },
             { data: "lead_organization", width: "7%",},
             { data: "frequency", width: "7%",},
             { data: "confidentiality", width: "7%", },
@@ -36,9 +36,18 @@ $(document).ready(function(){
             {
                 data: null, width: "5%",
                 render: function(data, type, row){
-                    return '<a class="btn-action btn-edit" href="/'+currentEvent+'/leads/edit-sos/'+data.lead+"/"+data.id+'"><i class="fa fa-edit"></i>Edit</a>';
+                    return '<a class="btn-action btn-edit" href="/'+currentEvent+'/leads/edit-sos/'+data.lead+"/"+data.id+'"><i class="fa fa-edit"></i>Edit</a>' +
+                        '<a class="btn-action btn-delete" onclick="deleteSoS(' + data.id + ')"><i class="fa fa-trash-o"></i>Delete</a>';
                 }
             }
         ],
     });
 });
+
+
+function deleteSoS(id) {
+    if (confirm("Are you sure you want to delete this assessment registry?")) {
+        $("#delete-id").val(id);
+        $("#delete-form").submit();
+    }
+}

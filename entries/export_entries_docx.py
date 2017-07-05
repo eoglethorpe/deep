@@ -4,6 +4,9 @@ import datetime
 import tempfile
 import base64
 import re
+import json
+
+from xml.sax.saxutils import escape
 
 import docx
 # from docx import RT
@@ -28,10 +31,10 @@ def valid_xml_char_ordinal(c):
     )
 
 
-def xstr(conv):
+def xstr(s):
     """remove illegal characters from a string (errors from PDFs etc)"""
-    s = "".join(filter(lambda x: x in string.printable, conv))
-    return ''.join(c for c in s if valid_xml_char_ordinal(c))
+    s = escape(s)
+    return ''.join(c for c in s if valid_xml_char_ordinal(c) and c in string.printable)
 
 
 # See:
@@ -199,7 +202,145 @@ def set_style(style):
     style.paragraph_format.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.LEFT
 
 
-def export_docx(event, informations=None, export_geo=False):
+def order_attributes(attributes, data):
+    if data.get('order_by') and data.get('order_by')[0] == 'DATE_ASCENDING':
+        return attributes.order_by('information__entry__lead__published_at')
+    else:
+        return attributes.order_by('-information__entry__lead__published_at')
+
+
+def export_pillar(d, pillar, leads_pk, event, informations, data, export_geo):
+    pillar_header_shown = False
+
+    # Get each subpillar
+    subpillars = pillar.informationsubpillar_set.all()
+    subpillars_order = data.get('pillar-order-' + str(pillar.id))[0].split(',')
+    subpillar_dict = dict([(str(p.id), p) for p in subpillars])
+    subpillars = [
+        subpillar_dict[id] for id in subpillars_order
+        if id in subpillar_dict and data.get('subpillar-' + id)
+        and data.get('subpillar-' + id)[0] == 'on'
+    ]
+
+    for subpillar in subpillars:
+        attributes = entry_model.InformationAttribute.objects.filter(
+                subpillar=subpillar,
+                sector=None,
+                information__entry__lead__event__pk=event)
+
+        attributes = order_attributes(attributes, data)
+
+        if informations is not None:
+            attributes = attributes.filter(
+                    information__pk__in=informations)
+
+        if len(attributes) > 0:
+            if not pillar_header_shown:
+                d.add_heading(pillar.name, level=2)
+                d.add_paragraph()
+                pillar_header_shown = True
+            d.add_heading(subpillar.name, level=3)
+            d.add_paragraph()
+
+        already_added = []
+        for attr in attributes:
+            info = attr.information
+            if info not in already_added:
+                already_added.append(info)
+                add_excerpt_info(d, info)
+                leads_pk.append(info.entry.lead.pk)
+
+
+def export_sector(d, sector, leads_pk, event, informations, data, export_geo):
+    sector_header_shown = False
+
+    if export_geo:
+        attributes = entry_model.InformationAttribute.objects.filter(
+                sector=sector,
+                information__entry__lead__event__pk=event)
+
+        attributes = order_attributes(attributes, data)
+
+        if informations is not None:
+            attributes = attributes.filter(
+                    information__pk__in=informations)
+
+        if len(attributes) > 0:
+            if not sector_header_shown:
+                d.add_heading(sector.name, level=2)
+                d.add_paragraph()
+                sector_header_shown = True
+
+        already_added = []
+        for attr in attributes:
+            info = attr.information
+            if info not in already_added:
+                already_added.append(info)
+                add_excerpt_info(d, info)
+                leads_pk.append(info.entry.lead.pk)
+    else:
+        # Get each pillar
+        pillars = entry_model.InformationPillar.objects.filter(
+                    contains_sectors=True)
+
+        # Order them as required
+        list_order = data.get('list-order')[0].split(',')
+        pillars_order = [
+            id[7:] for id in list_order if id.startswith('pillar-')
+        ]
+        pillar_dict = dict([(str(p.id), p) for p in pillars])
+        pillars = [
+            pillar_dict[id] for id in pillars_order
+            if id in pillar_dict and data.get('pillar-' + id)
+            and data.get('pillar-' + id)[0] == 'on'
+        ]
+
+        for pillar in pillars:
+            pillar_header_shown = False
+
+            # Get each subpillar
+            subpillars = pillar.informationsubpillar_set.all()
+            subpillars_order = data.get('pillar-order-' + str(pillar.id))[0].split(',')
+            subpillar_dict = dict([(str(p.id), p) for p in subpillars])
+            subpillars = [
+                subpillar_dict[id] for id in subpillars_order
+                if id in subpillar_dict and data.get('subpillar-' + id)
+                and data.get('subpillar-' + id)[0] == 'on'
+            ]
+
+            for subpillar in subpillars:
+                attributes = entry_model.InformationAttribute.objects.filter(
+                        subpillar=subpillar,
+                        sector=sector,
+                        information__entry__lead__event__pk=event)
+
+                attributes = order_attributes(attributes, data)
+
+                if informations is not None:
+                    attributes = attributes.filter(
+                            information__pk__in=informations)
+
+                if len(attributes) > 0:
+                    if not sector_header_shown:
+                        d.add_heading(sector.name, level=2)
+                        d.add_paragraph()
+                        sector_header_shown = True
+                    if not pillar_header_shown:
+                        d.add_heading(pillar.name, level=3)
+                        d.add_paragraph()
+                        pillar_header_shown = True
+                    d.add_heading(subpillar.name+":", level=4)
+
+                already_added = []
+                for attr in attributes:
+                    info = attr.information
+                    if info not in already_added:
+                        already_added.append(info)
+                        add_excerpt_info(d, info)
+                        leads_pk.append(info.entry.lead.pk)
+
+
+def export_docx(event, informations=None, data=None, export_geo=False):
     d = docx.Document('static/doc_export/template.docx')
 
     # Set document styles
@@ -213,104 +354,28 @@ def export_docx(event, informations=None, export_geo=False):
     # The leads for which excerpts we displayed
     leads_pk = []
 
-    # First the attributes with no sectors
+    # Report structure order
+    list_order = data.get('list-order')[0].split(',')
+    for report_item in list_order:
+        if report_item.startswith('pillar-'):
 
-    # Get each pillar
-    pillars = entry_model.InformationPillar.objects.filter(
-                contains_sectors=False)
-    for pillar in pillars:
-        pillar_header_shown = False
+            pillar_id = report_item[7:]
+            pillar = entry_model.InformationPillar.objects.get(
+                pk=int(pillar_id))
+            if not pillar.contains_sectors:
+                is_on = data.get('pillar-' + pillar_id)
+                if is_on and is_on[0] == 'on':
+                    export_pillar(d, pillar, leads_pk, event, informations,
+                                  data, export_geo)
 
-        # Get each subpillar
-        subpillars = pillar.informationsubpillar_set.all()
-        for subpillar in subpillars:
-            attributes = entry_model.InformationAttribute.objects.filter(
-                    subpillar=subpillar,
-                    sector=None,
-                    information__entry__lead__event__pk=event)
-            if informations is not None:
-                attributes = attributes.filter(
-                        information__pk__in=informations)
-
-            if len(attributes) > 0:
-                if not pillar_header_shown:
-                    d.add_heading(pillar.name, level=2)
-                    d.add_paragraph()
-                    pillar_header_shown = True
-                d.add_heading(subpillar.name, level=3)
-                d.add_paragraph()
-
-            already_added = []
-            for attr in attributes:
-                info = attr.information
-                if info not in already_added:
-                    already_added.append(info)
-                    add_excerpt_info(d, info)
-                    leads_pk.append(info.entry.lead.pk)
-
-    # Next the attributes containing sectors
-
-    # Get each sector
-    for sector in entry_model.Sector.objects.all():
-        sector_header_shown = False
-
-        if export_geo:
-            attributes = entry_model.InformationAttribute.objects.filter(
-                    sector=sector,
-                    information__entry__lead__event__pk=event)
-            if informations is not None:
-                attributes = attributes.filter(
-                        information__pk__in=informations)
-
-            if len(attributes) > 0:
-                if not sector_header_shown:
-                    d.add_heading(sector.name, level=2)
-                    d.add_paragraph()
-                    sector_header_shown = True
-
-            already_added = []
-            for attr in attributes:
-                info = attr.information
-                if info not in already_added:
-                    already_added.append(info)
-                    add_excerpt_info(d, info)
-                    leads_pk.append(info.entry.lead.pk)
-        else:
-            # Get each pillar
-            pillars = entry_model.InformationPillar.objects.filter(
-                        contains_sectors=True)
-            for pillar in pillars:
-                pillar_header_shown = False
-
-                # Get each subpillar
-                subpillars = pillar.informationsubpillar_set.all()
-                for subpillar in subpillars:
-                    attributes = entry_model.InformationAttribute.objects.filter(
-                            subpillar=subpillar,
-                            sector=sector,
-                            information__entry__lead__event__pk=event)
-                    if informations is not None:
-                        attributes = attributes.filter(
-                                information__pk__in=informations)
-
-                    if len(attributes) > 0:
-                        if not sector_header_shown:
-                            d.add_heading(sector.name, level=2)
-                            d.add_paragraph()
-                            sector_header_shown = True
-                        if not pillar_header_shown:
-                            d.add_heading(pillar.name, level=3)
-                            d.add_paragraph()
-                            pillar_header_shown = True
-                        d.add_heading(subpillar.name+":", level=4)
-
-                    already_added = []
-                    for attr in attributes:
-                        info = attr.information
-                        if info not in already_added:
-                            already_added.append(info)
-                            add_excerpt_info(d, info)
-                            leads_pk.append(info.entry.lead.pk)
+        elif report_item == 'sectors':
+            is_on = data.get('report-sectors')
+            if is_on and is_on[0] == 'on':
+                for sector in entry_model.Sector.objects.all():
+                    is_on = data.get('sector-' + str(sector.id))
+                    if is_on and is_on[0] == 'on':
+                        export_sector(d, sector, leads_pk, event, informations,
+                                      data, export_geo)
 
     add_line(d.add_paragraph())
 
@@ -321,8 +386,8 @@ def export_docx(event, informations=None, export_geo=False):
 
     if len(leads_pk) == 0:
         leads = []
-    else:
         leads_pk = list(set(leads_pk))
+    else:
         leads = entry_model.Lead.objects.filter(pk__in=leads_pk)
 
     for lead in leads:
@@ -354,9 +419,347 @@ def export_docx(event, informations=None, export_geo=False):
     return d
 
 
+def analysis_filter(infos, request_data, elements):
+    infos = infos.distinct()
+
+    if request_data.get('order_by') and request_data.get('order_by')[0] == 'DATE_ASCENDING':
+        infos = infos.order_by('entry__lead__published_at')
+    else:
+        infos = infos.order_by('-entry__lead__published_at')
+
+    for info in infos:
+        info.data = json.loads(info.elements)
+
+    # First we apply filters, not yet applied to the informations
+    # This includes attributes filters
+
+    for element in elements:
+        # Multiselect and organigram are similar in structure
+        if element['type'] in ['multiselect', 'organigram']:
+            options = request_data.get(element['id'])
+            if options:
+                options = set(options)
+                infos = [i for i in infos
+                         if any(d for d in i.data
+                                if d['id'] == element['id'] and d.get('value')
+                                and (options & set(d['value'])))]
+
+        # Geolocations
+        # TODO
+        elif element['type'] == 'matrix1d':
+            filters = request_data.get(element['id'])
+            if filters:
+                filters = set([tuple(f.split(':')) if ':' in f else (f, None)
+                               for f in filters])
+
+                infos = [i for i in infos
+                         if any(d for d in i.data
+                                if d['id'] == element['id']
+                                and d.get('selections')
+                                and (
+                                    set(
+                                        [(s.get('pillar'), s.get('subpillar'))
+                                         for s in d['selections']] +
+                                        [(s.get('pillar'), None) for s
+                                         in d['selections']
+                                         if s.get('subpillar') is not None]
+                                    ) & filters
+                                ))]
+
+        elif element['type'] == 'matrix2d':
+            # Pillar subpillars
+            filters = request_data.get(element['id'])
+            if filters:
+                filters = set([tuple(f.split(':')) if ':' in f else (f, None)
+                               for f in filters])
+
+                infos = [i for i in infos
+                         if any(d for d in i.data
+                                if d['id'] == element['id']
+                                and d.get('selections')
+                                and (
+                                    set(
+                                        [(s.get('pillar'), s.get('subpillar'))
+                                         for s in d['selections']] +
+                                        [(s.get('pillar'), None) for s
+                                         in d['selections']
+                                         if s.get('subpillar') is not None]
+                                    ) & filters
+                                ))]
+
+            # Sectors and subsectors
+            filters = request_data.get(element['id'] + '_sectors')
+            if filters:
+                filters = set([tuple(f.split(':')) if ':' in f else (f, None)
+                               for f in filters])
+
+                infos = [i for i in infos
+                         if any(d for d in i.data
+                                if d['id'] == element['id']
+                                and d.get('selections')
+                                and (
+                                    set(
+                                        [(s.get('sector'), ss)
+                                         for s in d['selections']
+                                         if s.get('subsectors')
+                                         for ss in s['subsectors']
+                                         if d.get('selections')]
+                                        +
+                                        [(s.get('sector'), None) for s
+                                         in d['selections']
+                                         if not s.get('subsectors')]
+                                    ) & filters
+                                ))]
+
+        elif element['type'] == 'scale':
+
+            scales = {}
+            for i, scale in enumerate(element['scaleValues']):
+                scales[scale['id']] = i
+
+            min_filter = request_data.get(element['id'] + '_min')[0]
+            if min_filter:
+                min_val = scales[min_filter]
+                infos = [i for i in infos
+                         if any(d for d in i.data
+                                if d['id'] == element['id'] and d.get('value')
+                                and scales[d['value']] >= min_val)]
+
+            max_filter = request_data.get(element['id'] + '_max')[0]
+            if max_filter:
+                max_val = scales[max_filter]
+                infos = [i for i in infos
+                         if any(d for d in i.data
+                                if d['id'] == element['id'] and d.get('value')
+                                and scales[d['value']] <= max_val)]
+
+    return infos
+
+
+def export_analysis_docx(event, informations=None, data=None):
+    request_data = data
+    event = entry_model.Event.objects.get(pk=event)
+    if not event.entry_template:
+        raise Exception('Event has no analysis framework')
+
+    d = docx.Document('static/doc_export/template.docx')
+
+    # Set document styles
+    set_style(d.styles["Normal"])
+    set_style(d.styles["Heading 1"])
+    set_style(d.styles["Heading 2"])
+    set_style(d.styles["Heading 3"])
+    set_style(d.styles["Heading 4"])
+    set_style(d.styles["Heading 5"])
+
+    # Leads that are exported, needed for bibliography
+    leads_pk = []
+
+    infos = entry_model.EntryInformation.objects.filter(
+            entry__lead__event=event)
+    if informations is not None:
+        infos = infos.filter(pk__in=informations)
+
+    elements = json.loads(event.entry_template.elements)
+    infos = analysis_filter(infos, request_data, elements)
+
+    # Next export the filtered informations
+    # Structuring order
+    report_order = request_data.get('list-order')[0].split(',')
+
+    for order in report_order:
+        order_id = order.split(':')
+        if order_id[0] == 'pillar':
+            matrix1d = next(e for e in elements if e['id'] == order_id[1])
+            if not matrix1d or matrix1d['type'] != 'matrix1d':
+                continue
+
+            pillar = next(p for p in matrix1d['pillars']
+                          if p['id'] == order_id[2])
+            if not pillar:
+                continue
+
+            is_on = request_data.get(order)
+            if not is_on or is_on[0] != 'on':
+                continue
+
+            # Get all infos which have selections in this matrix
+            interested_infos = []
+            for info in infos:
+                data = next((d for d in info.data
+                             if d['id'] == matrix1d['id']), None)
+                if data and data['selections'] and len(data['selections']) > 0:
+                    interested_infos.append((info, data))
+
+            pillar_heading = False
+
+            subpillar_order = request_data.get('order:' + order)[0].split(',')
+            for so in subpillar_order:
+                so_id = so.split(':')
+                subpillar = next(s for s in pillar['subpillars']
+                                 if s['id'] == so_id[2])
+                if not subpillar:
+                    continue
+
+                is_on = request_data.get(so)
+                if not is_on or is_on[0] != 'on':
+                    continue
+
+                subpillar_heading = False
+
+                # Get all infos tagged with this pillar and subpillar
+                for info, data in interested_infos:
+                    if any(s for s in data['selections'] if
+                           s['pillar'] == pillar['id']
+                           and s['subpillar'] == subpillar['id']):
+
+                        if not pillar_heading:
+                            pillar_heading = True
+                            d.add_heading(pillar['name'], level=2)
+                            d.add_paragraph()
+
+                        if not subpillar_heading:
+                            subpillar_heading = True
+                            d.add_heading(subpillar['name'], level=3)
+                            d.add_paragraph()
+
+                        p = d.add_paragraph()
+                        p.add_run(xstr(info.excerpt))
+
+                        leads_pk.append(info.entry.lead.pk)
+
+        elif order_id[0] == 'sectors':
+            is_on = request_data.get(order)
+            if not is_on or is_on[0] != 'on':
+                continue
+
+            matrix2d = next(e for e in elements if e['id'] == order_id[1])
+            if not matrix2d or matrix2d['type'] != 'matrix2d':
+                continue
+
+            interested_infos = []
+            for info in infos:
+                data = next((d for d in info.data
+                             if d['id'] == matrix2d['id']),
+                            None)
+                if data and data['selections'] and len(data['selections']) > 0:
+                    interested_infos.append((info, data))
+
+            sector_order = request_data.get('order:' + order)[0].split(',')
+            for sco in sector_order:
+                sco_id = sco.split(':')
+                sector = next(s for s in matrix2d['sectors']
+                              if s['id'] == sco_id[2])
+
+                is_on = request_data.get(sco)
+                if not is_on or is_on[0] != 'on':
+                    continue
+
+                sector_heading = False
+
+                for po in report_order:
+                    po_id = po.split(':')
+                    if po_id[0] != 'pillar' or po_id[1] != order_id[1]:
+                        continue
+
+                    pillar = next(p for p in matrix2d['pillars']
+                                  if p['id'] == po_id[2])
+                    if not pillar:
+                        continue
+
+                    is_on = request_data.get(po)
+                    if not is_on or is_on[0] != 'on':
+                        continue
+
+                    pillar_heading = False
+
+                    subpillar_order = request_data.get('order:' + po)[0]\
+                        .split(',')
+
+                    for so in subpillar_order:
+                        so_id = so.split(':')
+                        subpillar = next(s for s in pillar['subpillars']
+                                         if s['id'] == so_id[2])
+                        if not subpillar:
+                            continue
+
+                        is_on = request_data.get(so)
+                        if not is_on or is_on[0] != 'on':
+                            continue
+
+                        subpillar_heading = False
+
+                        for info, data in interested_infos:
+                            if any(s for s in data['selections'] if
+                                    s['pillar'] == pillar['id'] and
+                                    s['subpillar'] == subpillar['id'] and
+                                    s['sector'] == sector['id']):
+
+                                if not sector_heading:
+                                    sector_heading = True
+                                    d.add_heading(sector['title'], level=2)
+                                    d.add_paragraph()
+
+                                if not pillar_heading:
+                                    pillar_heading = True
+                                    d.add_heading(pillar['title'], level=3)
+                                    d.add_paragraph()
+
+                                if not subpillar_heading:
+                                    subpillar_heading = True
+                                    d.add_heading(subpillar['title'], level=4)
+
+                                p = d.add_paragraph()
+                                p.add_run(xstr(info.excerpt))
+
+                                leads_pk.append(info.entry.lead.pk)
+
+    add_line(d.add_paragraph())
+
+    # Bibliography
+    d.add_paragraph()
+    d.add_heading("Bibliography", level=1)
+    d.add_paragraph()
+
+    if len(leads_pk) == 0:
+        leads = []
+        leads_pk = list(set(leads_pk))
+    else:
+        leads = entry_model.Lead.objects.filter(pk__in=leads_pk)
+
+    for lead in leads:
+        p = d.add_paragraph()
+        if lead.source_name and lead.source_name != "":
+            p.add_run(xstr(lead.source_name).title())
+        else:
+            p.add_run("Missing source".title())
+
+        p.add_run(". {}.".format(xstr(lead.name).title()))
+        if lead.published_at:
+            p.add_run(" {}.".format(lead.published_at.strftime("%m/%d/%Y")))
+
+        p = d.add_paragraph()
+        if lead.url and lead.url != "":
+            add_hyperlink(p, lead.url, lead.url)
+
+        elif entry_model.Attachment.objects.filter(lead=lead).count() > 0:
+            add_hyperlink(p, lead.attachment.upload.url,
+                          lead.attachment.upload.url)
+
+        else:
+            p.add_run("Missing url.")
+
+        d.add_paragraph()
+
+    d.add_page_break()
+
+    return d
+
+
 def export_docx_new_format(event, informations=None):
     """
-    Export As Specified in Issue
+    Export A
+    s Specified in Issue
 
     #259
     New Export format in word - Briefing note template

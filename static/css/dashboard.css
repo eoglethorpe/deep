@@ -98,7 +98,8 @@ body > nav {
     flex-shrink: 0;
     flex-grow: 0; }
     body > nav #deep-logo-container img {
-      width: 100%; }
+      width: 125px;
+      height: 40px; }
   body > nav #project-select-container {
     flex-basis: 20%; }
     body > nav #project-select-container .selectize-control.single .selectize-input, body > nav #project-select-container .selectize-control.single.single, body > nav #project-select-container .selectize-control.single .selectize-input.input-active {
@@ -283,5 +284,29 @@ body #timeline {
       body #timeline #timeline-table #horizontal-scroll .weeks #scrollbar {
         height: 12px;
         flex: none; }
+body #non-acaps {
+  display: flex;
+  height: calc(100vh - 56px);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  body #non-acaps img {
+    height: 30vh;
+    filter: brightness(80%); }
+  body #non-acaps p {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 3em;
+    text-transform: uppercase; }
+  body #non-acaps > div > div {
+    padding: 10px 0;
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: 500;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    text-align: center; }
+  body #non-acaps .fa {
+    font-size: 0.9em;
+    margin-left: 10px;
+    color: rgba(0, 0, 0, 0.5); }
 
 /*# sourceMappingURL=dashboard.css.map */

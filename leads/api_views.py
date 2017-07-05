@@ -45,7 +45,7 @@ class EventApiView(View):
         return JSON_METHOD_NOT_ALLOWED
 
     def get(self, request):
-        events = Event.objects.all()
+        events = Event.get_events_for(request.user)
 
         event_id = request.GET.get('id')
         if event_id:
@@ -81,6 +81,8 @@ class LeadApiView(View):
         event = request.GET.get('event')
         if event:
             leads = leads.filter(event__pk=event)
+            if not Event.objects.get(pk=event).allow(self.request.user):
+                leads = Lead.objects.none()
 
         lead_id = request.GET.get('id')
         if lead_id:
@@ -120,6 +122,8 @@ class SosApiView(View):
         event = request.GET.get('event')
         if event:
             soses = soses.filter(lead__event__pk=event)
+            if not Event.objects.get(pk=event).allow(self.request.user):
+                soses = SurveyOfSurvey.objects.none()
 
         sos_id = request.GET.get('id')
         if sos_id:

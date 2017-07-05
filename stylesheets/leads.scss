@@ -109,6 +109,14 @@ main{
             border-bottom: 2px solid rgba(0, 0, 0, 0.2);
         }
         #leads-table{
+            a {
+                cursor: pointer;
+                color: $primary-color;
+            }
+            .file-type {
+                font-size: 1.1em;
+            }
+
             tbody{
                 tr[role="row"]{
                     cursor: pointer;

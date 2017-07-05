@@ -3,10 +3,11 @@ Python3 port of https://github.com/Webhose/article-date-extractor.
 """
 
 
-import requests, re, json
+import requests
+import re
 from dateutil.parser import parse
 from bs4 import BeautifulSoup
-
+import tldextract
 
 
 def parseStrDate(dateString):
@@ -177,7 +178,6 @@ def _extractFromHTMLTag(parsedHTML):
         if len(datetime) > 0 and datetime[0].lower() == "timestamp":
             return parseStrDate(time.string)
 
-
     tag = parsedHTML.find("span", {"itemprop": "datePublished"})
     if tag is not None:
         dateText = tag.get("content")
@@ -186,7 +186,7 @@ def _extractFromHTMLTag(parsedHTML):
         if dateText is not None:
             return parseStrDate(dateText)
 
-    #class=
+    # class=
     for tag in parsedHTML.find_all(['span', 'p','div'], class_=re.compile("pubdate|timestamp|article_date|articledate|date",re.IGNORECASE)):
         dateText = tag.string
         if dateText is None:
@@ -195,7 +195,7 @@ def _extractFromHTMLTag(parsedHTML):
         possibleDate = parseStrDate(dateText)
 
         if possibleDate is not None:
-            return  possibleDate
+            return possibleDate
 
     return None
 
@@ -204,7 +204,13 @@ def _extractSource(parsedHTML):
     source = parsedHTML.find('span', class_='field-source')
     if source:
         return source.text.strip()
+
     return None
+
+
+def _parseSourceFromUrl(url):
+    p = tldextract.extract(url)
+    return p.domain
 
 
 def _extractCountry(parsedHTML):
@@ -214,7 +220,7 @@ def _extractCountry(parsedHTML):
     return None
 
 
-def extractArticlePublishedDate(articleLink, html = None):
+def extractArticlePublishedDate(articleLink, html=None):
 
     # print("Extracting date from " + articleLink)
 
@@ -232,7 +238,7 @@ def extractArticlePublishedDate(articleLink, html = None):
             # request.add_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36')
             # html = urllib2.build_opener().open(request).read()
 
-        parsedHTML = BeautifulSoup(html,"lxml")
+        parsedHTML = BeautifulSoup(html, "lxml")
 
         # possibleDate = _extractFromLDJson(parsedHTML)
         # if possibleDate is None:
@@ -243,6 +249,9 @@ def extractArticlePublishedDate(articleLink, html = None):
         articleDate = possibleDate
         source = _extractSource(parsedHTML)
         country = _extractCountry(parsedHTML)
+
+        if not source:
+            source = _parseSourceFromUrl(articleLink)
 
     except Exception as e:
         pass

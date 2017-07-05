@@ -1,3 +1,4 @@
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.views.generic import View
@@ -5,29 +6,54 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
 from django.db.models import Q
+from django.contrib.auth.models import User
 
-from leads.models import *
-from entries.models import *
-from usergroup.models import *
-from users.log import *
+from leads.models import \
+    Event, \
+    Country
+from entries.models import EntryTemplate, AdminLevel, \
+    EntryInformation
+from usergroup.models import UserGroup
+from report.models import DisasterType
+from users.log import \
+    CreationActivity, \
+    DeletionActivity, \
+    EditionActivity, \
+    AdditionActivity, \
+    RemovalActivity
+
+import json
 
 
 class ProjectDetailsView(View):
     @method_decorator(login_required)
     def get(self, request, project_id):
+        project = Event.objects.get(pk=project_id)
+
+        if request.user not in project.get_admins():
+            return HttpResponseForbidden()
+
         context = {}
         context["current_page"] = "project-details"
         context["project_id"] = project_id
 
-        context["projects"] = Event.objects.filter(admins__pk=request.user.pk).order_by('name')
-        context["usergroups"] = UserGroup.objects.filter(admins__pk=request.user.pk).order_by('name')
+        # context["projects"] = Event.objects.filter(
+        #     Q(admins=request.user) | Q(usergroup__admins=request.user)
+        # ).distinct().order_by('name')
+        context['projects'] = Event.objects.filter(admins=request.user)\
+            .distinct().order_by('name')
+
+        context["usergroups"] = UserGroup.objects.filter(
+            Q(admins=request.user) | Q(projects=project)
+        ).distinct().order_by('name')
 
         context["countries"] = Country.objects.filter(
             Q(reference_country=None) | Q(event__pk=project_id)
         )
 
         context["users"] = User.objects.all()
-        context["project"] = Event.objects.get(pk=project_id)
+        context["project"] = project
+        context['disaster_types'] = DisasterType.objects.all()
 
         if "selected_group" in request.GET:
             context["selected_group"] = int(request.GET["selected_group"])
@@ -47,6 +73,10 @@ class ProjectDetailsView(View):
             project.save()
             project.admins.add(request.user)
 
+            if 'group-id' in request.POST:
+                UserGroup.objects.get(pk=request.POST['group-id'])\
+                    .projects.add(project)
+
             CreationActivity().set_target(
                 'project', project.pk, project.name,
                 reverse('project:project_details', args=[project.pk])
@@ -55,6 +85,9 @@ class ProjectDetailsView(View):
             return redirect('project:project_details', project.pk)
 
         elif "save" in request.POST or 'save-and-proceed' in request.POST:
+            if request.user not in project.get_admins():
+                return HttpResponseForbidden()
+
             project.name = request.POST["project-name"]
             project.description = request.POST["project-description"]
 
@@ -67,6 +100,28 @@ class ProjectDetailsView(View):
                 project.end_date = request.POST["project-end-date"]
             else:
                 project.end_date = None
+
+            if project.is_acaps():
+                if request.POST.get('project-status') != '':
+                    project.status = int(request.POST['project-status'])
+
+                if request.POST.get('disaster-type') != '':
+                    project.disaster_type = \
+                        DisasterType.objects.get(
+                            pk=int(request.POST['disaster-type']))
+                else:
+                    project.disaster_type = None
+
+                if request.POST.get('glide-number') != '':
+                    project.glide_number = request.POST['glide-number']
+                else:
+                    project.glide_number = None
+
+                if request.POST.get('spillover') != '':
+                    project.spill_over = \
+                        Event.objects.get(pk=int(request.POST['spillover']))
+                else:
+                    project.spill_over = None
 
             project.save()
 
@@ -107,7 +162,8 @@ class ProjectDetailsView(View):
                     if usergroup not in prev_groups:
                         AdditionActivity().set_target(
                             'project', project.pk, project.name,
-                            reverse('project:project_details', args=[project.pk])
+                            reverse('project:project_details',
+                                    args=[project.pk])
                         ).log_for(request.user, event=project, group=usergroup)
 
             for ug in prev_groups:
@@ -117,7 +173,8 @@ class ProjectDetailsView(View):
                         reverse('project:project_details', args=[project.pk])
                     ).log_for(request.user, event=project, group=ug)
 
-            Country.objects.filter(event=None).exclude(reference_country=None).delete()
+            Country.objects.filter(event=None)\
+                .exclude(reference_country=None).delete()
 
             if 'save-and-proceed' in request.POST:
                 return redirect('project:geo_area', project.pk)
@@ -125,11 +182,13 @@ class ProjectDetailsView(View):
                 return redirect('project:project_details', project.pk)
 
         elif "delete" in request.POST:
-            activity = DeletionActivity().set_target('project', project.pk, project.name)
+            activity = DeletionActivity().set_target(
+                'project', project.pk, project.name)
             project.delete()
             activity.log_for(request.user)
 
-            Country.objects.filter(event=None).exclude(reference_country=None).delete()
+            Country.objects.filter(event=None)\
+                .exclude(reference_country=None).delete()
             EntryTemplate.objects.filter(usergroup=None, event=None).delete()
             return redirect('login')
 
@@ -137,15 +196,22 @@ class ProjectDetailsView(View):
 class GeoAreaView(View):
     @method_decorator(login_required)
     def get(self, request, project_id):
+        project = Event.objects.get(pk=project_id)
+        if request.user not in project.get_admins():
+            return HttpResponseForbidden()
+
         context = {}
         context["project_id"] = project_id
         context["current_page"] = "geo-area"
-        context["project"] = Event.objects.get(pk=project_id)
+        context["project"] = project
+
         return render(request, "project/geo-area.html", context)
 
     @method_decorator(login_required)
     def post(self, request, project_id):
         project = Event.objects.get(pk=project_id)
+        if request.user not in project.get_admins():
+            return HttpResponseForbidden()
 
         if 'save' in request.POST or 'save-and-proceed' in request.POST:
             if request.POST.get('modified') == '1':
@@ -185,10 +251,14 @@ class GeoAreaView(View):
 
                 # Country Region Data
                 region_data = {
-                    'WB Region': request.POST.get('country-wb-region'),
-                    'WB IncomeGroup': request.POST.get('country-wb-income-group'),
-                    'UN-OCHA Region': request.POST.get('country-ocha-region'),
-                    'EC-ECHO Region': request.POST.get('country-echo-region'),
+                    'WB Region':
+                        request.POST.get('country-wb-region'),
+                    'WB IncomeGroup':
+                        request.POST.get('country-wb-income-group'),
+                    'UN-OCHA Region':
+                        request.POST.get('country-ocha-region'),
+                    'EC-ECHO Region':
+                        request.POST.get('country-echo-region'),
                     'UN Geographical Region':
                         request.POST.get('country-un-geographical-region'),
                     'UN Geographical Sub-Region':
@@ -231,8 +301,10 @@ class GeoAreaView(View):
                 geojson_file = 0
                 for i, pk in enumerate(admin_level_pks):
 
-                    to_delete = delete_admin_levels[i] or admin_levels[i] == '' \
-                        or admin_level_names[i] == '' or property_names[i] == ''
+                    to_delete = delete_admin_levels[i] \
+                        or admin_levels[i] == '' \
+                        or admin_level_names[i] == '' \
+                        or property_names[i] == ''
 
                     if pk == "new":
                         admin_level = AdminLevel()
@@ -255,15 +327,14 @@ class GeoAreaView(View):
                         geojson_file += 1
                     admin_level.save()
 
-
                 if reference_country in project.countries.all():
                     project.countries.remove(reference_country)
                 if country not in project.countries.all():
                     project.countries.add(country)
 
         if 'save-and-proceed' in request.POST:
-            return redirect('project:analysis_framework', project_id);
-        return redirect('project:geo_area', project_id);
+            return redirect('project:analysis_framework', project_id)
+        return redirect('project:geo_area', project_id)
 
 
 class AnalysisFrameworkView(View):
@@ -274,6 +345,9 @@ class AnalysisFrameworkView(View):
         context["current_page"] = "analysis-framework"
 
         project = Event.objects.get(pk=project_id)
+        if request.user not in project.get_admins():
+            return HttpResponseForbidden()
+
         if not project.entry_template:
             new_template = EntryTemplate(name=project.name)
             new_template.created_by = request.user
@@ -282,23 +356,52 @@ class AnalysisFrameworkView(View):
             project.entry_template = new_template
             project.save()
 
+        context['num_entries'] = EntryInformation.objects.filter(
+            entry__template=project.entry_template).distinct().count()
+        context['num_shared_projects'] = Event.objects.filter(
+            entry_template=project.entry_template).distinct().count()
+
         context["project"] = project
-        context["projects"] = Event.objects.filter(admins__pk=request.user.pk).exclude(entry_template=None).order_by('name')
+        context["projects"] = Event.objects.filter(admins__pk=request.user.pk)\
+            .exclude(entry_template=None).order_by('name')
 
         return render(request, "project/analysis-framework.html", context)
 
     @method_decorator(login_required)
     def post(self, request, project_id):
         project = Event.objects.get(pk=project_id)
-        if 'save-and-edit' in request.POST or 'save-and-finish' in request.POST:
-            entry_template = project.entry_template
+        if request.user not in project.get_admins():
+            return HttpResponseForbidden()
 
-            entry_template.name = request.POST.get('template-name')
+        if 'share' in request.POST:
             clone_from = request.POST.get('clone-from')
             if clone_from != '':
-                entry_template.elements = Event.objects.get(pk=clone_from).entry_template.elements
+                clone_template = Event.objects.get(pk=clone_from)\
+                    .entry_template
+                project.entry_template = clone_template
+                project.save()
+
+        else:
+            entry_template = project.entry_template
+            entry_template.name = request.POST.get('template-name')
+
+            if 'clone' in request.POST:
+                clone_from = request.POST.get('clone-from')
+                if clone_from != '':
+                    clone_template = Event.objects.get(pk=clone_from)\
+                        .entry_template
+                    entry_template.elements = clone_template.elements
+                    entry_template.snapshot_pageone = \
+                        clone_template.snapshot_pageone
+                    entry_template.snapshot_pagetwo = \
+                        clone_template.snapshot_pagetwo
+
             entry_template.save()
 
-        if 'save-and-edit' in request.POST:
-            return redirect('custom_admin:entry_template', project.entry_template.pk)
-        return redirect('dashboard', project_id)
+        if 'save-and-finish' in request.POST:
+            return redirect('dashboard', project_id)
+        else:
+            return redirect('project:analysis_framework', project_id)
+
+
+# EOF

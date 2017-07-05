@@ -14,6 +14,9 @@
 
     {% block head %}
     {% endblock %}
+
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 </head>
 <body>
     <div class="float-alert-toast">
@@ -25,6 +28,7 @@
     <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
+    {% comment %}
     <!-- <script src="{% watchful_static_url 'js/common/bootstrap.min.js' %}"></script> -->
     <!-- <script type="text/javascript">
     // Doorbell feedback system
@@ -47,5 +51,6 @@
     ga('create', 'UA-88197525-1', 'auto');
     ga('send', 'pageview'{% if user %}, {user_id: '{{user.pk}}'} {% endif %});
     </script> -->
+    {% endcomment %}
 </body>
 </html>

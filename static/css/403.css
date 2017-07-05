@@ -1,0 +1,105 @@
+::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.04); }
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px; }
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.24); }
+
+body {
+  margin: 0;
+  background-color: #f0f0f0;
+  color: #414141;
+  font-size: 13px;
+  /*float-alert-toast - position it at the top-center of the screen*/ }
+  body * {
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box; }
+  body h1, body h2, body h3, body h4 {
+    font-weight: 400; }
+  body h1 {
+    font-size: 19px; }
+  body h2 {
+    font-size: 17px; }
+  body h3 {
+    font-size: 15px; }
+  body a, body a:hover, body a:active, body a:visited, body a:focus {
+    text-decoration: none; }
+  body a, body button, body input[type="submit"], body input[type="button"], body .btn, body .btn:focus, body button:focus {
+    text-transform: uppercase;
+    outline: none; }
+  body button {
+    background-color: #fff;
+    color: #414141;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: 0.2s all ease-in-out; }
+  body label {
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 500;
+    display: inline-block; }
+  body .float-alert-toast {
+    display: none;
+    /* Hidden by default. Visible on click */
+    min-width: 250px;
+    /* Set a default minimum width */
+    margin-left: -125px;
+    /* Divide value of min-width by 2 */
+    background-color: #333;
+    /* Black background color */
+    color: #fff;
+    /* White text color */
+    text-align: center;
+    /* Centered text */
+    border-radius: 2px;
+    /* Rounded borders */
+    padding: 16px;
+    /* Padding */
+    position: fixed;
+    /* Sit on top of the screen */
+    z-index: 1;
+    /* Add a z-index if needed */
+    right: 10%;
+    /* Towards the right */
+    top: 30px;
+    /* 30px from the top */ }
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: linear-gradient(to bottom, #008080, #001a1a);
+  height: 100vh;
+  width: 100vw;
+  color: #fff; }
+  main img {
+    height: 30vh; }
+  main h1, main h2, main h3 {
+    font-weight: 300; }
+  main h1 {
+    font-size: 4em; }
+  main h2 {
+    font-size: 2.4em;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 24px; }
+  main h3 {
+    font-size: 2em;
+    margin: 0; }
+    main h3 a {
+      color: inherit;
+      text-transform: none;
+      cursor: pointer;
+      text-transform: uppercase;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+      padding: 0 4px 4px 4px;
+      font-size: 0.96em; }
+      main h3 a:hover {
+        color: #aaa; }
+
+/*# sourceMappingURL=403.css.map */

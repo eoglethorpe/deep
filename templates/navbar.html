@@ -1,4 +1,5 @@
 {% load watchful_url %}
+{% load check_acaps %}
 
 <script>
     $(document).ready(function(){
@@ -23,21 +24,6 @@
             }
         });
         {% endif %}
-
-        // HumanitarianId link
-        $('#link-with-hid').click(function() {
-            {% if hid_config and hid_config.development %}
-            window.location.href = 'https://api2.dev.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id|safe }}&scope=profile&state=833912&redirect_uri={{ hid_config.redirect_url|safe }}';
-            {% else %}
-            window.location.href = 'https://auth.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id|safe }}&scope=profile&state=833912&redirect_uri={{ hid_config.redirect_url|safe }}';
-            {% endif %}
-        });
-
-        if (window.location.hash.indexOf('access_token=') >= 0
-            && window.location.hash.indexOf('state=833912') >= 0)
-        {
-            window.location.href = '{% url "hid_access_token" %}' + '?' + window.location.hash.substr(1);
-        }
 
         $('body nav').on('click', '.dropdown-toggle', function(){
             $(this).closest('.dropdown').find('.items').toggle();
@@ -76,10 +62,12 @@
         {% if all_events %}
         <select id="project-dropdown" placeholder="Select event">
             <option>Select event</option>
+            {% if request.user|allow_acaps %}
             {% if event %}
             <option value="{% url 'dashboard' %}">All events</option>
             {% else %}
             <option value="{% url request.resolver_match.view_name 0 %}" selected>All events</option>
+            {% endif %}
             {% endif %}
             {% for ev in all_events %}
             <option value="{% url request.resolver_match.view_name event=ev.pk %}" {% if event and event == ev %}selected{% endif %}>{{ev}}</option>
@@ -95,14 +83,18 @@
     <!-- Main menu -->
     <div id="main-menu">
         {% if event %}
-        <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' event=event.pk %}">Leads</a>
-        <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' event=event.pk %}">Entries</a>
-        <a class="{% if current_page == 'sos' %}active{% endif %} menu-item" href="{% url 'leads:sos' event=event.pk %}">Assessment Registry</a>
-        <a class="{% if current_page == 'report' %}active{% endif %} menu-item" href="{% url 'report:dashboard' %}{% if event %}?event={{event.pk}}&country={{event.countries.all.0.code}}{% endif %}">Weekly Snapshot</a>
-        <a class="{% if current_page == 'export' %}active{% endif %} menu-item" href="{% url 'entries:export' event=event.pk %}">Export</a>
+            <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' event=event.pk %}">Leads</a>
+            <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' event=event.pk %}">Entries</a>
+
+            {% if event.is_acaps %}
+            <a class="{% if current_page == 'sos' %}active{% endif %} menu-item" href="{% url 'leads:sos' event=event.pk %}">Assessment Registry</a>
+            <a class="{% if current_page == 'report' %}active{% endif %} menu-item" href="{% url 'report:dashboard' %}?event={{event.pk}}&country={{event.countries.all.0.code}}">Weekly Snapshot</a>
+            {% endif %}
+
+            <a class="{% if current_page == 'export' %}active{% endif %} menu-item" href="{% url 'entries:export' event=event.pk %}">Export</a>
         {% else %}
-        <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' 0 %}">Leads</a>
-        <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' 0 %}">Entries</a>
+            <a class="{% if current_page == 'leads' %}active{% endif %} menu-item" href="{% url 'leads:leads' 0 %}">Leads</a>
+            <a class="{% if current_page == 'entries' %}active{% endif %} menu-item" href="{% url 'entries:entries' 0 %}">Entries</a>
         {% endif %}
     </div>
     <div id="extra-menu">
@@ -114,18 +106,23 @@
             <a class="dropdown-toggle"><div class="name"><i class="fa fa-user"></i>{{ user.first_name }}</div><i class="fa fa-chevron-down"></i></a>
             <div class="items" hidden>
                 <a href="{% url 'user_profile' user.pk %}"><i class="fa fa-user"></i>Profile</small></a>
-                <a href="{% url 'password_change' %}"><i class="fa fa-key"></i>Change password</small></a>
-                <button onclick="window.location.href = '{% url 'logout' %}';"><i class="fa fa-sign-out"></i>Logout</button>
-                <hr>
                 {% if request.user.is_superuser %}
                 <a href="/admin"><i class="fa fa-user-secret"></i>Admin panel</a>
                 <a href="{% url 'custom_admin:country_management' %}"><i class="fa fa-globe"></i>Country Panel</a>
                 {% endif %}
-                <a href="{% url 'custom_admin:project_panel' %}"><i class="fa fa-wrench"></i>Project Panel</a>
-                <hr>
-                {% if not request.user.userprofile.hid %}
-                <button id="link-with-hid"><i class="fa fa-link"></i>Link with HID</button>
+
+                {% if event and request.user in event.get_admins %}
+                <a href="{% url 'project:project_details' event.pk %}"><i class="fa fa-wrench"></i>Project Panel</a>
                 {% endif %}
+
+                <hr>
+                {% comment %}
+                <a href="{% url 'password_change' %}"><i class="fa fa-key"></i>Change password</small></a>
+                {% if not request.user.userprofile.hid %}
+                <a id="link-with-hid"><i class="fa fa-link"></i>Link with HID</a>
+                {% endif %}
+                {% endcomment %}
+                <a onclick="window.location.href = '{% url 'logout' %}';"><i class="fa fa-sign-out"></i>Logout</a>
             </div>
         </div>
     </div>

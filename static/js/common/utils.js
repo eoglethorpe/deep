@@ -24,14 +24,14 @@ function inArray(array, value) {
         if(array[i] == value) return true;
     }
     return false;
-};
+}
 
 // adds an element to the array.
 function pushIfNotExist(array, element) {
     if (!inArray(array, element)) {
         array.push(element);
     }
-};
+}
 
 // remove element from array
 Array.prototype.removeValue = function(value) {
@@ -57,24 +57,57 @@ function addTodayButtons() {
     if (btns)
         btns.remove();
 
-    $('input[type="date"]').each(function() {
-        var date = $(this);
-        date.css('padding-left', '32px');
-        var today_btn = $('<a class="today-btn fa fa-clock-o"></a>');
-        today_btn.appendTo(date.parent());
+    // $('input[type="date"]').each(function() {
+    //     var date = $(this);
+    //     date.css('padding-left', '32px');
+    //     var today_btn = $('<a class="today-btn fa fa-clock-o"></a>');
+    //     today_btn.appendTo(date.parent());
+    //     today_btn.css('z-index', '10');
+    //     date.css('position', 'relative');
+    //     today_btn.css('position', 'absolute');
+    //     today_btn.css('left', date.position().left+8+'px');
+    //     today_btn.css('top', date.position().top+date.outerHeight()/2-7+'px');
+    //     today_btn.css('cursor', 'pointer');
+
+    //     today_btn.on('click', function(date) {
+    //         return function(){
+    //             date[0].valueAsDate = new Date();
+    //             date.change();
+    //         };
+    //     }(date));
+    // });
+
+    $('.date-picker').attr('placeholder', 'DD-MM-YYYY');
+    $('.date-picker').each(function() {
+        const that = this;
+        const alt = $(this).siblings($(this).data('alt'));
+        alt.hide();
+
+        $(this).datepicker({
+            altField: alt,
+            altFormat: 'yy-mm-dd',
+            dateFormat: 'dd-mm-yy',
+            onSelect: function() {
+                alt.change();
+            },
+        });
+        $(this).datepicker('setDate', alt[0].valueAsDate);
+
+        $(this).css('padding-left', '32px');
+        $(this).css('position', 'relative');
+
+        let today_btn = $('<a class="today-btn fa fa-clock-o"></a>');
+        today_btn.appendTo($(this).parent());
         today_btn.css('z-index', '10');
-        date.css('position', 'relative');
         today_btn.css('position', 'absolute');
-        today_btn.css('left', date.position().left+8+'px');
-        today_btn.css('top', date.position().top+date.outerHeight()/2-7+'px');
+        today_btn.css('left', $(this).position().left+8+'px');
+        today_btn.css('top', $(this).position().top+$(this).outerHeight()/2-7+'px');
         today_btn.css('cursor', 'pointer');
 
         today_btn.on('click', function(date) {
-            return function(){
-                date[0].valueAsDate = new Date();
-                date.change();
-            }
-        }(date));
+            $(that).datepicker('setDate', new Date());
+            $(that).trigger('change');
+        });
     });
 }
 

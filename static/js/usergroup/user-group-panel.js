@@ -231,7 +231,7 @@ let users = {
             if($(this).closest('.search-container').length > 0){
                 let isAdmin = $(this).find('.add-admin-btn').is(':hover');
 
-                var element = $(this).parent().detach();
+                let element = $(this).parent().detach();
                 $('.selected-container').append(element);
                 if (isAdmin) {
                     element.addClass('admin');
@@ -323,7 +323,7 @@ let projects = {
                     return sortAsc? parseFloat(textA) - parseFloat(textB) : parseFloat(textB) - parseFloat(textA);
                 }
             });
-            $.each(projectListItems, function(index, item){ projectList.append(item) });
+            $.each(projectListItems, function(index, item){ projectList.append(item); });
 
             var asc = $('.asc');
             asc.data('sort-asc', null);
@@ -351,45 +351,6 @@ let projects = {
                 }
             }
             $(this).show();
-        });
-    },
-}
-
-let templates = {
-    init: function() {
-        this.newTemplateModal = new Modal('#new-template-modal');
-    },
-
-    addNewTemplate: function() {
-        let newTemplateModal = this.newTemplateModal;
-        $('#new-template-modal').find('.error').empty();
-
-        newTemplateModal.show().then(null, null, function(){
-            if(newTemplateModal.action == 'proceed'){
-                let name = $('#new-template-name').val();
-                if (name.trim().length == 0) {
-                    $('#new-template-modal').find('.error').text('Please enter a name');
-                    return;
-                }
-
-                ajax.request({
-                    request: 'add-entry-template',
-                    name: name,
-                }).done(function(response) {
-                    if (response.status && response.data.done) {
-                        let url = response.data.url;
-                        window.location.href = url;
-                    } else if (response.status && response.data.nameExists) {
-                        $('#new-template-modal').find('.error')
-                            .text('An entry template with this name already exists in DEEP');
-                    } else {
-                        $('#new-template-modal').find('.error').text(response.message);
-                    }
-                }).fail(function() {
-                    $('#new-template-modal').find('.error')
-                        .text('Server error, check your connection and try again');
-                });
-            }
         });
     },
 };
@@ -466,6 +427,8 @@ $(document).ready(function(){
     ajax.init();
 
     var addMembersModal = new Modal('#add-members-modal');
+    let newProjectModal = new Modal('#new-project-modal');
+
     users.init();
     // Tab navigation
     $('#navigator').on('click', 'a', function(){
@@ -486,15 +449,10 @@ $(document).ready(function(){
     activityLog.init();
     members.init();
     projects.init();
-    templates.init();
 
     //Clear selection button
     $('#clear-selection-toast .clear-btn').click(function(){
         members.clearSelection();
-    });
-
-    $('.project').click(function() {
-        window.location.href = $(this).data('url');
     });
 
     $('#search-items').on('input paste change', function(){
@@ -521,10 +479,18 @@ $(document).ready(function(){
             }
         }
         else if (selection.data('target') == '#projects-wrapper') {
-            window.location.href = project_panel_url + '?selected_group=' + userGroupPk;
-        }
-        else if (selection.data('target') == '#templates-wrapper') {
-            templates.addNewTemplate();
+            $('#new-project-modal .error').empty();
+            newProjectModal.show().then(null, null, function() {
+                if (newProjectModal.action == 'proceed') {
+                    let name = $('#new-project-name').val();
+                    if (name.trim().length === 0) {
+                        $('#new-project-modal .error').text('Please enter a name');
+                        return;
+                    }
+
+                    $('#new-project-modal form').submit();
+                }
+            });
         }
     });
 
@@ -538,7 +504,7 @@ $(document).ready(function(){
 
             reader.onload = function (e) {
                 $('#group-logo').attr('src', e.target.result);
-            }
+            };
             reader.readAsDataURL(this.files[0]);
         }
     });

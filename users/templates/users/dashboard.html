@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load watchful_url %}
+{% load check_acaps %}
 
 {% block title %}
 DEEP | Dashboard
@@ -15,8 +16,9 @@ DEEP | Dashboard
 <script type="text/javascript" src="{% watchful_static_url 'js/common/split.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
-<script type="text/javascript" src="{% watchful_static_url 'js/dashboard.js' %}"></script>
 
+{% if event and event.is_acaps %}
+<script type="text/javascript" src="{% watchful_static_url 'js/dashboard.js' %}"></script>
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
@@ -46,11 +48,13 @@ DEEP | Dashboard
         {% endfor %}
     };
 </script>
+{% endif %}
 
 {% endblock %}
 {% block body %}
 {% include 'navbar.html' %}
 
+{% if event and event.is_acaps %}
 <main>
     <section id="map">
         <div id="the-map"></div>
@@ -118,10 +122,12 @@ DEEP | Dashboard
         <div class="input-container">
             <label>start date:</label>
             <input type="date" id="start-date" class="form-control">
+            <input type="text" class="date-picker" data-alt="#start-date">
         </div>
         <div class="input-container">
             <label>end date:</label>
             <input type="date" id="end-date" class="form-control">
+            <input type="text" class="date-picker" data-alt="#end-date">
         </div>
         <div class="action-buttons">
             <button id="cancel-btn" class="cancel" data-action="dismiss"><i class="fa fa-times"></i>Cancel</button>
@@ -129,4 +135,19 @@ DEEP | Dashboard
         </div>
     </div>
 </div>
+
+{% else %}
+
+<div id="non-acaps">
+    <img src="{% watchful_static_url 'img/favicon.png' %}">
+    <p>WELCOME TO THE DEEP</p>
+    <div>
+        <div> Select Your project</div>
+        <div> Download the Chrome Extension <a id="chrome-extension-download-link" target="_blank" title=" Click here to download Chrome Extension" href="https://chrome.google.com/webstore/detail/deep-create-lead/ggplhkhciodfdkkonmhgniaopboeoopi"><i class="fa fa-chrome "></i></a></div>
+        <div> Import Leads</div>
+        <div> GO DEEP !! </div>
+    </div>
+</div>
+
+{% endif %}
 {% endblock %}

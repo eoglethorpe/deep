@@ -1,8 +1,6 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.views.generic import View, TemplateView
+from django.views.generic import View
 from django.contrib.auth.decorators import login_required
-from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse
 
@@ -288,7 +286,10 @@ class EntryTemplateView(View):
     @method_decorator(login_required)
     def get(self, request, template_id):
         context = {}
-        context['entry_template'] = EntryTemplate.objects.get(pk=template_id)
+        template = EntryTemplate.objects.get(pk=template_id)
+        context['entry_template'] = template
+        context['num_entries'] = EntryInformation.objects.filter(
+            entry__template=template).distinct().count()
         return render(request, "custom_admin/entry-template.html", context)
 
     @method_decorator(login_required)

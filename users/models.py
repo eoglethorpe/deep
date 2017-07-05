@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from leads.models import Event
+from leads.models import Event, Country
 
 
 class ActivityLog(models.Model):
@@ -26,10 +26,13 @@ class UserProfile(models.Model):
     Django's User.
     """
 
-    photo = models.FileField(upload_to="group-avatar/", null=True, blank=True, default=None)
+    photo = models.FileField(upload_to="group-avatar/", null=True, blank=True,
+                             default=None)
     user = models.OneToOneField(User, primary_key=True)
     hid = models.TextField(default=None, null=True, blank=True)
     organization = models.CharField(max_length=150)
+    country = models.ForeignKey(Country, default=None, null=True, blank=True,
+                                on_delete=models.SET_NULL)
     last_event = models.ForeignKey(Event, default=None, null=True, blank=True,
                                    on_delete=models.SET_NULL)
 

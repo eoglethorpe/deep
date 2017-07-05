@@ -26,6 +26,7 @@ def write_file(r, fp):
             fp.write(chunk)
     return fp
 
+
 class StripError(Exception):
     def __init__(self, *args, **kwargs):
         super(StripError, self).__init__(*args, **kwargs)
@@ -128,7 +129,7 @@ class PdfStripper:
 
         fp = self.doc
         fp.seek(0)
-        outfp = tempfile.TemporaryFile("w+")
+        outfp = tempfile.TemporaryFile("w+", encoding='utf-8')
 
         rmgr = PDFResourceManager()
         params = LAParams()

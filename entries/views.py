@@ -1,9 +1,8 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
-from django.views.generic import View, TemplateView
+from django.views.generic import View
 from django.contrib.auth.decorators import login_required
-from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse
 from django.db.models import Q
@@ -14,28 +13,24 @@ from leads.models import *
 from entries.models import *
 from entries.strippers import *
 from entries.entry_filters import filter_informations
-from entries.export_entries_docx import export_docx, export_docx_new_format
-from entries.export_entries_pdf import export_pdf, export_pdf_new_format
-from entries.export_entries_xls import export_xls
+from entries.export_entries_docx import export_docx, export_docx_new_format, export_analysis_docx
+from entries.export_entries_pdf import export_pdf, export_analysis_pdf, export_pdf_new_format
+from entries.export_entries_xls import export_xls, export_analysis_xls
 from report.export_xls import export_xls as export_xls_weekly
 from entries.refresh_pcodes import *
 from leads.views import get_simplified_lead
 from deep.filename_generator import generate_filename
 
-import os
 import string
 import json
 import random
-import time
 from datetime import datetime, timedelta
-from collections import OrderedDict
 
 
 class ExportProgressView(View):
     def get(self, request):
-        context = { 'export_url' : request.GET.get('url') }
+        context = {'export_url': request.GET.get('url')}
         return render(request, 'entries/export-progress.html', context)
-
 
 
 class ExportView(View):
@@ -44,24 +39,30 @@ class ExportView(View):
         context = {}
         context["current_page"] = "export"
         context["event"] = Event.objects.get(pk=event)
-        context["all_events"] = Event.objects.all()
+        context["all_events"] = Event.get_events_for(request.user)
+        if context['event'] not in context['all_events']:
+            return HttpResponseForbidden()
 
         context["users"] = User.objects.exclude(first_name="", last_name="")
-        context["pillars"] = InformationPillar.objects.all()
-        context["subpillars"] = InformationSubpillar.objects.all()
-        context["sectors"] = Sector.objects.all()
-        context["subsectors"] = Subsector.objects.all()
-        context["vulnerable_groups"] = VulnerableGroup.objects.all()
-        context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
-        context["reliabilities"] = Reliability.objects.all().order_by('level')
-        context["severities"] = Severity.objects.all().order_by('level')
-        context["affected_groups"] = AffectedGroup.objects.all()
-        context["areas"] = AdminLevelSelection.objects.filter(entryinformation__entry__lead__event__pk=event).values_list('name', flat=True)
-
         context["lead_users"] = User.objects.filter(assigned_leads__event__pk=event)
 
         UserProfile.set_last_event(request, context["event"])
-        return render(request, "entries/export.html", context)
+
+        if context["event"].entry_template:
+            context["entry_template"] = context["event"].entry_template
+            return render(request, 'entries/export-template.html', context)
+        else:
+            context["pillars"] = InformationPillar.objects.all()
+            context["subpillars"] = InformationSubpillar.objects.all()
+            context["sectors"] = Sector.objects.all()
+            context["subsectors"] = Subsector.objects.all()
+            context["vulnerable_groups"] = VulnerableGroup.objects.all()
+            context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
+            context["reliabilities"] = Reliability.objects.all().order_by('level')
+            context["severities"] = Severity.objects.all().order_by('level')
+            context["affected_groups"] = AffectedGroup.objects.all()
+            context["areas"] = AdminLevelSelection.objects.filter(entryinformation__entry__lead__event__pk=event).values_list('name', flat=True)
+            return render(request, "entries/export.html", context)
 
 
 class ExportXls(View):
@@ -82,19 +83,28 @@ class ExportDoc(View):
     def get(self, request, event):
         # Get filtered informations from token
         informations = None
+        request_data = None
+
         if request.GET.get('token'):
             try:
                 export_token = ExportToken.objects.get(token=request.GET['token'])
-                informations = json.loads(export_token.data)
+                data = json.loads(export_token.data)
+                informations = data['informations']
+                request_data = data['post_data']
             except:
                 pass
 
-        if not informations:
+        if informations is None:
             informations = filter_informations(request.GET, Event.objects.get(pk=event)).values_list('id', flat=True)
+        if request_data is None:
+            request_data = dict(request.GET)
 
         # Excel export
         if request.GET.get('export-xls') == 'xls':
-            return export_xls(generate_filename('Entries Export'), None, informations)
+            if request.GET.get('export-format') == 'analysis-generic':
+                return export_analysis_xls(generate_filename('Entries Export'), event, informations, request_data=request_data)
+            else:
+                return export_xls(generate_filename('Entries Export'), event, informations)
 
         # Docx and pdf export
 
@@ -107,12 +117,19 @@ class ExportDoc(View):
 
         response = HttpResponse(content_type=content_type)
 
-        if request.GET.get('export-format') == 'geo':
+        if request.GET.get('export-format') == 'analysis-generic':
+            format_name = 'Generic Export'
+            if request.GET.get('export-pdf') == 'pdf':
+                response.write(export_analysis_pdf(int(event), informations, data=request_data))
+            else:
+                export_analysis_docx(int(event), informations, data=request_data).save(response)
+
+        elif request.GET.get('export-format') == 'geo':
             format_name = 'Geo Export'
             if request.GET.get('export-pdf') == 'pdf':
-                response.write(export_pdf(int(event), informations, export_geo=True))
+                response.write(export_pdf(int(event), informations, data=request_data, export_geo=True))
             else:
-                export_docx(int(event), informations, export_geo=True).save(response)
+                export_docx(int(event), informations, data=request_data, export_geo=True).save(response)
 
         elif request.GET.get('export-format') == 'briefing':
             format_name = 'Briefing Note'
@@ -123,9 +140,9 @@ class ExportDoc(View):
         else:
             format_name = 'Generic Export'
             if request.GET.get('export-pdf') == 'pdf':
-                response.write(export_pdf(int(event), informations))
+                response.write(export_pdf(int(event), informations, data=request_data))
             else:
-                export_docx(int(event), informations).save(response)
+                export_docx(int(event), informations, data=request_data).save(response)
 
         response['Content-Disposition'] = 'attachment; filename = "{}.{}"'.format(
             generate_filename('Entries ' + format_name), file_format)
@@ -142,8 +159,13 @@ class ExportDoc(View):
                 break
 
         export_token = ExportToken(token=uniqueToken)
-        export_token.data = json.dumps(list(filter_informations(request.POST, Event.objects.get(pk=event)).values_list('id', flat=True)))
+        export_token.data = json.dumps({
+            'informations': list(filter_informations(
+                request.POST, Event.objects.get(pk=event)).values_list('id', flat=True)),
+            'post_data': dict(request.POST),
+        })
         export_token.save()
+
         return JsonResponse({ 'token': export_token.token })
 
 
@@ -153,13 +175,14 @@ class EntriesView(View):
         context = {}
         context["current_page"] = "entries"
 
-        context["all_events"] = Event.objects.all()
+        context["all_events"] = Event.get_events_for(request.user)
         context["users"] = User.objects.exclude(first_name="", last_name="")
 
         if int(event) != 0:
             context["event"] = Event.objects.get(pk=event)
+            if context['event'] not in context['all_events']:
+                return HttpResponseForbidden()
             UserProfile.set_last_event(request, context["event"])
-
 
         if int(event) != 0 and context["event"].entry_template:
             context["entry_template"] = context["event"].entry_template
@@ -184,13 +207,13 @@ class EntriesView(View):
 
 class AddEntry(View):
     @method_decorator(login_required)
-    def get(self, request, event, lead_id=None, id=None, template_id=None):
+    def get(self, request, event, lead_id=None, id=None):
         refresh_pcodes()
         context = {}
 
-        if template_id is None:
-            if Event.objects.get(pk=event).entry_template:
-                template_id = Event.objects.get(pk=event).entry_template.pk
+        template_id = None
+        if Event.objects.get(pk=event).entry_template:
+            template_id = Event.objects.get(pk=event).entry_template.pk
 
         if not id:
             lead = Lead.objects.get(pk=lead_id)
@@ -206,6 +229,8 @@ class AddEntry(View):
 
         context["current_page"] = "entries"
         context["event"] = Event.objects.get(pk=event)
+        if context['event'] not in Event.get_events_for(request.user):
+            return HttpResponseForbidden()
         context["dummy_list"] = range(5)
         # context["all_events"] = Event.objects.all()
 
@@ -216,21 +241,19 @@ class AddEntry(View):
             context["lead_simplified"] = simplified_lead.text
         except:
             get_simplified_lead(lead, context)
-            if "lead_simplified" in context:
-                SimplifiedLead(lead=lead, text=context["lead_simplified"]).save()
+            if "lead_simplified" in context and context['lead_simplified']:
+                try:
+                    SimplifiedLead(lead=lead, text=context["lead_simplified"]).save()
+                except:
+                    pass
 
         if lead.lead_type == 'URL':
             context['lead_url'] = lead.url
-        elif lead.lead_type == 'ATT':
+        elif lead.lead_type == 'ATT' and Attachment.objects.filter(lead=lead).count() > 0:
             context['lead_url'] = request.build_absolute_uri(lead.attachment.upload.url)
 
         if context.get('lead_url'):
-            if context['lead_url'].endswith('.pdf'):
-                context["format"] = 'pdf'
-            elif context['lead_url'].endswith('.docx'):
-                context["format"] = 'docx'
-            elif context['lead_url'].endswith('.pptx'):
-                context["format"] = 'pptx'
+            context['format'] = context['lead_url'].rpartition('.')[-1]
 
         # With template
         if template_id:

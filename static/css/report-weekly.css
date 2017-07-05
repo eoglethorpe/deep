@@ -98,7 +98,8 @@ body > nav {
     flex-shrink: 0;
     flex-grow: 0; }
     body > nav #deep-logo-container img {
-      width: 100%; }
+      width: 125px;
+      height: 40px; }
   body > nav #project-select-container {
     flex-basis: 20%; }
     body > nav #project-select-container .selectize-control.single .selectize-input, body > nav #project-select-container .selectize-control.single.single, body > nav #project-select-container .selectize-control.single .selectize-input.input-active {
@@ -292,18 +293,22 @@ aside {
       color: #008080; }
     aside #entries .entry {
       padding: 10px 16px; }
-      aside #entries .entry .severity, aside #entries .entry .reliability {
-        margin-top: 15px; }
-        aside #entries .entry .severity span, aside #entries .entry .reliability span {
-          width: 8px;
-          height: 16px;
-          display: inline-block;
-          border-radius: 2px;
-          margin-right: 1px; }
-        aside #entries .entry .severity .active, aside #entries .entry .reliability .active {
-          width: 12px;
-          height: 24px;
-          margin-bottom: -4px; }
+      aside #entries .entry .entry-header {
+        margin-bottom: 8px; }
+      aside #entries .entry .sr-container {
+        display: flex; }
+        aside #entries .entry .sr-container .severity, aside #entries .entry .sr-container .reliability {
+          margin-right: 20px; }
+          aside #entries .entry .sr-container .severity span, aside #entries .entry .sr-container .reliability span {
+            width: 8px;
+            height: 16px;
+            display: inline-block;
+            border-radius: 2px;
+            margin-right: 1px; }
+          aside #entries .entry .sr-container .severity .active, aside #entries .entry .sr-container .reliability .active {
+            width: 12px;
+            height: 24px;
+            margin-bottom: -4px; }
       aside #entries .entry .reliability ._0 {
         background-color: #daddf8; }
       aside #entries .entry .reliability ._1 {
@@ -343,7 +348,8 @@ aside {
           margin-top: 10px;
           font-weight: bold;
           color: #3498db;
-          width: 100%; }
+          width: 100%;
+          margin-top: -5px; }
       aside #entries .entry .information .excerpt-text {
         text-align: justify; }
       aside #entries .entry .information .excerpt-image {
@@ -756,6 +762,8 @@ main {
         flex-grow: 0;
         flex-shrink: 0;
         position: relative; }
+        main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .comment-warning-wrapper input, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .comment-warning-wrapper input, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .comment-warning-wrapper input, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .comment-warning-wrapper input, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .comment-warning-wrapper input, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .comment-warning-wrapper input, main #report-content #casualties #human-profile-field-list .human-profile-field .comment-warning-wrapper input, main #report-content #casualties #human-profile-field-list .human-profile-subfield .comment-warning-wrapper input, main #report-content #casualties #human-profile-field-list .human-profile-child .comment-warning-wrapper input, main #report-content #casualties #casualties-field-list .human-profile-field .comment-warning-wrapper input, main #report-content #casualties #casualties-field-list .human-profile-subfield .comment-warning-wrapper input, main #report-content #casualties #casualties-field-list .human-profile-child .comment-warning-wrapper input {
+          width: 100%; }
         main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .comment-warning-wrapper .warning-error, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .comment-warning-wrapper .warning-error, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .comment-warning-wrapper .warning-error, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .comment-warning-wrapper .warning-error, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .comment-warning-wrapper .warning-error, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .comment-warning-wrapper .warning-error, main #report-content #casualties #human-profile-field-list .human-profile-field .comment-warning-wrapper .warning-error, main #report-content #casualties #human-profile-field-list .human-profile-subfield .comment-warning-wrapper .warning-error, main #report-content #casualties #human-profile-field-list .human-profile-child .comment-warning-wrapper .warning-error, main #report-content #casualties #casualties-field-list .human-profile-field .comment-warning-wrapper .warning-error, main #report-content #casualties #casualties-field-list .human-profile-subfield .comment-warning-wrapper .warning-error, main #report-content #casualties #casualties-field-list .human-profile-child .comment-warning-wrapper .warning-error {
           color: #e74c3c;
           position: absolute;
@@ -1070,26 +1078,27 @@ main {
         main #report-content #ipc .total-ipc > div > * {
           flex-basis: 19%;
           margin: 6px 0; }
-    main #report-content #ipc .ipc {
+    main #report-content #ipc .ipc, main #report-content #ipc .ipc-forecasted {
       display: flex;
       align-items: center;
       padding: 0 10px; }
-      main #report-content #ipc .ipc > label {
+      main #report-content #ipc .ipc > label, main #report-content #ipc .ipc-forecasted > label {
+        font-weight: bold;
         flex-basis: 20%; }
-      main #report-content #ipc .ipc > div {
+      main #report-content #ipc .ipc > div, main #report-content #ipc .ipc-forecasted > div {
         flex-basis: 80%; }
-        main #report-content #ipc .ipc > div > div {
+        main #report-content #ipc .ipc > div > div, main #report-content #ipc .ipc-forecasted > div > div {
           display: flex;
           justify-content: space-around;
           align-items: center; }
-          main #report-content #ipc .ipc > div > div:nth-child(1) > * {
+          main #report-content #ipc .ipc > div > div:nth-child(1) > *, main #report-content #ipc .ipc-forecasted > div > div:nth-child(1) > * {
             flex-basis: 19%; }
-          main #report-content #ipc .ipc > div > div:nth-child(2) > * {
+          main #report-content #ipc .ipc > div > div:nth-child(2) > *, main #report-content #ipc .ipc-forecasted > div > div:nth-child(2) > * {
             flex-basis: 49%; }
     main #report-content #ipc .sub {
       padding-left: 24px;
       font-weight: 400; }
-    main #report-content #ipc .total-ipc, main #report-content #ipc .ipc {
+    main #report-content #ipc .total-ipc, main #report-content #ipc .ipc, main #report-content #ipc .ipc-forecasted {
       padding-bottom: 10px;
       padding-top: 10px;
       border-bottom: 1px solid rgba(0, 0, 0, 0.05); }

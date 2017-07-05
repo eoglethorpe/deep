@@ -74,20 +74,32 @@ let page1 = {
 
     addExcerptBox: function(element) {
         let that = this;
-        let excerptBox = $('<div class="excerpt-box-container"><label>Image</label><textarea placeholder="Enter excerpt here"></textarea></div>');
+        let excerptBox = $('<div class="excerpt-box-container"><label>Excerpt</label><textarea placeholder="Enter excerpt here"></textarea></div>');
         excerptBox.css('width', element.size.width);
         excerptBox.css('height', element.size.height);
         excerptBox.css('left', element.position.left);
         excerptBox.css('top', element.position.top);
         excerptBox.appendTo(this.container);
 
-        excerptBox.find('textarea').on('change input drop paste keyup', function() {
+        if (element.label) {
+            excerptBox.find('label').text(element.label);
+        }
+
+        let textArea = excerptBox.find('textarea');
+        textArea.on('change input drop paste keyup', function() {
             if (that.selectedEntryIndex < 0) {
                 addEntry('', '');
             }
 
             entries[that.selectedEntryIndex].excerpt = $(this).val();
             that.refresh();
+        });
+
+        excerptBox.append('<a class="fa fa-circle"></a>');
+        excerptBox.find('a').click(function() {
+            let text = textArea.val();
+            textArea.val(reformatText(text));
+            textArea.trigger('change');
         });
 
         return excerptBox;
@@ -100,6 +112,10 @@ let page1 = {
         imageBox.css('left', element.position.left);
         imageBox.css('top', element.position.top);
         imageBox.appendTo(this.container);
+
+        if (element.label) {
+            imageBox.find('label').text(element.label);
+        }
         return imageBox;
     },
 
@@ -188,7 +204,7 @@ let page1 = {
             row.append('<td rowspan="' + pillar.subpillars.length + '" title="' + pillar.tooltip + '" style="background-color: ' + color + '; color: ' + getContrastYIQ(color) + ';" class="pillar">' + pillar.title + '</td>');
 
             for (let j=0; j<pillar.subpillars.length; j++) {
-                if (j != 0) {
+                if (j !== 0) {
                     row = $('<tr></tr>');
                     table.append(row);
                 }
@@ -241,7 +257,7 @@ let page1 = {
             let entry = entries[i];
             entrySelect[0].selectize.addOption({
                 value: i,
-                text: entry.excerpt.length == 0 ? 'New entry' : entry.excerpt.substr(0, 40),
+                text: entry.excerpt.length === 0 ? 'New entry' : entry.excerpt.substr(0, 40),
             });
         }
 
@@ -254,7 +270,7 @@ let page1 = {
             let entry = entries[this.selectedEntryIndex];
 
             this.excerptBox.find('textarea').val(entry.excerpt);
-            if (entry.image.length == 0) {
+            if (entry.image.length === 0) {
                 this.imageBox.find('.image-box').html('');
             } else {
                 this.imageBox.find('.image-box').html(
@@ -274,7 +290,7 @@ let page1 = {
                     let matrix = this.container.find('.matrix1d[data-id="' + templateElement.id + '"]');
                     matrix.find('.subpillar.active').removeClass('active');
 
-                    if (data) {
+                    if (data && data.selections) {
                         for (let j=0; j<data.selections.length; j++) {
                             matrix.find('.pillar[data-id="' + data.selections[j].pillar + '"]')
                                 .find('.subpillar[data-id="' + data.selections[j].subpillar + '"]')
@@ -287,7 +303,7 @@ let page1 = {
                     let matrix = this.container.find('.matrix2d[data-id="' + templateElement.id + '"]');
                     matrix.find('.sector-block.active').removeClass('active');
 
-                    if (data) {
+                    if (data && data.selections) {
                         for (let j=0; j<data.selections.length; j++) {
                             matrix.find('.sector-block[data-pillar-id="' + data.selections[j].pillar + '"][data-subpillar-id="' + data.selections[j].subpillar + '"][data-sector-id="' + data.selections[j].sector + '"]')
                                 .addClass('active');
@@ -311,4 +327,4 @@ let page1 = {
 
         addOrReplaceEntry(excerpt, image);
     },
-}
+};

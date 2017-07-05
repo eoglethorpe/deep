@@ -60,7 +60,7 @@ let leadPreviewer = {
         $('input[type=radio][name=lead-view-option]').change(function() {
             that.changePreview(this.value);
         });
-        this.changePreview(leadSimplified!=""?"simplified":"original");
+        this.changePreview(leadSimplified !== "" ? "simplified" : "original");
 
         this.refresh();
     },
@@ -83,12 +83,12 @@ let leadPreviewer = {
                         $('#image-cropper-canvas-container').hide();
                     });
                     $('#screenshot-done-btn').one('click', function(){
-                        // addOrReplaceExcerpt('', imageCropper.getCroppedImage());
+                        addOrReplaceEntry('', imageCropper.getCroppedImage());
 
                         imageCropper.stop();
                         $('#image-cropper-canvas-container').hide();
                     });
-                }
+                };
                 img.src = response.image;
             }
         });
@@ -120,7 +120,7 @@ let leadPreviewer = {
         });
 
         //Sort images
-        $('#sort-images').selectize();
+        //$('#sort-images').selectize();
         $('#sort-images').change(function(){
             if ($(this).find(':selected').val() === 'size-asc') {
                 that.sortLeadImages('asc');
@@ -247,11 +247,10 @@ let leadPreviewer = {
                         }
                     }
                 }
+                text = text.slice(0, index) + '<span style="background-color:'+ color +'; color:'+ getContrastYIQ(color) +'" >' +
+                    entry.excerpt + '</span>' +
+                    text.slice(index + entry.excerpt.length);
             }
-
-            text = text.slice(0, index) + '<span style="background-color:'+ color +'; color:'+ getContrastYIQ(color) +'" >'
-                + entry.excerpt + '</span>'
-                + text.slice(index + entry.excerpt.length)
         }
         return "<pre>" + text + "</pre>";
     },

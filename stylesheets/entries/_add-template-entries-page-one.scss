@@ -1,5 +1,5 @@
-#page-one{
-    .image-viewer-main{
+#page-one {
+    .image-viewer-main {
         position: absolute;
         width: 100vw;
         height: 100vh;
@@ -78,14 +78,12 @@
                 background-color: #fff;
 
                 #lead-view-options{
-                    flex-basis: 50%;
-
                     label{
                         display: inline-block;
                         cursor: pointer;
                         height: 48px;
                         font-weight: $font-weight-bold;
-                        padding: calc(calc(48px - #{$text-size-sm}) / 2) 16px 0 16px;
+                        padding: calc(calc(48px - #{$text-size-sm}) / 2) 8px 0 8px;
 
                         input{
                             display: none;
@@ -97,33 +95,29 @@
                     }
                 }
                 #sort-images-wrapper{
-                    flex-basis: 35%;
-                    flex-grow: 0;
-                    align-self: stretch;
-                    flex-shrink: 0;
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
 
                     label{
-                        flex-basis: 25%;
-                        text-align: right;
+                        font-size: 0.7em;
                     }
+                    select {
+                        background-color: transparent;
+                        border: none;
+                        outline: none;
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+                    }
+                     
                     .items{
                         text-transform: capitalize;
                     }
-                    >div{
-                        flex-basis: 73%;
-                    }
+                    
                 }
                 #zoom-buttons{
-                    flex-basis: 15%;
                     align-self: stretch;
                     display: flex;
                     justify-content: flex-end;
 
                     button{
-                        width: 56px;
+                        width: 48px;
                         color: $label-color;
                         height: 100%;
                         border: none;
@@ -133,8 +127,8 @@
                     }
                 }
                 #screenshot-btn{
-                    flex-basis: 40%;
                     align-self: stretch;
+                    width: 48px;
                 }
             }
             #lead-preview-container{
@@ -369,15 +363,23 @@
                 text-align: left;
 
                 label {
-                    font-weight: bold;
                     font-size: 12px;
+                    font-weight: bold;
                     margin-bottom: 4px;
                 }
 
                 textarea{
-                    width: 100%;
                     height: calc(100% - 20px);
                     padding: 16px;
+                    width: 100%;
+                }
+
+                a {
+                    bottom: 16px;
+                    color: #27ae60;
+                    cursor: pointer;
+                    position: absolute;
+                    right: 24px;
                 }
                 // &:before{
                 //     font-weight: bold;

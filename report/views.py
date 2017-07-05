@@ -1,25 +1,28 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
-from django.db.models import Count, Min, Max
+from django.db.models import Count
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.serializers.json import DjangoJSONEncoder
+from django.http import HttpResponseForbidden
 
 from users.log import *
 from leads.models import *
 from entries.models import *
 from report.models import *
+from leads.templatetags.check_acaps import allow_acaps
 
-import collections
 import json
-from math import ceil
 from datetime import datetime, timedelta
 
 
 class ReportDashboardView(View):
     @method_decorator(login_required)
     def get(self, request):
+        if not allow_acaps(request.user):
+            return HttpResponseForbidden()
+
         context = {}
         context["countries"] = Country.objects.annotate(
             num_events=Count('event')
@@ -28,13 +31,15 @@ class ReportDashboardView(View):
         country_id = request.GET.get("country")
         if not country_id:
             country_id = context["countries"][0].pk
+        country = Country.objects.get(pk=country_id)
 
         event_id = request.GET.get("event")
         if not event_id:
-            event_id = Event.objects.filter(countries__pk=country_id)[0].pk
-
-        country = Country.objects.get(pk=country_id)
+            event_id = Event.objects.filter(countries__pk=country_id, usergroup__acaps=True)[0].pk
         event = Event.objects.get(pk=event_id)
+        if not event.is_acaps():
+            event = Event.objects.filter(countries__pk=country_id, usergroup__acaps=True)[0]
+            event_id = event.pk
 
         dt = datetime.now()
         context["new_week_date"] = dt - timedelta(days=dt.weekday()+7)       # starting from monday, but previous week
@@ -46,7 +51,7 @@ class ReportDashboardView(View):
         # For event and report selection
         for country in context["countries"]:
             events = []
-            for event in Event.objects.filter(countries=country):
+            for event in Event.objects.filter(countries=country, usergroup__acaps=True):
                 reports = []
                 for report in WeeklyReport.objects.filter(event=event, country=country):
                     reports.append({
@@ -69,6 +74,8 @@ class ReportDashboardView(View):
 class WeeklyReportView(View):
     @method_decorator(login_required)
     def get(self, request, country_id=None, event_id=None, report_id=None):
+        if not allow_acaps(request.user):
+            return HttpResponseForbidden()
 
         country = Country.objects.get(pk=country_id)
         event = Event.objects.get(pk=event_id)
@@ -140,6 +147,8 @@ class WeeklyReportView(View):
 
     @method_decorator(login_required)
     def post(self, request, country_id=None, event_id=None, report_id=None):
+        if not allow_acaps(request.user):
+            return HttpResponseForbidden()
 
         country = Country.objects.get(pk=country_id)
         event = Event.objects.get(pk=event_id)

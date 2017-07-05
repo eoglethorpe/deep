@@ -1,8 +1,8 @@
 
 function checkEntryEmpty(index) {
     return (
-        (entries[index].excerpt.trim().length == 0) &&
-        (entries[index].image.trim().length == 0)
+        (entries[index].excerpt.trim().length === 0) &&
+        (entries[index].image.trim().length === 0)
     );
 }
 
@@ -21,7 +21,12 @@ function removeEntry(index) {
     entries.splice(index, 1);
 
     page1.selectedEntryIndex--;
+    if (page1.selectedEntryIndex < 0) {
+        addEntry('', '');
+    }
+
     page1.refresh();
+    page2.refresh();
 }
 
 function addOrReplaceEntry(excerpt, image) {
@@ -48,6 +53,19 @@ function getEntryData(index, id) {
     };
     entries[index].elements.push(data);
     return data;
+}
+
+function switchPage() {
+    if ($('#page-one').is(':visible')) {
+        $('#page-one').hide();
+        $('#page-two').show();
+    }
+    else {
+        $('#page-one').show();
+        $('#page-two').hide();
+    }
+    page1.refresh();
+    page2.refresh();
 }
 
 
@@ -77,16 +95,6 @@ $(document).ready(function() {
         }
     });
     $('.switch-page').click(function() {
-
-        if ($('#page-one').is(':visible')) {
-            $('#page-one').hide();
-            $('#page-two').show();
-        }
-        else {
-            $('#page-one').show();
-            $('#page-two').hide();
-        }
-        page1.refresh();
-        page2.refresh();
+        switchPage();
     });
 });

@@ -7,7 +7,7 @@ DEEP | Survey of surveys
 
 {% block head %}
 <script>
-    var currentEvent = {{event.pk}};
+var currentEvent = {{event.pk}};
 </script>
 <link href="{% watchful_static_url 'css/sos.css' %}" type="text/css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/datatables.min.css' %}"/>
@@ -17,29 +17,49 @@ DEEP | Survey of surveys
 <script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/sos/sos.js' %}"></script>
+
+<script>
+var exportProgressUrl = "{% url 'export_progress' %}";
+
+$(document).ready(function() {
+    $('.export-button').click(function() {
+        window.open(exportProgressUrl + '?url=' + encodeURIComponent(window.location.origin + $(this).data('url')), '_blank');
+    });
+});
+</script>
 {% endblock %}
 
 {% block body %}
 {% include 'navbar.html' %}
-
+<header>
+    <h1>Assessment Registry</h1>
+    <div class="content">
+        <button class="btn-excel export-button" data-url="{% url 'leads:exportsosxls' event=event.pk %}"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
+        <button class="btn-json export-button" data-url="{% url 'api_leads:sos' %}?event={{event.pk}}&file=1"><i class="fa fa-file-text-o"></i>Export json</button>
+    </div>
+</header>
 <main>
-    <table id="sos-table" cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th>Created</th>
-                <th>Title</th>
-                <th>Location</th>
-                <th>Sectors Covered</th>
-                <th>Affected Groups</th>
-                <th>Lead Organization</th>
-                <th>Assessment Frequency</th>
-                <th>Assessment Confidentiality</th>
-                <th>Assessment Status</th>
-                <th>Proximity to Source</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-    </table>
+<table id="sos-table" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>Created</th>
+            <th>Title</th>
+            <th>Location</th>
+            <th>Sectors Covered</th>
+            <th>Affected Groups</th>
+            <th>Lead Organization</th>
+            <th>Assessment Frequency</th>
+            <th>Assessment Confidentiality</th>
+            <th>Assessment Status</th>
+            <th>Proximity to Source</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+</table>
 <main>
 
+<form id="delete-form" method="post" action="{% url 'leads:delete_sos' event=event.pk %}" hidden>
+    {% csrf_token %}
+    <input id="delete-id" name="id" type="text">
+</form>
 {% endblock %}

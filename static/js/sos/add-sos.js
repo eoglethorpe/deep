@@ -183,7 +183,7 @@ $(document).ready(function(){
                 }
                 $(this).addClass('active');
 
-                $('#sector-input').find('.title').text(sectorData[$(this).prop('id')].title);
+                $('#sector-input').find('h4').text(sectorData[$(this).prop('id')].title);
                 $('#sector-input').find('#quantification').selectize()[0].selectize.clear(true);;
                 $('#sector-input').find('#analytical-value').selectize()[0].selectize.clear(true);
 

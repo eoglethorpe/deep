@@ -1,7 +1,7 @@
 #page-two{
     height: calc(100vh - #{$navbar-height});
     overflow-y: auto;
-
+     
     #button-pane{
         position: fixed;
         z-index: 100;
@@ -41,23 +41,17 @@
         margin-top: 64px;
 
         .entry-container{
+            position: relative;
             overflow: hidden;
             background-color: #fff;
             padding: 10px 16px;
             border: 1px solid rgba(0, 0, 0, 0.1);
 
-            &:hover {
-                .action-buttons{
-                    opacity: 1;
-                    display: flex;
-                }
-            }
-
             .action-buttons {
                 width: 100vw;
                 position: absolute;
-                right: 3px;
-                display: none;
+                right: 10px;
+                display: flex;
                 align-items: flex-end;
                 flex-direction: column;
 
@@ -111,6 +105,7 @@
                 }
                 .geolocations, .organigram, .matrix1d-list-container, .matrix2d-list-container {
                     top: 0;
+
                 }
                 .apply-button {
                     cursor: pointer;
@@ -180,6 +175,7 @@
         }
 
     }
+
 }
 
 .chart-div {

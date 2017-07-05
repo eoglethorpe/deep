@@ -22,7 +22,9 @@
     <form id="add-lead-form" method="post" hidden>
         <p id="duplicate-lead-warning" hidden><i class="fa fa-exclamation-triangle"></i>A lead from this URL already exists</p>
         <h1>DEEP: Add Lead</h1>
-        <div class="select-input" data-placeholder="Event">
+        <div id="selected-events">
+        </div>
+        <div class="select-input" data-placeholder="Project">
             <select id="event-select">
             </select>
         </div>
@@ -47,7 +49,8 @@
             </select>
         </div>
         <div class="text-input" id="publish-date-container">
-            <input type="date" id="publish-date" name="publish-date">
+            <input type="date" id="publish-date" name="publish-date" hidden>
+            <input type="text" id="publish-date-picker">
             <label>Date of publication</label>
             <a class="fa fa-clock-o"></a>
         </div>
@@ -75,5 +78,8 @@
     <link rel="stylesheet" type="text/css" href="css/popup.css">
     <link rel="stylesheet" type="text/css" href="css/material-input.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <script src="js/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
 </body>
 </html>

@@ -1,5 +1,5 @@
 
-let page2 = {
+const page2 = {
     init: function() {
         this.container = $('#page-two');
         this.template = this.container.find('.entry-template');
@@ -128,10 +128,18 @@ let page2 = {
         excerptBox.css('left', element.left);
         excerptBox.appendTo(this.template);
 
-        let imageBox = $('<div class="image-box-container"><label>Image</label><div class="image-box"><img></div></div>')
+        if (element.excerptLabel) {
+            excerptBox.find('label').text(element.excerptLabel);
+        }
+
+        let imageBox = $('<div class="image-box-container"><label>Image</label><div class="image-box"><img></div></div>');
         imageBox.css('width', element.width);
         imageBox.css('left', element.left);
         imageBox.appendTo(this.template);
+
+        if (element.imageLabel) {
+            imageBox.find('label').text(element.imageLabel);
+        }
 
         this.container.on('change input paste drop', '.excerpt-box-container textarea', function() {
             let index = parseInt($(this).closest('.entry').data('index'));
@@ -151,6 +159,12 @@ let page2 = {
 
         inputElement.append($('<header><label>' + element.label + '</label></header>'));
         inputElement.append(dom);
+
+        if (className == 'date-input') {
+            const picker = $('<input class="date-picker-template" type="text" data-alt="[data-id=\'' + element.id + '\'] input[type=\'date\']">');
+            inputElement.append(picker);
+        }
+
         inputElement.appendTo(this.template);
 
         this.container.on('change input paste drop', '.input-element[data-id="' + element.id + '"] ' + childSelector, function() {
@@ -376,14 +390,14 @@ let page2 = {
 
         //// Map
 
-        modalDialog.find('.map-section').append($('<div class="map" style="width: 100%; height: 250px;"></div>'));
+        modalDialog.find('.map-section').append($('<div class="map"></div>'));
         modalDialog.find('.map-section').append($('<div class="buttons-container"></div>'));
         let map = new Map(modalDialog.find('.map'), modalDialog.find('.buttons-container'));
 
         // Control sections
         let controlSection1 = $('<div></div>');
         controlSection1.append($('<label>Select a country</label><select class="country"><option value="">Select a country</option></select>'));
-        controlSection1.append($('<label>Add locations</label><select class="locations" multiple><option value="">Add locations</option></select>'))
+        controlSection1.append($('<label>Add locations</label><select class="locations" multiple><option value="">Add locations</option></select>'));
         controlSection1.find('select').selectize();
 
         // Country selection
@@ -415,7 +429,7 @@ let page2 = {
         });
         map.selectCallback = function() {
             locationSelectize.setValue(map.selections, true);
-        }
+        };
 
         // let controlSection2 = $('<div></div>');
         // controlSection2.append($('<div class="selection-list"></div>'));
@@ -534,6 +548,15 @@ let page2 = {
             entryElement.find('.action-buttons').detach().prependTo(entryContainer);
             entryElement.show();
 
+            entryContainer.find('.action-buttons .delete-entry-button').click(() => {
+                removeEntry(i);
+            });
+            entryContainer.find('.action-buttons .edit-entry-button').click(() => {
+                page1.selectedEntryIndex = i;
+                page1.refresh();
+                switchPage();
+            });
+
             entryElement.find('select').selectize();
 
             if (entry.image && entry.image.length > 0) {
@@ -550,6 +573,7 @@ let page2 = {
                         let dom = $(this)[0];
                         dom.style.height = '1px';
                         dom.style.height = (2 + dom.scrollHeight) + 'px';
+                        autoResize($(this).closest('.entry'));
                     });
             }
 
@@ -558,7 +582,7 @@ let page2 = {
 
                 if (templateElement.type == 'matrix2d' && templateElement.list) {
                     let data = entry.elements.find(d => d.id == templateElement.id);
-                    if (data) {
+                    if (data && data.selections) {
                         let listContainer = entryElement.find('.matrix2d-list-container[data-id="' + data.id + '"]');
                         let list = listContainer.find('.matrix2d-list');
 
@@ -616,7 +640,7 @@ let page2 = {
                 }
                 else if (templateElement.type == 'matrix1d' && templateElement.list) {
                     let data = entry.elements.find(d => d.id == templateElement.id);
-                    if (data) {
+                    if (data && data.selections) {
                         let listContainer = entryElement.find('.matrix1d-list-container[data-id="' + data.id + '"]');
                         let list = listContainer.find('.matrix1d-list');
 
@@ -649,7 +673,7 @@ let page2 = {
                 }
                 else if (templateElement.type == 'date-input') {
                     if (data) {
-                        entryContainer.find('.input-element[data-id="' + data.id + '"] input').val(data.value);
+                        entryContainer.find('.input-element[data-id="' + data.id + '"] input[type="date"]').val(data.value);
                     }
                 }
                 else if (templateElement.type == 'multiselect') {
@@ -659,7 +683,7 @@ let page2 = {
                 }
                 else if (templateElement.type == 'scale') {
                     entryElement.find('.scale-container[data-id="' + templateElement.id + '"] .scale span.active').removeClass('active');
-                    let selected = templateElement.scaleValues.find(e => e.default==true).id;
+                    let selected = templateElement.scaleValues.find(e => e.default === true).id;
                     if (data && data.value) {
                         selected = data.value;
                     }
@@ -678,14 +702,18 @@ let page2 = {
             entryElement.find('img').one('load', function() {
                 autoResize(entryElement);
             });
+
+            entryElement.find('.date-picker-template').removeClass('date-picker-template')
+                .addClass('date-picker');
+
             autoResize(entryElement);
-            // $('.action-buttons').css('top', function(){ console.log($(this).parent().position().top); return $(this).parent().position().top; });
         }
 
-        addTodayButtons();
         this.container.find('textarea').change();
         this.container.scrollTop(lastScroll);
 
         this.container.find('.entry-container').width(this.container.find('.entry').width());
+
+        addTodayButtons();
     },
 };

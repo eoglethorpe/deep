@@ -223,7 +223,7 @@ class EntryInformation(models.Model):
     bob = models.BooleanField(default=False) # best of bullshits
 
     # Following is for entries entered using template
-    elements = models.TextField(default='{}')
+    elements = models.TextField(default='[]')
 
     def __str__(self):
         return self.excerpt

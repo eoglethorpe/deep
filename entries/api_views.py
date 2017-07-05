@@ -20,6 +20,8 @@ class EntryApiView(View):
         event = request.GET.get('event')
         if event:
             entries = entries.filter(lead__event__pk=event)
+            if not Event.objects.get(pk=event).allow(self.request.user):
+                entries = Entry.objects.none()
 
         entry_id = request.GET.get('id')
         if entry_id:

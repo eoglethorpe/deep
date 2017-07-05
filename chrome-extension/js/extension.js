@@ -9,9 +9,26 @@ var extension = {
     ajaxSubmitOptions: {
         url: null,
         beforeSubmit: function(data, form, options){
-            extension.showLoader();
             $('#publish-date')[0].type = 'date';
-            options["url"] = deep.serverAddress + '/' + deep.currentEvent + '/leads/add/';
+
+            let pks = $('#selected-events .selected-event').map(function() {
+                return $(this).data('pk');
+            }).get();
+
+            if (pks.length === 0) {
+                return false;
+            }
+
+            options.url = deep.serverAddress + '/' + pks[0] + '/leads/add/';
+
+            if (pks.length > 1) {
+                data.push({
+                    name: 'clone_to',
+                    value: pks.slice(1).join(','),
+                });
+            }
+
+            extension.showLoader();
         },
         success: function(response) {
             if (toString.call(response) === '[object Object]') {
@@ -35,9 +52,9 @@ var extension = {
             defer.resolve();
         });
 
-        $('#event-select').change(function(){
-            deep.currentEvent = $(this).val();
-        });
+        // $('#event-select').change(function(){
+        //     deep.currentEvent = $(this).val();
+        // });
         return defer.promise();
     },
     startStoring: function() {
@@ -52,9 +69,9 @@ var extension = {
         if (extension.currentTabUrl && extension.currentPage) {
             var loc = document.createElement('a');
             loc.href = extension.currentTabUrl;
-            var doc = (new DOMParser).parseFromString(extension.currentPage, 'text/html');
+            var doc = (new DOMParser()).parseFromString(extension.currentPage, 'text/html');
             article = new Readability(loc, doc).parse();
-            if (article != null){
+            if (article){
                 $('#title').val(article.title).addClass('filled');
             }
         }
