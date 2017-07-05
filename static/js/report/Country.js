@@ -14,10 +14,29 @@ class Country{
         function getFields(country, index) {
             let report = country.weeklyReports[index].data;
             let accessPin = report['access-pin'];
-            let human = report.human;
-            let people = report.people;
-            return [report.access, accessPin.number, accessPin.source, accessPin.comment, human.number, human.source, human.comment, report.ipc, people['at-risk'], people['at-risk-source'], people['at-risk-comment'], people['moderate'], people['moderate-source'], people['moderate-comment'], people['planned'], people['planned-source'], people['planned-comment'], people['severe'], people['severe-source'], people['severe-comment'], people['total'], people['total-source'], people['total-comment'], report['final-severity-score']];
+            let human = report['human'];
+            let people = report['people'];
+
+            return [
+                report.access,
+                accessPin.number, accessPin.source, accessPin.comment,
+                human.number, human.source, human.comment,
+                report.ipc,
+                people['at-risk'], people['at-risk-source'], people['at-risk-comment'],
+                people['moderate'], people['moderate-source'], people['moderate-comment'],
+                people['planned'], people['planned-source'], people['planned-comment'],
+                people['severe'], people['severe-source'], people['severe-comment'],
+                people['total'], people['total-source'], people['total-comment'],
+                report['final-severity-score']
+            ];
         }
+
+        const accessGroup = { 'group': 'Humanitarian Access', fields: humanAccessFields, };
+        const accessPINGroup = { 'group': 'Humanitarian Access PIN', fields: humanAccessPINFields, };
+        const humanGroup = { 'group': 'Humanitarian Profile', fields: humanProfileFields, };
+
+        const fieldGroups = [
+        ];
 
         let fieldsWeek0 = getFields(this, n0);
         let fieldsWeek1 = getFields(this, n1);
@@ -49,7 +68,7 @@ class Country{
                 }
             }
         }
-        if(total != 0){
+        if(total !== 0){
             return 100*change/total;
         }
         return -1;

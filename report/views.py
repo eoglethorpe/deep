@@ -68,6 +68,11 @@ class ReportDashboardView(View):
         context["access_constraints_id_list"] = HumanAccessPinField.objects.filter(dashboard_access_constraints_field=True)
         context["human_availability_field_id_list"] = HumanProfileField.objects.filter(dashboard_availability_field=True)
 
+        context["human_profile_fields"] = HumanProfileField.objects.all()
+        context["people_in_need_fields"] = PeopleInNeedField.objects.all()
+        context["human_access_fields"] = HumanAccessField.objects.all()
+        context["human_access_pin_fields"] = HumanAccessPinField.objects.all()
+
         return render(request, "report/dashboard.html", context)
 
 

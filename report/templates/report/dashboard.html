@@ -39,6 +39,41 @@ let humanAvailabilityFieldIds = [
     {% endfor %}
 ];
 
+
+const humanProfileFields = [
+    {% for field in human_profile_fields %}
+    { pk: {{ field.pk }}, name: '{{ field.name|escapejs }}' , },
+    {% endfor %}
+];
+
+const peopleInNeedFields = [
+    {% for field in people_in_need_fields %}
+    { pk: {{ field.pk }}, name: '{{ field.name|escapejs }}' , },
+    {% endfor %}
+];
+
+const humanAccessFields = [
+    {% for field in human_access_fields %}
+    { pk: {{ field.pk }}, name: '{{ field.name|escapejs }}' , },
+    {% endfor %}
+];
+
+const humanAccessPINFields = [
+    {% for field in human_access_pin_fields %}
+    { pk: {{ field.pk }}, name: '{{ field.name|escapejs }}' , },
+    {% endfor %}
+];
+
+const ipcFields = [
+    { pk: 'a', name: 'None/Minimal', },
+    { pk: 'b', name: 'Stressed', },
+    { pk: 'c', name: 'Crisis', },
+    { pk: 'd', name: 'Emergency', },
+    { pk: 'e', name: 'Famine', },
+    { pk: 'f', name: 'Source', },
+    { pk: 'g', name: 'Comment', },
+];
+
 let defaultCountryPk = '{{country.pk}}';
 let defaultEventPk = '{{event.pk}}';
 
