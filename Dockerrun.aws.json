@@ -5,7 +5,7 @@
         "Key": "mydockercfg"
   },
   "Image": {
-        "Name": "eoglethorpe/deep:1.1-dev",
+        "Name": "eoglethorpe/deep:1.2-dev",
         "Update": "true"
   },
   "Ports": [
