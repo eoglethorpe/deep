@@ -36,6 +36,7 @@ def get_pub_ip():
     except:
         return 'localhost'
 
+
 ALLOWED_HOSTS = [get_pub_ip(), os.environ.get('ALLOWED_HOST')]
 
 # Email
@@ -45,7 +46,8 @@ EMAIL_HOST_PASSWORD = 'deep1234'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-ADMINS = [('Ewan', 'ewanogle@gmail.com'), ('Togglecorp', 'info@togglecorp.com')]
+ADMINS = [('Ewan', 'ewanogle@gmail.com'),
+          ('Togglecorp', 'info@togglecorp.com')]
 
 # Application definition
 
@@ -206,7 +208,8 @@ if os.environ.get('USE_S3', False):
 
     # Static configuration
     STATICFILES_LOCATION = 'static'
-    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
+    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN,
+                                     STATICFILES_LOCATION)
     STATICFILES_STORAGE = 'deep.s3_storages.StaticStorage'
 
     # Media configuration
