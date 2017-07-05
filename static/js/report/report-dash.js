@@ -265,8 +265,11 @@ function fillCountryDetails(){
 
             countryElement.find('.recency .fa').addClass(getChangeFa(getAveragePercent(affectedRecencyPercent0+pinRecencyPercent0+accessRecencyPercent0) - getAveragePercent(country.weeklyReports[1].getHumanRecency(), country.weeklyReports[1].getPinRecency(), country.weeklyReports[1].getAccessRecency()) ));
 
-            var reportChange = country.getWeeklyReportChangePercentage();
+            const reportChangeObj = country.getWeeklyReportChangePercentage(); 
+            const reportChange = reportChangeObj.percentage;
             fillPercent(countryElement.find('.change .percent'), reportChange);
+
+            new ChangesPopup(countryElement.find('.change'), reportChangeObj.changes);
 
             if(reportChange < 0){
             } else if(reportChange === 0){
