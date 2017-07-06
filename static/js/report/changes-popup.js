@@ -12,6 +12,7 @@ class ChangesPopup {
     }
 
     show(element) {
+        console.log(this.changes);
         if(this.changes.length > 0){
             this.changes.forEach(change => {
                 const changeUnit = $('<div class="change-unit"></div>');
@@ -22,21 +23,32 @@ class ChangesPopup {
                     const field = change.fields[key];
                     const fieldUnit = $('<div class="field-unit"></div>');
                     fieldUnit.append('<p class="field-name">' + field.name + '</p>');
-                    let value = field.value;
 
+                    let value = field.value;
                     if(field.value !== field.value || field.value == 'Infinity'){
                         value = 'New value';
                     }
                     else{
                         value = field.value.toFixed(2) + '%';
                     }
+                    if(field.value > 0 && field.value < 0.01){
+                        value = '<0.01%';
+                    }
                     fieldUnit.append('<p class="field-value">' + value + '</p>');
+
                     if(field.value >= 0){
                         fieldUnit.find('.field-value').css('color', 'green');
                     }
                     else if(field.value < 0){
                         fieldUnit.find('.field-value').css('color', 'red');
                     }
+
+                    const fieldSource = $('<div class="field-source"></div>');
+                    field.source.new.forEach(src =>{
+                        let source = src.name + '/' + src.date;
+                        fieldSource.append('<p class="field-source-unit">' + source + '</p>');
+                    });
+                    fieldUnit.append(fieldSource);
                     fieldUnit.appendTo(changeUnit);
                 });
             });
