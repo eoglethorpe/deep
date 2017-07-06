@@ -56,6 +56,18 @@ class Country{
             severityScoreGroup
         ];
 
+        const sourceIndices = [
+            null, 'next', null, null,
+            'next', null, null,
+            'ipc', 'ipc',
+            'next', null, null,
+            'next', null, null,
+            'next', null, null,
+            'next', null, null,
+            'next', null, null,
+            null,
+        ];
+
         let fieldsWeek0 = getFields(this, n0);
         let fieldsWeek1 = getFields(this, n1);
         let total = 0;
@@ -63,7 +75,7 @@ class Country{
 
         const changes = [];
 
-        function addChange(i, pk, value) {
+        function addChange(i, pk, value, source) {
             let group = fieldGroups[i];
             let field = group.fields.find(f => f.pk == pk);
             if (!field) {
@@ -76,7 +88,17 @@ class Country{
                 changes.push(change);
             }
 
-            change.fields[pk] = { name: field.name, value: value };
+            change.fields[pk] = { name: field.name, value: value, source: source };
+        }
+
+        function getSource(fields, i, pk) {
+            let sourceIndex = sourceIndices[i];
+            if (sourceIndex === 'next') {
+                return fields[i+1][pk];
+            }
+            else if (sourceIndex === 'ipc') {
+                return fields[i].f;
+            }
         }
 
         for (let i=0; i<fieldsWeek0.length; i++) {
@@ -103,7 +125,7 @@ class Country{
                         let v0 = +value0;
                         let v1 = +value1;
                         if (!isNaN(v0) && !isNaN(v1)) {
-                            addChange(i, keys[j], (v0-v1)/v1*100);
+                            addChange(i, keys[j], (v0-v1)/v1*100, getSource(fieldsWeek0, i, keys[j]));
                         }
                         // else {
                         //     addChange(i, keys[j], undefined);
