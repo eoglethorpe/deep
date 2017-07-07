@@ -1,6 +1,7 @@
 
 # Elastic Beanstalk Files
-#.elasticbeanstalk/*
-#!.elasticbeanstalk/*.cfg.yml
-#!.elasticbeanstalk/*.global.yml
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
 .ropeproject/
+.ebextensions/remote_log.config
