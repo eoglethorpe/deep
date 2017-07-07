@@ -19,3 +19,8 @@ eb ssh # for ssh
 > .elasticbeanstalk/config.yml contains aws environment and application configs
 
 > .ebextensions/ contains scripts which are run while deploying
+
+
+## Future Ref
+
+> Avoid 4XX, https://stackoverflow.com/questions/36398456/elastic-beanstalk-disable-health-state-change-based-on-4xx-responses
