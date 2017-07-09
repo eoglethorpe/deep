@@ -97,14 +97,11 @@ $(document).ready(function() {
             }
         }
 
-        let url = $(this).attr('href');
-        url = url.replace('#page1', '');
-        url = url.replace('#page2', '');
         if($('#snapshot-prev').is(':visible')){
-            $(this).attr('href', url+'#page2');
+            $(this).attr('href', editUrl+'#page2');
         }
         else{
-            $(this).attr('href', url+'#page1');
+            $(this).attr('href', editUrl+'#page1');
         }
     });
 });

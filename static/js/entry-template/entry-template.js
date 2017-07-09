@@ -53,6 +53,7 @@ let templateEditor = {
             that.save().then(function(data) {
                 redirectPost(window.location.pathname, {
                     data: JSON.stringify(data),
+                    redirect: redirect_location,
                 }, csrf_token);
             });
         });

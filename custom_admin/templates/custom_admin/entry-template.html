@@ -35,6 +35,7 @@ let templateData = {
 
 
 const num_entries = '{{ num_entries }}';
+const redirect_location = {% if redirect_location %}'{{ redirect_location }}'{% else %}null{% endif %};
 </script>
 
 {% endblock %}
