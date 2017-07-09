@@ -90,7 +90,7 @@ class OverviewApiView(View):
             entry__lead__event__usergroup__acaps=True).distinct().count()
         data['assessment_reports'] = SurveyOfSurvey.objects.filter(
             lead__event__usergroup__acaps=True).distinct().count()
-        data['registered_users'] = User.objects.filter(usergroup__acaps=True)\
+        data['current_users'] = User.objects.filter(usergroup__acaps=True)\
             .distinct().count()
 
         latest_reports = WeeklyReport.objects.annotate(
@@ -100,13 +100,23 @@ class OverviewApiView(View):
         # Latest report data
 
         severe = 0
+        humanitarian_crises = 0
+        situation_of_concern = 0
 
         for report in latest_reports:
             report.data = json.loads(report.data)
 
-            if report.data['final-severity-score']['score'] == '3':
+            score = report.data['final-severity-score']['score']
+            if score == '3':
                 severe += 1
+            elif score == '2':
+                humanitarian_crises += 1
+            elif score == '1':
+                situation_of_concern += 1
+
         data['severe'] = severe
+        data['humanitarian_crises'] = humanitarian_crises
+        data['situation_of_concern'] = situation_of_concern
 
         # Report data for last 15 days
 
@@ -119,7 +129,12 @@ class OverviewApiView(View):
 
         dt = datetime.now()
         dt = dt - timedelta(days=dt.weekday() + 7)
-        for i in range(15):
+
+        num_weeks = request.GET.get('weeks')
+        if not num_weeks:
+            num_weeks = 15
+
+        for i in range(int(num_weeks)):
             date = dt - timedelta(days=i*7)
             reports = WeeklyReport.objects.filter(start_date=date)
 
