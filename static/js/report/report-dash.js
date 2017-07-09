@@ -265,7 +265,7 @@ function fillCountryDetails(){
 
             countryElement.find('.recency .fa').addClass(getChangeFa(getAveragePercent(affectedRecencyPercent0+pinRecencyPercent0+accessRecencyPercent0) - getAveragePercent(country.weeklyReports[1].getHumanRecency(), country.weeklyReports[1].getPinRecency(), country.weeklyReports[1].getAccessRecency()) ));
 
-            const reportChangeObj = country.getWeeklyReportChangePercentage(); 
+            const reportChangeObj = country.getWeeklyReportChangePercentage();
             const reportChange = reportChangeObj.percentage;
             fillPercent(countryElement.find('.change .percent'), reportChange);
 
@@ -274,10 +274,10 @@ function fillCountryDetails(){
             if(reportChange < 0){
             } else if(reportChange === 0){
                 countryElement.find('.change .viz svg').remove();
-                $('<div class="no-change-block" data-toggle="tooltip" title="No change"></div>').appendTo(countryElement.find('.change .viz'));
+                $('<div class="no-change-block"></div>').appendTo(countryElement.find('.change .viz'));
             } else{
                 var path = countryElement.find('.change .viz svg path');
-                $('<div class="change-block" data-toggle="tooltip" title="'+Math.round(reportChange)+'% changed"></div>').appendTo(countryElement.find('.change .viz'));
+                $('<div class="change-block"></div>').appendTo(countryElement.find('.change .viz'));
                 path.attr('d', describeArc(24, 24, 16, 0, reportChange*360/100));
             }
         }
