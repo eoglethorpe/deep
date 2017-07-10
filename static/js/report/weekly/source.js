@@ -43,16 +43,28 @@ let source = {
         setupPeopleSource('planned');
 
         // ipc
-        $('.ipc-source').on('drop', that.getDropEvent(function(container, newSource) {
+        $('.ipc .ipc-source').on('drop', that.getDropEvent(function(container, newSource) {
             newData['ipc'][container.data('ipc')] = getNewSourceData(newData['ipc'][container.data('ipc')]);
             newData['ipc'][container.data('ipc')]['new']
                 .push(newSource);
             that.refreshSources(container, newData['ipc'][container.data('ipc')]);
         }));
 
-        $('.ipc-source').each(function() {
+        $('.ipc .ipc-source').each(function() {
             newData['ipc'][$(this).data('ipc')] = getNewSourceData(newData['ipc'][$(this).data('ipc')]);
             that.refreshSources($(this), newData['ipc'][$(this).data('ipc')]);
+        });
+
+        $('.ipc-forecasted .ipc-forecast-source').on('drop', that.getDropEvent(function(container, newSource) {
+            newData['ipc-forecast'][container.data('ipc')] = getNewSourceData(newData['ipc-forecast'][container.data('ipc')]);
+            newData['ipc-forecast'][container.data('ipc')]['new']
+                .push(newSource);
+            that.refreshSources(container, newData['ipc-forecast'][container.data('ipc')]);
+        }));
+
+        $('.ipc-forecasted .ipc-forecast-source').each(function() {
+            newData['ipc-forecast'][$(this).data('ipc')] = getNewSourceData(newData['ipc-forecast'][$(this).data('ipc')]);
+            that.refreshSources($(this), newData['ipc-forecast'][$(this).data('ipc')]);
         });
 
         // access

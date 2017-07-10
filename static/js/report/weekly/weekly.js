@@ -76,9 +76,9 @@ function renderEntries(){
                 information.find('.excerpt-image').show();
             }
             if (entries[i].informations[j].date){
-                information.find('date').text(formatDate(new Date(entries[i].informations[j].date)));
+                entry.find('date').text(formatDate(new Date(entries[i].informations[j].date)));
             } else{
-                information.find('date').text("N/A");
+                entry.find('date').text("N/A");
             }
 
             information.find(".reliability").find('._'+entries[i].informations[j].reliability).addClass('active');
@@ -302,7 +302,6 @@ $(document).ready(function(){
     });
 
     $("#save-btn").click(function() {
-        console.log($('.comment+p'));
         if ($('.comment+p').length > 0) {
             alert('You have entered a value with no source and comment');
             return;
@@ -494,11 +493,19 @@ function setInputData() {
     peopleInNeedDecay.setData(reportMode);
 
     // IPC
-    $("input[data-ipc]").each(function() {
+    $(".ipc input[data-ipc]").each(function() {
         if ($(this).data("ipc") == 'f'){
             $(this).val(getOldSourceData(data["ipc"][$(this).data("ipc")]));
         }else{
             $(this).val(data["ipc"][$(this).data("ipc")]);
+        }
+    });
+
+    $(".ipc-forecasted input[data-ipc]").each(function() {
+        if ($(this).data("ipc") == 'f'){
+            $(this).val(getOldSourceData(data["ipc-forecast"][$(this).data("ipc")]));
+        }else{
+            $(this).val(data["ipc-forecast"][$(this).data("ipc")]);
         }
     });
 
@@ -628,12 +635,16 @@ function getInputData() {
     });
 
     // IPC
-    $("input[data-ipc]").each(function() {
+    $(".ipc input[data-ipc]").each(function() {
         // if ($(this).data("ipc") == 'f'){
         //     data["ipc"][$(this).data("ipc")]["old"] = $(this).val();
         // }else{
         data["ipc"][$(this).data("ipc")] = getNumberValue($(this));
         // }
+    });
+
+    $('.ipc-forecasted input[data-ipc]').each(function() {
+        data['ipc-forecast'][$(this).data('ipc')] = getNumberValue($(this));
     });
 
     // Access data
@@ -833,6 +844,9 @@ function checkRules() {
     $('.ipc input').on('drop paste change input', function() {
         validateSource($(this), newData['ipc']['f']);
     });
+    $('.ipc-forecasted input').on('drop paste change input', function() {
+        validateSource($(this), newData['ipc-forecast']['f']);
+    });
 }
 
 function validateSource(element, sourceData) {
@@ -848,6 +862,13 @@ function validateSource(element, sourceData) {
     if (prefix == 'ipc') {
         number = '';
         $('.ipc input[class="number"]').each(function() {
+            number += $(this).val().trim();
+        });
+        dataAttr = '';
+    }
+    else if (prefix == 'ipc-forecast') {
+        number = '';
+        $('.ipc-forecasted input[class="number"]').each(function() {
             number += $(this).val().trim();
         });
         dataAttr = '';

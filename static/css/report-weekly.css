@@ -396,28 +396,27 @@ main {
       main #report-content section h3 {
         margin: 0;
         margin-bottom: 16px; }
-    main #report-content #reporting-parameters {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: flex-end; }
-      main #report-content #reporting-parameters .input-wrapper input {
-        width: 100%;
-        outline: none;
-        padding: 2px 5px;
-        box-sizing: border-box;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        font-size: 12px; }
-      main #report-content #reporting-parameters span {
-        font-family: 'Inconsolata', monospace;
-        font-size: 1.2em;
-        text-transform: uppercase; }
-      main #report-content #reporting-parameters label {
-        margin-right: 10px;
-        margin-bottom: 5px; }
+    main #report-content #reporting-parameters .input-wrapper input {
+      width: 100%;
+      outline: none;
+      padding: 2px 5px;
+      box-sizing: border-box;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      font-size: 12px; }
+    main #report-content #reporting-parameters span {
+      font-family: 'Inconsolata', monospace;
+      font-size: 1.2em;
+      text-transform: uppercase; }
+    main #report-content #reporting-parameters label {
+      margin-right: 10px;
+      margin-bottom: 5px; }
     main #report-content #reporting-parameters > div {
-      flex-basis: 30%;
-      margin-bottom: 24px; }
+      display: flex;
+      flex-wrap: wrap; }
+      main #report-content #reporting-parameters > div > div {
+        margin-bottom: 24px;
+        margin-right: 24px;
+        flex-basis: 16%; }
     main #report-content #key-events #toggle-panel {
       min-height: 32px; }
       main #report-content #key-events #toggle-panel .fa {
@@ -571,7 +570,6 @@ main {
           main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-warning-wrapper .source-new .source, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-warning-wrapper .source-new .source, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-warning-wrapper .source-new .source, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-warning-wrapper .source-new .source, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-warning-wrapper .source-new .source, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-warning-wrapper .source-new .source, main #report-content #casualties #human-profile-field-list .human-profile-field .source-warning-wrapper .source-new .source, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-warning-wrapper .source-new .source, main #report-content #casualties #human-profile-field-list .human-profile-child .source-warning-wrapper .source-new .source, main #report-content #casualties #casualties-field-list .human-profile-field .source-warning-wrapper .source-new .source, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-warning-wrapper .source-new .source, main #report-content #casualties #casualties-field-list .human-profile-child .source-warning-wrapper .source-new .source {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
             align-items: center;
             background-color: #fff;
             padding: 6px;
@@ -579,15 +577,14 @@ main {
             cursor: pointer;
             word-break: break-all; }
             main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-warning-wrapper .source-new .source .name, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-warning-wrapper .source-new .source .name, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-warning-wrapper .source-new .source .name, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-warning-wrapper .source-new .source .name, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-warning-wrapper .source-new .source .name, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-warning-wrapper .source-new .source .name, main #report-content #casualties #human-profile-field-list .human-profile-field .source-warning-wrapper .source-new .source .name, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-warning-wrapper .source-new .source .name, main #report-content #casualties #human-profile-field-list .human-profile-child .source-warning-wrapper .source-new .source .name, main #report-content #casualties #casualties-field-list .human-profile-field .source-warning-wrapper .source-new .source .name, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-warning-wrapper .source-new .source .name, main #report-content #casualties #casualties-field-list .human-profile-child .source-warning-wrapper .source-new .source .name {
-              flex-basis: 85%;
+              margin-right: 4px;
               overflow: hidden;
               flex-grow: 0;
               flex-shrink: 0; }
             main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-warning-wrapper .source-new .source .delete, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-warning-wrapper .source-new .source .delete, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-warning-wrapper .source-new .source .delete, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-warning-wrapper .source-new .source .delete, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-warning-wrapper .source-new .source .delete, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-warning-wrapper .source-new .source .delete, main #report-content #casualties #human-profile-field-list .human-profile-field .source-warning-wrapper .source-new .source .delete, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-warning-wrapper .source-new .source .delete, main #report-content #casualties #human-profile-field-list .human-profile-child .source-warning-wrapper .source-new .source .delete, main #report-content #casualties #casualties-field-list .human-profile-field .source-warning-wrapper .source-new .source .delete, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-warning-wrapper .source-new .source .delete, main #report-content #casualties #casualties-field-list .human-profile-child .source-warning-wrapper .source-new .source .delete {
-              flex-basis: 5%;
+              margin-left: auto;
               color: #e74c3c; }
             main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-warning-wrapper .source-new .source date, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-warning-wrapper .source-new .source date, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-warning-wrapper .source-new .source date, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-warning-wrapper .source-new .source date, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-warning-wrapper .source-new .source date, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-warning-wrapper .source-new .source date, main #report-content #casualties #human-profile-field-list .human-profile-field .source-warning-wrapper .source-new .source date, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-warning-wrapper .source-new .source date, main #report-content #casualties #human-profile-field-list .human-profile-child .source-warning-wrapper .source-new .source date, main #report-content #casualties #casualties-field-list .human-profile-field .source-warning-wrapper .source-new .source date, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-warning-wrapper .source-new .source date, main #report-content #casualties #casualties-field-list .human-profile-child .source-warning-wrapper .source-new .source date {
-              flex-basis: 100%;
               font-family: 'Inconsolata', monospace; }
             main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-warning-wrapper .source-new .source .display-card, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-warning-wrapper .source-new .source .display-card, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-warning-wrapper .source-new .source .display-card, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-warning-wrapper .source-new .source .display-card, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-warning-wrapper .source-new .source .display-card, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-warning-wrapper .source-new .source .display-card, main #report-content #casualties #human-profile-field-list .human-profile-field .source-warning-wrapper .source-new .source .display-card, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-warning-wrapper .source-new .source .display-card, main #report-content #casualties #human-profile-field-list .human-profile-child .source-warning-wrapper .source-new .source .display-card, main #report-content #casualties #casualties-field-list .human-profile-field .source-warning-wrapper .source-new .source .display-card, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-warning-wrapper .source-new .source .display-card, main #report-content #casualties #casualties-field-list .human-profile-child .source-warning-wrapper .source-new .source .display-card {
               position: absolute;
@@ -858,7 +855,6 @@ main {
         main #report-content #people-in-need .source-warning-wrapper .source-new .source {
           display: flex;
           flex-wrap: wrap;
-          justify-content: space-between;
           align-items: center;
           background-color: #fff;
           padding: 6px;
@@ -866,15 +862,14 @@ main {
           cursor: pointer;
           word-break: break-all; }
           main #report-content #people-in-need .source-warning-wrapper .source-new .source .name {
-            flex-basis: 85%;
+            margin-right: 4px;
             overflow: hidden;
             flex-grow: 0;
             flex-shrink: 0; }
           main #report-content #people-in-need .source-warning-wrapper .source-new .source .delete {
-            flex-basis: 5%;
+            margin-left: auto;
             color: #e74c3c; }
           main #report-content #people-in-need .source-warning-wrapper .source-new .source date {
-            flex-basis: 100%;
             font-family: 'Inconsolata', monospace; }
           main #report-content #people-in-need .source-warning-wrapper .source-new .source .display-card {
             position: absolute;
@@ -1113,7 +1108,6 @@ main {
         main #report-content #ipc .source-warning-wrapper .source-new .source {
           display: flex;
           flex-wrap: wrap;
-          justify-content: space-between;
           align-items: center;
           background-color: #fff;
           padding: 6px;
@@ -1121,15 +1115,14 @@ main {
           cursor: pointer;
           word-break: break-all; }
           main #report-content #ipc .source-warning-wrapper .source-new .source .name {
-            flex-basis: 85%;
+            margin-right: 4px;
             overflow: hidden;
             flex-grow: 0;
             flex-shrink: 0; }
           main #report-content #ipc .source-warning-wrapper .source-new .source .delete {
-            flex-basis: 5%;
+            margin-left: auto;
             color: #e74c3c; }
           main #report-content #ipc .source-warning-wrapper .source-new .source date {
-            flex-basis: 100%;
             font-family: 'Inconsolata', monospace; }
           main #report-content #ipc .source-warning-wrapper .source-new .source .display-card {
             position: absolute;
@@ -1382,7 +1375,6 @@ main {
         main #report-content #humanitarian-access > div .source-new .source {
           display: flex;
           flex-wrap: wrap;
-          justify-content: space-between;
           align-items: center;
           background-color: #fff;
           padding: 6px;
@@ -1390,15 +1382,14 @@ main {
           cursor: pointer;
           word-break: break-all; }
           main #report-content #humanitarian-access > div .source-new .source .name {
-            flex-basis: 85%;
+            margin-right: 4px;
             overflow: hidden;
             flex-grow: 0;
             flex-shrink: 0; }
           main #report-content #humanitarian-access > div .source-new .source .delete {
-            flex-basis: 5%;
+            margin-left: auto;
             color: #e74c3c; }
           main #report-content #humanitarian-access > div .source-new .source date {
-            flex-basis: 100%;
             font-family: 'Inconsolata', monospace; }
           main #report-content #humanitarian-access > div .source-new .source .display-card {
             position: absolute;
@@ -1559,43 +1550,64 @@ main {
               border-left: 8px solid transparent; }
           main #report-content #humanitarian-access > div .source-new .source:nth-child(odd) {
             background-color: #f5f5f5; }
-    main #report-content #weekly-severity-score label {
-      margin-top: 10px;
-      margin-bottom: 5px; }
     main #report-content #weekly-severity-score > div {
-      display: flex;
-      justify-content: space-between;
-      min-height: 72px;
-      padding: 0 24px; }
-      main #report-content #weekly-severity-score > div > * {
-        flex-basis: 30%; }
-    main #report-content #weekly-severity-score input {
-      outline: none;
-      border: 1px solid transparent;
-      width: 100%;
-      padding: 4px 10px; }
-    main #report-content #weekly-severity-score .score-0 {
-      background-color: rgba(231, 76, 60, 0.2); }
-    main #report-content #weekly-severity-score .score-1 {
-      color: rgba(0, 0, 0, 0.6);
-      background-color: rgba(231, 76, 60, 0.5); }
-    main #report-content #weekly-severity-score .score-2 {
-      color: rgba(255, 255, 255, 0.8);
-      background-color: rgba(231, 76, 60, 0.75); }
-    main #report-content #weekly-severity-score .score-3 {
-      color: white;
-      background-color: #e74c3c; }
-    main #report-content #weekly-severity-score .dynamic {
-      color: #008080; }
-    main #report-content #weekly-severity-score #hdi {
-      background-color: rgba(0, 0, 0, 0.3); }
-    main #report-content #weekly-severity-score #hdi-rank {
-      background-color: rgba(0, 0, 0, 0.3); }
-    main #report-content #weekly-severity-score #mortality-rate {
-      background-color: rgba(0, 0, 0, 0.3); }
-    main #report-content #weekly-severity-score #uprooted-people {
-      background-color: rgba(0, 0, 0, 0.3); }
-    main #report-content #weekly-severity-score #uprooted-percentage {
-      background-color: rgba(0, 0, 0, 0.3); }
+      display: flex; }
+      main #report-content #weekly-severity-score > div label {
+        margin-top: 10px;
+        margin-bottom: 5px;
+        display: flex; }
+      main #report-content #weekly-severity-score > div > div {
+        min-height: 72px;
+        padding: 0 24px;
+        margin-bottom: 16px; }
+        main #report-content #weekly-severity-score > div > div > * label {
+          height: 48px;
+          display: flex;
+          align-items: flex-end; }
+        main #report-content #weekly-severity-score > div > div > * input {
+          height: 64px;
+          background-color: #fff;
+          text-align: center; }
+          main #report-content #weekly-severity-score > div > div > * input:disabled {
+            background-color: inherit; }
+      main #report-content #weekly-severity-score > div #final-score-comment {
+        text-align: left;
+        font-size: 1em; }
+      main #report-content #weekly-severity-score > div #final-score-comment, main #report-content #weekly-severity-score > div #final-score {
+        border: 1px solid rgba(0, 0, 0, 0.3); }
+        main #report-content #weekly-severity-score > div #final-score-comment:focus, main #report-content #weekly-severity-score > div #final-score:focus {
+          border-color: #008080; }
+      main #report-content #weekly-severity-score > div input {
+        outline: none;
+        border: 1px solid transparent;
+        width: 100%;
+        padding: 4px 10px;
+        background-color: transparent;
+        font-size: 2em;
+        font-weight: 300;
+        color: rgba(0, 0, 0, 0.7); }
+      main #report-content #weekly-severity-score > div .score-0 {
+        background-color: rgba(231, 76, 60, 0.2); }
+      main #report-content #weekly-severity-score > div .score-1 {
+        color: rgba(0, 0, 0, 0.6);
+        background-color: rgba(231, 76, 60, 0.5); }
+      main #report-content #weekly-severity-score > div .score-2 {
+        color: rgba(255, 255, 255, 0.8);
+        background-color: rgba(231, 76, 60, 0.75); }
+      main #report-content #weekly-severity-score > div .score-3 {
+        color: white;
+        background-color: #e74c3c; }
+      main #report-content #weekly-severity-score > div .dynamic {
+        color: #008080; }
+      main #report-content #weekly-severity-score > div #hdi {
+        background-color: rgba(0, 0, 0, 0.1); }
+      main #report-content #weekly-severity-score > div #hdi-rank {
+        background-color: rgba(0, 0, 0, 0.1); }
+      main #report-content #weekly-severity-score > div #mortality-rate {
+        background-color: rgba(0, 0, 0, 0.1); }
+      main #report-content #weekly-severity-score > div #uprooted-people {
+        background-color: rgba(0, 0, 0, 0.1); }
+      main #report-content #weekly-severity-score > div #uprooted-percentage {
+        background-color: rgba(0, 0, 0, 0.1); }
 
 /*# sourceMappingURL=report-weekly.css.map */
