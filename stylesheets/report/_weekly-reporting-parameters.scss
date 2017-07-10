@@ -1,8 +1,4 @@
 #reporting-parameters{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-end;
 
     .input-wrapper{
         input{
@@ -27,6 +23,12 @@
 }
 
 #reporting-parameters > div{
-    flex-basis: 30%;
-    margin-bottom: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    >div{
+        margin-bottom: 24px;
+        margin-right: 24px;
+        flex-basis: 16%;
+
+    }
 }
