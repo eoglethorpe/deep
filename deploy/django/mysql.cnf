@@ -1,6 +1,0 @@
-[client]
-database = deep_test
-host = dcap.ci0kkoh87sga.us-east-1.rds.amazonaws.com
-user = acaps_dcap
-password = allt3hdataz
-default-character-set = utf8

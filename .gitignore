@@ -86,5 +86,5 @@ media_test
 .ropeproject
 
 # DEEP Deploy files
-./deploy/django/log_files.yml
-./deploy/django/mysql.cnf
+deploy/django/log_files.yml
+deploy/django/mysql.cnf
