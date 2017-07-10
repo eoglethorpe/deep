@@ -16,7 +16,7 @@ from entries.views import ExportProgressView
 from users.rest_views import *
 from leads.rest_views import *
 from entries.rest_views import *
-from deep.api_views import OverviewApiView
+from deep.api_views import OverviewApiView, ReportsApiView
 
 
 router = DefaultRouter()
@@ -70,6 +70,7 @@ urlpatterns = [
     url(r'^api/v2/', include('report.api_urls', namespace='api_report')),
 
     url(r'^api/v2/dashboard/overview/$', OverviewApiView.as_view()),
+    url(r'^api/v2/dashboard/reports/$', ReportsApiView.as_view()),
 
     url(r'^password/reset/$',
         auth_views.password_reset,

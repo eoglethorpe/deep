@@ -3,13 +3,17 @@ from django.views.generic import View
 from django.contrib.auth.models import User
 from django.db.models import Max, F
 
-from leads.models import Country, Lead, SurveyOfSurvey
+from leads.models import Country, Lead, SurveyOfSurvey, Event
 from entries.models import EntryInformation
 from report.models import WeeklyReport, PeopleInNeedField, \
     HumanProfileField, HumanAccessPinField
 
 import json
 from datetime import datetime, timedelta
+
+
+def parse_datetime(datestr):
+    return datetime.strptime(datestr, '%Y-%m-%d')
 
 
 def get_pin(data):
@@ -62,7 +66,6 @@ class OverviewApiView(View):
         try:
             return JsonResponse(self.get_api(request))
         except Exception as e:
-            raise(e)
             return JsonResponse({'status': False}, status=500)
 
     def get_api(self, request):
@@ -99,20 +102,20 @@ class OverviewApiView(View):
 
         # Latest report data
 
-        severe = 0
-        humanitarian_crises = 0
-        situation_of_concern = 0
+        severe = []
+        humanitarian_crises = []
+        situation_of_concern = []
 
         for report in latest_reports:
             report.data = json.loads(report.data)
 
             score = report.data['final-severity-score']['score']
             if score == '3':
-                severe += 1
+                severe.append(report.country.code)
             elif score == '2':
-                humanitarian_crises += 1
+                humanitarian_crises.append(report.country.code)
             elif score == '1':
-                situation_of_concern += 1
+                situation_of_concern.append(report.country.code)
 
         data['severe'] = severe
         data['humanitarian_crises'] = humanitarian_crises
@@ -164,3 +167,112 @@ class OverviewApiView(View):
 
         response['data'] = data
         return response
+
+
+class ReportsApiView(View):
+    def get(self, request):
+        try:
+            return JsonResponse(self.get_api(request))
+        except Exception as e:
+            return JsonResponse({'status': False}, status=500)
+
+    def get_api(self, request):
+        response = {}
+        response['status'] = True
+        data = []
+
+        countries = Country.objects.filter(
+            weeklyreport__event__usergroup__acaps=True)
+
+        cquery = request.GET.get('countries')
+        if cquery:
+            country_codes = cquery.split(',')
+            countries = countries.filter(code__in=country_codes)
+
+        countries = countries.distinct()
+        for country in countries:
+            data.append(self.get_country_data(request, country))
+
+        response['data'] = data
+        return response
+
+    def get_country_data(self, request, country):
+        data = {}
+        data['country_code'] = country.code
+        data['country'] = country.name
+
+        data['leads'] = Lead.objects.filter(
+            event__countries=country,
+            event__usergroup__acaps=True
+        ).distinct().count()
+
+        data['entries'] = EntryInformation.objects.filter(
+            entry__lead__event__countries=country,
+            entry__lead__event__usergroup__acaps=True
+        ).distinct().count()
+
+        data['assessment_reports'] = SurveyOfSurvey.objects.filter(
+            lead__event__countries=country,
+            lead__event__usergroup__acaps=True
+        ).distinct().count()
+
+        projects = Event.objects.filter(countries=country)
+        data['projects'] = [
+            {'id': p.id, 'name': p.name} for p in projects
+        ]
+
+        start_date = datetime.now().date().replace(month=1, day=1)
+        if request.GET.get('start_date'):
+            start_date = parse_datetime(request.GET.get('start_date'))
+
+        reports = WeeklyReport.objects.filter(
+            country=country,
+            event__usergroup__acaps=True,
+            start_date__gte=start_date
+        )
+
+        end_date = request.GET.get('end_date')
+        if end_date:
+            end_date = parse_datetime(end_date)
+            reports = reports.filter(start_date__lte=end_date)
+
+        modified_start_date = request.GET.get('modified_start_date')
+        if modified_start_date:
+            modified_start_date = parse_datetime(modified_start_date)
+            reports = reports.filter(last_edited_at__gte=modified_start_date)
+
+        modified_end_date = request.GET.get('modified_end_date')
+        if modified_end_date:
+            modified_end_date = parse_datetime(modified_end_date)
+            reports = reports.filter(last_edited_at__lte=modified_end_date)
+
+        reports = reports.distinct()
+
+        disaster_type = request.GET.get('disaster_type')
+
+        data['reports'] = []
+        for report in reports:
+            report.data = json.loads(report.data)
+
+            if disaster_type and \
+                    int(report.data['disaster_type']) != int(disaster_type):
+                continue
+
+            rdata = {}
+            rdata['id'] = report.pk
+            rdata['week_date'] = datetime.strftime(report.start_date,
+                                                   '%Y-%m-%d')
+            rdata['modified_date'] = datetime.strftime(report.last_edited_at,
+                                                       '%Y-%m-%d')
+            rdata['project_id'] = report.event.pk
+            rdata['disaster_type'] = int(report.data['disaster_type'])
+            rdata['pin'] = get_pin(report.data)
+            rdata['pin_severe'] = get_pin_severe(report.data)
+            rdata['idps'] = get_idps(report.data)
+            rdata['refugees'] = get_refugees(report.data)
+            rdata['pin_restricted'] = get_pin_restricted(report.data)
+            rdata['people_affected'] = get_people_affected(report.data)
+
+            data['reports'].append(rdata)
+
+        return data
