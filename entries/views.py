@@ -242,7 +242,10 @@ class AddEntry(View):
         except:
             get_simplified_lead(lead, context)
             if "lead_simplified" in context and context['lead_simplified']:
-                SimplifiedLead(lead=lead, text=context["lead_simplified"]).save()
+                try:
+                    SimplifiedLead(lead=lead, text=context["lead_simplified"]).save()
+                except:
+                    pass
 
         if lead.lead_type == 'URL':
             context['lead_url'] = lead.url
@@ -250,12 +253,7 @@ class AddEntry(View):
             context['lead_url'] = request.build_absolute_uri(lead.attachment.upload.url)
 
         if context.get('lead_url'):
-            if context['lead_url'].endswith('.pdf'):
-                context["format"] = 'pdf'
-            elif context['lead_url'].endswith('.docx'):
-                context["format"] = 'docx'
-            elif context['lead_url'].endswith('.pptx'):
-                context["format"] = 'pptx'
+            context['format'] = context['lead_url'].rpartition('.')[-1]
 
         # With template
         if template_id:

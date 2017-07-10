@@ -53,8 +53,8 @@ $(document).ready(function(){
         var projectStatus = $('input[type=radio][name=project-status]:checked').val();
         var searchText = $('#country-search').val().trim().toLowerCase();
         $('.country').each(function(){
-            if ((projectStatus == '2' || $(this).data('project-status') == projectStatus)
-                && (searchText.length == 0 || $(this).text().trim().toLowerCase().indexOf(searchText) != -1))
+            if ((projectStatus == '2' || $(this).data('project-status') == projectStatus) &&
+                (searchText.length === 0 || $(this).text().trim().toLowerCase().indexOf(searchText) != -1))
             {
                 $(this).show();
             } else {
@@ -92,7 +92,7 @@ $(document).ready(function(){
                 return sortAsc? parseFloat(textA) - parseFloat(textB) : parseFloat(textB) - parseFloat(textA);
             }
         });
-        $.each(countryListItems, function(index, item){ countryList.append(item) });
+        $.each(countryListItems, function(index, item) { countryList.append(item); });
 
         var asc = $('.asc');
         asc.data('sort-asc', null);
@@ -265,16 +265,19 @@ function fillCountryDetails(){
 
             countryElement.find('.recency .fa').addClass(getChangeFa(getAveragePercent(affectedRecencyPercent0+pinRecencyPercent0+accessRecencyPercent0) - getAveragePercent(country.weeklyReports[1].getHumanRecency(), country.weeklyReports[1].getPinRecency(), country.weeklyReports[1].getAccessRecency()) ));
 
-            var reportChange = country.getWeeklyReportChangePercentage();
+            const reportChangeObj = country.getWeeklyReportChangePercentage();
+            const reportChange = reportChangeObj.percentage;
             fillPercent(countryElement.find('.change .percent'), reportChange);
+
+            new ChangesPopup(countryElement.find('.change'), reportChangeObj.changes);
 
             if(reportChange < 0){
             } else if(reportChange === 0){
                 countryElement.find('.change .viz svg').remove();
-                $('<div class="no-change-block" data-toggle="tooltip" title="No change"></div>').appendTo(countryElement.find('.change .viz'));
+                $('<div class="no-change-block"></div>').appendTo(countryElement.find('.change .viz'));
             } else{
                 var path = countryElement.find('.change .viz svg path');
-                $('<div class="change-block" data-toggle="tooltip" title="'+Math.round(reportChange)+'% changed"></div>').appendTo(countryElement.find('.change .viz'));
+                $('<div class="change-block"></div>').appendTo(countryElement.find('.change .viz'));
                 path.attr('d', describeArc(24, 24, 16, 0, reportChange*360/100));
             }
         }
@@ -304,42 +307,12 @@ function fillCountryDetails(){
             Math.max(...accessConstraintsList)
         ]);
 
-        let sparkLineXMax = Math.max(...[affectedList.length, displacedList.length, pinList.length, accessConstraintsList.length, geoRankList.length]);
+        let sparkLineXMax = Math.max(affectedList.length, displacedList.length, pinList.length, accessConstraintsList.length, geoRankList.length);
 
         setTimeout(function(countryElement, affectedList, displacedList, pinList, accessConstraintsList, geoRankList, sparkLineYMax) {
             return function() {
-                countryElement
-                    .find('.affected .viz')
-                    .sparkline(
-                        affectedList.reverse(),
-                        {
-                            type: 'line',
-                            width: '100%',
-                            height: '48px',
-                            lineColor: '#2980b9',
-                            fillColor: 'rgba(0, 50, 255, 0.1)',
-                            chartRangeMinX: 0,
-                            chartRangeMaxX: sparkLineXMax,
-                            chartRangeMin: 0,
-                            chartRangeMax: sparkLineYMax,
-                        }
-                    );
-                countryElement
-                    .find('.displaced .viz')
-                    .sparkline(
-                        displacedList.reverse(),
-                        {
-                            type: 'line',
-                            width: '100%',
-                            height: '48px',
-                            lineColor: '#f00000',
-                            fillColor: 'rgba(255, 0, 0, 0.1)',
-                            chartRangeMinX: 0,
-                            chartRangeMaxX: sparkLineXMax,
-                            chartRangeMin: 0,
-                            chartRangeMax: sparkLineYMax
-                        }
-                    );
+                countryElement.find('.affected .viz').sparkline(affectedList.reverse(), {type: 'line', width: '100%', height: '48px', lineColor: '#2980b9', fillColor: 'rgba(0, 50, 255, 0.1)', chartRangeMinX: 0, chartRangeMaxX: sparkLineXMax, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
+                countryElement.find('.displaced .viz').sparkline(displacedList.reverse(), {type: 'line', width: '100%', height: '48px', lineColor: '#f00000', fillColor: 'rgba(255, 0, 0, 0.1)', chartRangeMinX: 0, chartRangeMaxX: sparkLineXMax, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
                 countryElement.find('.in-need .viz').sparkline(pinList.reverse(), {type: 'line', width: '100%', height: '48px', lineColor: '#c0392b', fillColor: 'rgba(255, 40 , 0, 0.4)', chartRangeMinX: 0, chartRangeMaxX: sparkLineXMax, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
                 countryElement.find('.access-constraints .viz').sparkline(accessConstraintsList.reverse(), {type: 'line', width: '100%', height: '48px', lineColor: '#212121', fillColor: 'rgba(0,0,0,0.3)', chartRangeMinX: 0, chartRangeMaxX: sparkLineXMax, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
 
@@ -347,7 +320,7 @@ function fillCountryDetails(){
                 let geoRankingBarWidth = geoRankingWidth/geoRankList.length*0.7;
                 let geoRankingGap = geoRankingWidth/geoRankList.length*0.3;
                 countryElement.find('.geo-ranking .viz').sparkline(geoRankList.reverse(), {type: 'bar', height: '48px', chartRangeMin: 0, chartRangeMax: 3, barWidth: geoRankingBarWidth, barSpacing: geoRankingGap, barColor: '#cc2d06'});
-            }
-        } (countryElement, affectedList, displacedList, pinList, accessConstraintsList, geoRankList, sparkLineYMax), 0);
+            };
+        }(countryElement, affectedList, displacedList, pinList, accessConstraintsList, geoRankList, sparkLineYMax), 0);
     }
 }

@@ -30,14 +30,6 @@ body{
             justify-content: space-between;
             align-items: stretch;
 
-            #avatar-input{
-                position: absolute;
-                height: 0;
-                width: 0;
-                opacity: 0;
-                left: -100px;
-                top: -100px;
-            }
             img{
                 align-self: center;
                 width: 100px;
@@ -49,177 +41,18 @@ body{
                 border: 2px solid rgba(0, 0, 0, 0.3);
             }
             .user-info {
-                flex-basis: calc(100% - 112px - 96px);
+                align-self: center;
+                flex-basis: 100%;
+                margin-left: 16px;
                 display: flex;
-                flex-wrap: wrap;
-                align-items: center;
-                justify-content: center;
-                //align-self: stretch;
-                //flex-direction: column;
-                //justify-content: flex-start;
+                flex-direction: column;
 
-
-                #full-name {
-                    flex-basis: 100%;
-                    font-size: 32px;
-                    padding: 0px 16px;
-                    border-bottom: 2px solid rgba(0, 0, 0, 0);
-
-                    height: 45%;
-                    overflow: hidden;
-
-                    display: flex;
-                    margin-top: -10px;
-                    // padding-top: 16px;
-                    align-items: flex-start;
-                    justify-content: flex-start;
-
-                    label{
-                        transition: all 0.2s ease-in-out;
-                        // color: #fff;
-                    }
-                    >div{
-                        padding: 0 10px;
-
-                        label {
-                            visibility: hidden;
-                            opacity: 0;
-                            // display: none;
-                        }
-                        .name {
-                            position: relative;
-                            line-height: 1;
-
-                            &[contenteditable="true"]{
-                                border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-                                outline: none;
-
-                                &:focus{
-                                    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
-                                }
-                            }
-                        }
-                    }
-                    &.edit{
-                        justify-content: space-between;
-
-                        > div{
-                            flex-basis: 50%;
-
-                            label{
-                                // display: block;
-                                opacity: 1;
-                                visibility: visible;
-                            }
-                            .name{
-                                text-transform: none;
-                            }
-                        }
-                    }
+                .name{
+                    font-size: 2em;
                 }
-                .extra{
-                    height: 55%;
-                    padding: 0 16px;
-                    flex-basis: 100%;
-                    font-size: $text-size-lg;
-                    color: #fff;
-                    display: flex;
-                    flex-wrap: wrap;
-                    align-items: flex-start;
-
-                    >div {
-                        padding: 0 10px;
-                    }
-
-                    .username {
-                        flex-basis: 100%;
-                        padding: 4px 10px;
-                    }
-
-                    label {
-                        display: none;
-                        // color: #fff;
-                    }
-
-                    #user-organization {
-                        padding: 4px 0;
-
-                        &[contenteditable="true"]{
-                            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-                            outline: none;
-
-                            &:focus{
-                                border-bottom: 2px solid rgba(0, 0, 0, 0.3);
-                            }
-                        }
-                    }
-
-                    #user-organization-wrapper, #user-country-select-wrapper {
-                        flex-basis: 100%;
-                    }
-
-                    .selectize-control {
-                        margin-left: -5px;
-                        background-color: transparent;
-
-                        .selectize-input {
-                            font-size: 1.2em;
-                            background-color: transparent;
-                            border: none;
-                            text-transform: uppercase;
-
-                            input {
-                                background-color: transparent;
-                            }
-
-                            &:after {
-                                display: none;
-                            }
-                        }
-
-                        .selectize-dropdown {
-                            .option {
-                                color: $text-color;
-
-                                &:hover {
-                                    color: #fff;
-                                }
-                            }
-                        }
-                    }
-
-                }
-            }
-            &.edit-mode {
-                .user-info {
-                    .extra {
-                        .username {
-                            display: none;
-                        }
-                        label {
-                            display: block;
-                        }
-                        #user-organization-wrapper, #user-country-select-wrapper {
-                            flex-basis: 50%;
-
-                            >div {
-                                border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-                            }
-                        }
-
-                        .selectize-control {
-                            .selectize-input {
-                                &:after {
-                                    display: block;
-                                    border-color: #fff transparent transparent transparent;
-                                }
-
-                                &.focus {
-                                    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
-                                }
-                            }
-                        }
-                    }
+                .username, .organization, .country{
+                    font-size: 1.2em;
+                    margin: 3px 0;
                 }
             }
             .action-buttons{
@@ -490,6 +323,125 @@ body{
         }
         .proceed-button{
             color: $info-color;
+        }
+    }
+    #edit-user-modal{
+        header{
+            display: flex;
+            justify-content: space-between;
+        }
+        .input-container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+
+            #avatar-input{
+                position: absolute;
+                height: 0;
+                width: 0;
+                opacity: 0;
+                left: -100px;
+                top: -100px;
+            }
+
+            #edit-user-avatar{
+                align-self: center;
+                width: 100px;
+                height: 100px;
+                object-fit: cover;
+                object-position: center;
+                background-color: #fff;
+                border-radius: 50%;
+                border: 2px solid rgba(0, 0, 0, 0.3);
+                margin-bottom: 24px;
+                cursor: pointer;
+
+                &:hover { transform: scale(1.1); }
+            }
+            form{
+                flex-basis: 100%;
+                width: 100%;
+
+                >input{
+                    margin-bottom: 16px;
+                }
+                #user-country-select-wrapper {
+                    width: 100%;
+
+                    .selectize-control {
+                        width: 100%;
+
+                        .selectize-input {
+                            padding: 8px;
+                            background-color: transparent;
+                            border: none;
+                            border-bottom: 2px solid #f0f0f0;
+                            border-radius: 0;
+                            box-shadow: none;
+
+                            > div {
+                                padding: 0;
+                            }
+                        }
+
+                        .item {
+                            margin: 0;
+                            background-color: transparent;
+                            line-height: 1;
+                        }
+
+                        input {
+                            border: 0;
+                            padding: 0;
+                        }
+                    }
+                }
+            }
+            .btn-wrapper{
+                display: flex;
+                justify-content: space-between;
+                margin: 24px 0 0 0;
+                align-items: center;
+                width: 100%;
+
+                a {
+                    flex-basis: 48%;
+                    width: 48%;
+                    text-align: center;
+                    text-transform: uppercase;
+                    background-color: #f0f0f0;
+                    padding: 8px 0;
+                    text-decoration: none;
+                    color: inherit;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: #fff;
+                        background-color: $primary-color;
+                    }
+
+                    .fa{
+                        margin-right: 10px;
+                    }
+                }
+            }
+        }
+        .action-buttons{
+            .cancel-button{
+                padding: 8px 8px;
+                &:hover {
+                    color: #fff;
+                    background-color: $danger-color;
+                }
+            }
+            .proceed-button{
+                padding: 8px 8px;
+                &:hover {
+                    color: #fff;
+                    background-color: $info-color;
+                }
+            }
         }
     }
 }

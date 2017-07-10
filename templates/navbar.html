@@ -25,21 +25,6 @@
         });
         {% endif %}
 
-        // HumanitarianId link
-        $('#link-with-hid').click(function() {
-            {% if hid_config and hid_config.development %}
-            window.location.href = 'https://api2.dev.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id|safe }}&scope=profile&state=833912&redirect_uri={{ hid_config.redirect_url|safe }}';
-            {% else %}
-            window.location.href = 'https://auth.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id|safe }}&scope=profile&state=833912&redirect_uri={{ hid_config.redirect_url|safe }}';
-            {% endif %}
-        });
-
-        if (window.location.hash.indexOf('access_token=') >= 0
-            && window.location.hash.indexOf('state=833912') >= 0)
-        {
-            window.location.href = '{% url "hid_access_token" %}' + '?' + window.location.hash.substr(1);
-        }
-
         $('body nav').on('click', '.dropdown-toggle', function(){
             $(this).closest('.dropdown').find('.items').toggle();
         });
@@ -131,10 +116,12 @@
                 {% endif %}
 
                 <hr>
+                {% comment %}
                 <a href="{% url 'password_change' %}"><i class="fa fa-key"></i>Change password</small></a>
                 {% if not request.user.userprofile.hid %}
                 <a id="link-with-hid"><i class="fa fa-link"></i>Link with HID</a>
                 {% endif %}
+                {% endcomment %}
                 <a onclick="window.location.href = '{% url 'logout' %}';"><i class="fa fa-sign-out"></i>Logout</a>
             </div>
         </div>

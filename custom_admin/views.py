@@ -270,7 +270,6 @@ class CountryManagementView(View):
                     geojson_file += 1
                 admin_level.save()
 
-
             response["Location"] += "?selected="+str(country.pk)
 
         elif 'delete' in request.POST:
@@ -290,6 +289,7 @@ class EntryTemplateView(View):
         context['entry_template'] = template
         context['num_entries'] = EntryInformation.objects.filter(
             entry__template=template).distinct().count()
+        context['redirect_location'] = request.GET.get('redirect')
         return render(request, "custom_admin/entry-template.html", context)
 
     @method_decorator(login_required)
@@ -303,5 +303,9 @@ class EntryTemplateView(View):
             entry_template.snapshot_pageone = data['snapshots']['pageOne']
             entry_template.snapshot_pagetwo = data['snapshots']['pageTwo']
         entry_template.save()
+
+        redirect_location = request.POST.get('redirect')
+        if redirect_location and redirect_location != 'null':
+            return redirect(redirect_location)
 
         return redirect('custom_admin:entry_template', template_id=template_id)

@@ -1,11 +1,14 @@
+appdirs==1.4.0
 beautifulsoup4==4.5.3
 chardet==2.3.0
 cssselect==1.0.1
+DEEP==0.1
 Django==1.10.5
-django-cors-headers==2.0.1
 django-cleanup==0.4.2
+django-cors-headers==2.0.1
 djangorestframework==3.5.3
 et-xmlfile==1.0.1
+idna==2.5
 jdcal==1.3
 lxml==3.7.2
 mysqlclient==1.3.9
@@ -20,4 +23,6 @@ python-dateutil==2.6.0
 python-docx==0.8.6
 readability-lxml==0.6.2
 requests==2.13.0
+requests-file==1.4.2
 six==1.10.0
+tldextract==2.1.0

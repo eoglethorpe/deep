@@ -70,7 +70,6 @@
             .source{
                 display: flex;
                 flex-wrap: wrap;
-                justify-content: space-between;
                 align-items: center;
                 background-color: #fff;
                 padding: 6px;
@@ -79,17 +78,16 @@
                 word-break: break-all;
 
                 .name{
-                    flex-basis: 85%;
+                    margin-right: 4px;
                     overflow: hidden;
                     flex-grow: 0;
                     flex-shrink: 0;
                 }
                 .delete{
-                    flex-basis: 5%;
+                    margin-left: auto;
                     color: $error-color;
                 }
                 date{
-                    flex-basis: 100%;
                     font-family: 'Inconsolata', monospace;
                 }
                 @import 'display-card';

@@ -44,7 +44,7 @@ DEEP | Entries
             name: "{{ sector }}",
             severities: [
                 {% for severity in severities %}
-                { id: {{severity.level}}, value: 0, name: "{{severity}}" },
+                { id: {{severity.level}}, value: 0, name: "{{severity|escapejs}}" },
                 {% endfor %}
             ]
         },
@@ -54,10 +54,10 @@ DEEP | Entries
     var vulnerable_groups = [
         {% for vg in vulnerable_groups %}
         {
-            id: {{vg.id}}, name: "{{vg}}",
+            id: {{vg.id}}, name: "{{vg|escapejs}}",
             severities: [
                 {% for severity in severities %}
-                { id: {{severity.level}}, value: 0, name: "{{severity}}" },
+                { id: {{severity.level}}, value: 0, name: "{{severity|escapejs}}" },
                 {% endfor %}
             ]
         },
@@ -67,10 +67,10 @@ DEEP | Entries
     var specific_needs_groups = [
         {% for sg in specific_needs_groups %}
         {
-            id: {{sg.id}}, name: "{{sg}}",
+            id: {{sg.id}}, name: "{{sg|escapejs}}",
             severities: [
                 {% for severity in severities %}
-                { id: {{severity.level}}, value: 0, name: "{{severity}}" },
+                { id: {{severity.level}}, value: 0, name: "{{severity|escapejs}}" },
                 {% endfor %}
             ]
         },
@@ -80,10 +80,10 @@ DEEP | Entries
     var sources = [
         {% for source in sources %}
         {
-            id: "{{source}}", name: "{{source}}",
+            id: "{{source|escapejs}}", name: "{{source|escapejs}}",
             severities: [
                 {% for severity in severities %}
-                { id: {{severity.level}}, value: 0, name: "{{severity}}" },
+                { id: {{severity.level}}, value: 0, name: "{{severity|escapejs}}" },
                 {% endfor %}
             ]
         },
@@ -93,10 +93,10 @@ DEEP | Entries
     var affected_groups = [
         {% for ag in affected_groups %}
         {
-            id: {{ag.id}}, name: "{{ag}}",
+            id: {{ag.id}}, name: "{{ag|escapejs}}",
             severities: [
                 {% for severity in severities %}
-                { id: {{severity.level}}, value: 0, name: "{{severity}}" },
+                { id: {{severity.level}}, value: 0, name: "{{severity|escapejs}}" },
                 {% endfor %}
             ]
         },
@@ -105,7 +105,7 @@ DEEP | Entries
 
     var severities = [
         {% for severity in severities %}
-        { id: "{{severity.level}}", value: 0, name: "{{severity}}" },
+        { id: "{{severity.level}}", value: 0, name: "{{severity|escapejs}}" },
         {% endfor %}
     ];
     var dateSeveritiesTemplate = {
@@ -149,21 +149,24 @@ DEEP | Entries
 
 
 <div class="modal-container" hidden>
-<div id="date-range-input" class="modal" hidden>
-    <header>
-        <h3 class="modal-title">Enter date range</h3>
-    </header>
-    <div class="input-container">
-        <label>start date:</label>
-        <input type="date" id="start-date" class="form-control">
-    </div>
-    <div class="input-container">
-        <label>end date:</label>
-        <input type="date" id="end-date" class="form-control">
-    </div>
-    <div class="action-buttons">
-        <button id="cancel-btn" class="cancel" data-action="dismiss"><i class="fa fa-times"></i>Cancel</button>
-        <button id="ok-btn" class="success" data-action="proceed"><i class="fa fa-check"></i>Ok</button>
+    <div id="date-range-input" class="modal" hidden>
+        <header>
+            <h3 class="modal-title">Enter date range</h3>
+        </header>
+        <div class="input-container">
+            <label>start date:</label>
+            <input type="date" id="start-date" class="form-control">
+            <input type="text" class="date-picker" data-alt="#start-date">
+        </div>
+        <div class="input-container">
+            <label>end date:</label>
+            <input type="date" id="end-date" class="form-control">
+            <input type="text" class="date-picker" data-alt="#end-date">
+        </div>
+        <div class="action-buttons">
+            <button id="cancel-btn" class="cancel" data-action="dismiss"><i class="fa fa-times"></i>Cancel</button>
+            <button id="ok-btn" class="success" data-action="proceed"><i class="fa fa-check"></i>Ok</button>
+        </div>
     </div>
 </div>
 

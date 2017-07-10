@@ -39,27 +39,27 @@ $(document).ready(function() {
     </div>
 </header>
 <main>
-    <table id="sos-table" cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th>Created</th>
-                <th>Title</th>
-                <th>Location</th>
-                <th>Sectors Covered</th>
-                <th>Affected Groups</th>
-                <th>Lead Organization</th>
-                <th>Assessment Frequency</th>
-                <th>Assessment Confidentiality</th>
-                <th>Assessment Status</th>
-                <th>Proximity to Source</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-    </table>
-    <main>
+<table id="sos-table" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>Created</th>
+            <th>Title</th>
+            <th>Location</th>
+            <th>Sectors Covered</th>
+            <th>Affected Groups</th>
+            <th>Lead Organization</th>
+            <th>Assessment Frequency</th>
+            <th>Assessment Confidentiality</th>
+            <th>Assessment Status</th>
+            <th>Proximity to Source</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+</table>
+<main>
 
-        <form id="delete-form" method="post" action="{% url 'leads:delete_sos' event=event.pk %}" hidden>
-            {% csrf_token %}
-            <input id="delete-id" name="id" type="text">
-        </form>
-        {% endblock %}
+<form id="delete-form" method="post" action="{% url 'leads:delete_sos' event=event.pk %}" hidden>
+    {% csrf_token %}
+    <input id="delete-id" name="id" type="text">
+</form>
+{% endblock %}

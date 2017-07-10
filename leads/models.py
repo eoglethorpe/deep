@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 # from django.db.models.signals import pre_delete
 from django.db.models import Q
+from django.core.files import File
 
 from datetime import datetime
 import random
@@ -9,7 +10,8 @@ import string
 
 
 class Country(models.Model):
-    reference_country = models.ForeignKey('leads.Country', null=True, default=None)
+    reference_country = models.ForeignKey('leads.Country', null=True,
+                                          default=None)
 
     code = models.CharField(max_length=5, primary_key=True)
     name = models.CharField(max_length=70)
@@ -31,7 +33,8 @@ class Country(models.Model):
     def get_unique_code():
         code = ''
         while True:
-            code = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5))
+            code = ''.join(random.choice(
+                string.ascii_uppercase + string.digits) for _ in range(5))
             if Country.objects.filter(code=code).count() == 0:
                 break
 
@@ -56,20 +59,27 @@ class Event(models.Model):
     modified_at = models.DateTimeField(auto_now=True, null=True)
 
     countries = models.ManyToManyField(Country, blank=True)
-    disaster_type = models.ForeignKey('report.DisasterType', null=True, blank=True, default=None)
-    entry_template = models.ForeignKey('entries.EntryTemplate', null=True, blank=True, default=None)
+    disaster_type = models.ForeignKey('report.DisasterType', null=True,
+                                      blank=True, default=None)
+    entry_template = models.ForeignKey('entries.EntryTemplate', null=True,
+                                       blank=True, default=None)
 
-    # owners = models.ManyToManyField(User, default=None, blank=True, related_name="events_superowned")
-    admins = models.ManyToManyField(User, blank=True, related_name="events_owned")
+    admins = models.ManyToManyField(User, blank=True,
+                                    related_name="events_owned")
     members = models.ManyToManyField(User, blank=True)
 
     # TO DELETE
-    assigned_to = models.ForeignKey(User, null=True, blank=True, default=None, related_name="event_donot_use", verbose_name="DO NOT USE")
+    assigned_to = models.ForeignKey(User, null=True, blank=True, default=None,
+                                    related_name="event_donot_use",
+                                    verbose_name="DO NOT USE")
 
-    assignee = models.ManyToManyField(User, blank=True, related_name="assigned_to")
+    assignee = models.ManyToManyField(User, blank=True,
+                                      related_name="assigned_to")
 
-    glide_number = models.CharField(max_length=100, null=True, blank=True, default=None)
-    spill_over = models.ForeignKey('Event', null=True, blank=True, default=None)
+    glide_number = models.CharField(max_length=100, null=True,
+                                    blank=True, default=None)
+    spill_over = models.ForeignKey('Event', null=True,
+                                   blank=True, default=None)
 
     start_date = models.DateField(default=datetime(2016, 1, 1))
     end_date = models.DateField(null=True, blank=True, default=None)
@@ -81,11 +91,13 @@ class Event(models.Model):
         return Entry.objects.filter(lead__event__pk=self.pk).count()
 
     def get_num_members(self):
-        return User.objects.filter(Q(usergroup__projects__pk=self.pk) | Q(event__pk=self.pk)).distinct().count()
+        return User.objects.filter(Q(usergroup__projects__pk=self.pk) |
+                                   Q(event__pk=self.pk)).distinct().count()
 
     def is_acaps(self):
         from usergroup.models import UserGroup
-        return UserGroup.objects.filter(acaps=True, projects__pk=self.pk).count() > 0
+        return UserGroup.objects.filter(acaps=True,
+                                        projects__pk=self.pk).count() > 0
 
     def get_admins(self):
         return User.objects.filter(events_owned__pk=self.pk)
@@ -191,6 +203,41 @@ class Lead(models.Model):
     def __str__(self):
         return self.name
 
+    def clone_to(self, event):
+        if event.pk == self.event:
+            return self
+
+        new_lead = Lead(event=event)
+        new_lead.name = self.name
+        new_lead.source_name = self.source_name
+        new_lead.assigned_to = self.assigned_to
+        new_lead.published_at = self.published_at
+        new_lead.confidentiality = self.confidentiality
+        new_lead.status = self.status
+        new_lead.lead_type = self.lead_type
+        new_lead.description = self.description
+        new_lead.url = self.url
+        new_lead.website = self.website
+        new_lead.created_by = self.created_by
+        new_lead.save()
+
+        if hasattr(self, 'attachment'):
+            att = Attachment(lead=new_lead)
+            att.image = File(self.attachament.upload,
+                             self.attachments.upload.name)
+            att.save()
+
+        if hasattr(self, 'simplifiedlead'):
+            SimplifiedLead(lead=new_lead,
+                           text=self.simplifiedlead.text).save()
+
+        for image in LeadImage.objects.filter(lead=self):
+            img = LeadImage(lead=new_lead)
+            img.image = File(image.image, image.image.name)
+            img.save()
+
+        return new_lead
+
 
 class Attachment(models.Model):
     """ Attachment model
@@ -259,7 +306,6 @@ class DataCollectionTechnique(models.Model):
         verbose_name_plural = "Data Collection Techniques"
 
 
-
 class SamplingType(models.Model):
     name = models.CharField(max_length=100)
 
@@ -268,6 +314,7 @@ class SamplingType(models.Model):
 
     class Meta:
         verbose_name_plural = "Sampling Types"
+
 
 class SectorQuantification(models.Model):
     name = models.CharField(max_length=100)
@@ -286,6 +333,7 @@ class SectorAnalyticalValue(models.Model):
 
     class Meta:
         verbose_name_plural = "Sector Analytical Values"
+
 
 class AssessmentFrequency(models.Model):
     name = models.CharField(max_length=100)
@@ -321,24 +369,31 @@ class SurveyOfSurvey(models.Model):
     lead = models.ForeignKey(Lead)
 
     title = models.CharField(max_length=200)
-    lead_organization = models.CharField(max_length=200, blank=True, null=True)
+    lead_organization = models.CharField(max_length=200,
+                                         blank=True, null=True)
     partners = models.TextField(blank=True)
 
-    map_selections = models.ManyToManyField('entries.AdminLevelSelection', blank=True)
-    proximity_to_source = models.ForeignKey(ProximityToSource, blank=True, null=True)
+    map_selections = models.ManyToManyField('entries.AdminLevelSelection',
+                                            blank=True)
+    proximity_to_source = models.ForeignKey(ProximityToSource,
+                                            blank=True, null=True)
     unit_of_analysis = models.ManyToManyField(UnitOfAnalysis, blank=True)
-    data_collection_technique = models.ManyToManyField(DataCollectionTechnique, blank=True)
-    start_data_collection = models.DateField(null=True, default=None, blank=True)
+    data_collection_technique = models.ManyToManyField(DataCollectionTechnique,
+                                                       blank=True)
+    start_data_collection = models.DateField(null=True, default=None,
+                                             blank=True)
     end_data_collection = models.DateField(null=True, default=None, blank=True)
     sampling_type = models.ForeignKey(SamplingType, blank=True, null=True)
     frequency = models.ForeignKey(AssessmentFrequency, blank=True, null=True)
     status = models.ForeignKey(AssessmentStatus, blank=True, null=True)
-    confidentiality = models.ForeignKey(AssessmentConfidentiality, blank=True, null=True)
+    confidentiality = models.ForeignKey(AssessmentConfidentiality,
+                                        blank=True, null=True)
 
     sectors_covered = models.TextField(default="{}")
 
     # TODO Fix db constraint bug to use manytomanyfield
-    # affected_groups = models.ManyToManyField('entries.AffectedGroup', blank=True)
+    # affected_groups = models.ManyToManyField('entries.AffectedGroup',
+    #                                          blank=True)
     affected_groups = models.TextField(default="[]")
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -349,7 +404,6 @@ class SurveyOfSurvey(models.Model):
 
     class Meta:
         verbose_name_plural = "Survey of Surveys"
-
 
 
 class SectorCovered(models.Model):

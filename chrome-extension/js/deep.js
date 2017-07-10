@@ -44,9 +44,13 @@ var deep = {
                 if(response) {
                     response.sort(function(a, b){ return a.name.localeCompare(b.name); });
                     let eventSelectElement = $('#event-select');
+
+                    eventSelectElement.empty();
+                    eventSelectElement.append('<option value="">Add project</option>');
                     for(i = 0; i < response.length; i++){
                         eventSelectElement.append('<option value="'+response[i].id+'"'+(response[i].id==deep.currentEvent?' selected>':'>')+response[i].name+'</option>');
                     }
+                    eventSelectElement.trigger('change');
                     deep.getCSRFToken();
                 }
             },
@@ -109,6 +113,7 @@ var deep = {
 
                 // event for the country referenced in this page
                 if (response.event) {
+                    $('#selected-events').empty();
                     $('#event-select').val(response.event);
                     $('#event-select').trigger('change');
                     refreshSelectInputs();

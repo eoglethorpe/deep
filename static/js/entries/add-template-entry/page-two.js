@@ -159,6 +159,12 @@ const page2 = {
 
         inputElement.append($('<header><label>' + element.label + '</label></header>'));
         inputElement.append(dom);
+
+        if (className == 'date-input') {
+            const picker = $('<input class="date-picker-template" type="text" data-alt="[data-id=\'' + element.id + '\'] input[type=\'date\']">');
+            inputElement.append(picker);
+        }
+
         inputElement.appendTo(this.template);
 
         this.container.on('change input paste drop', '.input-element[data-id="' + element.id + '"] ' + childSelector, function() {
@@ -667,7 +673,7 @@ const page2 = {
                 }
                 else if (templateElement.type == 'date-input') {
                     if (data) {
-                        entryContainer.find('.input-element[data-id="' + data.id + '"] input').val(data.value);
+                        entryContainer.find('.input-element[data-id="' + data.id + '"] input[type="date"]').val(data.value);
                     }
                 }
                 else if (templateElement.type == 'multiselect') {
@@ -696,14 +702,18 @@ const page2 = {
             entryElement.find('img').one('load', function() {
                 autoResize(entryElement);
             });
+
+            entryElement.find('.date-picker-template').removeClass('date-picker-template')
+                .addClass('date-picker');
+
             autoResize(entryElement);
-            // $('.action-buttons').css('top', function(){ console.log($(this).parent().position().top); return $(this).parent().position().top; });
         }
 
-        addTodayButtons();
         this.container.find('textarea').change();
         this.container.scrollTop(lastScroll);
 
         this.container.find('.entry-container').width(this.container.find('.entry').width());
+
+        addTodayButtons();
     },
 };

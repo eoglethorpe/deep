@@ -551,7 +551,7 @@ body {
             body main section #members-wrapper #members .member-selected:hover .action-container .check-action {
               border: 1px solid #008080; }
       body main section #projects-wrapper {
-        height: calc(100vh - 144px - 56px); }
+        height: calc(100vh - 144px - 56px - 24px); }
         body main section #projects-wrapper .name {
           flex-basis: 20%; }
         body main section #projects-wrapper .countries {

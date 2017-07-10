@@ -77,6 +77,9 @@ class LeadSerializer(Serializer):
         'website': 'website',
         'attachment': 'attachment',
         'number_of_entries': 'number_of_entries',
+
+        'format': 'format',
+        'link': 'link',
     }
 
     def get_attachment(self, lead):
@@ -94,6 +97,23 @@ class LeadSerializer(Serializer):
         for entry in lead.entry_set.all():
             total += entry.entryinformation_set.count()
         return total
+
+    def get_link(self, lead):
+        if lead.lead_type == 'URL':
+            return lead.url
+
+        elif lead.lead_type == 'ATT' and \
+                Attachment.objects.filter(lead=lead).count() > 0:
+            return lead.attachment.upload.url
+        return None
+
+    def get_format(self, lead):
+        link = self.get_link(lead)
+        if link:
+            ext = link.rpartition('.')[-1]
+            if len(ext) <= 4:
+                return ext.lower()
+        return None
 
 
 class SosSerializer(Serializer):

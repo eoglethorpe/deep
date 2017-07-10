@@ -15,6 +15,31 @@ var last_date_filter = "#date-created-filter";
 
 var droppedFiles;
 
+
+const MANUAL_ICON = 'fa-file-o';
+const HTML_ICON = 'fa-globe';
+const UNKNOWN_ICON = 'fa-file';
+const FILE_ICON = {
+    'html': 'fa-globe',
+    'htm': 'fa-globe',
+    'php': 'fa-globe',
+    'aspx': 'fa-globe',
+    'ashx': 'fa-globe',
+    'doc': 'fa-file-word-o',
+    'docx': 'fa-file-word-o',
+    'ppt': 'fa-file-powerpoint-o',
+    'pptx': 'fa-file-powerpoint-o',
+    'xls': 'fa-file-excel-o',
+    'xlsx': 'fa-file-excel-o',
+    'txt': 'fa-file-text-o',
+    'pdf': 'fa-file-pdf-o',
+    'jpg': 'fa-file-picture-o',
+    'jpeg': 'fa-file-picture-o',
+    'png': 'fa-file-picture-o',
+    'gif': 'fa-file-picture-o',
+};
+
+
 // Checks if the date is in given range
 function dateInRange(date, min, max){
     date.setHours(0, 0, 0, 0);
@@ -68,7 +93,7 @@ $.fn.dataTable.ext.search.push(
 $.fn.dataTable.ext.search.push(
     function(settings, data, dataIndex) {
         var filter = $("#date-published-filter").val();
-        date = new Date(data[4].substr(0, 10));
+        date = new Date(data[5].substr(0, 10));
         if(date && filter == 'range'){
             return dateInRange(date, published_start_date, published_end_date);
         }
@@ -112,7 +137,30 @@ $(document).ready(function(){
                 }
             },
             { data: "assigned_to_name", width: "7%"},
-            { data: "name", width: "35%"},
+            {
+                data: null, width: '1%',
+                render: function(data, type, row) {
+                    let icon = '';
+                    if (data.lead_type == 'MAN') {
+                        icon = MANUAL_ICON;
+                    }
+                    else if (!data.format && data.lead_type == 'URL') {
+                        icon = HTML_ICON;
+                    }
+                    else if (FILE_ICON[data.format]) {
+                        icon = FILE_ICON[data.format];
+                    }
+                    else {
+                        icon = UNKNOWN_ICON;
+                    }
+
+                    if (data.link) {
+                        return '<a title="' + data.link + '" href="' + data.link + '" target="_blank" class="fa ' + icon + ' file-type"></a>';
+                    }
+                    return '<span class="fa ' + icon + ' file-type"></span>';
+                }
+            },
+            { data: "name", width: "34%"},
             {
                 data: null, width: "5%",
                 render: function(data, type, row) {
@@ -137,8 +185,8 @@ $(document).ready(function(){
         ],
         initComplete: function(){
             assigned_to_col = this.api().column(2);
-            confidentiality_col = this.api().column(5);
-            status_col = this.api().column(8);
+            confidentiality_col = this.api().column(6);
+            status_col = this.api().column(9);
 
             assigned_to_col.data().unique().sort().each(
                 function ( value, index ) {
