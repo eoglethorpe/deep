@@ -2,9 +2,14 @@
 ---
 
 ## Setup
-> Initialize and deploy to environment
+> Initialize and deploy to environment(Just cp and edit all files with `-sample` postfix)
 
-> Commits changes before `eb deploy` if directory is in git control.
+```bash
+cp .ebextensions/remote_log.config-sample .ebextensions/remote_log.config
+vim .ebextensions/remote_log.config # Edit value as described
+```
+
+> Commits new changes before using `eb deploy`.
 
 ```bash
 eb init # to create config.yml (require once)
