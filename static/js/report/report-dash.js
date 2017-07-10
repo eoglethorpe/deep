@@ -4,7 +4,7 @@ var dataReady = false;
 
 
 $.getJSON("/api/v2/reports", function(data){
-    if(data.status == true){
+    if(data.status === true){
         reports = data.data;
         $('header .loader').hide();
         dataReady = true;
@@ -269,7 +269,7 @@ function fillCountryDetails(){
             fillPercent(countryElement.find('.change .percent'), reportChange);
 
             if(reportChange < 0){
-            } else if(reportChange == 0){
+            } else if(reportChange === 0){
                 countryElement.find('.change .viz svg').remove();
                 $('<div class="no-change-block" data-toggle="tooltip" title="No change"></div>').appendTo(countryElement.find('.change .viz'));
             } else{
@@ -308,8 +308,38 @@ function fillCountryDetails(){
 
         setTimeout(function(countryElement, affectedList, displacedList, pinList, accessConstraintsList, geoRankList, sparkLineYMax) {
             return function() {
-                countryElement.find('.affected .viz').sparkline(affectedList.reverse(), {type: 'line', width: '100%', height: '48px', lineColor: '#2980b9', fillColor: 'rgba(0, 50, 255, 0.1)', chartRangeMinX: 0, chartRangeMaxX: sparkLineXMax, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
-                countryElement.find('.displaced .viz').sparkline(displacedList.reverse(), {type: 'line', width: '100%', height: '48px', lineColor: '#f00000', fillColor: 'rgba(255, 0, 0, 0.1)', chartRangeMinX: 0, chartRangeMaxX: sparkLineXMax, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
+                countryElement
+                    .find('.affected .viz')
+                    .sparkline(
+                        affectedList.reverse(),
+                        {
+                            type: 'line',
+                            width: '100%',
+                            height: '48px',
+                            lineColor: '#2980b9',
+                            fillColor: 'rgba(0, 50, 255, 0.1)',
+                            chartRangeMinX: 0,
+                            chartRangeMaxX: sparkLineXMax,
+                            chartRangeMin: 0,
+                            chartRangeMax: sparkLineYMax,
+                        }
+                    );
+                countryElement
+                    .find('.displaced .viz')
+                    .sparkline(
+                        displacedList.reverse(),
+                        {
+                            type: 'line',
+                            width: '100%',
+                            height: '48px',
+                            lineColor: '#f00000',
+                            fillColor: 'rgba(255, 0, 0, 0.1)',
+                            chartRangeMinX: 0,
+                            chartRangeMaxX: sparkLineXMax,
+                            chartRangeMin: 0,
+                            chartRangeMax: sparkLineYMax
+                        }
+                    );
                 countryElement.find('.in-need .viz').sparkline(pinList.reverse(), {type: 'line', width: '100%', height: '48px', lineColor: '#c0392b', fillColor: 'rgba(255, 40 , 0, 0.4)', chartRangeMinX: 0, chartRangeMaxX: sparkLineXMax, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
                 countryElement.find('.access-constraints .viz').sparkline(accessConstraintsList.reverse(), {type: 'line', width: '100%', height: '48px', lineColor: '#212121', fillColor: 'rgba(0,0,0,0.3)', chartRangeMinX: 0, chartRangeMaxX: sparkLineXMax, chartRangeMin: 0, chartRangeMax: sparkLineYMax});
 
@@ -318,6 +348,6 @@ function fillCountryDetails(){
                 let geoRankingGap = geoRankingWidth/geoRankList.length*0.3;
                 countryElement.find('.geo-ranking .viz').sparkline(geoRankList.reverse(), {type: 'bar', height: '48px', chartRangeMin: 0, chartRangeMax: 3, barWidth: geoRankingBarWidth, barSpacing: geoRankingGap, barColor: '#cc2d06'});
             }
-        }(countryElement, affectedList, displacedList, pinList, accessConstraintsList, geoRankList, sparkLineYMax), 0);
+        } (countryElement, affectedList, displacedList, pinList, accessConstraintsList, geoRankList, sparkLineYMax), 0);
     }
 }
