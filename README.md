@@ -1,6 +1,8 @@
 # Data Entry and Exploration Platform
 
 ## Deployment
+Note: deployment logic is changing and what is below most likely won't work. contact oglethorpe.ewan@gmail.com if you would like to deploy your own DEEP.
+
 
 ### Requirements
 
