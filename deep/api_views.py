@@ -12,20 +12,24 @@ import json
 from datetime import datetime, timedelta
 
 
+def get_num(x):
+    return int(x.replace(',', '').replace(' ', ''))
+
+
 def parse_datetime(datestr):
     return datetime.strptime(datestr, '%Y-%m-%d')
 
 
 def get_pin(data):
     fields = PeopleInNeedField.objects.filter(dashboard_in_need_field=True)
-    return max([int(data['people']['total'][str(field.pk)])
+    return max([get_num(data['people']['total'][str(field.pk)])
                for field in fields
                if data['people']['total'].get(str(field.pk))], default=0)
 
 
 def get_pin_severe(data):
     fields = PeopleInNeedField.objects.filter(dashboard_in_need_field=True)
-    return max([int(data['people']['severe'][str(field.pk)])
+    return max([get_num(data['people']['severe'][str(field.pk)])
                for field in fields
                if data['people']['severe'].get(str(field.pk))], default=0)
 
@@ -34,7 +38,7 @@ def get_idps(data):
     field = HumanProfileField.objects.filter(dashboard_idp_field=True)
     if field:
         if data['human']['number'].get(str(field[0].pk)):
-            return int(data['human']['number'][str(field[0].pk)])
+            return get_num(data['human']['number'][str(field[0].pk)])
     return 0
 
 
@@ -42,21 +46,21 @@ def get_refugees(data):
     field = HumanProfileField.objects.filter(dashboard_refugees_field=True)
     if field:
         if data['human']['number'].get(str(field[0].pk)):
-            return int(data['human']['number'][str(field[0].pk)])
+            return get_num(data['human']['number'][str(field[0].pk)])
     return 0
 
 
 def get_pin_restricted(data):
     fields = HumanAccessPinField.objects.filter(
         dashboard_access_constraints_field=True)
-    return sum([int(data['access-pin']['number'][str(field.pk)])
+    return sum([get_num(data['access-pin']['number'][str(field.pk)])
                for field in fields
                if data['access-pin']['number'].get(str(field.pk))])
 
 
 def get_people_affected(data):
     fields = HumanProfileField.objects.filter(dashboard_affected_field=True)
-    return sum([int(data['human']['number'][str(field.pk)])
+    return sum([get_num(data['human']['number'][str(field.pk)])
                for field in fields
                if data['human']['number'].get(str(field.pk))])
 
