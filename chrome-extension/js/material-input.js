@@ -42,6 +42,9 @@ var materialSelect = {
 
         // Fix the click issue
         $(document).mouseup(function (e){
+            if (that.selectInput.data('persist') && that.optionContainer.has(e.target).length > 0) {
+                return;
+            }
             if (!that.selectDiv.is(e.target) && that.selectDiv.has(e.target).length === 0) {
                 if (that.optionContainer.is(':visible')) {
                     that.optionContainer.slideUp('fast', function(){
@@ -119,12 +122,17 @@ var materialSelect = {
         this.selectOption(this.optionContainer.find('.option[data-val="'+this.select.val()+'"]'), false);
     },
     selectOption: function(opt, triggerChange){
-        if ( triggerChange == null ){ triggerChange = true; }
+        if (!triggerChange) {
+            triggerChange = true;
+        }
+
         this.select.val(opt.data('val'));
         if(triggerChange){
             this.select.trigger('change');
         }
+
         let label = this.selectInput.find('label');
+
         if(opt.data('val') != opt.text()){
             label.addClass('filled');
             label.removeClass('disappear');
