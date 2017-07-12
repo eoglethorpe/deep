@@ -81,7 +81,7 @@ class Event(models.Model):
     spill_over = models.ForeignKey('Event', null=True,
                                    blank=True, default=None)
 
-    start_date = models.DateField(default=datetime(2016, 1, 1))
+    start_date = models.DateField(default=datetime.now)
     end_date = models.DateField(null=True, blank=True, default=None)
 
     status = models.IntegerField(default=1, choices=STATUSES)

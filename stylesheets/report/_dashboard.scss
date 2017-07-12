@@ -90,6 +90,13 @@
             }
         }
     }
+    &.rotated{
+        transform: translateY(32px) translateY(-100%) scaleY(-1);
+
+        .content{
+            transform: scaleY(-1);
+        }
+    }
 }
 main{
     display: flex;

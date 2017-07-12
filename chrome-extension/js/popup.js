@@ -53,6 +53,13 @@ $(document).ready(function(){
         },
     });
 
+    $('#publish-date').change(function() {
+        if ($(this).val()) {
+            publishDatePicker.datepicker('setDate', new Date($(this).val()));
+            publishDatePicker.trigger('change');
+        }
+    });
+
     $('#publish-date-container a').on('click', function(){
         publishDatePicker.datepicker('setDate', new Date());
         publishDatePicker.trigger('change');

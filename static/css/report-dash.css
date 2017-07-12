@@ -247,6 +247,10 @@ body > nav {
           margin: 0; }
           .display-card .change-unit .field-unit .field-source .field-source-unit:not(:last-child):after {
             content: ','; }
+  .display-card.rotated {
+    transform: translateY(32px) translateY(-100%) scaleY(-1); }
+    .display-card.rotated .content {
+      transform: scaleY(-1); }
 
 main {
   display: flex;
