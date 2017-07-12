@@ -41,7 +41,9 @@ class Command(BaseCommand):
                     information=info,
                     subpillar__name__icontains="lessons learnt"
                 ).distinct()
-                pillar = ','.join(a.subpillar.pillar.name for a in attributes)
+
+                pillarnames = [a.subpillar.pillar.name for a in attributes]
+                pillar = ', '.join(list(set(pillarnames)))
 
                 row = [
                     format_date(info.date),
