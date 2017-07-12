@@ -33,6 +33,8 @@ def valid_xml_char_ordinal(c):
 
 def xstr(s):
     """remove illegal characters from a string (errors from PDFs etc)"""
+    if s is None:
+        return ''
     s = escape(s)
     return ''.join(c for c in s if valid_xml_char_ordinal(c) and c in string.printable)
 
