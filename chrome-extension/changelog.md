@@ -1,5 +1,9 @@
 ## Change log
 
+### v2.0.9
+
+* Add support for multiple projects
+
 ### v2.0.8
 
 * Fix readability issue for extracting title
