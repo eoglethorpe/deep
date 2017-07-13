@@ -1,12 +1,8 @@
 # Data Entry and Exploration Platform
 
-DEEP is a humanitarian tool to collect and analyze information from various publications and sources pertaining to events happening in different countries. It is meant to help the analysts easily generate reports of various events of the world.
-
-## Public API
-
-Data collected by DEEP is currently publicly available. Read the [documents](https://github.com/eoglethorpe/deep/blob/master/API.md) for details on how to use it.
-
 ## Deployment
+Note: deployment logic is changing and what is below most likely won't work. Contact oglethorpe.ewan@gmail.com if you would like to deploy your own DEEP.
+
 
 ### Requirements
 
