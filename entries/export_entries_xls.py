@@ -5,7 +5,7 @@ from excel_writer import ExcelWriter, RowCollection
 from entries import models as entry_models
 from openpyxl.styles import Font  # , Color
 from django.db.models import Q
-from entries.export_entries_docx import analysis_filter
+from entries.export_entries_docx import analysis_filter, xstr
 
 
 def format_date(date):
@@ -170,7 +170,7 @@ def export_xls(title, event_pk=None, information_pks=None):
                 format_date(info.date), info.entry.created_by,
                 format_date(info.entry.created_at.date()),
                 info.entry.lead.name,
-                info.entry.lead.source_name, xstr(info.excerpt),
+                xstr(info.entry.lead.source_name), xstr(info.excerpt),
                 info.reliability.name, info.severity.name,
             ])
 
@@ -440,11 +440,3 @@ def export_and_save(event_pk, filename):
 
     ew.append(grouped_rows, wsg)
     ew.save_to(filename)
-
-
-def xstr(conv):
-    try:
-        """remove illegal characters from a string (errors from PDFs etc)"""
-        return "".join(filter(lambda x: x in string.printable, conv))
-    except:
-        return str(conv)

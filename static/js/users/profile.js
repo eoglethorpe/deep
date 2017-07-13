@@ -142,7 +142,7 @@ $(document).ready(function(){
         newProjectModal.show().then(null, null, function() {
             if (newProjectModal.action == 'proceed') {
                 let name = $('#new-project-name').val();
-                if (name.trim().length == 0) {
+                if (name.trim().length === 0) {
                     $('#new-project-modal .error').text('Please enter a name');
                     return;
                 }

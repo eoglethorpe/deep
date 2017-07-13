@@ -190,7 +190,7 @@ class ProjectDetailsView(View):
             Country.objects.filter(event=None)\
                 .exclude(reference_country=None).delete()
             EntryTemplate.objects.filter(usergroup=None, event=None).delete()
-            return redirect('login')
+            return redirect('user_profile', request.user.pk)
 
 
 class GeoAreaView(View):

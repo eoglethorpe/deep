@@ -1,5 +1,14 @@
 ## Change log
 
+### v2.0.10
+ 
+* Fix date auto extraction issue
+* Persist project selection dropdown
+
+### v2.0.9
+
+* Add support for multiple projects
+ 
 ### v2.0.8
 
 * Fix readability issue for extracting title
