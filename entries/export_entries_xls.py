@@ -3,6 +3,7 @@ import json
 
 from excel_writer import ExcelWriter, RowCollection
 from entries import models as entry_models
+from leads.models import Attachment
 from openpyxl.styles import Font  # , Color
 from django.db.models import Q
 from entries.export_entries_docx import analysis_filter, xstr
@@ -121,7 +122,8 @@ def export_xls(title, event_pk=None, information_pks=None):
     # Create title row
     titles = [
         "Date of Lead Publication", "Date of Information", "Created By",
-        "Date Imported", "Lead Title", "Source", "Excerpt", "Reliability",
+        "Date Imported", "URL", "Lead Title", "Source", "Excerpt",
+        "Reliability",
         "Severity", "Demographic Groups", "Specific Needs Groups",
         "Affected Groups", "Pillar", "Subpillar", "Sector", "Subsector",
     ]
@@ -165,10 +167,15 @@ def export_xls(title, event_pk=None, information_pks=None):
         try:
             rows = RowCollection(1)
 
+            lead_url = info.entry.lead.url
+            if Attachment.objects.filter(lead=info.entry.lead).count() > 0:
+                lead_url = info.entry.lead.attachment.upload.url
+
             rows.add_values([
                 format_date(info.entry.lead.published_at),
                 format_date(info.date), info.entry.created_by,
                 format_date(info.entry.created_at.date()),
+                lead_url,
                 info.entry.lead.name,
                 xstr(info.entry.lead.source_name), xstr(info.excerpt),
                 info.reliability.name, info.severity.name,
@@ -231,7 +238,7 @@ def export_analysis_xls(title, event_pk=None, information_pks=None,
     # Create title row
     titles = [
         "Date of Lead Publication", "Imported By",
-        "Date Imported", "Lead Title", "Source", "Excerpt"
+        "Date Imported", "URL", "Lead Title", "Source", "Excerpt"
     ]
 
     event = entry_models.Event.objects.get(pk=event_pk)
@@ -302,10 +309,15 @@ def export_analysis_xls(title, event_pk=None, information_pks=None,
         try:
             rows = RowCollection(1)
 
+            lead_url = info.entry.lead.url
+            if Attachment.objects.filter(lead=info.entry.lead).count() > 0:
+                lead_url = info.entry.lead.attachment.upload.url
+
             rows.add_values([
                 format_date(info.entry.lead.published_at),
                 info.entry.created_by,
                 format_date(info.entry.created_at.date()),
+                lead_url,
                 info.entry.lead.name, info.entry.lead.source_name,
                 xstr(info.excerpt)
             ])
