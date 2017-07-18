@@ -171,11 +171,11 @@ $(document).ready(function() {
             </div>
             <div id="countries">
                 {% for c in countries %}
-                <div class="country {% if country and country == c %}active{% endif %}" data-href="{% url 'report:dashboard' %}?country={{c.pk}}" data-name="{{c.name}}" data-project-status="{{c.event_set.all.0.status}}" data-pk="{{c.pk}}">
-                    <div class="assigned-to">{% for e in c.event_set.all %}{% for u in e.admins.all %}<span><i class="fa fa-user"></i>{{u.first_name}} {{u.last_name}}</span>{% endfor %}{% endfor %}</div>
+                <div class="country {% if country and country == c %}active{% endif %}" data-href="{% url 'report:dashboard' %}?country={{c.pk}}" data-name="{{c.name}}" data-project-status="{{c.allevents.0.status}}" data-pk="{{c.pk}}">
+                    <div class="assigned-to">{% for e in c.allevents %}{% for u in e.admins.all %}<span><i class="fa fa-user"></i>{{u.first_name}} {{u.last_name}}</span>{% endfor %}{% endfor %}</div>
                     <div>
                         <div class="name">{{c.name}}</div>
-                        <div class="events">{% for e in c.event_set.all %}{{ e }}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
+                        <div class="events">{% for e in c.allevents %}{{ e }}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
                     </div>
                     <div  class="affected">
                         <i class="fa"></i><span class="number">...</span>
