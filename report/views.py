@@ -24,9 +24,9 @@ class ReportDashboardView(View):
             return HttpResponseForbidden()
 
         context = {}
-        context["countries"] = Country.objects.annotate(
-            num_events=Count('event')
-        ).filter(num_events__gt=0)
+        context["countries"] = Country.objects.filter(
+            event__usergroup__acaps=True
+        ).distinct()
 
         country_id = request.GET.get("country")
         if not country_id:
@@ -51,6 +51,7 @@ class ReportDashboardView(View):
         # For event and report selection
         for country in context["countries"]:
             events = []
+            country.allevents = []
             for event in Event.objects.filter(countries=country, usergroup__acaps=True):
                 reports = []
                 for report in WeeklyReport.objects.filter(event=event, country=country):
@@ -59,6 +60,7 @@ class ReportDashboardView(View):
                         'start_date': report.start_date,
                     })
                 events.append({ 'id': event.pk, 'name': event.name, 'reports': reports })
+                country.allevents.append(event)
             country.events = json.dumps(events, cls=DjangoJSONEncoder)
 
         # for sparklines and other viz
