@@ -5,4 +5,3 @@
 !.elasticbeanstalk/*.global.yml
 .ropeproject/
 .ebextensions/remote_log.config
-Dockerrun.aws.json
