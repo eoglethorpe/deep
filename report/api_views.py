@@ -33,6 +33,8 @@ class ReportApiView(View):
         if country:
             reports = reports.filter(country__pk=country)
 
+        reports = reports.distinct()
+
         index = request.get('index')
         if index:
             reports = reports[int(index):]
