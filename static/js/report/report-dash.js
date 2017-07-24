@@ -3,7 +3,7 @@ var documentReady = false;
 var dataReady = false;
 
 
-$.getJSON("/static/api/weekly-snapshot.json", function(data){
+$.getJSON("/static/api/weekly-snapshot.json"+ '?timestamp=' + (new Date().getTime()), function(data){
     reports = data;
     $('header .loader').hide();
     dataReady = true;

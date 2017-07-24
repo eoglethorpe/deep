@@ -114,7 +114,7 @@ function buildFilters() {
     });
 }
 
-$.getJSON("/static/api/dashboard-reports.json", function(jsonData){
+$.getJSON("/static/api/dashboard-reports.json"+ '?timestamp=' + (new Date().getTime()), function(jsonData){
     data = jsonData;
     reportReady = true;
     loadReports();
