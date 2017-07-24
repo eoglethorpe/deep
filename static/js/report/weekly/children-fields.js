@@ -71,7 +71,7 @@ var childrenFields = {
         var pk = parentNumberElement.data('human-pk');
 
         // Create a child element
-        var childElement = $('<div class="human-profile-child"><i></i><input class="human-profile-child-number number"><div class="source-warning-wrapper"><div class="human-profile-child-source source-new"></div></div><div class="comment-warning-wrapper"><input class="human-profile-child-comment"></div><a class="fa fa-minus remove-child"></a></div>');
+        var childElement = $('<div class="human-profile-child"><i></i><div class="number-wrapper"><input class="human-profile-child-number number"></div><div class="source-warning-wrapper"><div class="human-profile-child-source source-new"></div></div><div class="comment-warning-wrapper"><input class="human-profile-child-comment"></div><a class="fa fa-minus remove-child"></a></div>');
         childElement.insertAfter(parentDiv.find('.add-child'));
 
         setValues(pk, childElement, parentDiv, parentNumberElement);
