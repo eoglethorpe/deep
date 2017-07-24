@@ -140,7 +140,7 @@ $(document).ready(function() {
             <span class="loader"></span>
         </div>
         <div class="content">
-            {% if request.user.is_superuser %}
+            {% if acaps_admin %}
             <div id="next-refresh-in">
                 <div><label>Next update:</label> in <span class="next">{{ next_update }}</span> minutes</div>
                 <button id="refresh-button"><i class="fa fa-refresh"></i> Update now</button>

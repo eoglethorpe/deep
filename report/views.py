@@ -17,6 +17,7 @@ from leads.models import *
 from entries.models import *
 from report.models import *
 from leads.templatetags.check_acaps import allow_acaps
+from usergroup.models import UserGroup
 
 import os
 import json
@@ -93,6 +94,9 @@ class ReportDashboardView(View):
 
         nsecs = dt.minute*60 + dt.second
         context["next_update"] = int((math.ceil(nsecs/900) * 900 - nsecs)/60)
+
+        context["acaps_admin"] = UserGroup.objects.filter(
+            admins=request.user, acaps=True).count() > 0
 
         return render(request, "report/dashboard.html", context)
 
