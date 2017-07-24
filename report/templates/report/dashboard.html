@@ -136,10 +136,16 @@ $(document).ready(function() {
 <main>
     <header>
         <div class="title-container">
-            <h1>Report Dashboard</h1>
+            <h1>Report Dashboard<small><label>Last updated:</label> <span class="last">{{ last_updated }}</span> minutes ago </small></h1>
             <span class="loader"></span>
         </div>
         <div class="content">
+            {% if request.user.is_superuser %}
+            <div id="next-refresh-in">
+                <div><label>Next update:</label> in <span class="next">{{ next_update }}</span> minutes</div>
+                <button id="refresh-button"><i class="fa fa-refresh"></i> Update now</button>
+            </div>
+            {% endif %}
             <button class="btn-excel export-button" data-url="{% url 'entries:exportxls_weekly' event=event.pk %}"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
             <button class="btn-json export-button" data-url="{% url 'api_report:reports' %}?event={{event.pk}}&file=1"><i class="fa fa-file-text-o"></i>Export json</button>
         </div>

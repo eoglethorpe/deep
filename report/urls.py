@@ -7,4 +7,7 @@ urlpatterns = [
     url(r'^weekly/edit/(?P<country_id>\w+)/(?P<event_id>\d+)/(?P<report_id>\d+)/$', views.WeeklyReportView.as_view(), name="weekly"),
     url(r'^weekly/delete/(?P<country_id>\w+)/(?P<event_id>\d+)/(?P<report_id>\d+)/$', views.DeleteWeeklyReport.as_view(), name='delete_weekly'),
     url(r'^monthly/$', views.MonthlyReportView.as_view(), name="monthly"),
+
+    url(r'^weekly/backup/$', views.BackupWeeklyReportView.as_view(), name='backup_weekly'),
+    url(r'^weekly/get-update-times/$', views.WeeklyReportUpdateTimesView.as_view(), name='update_times'),
 ]

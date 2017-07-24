@@ -173,7 +173,31 @@ $(document).ready(function(){
         }
         reportsContainer.find('.loading-text')[0].style.display = 'none';
     }
+
+    $('#refresh-button').click(function() {
+        $(this).attr('disabled', true);
+        $(this).find('.fa').addClass('fa-spin');
+        $.get('/report/weekly/backup/', () => {
+            $(this).find('.fa').removeClass('fa-spin');
+            syncUpdateTimes();
+            $(this).attr('disabled', false);
+        });
+    });
+
+    setInterval(syncUpdateTimes, 30000);
 });
+
+
+function syncUpdateTimes() {
+    $.get('/report/weekly/get-update-times/', (response) => {
+        console.log(response);
+        if (!response.success) {
+            return;
+        }
+        $('main .title-container .last').text(response.last_updated);
+        $('main .content .next').closest('.content').find('.next').text(response.next_update);
+    });
+}
 
 function fillCountryDetails(){
     if(!documentReady || !dataReady){
