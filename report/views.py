@@ -52,7 +52,7 @@ class ReportDashboardView(View):
         for country in context["countries"]:
             events = []
             country.allevents = []
-            for event in Event.objects.filter(countries=country, usergroup__acaps=True):
+            for event in Event.objects.filter(countries=country, usergroup__acaps=True).distinct():
                 reports = []
                 for report in WeeklyReport.objects.filter(event=event, country=country):
                     reports.append({
@@ -60,6 +60,7 @@ class ReportDashboardView(View):
                         'start_date': report.start_date,
                     })
                 events.append({ 'id': event.pk, 'name': event.name, 'reports': reports })
+
                 country.allevents.append(event)
             country.events = json.dumps(events, cls=DjangoJSONEncoder)
 
