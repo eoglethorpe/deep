@@ -3,13 +3,11 @@ var documentReady = false;
 var dataReady = false;
 
 
-$.getJSON("/api/v2/reports", function(data){
-    if(data.status === true){
-        reports = data.data;
-        $('header .loader').hide();
-        dataReady = true;
-        fillCountryDetails();
-    }
+$.getJSON("/static/api/weekly-snapshot.json", function(data){
+    reports = data;
+    $('header .loader').hide();
+    dataReady = true;
+    fillCountryDetails();
 });
 
 $(document).ready(function(){

@@ -15,32 +15,40 @@ class ReportApiView(View):
         return JSON_METHOD_NOT_ALLOWED
 
     def get(self, request):
+        data, extra = ReportApiView.get_json(request.GET)
+        response = JsonResult(data=data, extra=extra)
+        if request.get('file') == '1':
+            response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(generate_filename('Weekly Snapshot Export'))
+        return response
+
+    @staticmethod
+    def get_json(request):
         reports = WeeklyReport.objects.filter(event__usergroup__acaps=True)
 
-        event = request.GET.get('event')
+        event = request.get('event')
         if event:
             reports = reports.filter(event__pk=event)
 
-        country = request.GET.get('county')
+        country = request.get('county')
         if country:
             reports = reports.filter(country__pk=country)
 
-        index = request.GET.get('index')
+        index = request.get('index')
         if index:
             reports = reports[int(index):]
-        count = request.GET.get('count')
+        count = request.get('count')
         if count:
             reports = reports[:int(count)]
 
         data = []
         for report in reports:
-            if request.GET.get('fields'):
-                data.append(ReportSerializer(report, request.GET['fields'].split(',')).serialize())
+            if request.get('fields'):
+                data.append(ReportSerializer(report, request['fields'].split(',')).serialize())
             else:
                 data.append(ReportSerializer(report).serialize())
 
         extra = {}
-        if request.GET.get('countryEvents'):
+        if request.get('countryEvents'):
             countries = {}
             for c in Country.objects.all():
                 countries[c.pk] = {
@@ -52,7 +60,4 @@ class ReportApiView(View):
                 }
             extra['country_events'] = countries
 
-        response = JsonResult(data=data, extra=extra)
-        if request.GET.get('file') == '1':
-            response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(generate_filename('Weekly Snapshot Export'))
-        return response
+        return data, extra
