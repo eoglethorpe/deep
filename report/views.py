@@ -231,7 +231,9 @@ class BackupWeeklyReportView(View):
 class WeeklyReportUpdateTimesView(View):
     @method_decorator(login_required)
     def get(self, request):
-        response = {}
+        response = {
+            'success': True,
+        }
 
         last_updated = os.path.getmtime(os.path.join(
             BASE_DIR, 'static/api/weekly-snapshot.json'))
@@ -244,12 +246,7 @@ class WeeklyReportUpdateTimesView(View):
         nsecs = dt.minute*60 + dt.second
         response["next_update"] = int((math.ceil(nsecs/900) * 900 - nsecs)/60)
 
-        return JsonResponse({
-            **{
-                'success': True,
-            },
-            **response,
-        })
+        return JsonResponse(response)
 
 
 # EOF
