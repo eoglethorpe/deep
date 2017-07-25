@@ -756,6 +756,7 @@ main {
         main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-warning-wrapper .warning-error, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-warning-wrapper .warning-error, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-warning-wrapper .warning-error, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-warning-wrapper .warning-error, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-warning-wrapper .warning-error, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-warning-wrapper .warning-error, main #report-content #casualties #human-profile-field-list .human-profile-field .source-warning-wrapper .warning-error, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-warning-wrapper .warning-error, main #report-content #casualties #human-profile-field-list .human-profile-child .source-warning-wrapper .warning-error, main #report-content #casualties #casualties-field-list .human-profile-field .source-warning-wrapper .warning-error, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-warning-wrapper .warning-error, main #report-content #casualties #casualties-field-list .human-profile-child .source-warning-wrapper .warning-error {
           color: #e74c3c;
           position: absolute;
+          pointer-events: none;
           margin: 0;
           flex: none;
           top: 5px;
@@ -1044,6 +1045,7 @@ main {
       main #report-content #people-in-need .source-warning-wrapper .warning-error {
         color: #e74c3c;
         position: absolute;
+        pointer-events: none;
         margin: 0;
         font-size: 0.8em; }
         main #report-content #people-in-need .source-warning-wrapper .warning-error .fa {
@@ -1296,6 +1298,7 @@ main {
             background-color: #f5f5f5; }
       main #report-content #ipc .source-warning-wrapper .warning-error {
         color: #e74c3c;
+        pointer-events: none;
         position: absolute;
         margin: 0;
         font-size: 0.8em; }
@@ -1358,6 +1361,7 @@ main {
             main #report-content #humanitarian-access > div #human-access-pin-field-list .human-access-pin-field .source-warning-wrapper .warning-error {
               color: #e74c3c;
               position: absolute;
+              pointer-events: none;
               margin: 0;
               font-size: 0.8em; }
               main #report-content #humanitarian-access > div #human-access-pin-field-list .human-access-pin-field .source-warning-wrapper .warning-error .fa {
@@ -1371,6 +1375,7 @@ main {
             main #report-content #humanitarian-access > div #human-access-pin-field-list .human-access-pin-field .comment-warning-wrapper .warning-error {
               color: #e74c3c;
               position: absolute;
+              pointer-events: none;
               margin: 0;
               font-size: 0.8em; }
               main #report-content #humanitarian-access > div #human-access-pin-field-list .human-access-pin-field .comment-warning-wrapper .warning-error .fa {

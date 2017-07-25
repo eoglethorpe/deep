@@ -77,6 +77,9 @@ var childrenFields = {
         setValues(pk, childElement, parentDiv, parentNumberElement);
 
         var index = parentDiv.find('.add-child').nextAll().length - 1;
+        if (!newData['human-children'][pk][index]) {
+            newData['human-children'][pk][index] = {};
+        }
 
         // Setup events
         childElement.find('.human-profile-child-number').on('paste change input', function(pk) {
