@@ -129,7 +129,9 @@ class ScaleElement extends Element {
         while (true) {
             i++;
             let id = 'scale-' + i;
-            if (this.scaleProperty.find('.value-container[data-id="' + id + '"]').length === 0) {
+            if (this.scaleProperty.find('.value-container').filter(function() {
+                return $(this).data('id') == id;
+            }).length === 0) {
                 return id;
             }
         }

@@ -28,7 +28,8 @@ class RegisterView(View):
     def get(self, request):
         # Return the register template.
         context = {}
-        context['countries'] = Country.objects.all()
+        context['countries'] = Country.objects.filter(
+            reference_country=None).distinct()
         return render(request, "users/register.html", context)
 
     def post(self, request):
@@ -79,11 +80,14 @@ class RegisterView(View):
 
         # Otherwise, display the register form with error.
         else:
-            context = { "error": error }
+            context = {"error": error}
             context["first_name"] = first_name
             context["last_name"] = last_name
             context["email"] = email
             context["organization"] = organization
+            context["country_code"] = country_code
+            context['countries'] = Country.objects.filter(
+                reference_country=None).distinct()
             return render(request, "users/register.html", context)
         return redirect("login")
 
@@ -276,7 +280,8 @@ class UserProfileView(View):
         context = {
             'user': user,
             'projects': list(set(projects)),
-            'countries': Country.objects.all(),
+            'countries': Country.objects.filter(
+                reference_country=None).distinct(),
         }
         return render(request, "users/profile.html", context)
 

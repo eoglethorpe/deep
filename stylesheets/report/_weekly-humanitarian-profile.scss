@@ -1,7 +1,5 @@
 #humanitarian-profile, #casualties{
-
     #human-profile-field-list, #casualties-field-list{
-
         .human-profile-field {
             &:nth-child(odd){
                 background-color: #fff;
@@ -21,13 +19,15 @@
                 border: 1px solid transparent;
                 box-sizing: border-box;
                 padding: 3px 5px;
+                flex-basis: 20%;
+
             }
             .sub{
                 padding-left: 24px;
                 font-weight: $font-weight-normal;
             }
             > *{
-                flex-basis: 23%;
+                flex-basis: 20%;
                 box-sizing: border-box;
                 margin: 8px 0;
             }
@@ -39,8 +39,22 @@
             > div {
                 flex-basis: 100%;
             }
+
+
+            .number-wrapper{
+                flex-basis: 9.5%;
+                flex-grow: 0;
+                flex-shrink: 0;
+                position: relative;
+
+                input {
+                    width: 100%;
+                }
+
+            }
+
             .source-warning-wrapper{
-                flex-basis: 23%;
+                flex-basis: 25%;
                 flex-grow: 0;
                 flex-shrink: 0;
                 position: relative;
@@ -84,9 +98,11 @@
                 .warning-error{
                     color: $danger-color;
                     position: absolute;
+                    pointer-events: none;
                     margin: 0;
                     flex: none;
-                    top: 23px;
+                    top: 5px;
+                    left: 5px;
                     font-size: 0.8em;
 
                     .fa{
@@ -95,7 +111,7 @@
                 }
             }
             .comment-warning-wrapper{
-                flex-basis: 23%;
+                flex-basis: 40%;
                 flex-grow: 0;
                 flex-shrink: 0;
                 position: relative;
@@ -109,6 +125,8 @@
                     position: absolute;
                     margin: 0;
                     font-size: 0.8em;
+                    top: 5px;
+                    left: 96px;
 
                     .fa{
                         margin-right: 4px;

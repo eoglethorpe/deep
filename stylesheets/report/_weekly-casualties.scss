@@ -1,55 +1,77 @@
 #casualties{
+#human-profile-field-list, #casualties-field-list{
+    .human-profile-field {
+        &:nth-child(odd){
+            background-color: #fff;
+        }
+    }
 
-    #human-profile-field-list{
+    .human-profile-field, .human-profile-subfield, .human-profile-child{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
 
-        .human-profile-field {
-            &:nth-child(odd){
-                background-color: #fff;
-            }
+        input{
+            outline: none;
+            box-shadow: none;
+            border: 1px solid transparent;
+            box-sizing: border-box;
+            padding: 3px 5px;
+            flex-basis: 20%;
+
+        }
+        .sub{
+            padding-left: 24px;
+            font-weight: $font-weight-normal;
+        }
+        > *{
+            flex-basis: 20%;
+            box-sizing: border-box;
+            margin: 8px 0;
+        }
+        > a{
+            flex-basis: 24px;
+            cursor: pointer;
+            color: $primary-color;
+        }
+        > div {
+            flex-basis: 100%;
         }
 
-        .human-profile-field, .human-profile-subfield, .human-profile-child{
-            width: 100%;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            align-items: center;
 
-            input{
-                outline: none;
-                box-shadow: none;
-                border: 1px solid transparent;
-                box-sizing: border-box;
-                padding: 3px 5px;
+        .number-wrapper{
+            flex-basis: 9.5%;
+            flex-grow: 0;
+            flex-shrink: 0;
+            position: relative;
+
+            input {
+                width: 100%;
             }
-            .sub{
-                padding-left: 24px;
-                font-weight: $font-weight-normal;
-            }
-            > *{
-                flex-basis: 23%;
-                box-sizing: border-box;
-                margin: 8px 0;
-            }
-            > a{
-                flex-basis: 24px;
-                cursor: pointer;
-                color: $primary-color;
-            }
-            > div {
-                flex-basis: 100%;
-            }
+
+        }
+
+        .source-warning-wrapper{
+            flex-basis: 25%;
+            flex-grow: 0;
+            flex-shrink: 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            min-height: 23px;
+
             .source-new {
                 display: inline-block;
-                flex-basis: 23%;
+                min-height: 23px;
+                width: 100%;
                 border: 1px solid rgba(0, 0, 0, 0.2);
-                min-height: 24px;
                 position: relative;
 
                 .source{
                     display: flex;
                     flex-wrap: wrap;
-                    justify-content: space-between;
                     align-items: center;
                     background-color: #fff;
                     padding: 6px;
@@ -58,39 +80,76 @@
                     word-break: break-all;
 
                     .name{
-                        flex-basis: 85%;
+                        margin-right: 4px;
                         overflow: hidden;
                         flex-grow: 0;
                         flex-shrink: 0;
                     }
                     .delete{
-                        flex-basis: 5%;
+                        margin-left: auto;
                         color: $error-color;
                     }
                     date{
-                        flex-basis: 100%;
                         font-family: 'Inconsolata', monospace;
                     }
                     @import 'display-card';
                 }
             }
-        }
+            .warning-error{
+                color: $danger-color;
+                position: absolute;
+                pointer-events: none;
+                margin: 0;
+                flex: none;
+                top: 5px;
+                left: 5px;
+                font-size: 0.8em;
 
-        .human-profile-child{
-            margin: 0 0 8px 0;
+                .fa{
+                    margin-right: 4px;
+                }
+            }
+        }
+        .comment-warning-wrapper{
+            flex-basis: 40%;
+            flex-grow: 0;
+            flex-shrink: 0;
+            position: relative;
 
             input {
-                border: 1px solid rgba(0, 0, 0, 0.2);
-            }
-            > *{
-                margin: 0!important;
+                width: 100%;
             }
 
-            .remove-child{
+            .warning-error{
                 color: $danger-color;
+                position: absolute;
+                margin: 0;
+                font-size: 0.8em;
+                top: 5px;
+                left: 96px;
+
+                .fa{
+                    margin-right: 4px;
+                }
             }
         }
     }
+
+    .human-profile-child{
+        margin: 8px 0;
+
+        input {
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+        > *{
+            margin: 0!important;
+        }
+
+        .remove-child{
+            color: $danger-color;
+        }
+    }
+}
 
     #humanitarian-profile-field-error{
         padding: 16px;

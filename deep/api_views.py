@@ -68,11 +68,12 @@ def get_people_affected(data):
 class OverviewApiView(View):
     def get(self, request):
         try:
-            return JsonResponse(self.get_api(request))
+            return JsonResponse(self.get_api(request.GET))
         except Exception as e:
             return JsonResponse({'status': False}, status=500)
 
-    def get_api(self, request):
+    @staticmethod
+    def get_api(request):
         response = {}
         response['status'] = True
 
@@ -137,7 +138,7 @@ class OverviewApiView(View):
         dt = datetime.now()
         dt = dt - timedelta(days=dt.weekday() + 7)
 
-        num_weeks = request.GET.get('weeks')
+        num_weeks = request.get('weeks')
         if not num_weeks:
             num_weeks = 15
 
@@ -176,11 +177,12 @@ class OverviewApiView(View):
 class ReportsApiView(View):
     def get(self, request):
         try:
-            return JsonResponse(self.get_api(request))
+            return JsonResponse(self.get_api(request.GET))
         except Exception as e:
             return JsonResponse({'status': False}, status=500)
 
-    def get_api(self, request):
+    @staticmethod
+    def get_api(request):
         response = {}
         response['status'] = True
         data = []
@@ -188,19 +190,20 @@ class ReportsApiView(View):
         countries = Country.objects.filter(
             weeklyreport__event__usergroup__acaps=True)
 
-        cquery = request.GET.get('countries')
+        cquery = request.get('countries')
         if cquery:
             country_codes = cquery.split(',')
             countries = countries.filter(code__in=country_codes)
 
         countries = countries.distinct()
         for country in countries:
-            data.append(self.get_country_data(request, country))
+            data.append(ReportsApiView.get_country_data(request, country))
 
         response['data'] = data
         return response
 
-    def get_country_data(self, request, country):
+    @staticmethod
+    def get_country_data(request, country):
         data = {}
         data['country_code'] = country.code
         data['country'] = country.name
@@ -226,8 +229,8 @@ class ReportsApiView(View):
         ]
 
         start_date = datetime.now().date().replace(month=1, day=1)
-        if request.GET.get('start_date'):
-            start_date = parse_datetime(request.GET.get('start_date'))
+        if request.get('start_date'):
+            start_date = parse_datetime(request.get('start_date'))
 
         reports = WeeklyReport.objects.filter(
             country=country,
@@ -235,24 +238,24 @@ class ReportsApiView(View):
             start_date__gte=start_date
         )
 
-        end_date = request.GET.get('end_date')
+        end_date = request.get('end_date')
         if end_date:
             end_date = parse_datetime(end_date)
             reports = reports.filter(start_date__lte=end_date)
 
-        modified_start_date = request.GET.get('modified_start_date')
+        modified_start_date = request.get('modified_start_date')
         if modified_start_date:
             modified_start_date = parse_datetime(modified_start_date)
             reports = reports.filter(last_edited_at__gte=modified_start_date)
 
-        modified_end_date = request.GET.get('modified_end_date')
+        modified_end_date = request.get('modified_end_date')
         if modified_end_date:
             modified_end_date = parse_datetime(modified_end_date)
             reports = reports.filter(last_edited_at__lte=modified_end_date)
 
         reports = reports.distinct()
 
-        disaster_type = request.GET.get('disaster_type')
+        disaster_type = request.get('disaster_type')
 
         data['reports'] = []
         for report in reports:
@@ -269,7 +272,10 @@ class ReportsApiView(View):
             rdata['modified_date'] = datetime.strftime(report.last_edited_at,
                                                        '%Y-%m-%d')
             rdata['project_id'] = report.event.pk
-            rdata['disaster_type'] = int(report.data['disaster_type'])
+            rdata['disaster_type'] = \
+                int(report.data['disaster_type']) \
+                if report.data['disaster_type'] \
+                else None
             rdata['pin'] = get_pin(report.data)
             rdata['pin_severe'] = get_pin_severe(report.data)
             rdata['idps'] = get_idps(report.data)

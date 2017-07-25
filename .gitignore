@@ -11,6 +11,7 @@ os
 media/
 static/global_export/
 temp_downloads/
+static/api/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

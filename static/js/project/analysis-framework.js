@@ -12,7 +12,7 @@ let projectViewer = {
                 }
             }
             else if (that.cloneViewerModal.action === 'share') {
-                if (confirm('The two projects will share same template')) {
+                if (confirm('The two projects will share the same template')) {
                     that.clone(true);
                 }
             }

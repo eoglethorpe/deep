@@ -95,6 +95,7 @@
         }
         .warning-error{
             color: $danger-color;
+            pointer-events: none;
             position: absolute;
             margin: 0;
             font-size: 0.8em;

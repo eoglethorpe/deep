@@ -107,7 +107,8 @@ class RowCollection:
                 for k in range(0, len(values_list[i])):
                     self.rows[i*len(oldrows)+j].append(xstr(values_list[i][k]))
 
-        for values in values_list:
+        for values in list(map(list, zip(*values_list))):
+            values = list(set(values))
             self.group_rows.append(', '.join(map(xstr, values)))
 
     def add_value(self, value):

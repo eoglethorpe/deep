@@ -48,7 +48,7 @@ DEEP | Register
             <label>Country</label>
             <select name="country" id="country" required>
                 {% for country in countries %}
-                <option value="{{ country.pk }}">{{ country }}<option>
+                <option value="{{ country.pk }}" {% if country.code == country_code %}selected{% endif %}>{{ country }}<option>
                 {% endfor %}
             </select>
         </div>
