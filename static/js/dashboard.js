@@ -15,8 +15,10 @@ var dateFilter = null;
 var dateFilterSelection;
 
 var data = null;
+var overviewData = null;
 var documentReady = false;
 var reportReady = false;
+var countries = {};
 
 var mapColors = ['#FFFFFF','#ccdbdb','#99b7b7','#669494','#337070','#004D4D']
 
@@ -36,23 +38,23 @@ function styleMapFeature(feature) {
 
     var color_temp = mapColors[0];
 
-    if(data.countries_monitored.indexOf(feature.properties.iso_a3) >-1){
+    if(overviewData.countries_monitored.indexOf(feature.properties.iso_a3) >-1){
         color_temp = mapColors[1];
     }
 
-    if(data.active_countries.indexOf(feature.properties.iso_a3) >-1){
+    if(overviewData.active_countries.indexOf(feature.properties.iso_a3) >-1){
         color_temp = mapColors[2];
     }
 
-    if(data.situation_of_concern.indexOf(feature.properties.iso_a3) >-1){
+    if(overviewData.situation_of_concern.indexOf(feature.properties.iso_a3) >-1){
         color_temp = mapColors[3];
     }
 
-    if(data.humanitarian_crises.indexOf(feature.properties.iso_a3) >-1){
+    if(overviewData.humanitarian_crises.indexOf(feature.properties.iso_a3) >-1){
         color_temp = mapColors[4];
     }
 
-    if(data.severe.indexOf(feature.properties.iso_a3) >-1){
+    if(overviewData.severe.indexOf(feature.properties.iso_a3) >-1){
         color_temp = mapColors[5];
     }
 
@@ -66,7 +68,7 @@ function styleMapFeature(feature) {
 }
 
 function onEachMapFeature(feature, layer) {
-    var all_countries = [].concat(data.countries_monitored,data.active_countries,data.situation_of_concern,data.severe,data.humanitarian_crises);
+    var all_countries = [].concat(overviewData.countries_monitored,overviewData.active_countries,overviewData.situation_of_concern,overviewData.severe,overviewData.humanitarian_crises);
     var active = all_countries.indexOf(feature.properties.iso_a3)>-1;
     if (active) {
         layer.bindLabel(feature.properties.name);
@@ -119,7 +121,7 @@ function buildFilters() {
 }
 
 $.getJSON("/static/api/reports.json"+ '?timestamp=' + (new Date().getTime()), function(jsonData){
-    data = jsonData;
+    data = jsonData.data;
     reportReady = true;
     loadReports();
 });
@@ -137,7 +139,7 @@ var geoCall = $.ajax({
 });
 
 $.when(overviewCall).then(function(dataArgs){
-    data = dataArgs.data;
+    var data = dataArgs.data;
     $('#number-of-leads-span').html(data.leads);
     $('#number-of-entries-span').html(data.entries);
     $('#number-of-active-projectes-span').html(data.active_countries.length);
@@ -181,7 +183,7 @@ $.when(overviewCall).then(function(dataArgs){
 
 $.when(overviewCall, geoCall).then(function(dataArgs,geoArgs){
 
-    var data = dataArgs[0].data;
+    overviewData = dataArgs[0].data;
 
     // Show the map
     var map = L.map('the-map').setView([41.87, 12.6], 2);
@@ -234,26 +236,6 @@ $(document).ready(function(){
     dateFilterSelectize = $("#date-created-filter").selectize();
     $("#disaster-type-filter").selectize();
 
-    // Get active countries list from active projects list
-    /*for (var i=0; i<active_projects.length; ++i) {
-        var project = active_projects[i];
-        for (var j=0; j<project.countries.length; ++j) {
-            var country = project.countries[j].code;
-            if (!active_countries[country])
-                active_countries[country] = []
-            active_countries[country].push(project) ;
-            if(project.status == '0'){
-                global_monitoring_number+=1;
-            }
-            else{
-                active_projects_number+=1;
-            }
-        }
-    }
-
-    $("#number-of-active-projectes span").text(active_projects_number);
-    $("#number-of-global-monitoring span").text(global_monitoring_number);*/
-
     $("#body").on('click', '#back-btn', function(){
         loadTimetable('all');
     });
@@ -264,37 +246,55 @@ function loadReports(){
         return;
     }
 
-    let reports = data;
-
-    reports.sort(function(a, b){
-        var ca = (a.country.name + a.event.name).toUpperCase();
+    console.log(data);
+    data.sort(function(a, b){
+        /*var ca = (a.country.name + a.event.name).toUpperCase();
         var cb = (b.country.name + b.event.name).toUpperCase();
-        return (ca < cb)? -1: (ca > cb)? 1: 0;
+        return (ca < cb)? -1: (ca > cb)? 1: 0;*/
+        return a.country < b.country;
     });
-
+/*
     let currentCountryCode = "";
     let currentCountryEventPk = -1;
     let currentCountry;
+*/
 
+    var currentYear = (new Date()).getFullYear();
+    data.forEach(function(d){
+        countries[d.country_code] = d.country;
+        d.reports.forEach(function(report){
+            if((new Date(report.week_date)).getWeekYear() == currentYear){
+                let reportStartDate = new Date(report.week_date);
+                if(reportStartDate > maxStartDate){
+                    maxStartDate = reportStartDate;
+                }
+                if(reportStartDate < minStartDate){
+                    minStartDate = reportStartDate;
+                }
+            }
+
+        });
+    });
+    /*
     for(let i=0; i<reports.length; i++){
         let report = reports[i];
-
-        if(currentCountryCode != report.country.code){
-            currentCountryCode = report.country.code;
+        /*
+        if(currentCountryCode != report.country_code){
+            currentCountryCode = report.country_code;
             currentCountry = {'country': report.country, 'events': [], 'weeklyReports': []};
             reportsGrouped.push(currentCountry);
             currentCountryEventPk = -1;
         }
-
+        */
+        /*
         if(currentCountryEventPk != report.event.pk){
             currentCountryEventPk = report.event.pk
             let currentCountryEventGroupedReport = {'event': report.event, 'weeklyReports': []};
             currentCountry.events.push(currentCountryEventGroupedReport);
         }
-
         // include this year's report only
         if((new Date(report.start_date)).getWeekYear() == (new Date()).getFullYear()){
-            currentCountry.events[currentCountry.events.findIndex(x => x.event.pk == report.event.pk)].weeklyReports.push({'startDate': report.start_date, 'data': report.data});
+            /*currentCountry.events[currentCountry.events.findIndex(x => x.event.pk == report.event.pk)].weeklyReports.push({'startDate': report.start_date, 'data': report.data});
             currentCountry.weeklyReports.push({'startDate': report.start_date, 'data': report.data});
             report.data['created_at'] = report.last_edited_at;
 
@@ -308,11 +308,12 @@ function loadReports(){
             }
         }
     }
+    */
+
     while(minStartDate <= maxStartDate){
         weeks.push(new Date(minStartDate));
         minStartDate.addDays(7);
     }
-
     // Load the weekly report timetable
     loadTimetable('all');
 }
@@ -334,7 +335,6 @@ function loadTimetable(tableFor) {
 
     let weekHeaderContainer = $('#timeline-table').find('header').find('.weeks');
     weekHeaderContainer.empty();
-
     // Week headers
     for (let i=0; i<weeks.length; ++i) {
         let weekLabel = 'W'+weeks[i].getWeek();
@@ -355,11 +355,11 @@ function loadTimetable(tableFor) {
 
     if (timetableFor == 'all') {
         // Load reports for all countries
-        for(let i=0; i<reportsGrouped.length; i++){
-            let countryCode  = reportsGrouped[i].country.code;
+        for(let i=0; i<data.length; i++){
+            let countryCode  = data[i].country_code;
             if ((countryFilter == null || countryFilter.indexOf(countryCode) >= 0)) {
                 let reportElement = reportElementTemplate.clone();
-                reportElement.find('.aside').text(reportsGrouped[i].country.name);
+                reportElement.find('.aside').text(data[i].country);
 
                 reportElement.find('.aside').click(function() {
                     loadTimetable(countryCode);
@@ -372,9 +372,9 @@ function loadTimetable(tableFor) {
                 for (let j=0; j<weeks.length; ++j) {
 
                     let weekElement = weekElementTemplate.clone();
-                    let index = reportsGrouped[i].weeklyReports.findIndex(w => new Date(w.startDate).toLocaleDateString() == weeks[j].toLocaleDateString());
+                    let index = data[i].reports.findIndex(w => new Date(w.week_date).toLocaleDateString() == weeks[j].toLocaleDateString());
                     if (index >= 0) {
-                        let reportData = reportsGrouped[i].weeklyReports[index].data;
+                        let reportData = data[i].reports[index];
                         if ((disasterFilter == null || disasterFilter.indexOf(reportData.disaster_type) >= 0) && (dateFilter == null || dateFilter(reportData.created_at))) {
                             weekElement.addClass('active');
                         }
@@ -387,10 +387,10 @@ function loadTimetable(tableFor) {
         // Load reports for specified countries only
         let countryCode = timetableFor;
         if (countryFilter == null || countryFilter.indexOf(countryCode) >= 0) {
-            let events = reportsGrouped.find(r => r.country.code == countryCode).events;
+            /*let events = data.find(r => r.country.code == countryCode).projects;
             for(let i=0; i<events.length; i++){
                 let reportElement = reportElementTemplate.clone();
-                reportElement.find('.aside').text(events[i].event.name);
+                reportElement.find('.aside').text(events[i].name);
                 reportElement.appendTo(reportContainer);
                 reportElement.show();
 
@@ -408,6 +408,23 @@ function loadTimetable(tableFor) {
                     }
                     weekElement.appendTo(weekContainer);
                 }
+            }*/
+            let reportElement = reportElementTemplate.clone();
+            let weekContainer = reportElement.find('.weeks');
+            let weekElementTemplate = $('<div class="week"></div>');
+            let countryData = data.find(r => r.country_code == countryCode);
+            console.log(countryData);
+            for (let j=0; j<weeks.length; ++j) {
+                let weekElement = weekElementTemplate.clone();
+
+                let index = countryData.reports.findIndex(w => new Date(w.week_date).toLocaleDateString() == weeks[j].toLocaleDateString());
+                if (index >= 0) {
+                    let reportData = countryData.reports[index];
+                    if ((disasterFilter == null || disasterFilter.indexOf(reportData.disaster_type) >= 0) && (dateFilter == null || dateFilter(reportData.created_at))) {
+                        weekElement.addClass('active');
+                    }
+                }
+                weekElement.appendTo(weekContainer);
             }
         }
     }
