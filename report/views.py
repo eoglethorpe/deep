@@ -5,7 +5,12 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.serializers.json import DjangoJSONEncoder
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
+
+from entries.management.commands.backup_apis import \
+    backup_weekly_snapshots
+
+from deep.settings import BASE_DIR
 
 from users.log import *
 from leads.models import *
@@ -13,7 +18,9 @@ from entries.models import *
 from report.models import *
 from leads.templatetags.check_acaps import allow_acaps
 
+import os
 import json
+import math
 from datetime import datetime, timedelta
 
 
@@ -24,9 +31,9 @@ class ReportDashboardView(View):
             return HttpResponseForbidden()
 
         context = {}
-        context["countries"] = Country.objects.annotate(
-            num_events=Count('event')
-        ).filter(num_events__gt=0)
+        context["countries"] = Country.objects.filter(
+            event__usergroup__acaps=True
+        ).distinct()
 
         country_id = request.GET.get("country")
         if not country_id:
@@ -51,7 +58,8 @@ class ReportDashboardView(View):
         # For event and report selection
         for country in context["countries"]:
             events = []
-            for event in Event.objects.filter(countries=country, usergroup__acaps=True):
+            country.allevents = []
+            for event in Event.objects.filter(countries=country, usergroup__acaps=True).distinct():
                 reports = []
                 for report in WeeklyReport.objects.filter(event=event, country=country):
                     reports.append({
@@ -59,6 +67,8 @@ class ReportDashboardView(View):
                         'start_date': report.start_date,
                     })
                 events.append({ 'id': event.pk, 'name': event.name, 'reports': reports })
+
+                country.allevents.append(event)
             country.events = json.dumps(events, cls=DjangoJSONEncoder)
 
         # for sparklines and other viz
@@ -72,6 +82,17 @@ class ReportDashboardView(View):
         context["people_in_need_fields"] = PeopleInNeedField.objects.all()
         context["human_access_fields"] = HumanAccessField.objects.all()
         context["human_access_pin_fields"] = HumanAccessPinField.objects.all()
+
+        last_updated = os.path.getmtime(os.path.join(
+            BASE_DIR, 'static/api/weekly-snapshot.json'))
+
+        dt = datetime.now()
+        context["last_updated"] = int(
+            (dt - datetime.fromtimestamp(last_updated)).seconds/60
+        )
+
+        nsecs = dt.minute*60 + dt.second
+        context["next_update"] = int((math.ceil(nsecs/900) * 900 - nsecs)/60)
 
         return render(request, "report/dashboard.html", context)
 
@@ -196,3 +217,36 @@ class MonthlyReportView(View):
     @method_decorator(login_required)
     def get(self, request):
         return render(request, "report/monthly.html")
+
+
+class BackupWeeklyReportView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        backup_weekly_snapshots()
+        return JsonResponse({
+            'success': True,
+        })
+
+
+class WeeklyReportUpdateTimesView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        response = {
+            'success': True,
+        }
+
+        last_updated = os.path.getmtime(os.path.join(
+            BASE_DIR, 'static/api/weekly-snapshot.json'))
+
+        dt = datetime.now()
+        response["last_updated"] = int(
+            (dt - datetime.fromtimestamp(last_updated)).seconds/60
+        )
+
+        nsecs = dt.minute*60 + dt.second
+        response["next_update"] = int((math.ceil(nsecs/900) * 900 - nsecs)/60)
+
+        return JsonResponse(response)
+
+
+# EOF

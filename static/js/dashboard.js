@@ -114,7 +114,7 @@ function buildFilters() {
     });
 }
 
-$.getJSON("/api/v2/reports?fields=disaster_type", function(jsonData){
+$.getJSON("/static/api/dashboard-reports.json"+ '?timestamp=' + (new Date().getTime()), function(jsonData){
     data = jsonData;
     reportReady = true;
     loadReports();
@@ -185,59 +185,58 @@ function loadReports(){
     if(!documentReady || !reportReady){
         return;
     }
-    if(data.status == true){
-        let reports = data.data;
 
-        reports.sort(function(a, b){
-            var ca = (a.country.name + a.event.name).toUpperCase();
-            var cb = (b.country.name + b.event.name).toUpperCase();
-            return (ca < cb)? -1: (ca > cb)? 1: 0;
-        });
+    let reports = data;
 
-        let currentCountryCode = "";
-        let currentCountryEventPk = -1;
-        let currentCountry;
+    reports.sort(function(a, b){
+        var ca = (a.country.name + a.event.name).toUpperCase();
+        var cb = (b.country.name + b.event.name).toUpperCase();
+        return (ca < cb)? -1: (ca > cb)? 1: 0;
+    });
 
-        for(let i=0; i<reports.length; i++){
-            let report = reports[i];
+    let currentCountryCode = "";
+    let currentCountryEventPk = -1;
+    let currentCountry;
 
-            if(currentCountryCode != report.country.code){
-                currentCountryCode = report.country.code;
-                currentCountry = {'country': report.country, 'events': [], 'weeklyReports': []};
-                reportsGrouped.push(currentCountry);
-                currentCountryEventPk = -1;
-            }
+    for(let i=0; i<reports.length; i++){
+        let report = reports[i];
 
-            if(currentCountryEventPk != report.event.pk){
-                currentCountryEventPk = report.event.pk
-                let currentCountryEventGroupedReport = {'event': report.event, 'weeklyReports': []};
-                currentCountry.events.push(currentCountryEventGroupedReport);
-            }
-
-            // include this year's report only
-            if((new Date(report.start_date)).getWeekYear() == (new Date()).getFullYear()){
-                currentCountry.events[currentCountry.events.findIndex(x => x.event.pk == report.event.pk)].weeklyReports.push({'startDate': report.start_date, 'data': report.data});
-                currentCountry.weeklyReports.push({'startDate': report.start_date, 'data': report.data});
-                report.data['created_at'] = report.last_edited_at;
-
-                let reportStartDate = new Date(report.start_date);
-                if(reportStartDate > maxStartDate){
-                    maxStartDate = reportStartDate;
-                    // console.log(report);
-                }
-                if(reportStartDate < minStartDate){
-                    minStartDate = reportStartDate;
-                }
-            }
-        }
-        while(minStartDate <= maxStartDate){
-            weeks.push(new Date(minStartDate));
-            minStartDate.addDays(7);
+        if(currentCountryCode != report.country.code){
+            currentCountryCode = report.country.code;
+            currentCountry = {'country': report.country, 'events': [], 'weeklyReports': []};
+            reportsGrouped.push(currentCountry);
+            currentCountryEventPk = -1;
         }
 
-        // Load the weekly report timetable
-        loadTimetable('all');
+        if(currentCountryEventPk != report.event.pk){
+            currentCountryEventPk = report.event.pk
+            let currentCountryEventGroupedReport = {'event': report.event, 'weeklyReports': []};
+            currentCountry.events.push(currentCountryEventGroupedReport);
+        }
+
+        // include this year's report only
+        if((new Date(report.start_date)).getWeekYear() == (new Date()).getFullYear()){
+            currentCountry.events[currentCountry.events.findIndex(x => x.event.pk == report.event.pk)].weeklyReports.push({'startDate': report.start_date, 'data': report.data});
+            currentCountry.weeklyReports.push({'startDate': report.start_date, 'data': report.data});
+            report.data['created_at'] = report.last_edited_at;
+
+            let reportStartDate = new Date(report.start_date);
+            if(reportStartDate > maxStartDate){
+                maxStartDate = reportStartDate;
+                // console.log(report);
+            }
+            if(reportStartDate < minStartDate){
+                minStartDate = reportStartDate;
+            }
+        }
     }
+    while(minStartDate <= maxStartDate){
+        weeks.push(new Date(minStartDate));
+        minStartDate.addDays(7);
+    }
+
+    // Load the weekly report timetable
+    loadTimetable('all');
 }
 
 var timetableFor;

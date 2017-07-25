@@ -307,6 +307,7 @@ $(document).ready(function(){
             return;
         }
 
+        autoCalculateScores();
         getInputData();
         var d = { "data": JSON.stringify(data), "start_date": start_date };
         redirectPost(window.location.pathname, d, csrf_token);
