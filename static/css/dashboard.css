@@ -185,25 +185,27 @@ body #map {
   justify-content: space-between; }
   body #map #the-map {
     background-color: transparent;
+    min-height: 400px;
     height: 44vh;
     flex-basis: 75%; }
   body #map #overview {
+    min-height: 400px;
     height: 44vh;
+    margin-top:20px;
     flex-basis: 25%;
     border-left: 1px solid rgba(0, 0, 0, 0.1);
-    display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 0 32px; }
     body #map #overview .number {
       font-family: 'Inconsolata', monospace;
-      font-size: 3em;
+      font-size: 1.2em;
       display: inline-block;
       width: 5ex;
       text-align: right;
       margin-right: 10px; }
     body #map #overview label {
-      font-size: 1.2em; }
+      font-size: 0.8em; }
     body #map #overview > div {
       padding: 10px 0; }
 body #timeline {
@@ -308,5 +310,20 @@ body #non-acaps {
     font-size: 0.9em;
     margin-left: 10px;
     color: rgba(0, 0, 0, 0.5); }
+
+  body #overview path {
+        stroke: steelblue;
+        stroke-width: 1;
+        fill: none;
+      }
+
+  body #overview td {
+    padding-bottom:10px;
+  }
+
+    body #overview table {
+    margin-bottom:15px;
+  }
+
 
 /*# sourceMappingURL=dashboard.css.map */

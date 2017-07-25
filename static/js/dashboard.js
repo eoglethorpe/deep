@@ -18,6 +18,8 @@ var data = null;
 var documentReady = false;
 var reportReady = false;
 
+var mapColors = ['#FFFFFF','#ccdbdb','#99b7b7','#669494','#337070','#004D4D']
+
 function hashString(str) {
     var hash = 0;
     for (var i = 0; i < str.length; i++) {
@@ -31,49 +33,51 @@ function generateColor(str) {
 }
 
 function styleMapFeature(feature) {
-    var active = feature.properties.iso_a2 in active_countries || feature.properties.iso_a3 in active_countries;
-    var color_temp = '#ecfof1';
 
-    if(active && (feature.properties.iso_a2 in active_countries)){
-        if(active_countries[feature.properties.iso_a2][0].status == '0'){
-            color_temp = '#3992fd';
-        }
-        else{
-            color_temp = '#f44336';
-        }
+    var color_temp = mapColors[0];
+
+    if(data.countries_monitored.indexOf(feature.properties.iso_a3) >-1){
+        color_temp = mapColors[1];
     }
-    if(active && (feature.properties.iso_a3 in active_countries)){
-        if(active_countries[feature.properties.iso_a3][0].status == '0'){
-            color_temp = '#3992fd';
-        }
-        else{
-            color_temp = '#f44336';
-        }
+
+    if(data.active_countries.indexOf(feature.properties.iso_a3) >-1){
+        color_temp = mapColors[2];
+    }
+
+    if(data.situation_of_concern.indexOf(feature.properties.iso_a3) >-1){
+        color_temp = mapColors[3];
+    }
+
+    if(data.humanitarian_crises.indexOf(feature.properties.iso_a3) >-1){
+        color_temp = mapColors[4];
+    }
+
+    if(data.severe.indexOf(feature.properties.iso_a3) >-1){
+        color_temp = mapColors[5];
     }
 
     return {
-        fillColor: active?color_temp:'#ecf0f1',
-        weight: 1.4,
+        fillColor: color_temp,
+        weight: 0.5,
         opacity: 1,
         color: '#37373b',
-        dashArray: '3',
-        fillOpacity: 0.9
+        fillOpacity: 0.9,
     };
 }
 
 function onEachMapFeature(feature, layer) {
-    var active = feature.properties.iso_a2 in active_countries
-        || feature.properties.iso_a3 in active_countries;
+    var all_countries = [].concat(data.countries_monitored,data.active_countries,data.situation_of_concern,data.severe,data.humanitarian_crises);
+    var active = all_countries.indexOf(feature.properties.iso_a3)>-1;
     if (active) {
         layer.bindLabel(feature.properties.name);
     }
 
-    layer.on('click', function() {
+    /*layer.on('click', function() {
         if (feature.properties.iso_a2 in projects_per_country)
             loadTimetable(feature.properties.iso_a2);
         else if (feature.properties.iso_a3 in projects_per_country)
             loadTimetable(feature.properties.iso_a3);
-    });
+    });*/
 }
 
 function buildFilters() {
@@ -114,11 +118,101 @@ function buildFilters() {
     });
 }
 
-$.getJSON("/static/api/dashboard-reports.json"+ '?timestamp=' + (new Date().getTime()), function(jsonData){
+$.getJSON("/static/api/reports.json"+ '?timestamp=' + (new Date().getTime()), function(jsonData){
     data = jsonData;
     reportReady = true;
     loadReports();
 });
+
+var overviewCall = $.ajax({
+    type: 'GET',
+    url: '/static/api/overview.json',
+    dataType: 'json',
+});
+
+var geoCall = $.ajax({
+    type: 'GET',
+    url: '/static/files/countries.geo.json',
+    dataType: 'json',
+});
+
+$.when(overviewCall).then(function(dataArgs){
+    data = dataArgs.data;
+    $('#number-of-leads-span').html(data.leads);
+    $('#number-of-entries-span').html(data.entries);
+    $('#number-of-active-projectes-span').html(data.active_countries.length);
+    $('#number-of-global-monitoring-span').html(data.countries_monitored.length);
+
+    $('#number-of-assessment-reports').html(data.assessment_reports);
+    $('#number-of-severe').html(data.severe.length);
+    $('#number-of-humanitarian-crises').html(data.humanitarian_crises.length);
+    $('#number-of-situation-of-concern').html(data.situation_of_concern.length);
+
+    var pinLatestFig = data.pin[data.pin.length-1];
+    pinLatestFig = niceFormatNumber(pinLatestFig,true);
+    $('#number-of-pin-span').html(pinLatestFig);
+    createSparkLine('#number-of-pin-spark',data.pin);
+
+    var pinSevereLatestFig = data.pin_severe[data.pin_severe.length-1];
+    pinSevereLatestFig = niceFormatNumber(pinSevereLatestFig,true);
+    $('#number-of-pin-severe-span').html(pinSevereLatestFig);
+    createSparkLine('#number-of-pin-severe-spark',data.pin);
+
+    var pinRestrictedLatestFig = data.pin_restricted[data.pin_restricted.length-1];
+    pinRestrictedLatestFig = niceFormatNumber(pinRestrictedLatestFig,true);
+    $('#number-of-pin-restricted-span').html(pinRestrictedLatestFig);
+    createSparkLine('#number-of-pin-restricted-spark',data.pin);
+
+    var affectedLatestFig = data.people_affected[data.people_affected.length-1];
+    affectedLatestFig = niceFormatNumber(affectedLatestFig,true);
+    $('#number-of-affected-span').html(affectedLatestFig);
+    createSparkLine('#number-of-affected-spark',data.people_affected);
+
+    var idpsLatestFig = data.idps[data.idps.length-1];
+    idpsLatestFig = niceFormatNumber(idpsLatestFig,true);
+    $('#number-of-idps-span').html(idpsLatestFig);
+    createSparkLine('#number-of-idps-spark',data.idps);
+
+    var refugeesLatestFig = data.refugees[data.refugees.length-1];
+    refugeesLatestFig = niceFormatNumber(refugeesLatestFig,true);
+    $('#number-of-refugees-span').html(refugeesLatestFig);
+    createSparkLine('#number-of-refugees-spark',data.refugees);
+});
+
+$.when(overviewCall, geoCall).then(function(dataArgs,geoArgs){
+
+    var data = dataArgs[0].data;
+
+    // Show the map
+    var map = L.map('the-map').setView([41.87, 12.6], 2);
+    map.scrollWheelZoom.disable();
+
+    // Toggle scroll-zoom by clicking on and outside map
+    map.on('focus', function() { map.scrollWheelZoom.enable(); });
+    map.on('blur', function() { map.scrollWheelZoom.disable(); });
+
+    var layer = L.geoJson(geoArgs[0], {
+        style: styleMapFeature,
+        onEachFeature: onEachMapFeature,
+    }).addTo(map);
+});
+
+function createSparkLine(id,data){
+    var graph = d3.select(id).append("svg:svg").attr("width", 40).attr("height", 15);
+
+    var x = d3.scale.linear().domain([0, data.length-1]).range([0, 40]);
+    var y = d3.scale.linear().domain(d3.extent(data,function(d){return d})).range([15, 0]);
+
+    var line = d3.svg.line()
+        .x(function(d,i) {
+            return x(i);
+        })
+        .y(function(d) {
+            return y(d);
+        });
+
+        graph.append("svg:path").attr("d", line(data));
+}
 
 $(document).ready(function(){
     documentReady = true;
@@ -141,7 +235,7 @@ $(document).ready(function(){
     $("#disaster-type-filter").selectize();
 
     // Get active countries list from active projects list
-    for (var i=0; i<active_projects.length; ++i) {
+    /*for (var i=0; i<active_projects.length; ++i) {
         var project = active_projects[i];
         for (var j=0; j<project.countries.length; ++j) {
             var country = project.countries[j].code;
@@ -158,23 +252,7 @@ $(document).ready(function(){
     }
 
     $("#number-of-active-projectes span").text(active_projects_number);
-    $("#number-of-global-monitoring span").text(global_monitoring_number);
-
-    // Show the map
-    var map = L.map('the-map').setView([41.87, 12.6], 2);
-    map.scrollWheelZoom.disable();
-
-    // Toggle scroll-zoom by clicking on and outside map
-    map.on('focus', function() { map.scrollWheelZoom.enable(); });
-    map.on('blur', function() { map.scrollWheelZoom.disable(); });
-
-    // Load countries geojson in the map
-    $.getJSON('/static/files/countries.geo.json', function(data) {
-        var layer = L.geoJson(data, {
-            style: styleMapFeature,
-            onEachFeature: onEachMapFeature,
-        }).addTo(map);
-    });
+    $("#number-of-global-monitoring span").text(global_monitoring_number);*/
 
     $("#body").on('click', '#back-btn', function(){
         loadTimetable('all');
@@ -372,5 +450,29 @@ function filterDate(filter, date){
             return dateInRange(date, min, (new Date));
         default:
             return true;
+    }
+}
+
+function niceFormatNumber(num,round){
+    if(isNaN(parseFloat(num))){
+        return num;
+    } else {
+        if(!round){
+            var format = d3.format("0,000");
+            return format(parseFloat(num));
+        } else {
+            var output = d3.format(".4s")(parseFloat(num));
+            if(output.slice(-1)=='k'){
+                output = Math.round(output.slice(0, -1) * 1000);
+                output = d3.format("0,000")(output);
+            } else if(output.slice(-1)=='M'){
+                output = d3.format(".1f")(output.slice(0, -1))+'M';
+            } else if (output.slice(-1) == 'G') {
+                output = output.slice(0, -1) + 'B';
+            } else {
+                output = ''+d3.format(".3s")(parseFloat(num));
+            }
+            return output;
+        }
     }
 }

@@ -16,38 +16,15 @@ DEEP | Dashboard
 <script type="text/javascript" src="{% watchful_static_url 'js/common/split.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/d3.v3.min.js' %}"></script>
 
 {% if event and event.is_acaps %}
-<script type="text/javascript" src="{% watchful_static_url 'js/dashboard.js' %}"></script>
-
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 
 <link rel="stylesheet" href="{% watchful_static_url 'css/leaflet.label.css' %}" >
 <script src="{% watchful_static_url 'js/common/leaflet.label.js' %}"></script>
 
-<script>
-    var active_projects = [
-        {% for project in active_events %}{
-            name: "{{project.name}}", start_date: "{{project.start_date|date:'Y-m-d'}}", status: "{{project.status}}",
-            countries: [
-                {% for country in project.countries.all %}{ code: "{{country.code}}", name: "{{country.name}}" },{% endfor %}
-            ],
-        },{% endfor %}
-    ];
-
-    var countries = {
-        {% for country in countries %}
-        "{{country.code}}": "{{country.name}}",
-        {% endfor %}
-    };
-
-    var projects_per_country = {
-        {% for country, projects in projects_per_country.items %}
-        "{{country.code}}": { {% for project in projects %} "{{project.pk}}" : "{{project.name}}", {% endfor %} },
-        {% endfor %}
-    };
-</script>
 {% endif %}
 
 {% endblock %}
@@ -59,10 +36,20 @@ DEEP | Dashboard
     <section id="map">
         <div id="the-map"></div>
         <div id="overview">
-            <div id="number-of-leads"><span class="number">{{ leads|length }}</span><label>Leads</label></div>
-            <div id="number-of-entries"><span class="number">{{ informations|length }}</span><label>Entries</label></div>
-            <div id="number-of-active-projectes"><span class="number">{{ active_events|length }}</span><label>Active projects</label></div>
-            <div id="number-of-global-monitoring"><span class="number">{{ active_events|length }}</span><label>Countries monitored</label></div>
+            <table>
+                <tr><td>Leads</td><td id="number-of-leads-span" class="number"></td><td>Entries</td><td id="number-of-entries-span" class="number"></td></tr>
+                <tr><td>Active projects</td><td id="number-of-active-projectes-span" class="number"></td><td>Countries monitored</td><td id="number-of-global-monitoring-span" class="number"></td></tr>
+                <tr><td>Assessment Reports</td><td id="number-of-assessment-reports" class="number"></td><td>Severe Humanitarian Crises</td><td id="number-of-severe" class="number"></td></tr>
+                <tr><td>Humanitarian Crises</td><td id="number-of-humanitarian-crises" class="number"></td><td>Situation of Concern</td><td id="number-of-situation-of-concern" class="number"></td></tr>
+            </table>
+            <table>
+                <tr><td>People in need</td><td id="number-of-pin-span" class="number"></td><td id="number-of-pin-spark"></td></tr>
+                <tr><td>People in need severe</td><td id="number-of-pin-severe-span" class="number"></td><td id="number-of-pin-severe-spark"></td></tr>
+                <tr><td>People in need with restricted humanitarian access</td><td id="number-of-pin-restricted-span" class="number"></td><td id="number-of-pin-restricted-spark"></td></tr>
+                <tr><td>People Affected</td><td id="number-of-affected-span" class="number"></td><td id="number-of-affected-spark"></td></tr>
+                <tr><td>IDPs</td><td id="number-of-idps-span" class="number"></td><td id="number-of-idps-spark"></td></tr>
+                <tr><td>Refugees</td><td id="number-of-refugees-span" class="number"></td><td id="number-of-refugees-spark"></td></tr>
+            </table>
         </div>
     </section>
     <section id="timeline">
@@ -135,6 +122,7 @@ DEEP | Dashboard
         </div>
     </div>
 </div>
+<script type="text/javascript" src="{% watchful_static_url 'js/dashboard.js' %}"></script>
 
 {% else %}
 
