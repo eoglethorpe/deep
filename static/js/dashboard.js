@@ -19,6 +19,8 @@ var overviewData = null;
 var documentReady = false;
 var reportReady = false;
 var countries = {};
+var colorBy=null;
+var layer;
 
 var mapColors = ['#FFFFFF','#ccdbdb','#99b7b7','#669494','#337070','#004D4D']
 
@@ -34,37 +36,56 @@ function generateColor(str) {
     return 'hsl(' + hashString(str)%360 + ', 30%, 50%)';
 }
 
+function getLastNumberByCountry(countrycode){
+    let num = 0;
+    data.forEach(function(d){
+        if(d.country_code == countrycode){
+            num = d.reports[0][colorBy];
+        }
+    });
+    return num;
+}
+
 function styleMapFeature(feature) {
+    if(colorBy==null){
+        var color_temp = mapColors[0];
+        if(overviewData.countries_monitored.indexOf(feature.properties.iso_a3) >-1){
+            color_temp = mapColors[1];
+        }
+        if(overviewData.active_countries.indexOf(feature.properties.iso_a3) >-1){
+            color_temp = mapColors[2];
+        }
+        if(overviewData.situation_of_concern.indexOf(feature.properties.iso_a3) >-1){
+            color_temp = mapColors[3];
+        }
+        if(overviewData.humanitarian_crises.indexOf(feature.properties.iso_a3) >-1){
+            color_temp = mapColors[4];
+        }
+        if(overviewData.severe.indexOf(feature.properties.iso_a3) >-1){
+            color_temp = mapColors[5];
+        }
+        return {
+            fillColor: color_temp,
+            weight: 0.5,
+            opacity: 1,
+            color: '#37373b',
+            fillOpacity: 0.9,
+            className:'geom'
+        };
+    } else {
 
-    var color_temp = mapColors[0];
-
-    if(overviewData.countries_monitored.indexOf(feature.properties.iso_a3) >-1){
-        color_temp = mapColors[1];
+        let colors = ['#1a9850','#91cf60','#d9ef8b','#fee08b','#fc8d59','#d73027'];
+        let num = getLastNumberByCountry(feature.properties.iso_a3,colorBy);
+        let grade = getColorGrade(colorBy,num);
+        color = colors[grade];
+        return {
+            fillColor: color,
+            weight: 0.5,
+            opacity: 1,
+            color: '#37373b',
+            fillOpacity: 0.9,
+        };
     }
-
-    if(overviewData.active_countries.indexOf(feature.properties.iso_a3) >-1){
-        color_temp = mapColors[2];
-    }
-
-    if(overviewData.situation_of_concern.indexOf(feature.properties.iso_a3) >-1){
-        color_temp = mapColors[3];
-    }
-
-    if(overviewData.humanitarian_crises.indexOf(feature.properties.iso_a3) >-1){
-        color_temp = mapColors[4];
-    }
-
-    if(overviewData.severe.indexOf(feature.properties.iso_a3) >-1){
-        color_temp = mapColors[5];
-    }
-
-    return {
-        fillColor: color_temp,
-        weight: 0.5,
-        opacity: 1,
-        color: '#37373b',
-        fillOpacity: 0.9,
-    };
 }
 
 function onEachMapFeature(feature, layer) {
@@ -154,31 +175,55 @@ $.when(overviewCall).then(function(dataArgs){
     pinLatestFig = niceFormatNumber(pinLatestFig,true);
     $('#number-of-pin-span').html(pinLatestFig);
     createSparkLine('#number-of-pin-spark',data.pin);
+    $('#pinstat').on('click',function(){
+        colorBy = 'pin';
+        loadTimetable('all');
+    });
 
     var pinSevereLatestFig = data.pin_severe[data.pin_severe.length-1];
     pinSevereLatestFig = niceFormatNumber(pinSevereLatestFig,true);
     $('#number-of-pin-severe-span').html(pinSevereLatestFig);
     createSparkLine('#number-of-pin-severe-spark',data.pin);
+    $('#pinseverestat').on('click',function(){
+        colorBy = 'pin_severe';
+        loadTimetable('all');
+    });
 
     var pinRestrictedLatestFig = data.pin_restricted[data.pin_restricted.length-1];
     pinRestrictedLatestFig = niceFormatNumber(pinRestrictedLatestFig,true);
     $('#number-of-pin-restricted-span').html(pinRestrictedLatestFig);
     createSparkLine('#number-of-pin-restricted-spark',data.pin);
+    $('#pinrestrictedstat').on('click',function(){
+        colorBy = 'pin_restricted';
+        loadTimetable('all');
+    });
 
     var affectedLatestFig = data.people_affected[data.people_affected.length-1];
     affectedLatestFig = niceFormatNumber(affectedLatestFig,true);
     $('#number-of-affected-span').html(affectedLatestFig);
     createSparkLine('#number-of-affected-spark',data.people_affected);
+    $('#affectedstat').on('click',function(){
+        colorBy = 'people_affected';
+        loadTimetable('all');
+    });
 
     var idpsLatestFig = data.idps[data.idps.length-1];
     idpsLatestFig = niceFormatNumber(idpsLatestFig,true);
     $('#number-of-idps-span').html(idpsLatestFig);
     createSparkLine('#number-of-idps-spark',data.idps);
+    $('#idpsstat').on('click',function(){
+        colorBy = 'idps';
+        loadTimetable('all');
+    });
 
     var refugeesLatestFig = data.refugees[data.refugees.length-1];
     refugeesLatestFig = niceFormatNumber(refugeesLatestFig,true);
     $('#number-of-refugees-span').html(refugeesLatestFig);
     createSparkLine('#number-of-refugees-spark',data.refugees);
+    $('#refugeesstat').on('click',function(){
+        colorBy = 'refugees';
+        loadTimetable('all');
+    });
 });
 
 $.when(overviewCall, geoCall).then(function(dataArgs,geoArgs){
@@ -186,14 +231,14 @@ $.when(overviewCall, geoCall).then(function(dataArgs,geoArgs){
     overviewData = dataArgs[0].data;
 
     // Show the map
-    var map = L.map('the-map').setView([41.87, 12.6], 2);
+    let map = L.map('the-map').setView([41.87, 12.6], 2);
     map.scrollWheelZoom.disable();
 
     // Toggle scroll-zoom by clicking on and outside map
     map.on('focus', function() { map.scrollWheelZoom.enable(); });
     map.on('blur', function() { map.scrollWheelZoom.disable(); });
 
-    var layer = L.geoJson(geoArgs[0], {
+    layer = L.geoJson(geoArgs[0], {
         style: styleMapFeature,
         onEachFeature: onEachMapFeature,
     }).addTo(map);
@@ -275,40 +320,6 @@ function loadReports(){
 
         });
     });
-    /*
-    for(let i=0; i<reports.length; i++){
-        let report = reports[i];
-        /*
-        if(currentCountryCode != report.country_code){
-            currentCountryCode = report.country_code;
-            currentCountry = {'country': report.country, 'events': [], 'weeklyReports': []};
-            reportsGrouped.push(currentCountry);
-            currentCountryEventPk = -1;
-        }
-        */
-        /*
-        if(currentCountryEventPk != report.event.pk){
-            currentCountryEventPk = report.event.pk
-            let currentCountryEventGroupedReport = {'event': report.event, 'weeklyReports': []};
-            currentCountry.events.push(currentCountryEventGroupedReport);
-        }
-        // include this year's report only
-        if((new Date(report.start_date)).getWeekYear() == (new Date()).getFullYear()){
-            /*currentCountry.events[currentCountry.events.findIndex(x => x.event.pk == report.event.pk)].weeklyReports.push({'startDate': report.start_date, 'data': report.data});
-            currentCountry.weeklyReports.push({'startDate': report.start_date, 'data': report.data});
-            report.data['created_at'] = report.last_edited_at;
-
-            let reportStartDate = new Date(report.start_date);
-            if(reportStartDate > maxStartDate){
-                maxStartDate = reportStartDate;
-                // console.log(report);
-            }
-            if(reportStartDate < minStartDate){
-                minStartDate = reportStartDate;
-            }
-        }
-    }
-    */
 
     while(minStartDate <= maxStartDate){
         weeks.push(new Date(minStartDate));
@@ -316,6 +327,35 @@ function loadReports(){
     }
     // Load the weekly report timetable
     loadTimetable('all');
+}
+
+function getColorGrade(colorBy,num){
+    let scale = [];
+    if(colorBy == 'pin'){
+        scale = [1000,10000,100000,100000,5000000];
+    }
+    if(colorBy == 'pin_severe'){
+        scale = [1000,10000,100000,100000,5000000];
+    }
+    if(colorBy == 'pin_restricted'){
+        scale = [1000,10000,100000,100000,5000000];
+    }
+    if(colorBy == 'people_affected'){
+        scale = [1000,10000,100000,100000,5000000];
+    }
+    if(colorBy == 'idps'){
+        scale = [1000,10000,100000,100000,5000000];
+    }
+    if(colorBy == 'refugees'){
+        scale = [1000,10000,100000,100000,5000000];
+    }
+    let place = 0;
+    scale.forEach(function(s){
+        if(num>s){
+            place++;
+        }
+    });
+    return place;
 }
 
 var timetableFor;
@@ -353,7 +393,7 @@ function loadTimetable(tableFor) {
     var countryFilter = $('#country-filter').val();
     var disasterFilter = $('#disaster-type-filter').val();
 
-    if (timetableFor == 'all') {
+    /*if (timetableFor == 'all') {*/
         // Load reports for all countries
         for(let i=0; i<data.length; i++){
             let countryCode  = data[i].country_code;
@@ -376,39 +416,45 @@ function loadTimetable(tableFor) {
                     if (index >= 0) {
                         let reportData = data[i].reports[index];
                         if ((disasterFilter == null || disasterFilter.indexOf(reportData.disaster_type) >= 0) && (dateFilter == null || dateFilter(reportData.created_at))) {
-                            weekElement.addClass('active');
+                            let cls = 'active';
+                            if(colorBy!='report'){
+                                let num = reportData[colorBy];
+                                let grade = getColorGrade(colorBy,num);
+                                cls += ' grade'+grade;
+                            }
+                            weekElement.addClass(cls);
                         }
                     }
                     weekElement.appendTo(weekContainer);
                 }
             }
         }
-    } else {
+    /*} else {
         // Load reports for specified countries only
         let countryCode = timetableFor;
         if (countryFilter == null || countryFilter.indexOf(countryCode) >= 0) {
-            /*let events = data.find(r => r.country.code == countryCode).projects;
-            for(let i=0; i<events.length; i++){
-                let reportElement = reportElementTemplate.clone();
-                reportElement.find('.aside').text(events[i].name);
-                reportElement.appendTo(reportContainer);
-                reportElement.show();
+            // let events = data.find(r => r.country.code == countryCode).projects;
+            // for(let i=0; i<events.length; i++){
+            //     let reportElement = reportElementTemplate.clone();
+            //     reportElement.find('.aside').text(events[i].name);
+            //     reportElement.appendTo(reportContainer);
+            //     reportElement.show();
 
-                let weekContainer = reportElement.find('.weeks');
-                let weekElementTemplate = $('<div class="week"></div>');
-                for (let j=0; j<weeks.length; ++j) {
-                    let weekElement = weekElementTemplate.clone();
+            //     let weekContainer = reportElement.find('.weeks');
+            //     let weekElementTemplate = $('<div class="week"></div>');
+            //     for (let j=0; j<weeks.length; ++j) {
+            //         let weekElement = weekElementTemplate.clone();
 
-                    let index = events[i].weeklyReports.findIndex(w => new Date(w.startDate).toLocaleDateString() == weeks[j].toLocaleDateString());
-                    if (index >= 0) {
-                        let reportData = events[i].weeklyReports[index].data;
-                        if ((disasterFilter == null || disasterFilter.indexOf(reportData.disaster_type) >= 0) && (dateFilter == null || dateFilter(reportData.created_at))) {
-                            weekElement.addClass('active');
-                        }
-                    }
-                    weekElement.appendTo(weekContainer);
-                }
-            }*/
+            //         let index = events[i].weeklyReports.findIndex(w => new Date(w.startDate).toLocaleDateString() == weeks[j].toLocaleDateString());
+            //         if (index >= 0) {
+            //             let reportData = events[i].weeklyReports[index].data;
+            //             if ((disasterFilter == null || disasterFilter.indexOf(reportData.disaster_type) >= 0) && (dateFilter == null || dateFilter(reportData.created_at))) {
+            //                 weekElement.addClass('active');
+            //             }
+            //         }
+            //         weekElement.appendTo(weekContainer);
+            //     }
+            // }
             let reportElement = reportElementTemplate.clone();
             let weekContainer = reportElement.find('.weeks');
             let weekElementTemplate = $('<div class="week"></div>');
@@ -420,15 +466,24 @@ function loadTimetable(tableFor) {
                 let index = countryData.reports.findIndex(w => new Date(w.week_date).toLocaleDateString() == weeks[j].toLocaleDateString());
                 if (index >= 0) {
                     let reportData = countryData.reports[index];
-                    if ((disasterFilter == null || disasterFilter.indexOf(reportData.disaster_type) >= 0) && (dateFilter == null || dateFilter(reportData.created_at))) {
-                        weekElement.addClass('active');
+                    if ((disasterFilter == null || disasterFilter.indexOf(reportData.disaster_type) >= 0) && (dateFilter == null || dateFilter(reportData.week_date))) {
+                        let cls = 'active';
+                        if(colorBy!='report'){
+                            let num = data[i].report[index][colorBy];
+                            let grade = getColorGrade(colorBy,num);
+                            cls += ' grade'+grade;
+                        }
+                        weekElement.addClass(cls);
                     }
                 }
                 weekElement.appendTo(weekContainer);
             }
         }
-    }
+    }*/
     //console.log($('#timeline-table header .weeks .week').outerWidth()*weekly_reports.length);
+    layer.eachLayer(function(layer){
+        layer.setStyle(styleMapFeature(layer.feature));
+    });
     $('#horizontal-scroll .weeks #scrollbar').width($('#timeline-table header .weeks .week').outerWidth()*weeks.length + 10);
 }
 

@@ -270,6 +270,24 @@ body #timeline {
             cursor: pointer;
             border-right: 1px solid #fff;
             background-color: #008080; }
+          body #timeline #timeline-table #reports .report .weeks .week.grade1 {
+            background-color:#1a9850;
+          }
+          body #timeline #timeline-table #reports .report .weeks .week.grade1 {
+            background-color:#91cf60;
+          }
+          body #timeline #timeline-table #reports .report .weeks .week.grade2 {
+            background-color:#d9ef8b;
+          }
+          body #timeline #timeline-table #reports .report .weeks .week.grade3 {
+            background-color:#fee08b;
+          }
+          body #timeline #timeline-table #reports .report .weeks .week.grade4 {
+            background-color:#fc8d59;
+          }
+          body #timeline #timeline-table #reports .report .weeks .week.grade5 {
+            background-color:#d73027;
+          }
       body #timeline #timeline-table #reports .report:nth-child(odd) {
         background-color: #fff; }
   body #timeline #timeline-table #horizontal-scroll {
@@ -324,6 +342,7 @@ body #non-acaps {
     body #overview table {
     margin-bottom:15px;
   }
+
 
 
 /*# sourceMappingURL=dashboard.css.map */
