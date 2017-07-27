@@ -1,0 +1,10 @@
+settings:
+  aws:elasticbeanstalk:application:
+    Application Healthcheck URL: '/'
+
+Resources:
+   AWSEBAutoScalingGroup:
+     Type: "AWS::AutoScaling::AutoScalingGroup"
+     Properties:
+       HealthCheckType: "ELB"
+       HealthCheckGracePeriod: "600"

@@ -1,0 +1,10 @@
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+# Configs files
+.ebextensions/environmentvariables.config
+.ebextensions/remote_log.config
+
