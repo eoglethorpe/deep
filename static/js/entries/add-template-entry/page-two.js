@@ -516,13 +516,14 @@ const page2 = {
 
     addSubsector: function(container, element, data) {
         let subsector = $('<div class="subsector" data-id="' + element.id + '"><span>' + element.title + '</span></div>');
-        subsector.append($('<a class="fa fa-times"></a>'));
+        subsector.prepend($('<a class="fa fa-times"></a>'));
 
         subsector.find('a').click(function() {
             subsector.remove();
             if (data.indexOf(element.id) >= 0) {
                 data.splice(data.indexOf(element.id), 1);
             }
+            autoResize(container.closest('.entry'));
         });
 
         container.append(subsector);
@@ -601,10 +602,6 @@ const page2 = {
                                 selection.subsectors = [];
                             }
 
-                            for (let k=0; k<selection.subsectors.length; k++) {
-                                that.addSubsector(subsectors, sector.subsectors.find(s => s.id == selection.subsectors[k]), selection.subsectors);
-                            }
-
                             let dropdown = $('<div class="subsectors-dropdown" tabIndex="0"></div>');
                             dropdown.blur(function() {
                                 $(this).hide();
@@ -616,19 +613,32 @@ const page2 = {
                                 dropdown.empty();
                                 dropdown.show();
                                 dropdown.focus();
+
+                                let dropdownEmpty = true;
+
                                 for (let k=0; k<sector.subsectors.length; k++) {
                                     let subsector = sector.subsectors[k];
                                     if (!selection.subsectors.find(s => s == subsector.id)) {
                                         let item = $('<a class="item">' + subsector.title + '</a>');
+                                        dropdownEmpty = false;
                                         item.click(function() {
                                             selection.subsectors.push(subsector.id);
                                             that.addSubsector(subsectors, subsector, selection.subsectors);
+                                            autoResize(entryElement);
                                             dropdown.blur();
                                         });
                                         dropdown.append(item);
                                     }
                                 }
+
+                                if(dropdownEmpty) {
+                                    dropdown.append('<p class="empty-msg">No items</p>');
+                                }
                             });
+
+                            for (let k=0; k<selection.subsectors.length; k++) {
+                                that.addSubsector(subsectors, sector.subsectors.find(s => s.id == selection.subsectors[k]), selection.subsectors);
+                            }
 
                             let row = $('<div class="row"></div>');
                             row.append(col1);
