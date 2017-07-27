@@ -1,12 +1,13 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand  # , CommandError
 from django.contrib.staticfiles import finders
 from django.core.files import File
 from django.db.models import Q
 
 import os
 
-from leads.models import *
-from entries.models import *
+from leads.models import Country
+from entries.models import AdminLevel
+
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
@@ -30,16 +31,19 @@ class Command(BaseCommand):
                     country = Country(code=country_iso, name=country_name)
                     country.save()
 
-                # Make sure the admin-level 0 doesn't already exist for this country
-                admin_level = AdminLevel.objects.filter(country=country, level=0)
+                # Make sure the admin-level 0 doesn't already exist for
+                # this country
+                admin_level = AdminLevel.objects.filter(country=country,
+                                                        level=0)
                 if admin_level.count() > 0:
                     continue
 
                 # Create django file for this geojson file
-                file = open(os.path.join(directory, filename), 'r')
+                file = open(os.path.join(directory, filename), 'rb')
                 django_file = File(file)
 
                 # Create new admin level with this file
-                admin_level = AdminLevel(country=country, level=0, name='Country',
-                    property_name='NAME_ENGLI')
+                admin_level = AdminLevel(country=country, level=0,
+                                         name='Country',
+                                         property_name='NAME_ENGLI')
                 admin_level.geojson.save(filename, django_file, save=True)

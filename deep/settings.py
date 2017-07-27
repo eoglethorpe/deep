@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for deep project.
 
@@ -11,6 +12,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+import requests
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,12 +22,24 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '2egrwk!cwh6y$6lzpvmc6+lsgp417@)g0c=u^cguz(n9#-!p75'
+SECRET_KEY = os.environ.get(
+        'DJANGO_SECRET_KEY',
+        '2egrwk!cwh6y$6lzpvmc6+lsgp417@)g0c=u^cguz(n9#-!p75')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', True)
 
-ALLOWED_HOSTS = ['*']
+
+def get_pub_ip():
+    try:
+        response = requests.get(
+            'http://169.254.169.254/latest/meta-data/public-ipv4')
+        return response.text
+    except:
+        return 'localhost'
+
+
+ALLOWED_HOSTS = [get_pub_ip(), os.environ.get('ALLOWED_HOST')]
 
 # Email
 EMAIL_HOST = 'smtp.gmail.com'
@@ -48,6 +62,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
 
+    'storages',
     'rest_framework',
     'corsheaders',
     # 'django_cleanup',
@@ -116,39 +131,51 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation'
+                '.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation'
+                '.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation'
+                '.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation'
+                '.NumericPasswordValidator',
     },
 ]
 
 # Logging errors
+# change address SysLog
 if not DEBUG:
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
+        'formatters': {
+            'simple': {
+                'format': '%(asctime)s '+os.environ.get('HOSTNAME') +
+                          ' DJANGO: %(message)s',
+                'datefmt': '%Y-%m-%dT%H:%M:%S',
+            },
+        },
         'handlers': {
-            'file': {
+            'SysLog': {
                 'level': 'ERROR',
-                'class': 'logging.FileHandler',
-                'filename': os.path.join(BASE_DIR, 'deep-error-log'),
+                'class': 'logging.handlers.SysLogHandler',
+                'formatter': 'simple',
+                'address': ('logs5.papertrailapp.com', 39883)
             },
         },
         'loggers': {
             'django': {
-                'handlers': ['file'],
+                'handlers': ['SysLog'],
                 'propagate': True,
             },
         },
     }
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
@@ -172,13 +199,42 @@ LOGIN_URL = "login"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
+        os.path.join(BASE_DIR, "static"),
+    ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+if os.environ.get('USE_S3', False):
+    # AWS S3 Bucket Credentials
+    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_DEFAULT_ACL = 'private'
+    AWS_QUERYSTRING_AUTH = True
+    AWS_S3_CUSTOM_DOMAIN = None
+    # AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+    # Static configuration
+    STATICFILES_LOCATION = 'static'
+    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN,
+                                     STATICFILES_LOCATION)
+    STATICFILES_STORAGE = 'deep.s3_storages.StaticStorage'
+
+    # Media configuration
+    MEDIAFILES_LOCATION = 'media'
+    MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
+    DEFAULT_FILE_STORAGE = 'deep.s3_storages.MediaStorage'
+
+else:
+    STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
+
+    if os.environ.get('IN_DOCKER'):
+        STATIC_ROOT = os.environ['STATIC_ROOT']
+        MEDIA_ROOT = os.environ['MEDIA_ROOT']
+    else:
+        MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # django-cors-headers configurations
 CORS_ORIGIN_ALLOW_ALL = True

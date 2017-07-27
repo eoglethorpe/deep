@@ -1,3 +1,6 @@
+# Git
+id_rsa*
+
 # Database
 db.sqlite3
 mysql.cnf
@@ -82,3 +85,7 @@ media_test
 
 # Rope project settings
 .ropeproject
+
+# DEEP Deploy files
+deploy/django/log_files.yml
+deploy/django/mysql.cnf

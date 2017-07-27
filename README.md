@@ -1,12 +1,8 @@
 # Data Entry and Exploration Platform
 
-DEEP is a humanitarian tool to collect and analyze information from various publications and sources pertaining to events happening in different countries. It is meant to help the analysts easily generate reports of various events of the world.
-
-## Public API
-
-Data collected by DEEP is currently publicly available. Read the [documents](https://github.com/eoglethorpe/deep/blob/master/API.md) for details on how to use it.
-
 ## Deployment
+Note: deployment logic is changing and what is below most likely won't work. Contact oglethorpe.ewan@gmail.com if you would like to deploy your own DEEP.
+
 
 ### Requirements
 
@@ -80,3 +76,44 @@ The website is then ready to be deployed.
 [Chrome Store](https://chrome.google.com/webstore/detail/deep-create-lead/eolekcokhpndiemngdnnicfmgehdgplp/)
 
 You can open the *options* page of the extension, to change server url and read usage guide.
+
+## Docker
+
+### Installation
+> Install Docker
+- [For Ubuntu](https://docs.docker.com/engine/installation/linux/ubuntu/#install-from-a-package)
+
+> Login to DockerHub
+
+```bash
+$ docker login
+```
+> You can build and push Deep Docker image [replace `1.1-dev` with required version]:
+
+```bash
+$ docker build --tag eoglethorpe/deep:1.1-dev . # build image
+$ docker push eoglethorpe/deep:1.1-dev # push image to dockerhub
+```
+
+> To Build and run locally [replace `deep-dev` with required name and `eoglethorpe/deep:1.1-dev` with
+  required image name]
+
+```bash
+$ docker build --tag eoglethorpe/deep:1.1-dev . # replace 1.1-dev with required version. build image
+
+$ docker run -d -e ALLOWED_HOST='localhost' -p 8080:80 --name deep-dev eoglethorpe/deep:1.1-dev # run container
+
+$ docker run -d -e ALLOWED_HOST='localhost' \
+    -e USE_S3='True' \ # With s3 for static and media
+    -e AWS_STORAGE_BUCKET_NAME='bucket-name' \
+    -e AWS_ACCESS_KEY_ID='a-key' \
+    -e AWS_SECRET_ACCESS_KEY='s-key' \
+    -p 8080:80 \
+    --name deep-dev eoglethorpe/deep:1.1-dev
+
+$ docker stop deep-dev # to stop container
+$ docker rm deep-dev # to remove container
+```
+
+### Deploy into EBS
+- View branch `eb`
