@@ -716,7 +716,7 @@ function checkRules() {
             var parent = +getNumberValue($('.human-number[data-human-pk="' + rule.parent + '"]'));
             if (!parent || isNaN(parent))
                 continue;
-            var parentTitle = $('.human-number[data-human-pk="' + rule.parent + '"]').parent('div').find('label').eq(0).text();
+            var parentTitle = $('.human-number[data-human-pk="' + rule.parent + '"]').closest('.human-profile-field').find('label').eq(0).text();
 
             var childrenSum = 0;
             var children = [];
@@ -729,7 +729,7 @@ function checkRules() {
                     children.push(child);
                 }
 
-                var childTitle = $('.human-number[data-human-pk="' + rule.children[j] + '"]').parent('div').find('label').eq(0).text();
+                var childTitle = $('.human-number[data-human-pk="' + rule.children[j] + '"]').closest('.human-profile-subfield').find('label').eq(0).text();
                 childrenTitles.push(childTitle);
             }
 
