@@ -663,7 +663,6 @@ body {
     margin-bottom: 10px; }
   body .matrix2d-list-container .matrix2d-list .row {
     display: flex;
-    min-width: 300px;
     padding: 6px 0;
     justify-content: space-between; }
     body .matrix2d-list-container .matrix2d-list .row > div {

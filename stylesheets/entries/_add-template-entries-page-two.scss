@@ -1,7 +1,7 @@
 #page-two{
     height: calc(100vh - #{$navbar-height});
     overflow-y: auto;
-     
+
     #button-pane{
         position: fixed;
         z-index: 100;
@@ -198,7 +198,6 @@
     .matrix2d-list {
         .row {
             display: flex;
-            min-width: 300px;
             padding: 6px 0;
             justify-content: space-between;
             // margin-top: 8px;
