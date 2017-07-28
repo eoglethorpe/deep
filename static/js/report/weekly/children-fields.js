@@ -54,7 +54,7 @@ var childrenFields = {
             var children = newData['human-children'][pk];
 
             for (var i=0; i<children.length; i++) {
-                var parentDiv = $('.human-number[data-human-pk="' + pk + '"]').parent('div');
+                var parentDiv = $('.human-number[data-human-pk="' + pk + '"]').closest('.human-profile-subfield');
                 var childElement = childrenFields.addChildElement(parentDiv, function(pk, childElement) {
                     childElement.find('.human-profile-child-number').val(children[i]['number']);
                     // childElement.find('.human-profile-child-source').val(getOldSourceData(children[i]['source']));
