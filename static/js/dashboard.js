@@ -22,7 +22,8 @@ var countries = {};
 var colorBy=null;
 var layer;
 
-var mapColors = ['#FFFFFF','#ccdbdb','#99b7b7','#669494','#337070','#004D4D']
+var mapColors = ['#FFFFFF','#ccdbdb','#99b7b7','#669494','#337070','#004D4D'];
+var mapColors2 = ['#1a9850','#91cf60','#d9ef8b','#fee08b','#fc8d59','#d73027'];
 
 function hashString(str) {
     var hash = 0;
@@ -70,11 +71,11 @@ function styleMapFeature(feature) {
             opacity: 1,
             color: '#37373b',
             fillOpacity: 0.9,
-            className:'geom'
+            className:'geom geom'+feature.properties.iso_a3
         };
     } else {
 
-        let colors = ['#1a9850','#91cf60','#d9ef8b','#fee08b','#fc8d59','#d73027'];
+        let colors = mapColors2;
         let num = getLastNumberByCountry(feature.properties.iso_a3,colorBy);
         let grade = getColorGrade(colorBy,num);
         color = colors[grade];
@@ -84,6 +85,7 @@ function styleMapFeature(feature) {
             opacity: 1,
             color: '#37373b',
             fillOpacity: 0.9,
+            className:'geom geom'+feature.properties.iso_a3
         };
     }
 }
@@ -95,12 +97,16 @@ function onEachMapFeature(feature, layer) {
         layer.bindLabel(feature.properties.name);
     }
 
-    /*layer.on('click', function() {
-        if (feature.properties.iso_a2 in projects_per_country)
-            loadTimetable(feature.properties.iso_a2);
-        else if (feature.properties.iso_a3 in projects_per_country)
-            loadTimetable(feature.properties.iso_a3);
-    });*/
+    layer.on('click', function() {
+        loadTimetable(feature.properties.iso_a3);
+        let countryData = getCountryData(feature.properties.iso_a3)
+        let keyfiguresData = reportsToKeyFigures(countryData.reports);
+        keyfigures(keyfiguresData);
+        d3.selectAll('.geom').attr("stroke",'#37373b');
+        d3.selectAll('.geom').attr("stroke-width",'0.5px');
+        d3.selectAll('.geom'+feature.properties.iso_a3).attr("stroke",'steelblue');
+        d3.selectAll('.geom'+feature.properties.iso_a3).attr("stroke-width",'3px');
+    });
 }
 
 function buildFilters() {
@@ -171,6 +177,11 @@ $.when(overviewCall).then(function(dataArgs){
     $('#number-of-humanitarian-crises').html(data.humanitarian_crises.length);
     $('#number-of-situation-of-concern').html(data.situation_of_concern.length);
 
+    keyfigures(data);
+
+});
+
+function keyfigures(data){
     var pinLatestFig = data.pin[data.pin.length-1];
     pinLatestFig = niceFormatNumber(pinLatestFig,true);
     $('#number-of-pin-span').html(pinLatestFig);
@@ -224,7 +235,33 @@ $.when(overviewCall).then(function(dataArgs){
         colorBy = 'refugees';
         loadTimetable('all');
     });
-});
+}
+
+function getCountryData(countrycode){
+    let output;
+    data.forEach(function(d){
+        if(d.country_code == countrycode){
+            output = d;
+        }
+    });
+    return output;
+}
+
+function reportsToKeyFigures(reports){
+    let output = {}
+    reports.forEach(function(report,i){
+        if(i==0){
+            for (key in report){
+                output[key] = [report[key]];
+            }
+        } else {
+            for (key in report){
+                output[key].push(report[key]);
+            }
+        }
+    });
+    return output;
+}
 
 $.when(overviewCall, geoCall).then(function(dataArgs,geoArgs){
 
@@ -242,9 +279,72 @@ $.when(overviewCall, geoCall).then(function(dataArgs,geoArgs){
         style: styleMapFeature,
         onEachFeature: onEachMapFeature,
     }).addTo(map);
+
+
+    var legend = L.control({position: 'bottomleft'});
+
+    legend.onAdd = function (map) {
+        var div = L.DomUtil.create('div', 'info');
+        div.innerHTML = '<h4 id="legendtitle">Legend</h4><div id="legendcontent"></div>';
+        return div;
+    };
+
+    legend.addTo(map);
+    populateLegend(colorBy);
 });
 
+function getFullName(colorBy){
+    var title = '';
+    if(colorBy == 'pin'){
+        title = 'People in need';
+    }
+    if(colorBy == 'pin_severe'){
+        title = 'People in severe need';
+    }
+    if(colorBy == 'pin_restricted'){
+        title = 'People in need with restricted humanitarian access';
+    }
+    if(colorBy == 'people_affected'){
+        title = 'People affected';
+    }
+    if(colorBy == 'idps'){
+        title = 'Internally displaced people';
+    }
+    if(colorBy == 'refugees'){
+        title = 'Refugees';
+    }
+    return title;
+}
+
+function populateLegend(colorBy){
+    if(colorBy == null){
+        var title = 'Status';
+        var scale = ['Not monitored','Monitored','Active countries','Situations of concern','Humanitarian crisis','Severe Humanitarian Crises'];
+        var colors = mapColors;
+    } else {
+        var title = getFullName(colorBy);
+        var scale = getScale(colorBy);
+        var colors = mapColors2;
+        scale = [0].concat(scale);
+        scale.forEach(function(s,i){
+            if(i<scale.length-1){
+                scale[i] += ' - ' + (scale[i+1]-1);
+            } else {
+                scale[i] += '+';
+            }
+        });
+    }
+    $('#legendtitle').html(title);
+
+    var div = '';
+    for (var i = 0; i < scale.length; i++) {
+        div +='<p><i style="background:' + colors[i] + '"></i> ' + scale[i]+ '</p>';
+    }
+    $('#legendcontent').html(div);
+}
+
 function createSparkLine(id,data){
+    $(id).html('');
     var graph = d3.select(id).append("svg:svg").attr("width", 40).attr("height", 15);
 
     var x = d3.scale.linear().domain([0, data.length-1]).range([0, 40]);
@@ -329,26 +429,31 @@ function loadReports(){
     loadTimetable('all');
 }
 
-function getColorGrade(colorBy,num){
+function getScale(colorBy){
     let scale = [];
     if(colorBy == 'pin'){
-        scale = [1000,10000,100000,100000,5000000];
+        scale = [1000,10000,100000,1000000,5000000];
     }
     if(colorBy == 'pin_severe'){
-        scale = [1000,10000,100000,100000,5000000];
+        scale = [1000,10000,100000,1000000,5000000];
     }
     if(colorBy == 'pin_restricted'){
-        scale = [1000,10000,100000,100000,5000000];
+        scale = [1000,10000,100000,1000000,5000000];
     }
     if(colorBy == 'people_affected'){
-        scale = [1000,10000,100000,100000,5000000];
+        scale = [1000,10000,100000,1000000,5000000];
     }
     if(colorBy == 'idps'){
-        scale = [1000,10000,100000,100000,5000000];
+        scale = [1000,10000,100000,1000000,5000000];
     }
     if(colorBy == 'refugees'){
-        scale = [1000,10000,100000,100000,5000000];
+        scale = [1000,10000,100000,1000000,5000000];
     }
+    return scale;
+}
+
+function getColorGrade(colorBy,num){
+    let scale = getScale(colorBy);
     let place = 0;
     scale.forEach(function(s){
         if(num>s){
@@ -361,7 +466,9 @@ function getColorGrade(colorBy,num){
 var timetableFor;
 function loadTimetable(tableFor) {
     timetableFor = tableFor;
-
+    /*if(tableFor!='all'){
+        $('#country-filter').val(tableFor);
+    }*/
     let title = $('#timeline-table header .aside');
     if (timetableFor == 'all') {
         title.html('Countries');
@@ -370,6 +477,9 @@ function loadTimetable(tableFor) {
         title.html('<i class="fa fa-arrow-left"></i>' + countries[timetableFor] + '');
         title.unbind().click(function() {
             loadTimetable('all');
+            d3.selectAll('.geom').attr("stroke",'#37373b');
+            d3.selectAll('.geom').attr("stroke-width",'0.5px');
+            keyfigures(overviewData);
         });
     }
 
@@ -402,7 +512,13 @@ function loadTimetable(tableFor) {
                 reportElement.find('.aside').text(data[i].country);
 
                 reportElement.find('.aside').click(function() {
+                    let keyfiguresData = reportsToKeyFigures(data[i].reports);
+                    keyfigures(keyfiguresData);
                     loadTimetable(countryCode);
+                    d3.selectAll('.geom').attr("stroke",'#37373b');
+                    d3.selectAll('.geom').attr("stroke-width",'0.5px');
+                    d3.selectAll('.geom'+countryCode).attr("stroke",'steelblue');
+                    d3.selectAll('.geom'+countryCode).attr("stroke-width",'3px');
                 });
                 reportElement.appendTo(reportContainer);
                 reportElement.show();
@@ -484,6 +600,7 @@ function loadTimetable(tableFor) {
     layer.eachLayer(function(layer){
         layer.setStyle(styleMapFeature(layer.feature));
     });
+    populateLegend(colorBy);
     $('#horizontal-scroll .weeks #scrollbar').width($('#timeline-table header .weeks .week').outerWidth()*weeks.length + 10);
 }
 
@@ -533,10 +650,9 @@ function niceFormatNumber(num,round){
             var format = d3.format("0,000");
             return format(parseFloat(num));
         } else {
-            var output = d3.format(".4s")(parseFloat(num));
+            var output = d3.format(".3s")(parseFloat(num));
             if(output.slice(-1)=='k'){
-                output = Math.round(output.slice(0, -1) * 1000);
-                output = d3.format("0,000")(output);
+                output = output.slice(0, -1) + 'K';
             } else if(output.slice(-1)=='M'){
                 output = d3.format(".1f")(output.slice(0, -1))+'M';
             } else if (output.slice(-1) == 'G') {
