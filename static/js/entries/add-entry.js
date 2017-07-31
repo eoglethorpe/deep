@@ -47,7 +47,7 @@ function updateLocationSelections() {
 
     for (var i=0; i < mapSelections.length; i++) {
         var selectionKey = $('<textarea/>').html(mapSelections[i]).text();
-        if (!manual_location_input[0].selectize.options[selectionKey]) {
+        if (!$('#manual-location-input')[0].selectize.options[selectionKey]) {
             continue;
         }
         element = $('<li><a onclick="unSelect(\''+selectionKey+'\', this)"><i class="fa fa-times"></i></a>'+$('#manual-location-input')[0].selectize.options[selectionKey].text+'</li>');
