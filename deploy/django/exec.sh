@@ -13,7 +13,7 @@ service remote_syslog start # start remote_syslog for papaertail log collecter
 #python ./deep/manage.py load_admin1
 #python ./deep/manage.py load_admin2
 
-python3 ./deep/manage.py backup_apis
+#python3 ./deep/manage.py backup_apis # run for new static bucket
 
 /home/code/venv/bin/uwsgi --ini /home/code/deep/deploy/django/uwsgi.ini # Start uwsgi server
 

@@ -4,6 +4,7 @@ from django.db.models import Count
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.utils import timezone
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponseForbidden, JsonResponse
 
@@ -11,6 +12,7 @@ from entries.management.commands.backup_apis import \
     backup_weekly_snapshots
 
 from deep.settings import BASE_DIR
+from deep.s3_storages import StaticStorage
 
 from users.log import *
 from leads.models import *
@@ -84,13 +86,18 @@ class ReportDashboardView(View):
         context["human_access_fields"] = HumanAccessField.objects.all()
         context["human_access_pin_fields"] = HumanAccessPinField.objects.all()
 
-        last_updated = os.path.getmtime(os.path.join(
-            BASE_DIR, 'static/api/weekly-snapshot.json'))
+        if os.environ.get('USE_S3', False):
+            dt = timezone.now()
+            store = StaticStorage(location='static/api')
+            last_updated = store.get_modified_time('weekly-snapshot.json')
+            diff = (dt - last_updated).seconds/60
+        else:
+            dt = datetime.now()
+            last_updated = os.path.getmtime(os.path.join(
+                BASE_DIR, 'static/api/weekly-snapshot.json'))
+            diff = (dt - datetime.fromtimestamp(last_updated)).seconds/60
 
-        dt = datetime.now()
-        context["last_updated"] = int(
-            (dt - datetime.fromtimestamp(last_updated)).seconds/60
-        )
+        context["last_updated"] = int(diff)
 
         nsecs = dt.minute*60 + dt.second
         context["next_update"] = int((math.ceil(nsecs/900) * 900 - nsecs)/60)
@@ -239,13 +246,18 @@ class WeeklyReportUpdateTimesView(View):
             'success': True,
         }
 
-        last_updated = os.path.getmtime(os.path.join(
-            BASE_DIR, 'static/api/weekly-snapshot.json'))
+        if os.environ.get('USE_S3', False):
+            dt = timezone.now()
+            store = StaticStorage(location='static/api')
+            last_updated = store.get_modified_time('weekly-snapshot.json')
+            diff = (dt - last_updated).seconds/60
+        else:
+            dt = datetime.now()
+            last_updated = os.path.getmtime(os.path.join(
+                BASE_DIR, 'static/api/weekly-snapshot.json'))
+            diff = (dt - datetime.fromtimestamp(last_updated)).seconds/60
 
-        dt = datetime.now()
-        response["last_updated"] = int(
-            (dt - datetime.fromtimestamp(last_updated)).seconds/60
-        )
+        response["last_updated"] = int(diff)
 
         nsecs = dt.minute*60 + dt.second
         response["next_update"] = int((math.ceil(nsecs/900) * 900 - nsecs)/60)
