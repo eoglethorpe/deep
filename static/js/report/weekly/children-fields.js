@@ -145,7 +145,7 @@ var childrenFields = {
 
     refreshParent: function(pk) {
         var parentElement = $('.human-number[data-human-pk="' + pk + '"]');
-        childrenElements = parentElement.parent('.human-profile-subfield').find('.human-profile-child-number');
+        childrenElements = parentElement.closest('.human-profile-subfield').find('.human-profile-child-number');
         if (childrenElements.length > 0) {
             var sum = 0;
             childrenElements.each(function() {
