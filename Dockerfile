@@ -64,7 +64,7 @@ WORKDIR /home/code/
 # Add Cloud Watch metrics
 RUN curl http://aws-cloudwatch.s3.amazonaws.com/downloads/CloudWatchMonitoringScripts-1.2.1.zip -O
 RUN unzip CloudWatchMonitoringScripts-1.2.1.zip
-RUN printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /home/code/env_var.sh
+
 RUN touch /var/log/cron.log
 RUN (crontab -l ; echo "SHELL=/bin/bash") | crontab
 RUN (crontab -l ; echo "* * * * * . /home/code/env_var.sh; /home/code/aws-scripts-mon/mon-put-instance-data.pl --mem-util --mem-used --mem-avail  --swap-util  --swap-used --disk-space-util  --disk-space-used  --disk-space-avail --disk-path=/ --aws-access-key-id=\$AWS_ACCESS_KEY_ID --aws-secret-key=\$AWS_SECRET_ACCESS_KEY") | crontab
