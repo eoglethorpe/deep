@@ -274,7 +274,10 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
         <div id="the-map"></div>
         <div id="admin-level-buttons"></div>
         <div class="action-buttons">
-            <span></span>
+            <span>
+                <button onclick="selectAllMapFeatures()">Select all</button>
+                <button onclick="unselectAllMapFeatures()">Unselect all</button>
+            </span>
             <button data-action="dismiss">Close</button>
         </div>
     </div>
