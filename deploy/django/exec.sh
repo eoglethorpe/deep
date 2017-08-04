@@ -3,6 +3,9 @@
 service remote_syslog start # start remote_syslog for papaertail log collecter
 . /home/code/venv/bin/activate # Activate python env
 
+printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /home/code/env_var.sh
+cron
+
 ## deep init
 # collect static files and database migrations
 #python ./deep/manage.py migrate --noinput

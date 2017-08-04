@@ -24,24 +24,29 @@ MAINTAINER togglecorp
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y \
-	vim \
-	git \
-	python3 \
-	python3-dev \
-	python3-setuptools \
-	python3-pip \
-	uwsgi-plugin-python3 \
-	supervisor \
-    locales \
-	sqlite3 \
-	curl \
 
-        #DEEP specifc
+    apt-get install -y \
+        vim \
+        git \
+        python3 \
+        python3-dev \
+        python3-setuptools \
+        python3-pip \
+        uwsgi-plugin-python3 \
+        supervisor \
+        locales \
+        sqlite3 \
+        curl \
+        unzip \
+        libwww-perl \
+        libdatetime-perl \
+        cron \
+
+       #DEEP specifc
         libjpeg-dev \
         libmysqlclient-dev &&\
 
-   rm -rf /var/lib/apt/lists/*
+  rm -rf /var/lib/apt/lists/*
 
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
@@ -55,6 +60,14 @@ WORKDIR /home/code/
 #RUN eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_rsa
 #RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
 #RUN git clone -b dockertest git@github.com:eoglethorpe/deep.git
+
+# Add Cloud Watch metrics
+RUN curl http://aws-cloudwatch.s3.amazonaws.com/downloads/CloudWatchMonitoringScripts-1.2.1.zip -O
+RUN unzip CloudWatchMonitoringScripts-1.2.1.zip
+RUN printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /home/code/env_var.sh
+RUN touch /var/log/cron.log
+RUN (crontab -l ; echo "SHELL=/bin/bash") | crontab
+RUN (crontab -l ; echo "* * * * * . /home/code/env_var.sh; /home/code/aws-scripts-mon/mon-put-instance-data.pl --mem-util --mem-used --mem-avail  --swap-util  --swap-used --disk-space-util  --disk-space-used  --disk-space-avail --disk-path=/ --aws-access-key-id=\$AWS_ACCESS_KEY_ID --aws-secret-key=\$AWS_SECRET_ACCESS_KEY") | crontab
 
 # Copy init script code (have requirements stuffs)
 COPY ./requirements.txt ./deploy/django/init.sh ./deep/
@@ -71,6 +84,7 @@ COPY ./deploy/django/mysql.cnf ./deep/mysql.cnf
 
 # Remote_syslog config file
 COPY ./deploy/django/log_files.yml /etc/log_files.yml
+
 
 # Expose port 80
 EXPOSE 80
