@@ -31,6 +31,7 @@ var extension = {
             extension.showLoader();
         },
         success: function(response) {
+            console.log(response);
             if (toString.call(response) === '[object Object]') {
                 chrome.tabs.create({ url: deep.serverAddress + response.url });
             }
