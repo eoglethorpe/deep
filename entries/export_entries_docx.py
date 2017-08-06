@@ -36,7 +36,8 @@ def xstr(s):
     if s is None:
         return ''
     s = escape(s)
-    return ''.join(c for c in s if valid_xml_char_ordinal(c) and c in string.printable)
+    return ''.join(c for c in s if valid_xml_char_ordinal(c) and
+                   c in string.printable)
 
 
 # See:
@@ -130,6 +131,56 @@ def add_line(para):
     pBdr.append(bottom)
 
 
+def add_excerpt_info_simple(d, info):
+    try:
+        ref = d.add_paragraph(xstr(info.excerpt))
+
+        try:
+            sec = d.sections[-1]
+            cols = int(sec._sectPr.xpath('./w:cols')[0].get(qn('w:num')))
+            width = (sec.page_width/cols)-(sec.right_margin +
+                                           sec.left_margin)
+        except:
+            width = sec.page_width-(sec.right_margin +
+                                    sec.left_margin)
+
+        if len(info.image):
+            fimage = tempfile.NamedTemporaryFile()
+            if re.search(r'http[s]?://', info.image):
+                image = requests.get(info.image, stream=True)
+                write_file(image, fimage)
+            else:
+                image = base64.b64decode(info.image.split(',')[1])
+                fimage.write(image)
+            d.add_picture(fimage, width=width)
+    except:
+        ref = d.add_paragraph('')
+    ref.paragraph_format.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.JUSTIFY
+
+    # Show the reference
+
+    source_name = ""
+    if info.entry.lead.source_name and info.entry.lead.source_name != "":
+        source_name = info.entry.lead.source_name
+
+    if source_name == "":
+        source_name = "Reference"
+
+    ref.add_run(" (")
+    if info.entry.lead.url and info.entry.lead.url != "":
+        add_hyperlink(ref, info.entry.lead.url, source_name)
+
+    elif entry_model.Attachment.objects.filter(
+            lead=info.entry.lead).count() > 0:
+        add_hyperlink(ref, info.entry.lead.attachment.upload.url, source_name)
+
+    else:
+        ref.add_run("Manual Entry")
+
+    if info.date:
+        ref.add_run(", {}".format(info.date.strftime("%d/%m/%Y")), )
+
+
 def add_excerpt_info(d, info):
     # Show the excerpt
     try:
@@ -177,7 +228,6 @@ def add_excerpt_info(d, info):
     else:
         ref.add_run("Manual Entry")
 
-    # TODO Find out whether to show date of info or lead
     if info.date:
         ref.add_run(", {}".format(info.date.strftime("%d/%m/%Y")), )
 
@@ -302,7 +352,8 @@ def export_sector(d, sector, leads_pk, event, informations, data, export_geo):
 
             # Get each subpillar
             subpillars = pillar.informationsubpillar_set.all()
-            subpillars_order = data.get('pillar-order-' + str(pillar.id))[0].split(',')
+            subpillars_order = data.get('pillar-order-' + str(pillar.id))[0]\
+                .split(',')
             subpillar_dict = dict([(str(p.id), p) for p in subpillars])
             subpillars = [
                 subpillar_dict[id] for id in subpillars_order
@@ -424,7 +475,8 @@ def export_docx(event, informations=None, data=None, export_geo=False):
 def analysis_filter(infos, request_data, elements):
     infos = infos.distinct()
 
-    if request_data.get('order_by') and request_data.get('order_by')[0] == 'DATE_ASCENDING':
+    if request_data.get('order_by') and request_data.get('order_by')[0] == \
+            'DATE_ASCENDING':
         infos = infos.order_by('entry__lead__published_at')
     else:
         infos = infos.order_by('-entry__lead__published_at')
@@ -626,7 +678,8 @@ def export_analysis_docx(event, informations=None, data=None):
                             d.add_paragraph()
 
                         p = d.add_paragraph()
-                        p.add_run(xstr(info.excerpt))
+                        # p.add_run(xstr(info.excerpt))
+                        add_excerpt_info_simple(d, info)
 
                         leads_pk.append(info.entry.lead.pk)
 
@@ -712,7 +765,8 @@ def export_analysis_docx(event, informations=None, data=None):
                                     d.add_heading(subpillar['title'], level=4)
 
                                 p = d.add_paragraph()
-                                p.add_run(xstr(info.excerpt))
+                                # p.add_run(xstr(info.excerpt))
+                                add_excerpt_info_simple(d, info)
 
                                 leads_pk.append(info.entry.lead.pk)
 
