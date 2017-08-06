@@ -180,6 +180,9 @@ def add_excerpt_info_simple(d, info):
     if info.date:
         ref.add_run(", {}".format(info.date.strftime("%d/%m/%Y")), )
 
+    ref.add_run(")")
+    d.add_paragraph()
+
 
 def add_excerpt_info(d, info):
     # Show the excerpt
