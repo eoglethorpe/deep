@@ -76,5 +76,7 @@ class DeepStorage:
 
 
 StaticApiStorage = DeepStorage(location='static/api', type='static')
+TempMediaStorage = DeepStorage(location='media/temp_downloads', type='media')
+
 DeepMediaStorage = DeepStorage(location='media', type='media')
 DeepStaticStorage = DeepStorage(location='static', type='static')

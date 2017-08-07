@@ -61,16 +61,8 @@ WORKDIR /home/code/
 #RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
 #RUN git clone -b dockertest git@github.com:eoglethorpe/deep.git
 
-# Add Cloud Watch metrics
-RUN curl http://aws-cloudwatch.s3.amazonaws.com/downloads/CloudWatchMonitoringScripts-1.2.1.zip -O
-RUN unzip CloudWatchMonitoringScripts-1.2.1.zip
-
-RUN touch /var/log/cron.log
-RUN (crontab -l ; echo "SHELL=/bin/bash") | crontab
-RUN (crontab -l ; echo "* * * * * . /home/code/env_var.sh; /home/code/aws-scripts-mon/mon-put-instance-data.pl --mem-util --mem-used --mem-avail  --swap-util  --swap-used --disk-space-util  --disk-space-used  --disk-space-avail --disk-path=/ --aws-access-key-id=\$AWS_ACCESS_KEY_ID --aws-secret-key=\$AWS_SECRET_ACCESS_KEY") | crontab
-
 # Copy init script code (have requirements stuffs)
-COPY ./requirements.txt ./deploy/django/init.sh ./deep/
+COPY ./requirements.txt ./deploy/django/init.sh ./deploy/cronjobs ./deep/
 
 # Run init script
 RUN chmod +x ./deep/init.sh &&\

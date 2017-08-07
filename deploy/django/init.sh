@@ -28,3 +28,11 @@ chmod +x /etc/init.d/remote_syslog
 update-rc.d remote_syslog defaults
 
 mkdir /var/log/uwsgi
+
+# Add Cloud Watch metrics
+curl http://aws-cloudwatch.s3.amazonaws.com/downloads/CloudWatchMonitoringScripts-1.2.1.zip -O
+unzip CloudWatchMonitoringScripts-1.2.1.zip
+
+# Add cronjobs
+touch /var/log/cron.log
+crontab ./deep/cronjobs
