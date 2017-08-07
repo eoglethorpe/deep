@@ -248,7 +248,7 @@ class WeeklyReportUpdateTimesView(View):
         )
 
         nsecs = dt.minute*60 + dt.second
-        response["next_update"] = int((math.ceil(nsecs/900) * 900 - nsecs)/60)
+        response["next_update"] = int((math.ceil(nsecs/180) * 180 - nsecs)/60)
 
         return JsonResponse(response)
 
