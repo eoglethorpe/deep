@@ -9,6 +9,7 @@ import json
 from xml.sax.saxutils import escape
 
 import docx
+from deep.storages_utils import DeepMediaStorage
 # from docx import RT
 from docx.enum.dml import MSO_THEME_COLOR_INDEX
 from docx.oxml import OxmlElement
@@ -29,6 +30,21 @@ def valid_xml_char_ordinal(c):
         0xE000 <= codepoint <= 0xFFFD or
         0x10000 <= codepoint <= 0x10FFFF
     )
+
+
+def get_image_from_info(info):
+    if len(info.image):
+        fimage = tempfile.NamedTemporaryFile()
+        if re.search(r'http[s]?://', info.image):
+            image = requests.get(info.image, stream=True)
+            write_file(image, fimage)
+        elif info.image.startswith('/'):
+            image = DeepMediaStorage.open(info.image.replace('/media/', '', 1))
+            write_file(image, fimage)
+        else:
+            image = base64.b64decode(info.image.split(',')[1])
+            fimage.write(image)
+        return fimage
 
 
 def xstr(s):
@@ -144,14 +160,8 @@ def add_excerpt_info_simple(d, info):
             width = sec.page_width-(sec.right_margin +
                                     sec.left_margin)
 
-        if len(info.image):
-            fimage = tempfile.NamedTemporaryFile()
-            if re.search(r'http[s]?://', info.image):
-                image = requests.get(info.image, stream=True)
-                write_file(image, fimage)
-            else:
-                image = base64.b64decode(info.image.split(',')[1])
-                fimage.write(image)
+        fimage = get_image_from_info(info)
+        if fimage is not None:
             d.add_picture(fimage, width=width)
     except:
         ref = d.add_paragraph('')

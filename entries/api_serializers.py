@@ -1,4 +1,4 @@
-from deep.s3_storages import MediaStorage
+from deep.storages_utils import DeepMediaStorage
 
 from deep.serializer import Serializer
 from entries.models import *
@@ -127,7 +127,8 @@ class TemplateEntryInformationSerializer(Serializer):
 
     def get_image(self, info):
         if info.image.startswith('/'):
-            return MediaStorage.url(info.image.substr[1:])
+            return DeepMediaStorage.url(
+                    info.image.substr.replace('/media/', '', 1))
         return info.image
 
 

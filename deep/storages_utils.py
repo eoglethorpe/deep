@@ -16,11 +16,13 @@ class DeepStorage:
     def use_s3(self):
         return os.environ.get('USE_S3', False)
 
-    def join_path(self, path):
+    def join_path(self, path, base=True):
         """
         For non S3
         """
-        return os.path.join(self.storage, path)
+        if base:
+            return os.path.join(self.storage, path)
+        return os.path.join(self.location, path)
 
     def get_updated_time(self, path):
         if self.use_s3():
@@ -52,6 +54,18 @@ class DeepStorage:
             except:
                 pass
 
+    def url(self, path):
+        if self.use_s3():
+            return self.storage.url(path)
+        else:
+            return self.join_path(path, base=False)
+
+    def open(self, path, mode='r'):
+        if self.use_s3():
+            return self.storage.open(path, mode)
+        else:
+            return open(self.join_path(path), mode)
+
     def write_json(self, path, data, **kwrags):
         if self.use_s3():
             with self.storage.open(path, 'w') as f:
@@ -62,3 +76,5 @@ class DeepStorage:
 
 
 StaticApiStorage = DeepStorage(location='static/api', type='static')
+DeepMediaStorage = DeepStorage(location='media', type='media')
+DeepStaticStorage = DeepStorage(location='static', type='static')
