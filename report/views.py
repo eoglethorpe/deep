@@ -93,7 +93,7 @@ class ReportDashboardView(View):
         )
 
         nsecs = dt.minute*60 + dt.second
-        context["next_update"] = int((math.ceil(nsecs/900) * 900 - nsecs)/60)
+        context["next_update"] = int((math.ceil(nsecs/180) * 180 - nsecs)/60)
 
         context["acaps_admin"] = UserGroup.objects.filter(
             admins=request.user, acaps=True).count() > 0
