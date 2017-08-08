@@ -4,6 +4,8 @@ from datetime import datetime
 
 import os
 import json
+import time
+import tempfile
 
 
 class DeepStorage:
@@ -75,8 +77,41 @@ class DeepStorage:
                 json.dump(data, f, **kwrags)
 
 
+class TempDeepStorage(DeepStorage):
+
+    def __init__(self, exp_min=30, *args, **kwargs):
+        super(TempDeepStorage, self).__init__(*args, **kwargs)
+        self.exp_min = exp_min
+
+    def clean_files(self):
+        """
+        DANGER: this will delete the files, only for temp downloads
+        Use for non s3, we can create S3 expire rules[Lifecycle].
+        """
+        if not self.use_s3():
+            current_time = time.time()
+            for f in os.listdir(self.storage):
+                file = os.path.join(self.storage, f)
+                creation_time = os.path.getctime(file)
+                if (current_time - creation_time) >= self.exp_min*60:
+                    os.remove(file)
+
+    def open_temp(self, delete=False):
+        if self.use_s3():
+            """
+            TODO: generate random filename from other method
+            """
+            random = tempfile.NamedTemporaryFile(dir='/tmp',
+                                                 delete=True)
+            random.close()
+            return self.storage.open(random.name.rsplit('/')[-1], 'w')
+        else:
+            return tempfile.NamedTemporaryFile(dir=self.storage, delete=delete)
+
+
 StaticApiStorage = DeepStorage(location='static/api', type='static')
-TempMediaStorage = DeepStorage(location='media/temp_downloads', type='media')
+TempDownloadStorage = TempDeepStorage(exp_min=30, location='temp_downloads',
+                                      type='media')
 
 DeepMediaStorage = DeepStorage(location='media', type='media')
 DeepStaticStorage = DeepStorage(location='static', type='static')
