@@ -19,9 +19,12 @@ from leads.models import Lead, Event, Country, Attachment,\
     SimplifiedLead, LeadImage, ProximityToSource, UnitOfAnalysis,\
     DataCollectionTechnique, SamplingType, SectorQuantification,\
     SectorAnalyticalValue, AssessmentFrequency, AssessmentConfidentiality,\
-    AssessmentStatus, SurveyOfSurvey, SectorCovered
+    AssessmentStatus, SurveyOfSurvey, SectorCovered, UnitOfReporting, \
+    Coordination
 
 from entries.models import AdminLevel, AdminLevelSelection, AffectedGroup
+
+from report.models import DisasterType
 
 from entries.strippers import WebDocument, HtmlStripper, PdfStripper,\
     DocxStripper, PptxStripper
@@ -184,16 +187,19 @@ class AddSoS(View):
         # Get fields options
         context["proximities"] = ProximityToSource.objects.all()
         context["units_of_analysis"] = UnitOfAnalysis.objects.all()
+        context["units_of_reporting"] = UnitOfReporting.objects.all()
         context["data_collection_techniques"] = \
             DataCollectionTechnique.objects.all()
         context["sampling_types"] = SamplingType.objects.all()
         context["quantifications"] = SectorQuantification.objects.all()
         context["analytical_values"] = SectorAnalyticalValue.objects.all()
+        context["coordinations"] = Coordination.objects.all()
         context["frequencies"] = AssessmentFrequency.objects.all()
         context["confidentialities"] = AssessmentConfidentiality.objects.all()
         context["statuses"] = AssessmentStatus.objects.all()
         context["sectors_covered"] = SectorCovered.objects.all()
         context["affected_groups"] = AffectedGroup.objects.all()
+        context["disaster_types"] = DisasterType.objects.all()
 
         try:
             context["default_quantification"] = \
@@ -230,32 +236,67 @@ class AddSoS(View):
         sos.title = request.POST["assesment-title"]
         sos.lead_organization = request.POST["lead-organization"]
         sos.partners = request.POST["other-assesment-partners"]
+        sos.donors = request.POST["donors"]
         sos.affected_groups = request.POST["affected_groups"]
+
+        if request.POST["disaster-type"] and \
+                request.POST["disaster-type"] != "":
+            sos.disaster_type = DisasterType.objects\
+                .get(pk=request.POST["disaster-type"])
+
         if request.POST["start-of-field"] and \
                 request.POST["start-of-field"] != "":
             sos.start_data_collection = request.POST["start-of-field"]
+        else:
+            sos.start_data_collection = None
+
         if request.POST["end-of-field"] and request.POST["end-of-field"] != "":
             sos.end_data_collection = request.POST["end-of-field"]
+        else:
+            sos.end_data_collection = None
+
+        if request.POST["coordination"] and \
+                request.POST["coordination"] != "":
+            sos.coordination = Coordination.objects\
+                .get(pk=request.POST["coordination"])
+        else:
+            sos.coordination = None
+
         if request.POST["assesment-frequency"] and \
                 request.POST["assesment-frequency"] != "":
             sos.frequency = AssessmentFrequency.objects\
                 .get(pk=request.POST["assesment-frequency"])
+        else:
+            sos.frequency = None
+
         if request.POST["assesment-status"] and \
                 request.POST["assesment-status"] != "":
             sos.status = AssessmentStatus.objects.get(
                 pk=request.POST["assesment-status"])
+        else:
+            sos.status = None
+
         if request.POST["assesment-confidentiality"] and \
                 request.POST["assesment-confidentiality"] != "":
             sos.confidentiality = AssessmentConfidentiality.objects.get(
                 pk=request.POST["assesment-confidentiality"])
+        else:
+            sos.confidentiality = None
+
         if request.POST["source-proximity"] and \
                 request.POST["source-proximity"] != "":
             sos.proximity_to_source = ProximityToSource.objects.get(
                 pk=request.POST["source-proximity"])
+        else:
+            sos.proximity = None
+
         if request.POST["sampling-type"] and \
                 request.POST["sampling-type"] != "":
             sos.sampling_type = SamplingType.objects.get(
                 pk=request.POST["sampling-type"])
+        else:
+            sos.sampling_type = None
+
         sos.created_by = request.user
         sos.sectors_covered = request.POST["sectors_covered"]
         sos.save()
@@ -315,6 +356,13 @@ class AddSoS(View):
             for pk in pks:
                 sos.data_collection_technique.add(
                     DataCollectionTechnique.objects.get(pk=pk))
+
+        sos.unit_of_reporting.clear()
+        if request.POST["reporting-unit"] and \
+                request.POST["reporting-unit"] != "null":
+            pks = request.POST["reporting-unit"].split(",")
+            for pk in pks:
+                sos.unit_of_reporting.add(UnitOfReporting.objects.get(pk=pk))
 
         return redirect('leads:sos', event)
 

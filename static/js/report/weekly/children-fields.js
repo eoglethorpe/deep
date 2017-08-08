@@ -54,7 +54,7 @@ var childrenFields = {
             var children = newData['human-children'][pk];
 
             for (var i=0; i<children.length; i++) {
-                var parentDiv = $('.human-number[data-human-pk="' + pk + '"]').parent('div');
+                var parentDiv = $('.human-number[data-human-pk="' + pk + '"]').closest('.human-profile-subfield');
                 var childElement = childrenFields.addChildElement(parentDiv, function(pk, childElement) {
                     childElement.find('.human-profile-child-number').val(children[i]['number']);
                     // childElement.find('.human-profile-child-source').val(getOldSourceData(children[i]['source']));
@@ -77,6 +77,9 @@ var childrenFields = {
         setValues(pk, childElement, parentDiv, parentNumberElement);
 
         var index = parentDiv.find('.add-child').nextAll().length - 1;
+        if (!newData['human-children'][pk][index]) {
+            newData['human-children'][pk][index] = {};
+        }
 
         // Setup events
         childElement.find('.human-profile-child-number').on('paste change input', function(pk) {
@@ -142,7 +145,7 @@ var childrenFields = {
 
     refreshParent: function(pk) {
         var parentElement = $('.human-number[data-human-pk="' + pk + '"]');
-        childrenElements = parentElement.parent('.human-profile-subfield').find('.human-profile-child-number');
+        childrenElements = parentElement.closest('.human-profile-subfield').find('.human-profile-child-number');
         if (childrenElements.length > 0) {
             var sum = 0;
             childrenElements.each(function() {

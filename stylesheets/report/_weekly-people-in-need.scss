@@ -115,6 +115,7 @@
         .warning-error{
             color: $danger-color;
             position: absolute;
+            pointer-events: none;
             margin: 0;
             font-size: 0.8em;
 

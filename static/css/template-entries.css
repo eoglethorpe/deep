@@ -272,7 +272,6 @@ body {
             body #entries .entry .informations .information-container .information .list-container .row {
               display: flex;
               justify-content: space-between;
-              min-width: 320px;
               padding: 4px 0; }
               body #entries .entry .informations .information-container .information .list-container .row .col {
                 flex-basis: 49%; }

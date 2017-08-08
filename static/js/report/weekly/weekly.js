@@ -639,13 +639,22 @@ function getInputData() {
     $(".ipc input[data-ipc]").each(function() {
         // if ($(this).data("ipc") == 'f'){
         //     data["ipc"][$(this).data("ipc")]["old"] = $(this).val();
-        // }else{
-        data["ipc"][$(this).data("ipc")] = getNumberValue($(this));
-        // }
+        // }else
+        if ($(this).data('ipc') != 'g') {
+            data["ipc"][$(this).data("ipc")] = getNumberValue($(this));
+        }
+        else {
+            data["ipc"][$(this).data("ipc")] = $(this).val();
+        }
     });
 
     $('.ipc-forecasted input[data-ipc]').each(function() {
-        data['ipc-forecast'][$(this).data('ipc')] = getNumberValue($(this));
+        if ($(this).data('ipc') != 'g') {
+            data["ipc-forecast"][$(this).data("ipc")] = getNumberValue($(this));
+        }
+        else {
+            data["ipc-forecast"][$(this).data("ipc")] = $(this).val();
+        }
     });
 
     // Access data
@@ -716,7 +725,7 @@ function checkRules() {
             var parent = +getNumberValue($('.human-number[data-human-pk="' + rule.parent + '"]'));
             if (!parent || isNaN(parent))
                 continue;
-            var parentTitle = $('.human-number[data-human-pk="' + rule.parent + '"]').parent('div').find('label').eq(0).text();
+            var parentTitle = $('.human-number[data-human-pk="' + rule.parent + '"]').closest('.human-profile-field').find('label').eq(0).text();
 
             var childrenSum = 0;
             var children = [];
@@ -729,7 +738,7 @@ function checkRules() {
                     children.push(child);
                 }
 
-                var childTitle = $('.human-number[data-human-pk="' + rule.children[j] + '"]').parent('div').find('label').eq(0).text();
+                var childTitle = $('.human-number[data-human-pk="' + rule.children[j] + '"]').closest('.human-profile-subfield').find('label').eq(0).text();
                 childrenTitles.push(childTitle);
             }
 

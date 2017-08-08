@@ -1,13 +1,9 @@
 #casualties{
-
 #human-profile-field-list, #casualties-field-list{
-
     .human-profile-field {
         &:nth-child(odd){
             background-color: #fff;
         }
-
-
     }
 
     .human-profile-field, .human-profile-subfield, .human-profile-child{
@@ -102,6 +98,7 @@
             .warning-error{
                 color: $danger-color;
                 position: absolute;
+                pointer-events: none;
                 margin: 0;
                 flex: none;
                 top: 5px;

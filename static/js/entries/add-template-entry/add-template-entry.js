@@ -6,10 +6,17 @@ function checkEntryEmpty(index) {
     );
 }
 
+function getActualImage(imageUrl) {
+    if (imageUrl.startsWith(window.location.origin)) {
+        return imageUrl.replace(window.location.origin, '');
+    }
+    return imageUrl;
+}
+
 function addEntry(excerpt, image) {
     entries.push({
         excerpt: excerpt,
-        image: image,
+        image: getActualImage(image),
         elements: [],
     });
 
@@ -33,7 +40,7 @@ function addOrReplaceEntry(excerpt, image) {
     let index = entries.findIndex(e => e.excerpt == excerpt && e.image == image);
     if (index >= 0) {
         entries[index].excerpt = excerpt;
-        entries[index].image = image;
+        entries[index].image = getActualImage(image);
 
         page1.selectedEntryIndex = index;
         page1.refresh();
