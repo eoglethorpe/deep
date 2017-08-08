@@ -128,13 +128,41 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                     <input type="text" class="save-data" id="lead-organization" placeholder="Lead Organization" {% if sos and sos.lead_organization %}value="{{sos.lead_organization}}"{% endif %}>
                 </div>
                 <div>
+                    <label>Crisis type</label>
+                    <select class="save-data selectize-control" id="disaster-type">
+                        <option value="">Crisis type</option>
+                        {% for disaster_type in disaster_types %}
+                        <option value="{{ disaster_type.pk}}" {% if sos and sos.disaster_type == disaster_type %}selected{% endif %}>{{ disaster_type }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
                     <label>Other assessment partners</label>
                     <input type="text" class="save-data" id="other-assesment-partners" placeholder="Other assessment partners" {% if sos and sos.partners %}value="{{sos.partners}}"{% endif %}>
                 </div>
                 <div>
-                    <label>Assment frequency</label>
+                    <label>Donors</label>
+                    <input type="text" class="save-data" id="donors" placeholder="Donors" {% if sos and sos.donors %}value="{{ sos.donors }}"{% endif %}>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Coordination</label>
+                    <select class="save-data selectize-control" id="coordination" placeholder="Coordination">
+                        <option>Coordination</option>
+                        {% for coordination in coordinations %}
+                        <option value="{{coordination.pk}}" {% if sos and sos.coordination == coordination %}selected{% endif %}>{{coordination}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label>Sectors</label>
+                    <input disabled type="text" id="sector-value">
+                </div>
+                <div>
+                    <label>Assessment frequency</label>
                     <select class="save-data selectize-control" id="assesment-frequency" placeholder="Assessment Frequency">
-                        <option>Select frequency</option>
+                        <option>Frequency</option>
                         {% for frequency in frequencies %}
                         <option value="{{frequency.pk}}" {% if sos and sos.frequency == frequency %}selected{% endif %}>{{frequency}}</option>
                         {% endfor %}
@@ -143,7 +171,7 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                 <div>
                     <label>Assessment Status</label>
                     <select class="save-data selectize-control" id="assesment-status" placeholder="Assessment Status">
-                        <option>Select status</option>
+                        <option>Status</option>
                         {% for status in statuses %}
                         <option value="{{status.pk}}" {% if sos and sos.status == status %}selected{% endif %}>{{status}}</option>
                         {% endfor %}
@@ -177,6 +205,16 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                         {% endfor %}
                     </select>
                 </div>
+                <div>
+                    <label>Unit of reporting</label>
+                    <select class="save-data selectize-control" id="reporting-unit"  placeholder="Unit of reporting" multiple>
+                        {% for unit in units_of_reporting %}
+                        <option value="{{unit.pk}}" {% if sos and unit in sos.unit_of_reporting.all %}selected{% endif %}>{{unit}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div>
                 <div>
                     <label>Data collection technique</label>
                     <select class="save-data selectize-control" id="data-collection-technique"  placeholder="Data collection technique" multiple>
