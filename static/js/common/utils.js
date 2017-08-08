@@ -115,6 +115,10 @@ $(document).ready(function(){
     addTodayButtons();
 });
 
+$(window).on('resize', function() {
+    addTodayButtons();
+});
+
 function formatDate(date) {
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
