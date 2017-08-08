@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.utils import timezone
+from django.utils.crypto import get_random_string
 from datetime import datetime
 
 import os
@@ -98,13 +99,7 @@ class TempDeepStorage(DeepStorage):
 
     def open_temp(self, delete=False):
         if self.use_s3():
-            """
-            TODO: generate random filename from other method
-            """
-            random = tempfile.NamedTemporaryFile(dir='/tmp',
-                                                 delete=True)
-            random.close()
-            return self.storage.open(random.name.rsplit('/')[-1], 'w')
+            return self.storage.open('tmp'+get_random_string(10), 'w')
         else:
             return tempfile.NamedTemporaryFile(dir=self.storage, delete=delete)
 
