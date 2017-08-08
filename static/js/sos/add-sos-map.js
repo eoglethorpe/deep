@@ -43,6 +43,8 @@ function selectAllMapFeatures() {
         });
         selectingAllMapItems = false;
         updateLocationSelections();
+
+        $('#the-map').click();
     }
 }
 
@@ -157,7 +159,6 @@ function onEachMapFeature(feature, layer) {
     });
 
     layer.on('click', function() {
-
         var index = mapSelections.indexOf(selectionName);
         if (index == -1 && !unselectingAllMapItems) {
             mapSelections.push(selectionName);
@@ -172,13 +173,12 @@ function onEachMapFeature(feature, layer) {
             });
         }
 
-
         if (!selectingAllMapItems && !unselectingAllMapItems) {
             updateLocationSelections();
         }
     });
 
-    layer.bindLabel(name);
+    layer.bindTooltip(name);
 }
 
 
