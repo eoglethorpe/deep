@@ -116,4 +116,4 @@ $ docker rm deep-dev # to remove container
 ```
 
 ### Deploy into EBS
-- View branch `eb`
+- Goto `deploy/eb` directory, There deploy README.md
