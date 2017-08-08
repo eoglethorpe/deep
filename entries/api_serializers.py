@@ -1,3 +1,5 @@
+from deep.storages_utils import DeepMediaStorage
+
 from deep.serializer import Serializer
 from entries.models import *
 from leads.models import *
@@ -122,6 +124,12 @@ class TemplateEntryInformationSerializer(Serializer):
 
     def get_elements(self, info):
         return json.loads(info.elements)
+
+    def get_image(self, info):
+        if info.image.startswith('/'):
+            return DeepMediaStorage.url(
+                    info.image.substr.replace('/media/', '', 1))
+        return info.image
 
 
 class TemplateEntrySerializer(Serializer):

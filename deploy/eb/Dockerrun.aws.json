@@ -1,0 +1,17 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Authentication": {
+        "Bucket": "elasticbeanstalk-us-east-1-519887312542",
+        "Key": "mydockercfg"
+  },
+  "Image": {
+        "Name": "eoglethorpe/deep:1.4",
+        "Update": "true"
+  },
+  "Ports": [
+    {
+        "ContainerPort": "80"
+    }
+  ],
+  "Volumes": []
+}

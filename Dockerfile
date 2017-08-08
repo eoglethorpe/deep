@@ -24,24 +24,29 @@ MAINTAINER togglecorp
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y \
-	vim \
-	git \
-	python3 \
-	python3-dev \
-	python3-setuptools \
-	python3-pip \
-	uwsgi-plugin-python3 \
-	supervisor \
-    locales \
-	sqlite3 \
-	curl \
 
-        #DEEP specifc
+    apt-get install -y \
+        vim \
+        git \
+        python3 \
+        python3-dev \
+        python3-setuptools \
+        python3-pip \
+        uwsgi-plugin-python3 \
+        supervisor \
+        locales \
+        sqlite3 \
+        curl \
+        unzip \
+        libwww-perl \
+        libdatetime-perl \
+        cron \
+
+       #DEEP specifc
         libjpeg-dev \
         libmysqlclient-dev &&\
 
-   rm -rf /var/lib/apt/lists/*
+  rm -rf /var/lib/apt/lists/*
 
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
@@ -57,7 +62,7 @@ WORKDIR /home/code/
 #RUN git clone -b dockertest git@github.com:eoglethorpe/deep.git
 
 # Copy init script code (have requirements stuffs)
-COPY ./requirements.txt ./deploy/django/init.sh ./deep/
+COPY ./requirements.txt ./deploy/django/init.sh ./deploy/cronjobs ./deep/
 
 # Run init script
 RUN chmod +x ./deep/init.sh &&\
@@ -71,6 +76,7 @@ COPY ./deploy/django/mysql.cnf ./deep/mysql.cnf
 
 # Remote_syslog config file
 COPY ./deploy/django/log_files.yml /etc/log_files.yml
+
 
 # Expose port 80
 EXPOSE 80

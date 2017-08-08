@@ -1,28 +1,34 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
-from django.db.models import Count
+# from django.db.models import Count
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.utils import timezone
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponseForbidden, JsonResponse
 
 from entries.management.commands.backup_apis import \
     backup_weekly_snapshots
 
-from deep.settings import BASE_DIR
-
-from users.log import *
-from leads.models import *
-from entries.models import *
-from report.models import *
+from django.contrib.auth.models import User
+from users.log import EditionActivity, CreationActivity, DeletionActivity
+from users.models import UserProfile
+from leads.models import Country, Event
+from entries.models import Entry, InformationPillar, InformationSubpillar, \
+                           Sector, Subsector, VulnerableGroup, \
+                           SpecificNeedsGroup, Reliability, Severity,\
+                           AffectedGroup
+from report.models import WeeklyReport, HumanProfileField, PeopleInNeedField, \
+                          HumanAccessPinField, HumanAccessField, DisasterType,\
+                          ReportStatus, CategoryTimeline, HumanProfileFieldRule
 from leads.templatetags.check_acaps import allow_acaps
 from usergroup.models import UserGroup
 
-import os
 import json
 import math
 from datetime import datetime, timedelta
+from deep.storages_utils import StaticApiStorage
 
 
 class ReportDashboardView(View):
@@ -43,14 +49,17 @@ class ReportDashboardView(View):
 
         event_id = request.GET.get("event")
         if not event_id:
-            event_id = Event.objects.filter(countries__pk=country_id, usergroup__acaps=True)[0].pk
+            event_id = Event.objects.filter(countries__pk=country_id,
+                                            usergroup__acaps=True)[0].pk
         event = Event.objects.get(pk=event_id)
         if not event.is_acaps():
-            event = Event.objects.filter(countries__pk=country_id, usergroup__acaps=True)[0]
+            event = Event.objects.filter(countries__pk=country_id,
+                                         usergroup__acaps=True)[0]
             event_id = event.pk
 
         dt = datetime.now()
-        context["new_week_date"] = dt - timedelta(days=dt.weekday()+7)       # starting from monday, but previous week
+        # starting from monday, but previous week
+        context["new_week_date"] = dt - timedelta(days=dt.weekday()+7)
 
         context["country"] = country
         context["event"] = event
@@ -60,37 +69,41 @@ class ReportDashboardView(View):
         for country in context["countries"]:
             events = []
             country.allevents = []
-            for event in Event.objects.filter(countries=country, usergroup__acaps=True).distinct():
+            for event in Event.objects.filter(
+                    countries=country, usergroup__acaps=True).distinct():
                 reports = []
-                for report in WeeklyReport.objects.filter(event=event, country=country):
+                for report in WeeklyReport.objects.filter(event=event,
+                                                          country=country):
                     reports.append({
                         'id': report.pk,
                         'start_date': report.start_date,
                     })
-                events.append({ 'id': event.pk, 'name': event.name, 'reports': reports })
+                events.append({'id': event.pk, 'name': event.name,
+                               'reports': reports})
 
                 country.allevents.append(event)
             country.events = json.dumps(events, cls=DjangoJSONEncoder)
 
         # for sparklines and other viz
-        context["affected_field_id_list"] = HumanProfileField.objects.filter(dashboard_affected_field=True)
-        context["displaced_field_id_list"] = HumanProfileField.objects.filter(dashboard_displaced_field=True)
-        context["in_need_field_id_list"] = PeopleInNeedField.objects.filter(dashboard_in_need_field=True)
-        context["access_constraints_id_list"] = HumanAccessPinField.objects.filter(dashboard_access_constraints_field=True)
-        context["human_availability_field_id_list"] = HumanProfileField.objects.filter(dashboard_availability_field=True)
+        context["affected_field_id_list"] = HumanProfileField.objects.\
+            filter(dashboard_affected_field=True)
+        context["displaced_field_id_list"] = HumanProfileField.objects.\
+            filter(dashboard_displaced_field=True)
+        context["in_need_field_id_list"] = PeopleInNeedField.objects.\
+            filter(dashboard_in_need_field=True)
+        context["access_constraints_id_list"] = HumanAccessPinField.objects.\
+            filter(dashboard_access_constraints_field=True)
+        context["human_availability_field_id_list"] = HumanProfileField.\
+            objects.filter(dashboard_availability_field=True)
 
         context["human_profile_fields"] = HumanProfileField.objects.all()
         context["people_in_need_fields"] = PeopleInNeedField.objects.all()
         context["human_access_fields"] = HumanAccessField.objects.all()
         context["human_access_pin_fields"] = HumanAccessPinField.objects.all()
 
-        last_updated = os.path.getmtime(os.path.join(
-            BASE_DIR, 'static/api/weekly-snapshot.json'))
-
-        dt = datetime.now()
         context["last_updated"] = int(
-            (dt - datetime.fromtimestamp(last_updated)).seconds/60
-        )
+                StaticApiStorage.get_updated_diff(
+                    'weekly-snapshot.json').seconds/60)
 
         nsecs = dt.minute*60 + dt.second
         context["next_update"] = int((math.ceil(nsecs/180) * 180 - nsecs)/60)
@@ -128,34 +141,40 @@ class WeeklyReportView(View):
             context["subsectors"] = Subsector.objects.all()
             context["vulnerable_groups"] = VulnerableGroup.objects.all()
             context["specific_needs_groups"] = SpecificNeedsGroup.objects.all()
-            context["reliabilities"] = Reliability.objects.all().order_by('level')
+            context["reliabilities"] = Reliability.objects.all().\
+                order_by('level')
             context["severities"] = Severity.objects.all().order_by('level')
             context["affected_groups"] = AffectedGroup.objects.all()
 
             context["appearing_pillars"] = {}
             for field in InformationPillar.APPEAR_IN:
-                context["appearing_pillars"][field[0]] = InformationPillar.objects.filter(appear_in=field[0])
+                context["appearing_pillars"][field[0]] = InformationPillar.\
+                        objects.filter(appear_in=field[0])
 
             context["appearing_subpillars"] = {}
             for field in InformationSubpillar.APPEAR_IN:
-                context["appearing_subpillars"][field[0]] = InformationSubpillar.objects.filter(appear_in=field[0])
-
+                context["appearing_subpillars"][field[0]] =\
+                        InformationSubpillar.objects.filter(appear_in=field[0])
 
         # for severity score total people in need
-        context["severity_score_total_pin_id"] = PeopleInNeedField.objects.filter(severity_score_total_pin_field=True)
-        context["severity_score_total_pin_human_id"] = HumanProfileField.objects.filter(severity_score_total_pin_field=True)
+        context["severity_score_total_pin_id"] = PeopleInNeedField.objects.\
+            filter(severity_score_total_pin_field=True)
+        context["severity_score_total_pin_human_id"] = HumanProfileField.\
+            objects.filter(severity_score_total_pin_field=True)
 
         # Get the report if in edit mode, otherwise get the start date of the
         # new weekly report
         if report_id:
             context["report"] = WeeklyReport.objects.get(pk=report_id)
         else:
-            start_date = datetime.strptime(request.GET["start_date"], '%d-%b-%Y')
+            start_date = datetime.strptime(
+                    request.GET["start_date"], '%d-%b-%Y')
             context["start_date"] = start_date
 
             # Get last report
             try:
-                context["last_report"] = WeeklyReport.objects.filter(event=event, country=country)[0]
+                context["last_report"] = WeeklyReport.objects.filter(
+                        event=event, country=country)[0]
             except:
                 pass
 
@@ -190,7 +209,8 @@ class WeeklyReportView(View):
             report = WeeklyReport()
             activity = CreationActivity()
 
-        report.start_date = datetime.strptime(request.POST["start_date"], '%d-%b-%Y')
+        report.start_date = datetime.strptime(request.POST["start_date"],
+                                              '%d-%b-%Y')
         report.event = event
         report.country = country
         report.last_edited_by = request.user
@@ -199,23 +219,31 @@ class WeeklyReportView(View):
 
         activity.set_target(
             'report', report.pk,
-            report.country.name + ' for ' + report.start_date.strftime('%B %d, %Y'),
-            reverse('report:weekly', args=[report.country.code, report.event.pk, report.pk])
+            report.country.name + ' for ' +
+            report.start_date.strftime('%B %d, %Y'),
+            reverse('report:weekly',
+                    args=[report.country.code, report.event.pk, report.pk])
         ).log_for(request.user, event=report.event)
 
-        return redirect(reverse("report:dashboard") + "?country=" + country_id + "&event=" + event_id)
+        return redirect(reverse("report:dashboard") + "?country=" +
+                        country_id + "&event=" + event_id)
+
 
 class DeleteWeeklyReport(View):
     @method_decorator(login_required)
     def get(self, request, country_id=None, event_id=None, report_id=None):
-        report = WeeklyReport.objects.get(country=country_id, event=event_id, pk=report_id)
+        report = WeeklyReport.objects.get(country=country_id, event=event_id,
+                                          pk=report_id)
         activity = DeletionActivity().set_target(
             'report', report.pk,
-            report.country.name + ' for ' + report.start_date.strftime('%B %d, %Y')
+            report.country.name + ' for ' +
+            report.start_date.strftime('%B %d, %Y')
         )
         report.delete()
         activity.log_for(request.user, event=report.event)
-        return redirect(reverse("report:dashboard") + "?country=" + country_id + "&event=" + event_id)
+        return redirect(reverse("report:dashboard") + "?country=" +
+                        country_id + "&event=" + event_id)
+
 
 class MonthlyReportView(View):
     @method_decorator(login_required)
@@ -239,13 +267,10 @@ class WeeklyReportUpdateTimesView(View):
             'success': True,
         }
 
-        last_updated = os.path.getmtime(os.path.join(
-            BASE_DIR, 'static/api/weekly-snapshot.json'))
-
-        dt = datetime.now()
+        dt = timezone.now()
         response["last_updated"] = int(
-            (dt - datetime.fromtimestamp(last_updated)).seconds/60
-        )
+                StaticApiStorage.get_updated_diff(
+                    'weekly-snapshot.json').seconds/60)
 
         nsecs = dt.minute*60 + dt.second
         response["next_update"] = int((math.ceil(nsecs/180) * 180 - nsecs)/60)

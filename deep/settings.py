@@ -205,7 +205,9 @@ STATICFILES_DIRS = [
 
 if os.environ.get('USE_S3', False):
     # AWS S3 Bucket Credentials
-    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+    AWS_STORAGE_BUCKET_NAME_STATIC = os.environ['AWS_STORAGE_BUCKET_NAME'
+                                                '_STATIC']
+    AWS_STORAGE_BUCKET_NAME_MEDIA = os.environ['AWS_STORAGE_BUCKET_NAME_MEDIA']
     AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
     AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 
