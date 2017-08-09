@@ -1,5 +1,6 @@
 #! /bin/bash
 
+eval "echo \"$(cat /etc/log_files.yml)\"" > /etc/log_files.yml
 service remote_syslog start # start remote_syslog for papaertail log collecter
 . /home/code/venv/bin/activate # Activate python env
 
