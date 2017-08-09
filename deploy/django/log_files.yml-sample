@@ -4,6 +4,7 @@ files:
   - path: /var/log/uwsgi/error.log
     tag: uwsgi/error
 
+hostname: $EBS_ENV_TYPE-$(hostname)
 destination:
   host: <host>
   port: <port>
