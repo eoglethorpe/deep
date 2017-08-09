@@ -41,6 +41,7 @@ RUN apt-get update && \
         libwww-perl \
         libdatetime-perl \
         cron \
+        libreoffice \
 
        #DEEP specifc
         libjpeg-dev \
@@ -53,13 +54,6 @@ ENV LANG en_US.UTF-8
 
 RUN mkdir -p /home/code/deep
 WORKDIR /home/code/
-
-#RUN mkdir /root/.ssh/
-#COPY id_rsa /root/.ssh/id_rsa
-#RUN chmod 600 /root/.ssh/id_rsa
-#RUN eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_rsa
-#RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
-#RUN git clone -b dockertest git@github.com:eoglethorpe/deep.git
 
 # Copy init script code (have requirements stuffs)
 COPY ./requirements.txt ./deploy/django/init.sh ./deploy/cronjobs ./deep/
