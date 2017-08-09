@@ -190,14 +190,14 @@ $(document).ready(function(){
                 $('#sector-input').find('#quantification').selectize()[0].selectize.clear(true);;
                 $('#sector-input').find('#analytical-value').selectize()[0].selectize.clear(true);
 
-                $('#sector-input').find('#quantification').selectize()[0].selectize.setValue(sectorData[$(this).prop('id')].quantification);
-                $('#sector-input').find('#analytical-value').selectize()[0].selectize.setValue(sectorData[$(this).prop('id')].analytical_value);
+                $('#sector-input').find('#quantification').selectize()[0].selectize.setValue(sectorData[$(this).prop('id')].quantification, true);
+                $('#sector-input').find('#analytical-value').selectize()[0].selectize.setValue(sectorData[$(this).prop('id')].analytical_value, true);
 
             });
             sector.appendTo(sectorContainer);
         }
 
-        refreshSectorValue();
+        refreshSectorValue(false);
         $('#sector-input').find('#quantification,#analytical-value').change(function() {
             refreshSectorValue();
         });
@@ -244,10 +244,17 @@ $(document).on('click', '#zoom-out', function(){
 });
 
 
-function refreshSectorValue() {
+function refreshSectorValue(loadData=true) {
     let current = $('#sectors .active');
-    let q = sectorData[current.prop('id')].quantification = $('#sector-input').find('#quantification').val();
-    let a = sectorData[current.prop('id')].analytical_value = $('#sector-input').find('#analytical-value').val();
+
+    if (loadData) {
+        sectorData[current.prop('id')].quantification = $('#sector-input').find('#quantification').val();
+        sectorData[current.prop('id')].analytical_value = $('#sector-input').find('#analytical-value').val();
+    }
+
+    let q = sectorData[current.prop('id')].quantification;
+    let a = sectorData[current.prop('id')].analytical_value;
+
     if((q && q != default_quantification) || (a && a != default_analytical_value)){
         current.addClass('filled');
     } else{
