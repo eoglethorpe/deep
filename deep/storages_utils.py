@@ -71,8 +71,16 @@ class DeepStorage:
 
     def write_json(self, path, data, **kwrags):
         if self.use_s3():
-            with self.storage.open(path, 'w') as f:
-                json.dump(data, f, **kwrags)
+            temp = tempfile.NamedTemporaryFile(mode='w', dir='/tmp',
+                                               delete=False)
+            json.dump(data, temp, **kwrags)
+            temp.close()
+
+            if self.storage.exists(path):
+                self.storage.delete(path)
+            self.storage.save(path, open(temp.name, 'rb'))
+
+            os.remove(temp.name)
         else:
             with open(self.join_path(path), 'w') as f:
                 json.dump(data, f, **kwrags)

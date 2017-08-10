@@ -47,9 +47,6 @@ class AdminLevelSelection(models.Model):
             return str(self.admin_level.country.code) + ":" + str(self.admin_level.level) + ":" + str(self.name) + ":" + str(self.pcode)
         return str(self.admin_level.country.code) + ":" + str(self.admin_level.level) + ":" + str(self.name)
 
-    class Meta:
-        unique_together = ('admin_level', 'name')
-
 
 class Reliability(models.Model):
     name = models.CharField(max_length=100)
