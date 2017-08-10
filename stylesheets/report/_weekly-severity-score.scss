@@ -2,6 +2,7 @@
     >div {
         display: flex;
 
+
         label{
             margin-top: 10px;
             margin-bottom: 5px;
@@ -12,6 +13,7 @@
             min-height: 72px;
             padding: 0 24px;
             margin-bottom: 16px;
+            padding-bottom: 16px;
 
             >*{
                 label {
@@ -29,6 +31,15 @@
                         background-color: inherit;
                     }
                 }
+            }
+
+            &:nth-child(odd) {
+                background-color: rgba(0, 0, 0, 0.05);
+            }
+
+            &:first-child {
+                background-color: #fff;
+                box-shadow: 0 2px 15px -3px rgba(0, 0, 0, 0.5);
             }
         }
 

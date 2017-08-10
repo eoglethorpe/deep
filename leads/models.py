@@ -296,6 +296,16 @@ class UnitOfAnalysis(models.Model):
         verbose_name_plural = "Units of Analysis"
 
 
+class UnitOfReporting(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Units of Reporting"
+
+
 class DataCollectionTechnique(models.Model):
     name = models.CharField(max_length=100)
 
@@ -335,6 +345,13 @@ class SectorAnalyticalValue(models.Model):
         verbose_name_plural = "Sector Analytical Values"
 
 
+class Coordination(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
 class AssessmentFrequency(models.Model):
     name = models.CharField(max_length=100)
 
@@ -371,19 +388,29 @@ class SurveyOfSurvey(models.Model):
     title = models.CharField(max_length=200)
     lead_organization = models.CharField(max_length=200,
                                          blank=True, null=True)
+    disaster_type = models.ForeignKey('report.DisasterType', null=True,
+                                      blank=True, default=None)
+
     partners = models.TextField(blank=True)
+    donors = models.TextField(blank=True)
 
     map_selections = models.ManyToManyField('entries.AdminLevelSelection',
                                             blank=True)
     proximity_to_source = models.ForeignKey(ProximityToSource,
                                             blank=True, null=True)
+
     unit_of_analysis = models.ManyToManyField(UnitOfAnalysis, blank=True)
+    unit_of_reporting = models.ManyToManyField(UnitOfReporting, blank=True)
+
     data_collection_technique = models.ManyToManyField(DataCollectionTechnique,
                                                        blank=True)
     start_data_collection = models.DateField(null=True, default=None,
                                              blank=True)
     end_data_collection = models.DateField(null=True, default=None, blank=True)
     sampling_type = models.ForeignKey(SamplingType, blank=True, null=True)
+
+    coordination = models.ForeignKey(Coordination, blank=True, null=True,
+                                     default=None)
     frequency = models.ForeignKey(AssessmentFrequency, blank=True, null=True)
     status = models.ForeignKey(AssessmentStatus, blank=True, null=True)
     confidentiality = models.ForeignKey(AssessmentConfidentiality,
