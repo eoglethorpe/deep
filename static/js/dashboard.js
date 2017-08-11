@@ -94,7 +94,7 @@ function onEachMapFeature(feature, layer) {
     var all_countries = [].concat(overviewData.countries_monitored,overviewData.active_countries,overviewData.situation_of_concern,overviewData.severe,overviewData.humanitarian_crises);
     var active = all_countries.indexOf(feature.properties.iso_a3)>-1;
     if (active) {
-        layer.bindLabel(feature.properties.name);
+        layer.bindTooltip(feature.properties.name, { sticky: true });
     }
 
     layer.on('click', function() {
@@ -391,7 +391,6 @@ function loadReports(){
         return;
     }
 
-    console.log(data);
     data.sort(function(a, b){
         /*var ca = (a.country.name + a.event.name).toUpperCase();
         var cb = (b.country.name + b.event.name).toUpperCase();
@@ -502,6 +501,9 @@ function loadTimetable(tableFor) {
 
     var countryFilter = $('#country-filter').val();
     var disasterFilter = $('#disaster-type-filter').val();
+    if (disasterFilter) {
+        disasterFilter = disasterFilter.map(d => +d);
+    }
 
     /*if (timetableFor == 'all') {*/
         // Load reports for all countries
@@ -531,11 +533,11 @@ function loadTimetable(tableFor) {
                     let index = data[i].reports.findIndex(w => new Date(w.week_date).toLocaleDateString() == weeks[j].toLocaleDateString());
                     if (index >= 0) {
                         let reportData = data[i].reports[index];
-                        if ((disasterFilter == null || disasterFilter.indexOf(reportData.disaster_type) >= 0) && (dateFilter == null || dateFilter(reportData.created_at))) {
+                        if ((!disasterFilter || disasterFilter.indexOf(reportData.disaster_type) >= 0) && (!dateFilter || dateFilter(reportData.modified_date))) {
                             let cls = 'active';
                             if(colorBy!='report'){
                                 let num = reportData[colorBy];
-                                let grade = getColorGrade(colorBy,num);
+                                let grade = getColorGrade(colorBy, num);
                                 cls += ' grade'+grade;
                             }
                             weekElement.addClass(cls);
@@ -597,9 +599,11 @@ function loadTimetable(tableFor) {
         }
     }*/
     //console.log($('#timeline-table header .weeks .week').outerWidth()*weekly_reports.length);
-    layer.eachLayer(function(layer){
-        layer.setStyle(styleMapFeature(layer.feature));
-    });
+    if (layer) {
+        layer.eachLayer(function(layer){
+            layer.setStyle(styleMapFeature(layer.feature));
+        });
+    }
     populateLegend(colorBy);
     $('#horizontal-scroll .weeks #scrollbar').width($('#timeline-table header .weeks .week').outerWidth()*weeks.length + 10);
 }
