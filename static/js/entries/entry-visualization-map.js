@@ -181,10 +181,11 @@ function onEachMapFeature(feature, layer) {
     }
 
     if (index < 0)
-        layer.bindLabel(name);
+        layer.bindTooltip(name, { sticky: true });
     else {
         var p = Math.round(mapNumEntries[index]/totalNumEntries*100);
-        layer.bindLabel(name + " - " + mapNumEntries[index] + " (" + p + "%)");
+        layer.bindTooltip(name + " - " + mapNumEntries[index] + " (" + p + "%)",
+            { sticky: true });
     }
 }
 

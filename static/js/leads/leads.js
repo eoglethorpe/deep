@@ -319,8 +319,6 @@ $(document).ready(function(){
     }
 
     function format(data) {
-        if (data.published_at === null)
-            data.published_at = "n/a";
         if (data.source === null)
             data.source = "n/a";
         if (data.content_format === null)

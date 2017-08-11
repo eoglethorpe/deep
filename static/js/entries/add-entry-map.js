@@ -152,7 +152,7 @@ function onEachMapFeature(feature, layer) {
         updateLocationSelections();
     });
 
-    layer.bindLabel(name);
+    layer.bindTooltip(name, { sticky: true });
 }
 
 
