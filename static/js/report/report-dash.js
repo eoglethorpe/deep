@@ -190,7 +190,6 @@ $(document).ready(function(){
 
 function syncUpdateTimes() {
     $.get('/report/weekly/get-update-times/', (response) => {
-        console.log(response);
         if (!response.success) {
             return;
         }

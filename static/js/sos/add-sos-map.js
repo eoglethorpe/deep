@@ -178,7 +178,7 @@ function onEachMapFeature(feature, layer) {
         }
     });
 
-    layer.bindTooltip(name);
+    layer.bindTooltip(name, { sticky: true });
 }
 
 
