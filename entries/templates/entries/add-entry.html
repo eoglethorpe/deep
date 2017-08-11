@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load watchful_url %}
+{% load startswith %}
 
 {% block title %}
 DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
@@ -20,11 +21,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/image-cropper.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/add-entry-map.js' %}"></script>
 
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
-<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
-
-<link rel="stylesheet" href="{% watchful_static_url 'css/leaflet.label.css' %}" >
-<script src="{% watchful_static_url 'js/common/leaflet.label.js' %}"></script>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.1.0/leaflet.css">
+<script src="http://cdn.leafletjs.com/leaflet/v1.1.0/leaflet.js"></script>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -180,9 +178,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
             </div>
 
             <div id="lead-preview-container">
-                {% if format == 'pdf' %}
+                {% if format|startswith:'pdf' %}
                     <iframe id="lead-preview" src="{{ lead_url }}"></iframe>
-                {% elif format == 'docx' or format == 'pptx' or format == 'xlsx' or format == 'doc' or format == 'ppt' or format == 'xls' %}
+                {% elif format|startswith:'docx' or format|startswith:'pptx' or format|startswith:'xlsx' or format|startswith:'doc' or format|startswith:'ppt' or format|startswith:'xls' %}
                     <iframe id="lead-preview" src="https://docs.google.com/viewer?url={{ lead_url|urlencode }}&embedded=true&chrome=false&dov=1"></iframe>
                 {% else %}
                     <iframe sandbox="allow-scripts allow-same-origin" id="lead-preview" src="{{ lead_url }}"></iframe>

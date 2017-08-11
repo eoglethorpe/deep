@@ -46,7 +46,10 @@ function updateLocationSelections() {
     }
 
     for (var i=0; i < mapSelections.length; i++) {
-        var selectionKey = mapSelections[i];
+        var selectionKey = $('<textarea/>').html(mapSelections[i]).text();
+        if (!$('#manual-location-input')[0].selectize.options[selectionKey]) {
+            continue;
+        }
         element = $('<li><a onclick="unSelect(\''+selectionKey+'\', this)"><i class="fa fa-times"></i></a>'+$('#manual-location-input')[0].selectize.options[selectionKey].text+'</li>');
         element.appendTo(container);
     }
@@ -509,6 +512,13 @@ function refreshExcerpts() {
     refreshing = false;
 }
 
+function getActualImage(imageUrl) {
+    if (imageUrl.startsWith(window.location.origin)) {
+        return imageUrl.replace(window.location.origin, '');
+    }
+    return imageUrl;
+}
+
 
 function addExcerpt(text, image) {
     text = reformatText(text);
@@ -516,7 +526,7 @@ function addExcerpt(text, image) {
     // Create new excerpt and refresh
     var excerpt = {
         excerpt: text,
-        image: image,
+        image: getActualImage(image),
         attributes: [],
         reliability: defaultReliability, severity: defaultSeverity,
         date: defaultDate, number: null,
@@ -561,7 +571,7 @@ function findExcerpt(text, image) {
 
 function replaceExcerpt(index, text, image) {
     excerpts[index].excerpt = text;
-    excerpts[index].image = image;
+    excerpts[index].image = getActualImage(image);
     selectedExcerpt = index;
     refreshExcerpts();
 }

@@ -11,6 +11,8 @@ var layer;
 var mapColors = ['#008080','#80d0d0','#FFEB3B'];
 
 var map;
+var selectingAllMapItems = false;
+var unselectingAllMapItems = false;
 
 $(document).ready(function(){
     map = L.map('the-map');
@@ -31,6 +33,31 @@ $(document).ready(function(){
 //     map.invalidateSize();
 //     refreshMap();
 // });
+
+
+function selectAllMapFeatures() {
+    if (layer) {
+        selectingAllMapItems = true;
+        layer.getLayers().forEach(e => {
+            e.fireEvent('click');
+        });
+        selectingAllMapItems = false;
+        updateLocationSelections();
+
+        $('#the-map').click();
+    }
+}
+
+function unselectAllMapFeatures() {
+    if (layer) {
+        unselectingAllMapItems = true;
+        layer.getLayers().forEach(e => {
+            e.fireEvent('click');
+        });
+        unselectingAllMapItems = false;
+        updateLocationSelections();
+    }
+}
 
 
 function getAdminLevels(countryCode) {
@@ -132,24 +159,26 @@ function onEachMapFeature(feature, layer) {
     });
 
     layer.on('click', function() {
-
         var index = mapSelections.indexOf(selectionName);
-        if (index == -1) {
+        if (index == -1 && !unselectingAllMapItems) {
             mapSelections.push(selectionName);
+            this.setStyle({
+                fillColor: color3,
+            });
         }
-        else {
+        else if (!selectingAllMapItems) {
             mapSelections.splice(index, 1);
+            this.setStyle({
+                fillColor: color1,
+            });
         }
 
-        //console.log(mapSelections);
-
-        this.setStyle({
-            fillColor: (index == -1) ? color3 : color1
-        });
-        updateLocationSelections();
+        if (!selectingAllMapItems && !unselectingAllMapItems) {
+            updateLocationSelections();
+        }
     });
 
-    layer.bindLabel(name);
+    layer.bindTooltip(name, { sticky: true });
 }
 
 

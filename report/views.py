@@ -93,7 +93,7 @@ class ReportDashboardView(View):
         )
 
         nsecs = dt.minute*60 + dt.second
-        context["next_update"] = int((math.ceil(nsecs/900) * 900 - nsecs)/60)
+        context["next_update"] = int((math.ceil(nsecs/300) * 300 - nsecs)/60)
 
         context["acaps_admin"] = UserGroup.objects.filter(
             admins=request.user, acaps=True).count() > 0
@@ -248,7 +248,7 @@ class WeeklyReportUpdateTimesView(View):
         )
 
         nsecs = dt.minute*60 + dt.second
-        response["next_update"] = int((math.ceil(nsecs/900) * 900 - nsecs)/60)
+        response["next_update"] = int((math.ceil(nsecs/300) * 300 - nsecs)/60)
 
         return JsonResponse(response)
 

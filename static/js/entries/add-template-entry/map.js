@@ -200,6 +200,6 @@ class Map {
             if (that.selectCallback) { that.selectCallback(); }
         });
 
-        layer.bindLabel(name);
+        layer.bindTooltip(name, { sticky: true });
     }
 }

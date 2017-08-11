@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load watchful_url %}
+{% load startswith %}
 
 {% block title %}
 DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
@@ -117,9 +118,9 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
             </div>
 
             <div id="lead-preview-container">
-                {% if format == 'pdf' %}
+                {% if format|startswith:'pdf' %}
                     <iframe id="lead-preview" src="{{ lead_url }}"></iframe>
-                {% elif format == 'docx' or format == 'pptx' %}
+                {% elif format|startswith:'docx' or format|startswith:'pptx' or format|startswith:'xlsx' or format|startswith:'doc' or format|startswith:'ppt' or format|startswith:'xls' %}
                     <iframe id="lead-preview" src="https://docs.google.com/viewer?url={{ lead_url|urlencode }}&embedded=true&chrome=false&dov=1"></iframe>
                 {% else %}
                     <iframe sandbox="allow-scripts allow-same-origin" id="lead-preview" src="{{ lead_url }}"></iframe>

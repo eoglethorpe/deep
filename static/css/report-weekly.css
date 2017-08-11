@@ -585,6 +585,7 @@ main {
             cursor: pointer;
             word-break: break-all; }
             main #report-content #humanitarian-profile #human-profile-field-list .human-profile-field .source-warning-wrapper .source-new .source .name, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-subfield .source-warning-wrapper .source-new .source .name, main #report-content #humanitarian-profile #human-profile-field-list .human-profile-child .source-warning-wrapper .source-new .source .name, main #report-content #humanitarian-profile #casualties-field-list .human-profile-field .source-warning-wrapper .source-new .source .name, main #report-content #humanitarian-profile #casualties-field-list .human-profile-subfield .source-warning-wrapper .source-new .source .name, main #report-content #humanitarian-profile #casualties-field-list .human-profile-child .source-warning-wrapper .source-new .source .name, main #report-content #casualties #human-profile-field-list .human-profile-field .source-warning-wrapper .source-new .source .name, main #report-content #casualties #human-profile-field-list .human-profile-subfield .source-warning-wrapper .source-new .source .name, main #report-content #casualties #human-profile-field-list .human-profile-child .source-warning-wrapper .source-new .source .name, main #report-content #casualties #casualties-field-list .human-profile-field .source-warning-wrapper .source-new .source .name, main #report-content #casualties #casualties-field-list .human-profile-subfield .source-warning-wrapper .source-new .source .name, main #report-content #casualties #casualties-field-list .human-profile-child .source-warning-wrapper .source-new .source .name {
+              width: 100%;
               margin-right: 4px;
               overflow: hidden;
               flex-grow: 0;
@@ -874,6 +875,7 @@ main {
           cursor: pointer;
           word-break: break-all; }
           main #report-content #people-in-need .source-warning-wrapper .source-new .source .name {
+            width: 100%;
             margin-right: 4px;
             overflow: hidden;
             flex-grow: 0;
@@ -1128,6 +1130,7 @@ main {
           cursor: pointer;
           word-break: break-all; }
           main #report-content #ipc .source-warning-wrapper .source-new .source .name {
+            width: 100%;
             margin-right: 4px;
             overflow: hidden;
             flex-grow: 0;
@@ -1398,6 +1401,7 @@ main {
           cursor: pointer;
           word-break: break-all; }
           main #report-content #humanitarian-access > div .source-new .source .name {
+            width: 100%;
             margin-right: 4px;
             overflow: hidden;
             flex-grow: 0;
@@ -1575,7 +1579,8 @@ main {
       main #report-content #weekly-severity-score > div > div {
         min-height: 72px;
         padding: 0 24px;
-        margin-bottom: 16px; }
+        margin-bottom: 16px;
+        padding-bottom: 16px; }
         main #report-content #weekly-severity-score > div > div > * label {
           height: 48px;
           display: flex;
@@ -1586,6 +1591,11 @@ main {
           text-align: center; }
           main #report-content #weekly-severity-score > div > div > * input:disabled {
             background-color: inherit; }
+        main #report-content #weekly-severity-score > div > div:nth-child(odd) {
+          background-color: rgba(0, 0, 0, 0.05); }
+        main #report-content #weekly-severity-score > div > div:first-child {
+          background-color: #fff;
+          box-shadow: 0 2px 15px -3px rgba(0, 0, 0, 0.5); }
       main #report-content #weekly-severity-score > div #final-score-comment {
         text-align: left;
         font-size: 1em; }

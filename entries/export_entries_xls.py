@@ -38,9 +38,9 @@ def get_analysis_data(elements, element, eType, rows):
         eID = element['id']
         elementTemplate = list_filter(elements, 'id', eID)
 
-        if eType == 'number':
+        if eType == 'number-input':
             rows.add_value(element['value'])
-        elif eType == 'date':
+        elif eType == 'date-input':
             rows.add_valu(format_date(element['value']))
 
         elif eType == 'scale':
@@ -243,7 +243,8 @@ def export_analysis_xls(title, event_pk=None, information_pks=None,
 
     event = entry_models.Event.objects.get(pk=event_pk)
     elements = json.loads(event.entry_template.elements)
-    sTypes = ['date', 'scale', 'number', 'multiselect', 'organigram']
+    sTypes = ['date-input', 'scale', 'number-input', 'multiselect',
+              'organigram']
     element_ids = []
     geo_elements = []
 

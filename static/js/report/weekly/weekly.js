@@ -639,13 +639,22 @@ function getInputData() {
     $(".ipc input[data-ipc]").each(function() {
         // if ($(this).data("ipc") == 'f'){
         //     data["ipc"][$(this).data("ipc")]["old"] = $(this).val();
-        // }else{
-        data["ipc"][$(this).data("ipc")] = getNumberValue($(this));
-        // }
+        // }else
+        if ($(this).data('ipc') != 'g') {
+            data["ipc"][$(this).data("ipc")] = getNumberValue($(this));
+        }
+        else {
+            data["ipc"][$(this).data("ipc")] = $(this).val();
+        }
     });
 
     $('.ipc-forecasted input[data-ipc]').each(function() {
-        data['ipc-forecast'][$(this).data('ipc')] = getNumberValue($(this));
+        if ($(this).data('ipc') != 'g') {
+            data["ipc-forecast"][$(this).data("ipc")] = getNumberValue($(this));
+        }
+        else {
+            data["ipc-forecast"][$(this).data("ipc")] = $(this).val();
+        }
     });
 
     // Access data

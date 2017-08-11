@@ -1,6 +1,6 @@
 # Data Entry and Exploration Platform
 
-DEEP is a humanitarian tool to collect and analyze information from various publications and sources pertaining to events happening in different countries. It is meant to help the analysts easily generate reports of various events of the world.
+DEEP is a humanitarian tool to collect and analyze secondary data from various publications such as websites and PDF reports. 
 
 ## Public API
 
