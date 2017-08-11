@@ -16,6 +16,8 @@ class EntryViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         event = self.request.GET.get("event")
+        if not Event.objects.get(pk=event).allow(self.request.user):
+            return []
         if event:
             return Entry.objects.filter(lead__event__pk=event)
         return Entry.objects.all()

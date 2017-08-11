@@ -1,7 +1,5 @@
-#humanitarian-profile{
-
-    #human-profile-field-list{
-
+#humanitarian-profile, #casualties{
+    #human-profile-field-list, #casualties-field-list{
         .human-profile-field {
             &:nth-child(odd){
                 background-color: #fff;
@@ -21,13 +19,15 @@
                 border: 1px solid transparent;
                 box-sizing: border-box;
                 padding: 3px 5px;
+                flex-basis: 20%;
+
             }
             .sub{
                 padding-left: 24px;
                 font-weight: $font-weight-normal;
             }
             > *{
-                flex-basis: 23%;
+                flex-basis: 20%;
                 box-sizing: border-box;
                 margin: 8px 0;
             }
@@ -39,10 +39,105 @@
             > div {
                 flex-basis: 100%;
             }
+
+
+            .number-wrapper{
+                flex-basis: 9.5%;
+                flex-grow: 0;
+                flex-shrink: 0;
+                position: relative;
+
+                input {
+                    width: 100%;
+                }
+
+            }
+
+            .source-warning-wrapper{
+                flex-basis: 25%;
+                flex-grow: 0;
+                flex-shrink: 0;
+                position: relative;
+                display: flex;
+                align-items: center;
+                min-height: 23px;
+
+                .source-new {
+                    display: inline-block;
+                    min-height: 23px;
+                    width: 100%;
+                    border: 1px solid rgba(0, 0, 0, 0.2);
+                    position: relative;
+
+                    .source{
+                        display: flex;
+                        flex-wrap: wrap;
+                        align-items: center;
+                        background-color: #fff;
+                        padding: 6px;
+                        position: relative;
+                        cursor: pointer;
+                        word-break: break-all;
+
+                        .name{
+                            width: 100%;
+                            margin-right: 4px;
+                            overflow: hidden;
+                            flex-grow: 0;
+                            flex-shrink: 0;
+                        }
+                        .delete{
+                            margin-left: auto;
+                            color: $error-color;
+                        }
+                        date{
+                            font-family: 'Inconsolata', monospace;
+                        }
+                        @import 'display-card';
+                    }
+                }
+                .warning-error{
+                    color: $danger-color;
+                    position: absolute;
+                    pointer-events: none;
+                    margin: 0;
+                    flex: none;
+                    top: 5px;
+                    left: 5px;
+                    font-size: 0.8em;
+
+                    .fa{
+                        margin-right: 4px;
+                    }
+                }
+            }
+            .comment-warning-wrapper{
+                flex-basis: 40%;
+                flex-grow: 0;
+                flex-shrink: 0;
+                position: relative;
+
+                input {
+                    width: 100%;
+                }
+
+                .warning-error{
+                    color: $danger-color;
+                    position: absolute;
+                    margin: 0;
+                    font-size: 0.8em;
+                    top: 5px;
+                    left: 96px;
+
+                    .fa{
+                        margin-right: 4px;
+                    }
+                }
+            }
         }
 
         .human-profile-child{
-            margin: 0 0 8px 0;
+            margin: 8px 0;
 
             input {
                 border: 1px solid rgba(0, 0, 0, 0.2);
@@ -57,7 +152,7 @@
         }
     }
 
-    #humanitarian-profile-field-error{
+    .field-error{
         padding: 16px;
         text-align: center;
         color: #e74c3c;

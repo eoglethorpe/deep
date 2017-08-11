@@ -1,3 +1,5 @@
+let countrySelect = null;
+
 let ajax = {
     init: function() {
         setupCsrfForAjax();
@@ -57,89 +59,12 @@ let activityLog = {
     },
 };
 
-let editMode = {
-    init: function() {
-        let that = this;
-
-        $('#edit-user-info-btn').click(function(){
-            that.toggleMode(true);
-        });
-        $('#save-user-info-btn').click(function(){
-
-            $('#save-user-info-progress-btn').show();
-            $('#save-user-info-btn').hide();
-            $('#edit-user-info-btn').hide();
-
-            ajax.request({
-                request: 'edit-name',
-                firstName: $('#first-name').text(),
-                lastName: $('#last-name').text()
-            }).done(function(response) {
-                if (response.status && response.data.done) {
-
-                    if ($('#avatar-input')[0].files.length > 0) {
-                        ajax.postImage('avatar', $('#avatar-input'))
-                        .done(function(response) {
-                            if (response.status && response.data.done) {
-                                that.toggleMode(false);
-                            }
-                        }).fail(function() {
-                            // ERROR
-                        }).always(function() {
-                            $('#save-user-info-progress-btn').hide();
-                        });
-                    } else {
-                        that.toggleMode(false);
-                        $('#save-user-info-progress-btn').hide();
-                    }
-                }
-            }).fail(function() {
-                // ERROR
-                $('#save-user-info-progress-btn').hide();
-            })
-        });
-    },
-
-    toggleMode: function(reset) {
-        let editButton = $('#edit-user-info-btn');
-        editButton.show();
-
-        let parent = editButton.closest('header');
-        if (editButton.hasClass('edit')) {
-            editButton.removeClass('edit');
-            editButton.find('.fa').removeClass('fa-times').addClass('fa-edit');
-            parent.find('#full-name').removeClass('edit');
-            parent.find('.name').prop('contenteditable', false);
-            if (reset) {
-                parent.find('.name').each(function() { $(this).text($(this).data('prev-val')); });
-                parent.find('img').attr('src', parent.find('img').data('prev-url'));
-                $('#avatar-input').wrap('<form>').closest('form').get(0).reset();
-                $('#avatar-input').unwrap();
-            }
-            parent.find('img').prop('title', '');
-            parent.find('img').css('cursor', 'default');
-            parent.find('img').unbind();
-
-            $('#save-user-info-btn').hide();
-        } else {
-            editButton.addClass('edit');
-            editButton.find('.fa').removeClass('fa-edit').addClass('fa-times');
-            parent.find('#full-name').addClass('edit');
-            parent.find('.name').prop('contenteditable', true);
-            parent.find('.name').each(function() { $(this).data('prev-val', $(this).text()); });
-            parent.find('img').data('prev-url', parent.find('img').attr('src'));
-            parent.find('img').prop('title', 'Click to change avatar');
-            parent.find('img').css('cursor', 'pointer');
-            parent.find('img').unbind().click(function(){
-                $('#avatar-input').trigger('click');
-            });
-            $('#save-user-info-btn').show();
-        }
-    },
-};
-
 $(document).ready(function(){
+    countrySelect = $('#user-country-select').selectize()[0].selectize;
+
     let newUserGroupModal = new Modal('#new-user-group-modal');
+    let newProjectModal = new Modal('#new-project-modal');
+    let editUserModal = new Modal('#edit-user-modal');
 
     $('label[data-sort]').on('click', function(){
         var sortQuery = $(this).data('sort');
@@ -176,7 +101,6 @@ $(document).ready(function(){
 
     ajax.init();
     activityLog.init();
-    editMode.init();
 
     $('#new-user-group-btn').click(function(){
         $('#new-user-group-modal').find('.error').empty();
@@ -213,14 +137,101 @@ $(document).ready(function(){
         });
     });
 
+    $('#new-project-btn').click(function() {
+        $('#new-project-modal .error').empty();
+        newProjectModal.show().then(null, null, function() {
+            if (newProjectModal.action == 'proceed') {
+                let name = $('#new-project-name').val();
+                if (name.trim().length === 0) {
+                    $('#new-project-modal .error').text('Please enter a name');
+                    return;
+                }
+
+                $('#new-project-modal form').submit();
+            }
+        });
+    });
+
+    $('#edit-user-info-btn').click(function() {
+        $('#edit-user-modal .error').empty();
+        editUserModal.show().then(null, null, function() {
+            if (editUserModal.action == 'proceed') {
+                const data = {
+                    request: 'edit-attributes',
+                    firstName: $('#first-name').val(),
+                    lastName: $('#last-name').val(),
+                    organization: $('#user-organization').val(),
+                    country: $('#user-country-select').val(),
+                    countryName: $('#user-country-select option:selected').text(),
+                };
+
+                $('#loading-spin').show();
+                ajax.request(data).done(function(response) {
+                    if (response.status && response.data.done) {
+                        $('.user-info .name').text(data.firstName + " " + data.lastName);
+                        $('.user-info .organization').text(data.organization);
+                        $('.user-info .country').text(data.countryName);
+
+                        if ($('#avatar-input')[0].files.length > 0) {
+                            ajax.postImage('avatar', $('#avatar-input'))
+                            .done(function(response) {
+                                if (response.status && response.data.done) {
+                                    $('#user-avatar').attr('src', $('#edit-user-avatar').attr('src'));
+                                }
+
+                                editUserModal.hide();
+                            }).fail(function() {
+                                // ERROR
+                            }).always(function() {
+                                $('#loading-spin').hide();
+                            });
+                        } else {
+                            editUserModal.hide();
+                            $('#loading-spin').hide();
+                        }
+                    }
+                }).fail(function() {
+                    // ERROR
+                    $('#loading-spin').hide();
+                });
+            }
+        });
+    });
+
     $('#avatar-input').change(function(){
         if (this.files && this.files[0]) {
             var reader = new FileReader();
 
             reader.onload = function (e) {
-                $('#user-avatar').attr('src', e.target.result);
+                $('#edit-user-avatar').attr('src', e.target.result);
             }
             reader.readAsDataURL(this.files[0]);
         }
+    });
+
+    $('#edit-user-avatar').click(() => $('#avatar-input').trigger('click'));
+
+    $('#search-projects').on('input paste change drop', function() {
+        let searchText = $(this).val();
+        if (!searchText) {
+            $('#projects .project').show();
+            return;
+        }
+
+        $('#projects .project').each(function() {
+            let matched = false;
+            $(this).find($(this).data('search')).each(function() {
+                if ($(this).text().toLowerCase().indexOf(searchText) >= 0) {
+                    matched = true;
+                    return false;
+                }
+            });
+
+            if (matched) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
     });
 });

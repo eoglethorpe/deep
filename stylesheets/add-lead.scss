@@ -15,35 +15,46 @@
         color: $primary-color;
         flex-basis: 50%;
     }
+    label{
+        margin-bottom: 6px;
+    }
     form{
         flex-basis: 51%;
-        padding: 56px;
-        background-color: #f5f5f5;
+        padding: 48px;
+        background-color: #fff;
         @include shadow;
 
-        >input[type="text"],input[type="number"],input[type="date"]{
+        input[type="date"], input.date-picker {
             width: 100%;
-            height: 32px;
-            padding: 0 8px;
-            margin: 0 8px 8px 0;
+            margin: 0 0 10px 0;
+            padding: 4px 16px;
             outline: none;
             border: 1px solid rgba(0, 0, 0, 0.1);
-            border-radius: 3px;
             background-color: #fff;
 
             &:focus{
                 border-color: $primary-color;
             }
         }
-        #url-row,#website-row{
-            >input[type="text"],input[type="number"],input[type="date"]{
+        >input[type="text"], input[type="number"]{
+            width: 100%;
+            padding: 4px 8px;
+            margin: 0 0 16px 0;
+            outline: none;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+
+            &:focus{
+                border-color: $primary-color;
+            }
+        }
+        #url-row, #website-row{
+            >input[type="text"], input[type="number"]{
                 width: 100%;
-                height: 32px;
-                padding: 0 8px;
-                margin: 0 8px 8px 0;
+                padding: 4px 8px;
+                margin: 0 0 16px 0;
                 outline: none;
                 border: 1px solid rgba(0, 0, 0, 0.1);
-                border-radius: 3px;
                 background-color: #fff;
 
                 &:focus{
@@ -52,15 +63,12 @@
             }
         }
         .selectize-control{
-            margin-bottom: 8px;
-
-            .selectize-input{
-                min-height: 32px;
-                border-radius: 3px;
-                padding: 6px 4px;
-            }
+            margin-bottom: 16px;
         }
         #radio-btn-container{
+            margin-top: 16px;
+            margin-bottom: 16px;
+
             label{
                 margin-right: 8px;
                 vertical-align: baseline;
@@ -79,7 +87,6 @@
             }
         }
         #attachment-row{
-
             .dz-label{
                 margin-bottom: 10px;
             }
@@ -114,10 +121,17 @@
 
             button{
                 margin: 16px 0 16px 8px;
+                padding: 6px 16px;
+                background-color: $primary-color;
+                color: #fff;
+            }
+            button[name="add-entry"]{
+                background-color: $info-color;
             }
             a{
                 margin: 16px 0 16px 8px;
-                background-color: #e74c3c;
+                background-color: $danger-color;
+                padding: 6px 16px;
                 color: #fff;
             }
         }

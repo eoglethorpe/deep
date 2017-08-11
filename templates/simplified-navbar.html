@@ -1,0 +1,56 @@
+{% load watchful_url %}
+<script>
+    $(document).ready(function(){
+        $('body nav').on('click', '.dropdown-toggle', function(){
+            $(this).closest('.dropdown').find('.items').toggle();
+        });
+    });
+    $(document).on('click', function(e) {
+        if (!$('body nav .dropdown').is(e.target) && $('body nav .dropdown').has(e.target).length == 0) {
+            $('body nav .dropdown').find('.items').hide();
+        }
+    });
+    $('div[data-url]').click(function() {
+        if ($(this).data('target') == 'new-tab') {
+            window.open($(this).data('url'), '_blank');
+        } else {
+            window.location.href = $(this).data('url');
+        }
+    });
+</script>
+<nav>
+    <div id="left-part">
+        <!-- DEEP logo -->
+        <div id="deep-logo-container">
+            {% if event %}
+            <a href="{% url 'dashboard' event=event.pk%}"><img src="{% watchful_static_url 'img/deep-logo-sm-white.png' %}"></a>
+            {% else %}
+            <a href="{% url 'dashboard' %}?last_event=1"><img src="{% watchful_static_url 'img/deep-logo-sm-white.png' %}"></a>
+            {% endif %}
+        </div>
+        <h2>{{ page_title }}</h2>
+    </div>
+    <!-- User menu -->
+    <div class="dropdown" id="user-menu" tabindex="-1">
+        <a class="dropdown-toggle"><div class="name"><i class="fa fa-user"></i>{{ user.first_name }}</div><i class="fa fa-chevron-down"></i></a>
+        <div class="items" hidden>
+            <a href="{% url 'user_profile' user.pk %}"><i class="fa fa-user"></i>Profile</small></a>
+
+            {% if request.user.is_superuser %}
+            <a href="/admin"><i class="fa fa-user-secret"></i>Admin panel</a>
+            <a href="{% url 'custom_admin:country_management' %}"><i class="fa fa-globe"></i>Country Panel</a>
+            {% endif %}
+
+            {% if event and request.user in event.get_admins %}
+            <a href="{% url 'project:project_details' event.pk %}"><i class="fa fa-wrench"></i>Project Panel</a>
+            {% endif %}
+
+            <hr>
+            <a href="{% url 'password_change' %}"><i class="fa fa-key"></i>Change password</small></a>
+            {% if not request.user.userprofile.hid %}
+            <a id="link-with-hid"><i class="fa fa-link"></i>Link with HID</a>
+            {% endif %}
+            <a onclick="window.location.href = '{% url 'logout' %}';"><i class="fa fa-sign-out"></i>Logout</a>
+        </div>
+    </div>
+</nav>

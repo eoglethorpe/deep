@@ -5,6 +5,7 @@ from django.views.generic import View
 from entries.models import Entry
 from entries.api_serializers import *
 from deep.json_utils import *
+from deep.filename_generator import generate_filename
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -14,19 +15,33 @@ class EntryApiView(View):
         return JSON_METHOD_NOT_ALLOWED
 
     def get(self, request):
-        entries = Entry.objects.all()
+        entries = Entry.objects.all().order_by('-created_at')
 
         event = request.GET.get('event')
         if event:
             entries = entries.filter(lead__event__pk=event)
+            if not Event.objects.get(pk=event).allow(self.request.user):
+                entries = Entry.objects.none()
 
         entry_id = request.GET.get('id')
         if entry_id:
             entries = entries.filter(pk=entry_id)
 
+        index = request.GET.get('index')
+        if index:
+            entries = entries[int(index):]
+        count = request.GET.get('count')
+        if count:
+            entries = entries[:int(count)]
+
         data = []
         for entry in entries:
-            data.append(EntrySerializer(entry).serialize())
+            if event and entry.lead.event.entry_template:
+                if entry.template:
+                    data.append(TemplateEntrySerializer(entry).serialize())
+            else:
+                if not entry.template:
+                    data.append(EntrySerializer(entry).serialize())
 
         # Extra requests
         extra = None
@@ -55,4 +70,7 @@ class EntryApiView(View):
                 for subsector in Subsector.objects.all():
                     extra['subsectors'].append(SubsectorSerializer(subsector).serialize())
 
-        return JsonResult(data=data, extra=extra)
+        response = JsonResult(data=data, extra=extra)
+        if request.GET.get('file') == '1':
+            response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(generate_filename('Entries Export'))
+        return response

@@ -98,19 +98,18 @@ body > nav {
     flex-shrink: 0;
     flex-grow: 0; }
     body > nav #deep-logo-container img {
-      width: 100%; }
-  body > nav #report-link-wrapper {
-    flex-basis: 10%; }
-  body > nav #crisis-select-container {
-    flex-basis: 28%; }
-    body > nav #crisis-select-container .selectize-control.single .selectize-input, body > nav #crisis-select-container .selectize-control.single.single, body > nav #crisis-select-container .selectize-control.single .selectize-input.input-active {
+      width: 125px;
+      height: 40px; }
+  body > nav #project-select-container {
+    flex-basis: 20%; }
+    body > nav #project-select-container .selectize-control.single .selectize-input, body > nav #project-select-container .selectize-control.single.single, body > nav #project-select-container .selectize-control.single .selectize-input.input-active {
       background-color: transparent !important; }
-    body > nav #crisis-select-container .selectize-input {
+    body > nav #project-select-container .selectize-input {
       border: none; }
-      body > nav #crisis-select-container .selectize-input > div, body > nav #crisis-select-container .selectize-input input {
+      body > nav #project-select-container .selectize-input > div, body > nav #project-select-container .selectize-input input {
         background-color: transparent;
         color: #fff; }
-      body > nav #crisis-select-container .selectize-input:after {
+      body > nav #project-select-container .selectize-input:after {
         content: ' ';
         display: block;
         position: absolute;
@@ -122,10 +121,14 @@ body > nav {
         border-style: solid;
         border-width: 5px 5px 0 5px;
         border-color: #808080 transparent transparent transparent; }
-    body > nav #crisis-select-container a {
-      vertical-align: middle; }
+    body > nav #project-select-container #project-dropdown-alt {
+      vertical-align: middle;
+      color: #fff;
+      font-size: 12px; }
+      body > nav #project-select-container #project-dropdown-alt .fa {
+        width: 16px; }
   body > nav #main-menu {
-    flex-basis: 32%; }
+    flex-basis: 50%; }
   body > nav #extra-menu {
     flex-basis: calc(20% - 96px);
     display: flex;
@@ -157,13 +160,21 @@ body > nav {
         body > nav #extra-menu .dropdown .items hr {
           border: 1px solid rgba(0, 0, 0, 0.05);
           margin: 0; }
-        body > nav #extra-menu .dropdown .items div {
+        body > nav #extra-menu .dropdown .items a, body > nav #extra-menu .dropdown .items button {
+          display: block;
+          width: 100%;
+          text-align: left;
           padding: 16px;
           text-transform: uppercase;
-          color: #414141; }
-          body > nav #extra-menu .dropdown .items div .fa {
+          color: #414141;
+          cursor: pointer;
+          outline: none;
+          border: none;
+          text-decoration: none;
+          background-color: transparent; }
+          body > nav #extra-menu .dropdown .items a .fa, body > nav #extra-menu .dropdown .items button .fa {
             width: 32px; }
-          body > nav #extra-menu .dropdown .items div:hover {
+          body > nav #extra-menu .dropdown .items a:hover, body > nav #extra-menu .dropdown .items button:hover {
             background-color: rgba(0, 0, 0, 0.1); }
 
 body h1, body h2, body h3, body h4 {
@@ -239,6 +250,12 @@ body #timeline {
   body #timeline #timeline-table #reports {
     height: calc(100vh - 56px - 44vh - 48px - 48px - 12px);
     overflow-y: scroll; }
+    body #timeline #timeline-table #reports .loading-message {
+      text-align: center;
+      padding: 32px;
+      color: rgba(0, 0, 0, 0.3);
+      text-transform: uppercase;
+      font-size: 2em; }
     body #timeline #timeline-table #reports .report {
       border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
       body #timeline #timeline-table #reports .report .aside {
@@ -267,5 +284,29 @@ body #timeline {
       body #timeline #timeline-table #horizontal-scroll .weeks #scrollbar {
         height: 12px;
         flex: none; }
+body #non-acaps {
+  display: flex;
+  height: calc(100vh - 56px);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  body #non-acaps img {
+    height: 30vh;
+    filter: brightness(80%); }
+  body #non-acaps p {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 3em;
+    text-transform: uppercase; }
+  body #non-acaps > div > div {
+    padding: 10px 0;
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: 500;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    text-align: center; }
+  body #non-acaps .fa {
+    font-size: 0.9em;
+    margin-left: 10px;
+    color: rgba(0, 0, 0, 0.5); }
 
 /*# sourceMappingURL=dashboard.css.map */

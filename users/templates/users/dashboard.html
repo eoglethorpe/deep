@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load watchful_url %}
+{% load check_acaps %}
 
 {% block title %}
 DEEP | Dashboard
@@ -15,8 +16,9 @@ DEEP | Dashboard
 <script type="text/javascript" src="{% watchful_static_url 'js/common/split.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
-<script type="text/javascript" src="{% watchful_static_url 'js/dashboard.js' %}"></script>
 
+{% if event and event.is_acaps %}
+<script type="text/javascript" src="{% watchful_static_url 'js/dashboard.js' %}"></script>
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
@@ -25,28 +27,14 @@ DEEP | Dashboard
 <script src="{% watchful_static_url 'js/common/leaflet.label.js' %}"></script>
 
 <script>
-    var active_crises = [
-        {% for crisis in active_events %}{
-            name: "{{crisis.name}}", start_date: "{{crisis.start_date|date:'Y-m-d'}}", status: "{{crisis.status}}",
+    var active_projects = [
+        {% for project in active_events %}{
+            name: "{{project.name}}", start_date: "{{project.start_date|date:'Y-m-d'}}", status: "{{project.status}}",
             countries: [
-                {% for country in crisis.countries.all %}{ code: "{{country.code}}", name: "{{country.name}}" },{% endfor %}
+                {% for country in project.countries.all %}{ code: "{{country.code}}", name: "{{country.name}}" },{% endfor %}
             ],
         },{% endfor %}
     ];
-
-    var weekly_reports = [
-        {% for report in weekly_reports %}
-        {
-            start_date: new Date("{{ report.0|date:'Y-m-d' }}"), end_date: new Date("{{ report.1|date:'Y-m-d' }}"),
-            countries: [{% for country in report.2 %} "{{country.code}}", {% endfor %}],
-            crises: [{% for crisis in report.3 %} "{{crisis.pk}}", {% endfor %}],
-            report_ids: [{% for report_id in report.4 %} "{{report_id}}", {% endfor %}],
-            label: "{{report.5}}",
-            data: [{% for data in report.6 %} {{data|safe}}, {% endfor %}],
-            created_at: [{% for dt in report.7 %} "{{ dt|date:'Y-m-d' }}", {% endfor %}],
-        },
-        {% endfor %}
-    ]
 
     var countries = {
         {% for country in countries %}
@@ -54,30 +42,32 @@ DEEP | Dashboard
         {% endfor %}
     };
 
-    var crises_per_country = {
-        {% for country, crises in crises_per_country.items %}
-        "{{country.code}}": { {% for crisis in crises %} "{{crisis.pk}}" : "{{crisis.name}}", {% endfor %} },
+    var projects_per_country = {
+        {% for country, projects in projects_per_country.items %}
+        "{{country.code}}": { {% for project in projects %} "{{project.pk}}" : "{{project.name}}", {% endfor %} },
         {% endfor %}
     };
 </script>
+{% endif %}
 
 {% endblock %}
 {% block body %}
 {% include 'navbar.html' %}
 
+{% if event and event.is_acaps %}
 <main>
     <section id="map">
         <div id="the-map"></div>
         <div id="overview">
             <div id="number-of-leads"><span class="number">{{ leads|length }}</span><label>Leads</label></div>
             <div id="number-of-entries"><span class="number">{{ informations|length }}</span><label>Entries</label></div>
-            <div id="number-of-active-crisises"><span class="number">{{ active_events|length }}</span><label>Active crises</label></div>
+            <div id="number-of-active-projectes"><span class="number">{{ active_events|length }}</span><label>Active projects</label></div>
             <div id="number-of-global-monitoring"><span class="number">{{ active_events|length }}</span><label>Countries monitored</label></div>
         </div>
     </section>
     <section id="timeline">
         <header>
-            <h3>Timeline of humanitarian crisis per country</h3>
+            <h3>Timeline of humanitarian project per country</h3>
             <div id="filters">
                 <select id="country-filter" placeholder="Country" multiple>
                     <option value="">Country</option>
@@ -109,6 +99,7 @@ DEEP | Dashboard
                 <div class="weeks"></div>
             </header>
             <div id="reports">
+                <p class="loading-message">Loading reports ...</p>
             </div>
             <div id="horizontal-scroll">
                 <div class="aside"></div>
@@ -131,10 +122,12 @@ DEEP | Dashboard
         <div class="input-container">
             <label>start date:</label>
             <input type="date" id="start-date" class="form-control">
+            <input type="text" class="date-picker" data-alt="#start-date">
         </div>
         <div class="input-container">
             <label>end date:</label>
             <input type="date" id="end-date" class="form-control">
+            <input type="text" class="date-picker" data-alt="#end-date">
         </div>
         <div class="action-buttons">
             <button id="cancel-btn" class="cancel" data-action="dismiss"><i class="fa fa-times"></i>Cancel</button>
@@ -142,4 +135,19 @@ DEEP | Dashboard
         </div>
     </div>
 </div>
+
+{% else %}
+
+<div id="non-acaps">
+    <img src="{% watchful_static_url 'img/favicon.png' %}">
+    <p>WELCOME TO THE DEEP</p>
+    <div>
+        <div> Select Your project</div>
+        <div> Download the Chrome Extension <a id="chrome-extension-download-link" target="_blank" title=" Click here to download Chrome Extension" href="https://chrome.google.com/webstore/detail/deep-create-lead/ggplhkhciodfdkkonmhgniaopboeoopi"><i class="fa fa-chrome "></i></a></div>
+        <div> Import Leads</div>
+        <div> GO DEEP !! </div>
+    </div>
+</div>
+
+{% endif %}
 {% endblock %}

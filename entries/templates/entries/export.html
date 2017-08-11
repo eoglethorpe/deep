@@ -6,23 +6,53 @@ DEEP | Export
 {% endblock %}
 
 {% block head %}
-<script>
-    var currentEvent = {{event.pk}};
-    var heirarchy = [];
-</script>
 <link href="{% watchful_static_url 'css/jquery-ui.min.css' %}" type="text/css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="{% watchful_static_url 'css/selectize.css' %}"/>
+<link href="{% watchful_static_url 'css/selectize.css' %}" type="text/css" rel="stylesheet"/>
 <link href="{% watchful_static_url 'css/modal.css' %}" type="text/css" rel="stylesheet">
 <link href="{% watchful_static_url 'css/export.css' %}" type="text/css" rel="stylesheet">
+
 <script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/jquery-ui.min.js' %}"></script>
-<script type="text/javascript" src="{% watchful_static_url 'js/entries/entries-filter.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/export.js' %}"></script>
 
 <script>
-    var eventId = "{{event.pk}}";
+var eventId = "{{ event.pk }}";
+var exportProgressUrl = "{% url 'export_progress' %}";
+var downloadUrl = "{% url 'download_file' %}";
+
+var pillars = [
+    {% for pillar in pillars %}
+    {
+        id: "{{ pillar.pk }}",
+        name: "{{ pillar.name|escapejs }}",
+        contains_sectors: {% if pillar.contains_sectors %}true{% else %}false{% endif %},
+
+        subpillars: [
+            {% for subpillar in pillar.informationsubpillar_set.all %}
+            { id: "{{ subpillar.pk }}", name: "{{ subpillar.name|escapejs }}", },
+            {% endfor %}
+        ],
+    },
+    {% endfor %}
+];
+
+var sectors = [
+    {% for sector in sectors %}
+    {
+        id: "{{ sector.pk }}",
+        name: "{{ sector.name|escapejs }}",
+        {% comment %}
+        subsectors: [
+            {% for subsector in sector.subsector_set.all %}
+            { id: "{{ subsector.pk }}", name: "{{ subsector.name|escapejs }}", },
+            {% endfor %}
+        ],
+        {% endcomment %}
+    },
+    {% endfor %}
+];
 </script>
 
 {% endblock %}
@@ -30,52 +60,94 @@ DEEP | Export
 {% block body %}
 
 {% include 'navbar.html' %}
-<section id="main">
-    <div id="export-entries">
-        <h1>Export Entries</h1>
-        <div id="export-entries-doc">
-            <form id="export-entries-doc-form" action="{% url 'entries:exportdocx' event=event.pk %}" method="post">
-                {% csrf_token %}
-                <h2>Word Export</h2>
-                <div>
-                    <button type="submit" onclick="$('#new-format').remove();" class="btn-info" ><i class="fa fa-file-word-o"></i>Generic Export</button>
-                    <button type="submit" onclick="$('#export-entries-doc-form').append('<input id=\'new-format\' type=\'hidden\' name=\'new-format\' value=\'true\'>');" class="btn-info"><i class="fa fa-file-word-o"></i>Briefing Note</button>
+
+<aside id="preview-section">
+    <div>No preview available</div>
+    <iframe src="about:blank" hidden></iframe>
+</aside>
+
+<main>
+    <section id="entries-export">
+        <div>
+            <form id="export-entries-doc-form" action="{% url 'entries:exportdoc' event=event.pk %}" method="post">
+                <header>
+                    <div class="export-format">
+                        <label class="active"><input type="radio" name="export-format" value="generic" checked> Generic</label>
+                        <label><input type="radio" name="export-format" value="geo"> Geo</label>
+                        <label><input type="radio" name="export-format" value="briefing"> Briefing note</label>
+                    </div>
+                    <div class="action-buttons">
+                        <div class="preview-buttons">
+                            <button class="btn-word" id="preview-docx" type="button"><i class="fa fa-file-word-o"></i>Preview docx</button>
+                        </div>
+                        <div class="export-buttons">
+                            <button class="btn-pdf" id="export-pdf" type="button"><i class="fa fa-file-pdf-o"></i>Export pdf</button>
+                            <button class="btn-word" id="export-docx" type="button"><i class="fa fa-file-word-o"></i>Export docx</button>
+                            <button class="btn-excel" type="button" id="export-xlsx"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
+                            <button class="btn-json export-button" type="button" data-url="{% url 'api_entries:entries' %}?event={{event.pk}}&file=1"><i class="fa fa-file-text-o"></i>Export json</button>
+                        </div>
+                    </div>
+                </header>
+
+                <div id="filter-section">
+                    <h4>Filters</h4>
+                    <div class="filters">
+                        {% include 'entries/export-entry-filters.html' %}
+                        <div class="filter-group" id="leads-selection">
+                            <header >
+                                <h5 onclick="$(this).closest('.filter-group').toggleClass('filters-shown').find('.filters-container').slideToggle('200')"><label>Leads: <span id='selected-leads-count'></span></label><i class="fa fa-chevron-down"></i></h5>
+                            </header>
+                            <div class="filters-container" hidden>
+                                {% include 'entries/export-leads.html' %}
+                            </div>
+                        </div>
+                        <div class="filter-group" id="lead-published-order">
+                            <h5>Leads published date order</h5>
+
+                            <div class="radio-group">
+                                <label><input name="order_by" value="DATE_DESCENDING" type="radio" checked="checked">Most recent to ancient</label>
+                                <label><input name="order_by" value="DATE_ASCENDING" type="radio">Ancient to most recent</label>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-            </form>
-            <div>
-                <h3>Filters</h3>
-                <div id="filters">
-                    {% include 'entries/export-entry-filters.html' %}
+
+                <div id="structure-section">
+                    <h4>Report Structure</h4>
+
+                    <input id="list-order" name="list-order" value="" type="hidden">
+                    <div class="check-group-list">
+                    </div>
+
+                    <div class="check-template" hidden><label><input type="checkbox"><span class="name"></span><span class="number"></span></label></div>
+                    <div class="check-group-template expandable" hidden>
+                        <header class="check"><label><input type="checkbox"><span class="name"></span><span class="number"></span></label><a class="fa fa-chevron-down check-group-expand"></a></header>
+                        <div class="content" hidden></div>
+                        <input class="group-order" type="hidden">
+                    </div>
                 </div>
-            </div>
-            <div id="hierarchy">
-                <h3>Hierarchy <span>(drag to rearrange)</span></h3>
-                <ul id="sortable">
-                  <li class="ui-state-default" id="geoarea">Geo Area</li>
-                  <li class="ui-state-default" id="affected">Affected</li>
-                  <li class="ui-state-default" id="sector">Sector</li>
-                </ul>
-            </div>
-        </div>
-        <div id="export-entries-excel">
-            <header>
-                <h2>Excel Export</h2>
-            </header>
-            <form id="export-entries-excel-form" action="{% url 'entries:exportxls' event=event.pk %}">
-                <button type="submit" class=" btn-primary" ><i class="fa fa-file-excel-o"></i>Export</button>
+
             </form>
         </div>
-    </div>
-    <div id="sos-export">
-        <h1>Survey of surveys</h1>
-        <div id="sos-export-excel">
-            <header>
-                <h2>Excel Export</h2>
-            </header>
-            <button id="export-sos-excel-btn" href="{% url 'leads:exportsosxls' event=event.pk %}" type="submit" class=" btn-primary" ><i class="fa fa-file-excel-o"></i>Export</button>
-        </div>
-    </div>
+    </section>
+    <!--
+    <section>
+    <h2>Assessment Registry</h2>
+    <div class="content">
+    <button class="btn-excel export-button" data-url="{% url 'leads:exportsosxls' event=event.pk %}"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
+    <button class="btn-json export-button" data-url="{% url 'api_leads:sos' %}?event={{event.pk}}&file=1"><i class="fa fa-file-text-o"></i>Export json</button>
+</div>
 </section>
+<section>
+<h2>Weekly snapshot</h2>
+<div class="content">
+<button class="btn-excel export-button" data-url="{% url 'entries:exportxls_weekly' event=event.pk %}"><i class="fa fa-file-excel-o"></i>Export xlsx</button>
+<button class="btn-json export-button" data-url="{% url 'api_report:reports' %}?event={{event.pk}}&file=1"><i class="fa fa-file-text-o"></i>Export json</button>
+</div>
+</section>
+-->
+</main>
 
 <div class="modal-container" hidden>
     <div id="date-range-input" class="modal" hidden>
@@ -85,16 +157,17 @@ DEEP | Export
         <div class="input-container">
             <label>start date:</label>
             <input type="date" id="start-date" class="form-control">
+            <input type="text" class="date-picker" data-alt="#start-date">
         </div>
         <div class="input-container">
             <label>end date:</label>
             <input type="date" id="end-date" class="form-control">
+            <input type="text" class="date-picker" data-alt="#end-date">
         </div>
         <div class="action-buttons">
             <button id="cancel-btn" class="cancel" data-action="dismiss"><i class="fa fa-times"></i>Cancel</button>
             <button id="ok-btn" class="success" data-action="proceed"><i class="fa fa-check"></i>Ok</button>
         </div>
     </div>
-</div>
 
-{% endblock %}
+    {% endblock %}

@@ -39,16 +39,32 @@ var materialSelect = {
                 }
             });
         });
-        this.selectInput.attr('tabIndex', 0);
-        this.selectInput.focusout(function(){
-            if (that.optionContainer.is(':visible')) {
-                that.optionContainer.slideUp('fast', function(){
-                    dropdownIcon.css('transform', 'rotate(0deg)');
-                    that.selectDiv.removeClass('select-active');
-                    that.refresh();
-                });
+
+        // Fix the click issue
+        $(document).mouseup(function (e){
+            if (that.selectInput.data('persist') && that.optionContainer.has(e.target).length > 0) {
+                return;
+            }
+            if (!that.selectDiv.is(e.target) && that.selectDiv.has(e.target).length === 0) {
+                if (that.optionContainer.is(':visible')) {
+                    that.optionContainer.slideUp('fast', function(){
+                        dropdownIcon.css('transform', 'rotate(0deg)');
+                        that.selectDiv.removeClass('select-active');
+                        that.refresh();
+                    });
+                }
             }
         });
+        //this.selectInput.attr('tabIndex', -1);
+        // this.selectInput.focusout(function(){
+        //     if (that.optionContainer.is(':visible')) {
+        //         that.optionContainer.slideUp('fast', function(){
+        //             dropdownIcon.css('transform', 'rotate(0deg)');
+        //             that.selectDiv.removeClass('select-active');
+        //             that.refresh();
+        //         });
+        //     }
+        // });
 
         options.each(function(i){
             function getSpan(_class){
@@ -62,6 +78,10 @@ var materialSelect = {
             optionDiv.on('click', function(){
                 that.selectOption($(this));
             });
+
+            if (!$(this).val()) {
+                optionDiv.hide();
+            }
         });
 
         this.selectOption(this.optionContainer.find('.option[data-val="'+this.select.val()+'"]'), false);
@@ -102,12 +122,17 @@ var materialSelect = {
         this.selectOption(this.optionContainer.find('.option[data-val="'+this.select.val()+'"]'), false);
     },
     selectOption: function(opt, triggerChange){
-        if ( triggerChange == null ){ triggerChange = true; }
+        if (!triggerChange) {
+            triggerChange = true;
+        }
+
         this.select.val(opt.data('val'));
         if(triggerChange){
             this.select.trigger('change');
         }
+
         let label = this.selectInput.find('label');
+
         if(opt.data('val') != opt.text()){
             label.addClass('filled');
             label.removeClass('disappear');
@@ -126,8 +151,7 @@ var materialSelect = {
         }
         this.selectDiv.blur();
     },
-    getPlaceholder: function(){ return this.selectInput.data('placeholder')? this.selectInput.data('placeholder'): 'Select an option';
-    }
+    getPlaceholder: function(){ return this.selectInput.data('placeholder')? this.selectInput.data('placeholder'): 'Select an option'; }
 };
 
 var materialSelects = [];
@@ -144,27 +168,28 @@ function refreshSelectInputs(){
     });
 }
 $(document).ready(function(){
-    $('.text-input input').on('change input paste', function(){
-        if($(this).val().length == 0){
+    $('.text-input input:not([type="date"])').on('change input paste', function(){
+        if($(this).val().length === 0){
             $(this).removeClass('filled');
         }else{
             $(this).addClass('filled');
         }
     });
-    var dateInputs = $('.text-input input[type="date"]');
-    dateInputs.each(function(){
-        if(!$(this).val()){
-            $(this)[0].type = 'text';
-        }
-    });
-    dateInputs.on('focus', function(){
-        $(this)[0].type = 'date';
-    });
-    dateInputs.on('focusout change', function(){
-        if(!$(this).val()){
-            $(this)[0].type = 'text';
-        } else {
-            $(this)[0].type = 'date';            
-        }
-    });
+
+    // var dateInputs = $('.text-input input[type="date"]');
+    // dateInputs.each(function(){
+    //     if(!$(this).val()){
+    //         $(this)[0].type = 'text';
+    //     }
+    // });
+    // dateInputs.on('focus', function(){
+    //     $(this)[0].type = 'date';
+    // });
+    // dateInputs.on('focusout change', function(){
+    //     if(!$(this).val()){
+    //         $(this)[0].type = 'text';
+    //     } else {
+    //         $(this)[0].type = 'date';
+    //     }
+    // });
 });

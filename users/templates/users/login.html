@@ -13,9 +13,9 @@ DEEP | Sign in
 let hid_access_token_url = '{% url "hid_access_token" %}';
 
 {% if hid_config and hid_config.development %}
-let hid_login_url = 'http://auth.dev.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id|safe }}&scope=profile&state=12345&redirect_uri={{ hid_config.redirect_url|safe }}';
+let hid_login_url = 'https://api2.dev.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id|safe }}&scope=profile&state=12345&redirect_uri={{ hid_config.redirect_url|safe }}';
 {% else %}
-let hid_login_url = 'http://auth.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id|safe }}&scope=profile&state=12345&redirect_uri={{ hid_config.redirect_url|safe }}';
+let hid_login_url = 'https://auth.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id|safe }}&scope=profile&state=12345&redirect_uri={{ hid_config.redirect_url|safe }}';
 {% endif %}
 
 </script>
@@ -25,6 +25,9 @@ let hid_login_url = 'http://auth.humanitarian.id/oauth/authorize?response_type=t
 <div id="background"></div>
 <main>
     <form method="post">
+        {% if request.GET.next %}
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
+        {% endif %}
         {% csrf_token %}
         <header>
             <h1>Data entry and exploration platform</h1>
@@ -42,8 +45,8 @@ let hid_login_url = 'http://auth.humanitarian.id/oauth/authorize?response_type=t
             <input type="password" placeholder="Enter your password" name="password" required>
         </div>
         <div id="submit-btn-container">
-            <div></div>
-            <button type="submit" >Sign in</button>
+            <div><a href="{% url 'password_reset' %}">Forgot password?</a></div>
+            <button type="submit">Sign in</button>
         </div>
         <div class="action-buttons">
             <a id="register-link" href="/register">Register</a>

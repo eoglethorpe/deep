@@ -25,8 +25,17 @@ SECRET_KEY = '2egrwk!cwh6y$6lzpvmc6+lsgp417@)g0c=u^cguz(n9#-!p75'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+# Email
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'deepnotifications1@gmail.com'
+EMAIL_HOST_PASSWORD = 'deep1234'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+ADMINS = [('Ewan', 'ewanogle@gmail.com'),
+          ('Togglecorp', 'info@togglecorp.com')]
 
 # Application definition
 
@@ -37,14 +46,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 
     'rest_framework',
     'corsheaders',
-    'django_cleanup',
+    # 'django_cleanup',
 
     'users',
     'leads',
     'entries',
+    'project',
     'report',
     'usergroup',
     'custom_admin',
@@ -60,6 +71,8 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'django403.middleware.Django403Middleware',
 ]
 
 ROOT_URLCONF = 'deep.urls'
@@ -115,6 +128,26 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Logging errors
+if not DEBUG:
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'file': {
+                'level': 'ERROR',
+                'class': 'logging.FileHandler',
+                'filename': os.path.join(BASE_DIR, 'deep-error-log'),
+            },
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['file'],
+                'propagate': True,
+            },
+        },
+    }
 
 
 # Internationalization

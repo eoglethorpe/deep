@@ -3,10 +3,14 @@ var articleDate = null;
 var tabId;
 
 
-chrome.tabs.executeScript(null, {code: 'chrome.runtime.sendMessage({ data: document.documentElement.innerHTML });' });
+// TODO: check for message broadcaster to avoid conflicts
+// maybe use app name and version
+chrome.tabs.executeScript(null, {code: 'chrome.runtime.sendMessage({ currentPageHtml: document.documentElement.innerHTML });' });
 chrome.runtime.onMessage.addListener( function(request, sender) {
-    extension.currentPage = '<html>'+request.data+'</html>';
-    extension.loadTitle();
+    if(request.currentPageHtml){
+        extension.currentPage = '<html>'+request.currentPageHtml+'</html>';
+        extension.loadTitle();
+    }
 });
 
 $(document).ready(function(){
@@ -37,11 +41,55 @@ $(document).ready(function(){
     $('#submit-and-add-entry').on('click', function(e){
         $('#add-lead-form').append('<input type="hidden" name="redirect-url" value="true">');
     });
+
+    const publishDatePicker = $('#publish-date-picker');
+    publishDatePicker.datepicker({
+        altField: $('#publish-date'),
+        altFormat: 'yy-mm-dd',
+        dateFormat: 'dd-mm-yy',
+        onSelect: function() {
+            $('#publish-date').change();
+            $('#publish-date-picker').change();
+        },
+    });
+
+    $('#publish-date').change(function() {
+        if ($(this).val()) {
+            publishDatePicker.datepicker('setDate', new Date($(this).val()));
+            publishDatePicker.trigger('change');
+        }
+    });
+
     $('#publish-date-container a').on('click', function(){
-        let dateInput = $('#publish-date');
-        dateInput[0].type = 'date';
-        dateInput[0].valueAsDate = new Date;
-        dateInput.focus().addClass('filled');
-        dateInput.trigger('change');
+        publishDatePicker.datepicker('setDate', new Date());
+        publishDatePicker.trigger('change');
+    });
+     
+    $('#event-select').on('change', function() {
+         
+        if($(this).val()) {
+            let pk = $(this).val();
+            $(this).val('');
+
+            if($('.selected-event').filter(function(){ return $(this).data('pk') == pk; }).length > 0) {
+                return;
+            }
+            let selectedEventElement = $(`
+                <div class="selected-event">
+                    <span class="name"></span>
+                    <button><i class="fa fa-times"></i></button>
+                </div>
+            `);
+            selectedEventElement.find('.name').text($(this).find('option[value="'+pk+'"]').text());
+            selectedEventElement.data('pk', pk);
+             
+            selectedEventElement.find('button').on('click', function() {
+                $(this).closest('.selected-event').remove();   
+                return false;
+            });
+
+            selectedEventElement.appendTo('#selected-events');
+        }
+         
     });
 });

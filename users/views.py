@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from django.core.validators import validate_email
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -27,7 +27,10 @@ class RegisterView(View):
 
     def get(self, request):
         # Return the register template.
-        return render(request, "users/register.html")
+        context = {}
+        context['countries'] = Country.objects.filter(
+            reference_country=None).distinct()
+        return render(request, "users/register.html", context)
 
     def post(self, request):
 
@@ -38,6 +41,7 @@ class RegisterView(View):
         password = request.POST["password"]
         repassword = request.POST["re-password"]
         organization = request.POST["organization"]
+        country_code = request.POST['country']
 
         error = ""
 
@@ -68,6 +72,7 @@ class RegisterView(View):
             profile = UserProfile()
             profile.user = user
             profile.organization = organization
+            profile.country = Country.objects.get(code=country_code)
             profile.save()
 
             user = authenticate(username=email, password=password)
@@ -80,6 +85,9 @@ class RegisterView(View):
             context["last_name"] = last_name
             context["email"] = email
             context["organization"] = organization
+            context["country_code"] = country_code
+            context['countries'] = Country.objects.filter(
+                reference_country=None).distinct()
             return render(request, "users/register.html", context)
         return redirect("login")
 
@@ -94,6 +102,8 @@ class LoginView(View):
         if request.user and request.user.is_active:
             try:
                 last_event = UserProfile.get_last_event(request)
+                # if request.GET.get('next'):
+                #     return redirect(request.GET['next'])
                 if last_event:
                     return redirect("dashboard", last_event.pk)
                 profile = UserProfile.objects.get(user=request.user)
@@ -107,7 +117,7 @@ class LoginView(View):
         if hid.status:
             # We have a valid hunitarian id
             # If there's a user with this id, login with that user
-            hid_uid = hid.data['user_id']
+            hid_uid = hid.data['_id']
             try:
                 user = User.objects.get(userprofile__hid=hid_uid)
                 user.backend = settings.AUTHENTICATION_BACKENDS[0]
@@ -120,7 +130,7 @@ class LoginView(View):
                     user.backend = settings.AUTHENTICATION_BACKENDS[0]
                 except:
                     username, password = hid.create_user()
-                    user = authenticate(username=username, password=hid.data['id'])
+                    user = authenticate(username=username, password=hid.data['user_id'])
 
             # update user data from hid
             hid.save_user(user.userprofile)
@@ -148,6 +158,13 @@ class LoginView(View):
                 try:
                     profile = UserProfile.objects.get(user=user)
                     login(request, user)
+
+                    next_page = request.POST.get('next')
+                    if next_page:
+                        return redirect(next_page)
+
+                    # if request.GET.get('next'):
+                    #     return redirect(request.GET['next'])
                     last_event = UserProfile.get_last_event(request)
                     if last_event:
                         return redirect("dashboard", last_event.pk)
@@ -169,7 +186,6 @@ class DashboardView(View):
 
     @method_decorator(login_required)
     def get(self, request, event=None):
-
         if not event and "last_event" in request.GET and request.GET["last_event"]:
             last_event = UserProfile.get_last_event(request)
             if last_event:
@@ -177,68 +193,34 @@ class DashboardView(View):
 
         context = {}
         context["current_page"] = "dashboard"
+        context["all_events"] = Event.get_events_for(request.user)
+
+        if context['all_events'].count() == 0:
+            return redirect('user_profile', request.user.pk)
+
         if event:
             context["event"] = Event.objects.get(pk=event)
+            if context['event'] not in context['all_events']:
+                UserProfile.set_last_event(request, None)
+                return redirect('dashboard')
             UserProfile.set_last_event(request, context["event"])
         else:
             UserProfile.set_last_event(request, None)
-        context["all_events"] = Event.objects.all()
+
 
         # Filter options in dashboard
         context["disaster_types"] = DisasterType.objects.all()
         context["countries"] = Country.objects.filter(event__in=Event.objects.all())
 
-        # Get active crises
+        # Get active projects
         context["active_events"] = Event.objects.filter(end_date=None)
         context["leads"] = Lead.objects.all()
         context["informations"] = EntryInformation.objects.all()
-
-        # Get weekly reports for timeline
-        context["weekly_reports"] = []
-        context["crises_per_country"] = {}
-
-        weekly_reports = WeeklyReport.objects.all()
-        if weekly_reports.count() > 0:
-            # Get total number of weeks
-            first_report = weekly_reports.last()
-            last_report = weekly_reports.first()
-
-            monday2 = last_report.start_date - timedelta(days=last_report.start_date.weekday())
-            # monday1 = first_report.start_date - timedelta(days=first_report.start_date.weekday())
-            # Actually use first monday of the year
-            # Jan 4 is Week 1 (ISO)
-            day4 = date(first_report.start_date.year, 1, 4)
-            monday1 = day4 - timedelta(days=day4.weekday())
-
-            weeks = max(int((monday2 - monday1).days/7 + 1), 14) + 2
-
-
-            # For each week, store its date and the countries whose reports exist on that day
-            for i in range(weeks):
-                dt = monday1 + timedelta(days=7*i)
-
-                label = 'W' + str(dt.isocalendar()[1])
-                countries = []
-                crises = []
-                report_ids = []
-                report_data = []
-                report_created_dates = []
-                context["weekly_reports"].append([dt, dt+timedelta(days=6), countries, crises, report_ids, label, report_data, report_created_dates])
-
-                reports = WeeklyReport.objects.filter(start_date=dt)
-                for report in reports:
-                    countries.append(report.country)
-                    crises.append(report.event)
-                    report_ids.append(report.pk)
-                    report_data.append({
-                        "disaster_type": json.loads(report.data)["disaster_type"],
-                    })
-                    report_created_dates.append(report.last_edited_at)
+        context["projects_per_country"] = {}
 
         # Get event for each country
         for country in context["countries"]:
-            context["crises_per_country"][country] = Event.objects.filter(countries__pk=country.pk)
-
+            context["projects_per_country"][country] = Event.objects.filter(countries__pk=country.pk)
         return render(request, "users/dashboard.html", context)
 
 
@@ -258,17 +240,16 @@ class HidAccessToken(View):
         access_token = request.GET['access_token']
         state = int(request.GET['state'])
 
-        request.session['hid_access_token'] = access_token
+        token, user_id = HumanitarianId.get_token_and_user_id(access_token)
         if state == 833912:  # DEEP12: link hid with current user
             if request.user and (request.user.userprofile.hid is None or request.user.userprofile.hid == ''):
-                hid = HumanitarianId(request)
-                if hid.status:
-                    profile = request.user.userprofile
-                    profile.hid = hid.data['user_id']
-                    profile.save()
+                profile = request.user.userprofile
+                profile.hid = user_id
+                profile.save()
 
         logout(request)
-        request.session['hid_access_token'] = access_token
+        request.session['hid_token'] = token
+        request.session['hid_user'] = user_id
         return redirect('login')
 
 
@@ -290,7 +271,18 @@ class UserStatusView(View):
 class UserProfileView(View):
     @method_decorator(login_required)
     def get(self, request, user_id):
-        context = { 'user': User.objects.get(pk=user_id) }
+        user = User.objects.get(pk=user_id)
+
+        projects = list(user.event_set.all()) + list(user.events_owned.all())
+        for usergroup in user.usergroup_set.all():
+            projects.extend(list(usergroup.projects.all()))
+
+        context = {
+            'user': user,
+            'projects': list(set(projects)),
+            'countries': Country.objects.filter(
+                reference_country=None).distinct(),
+        }
         return render(request, "users/profile.html", context)
 
     @method_decorator(login_required)
@@ -331,10 +323,19 @@ class UserProfileView(View):
         # TODO check if user has permission for whatever request
 
         # Edit profile
-        if request['request'] == 'edit-name':
+        if request['request'] == 'edit-attributes':
             response['done'] = False
             user.first_name = request['firstName']
             user.last_name = request['lastName']
+
+            profile = user.userprofile
+            profile.organization = request['organization']
+            if request.get('country'):
+                profile.country = Country.objects.get(
+                    code=request['country'])
+            else:
+                profile.country = None
+            profile.save()
             user.save()
             response['done'] = True
 
@@ -346,7 +347,7 @@ class UserProfileView(View):
                 if UserGroup.objects.filter(name=name).count() > 0:
                     response['nameExists'] = True
                 else:
-                    group = UserGroup(name=name, description=description)
+                    group = UserGroup(name=name, description=description, owner=original_request.user)
                     group.save()
 
                     group.members.add(original_request.user)

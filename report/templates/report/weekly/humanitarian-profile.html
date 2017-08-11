@@ -1,24 +1,77 @@
 <section id="humanitarian-profile" hidden>
-    <p id="humanitarian-profile-field-error" hidden></p>
+    <p class="field-error" hidden></p>
     <div id="human-profile-field-list">
         {% for field in human_profile_fields %}
+        {% if field.tab == 'HUM' %}
         <div class="human-profile-field">
             <label>{{field.name}}</label>
-            <input class="human-number number{% if field.total_field %} human-profile-total{% endif %}{% if field.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{field.pk}}" placeholder="Number of people" {% if field.total_field %}readonly{% endif %}>
-            <input class="human-source source-droppable" data-human-pk="{{field.pk}}" placeholder="Source/Date">
-            <input class="human-comment" data-human-pk="{{field.pk}}" placeholder="Comment">
+            <div class="number-wrapper">
+                <input class="human-number number{% if field.total_field %} human-profile-total{% endif %}{% if field.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{field.pk}}" placeholder="Number of people" data-prefix="human" {% if field.total_field %}readonly{% endif %}>
+            </div>
+            <div class="source-warning-wrapper">
+                <div class="human-source source-new" data-human-pk="{{field.pk}}" data-prefix="human"></div>
+            </div>
+            <div class="comment-warning-wrapper">
+                <input class="human-comment comment" data-human-pk="{{field.pk}}" data-prefix="human" placeholder="Comment">
+            </div>
             <a></a>
 
             {% for subfield in field.humanprofilefield_set.all %}
             <div class="human-profile-subfield">
                 <label class="sub">{{subfield.name}}</label>
-                <input class="human-number number{% if subfield.total_field %} human-profile-total{% endif %}{% if subfield.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{subfield.pk}}" placeholder="Number of people">
-                <input class="human-source source-droppable" data-human-pk="{{subfield.pk}}" placeholder="Source/Date">
-                <input class="human-comment" data-human-pk="{{subfield.pk}}" placeholder="Comment">
+                <div class="number-wrapper">
+                    <input class="human-number number{% if subfield.total_field %} human-profile-total{% endif %}{% if subfield.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{subfield.pk}}" data-prefix="human" placeholder="Number of people">
+                </div>
+                <div class="source-warning-wrapper">
+                    <div class="human-source source-new" data-human-pk="{{subfield.pk}}" data-prefix="human"></div>
+                </div>
+                <div class="comment-warning-wrapper">
+                    <input class="human-comment comment" data-human-pk="{{subfield.pk}}" data-prefix="human" placeholder="Comment">
+                </div>
                 <a class="fa fa-plus add-child"></a>
             </div>
             {% endfor %}
         </div>
-    {% endfor %}
+        {% endif %}
+        {% endfor %}
+    </div>
+</section>
+
+<section id="casualties" hidden>
+    <p class="field-error" hidden></p>
+    <div id="casualties-field-list">
+        {% for field in human_profile_fields %}
+        {% if field.tab == 'CAS' %}
+        <div class="human-profile-field">
+            <label>{{field.name}}</label>
+            <div class="number-wrapper">
+                <input class="human-number number{% if field.total_field %} human-profile-total{% endif %}{% if field.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{field.pk}}" placeholder="Number of people" data-prefix="human" {% if field.total_field %}readonly{% endif %}>
+            </div>
+            <div class="source-warning-wrapper">
+                <div class="human-source source-new" data-human-pk="{{field.pk}}" data-prefix="human"></div>
+            </div>
+            <div class="comment-warning-wrapper">
+                <input class="human-comment comment" data-human-pk="{{field.pk}}" data-prefix="human" placeholder="Comment">
+            </div>
+            <a></a>
+
+            {% for subfield in field.humanprofilefield_set.all %}
+            <div class="human-profile-subfield">
+                <label class="sub">{{subfield.name}}</label>
+                <div class="number-wrapper">
+                    <input class="human-number number{% if subfield.total_field %} human-profile-total{% endif %}{% if subfield.total_affected_field %} human-profile-total-affected{% endif %}" data-human-pk="{{subfield.pk}}" data-prefix="human" placeholder="Number of people">
+                </div>
+                <div class="source-warning-wrapper">
+                    <div class="human-source source-new" data-human-pk="{{subfield.pk}}" data-prefix="human"></div>
+                </div>
+                <div class="comment-warning-wrapper">
+                    <input class="human-comment comment" data-human-pk="{{subfield.pk}}" data-prefix="human" placeholder="Comment">
+                </div>
+                <a class="fa fa-plus add-child"></a>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endfor %}
     </div>
 </section>

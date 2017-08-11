@@ -1,5 +1,30 @@
 ## Change log
 
+### v2.0.10
+ 
+* Fix date auto extraction issue
+* Persist project selection dropdown
+
+### v2.0.9
+
+* Add support for multiple projects
+ 
+### v2.0.8
+
+* Fix readability issue for extracting title
+
+### v2.0.7
+
+* Fix manifest error
+
+### v2.0.6
+
+* Fix permissions for screenshots
+
+### v2.0.5
+
+* Fix the problem in which events sometimes couldn't be selected
+* Add support for capturing screenshots
 
 ### v2.0.4
 

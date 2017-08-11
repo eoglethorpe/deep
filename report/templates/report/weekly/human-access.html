@@ -9,8 +9,8 @@
                     <option value="No">No</option>
                     <option value="DNK">DNK</option>
                 </select>
-                <input class="access-source" data-access-pk="{{field.pk}}" type="text" name="source" placeholder="Source/Date">
-                <input class="access-comment" data-access-pk="{{field.pk}}" type="text" name="comment" placeholder="Comment">
+                <div class="access-source source-new" data-access-pk="{{field.pk}}"></div>
+                <input class="access-comment comment" data-access-pk="{{field.pk}}" type="text" name="comment" placeholder="Comment">
             </div>
             {% endfor %}
         </div>
@@ -18,9 +18,13 @@
             {% for field in human_access_pin_fields %}
             <div class="human-access-pin-field">
                 <label class="title">{{field.name}}</label>
-                <input class="number access-pin-number" data-access-pin-pk="{{field.pk}}" placeholder="Number">
-                <input class="access-pin-source source-droppable" data-access-pin-pk="{{field.pk}}" placeholder="Source/Date">
-                <input class="access-pin-comment" data-access-pin-pk="{{field.pk}}" placeholder="Comment">
+                <input class="number access-pin-number" data-access-pin-pk="{{field.pk}}" data-prefix="access-pin" placeholder="Number">
+                <div class="source-warning-wrapper">
+                    <div class="access-pin-source source-new" data-access-pin-pk="{{field.pk}}" data-prefix="access-pin"></div>
+                </div>
+                <div class="comment-warning-wrapper">
+                    <input class="access-pin-comment comment" data-access-pin-pk="{{field.pk}}" data-prefix="access-pin" placeholder="Comment">
+                </div>
             </div>
             {% endfor %}
         </div>

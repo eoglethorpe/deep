@@ -1,60 +1,107 @@
 #weekly-severity-score{
-
-    label{
-        margin-top: 10px;
-        margin-bottom: 5px;
-    }
-
-    > div{
+    >div {
         display: flex;
-        justify-content: space-between;
-        min-height: 72px;
-        padding: 0 24px;
 
-        >*{
-            flex-basis: 30%;
+
+        label{
+            margin-top: 10px;
+            margin-bottom: 5px;
+            display: flex;
         }
-    }
-    input{
-        outline: none;
-        border: 1px solid transparent;
-        width: 100%;
-        padding: 4px 10px;
-    }
 
-    .score-0{
-        background-color: rgba(231,76,60,0.2);
-    }
-    .score-1{
-        color: rgba(0, 0, 0, 0.6);
-        background-color: rgba(231,76,60,0.5);
-    }
-    .score-2{
-        color: rgba(255, 255, 255, 0.8);
-        background-color: rgba(231,76,60,0.75);
-    }
-    .score-3{
-        color: rgb(255, 255, 255);
-        background-color: rgba(231,76,60,1);
-    }
+        > div{
+            min-height: 72px;
+            padding: 0 24px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
 
-    .dynamic{
-        color: $primary-color;
-    }
+            >*{
+                label {
+                    height: 48px;
+                    display: flex;
+                    align-items: flex-end;
+                }
 
-    #hdi{
-        background-color: rgba(0,0,0,0.3);
-    }
-    #hdi-rank{
-        background-color: rgba(0,0,0,0.3);
-    }
-    #mortality-rate{
-        background-color: rgba(0,0,0,0.3);
-    }
-    #uprooted-people{
-        background-color: rgba(0,0,0,0.3);
-    }
-    #uprooted-percentage{
-        background-color: rgba(0,0,0,0.3);
+                input {
+                    height: 64px;
+                    background-color: #fff;
+                    text-align: center;
+
+                    &:disabled {
+                        background-color: inherit;
+                    }
+                }
+            }
+
+            &:nth-child(odd) {
+                background-color: rgba(0, 0, 0, 0.05);
+            }
+
+            &:first-child {
+                background-color: #fff;
+                box-shadow: 0 2px 15px -3px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        #final-score-comment{
+            text-align: left;
+            font-size: 1em;
+        }
+
+        #final-score-comment, #final-score {
+            border: 1px solid rgba(0, 0, 0, 0.3);
+
+            &:focus {
+                border-color: $primary-color;
+            }
+        }
+
+        input{
+            outline: none;
+            border: 1px solid transparent;
+            width: 100%;
+            padding: 4px 10px;
+            background-color: transparent;
+            font-size: 2em;
+            font-weight: $font-weight-thin;
+            color: rgba(0, 0, 0, 0.7);
+
+        }
+
+        .score-0{
+            background-color: rgba(231, 76, 60, 0.2);
+        }
+        .score-1{
+            color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(231, 76, 60, 0.5);
+        }
+        .score-2{
+            color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(231, 76, 60, 0.75);
+        }
+        .score-3{
+            color: rgb(255, 255, 255);
+            background-color: rgba(231, 76, 60, 1);
+        }
+
+        .dynamic{
+            color: $primary-color;
+        }
+
+        #hdi {
+            background-color: rgba(0,0,0,0.1);
+        }
+        #hdi-rank{
+            background-color: rgba(0,0,0,0.1);
+        }
+        #mortality-rate{
+            background-color: rgba(0,0,0,0.1);
+        }
+        #uprooted-people{
+            background-color: rgba(0,0,0,0.1);
+        }
+        #uprooted-percentage{
+            background-color: rgba(0,0,0,0.1);
+        }
     }
 }

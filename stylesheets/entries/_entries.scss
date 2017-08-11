@@ -49,6 +49,13 @@
 #entries{
     padding: 0 16px;
 
+    p.message {
+        text-align: center;
+        margin-top: 100px;
+        font-size: 1.5em;
+        color: $label-color;
+    }
+
     .entry{
         margin-bottom: 10px;
         box-shadow: 0 0 15px -3px rgba(0, 0, 0, 0.5);
@@ -121,6 +128,11 @@
                 text-align: justify;
                 line-height: 1.5;
                 margin: 0;
+
+                .excerpt-image{
+                    width: 100%;
+                    border: 2px dashed $primary-color;
+                }
             }
             date{ font-family: 'Inconsolata', monospace; font-size: 1.2em; margin-top: 10px; display: inline-block;}
             > div{
@@ -145,7 +157,6 @@
                         @for $i from 0 through 5 { ._#{$i}{ opacity: ($i/5); } }
                         .active{ width: 12px; height: 24px; margin-bottom: -4px; }
                     }
-                    $reliability-base: #1A2386;
                     .reliability{ span{ background-color: $reliability-base; } }
                     .severity{ span{ background-color: $severity-base; } }
                 }
@@ -155,6 +166,13 @@
                 &:nth-child(6){ flex-basis: 10%; }
                 &:nth-child(7){
                     flex-basis: 20%;
+                    .pillar-header{
+                        display: flex;
+
+                        label{
+                            flex-basis: 50%;
+                        }
+                    }
                     .attribute{
                         display: flex!important;
                         >*{

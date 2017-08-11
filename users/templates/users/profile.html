@@ -1,18 +1,39 @@
 {% extends 'base.html' %}
 {% load watchful_url %}
+{% load humanize %}
 
 {% block title %}
 DEEP | User Profile
 {% endblock %}
 
 {% block head %}
+<link rel="stylesheet" href="{% watchful_static_url 'css/selectize.css' %}" >
 <link rel="stylesheet" href="{% watchful_static_url 'css/user-profile.css' %}" >
 <link rel="stylesheet" href="{% watchful_static_url 'css/modal.css' %}" >
 
+<script src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 <script src="{% watchful_static_url 'js/users/profile.js' %}"></script>
 <script>
+
+$(document).ready(function() {
+    // HumanitarianId link
+    $('#link-hid-btn').click(function() {
+        {% if hid_config and hid_config.development %}
+        window.location.href = 'https://api2.dev.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id|safe }}&scope=profile&state=833912&redirect_uri={{ hid_config.redirect_url|safe }}';
+        {% else %}
+        window.location.href = 'https://auth.humanitarian.id/oauth/authorize?response_type=token&client_id={{ hid_config.client_id|safe }}&scope=profile&state=833912&redirect_uri={{ hid_config.redirect_url|safe }}';
+        {% endif %}
+    });
+
+    if (window.location.hash.indexOf('access_token=') >= 0
+    && window.location.hash.indexOf('state=833912') >= 0)
+    {
+        window.location.href = '{% url "hid_access_token" %}' + '?' + window.location.hash.substr(1);
+    }
+})
+
 var activities = [
     {% for activity in user.activitylog_set.all %}
     $.extend(
@@ -32,64 +53,58 @@ var activities = [
 {% endblock %}
 
 {% block body %}
-<nav>
-    <header>
-        <a title="DEEP" href="{% url 'login' %}"><img class="deep-logo" src="{% watchful_static_url 'img/deep-logo-sm-white.png' %}"></a>
-        <h1>User profile</h1>
-    </header>
-    <!-- <a href="{% url 'login' %}"><i class="fa fa-long-arrow-left"></i>Back to deep</a> -->
-    <a onclick="window.location.href = document.referrer;"><i class="fa fa-long-arrow-left"></i>Back</a>
-</nav>
+
+{% include 'simplified-navbar.html' with page_title="User profile" %}
+
 <main>
     <header>
-        <input type="file" name="avatar" id="avatar-input" accept="image/*">
         <img id="user-avatar" src="{% if user.userprofile.photo %}{{ user.userprofile.photo.url }}{% else %}{% watchful_static_url 'img/default-avatar.png' %}{% endif %}">
         <div class="user-info">
-            <h2 id="full-name">
-                <div>
-                    <label>First name:</label>
-                    <div id="first-name" class="name" spellcheck="false">{{ user.first_name }}</div>
-                </div>
-                <div>
-                    <label>Last name:</label>
-                    <div id="last-name" class="name" spellcheck="false">{{ user.last_name }}</div>
-                </div>
-            </h2>
-            <div class="extra">{{ user.username }}</div>
+            <div class="name">{{ user.first_name }} {{ user.last_name }}</div>
+            <div class="username">{{ user.username }}</div>
+            <div class="organization">{{ user.userprofile.organization }}</div>
+            <div class="country">{{ user.userprofile.country }}</div>
         </div>
         <div class="action-buttons">
             {% if user == request.user %}
-            <a id="save-user-info-btn" hidden><i class="fa fa-save"></i></a>
-            <a id="edit-user-info-btn" ><i class="fa fa-edit"></i></a>
-            <a id="save-user-info-progress-btn" hidden><i class="fa fa-spinner fa-pulse"></i></a>
+            <a id="edit-user-info-btn" title="Click to Edit" ><i class="fa fa-edit"></i></a>
             {% endif %}
         </div>
     </header>
     <section id="project-list">
         <div id="project-list-header">
-            <h2>Projects</h2>
-            {% if user == request.user %}<button onclick="window.location.href='{% url "custom_admin:crisis_panel" %}'"><i class="fa fa-plus"></i>Add new project</button>{% endif %}
+            <h2>Your Projects</h2>
+            <div>
+                <i class="fa fa-search"></i><input id="search-projects" type="search" placeholder="Search projects">
+                {% if user == request.user %}<button id="new-project-btn"><i class="fa fa-plus"></i>Add new project</button>{% endif %}
+            </div>
         </div>
         <div id="projects-header">
             <label class="name" data-sort=".name">Name</label>
-            <label class="type" data-sort=".type">Type</label>
-            <label class="countries" data-sort=".countries">Countries</label>
-            <label class="groups" data-sort=".groups">Groups</label>
+            <label class="rights" data-sort=".rights">Rights</label>
+            <label class="created-on" data-sort=".created-on">Created on</label>
+            <label class="status" data-sort=".status">Status</label>
+            <label class="last-modified" data-sort=".last-modified">Last modified</label>
+            <label class="members" data-sort=".members">Members</label>
+            <label class="actions">Actions</label>
         </div>
         <div id="projects">
-            {% for crisis in user.event_set.all %}
-            <div class="project">
-                <div class="name">{{crisis.name}}</div>
-                <div class="type">{{crisis.disaster_type.name}}</div>
-                <div class="countries">{% for country in crisis.countries.all %}{{country}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
-                <div class="groups">{% for usergroup in crisis.usergroup_set.all %}{{usergroup}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
+            {% for project in projects %}
+            <div class="project" data-search=".name">
+                <div class="name">{{ project.name }}</div>
+                <div class="rights">{% if user in project.get_admins %}Admin{% else %}User{% endif %}</div>
+                <div class="created-on"><date>{% if project.created_at %}{{ project.created_at | date:'d N Y' }}{% else %}N/A{% endif %}</date></div>
+                <div class="status">Active</div>
+                <div class="last-modified"><date>{{ project.modified_at | date:'d N Y' }}</date> <span>({{ project.modified_at | naturaltime }})</span></div>
+                <div class="members">{{ project.get_num_members }}</div>
+                <div class="actions">{% if user in project.get_admins %}<a href="{% url 'project:project_details'  project.pk %}" class="fa fa-edit"></a>{% endif %}</div>
             </div>
             {% endfor %}
         </div>
     </section>
     <section id="user-group-list">
         <div id="user-group-list-header">
-            <h2>User groups</h2>
+            <h2>Your User groups</h2>
             {% if user == request.user %}<button id="new-user-group-btn"><i class="fa fa-plus"></i>Add new User group</button>{% endif %}
         </div>
         <div id="user-groups">
@@ -128,8 +143,68 @@ var activities = [
             <textarea name="description" id="new-user-group-description"></textarea>
         </div>
         <div class="action-buttons">
-            <button data-action="dismiss">Cancel</button>
-            <button data-action="proceed" data-persist="true">Create user group</button>
+            <button class="cancel-button" data-action="dismiss"><i class="fa fa-times fa-md"></i>Cancel</button>
+            <button class="proceed-button" data-action="proceed" data-persist="true"><i class="fa fa-plus fa-md"></i>Create user group</button>
+        </div>
+    </div>
+</div>
+<div class="modal-container" hidden>
+    <div class="modal" id="new-project-modal" hidden>
+        <header>
+            <h3 class="modal-header">Add new project</h3>
+        </header>
+        <div class="error"></div>
+        <div class="input-container">
+            <form method="post" action="{% url 'project:project_details' 0 %}">
+                {% csrf_token %}
+                <label>Name</label>
+                <input type="text" name="name" id="new-project-name">
+                <input type="hidden" name="add-new" value="add-new">
+            </form>
+        </div>
+        <div class="action-buttons">
+            <button class="cancel-button" data-action="dismiss"><i class="fa fa-times fa-md"></i>Cancel</button>
+            <button class="proceed-button" data-action="proceed" data-persist="true"><i class="fa fa-plus fa-md"></i>Create project</button>
+        </div>
+    </div>
+</div>
+<div class="modal-container" hidden>
+    <div class="modal" id="edit-user-modal" hidden>
+        <header>
+            <h3 class="modal-header"><i class="fa fa-edit" style="margin-right: 10px;"></i>Edit User</h3>
+            <div id="loading-spin" hidden><i class="fa fa-circle-o-notch fa-spin fa-2x"></i></div>
+        </header>
+        <div class="error"></div>
+        <div class="input-container">
+            <input type="file" name="avatar" id="avatar-input" accept="image/*">
+            <img id="edit-user-avatar" title="Click to upload new picture" src="{% if user.userprofile.photo %}{{ user.userprofile.photo.url }}{% else %}{% watchful_static_url 'img/default-avatar.png' %}{% endif %}">
+            <form method="post">
+                <label>First Name</label>
+                <input type="text" name="name" id="first-name" value="{{ user.first_name }}">
+                <label>Last Name</label>
+                <input type="text" name="name" id="last-name" value="{{ user.last_name }}">
+                <label>Organization</label>
+                <input type="text" name="name" id="user-organization" value="{{ user.userprofile.organization }}">
+                <div class="input-group" id="user-country-select-wrapper">
+                    <label>Country</label>
+                    <select id="user-country-select">
+                        <option value=""></option>
+                        {% for c in countries %}
+                        <option value="{{ c.pk }}" {% if c == user.userprofile.country %}selected{% endif %}>{{ c.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+            <div class="btn-wrapper">
+                <a id="change-password-btn" href="{% url 'password_change' %}" target="_blank"><i class="fa fa-key"></i>Change password</a>
+                {% if not request.user.userprofile.hid %}
+                <a id="link-hid-btn"><i class="fa fa-link"></i>Link with hid</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="action-buttons">
+            <button class="cancel-button" data-action="dismiss"><i class="fa fa-times fa-md"></i>Cancel</button>
+            <button class="proceed-button" data-action="proceed" data-persist="true"><i class="fa fa-save fa-md"></i>Save</button>
         </div>
     </div>
 </div>

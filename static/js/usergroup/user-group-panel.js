@@ -90,30 +90,36 @@ let members = {
 
 
         $('#members').on('click', '.member .action-container .delete-action', function(){
-            let member = $(this).closest('.member');
-            ajax.request({
+            if (confirm("Are you sure you want to delete this member??")) {
+
+                let member = $(this).closest('.member');
+                ajax.request({
                 request: 'removeMembers',
                 members: [ member.data('pk') ],
-            }).done(function(response) {
+                }).done(function(response) {
                 if (response.status && response.data.removedMembers) {
-                    for (var i=0; i<response.data.removedMembers.length; i++) {
-                        $('.member[data-pk="' + response.data.removedMembers[i] + '"]').remove();
-                    }
+                for (var i=0; i<response.data.removedMembers.length; i++) {
+                $('.member[data-pk="' + response.data.removedMembers[i] + '"]').remove();
                 }
-            }).always(function() {
+                }
+                }).always(function() {
                 refresh();
-            });
+                });
+            }
         });
     },
 
     refresh: function() {
+
         if(this.getSelectionCount() > 0){
+
             var count = this.getSelectionCount();
             if (floatingButton.getFlag() != 'delete') {
                 floatingButton.change('#e74c3c', '<i class="fa fa-trash-o"></i>', 'delete');
             }
             $('#clear-selection-toast span').html(count);
             $('#clear-selection-toast').addClass('clear-selection-show');
+
         }
         else{
             floatingButton.change('#3498db', '+', 'add');
@@ -225,7 +231,7 @@ let users = {
             if($(this).closest('.search-container').length > 0){
                 let isAdmin = $(this).find('.add-admin-btn').is(':hover');
 
-                var element = $(this).parent().detach();
+                let element = $(this).parent().detach();
                 $('.selected-container').append(element);
                 if (isAdmin) {
                     element.addClass('admin');
@@ -317,7 +323,7 @@ let projects = {
                     return sortAsc? parseFloat(textA) - parseFloat(textB) : parseFloat(textB) - parseFloat(textA);
                 }
             });
-            $.each(projectListItems, function(index, item){ projectList.append(item) });
+            $.each(projectListItems, function(index, item){ projectList.append(item); });
 
             var asc = $('.asc');
             asc.data('sort-asc', null);
@@ -347,7 +353,7 @@ let projects = {
             $(this).show();
         });
     },
-}
+};
 
 function refresh() {
     members.refresh();
@@ -391,6 +397,7 @@ let editMode = {
         if (editButton.hasClass('edit')) {
             editButton.removeClass('edit');
             editButton.find('.fa').removeClass('fa-times').addClass('fa-edit');
+            editButton.prop('title', 'Click to Edit');
             parent.find('.editable').prop('contenteditable', false);
             parent.find('.editable').each(function() { $(this).text($(this).data('prev-val')); });
             parent.find('img').attr('src', parent.find('img').data('prev-url'));
@@ -402,6 +409,7 @@ let editMode = {
         } else {
             editButton.addClass('edit');
             editButton.find('.fa').removeClass('fa-edit').addClass('fa-times');
+            editButton.prop('title', 'Click to Cancel');
             parent.find('.editable').prop('contenteditable', true);
             parent.find('.editable').each(function() { $(this).data('prev-val', $(this).text()); });
             parent.find('img').data('prev-url', parent.find('img').attr('src'));
@@ -419,6 +427,8 @@ $(document).ready(function(){
     ajax.init();
 
     var addMembersModal = new Modal('#add-members-modal');
+    let newProjectModal = new Modal('#new-project-modal');
+
     users.init();
     // Tab navigation
     $('#navigator').on('click', 'a', function(){
@@ -438,14 +448,11 @@ $(document).ready(function(){
 
     activityLog.init();
     members.init();
+    projects.init();
 
     //Clear selection button
     $('#clear-selection-toast .clear-btn').click(function(){
         members.clearSelection();
-    });
-
-    $('.project').click(function() {
-        window.location.href = $(this).data('url');
     });
 
     $('#search-items').on('input paste change', function(){
@@ -472,10 +479,18 @@ $(document).ready(function(){
             }
         }
         else if (selection.data('target') == '#projects-wrapper') {
-            window.location.href = crisis_panel_url + '?selected_group=' + userGroupPk;
-        }
-        else if (selection.data('target') == '#templates-wrapper') {
-            console.log('Templates');
+            $('#new-project-modal .error').empty();
+            newProjectModal.show().then(null, null, function() {
+                if (newProjectModal.action == 'proceed') {
+                    let name = $('#new-project-name').val();
+                    if (name.trim().length === 0) {
+                        $('#new-project-modal .error').text('Please enter a name');
+                        return;
+                    }
+
+                    $('#new-project-modal form').submit();
+                }
+            });
         }
     });
 
@@ -489,7 +504,7 @@ $(document).ready(function(){
 
             reader.onload = function (e) {
                 $('#group-logo').attr('src', e.target.result);
-            }
+            };
             reader.readAsDataURL(this.files[0]);
         }
     });

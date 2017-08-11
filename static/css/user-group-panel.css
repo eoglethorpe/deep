@@ -70,6 +70,76 @@ body {
     top: 30px;
     /* 30px from the top */ }
 
+nav {
+  flex-basis: 100%;
+  height: 56px;
+  background-color: #004d4d;
+  z-index: 1010;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 0 16px;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  nav a:hover, nav a:active {
+    color: #fff; }
+  nav h1, nav h2, nav h3, nav h4, nav a {
+    margin: 0;
+    text-transform: uppercase; }
+  nav #left-part {
+    display: flex;
+    align-items: center; }
+    nav #left-part h2 {
+      font-size: 1.5em;
+      margin-left: 16px;
+      color: #fff; }
+    nav #left-part #deep-logo-container {
+      width: 36px;
+      flex-shrink: 0;
+      flex-grow: 0; }
+      nav #left-part #deep-logo-container img {
+        width: 100%; }
+  nav .dropdown {
+    flex-basis: 232px;
+    position: relative;
+    cursor: pointer;
+    outline: none; }
+    nav .dropdown .dropdown-toggle {
+      color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      justify-content: space-around; }
+      nav .dropdown .dropdown-toggle .fa {
+        margin-right: 10px; }
+    nav .dropdown .items {
+      position: absolute;
+      top: calc(8px + 56px / 2);
+      right: 0;
+      background-color: #fff;
+      width: 100%;
+      min-width: 200px;
+      z-index: 1011;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.3); }
+      nav .dropdown .items hr {
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        margin: 0; }
+      nav .dropdown .items a, nav .dropdown .items button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 16px;
+        text-transform: uppercase;
+        color: #414141;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        text-decoration: none;
+        background-color: transparent; }
+        nav .dropdown .items a .fa, nav .dropdown .items button .fa {
+          width: 32px; }
+        nav .dropdown .items a:hover, nav .dropdown .items button:hover {
+          background-color: rgba(0, 0, 0, 0.1); }
+
 body {
   display: flex;
   flex-wrap: wrap;
@@ -79,32 +149,6 @@ body {
   body h1, body h2, body h3, body h4, body a {
     margin: 0;
     text-transform: uppercase; }
-  body nav {
-    flex-basis: 100%;
-    height: 56px;
-    background-color: #004d4d;
-    color: #fff;
-    display: flex;
-    z-index: 1;
-    justify-content: space-between;
-    padding: 0 16px;
-    align-items: center;
-    box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
-    body nav > header {
-      flex-basis: 60%;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start; }
-      body nav > header .deep-logo {
-        width: 32px;
-        margin-right: 24px; }
-    body nav a {
-      color: #fff;
-      cursor: pointer; }
-      body nav a .fa {
-        margin-right: 10px; }
-      body nav a:hover {
-        color: #fff; }
   body #add-members-modal {
     width: 960px; }
     body #add-members-modal header {
@@ -311,7 +355,8 @@ body {
         display: flex;
         justify-content: space-between; }
         body main header .action-buttons a {
-          cursor: pointer; }
+          cursor: pointer;
+          color: white; }
       body main header #navigator {
         flex-basis: 60%;
         align-self: flex-end;
@@ -372,9 +417,9 @@ body {
         position: absolute;
         right: 35%;
         bottom: -172px;
-        border-radius: 3px;
-        height: 64px;
         width: 30%;
+        border-radius: 3px;
+        height: 72px;
         z-index: 6;
         background-color: #414141;
         color: #fff;
@@ -383,7 +428,8 @@ body {
         -webkit-user-select: none;
         display: flex;
         justify-content: space-between;
-        align-items: center; }
+        align-items: center;
+        padding-bottom: 16px; }
         body main section #clear-selection-toast > div {
           margin: 0 16px;
           color: rgba(255, 255, 255, 0.7);
@@ -475,6 +521,8 @@ body {
                   font-weight: 300;
                   color: rgba(0, 0, 0, 0.3);
                   transition: 0.2s all ease-in-out; }
+            body main section #members-wrapper #members .member.cannot-edit .action-container {
+              display: none; }
             body main section #members-wrapper #members .member:not(.cannot-edit):hover {
               box-shadow: 0 5px 15px -4px rgba(0, 0, 0, 0.4); }
               body main section #members-wrapper #members .member:not(.cannot-edit):hover .action-container > div {
@@ -503,15 +551,36 @@ body {
             body main section #members-wrapper #members .member-selected:hover .action-container .check-action {
               border: 1px solid #008080; }
       body main section #projects-wrapper {
-        height: calc(100vh - 144px - 56px); }
+        height: calc(100vh - 144px - 56px - 24px); }
         body main section #projects-wrapper .name {
-          flex-basis: 30%; }
-        body main section #projects-wrapper .type {
-          flex-basis: 30%; }
+          flex-basis: 20%; }
         body main section #projects-wrapper .countries {
-          flex-basis: 25%; }
+          flex-basis: 20%; }
         body main section #projects-wrapper .start-date {
+          flex-basis: 10%; }
+        body main section #projects-wrapper .created-on {
           flex-basis: 15%; }
+        body main section #projects-wrapper .status {
+          flex-basis: 10%; }
+        body main section #projects-wrapper .last-modified {
+          flex-basis: 15%; }
+          body main section #projects-wrapper .last-modified span {
+            color: rgba(0, 0, 0, 0.5); }
+        body main section #projects-wrapper .members {
+          flex-basis: 10%; }
+        body main section #projects-wrapper .actions {
+          flex-basis: 5%; }
+          body main section #projects-wrapper .actions a {
+            color: #008080;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            cursor: pointer; }
+            body main section #projects-wrapper .actions a:hover {
+              background-color: rgba(0, 0, 0, 0.1); }
         body main section #projects-wrapper #projects-header {
           height: 48px;
           display: flex;
@@ -539,15 +608,9 @@ body {
             padding: 10px 16px;
             display: flex;
             align-items: center;
-            justify-content: flex-start;
-            cursor: pointer; }
+            justify-content: flex-start; }
             body main section #projects-wrapper #projects .project:nth-child(even) {
               background-color: #fff; }
-            body main section #projects-wrapper #projects .project:hover {
-              background-color: rgba(0, 0, 0, 0.2); }
-      body main section #templates-wrapper {
-        height: calc(100vh - 144px - 56px);
-        overflow-y: scroll; }
   body aside {
     flex-basis: 24%;
     height: calc(100vh - 56px);

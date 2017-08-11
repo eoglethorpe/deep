@@ -1,8 +1,6 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.views.generic import View, TemplateView
+from django.views.generic import View
 from django.contrib.auth.decorators import login_required
-from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse
 
@@ -12,23 +10,20 @@ from report.models import *
 from usergroup.models import *
 from users.log import *
 
+import json
 
-class CrisisPanelView(View):
+
+class ProjectPanelView(View):
     @method_decorator(login_required)
     def get(self, request):
         context = {}
-        context["current_page"] = "crisis-panel"
+        context["current_page"] = "project-panel"
 
-        # Either you are a super admin and can edit all crises
-        # Or you are admin of this project
+        context["events"] = Event.objects.filter(admins__pk=request.user.pk).order_by('name')
+        context["usergroups"] = UserGroup.objects.filter(admins__pk=request.user.pk).order_by('name')
 
-        if request.user.is_superuser:
-            context["events"] = Event.objects.all().order_by('name')
-        else:
-            context["events"] = Event.objects.filter(admins__pk=request.user.pk).order_by('name')
-
-        context["usergroups"] = UserGroup.objects.all()
-        context["countries"] = Country.objects.all()
+        context["entry_templates"] = EntryTemplate.objects.filter(usergroup__members__pk=request.user.pk)
+        context["countries"] = Country.objects.filter(reference_country=None)
         context["disaster_types"] = DisasterType.objects.all()
         context["users"] = User.objects.all()
 
@@ -38,13 +33,13 @@ class CrisisPanelView(View):
         if "selected_group" in request.GET:
             context["selected_group"] = int(request.GET["selected_group"])
 
-        return render(request, "custom_admin/crisis-panel.html", context)
+        return render(request, "custom_admin/project-panel.html", context)
 
     @method_decorator(login_required)
     def post(self, request):
 
-        response = redirect('custom_admin:crisis_panel')
-        pk = request.POST["crisis-pk"]
+        response = redirect('custom_admin:project_panel')
+        pk = request.POST["project-pk"]
 
         if "save" in request.POST:
             if pk == "new":
@@ -54,23 +49,24 @@ class CrisisPanelView(View):
                 event = Event.objects.get(pk=int(pk))
                 activity = EditionActivity()
 
-            event.name = request.POST["crisis-name"]
+            event.name = request.POST["project-name"]
+            event.description = request.POST["project-description"]
 
-            if request.POST["crisis-status"] and request.POST["crisis-status"] != "":
-                event.status = int(request.POST["crisis-status"])
+            if request.POST["project-status"] and request.POST["project-status"] != "":
+                event.status = int(request.POST["project-status"])
 
             if request.POST["disaster-type"] and request.POST["disaster-type"] != "":
                 event.disaster_type = DisasterType.objects.get(pk=int(request.POST["disaster-type"]))
             else:
                 event.disaster_type = None
 
-            if request.POST["crisis-start-date"] and request.POST["crisis-start-date"] != "":
-                event.start_date = request.POST["crisis-start-date"]
+            if request.POST["project-start-date"] and request.POST["project-start-date"] != "":
+                event.start_date = request.POST["project-start-date"]
             else:
                 event.start_date = None
 
-            if request.POST["crisis-end-date"] and request.POST["crisis-end-date"] != "":
-                event.end_date = request.POST["crisis-end-date"]
+            if request.POST["project-end-date"] and request.POST["project-end-date"] != "":
+                event.end_date = request.POST["project-end-date"]
             else:
                 event.end_date = None
 
@@ -84,22 +80,35 @@ class CrisisPanelView(View):
             else:
                 event.spill_over = None
 
+            if 'entry-template' in request.POST:
+                if request.POST["entry-template"] and request.POST["entry-template"] != "":
+                    event.entry_template = EntryTemplate.objects.get(pk=int(request.POST["entry-template"]))
+                else:
+                    event.entry_template = None
             event.save()
+
+            if event.admins.count() == 0:
+                event.admins.add(request.user)
 
             activity.set_target(
                 'project', event.pk, event.name,
-                reverse('custom_admin:crisis_panel') + '?selected=' + str(event.pk)
+                reverse('custom_admin:project_panel') + '?selected=' + str(event.pk)
             ).log_for(request.user, event=event)
 
-            event.assignee.clear()
-            if "assigned-to" in request.POST and request.POST["assigned-to"]:
-                for assigned_to in request.POST.getlist("assigned-to"):
-                    event.assignee.add(User.objects.get(pk=int(assigned_to)))
+            # event.assignee.clear()
+            # if "assigned-to" in request.POST and request.POST["assigned-to"]:
+            #     for assigned_to in request.POST.getlist("assigned-to"):
+            #         event.assignee.add(User.objects.get(pk=int(assigned_to)))
 
             event.admins.clear()
             if "admins" in request.POST and request.POST["admins"]:
                 for admin in request.POST.getlist("admins"):
                     event.admins.add(User.objects.get(pk=int(admin)))
+
+            event.members.clear()
+            if "members" in request.POST and request.POST["members"]:
+                for member in request.POST.getlist("members"):
+                    event.members.add(User.objects.get(pk=int(member)))
 
             event.countries.clear()
             if "countries" in request.POST and request.POST["countries"]:
@@ -120,14 +129,14 @@ class CrisisPanelView(View):
                     if usergroup not in prev_groups:
                         AdditionActivity().set_target(
                             'project', event.pk, event.name,
-                            reverse('custom_admin:crisis_panel') + '?selected=' + str(event.pk)
+                            reverse('custom_admin:project_panel') + '?selected=' + str(event.pk)
                         ).log_for(request.user, event=event, group=usergroup)
 
             for ug in prev_groups:
                 if ug not in new_groups:
                     RemovalActivity().set_target(
                         'project', event.pk, event.name,
-                        reverse('custom_admin:crisis_panel') + '?selected=' + str(event.pk)
+                        reverse('custom_admin:project_panel') + '?selected=' + str(event.pk)
                     ).log_for(request.user, event=event, group=ug)
 
             response["Location"] += "?selected="+str(event.pk)
@@ -145,7 +154,11 @@ class CountryManagementView(View):
         context = {}
         context["current_page"] = "country-management"
         context["events"] = Event.objects.all()
-        context["countries"] = Country.objects.all()
+
+        if request.user.is_superuser:
+            context["countries"] = Country.objects.all()
+        else:
+            context["countries"] = Country.objects.filter(reference_country=None)
 
         if "selected" in request.GET:
             context["selected_country"] = request.GET["selected"]
@@ -257,7 +270,6 @@ class CountryManagementView(View):
                     geojson_file += 1
                 admin_level.save()
 
-
             response["Location"] += "?selected="+str(country.pk)
 
         elif 'delete' in request.POST:
@@ -267,3 +279,33 @@ class CountryManagementView(View):
                 pass
 
         return response
+
+
+class EntryTemplateView(View):
+    @method_decorator(login_required)
+    def get(self, request, template_id):
+        context = {}
+        template = EntryTemplate.objects.get(pk=template_id)
+        context['entry_template'] = template
+        context['num_entries'] = EntryInformation.objects.filter(
+            entry__template=template).distinct().count()
+        context['redirect_location'] = request.GET.get('redirect')
+        return render(request, "custom_admin/entry-template.html", context)
+
+    @method_decorator(login_required)
+    def post(self, request, template_id=None):
+        data = json.loads(request.POST.get('data'))
+
+        entry_template = EntryTemplate.objects.get(pk=template_id)
+        entry_template.elements = json.dumps(data['elements'])
+        entry_template.name = data['name']
+        if data.get('snapshots'):
+            entry_template.snapshot_pageone = data['snapshots']['pageOne']
+            entry_template.snapshot_pagetwo = data['snapshots']['pageTwo']
+        entry_template.save()
+
+        redirect_location = request.POST.get('redirect')
+        if redirect_location and redirect_location != 'null':
+            return redirect(redirect_location)
+
+        return redirect('custom_admin:entry_template', template_id=template_id)

@@ -75,16 +75,44 @@ main{
             border: 1px solid transparent;
             border-bottom: 2px solid rgba(0, 0, 0, 0.3);
             flex-basis: 100%;
-            padding: 0 10px 5 10px;
+            padding: 0 0 3px 0;
             font-size: $text-size-lg;
 
             &:focus{
                 border-bottom: 2px solid $primary-color;
             }
         }
+
+        .selectize-control.single {
+            background-color: transparent;
+
+            .selectize-input {
+                background-color: transparent;
+                border: none;
+                border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+                font-size: $text-size-lg;
+                padding: 4px 0;
+
+                &.focus {
+                    border-bottom: 2px solid $primary-color;
+                }
+
+                &.has-items{
+                    padding: 0;
+                    padding-top: 5px;
+                }
+
+                >input{
+                    font-size: 1.1em!important;
+                    background-color: transparent;
+                    border: none;
+                }
+            }
+        }
+
+
         label{
             flex-basis: 100%;
-            //margin: 0;
             margin-bottom: 4px;
             color: rgba(0, 0, 0, 0.3);
         }
@@ -95,10 +123,11 @@ main{
         }
         button{
             background-color: #f0f0f0;
-            padding: 10px 32px;
+            padding: 10px 16px;
             background-color: $primary-color;
             color: #fff;
             font-size: $text-size-lg;
+            border-radius: 2px;
             @include btn-shadow-sm();
         }
         button, a{

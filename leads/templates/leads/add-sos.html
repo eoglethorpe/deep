@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load watchful_url %}
+{% load startswith %}
 
 {% block title %}
 DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
@@ -18,10 +19,10 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
 <script src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
-<link rel="stylesheet" href="{% watchful_static_url 'css/leaflet.label.css' %}" >
-<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
-<script src="{% watchful_static_url 'js/common/leaflet.label.js' %}"></script>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.1.0/leaflet.css">
+<!--link rel="stylesheet" href="{% watchful_static_url 'css/leaflet.label.css' %}" -->
+<script src="http://cdn.leafletjs.com/leaflet/v1.1.0/leaflet.js"></script>
+<!--script src="{% watchful_static_url 'js/common/leaflet.label.js' %}"></script-->
 <script src="{% watchful_static_url 'js/common/utils.js' %}"></script>
 
 <script src="{% watchful_static_url 'js/sos/add-sos-map.js' %}"></script>
@@ -41,7 +42,7 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
     var mapSelections = [
     {% if sos %}
     {% for selection in sos.map_selections.all %}
-    "{{selection.admin_level.country.code}}:{{selection.admin_level.level}}:{{selection.name}}{% if selection.pcode != "" %}:{{selection.pcode}}{% endif %}",
+    "{{selection.admin_level.country.code|escapejs}}:{{selection.admin_level.level|escapejs}}:{{selection.name|escapejs}}{% if selection.pcode != "" %}:{{selection.pcode|escapejs}}{% endif %}",
     {% endfor %}
     {% endif %}
     ];
@@ -99,10 +100,12 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
         </div>
         {% endif %}
         <div id="lead-preview-container">
-            {% if lead.lead_type == 'URL' %}
-            <iframe {% if is_pdf %}{% else %}sandbox="allow-scripts allow-same-origin"{% endif %} id="lead-preview" src="{{ lead.url }}"></iframe>
-            {% elif lead.lead_type == 'ATT' %}
-            <iframe id="lead-preview" src="{{ lead.attachment.upload.url }}"></iframe>
+            {% if format|startswith:'pdf' %}
+                <iframe id="lead-preview" src="{{ lead_url }}"></iframe>
+            {% elif format|startswith:'docx' or format|startswith:'pptx' or format|startswith:'xlsx' or format|startswith:'doc' or format|startswith:'ppt' or format|startswith:'xls' %}
+                <iframe id="lead-preview" src="https://docs.google.com/viewer?url={{ lead_url|urlencode }}&embedded=true&chrome=false&dov=1"></iframe>
+            {% else %}
+                <iframe sandbox="allow-scripts allow-same-origin" id="lead-preview" src="{{ lead_url }}"></iframe>
             {% endif %}
             <div id="lead-simplified-preview">
             </div>
@@ -125,13 +128,41 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                     <input type="text" class="save-data" id="lead-organization" placeholder="Lead Organization" {% if sos and sos.lead_organization %}value="{{sos.lead_organization}}"{% endif %}>
                 </div>
                 <div>
+                    <label>Crisis type</label>
+                    <select class="save-data selectize-control" id="disaster-type">
+                        <option value="">Crisis type</option>
+                        {% for disaster_type in disaster_types %}
+                        <option value="{{ disaster_type.pk}}" {% if sos and sos.disaster_type == disaster_type %}selected{% endif %}>{{ disaster_type }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
                     <label>Other assessment partners</label>
                     <input type="text" class="save-data" id="other-assesment-partners" placeholder="Other assessment partners" {% if sos and sos.partners %}value="{{sos.partners}}"{% endif %}>
                 </div>
                 <div>
-                    <label>Assment frequency</label>
+                    <label>Donors</label>
+                    <input type="text" class="save-data" id="donors" placeholder="Donors" {% if sos and sos.donors %}value="{{ sos.donors }}"{% endif %}>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Coordination</label>
+                    <select class="save-data selectize-control" id="coordination" placeholder="Coordination">
+                        <option>Coordination</option>
+                        {% for coordination in coordinations %}
+                        <option value="{{coordination.pk}}" {% if sos and sos.coordination == coordination %}selected{% endif %}>{{coordination}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label>Sectors</label>
+                    <input disabled type="text" id="sector-value">
+                </div>
+                <div>
+                    <label>Assessment frequency</label>
                     <select class="save-data selectize-control" id="assesment-frequency" placeholder="Assessment Frequency">
-                        <option>Select frequency</option>
+                        <option>Frequency</option>
                         {% for frequency in frequencies %}
                         <option value="{{frequency.pk}}" {% if sos and sos.frequency == frequency %}selected{% endif %}>{{frequency}}</option>
                         {% endfor %}
@@ -140,7 +171,7 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                 <div>
                     <label>Assessment Status</label>
                     <select class="save-data selectize-control" id="assesment-status" placeholder="Assessment Status">
-                        <option>Select status</option>
+                        <option>Status</option>
                         {% for status in statuses %}
                         <option value="{{status.pk}}" {% if sos and sos.status == status %}selected{% endif %}>{{status}}</option>
                         {% endfor %}
@@ -175,6 +206,16 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                     </select>
                 </div>
                 <div>
+                    <label>Unit of reporting</label>
+                    <select class="save-data selectize-control" id="reporting-unit"  placeholder="Unit of reporting" multiple>
+                        {% for unit in units_of_reporting %}
+                        <option value="{{unit.pk}}" {% if sos and unit in sos.unit_of_reporting.all %}selected{% endif %}>{{unit}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div>
+                <div>
                     <label>Data collection technique</label>
                     <select class="save-data selectize-control" id="data-collection-technique"  placeholder="Data collection technique" multiple>
                         {% for dc in data_collection_techniques %}
@@ -186,10 +227,12 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
                     <div>
                         <label>Start date of data collection: </label>
                         <input class="save-data" id="start-of-field" placeholder="Start of field data collection" type="date" {% if sos and sos.start_data_collection %}value="{{sos.start_data_collection|date:"Y-m-d"}}"{% endif %}>
+                        <input type="text" class="date-picker" data-alt="#start-of-field">
                     </div>
                     <div>
                         <label>End date of data collection: </label>
                         <input class="save-data" id="end-of-field" placeholder="End of field data collection" type="date" {% if sos and sos.end_data_collection %}value="{{sos.end_data_collection|date:"Y-m-d"}}"{% endif %}>
+                        <input type="text" class="date-picker" data-alt="#end-of-field">
                     </div>
                 </div>
                 <div>
@@ -270,7 +313,10 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
         <div id="the-map"></div>
         <div id="admin-level-buttons"></div>
         <div class="action-buttons">
-            <span></span>
+            <span>
+                <button onclick="selectAllMapFeatures()">Select all</button>
+                <button onclick="unselectAllMapFeatures()">Unselect all</button>
+            </span>
             <button data-action="dismiss">Close</button>
         </div>
     </div>

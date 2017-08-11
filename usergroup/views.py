@@ -8,6 +8,7 @@ from django.utils.decorators import method_decorator
 
 from users.models import *
 from usergroup.models import *
+from entries.models import *
 from deep.json_utils import *
 from users.log import *
 
@@ -18,7 +19,7 @@ class UserGroupPanelView(View):
         context = {}
         context['usergroup'] = UserGroup.objects.get(slug=group_slug)
         context['users'] = User.objects.exclude(first_name='')
-        context['activities'] = ActivityLog.objects.filter(user__usergroup__slug=group_slug)
+        context['activities'] = ActivityLog.objects.filter(group__slug=group_slug,)
         if request.GET.get('error'):
             context['error'] = request.GET['error']
             context['name'] = request.GET['name']
@@ -160,5 +161,22 @@ class UserGroupPanelView(View):
                         ).log_for(original_request.user, group=group)
                 except:
                     pass
+
+        # Add entry template
+        elif request['request'] == 'add-entry-template':
+            response['done'] = False
+            try:
+                name = request['name']
+                if EntryTemplate.objects.filter(name=name).count() > 0:
+                    response['nameExists'] = True
+                else:
+                    template = EntryTemplate(name=name, created_by=original_request.user)
+                    template.save()
+
+                    group.entry_templates.add(template)
+                    response['url'] = reverse('custom_admin:entry_template', args=[template.pk])
+                    response['done'] = True
+            except Exception as e:
+                raise e
 
         return JsonResult(data=response)

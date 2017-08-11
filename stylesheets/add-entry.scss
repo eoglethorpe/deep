@@ -3,11 +3,8 @@
 
 body{
     height: 100vh;
-
     @import 'entries/add-entries-page-one';
     @import 'entries/add-entries-page-two';
-
-
 
     .modal-container{
         #map-modal{
@@ -131,61 +128,6 @@ body{
                 .active-affected-group{
                     background-color: $primary-color;
                     color: #fff;
-                }
-            }
-        }
-    }
-
-    #dummy-map-modal{
-        #admin-level-buttons{
-            margin-bottom: 16px;
-        }
-        .modal-body{
-            padding: 0;
-
-            #the-map{
-                height: 50vh;
-
-                path {
-                    stroke: #717171;
-                    stroke-width: 1px;
-                    stroke-linejoin: round;
-                }
-            }
-        }
-        .modal-footer{
-            text-align: left;
-
-            #selected-location-list{
-                height: 144px;
-                overflow-y: scroll;
-                background-color: #f0f0f0;
-                padding: 10px 16px;
-
-                ul{
-                    list-style: none;
-                    padding-left: 0;
-
-                    li{
-                        text-indent: -16px;
-                        padding-left: 20px;
-
-                        a{
-                            color: #e78c6c;
-                            margin-left: 10px;
-                            cursor: pointer;
-                            .fa{
-                                margin-right: 6px;
-                            }
-                        }
-                    }
-                }
-                #empty-text{
-                    text-align: center;
-                    margin-top: 32px;
-                    font-size: 1.2em;
-                    color: #aaa;
-                    text-transform: uppercase;
                 }
             }
         }

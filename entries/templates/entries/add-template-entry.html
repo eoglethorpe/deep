@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load watchful_url %}
+{% load startswith %}
+
+{% block title %}
+DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
+{% endblock %}
+
+{% block head %}
+<link href="{% watchful_static_url 'css/split-pane.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/add-template-entry.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/selectize.css' %}" type="text/css" rel="stylesheet">
+<link href="{% watchful_static_url 'css/modal.css' %}" type="text/css" rel="stylesheet">
+
+<script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/split-pane.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/highlighter.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
+
+<script type="text/javascript" src="{% watchful_static_url 'js/entries/image-cropper.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entries/add-template-entry/map.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entries/add-template-entry/lead-preview.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entries/add-template-entry/page-one.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entries/add-template-entry/page-two.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entries/add-template-entry/add-template-entry.js' %}"></script>
+
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
+<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+
+<link rel="stylesheet" href="{% watchful_static_url 'css/leaflet.label.css' %}" >
+<script src="{% watchful_static_url 'js/common/leaflet.label.js' %}"></script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script>
+    let leadId = '{{ lead.pk }}';
+
+    // Simplified version of the lead.
+    let leadSimplifiedHtml = $('<div> {% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %} </div>');
+    leadSimplifiedHtml.find('p').each(function(){
+        $(this).replaceWith($(this).text() + '\n\n')
+    });
+    let leadSimplified = reformatText(leadSimplifiedHtml.text().trim());
+
+    // Template data
+    let templateData = {
+        name: '{{ entry_template.name }}',
+        elements: JSON.parse('{{ entry_template.elements|escapejs }}'),
+    };
+
+    // Actual data
+    let entries = [
+        {% if entry %}{% for info in entry.entryinformation_set.all %}
+        {
+            excerpt: '{{ info.excerpt|escapejs }}',
+            image: '{{ info.image|escapejs }}',
+            elements: JSON.parse('{{ info.elements|escapejs }}'),
+        },
+        {% endfor %}{% endif %}
+    ];
+
+    // CSRF Token
+    let csrf_token = "{% csrf_token %}";
+
+    // Default date
+    let defaultDate = {% if lead.published_at %}'{{lead.published_at|date:"Y-m-d"}}'{% else %}null{% endif %};
+
+    // Some urls
+    let cancelUrl = '{% url "entries:entries" event.pk %}';
+    let markProcessedUrl = '{% url "leads:mark_processed" event.pk %}';
+
+    // Countries for this event
+    let countries = [
+        {% for country in event.countries.all %} { code: '{{ country.pk }}', name: '{{ country.name }}' }, {% endfor %}
+    ];
+</script>
+
+{% endblock %}
+
+{% block body %}
+{% include 'navbar.html' %}
+
+<div id="page-one">
+    <div class="image-viewer-main" hidden>
+        <div class="viewer-close-btn-main"><i class="fa fa-times fa-2x"></i></div>
+        <div class="image-align-wrapper">
+            <div class="image-wrapper">
+                <img tabindex="-1"></img><br>
+            </div>
+        </div>
+    </div>
+    <div class="split-pane fixed-left">
+        <div class="split-pane-component" id="left-component">
+            <div id="lead-options-container">
+                <div id="lead-view-options"{% if lead.lead_type == 'MAN' %}hidden{% endif %}>
+                    {% if lead_simplified %}
+                    <label class="active"><input type="radio" name="lead-view-option" value="simplified" checked>Simplified</label>
+                    <label><input type="radio" name="lead-view-option" value="original">Original</label>
+                    <label><input type="radio" name="lead-view-option" value="images">Images</label>
+                    {% else %}
+                    <label class="active"><input type="radio" name="lead-view-option" value="original" checked>Original</label>
+                    {% endif %}
+                </div>
+                <div id="sort-images-wrapper">
+                    <label>Sort:</label>
+                    <select id="sort-images" placeholder="Sort Images">
+                        <option value="def-asc">Default</option>
+                        <option value="size-asc">Size Asc</option>
+                        <option value="size-dsc">Size Dsc</option>
+                    </select>
+                </div>
+                <div id="zoom-buttons">
+                    <button class="btn-zoom" id="zoom-out" data-toggle="tooltip" title="zoom out"><i class="fa fa-search-minus"></i></button>
+                    <button class="btn-zoom" id="zoom-in" data-toggle="tooltip" title="zoom in"><i class="fa fa-search-plus"></i></button>
+                </div>
+                <button id="screenshot-btn" hidden><i class="fa fa-camera"></i></button>
+            </div>
+
+            <div id="lead-preview-container">
+                {% if format|startswith:'pdf' %}
+                    <iframe id="lead-preview" src="{{ lead_url }}"></iframe>
+                {% elif format|startswith:'docx' or format|startswith:'pptx' or format|startswith:'xlsx' or format|startswith:'doc' or format|startswith:'ppt' or format|startswith:'xls' %}
+                    <iframe id="lead-preview" src="https://docs.google.com/viewer?url={{ lead_url|urlencode }}&embedded=true&chrome=false&dov=1"></iframe>
+                {% else %}
+                    <iframe sandbox="allow-scripts allow-same-origin" id="lead-preview" src="{{ lead_url }}"></iframe>
+                {% endif %}
+                <button id="process-button" class="lead-status-btn" title="Processed. Click to mark pending" {% if lead.status != 'PRO' %}hidden{% endif %}><i class="fa fa-check fa-md"></i></button>
+                <button id="pending-button" class="lead-status-btn" title="Click to mark Processed" {% if lead.status == 'PRO' %}hidden{% endif %}><i class="fa fa-exclamation-triangle fa-md"></i></button>
+                <div id="lead-simplified-preview">
+                </div>
+                <div id="lead-images-preview">
+                    <div class="image-viewer" hidden>
+                        <div class="viewer-close-btn"><i class="fa fa-times fa-2x"></i></div>
+                        <div class="image-align-wrapper">
+                            <div class="image-wrapper">
+                                <img tabindex="-1"></img><br>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="lead-images-container">
+                        {% for image in lead.leadimage_set.all %}
+                        <div class="image" >
+                            <img class="media-image" src="{{ image.image.url }}" data-default-order="{{ forloop.counter0 }}"></img>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div id="image-cropper-canvas-container" hidden>
+                    <div id="screenshot-actions">
+                        <button id="screenshot-cancel-btn"><i class="fa fa-times"></i>Cancel</button>
+                        <button id="screenshot-done-btn"><i class="fa fa-check"></i>Done</button>
+                    </div>
+                    <canvas id="image-cropper-canvas" ></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="split-pane-divider" id="divider"></div>
+        <div class="split-pane-component" id="right-component" style="padding: 16px;">
+            <div id="page-one-elements" style="position: relative;">  <!-- TODO Remove inline style -->
+                <div id="button-pane">
+                    <button class="cancel-button"><i class="fa fa-times"></i>Cancel</button>
+                    <button class="save-button"><i class="fa fa-save"></i>Save</button>
+                    <button class="save-and-next-button"><i class="fa fa-arrow-right"></i>Save and Next</button>
+                    <button class="switch-page"><i class="fa fa-long-arrow-right"></i>More Tags</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="page-two" hidden>
+    <div id="button-pane">
+        <button class="cancel-button"><i class="fa fa-times"></i>Cancel</button>
+        <button class="save-button"><i class="fa fa-save"></i>Save</button>
+        <button class="save-and-next-button"><i class="fa fa-arrow-right"></i>Save and Next</button>
+        <button class="switch-page"><i class="fa fa-long-arrow-left"></i>Previous page</button>
+    </div>
+    <div class="entries">
+    </div>
+
+    <div class="entry-template" hidden></div>
+</div>
+
+<div class="modal-container" hidden>
+</div>
+
+{% endblock %}

@@ -11,26 +11,26 @@
                 <label>Planned</label>
             </div>
             <div>
-                <input class="number people-total  {% if field.total_field %}people-in-need-total{% endif %}" data-people-pk="{{field.pk}}" placeholder="Total">
-                <input class="number people-at-risk " data-people-pk="{{field.pk}}" placeholder="At Risk">
-                <input class="number people-moderate " data-people-pk="{{field.pk}}" placeholder="Moderate">
-                <input class="number people-severe " data-people-pk="{{field.pk}}" placeholder="Severe">
-                <input class="number people-planned " data-people-pk="{{field.pk}}" placeholder="Planned">
+                <input class="number people-total  {% if field.total_field %}people-in-need-total{% endif %}" data-prefix="people-total" data-people-pk="{{field.pk}}" placeholder="Total">
+                <input class="number people-at-risk " data-people-pk="{{field.pk}}" data-prefix="people-at-risk" placeholder="At Risk">
+                <input class="number people-moderate " data-people-pk="{{field.pk}}" data-prefix="people-moderate" placeholder="Moderate">
+                <input class="number people-severe " data-people-pk="{{field.pk}}" date-prefix="people-severe" placeholder="Severe">
+                <input class="number people-planned " data-people-pk="{{field.pk}}" data-prefix="people-planned" placeholder="Planned">
             </div>
 
             <div>
-                <div><input class="people-total-source  source-droppable" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
-                <div><input class="people-at-risk-source  source-droppable" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
-                <div><input class="people-moderate-source  source-droppable" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
-                <div><input class="people-severe-source  source-droppable" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
-                <div><input class="people-planned-source  source-droppable" data-people-pk="{{field.pk}}" placeholder="Source/Date"></div>
+                <div class="source-warning-wrapper"><div class="people-total-source source-new" data-prefix="people-total" data-people-pk="{{field.pk}}"></div></div>
+                <div class="source-warning-wrapper"><div class="people-at-risk-source  source-new" data-prefix="people-at-risk" data-people-pk="{{field.pk}}"></div></div>
+                <div class="source-warning-wrapper"><div class="people-moderate-source  source-new" data-prefix="people-moderate" data-people-pk="{{field.pk}}"></div></div>
+                <div class="source-warning-wrapper"><div class="people-severe-source  source-new" data-prefix="people-severe" data-people-pk="{{field.pk}}"></div></div>
+                <div class="source-warning-wrapper"><div class="people-planned-source  source-new" data-prefix="people-planned" data-people-pk="{{field.pk}}"></div></div>
             </div>
             <div>
-                <div><input class="people-total-comment " data-people-pk="{{field.pk}}" placeholder="Comment"></div>
-                <div><input class="people-at-risk-comment " data-people-pk="{{field.pk}}" placeholder="Comment"></div>
-                <div><input class="people-moderate-comment " data-people-pk="{{field.pk}}" placeholder="Comment"></div>
-                <div><input class="people-severe-comment " data-people-pk="{{field.pk}}" placeholder="Comment"></div>
-                <div><input class="people-planned-comment " data-people-pk="{{field.pk}}" placeholder="Comment"></div>
+                <div class="comment-warning-wrapper"><input class="people-total-comment comment" data-prefix="people-total" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
+                <div class="comment-warning-wrapper"><input class="people-at-risk-comment comment" data-prefix="people-at-risk" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
+                <div class="comment-warning-wrapper"><input class="people-moderate-comment comment" data-prefix="people-moderate" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
+                <div class="comment-warning-wrapper"><input class="people-severe-comment comment" data-prefix="people-severe" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
+                <div class="comment-warning-wrapper"><input class="people-planned-comment comment" data-prefix="people-planned" data-people-pk="{{field.pk}}" placeholder="Comment"></div>
             </div>
         </div>
     </div>
@@ -48,73 +48,31 @@
     </div>
     {% endif %}
 
-    <div class="total-ipc">
-        <label>Total IPC (calculated)</label>
-        <div>
-            <input class="number ipc-total-calculated " data-people-pk="{{field.pk}}" placeholder="Total" readonly>
-            <input class="number ipc-at-risk-calculated " data-people-pk="{{field.pk}}" placeholder="At Risk" readonly>
-            <input class="number ipc-moderate-calculated " data-people-pk="{{field.pk}}" placeholder="Moderate" readonly>
-            <input class="number ipc-severe-calculated " data-people-pk="{{field.pk}}" placeholder="Severe" readonly>
-            <input class="number ipc-planned-calculated " data-people-pk="{{field.pk}}" placeholder="Planned" readonly>
-        </div>
-    </div>
-
-    <div class="ipc">
-        <label class="sub">IPC</label>
-        <div>
-            <div>
-                <div>
-                    <label>1. None/Minimal</label>
-                    <input data-ipc="a" data-ipc-level="1" placeholder="Number">
-                </div>
-                <div>
-                    <label>2. Stressed</label>
-                    <input data-ipc="c" data-ipc-level="2" placeholder="Number">
-                </div>
-                <div>
-                    <label>3. Crisis</label>
-                    <input data-ipc="e" data-ipc-level="3" placeholder="Number">
-                </div>
-                <div>
-                    <label>4. Emergency</label>
-                    <input data-ipc="b" data-ipc-level="4" placeholder="Number">
-                </div>
-                <div>
-                    <label>5. Famine</label>
-                    <input data-ipc="d" data-ipc-level="5" placeholder="Number">
-                </div>
-            </div>
-            <div>
-                <input data-ipc="f" class="" placeholder="Source">
-                <input data-ipc="g" class="" placeholder="Comment">
-            </div>
-        </div>
-    </div>
 
     {% for subfield in field.peopleinneedfield_set.all %}
     <div class="pin-sub-field">
         <label class="sub">{{subfield.name}}</label>
         <div>
             <div>
-                <input class="number people-total  {% if field.total_field %}total-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Total">
-                <input class="number people-at-risk  {% if field.total_field %}total-at-risk-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="At Risk">
-                <input class="number people-moderate  {% if field.total_field %}total-moderate-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Moderate">
-                <input class="number people-severe  {% if field.total_field %}total-severe-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Severe">
-                <input class="number people-planned  {% if field.total_field %}total-planned-subfield{% endif %}" data-people-pk="{{subfield.pk}}" placeholder="Planned">
+                <input class="number people-total  {% if field.total_field %}total-subfield{% endif %}" data-prefix="people-total" data-people-pk="{{subfield.pk}}" placeholder="Total">
+                <input class="number people-at-risk  {% if field.total_field %}total-at-risk-subfield{% endif %}" data-prefix="people-at-risk" data-people-pk="{{subfield.pk}}" placeholder="At Risk">
+                <input class="number people-moderate  {% if field.total_field %}total-moderate-subfield{% endif %}" data-prefix="people-moderate" data-people-pk="{{subfield.pk}}" placeholder="Moderate">
+                <input class="number people-severe  {% if field.total_field %}total-severe-subfield{% endif %}" data-prefix="people-severe" data-people-pk="{{subfield.pk}}" placeholder="Severe">
+                <input class="number people-planned  {% if field.total_field %}total-planned-subfield{% endif %}" data-prefix="people-planned" data-people-pk="{{subfield.pk}}" placeholder="Planned">
             </div>
             <div>
-                <input class="people-total-source  source-droppable" data-people-pk="{{subfield.pk}}" placeholder="Source/Date">
-                <input class="people-at-risk-source  source-droppable" data-people-pk="{{subfield.pk}}" placeholder="Source/Date">
-                <input class="people-moderate-source  source-droppable" data-people-pk="{{subfield.pk}}" placeholder="Source/Date">
-                <input class="people-severe-source  source-droppable" data-people-pk="{{subfield.pk}}" placeholder="Source/Date">
-                <input class="people-planned-source  source-droppable" data-people-pk="{{subfield.pk}}" placeholder="Source/Date">
+                <div class="source-warning-wrapper"><div class="people-total-source source-new" data-prefix="people-total" data-people-pk="{{subfield.pk}}"></div></div>
+                <div class="source-warning-wrapper"><div class="people-at-risk-source  source-new" data-prefix="people-at-risk" data-people-pk="{{subfield.pk}}"></div></div>
+                <div class="source-warning-wrapper"><div class="people-moderate-source  source-new" data-prefix="people-moderate" data-people-pk="{{subfield.pk}}"></div></div>
+                <div class="source-warning-wrapper"><div class="people-severe-source  source-new" data-prefix="people-severe" data-people-pk="{{subfield.pk}}"></div></div>
+                <div class="source-warning-wrapper"><div class="people-planned-source  source-new" data-prefix="people-planned" data-people-pk="{{subfield.pk}}"></div></div>
             </div>
             <div>
-                <input class="people-total-comment " data-people-pk="{{subfield.pk}}" placeholder="Comment">
-                <input class="people-at-risk-comment " data-people-pk="{{subfield.pk}}" placeholder="Comment">
-                <input class="people-moderate-comment " data-people-pk="{{subfield.pk}}" placeholder="Comment">
-                <input class="people-severe-comment " data-people-pk="{{subfield.pk}}" placeholder="Comment">
-                <input class="people-planned-comment " data-people-pk="{{subfield.pk}}" placeholder="Comment">
+                <div class="comment-warning-wrapper"><input class="people-total-comment comment" data-prefix="people-total" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
+                <div class="comment-warning-wrapper"><input class="people-at-risk-comment comment" data-prefix="people-at-risk" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
+                <div class="comment-warning-wrapper"><input class="people-moderate-comment comment" data-prefix="people-moderate" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
+                <div class="comment-warning-wrapper"><input class="people-severe-comment comment" data-prefix="people-severe" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
+                <div class="comment-warning-wrapper"><input class="people-planned-comment comment" data-prefix="people-planned" data-people-pk="{{subfield.pk}}" placeholder="Comment"></div>
             </div>
         </div>
     </div>

@@ -4,12 +4,18 @@ from django.views.generic import View, TemplateView
 from django.http import JsonResponse
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
+from django.conf import settings
 
+import os
 import requests
 import json
+import tempfile
+import cgi
+import time
 
 from leads.models import *
 from entries.models import *
+from deep.filename_generator import generate_filename
 
 import date_extractor
 
@@ -60,3 +66,41 @@ class DateExtractorView(View):
 
         exists = Lead.objects.filter(url=link)
         return JsonResponse({'date': date, 'source': source, 'lead_exists': exists.count()>0, 'event': event})
+
+
+class DownloadFileView(View):
+    def get(self, request):
+        directory = os.path.join(settings.BASE_DIR, 'temp_downloads')
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+        # Delete all temporary files that are beyond 30 minutes old
+        current_time = time.time()
+        for f in os.listdir(directory):
+            file = os.path.join(directory, f)
+            creation_time = os.path.getctime(file)
+            if (current_time - creation_time) >= 30*60:
+                os.remove(file)
+
+        filename = request.GET.get('filename')
+        path = request.GET.get('path')
+        if filename and path:
+            response = HttpResponse(content_type=request.GET.get('content_type'))
+            response['Content-Disposition'] = 'attachment; filename = "{}"'.format(filename)
+            response.write(open(path, 'rb').read())
+            return response
+
+        url = request.GET['url']
+        fp = tempfile.NamedTemporaryFile(dir=directory, delete=False)
+        headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+        response = requests.get(url, stream=True, headers=headers)
+        for chunk in response.iter_content(chunk_size=1024):
+            if chunk:
+                fp.write(chunk)
+
+        params = cgi.parse_header(response.headers.get('Content-Disposition', ''))[-1]
+        return JsonResponse({
+            'path': fp.name,
+            'filename': os.path.basename(params['filename']) if 'filename' in params else generate_filename('Download'),
+            'content_type': response.headers.get('Content-Type'),
+        })

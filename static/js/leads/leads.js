@@ -15,6 +15,31 @@ var last_date_filter = "#date-created-filter";
 
 var droppedFiles;
 
+
+const MANUAL_ICON = 'fa-file-o';
+const HTML_ICON = 'fa-globe';
+const UNKNOWN_ICON = 'fa-file';
+const FILE_ICON = {
+    'html': 'fa-globe',
+    'htm': 'fa-globe',
+    'php': 'fa-globe',
+    'aspx': 'fa-globe',
+    'ashx': 'fa-globe',
+    'doc': 'fa-file-word-o',
+    'docx': 'fa-file-word-o',
+    'ppt': 'fa-file-powerpoint-o',
+    'pptx': 'fa-file-powerpoint-o',
+    'xls': 'fa-file-excel-o',
+    'xlsx': 'fa-file-excel-o',
+    'txt': 'fa-file-text-o',
+    'pdf': 'fa-file-pdf-o',
+    'jpg': 'fa-file-picture-o',
+    'jpeg': 'fa-file-picture-o',
+    'png': 'fa-file-picture-o',
+    'gif': 'fa-file-picture-o',
+};
+
+
 // Checks if the date is in given range
 function dateInRange(date, min, max){
     date.setHours(0, 0, 0, 0);
@@ -35,19 +60,19 @@ function filterDate(filter, date){
         case "last-seven-days":
             min = new Date();
             min.setDate(min.getDate() - 7);
-            return dateInRange(date, min, (new Date));
+            return dateInRange(date, min, new Date());
         case "this-week":
             min = new Date();
             min.setDate(min.getDate() - min.getDay());
-            return dateInRange(date, min, (new Date));
+            return dateInRange(date, min, new Date());
         case "last-thirty-days":
             min = new Date();
             min.setDate(min.getDate() - 30);
-            return dateInRange(date, min, (new Date));
+            return dateInRange(date, min, new Date());
         case "this-month":
             min = new Date();
             min.setDate(1);
-            return dateInRange(date, min, (new Date));
+            return dateInRange(date, min, new Date());
         default:
             return true;
     }
@@ -68,7 +93,7 @@ $.fn.dataTable.ext.search.push(
 $.fn.dataTable.ext.search.push(
     function(settings, data, dataIndex) {
         var filter = $("#date-published-filter").val();
-        date = new Date(data[4].substr(0, 10));
+        date = new Date(data[5].substr(0, 10));
         if(date && filter == 'range'){
             return dateInRange(date, published_start_date, published_end_date);
         }
@@ -81,6 +106,11 @@ $(document).ready(function(){
     dateRangeInputModal = new Modal('#date-range-input');
     var addLeadModal = new Modal('#add-lead-modal');
 
+    $('#assigned-to-filter').selectize();
+    date_created_filter = $('#date-created-filter').selectize();
+    date_published_filter = $('#date-published-filter').selectize();
+    $('#confidentiality-filter').selectize();
+    $('#status-filter').selectize();
 
     var leadsTable = $('#leads-table').DataTable( {
         "order": [[ 0, "desc" ]],
@@ -91,7 +121,7 @@ $(document).ready(function(){
             type: "GET",
             dataType: "json",
             dataSrc: 'data',
-            url: "/api/v2/leads/?event=" + currentEvent,
+            url: "/api/v2/leads/" + (currentEvent ? ("?event=" + currentEvent) : ""),
         },
         columns: [
             {
@@ -107,7 +137,30 @@ $(document).ready(function(){
                 }
             },
             { data: "assigned_to_name", width: "7%"},
-            { data: "name", width: "35%"},
+            {
+                data: null, width: '1%',
+                render: function(data, type, row) {
+                    let icon = '';
+                    if (data.lead_type == 'MAN') {
+                        icon = MANUAL_ICON;
+                    }
+                    else if (!data.format && data.lead_type == 'URL') {
+                        icon = HTML_ICON;
+                    }
+                    else if (FILE_ICON[data.format]) {
+                        icon = FILE_ICON[data.format];
+                    }
+                    else {
+                        icon = UNKNOWN_ICON;
+                    }
+
+                    if (data.link) {
+                        return '<a title="' + data.link + '" href="' + data.link + '" target="_blank" class="fa ' + icon + ' file-type"></a>';
+                    }
+                    return '<span class="fa ' + icon + ' file-type"></span>';
+                }
+            },
+            { data: "name", width: "34%"},
             {
                 data: null, width: "5%",
                 render: function(data, type, row) {
@@ -119,34 +172,29 @@ $(document).ready(function(){
                 }
             },
             { data: null,width: "5%", render: function(data, type, row) { return confidentialities[data.confidentiality]; } },
-            { data: "source",width: "20%"},
+            { data: "source",width: "15%"},
+            { data: "number_of_entries",width: "5%"},
             { data: null,width: "5%", render: function(data, type, row) { return statuses[data.status]; } },
             { data: null,width: "10%",render: function(data, type, row){
                 var getPendingBtn = function(){
-                    return (data.status == "PEN") ? '<a class=" btn-action btn-mark-processed" data-toggle="tooltip" data-placement="bottom" title="Mark Processed" onclick="markProcessed('+data.id+', \'PRO\');"><i class="fa fa-exclamation-triangle fa-lg"></i>  </a>' : '<a class=" btn-action btn-mark-pending" data-toggle="tooltip" data-placement="bottom" title="Mark Pending" onclick="markProcessed('+data.id+', \'PEN\');"><i class="fa fa-check fa-lg"></i></a>';
+                    return (data.status == "PEN") ? '<a class=" btn-action btn-mark-processed" data-toggle="tooltip" data-placement="bottom" title="Mark Processed" onclick="markProcessed('+data.id+', \'PRO\', ' + data.event + ');"><i class="fa fa-exclamation-triangle fa-lg"></i>  </a>' : '<a class=" btn-action btn-mark-pending" data-toggle="tooltip" data-placement="bottom" title="Mark Pending" onclick="markProcessed('+data.id+', \'PEN\', ' + data.event + ');"><i class="fa fa-check fa-lg"></i></a>';
                 };
-                return '<a class=" btn-action btn-add-entry" data-toggle="tooltip" data-placement="bottom" title="Add Entry" href="/'+currentEvent+'/entries/add/'+data.id+'"><i class="fa fa-share fa-lg"></i></a> <a class=" btn-action btn-edit fa-lg" data-toggle="tooltip" data-placement="bottom" title="Edit Lead" href="/'+currentEvent+'/leads/edit/'+data.id+'"><i class="fa fa-edit"></i></a>'+getPendingBtn();
+                return '<a class=" btn-action btn-add-entry" data-toggle="tooltip" data-placement="bottom" title="Add Entry" href="/'+data.event+'/entries/add/'+data.id+'"><i class="fa fa-share fa-lg"></i></a> <a class=" btn-action btn-edit fa-lg" data-toggle="tooltip" data-placement="bottom" title="Edit Lead" href="/'+currentEvent+'/leads/edit/'+data.id+'"><i class="fa fa-edit"></i></a>'+getPendingBtn();
 
             }}
         ],
         initComplete: function(){
             assigned_to_col = this.api().column(2);
-            confidentiality_col = this.api().column(5);
-            status_col = this.api().column(7);
+            confidentiality_col = this.api().column(6);
+            status_col = this.api().column(9);
 
             assigned_to_col.data().unique().sort().each(
                 function ( value, index ) {
-                    $('#assigned-to-filter').append( '<option value="'+value+'">'+value+'</option>' );
+                    $('#assigned-to-filter')[0].selectize.addOption({ value: value, text: value });
                 }
             );
 
             var that = this;
-
-            $('#assigned-to-filter').selectize();
-            date_created_filter = $('#date-created-filter').selectize();
-            date_published_filter = $('#date-published-filter').selectize();
-            $('#confidentiality-filter').selectize();
-            $('#status-filter').selectize();
 
             $('#assigned-to-filter').on('change', function(){
                 assigned_to_col
@@ -221,6 +269,14 @@ $(document).ready(function(){
                 }
             });
 
+            if (sessionStorage.scrollTop != "undefined") {
+                $('.dataTables_scrollBody').scrollTop(sessionStorage.scrollTop);
+            }
+
+            $('.dataTables_scrollBody').scroll(function() {
+                sessionStorage.scrollTop = $(this).scrollTop();
+            });
+
         }
     });
 
@@ -262,14 +318,14 @@ $(document).ready(function(){
         return content;
     }
 
-    function format (data) {
-        if (data.published_at == null)
+    function format(data) {
+        if (data.published_at === null)
             data.published_at = "n/a";
-        if (data.source == null)
+        if (data.source === null)
             data.source = "n/a";
-        if (data.content_format == null)
+        if (data.content_format === null)
             data.content_format = "n/a";
-        if (data.assigned_to == null)
+        if (data.assigned_to === null)
             data.content_format = "n/a";
 
         // `data` is the original data object for the row
@@ -277,19 +333,19 @@ $(document).ready(function(){
                     '<h3>' + data.name + '</h3>' +
                     '<div class="extra"><span><i class="fa fa-user"></i>' + data.created_by_name + '</span><span><i class="fa fa-calendar"></i>' + (new Date(data.created_at)).toLocaleDateString() + '</span></div>' +
                     '<div class="actions">' +
-                        '<button class="btn-add-entry" onclick="window.location.href=\'/' + currentEvent + '/entries/add/' + data.id + '/\'"><i class="fa fa-share"></i>Add Entry</button>' +
-                        '<button class="btn-add-entry" onclick="window.location.href=\'/' + currentEvent + '/leads/add-sos/' + data.id + '/\'"><i class="fa fa-share"></i>Add Survey of Survey</button>' +
-                        '<button class="btn-edit" onclick="window.location.href=\'/' + currentEvent + '/leads/edit/' + data.id + '/\'"><i class="fa fa-edit"></i>Edit</button>' +
+                        '<button class="btn-add-entry" onclick="window.location.href=\'/' + data.event + '/entries/add/' + data.id + '/\'"><i class="fa fa-share"></i>Add Entry</button>' +
+                        '<button class="btn-add-entry" onclick="window.location.href=\'/' + data.event + '/leads/add-sos/' + data.id + '/\'"><i class="fa fa-share"></i>Add Assessment Registry</button>' +
+                        '<button class="btn-edit" onclick="window.location.href=\'/' + data.event + '/leads/edit/' + data.id + '/\'"><i class="fa fa-edit"></i>Edit</button>' +
                         (
                             (data.status == "PEN") ?
-                            '<button class="btn-mark-processed" onclick="markProcessed('+data.id+', \'PRO\');"><i class="fa fa-check"></i>Mark Processed</button>' :
-                            '<button class="btn-mark-processed" onclick="markProcessed('+data.id+', \'PEN\');"><i class="fa fa-check"></i>Mark Pending</button>'
+                            '<button class="btn-mark-processed" onclick="markProcessed('+data.id+', \'PRO\', ' + data.event + ');"><i class="fa fa-check"></i>Mark Processed</button>' :
+                            '<button class="btn-mark-processed" onclick="markProcessed('+data.id+', \'PEN\', ' + data.event + ');"><i class="fa fa-check"></i>Mark Pending</button>'
                         ) +
-                        '<button class="btn-delete" onclick="deleteLead('+data.id+');"><i class="fa fa-trash"></i>Delete</button>' +
+                        '<button class="btn-delete" onclick="deleteLead('+data.id+', ' + data.event + ');"><i class="fa fa-trash"></i>Delete</button>' +
                     '</div>' +
                     '<div class="details">' +
                         '<div><label>status:</label>' + statuses[data.status] + '</div>' +
-                        '<div><label>published at:</label>' + data.published_at + '</div>' +
+                        '<div><label>published at:</label>' + formatDate(data.published_at) + '</div>' +
                         '<div><label>source:</label>' + data.source + '</div>' +
                         '<div><label>confidentiality:</label>' + confidentialities[data.confidentiality] + '</div>' +
                         (data.website? '<div><label>website:</label>'+data.website+'</div>' : '') +
@@ -302,61 +358,65 @@ $(document).ready(function(){
         ;
     }
 
-    var dragging = false;
-    $('body').bind("dragover", function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        if( !dragging ){
-            $('#drag-overlay').show();
-            dragging = true;
-        }
-    });
-    $('body').bind("dragleave", function(e){
-        e.preventDefault();
-        e.stopPropagation();
+    if (currentEvent) {
+        postUrl = postUrl.replace('0', currentEvent+'');
 
-        if(dragging){
-            if (!e.originalEvent.clientX && !e.originalEvent.clientY){
-                $('#drag-overlay').hide();
-                dragging = false;
+        var dragging = false;
+        $('body').bind("dragover", function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            if( !dragging ){
+                $('#drag-overlay').show();
+                dragging = true;
             }
-        }
-    });
-    $('body').bind("drop", function(e){
-        e.preventDefault();
-        e.stopPropagation();
+        });
+        $('body').bind("dragleave", function(e){
+            e.preventDefault();
+            e.stopPropagation();
 
-        $('#drag-overlay').hide();
-        dragging = false;
+            if(dragging){
+                if (!e.originalEvent.clientX && !e.originalEvent.clientY){
+                    $('#drag-overlay').hide();
+                    dragging = false;
+                }
+            }
+        });
+        $('body').bind("drop", function(e){
+            e.preventDefault();
+            e.stopPropagation();
 
-        droppedFiles = e.originalEvent.dataTransfer.files;
+            $('#drag-overlay').hide();
+            dragging = false;
 
-        $('#attachments-list').text('');
-        $('#manual-text').text('');
+            droppedFiles = e.originalEvent.dataTransfer.files;
 
-        if (droppedFiles.length > 0) {
-            $('.manual-row').hide();
-            $('.attachment-row').show();
-            $.each(droppedFiles, function(i, file) {
-                $('#attachments-list').append(file.name + " ");
-            });
-            addLeadModal.show().then(null, null, function(){
-                $('#add-lead-form').find('input[type="submit"]').click();
-            });
-        }
-        else {
-            var text = e.originalEvent.dataTransfer.getData("text");
-            if (text && text.length > 0) {
-                $('.manual-row').show();
-                $('.attachment-row').hide();
-                $('#manual-text').text(text);
+            $('#attachments-list').text('');
+            $('#manual-text').text('');
 
+            if (droppedFiles.length > 0) {
+                $('.manual-row').hide();
+                $('.attachment-row').show();
+                $.each(droppedFiles, function(i, file) {
+                    $('#attachments-list').append(file.name + " ");
+                });
                 addLeadModal.show().then(null, null, function(){
                     $('#add-lead-form').find('input[type="submit"]').click();
                 });
             }
-        }
-    });
+            else {
+                var text = e.originalEvent.dataTransfer.getData("text");
+                if (text && text.length > 0) {
+                    $('.manual-row').show();
+                    $('.attachment-row').hide();
+                    $('#manual-text').text(text);
+
+                    addLeadModal.show().then(null, null, function(){
+                        $('#add-lead-form').find('input[type="submit"]').click();
+                    });
+                }
+            }
+        });
+    }
 
     $("#confidentiality").selectize();
     $("#assigned-to").selectize();
@@ -402,14 +462,16 @@ $(document).ready(function(){
 });
 
 
-function markProcessed(id, status) {
+function markProcessed(id, status, eventId) {
+    $('#process-form').attr('action', $('#process-form').attr('action').replace('0', eventId));
     $("#process-id").val(id);
     $("#process-status").val(status);
     $("#process-form").submit();
 }
 
-function deleteLead(id) {
+function deleteLead(id, eventId) {
     if (confirm("Are you sure you want to delete this lead?\nAll entries related to this lead will also be deleted.")) {
+        $('#delete-form').attr('action', $('#delete-form').attr('action').replace('0', eventId));
         $("#delete-id").val(id);
         $("#delete-form").submit();
     }

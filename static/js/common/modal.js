@@ -17,6 +17,7 @@ class Modal{
     }
     show(){
         let that = this;
+        this.action = null;
         this.deferred = new $.Deferred();
 
         $(this.elem).closest('.modal-container').fadeIn(function(){
@@ -39,4 +40,4 @@ class Modal{
             addTodayButtons();
         });
     }
-};
+}

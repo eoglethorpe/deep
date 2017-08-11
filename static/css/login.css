@@ -121,7 +121,7 @@ main {
       border: 1px solid transparent;
       border-bottom: 2px solid rgba(0, 0, 0, 0.3);
       flex-basis: 100%;
-      padding: 0 10px 5 10px;
+      padding: 0 0 3px 0;
       font-size: 15px; }
       main form input[type="text"]:focus, main form input[type="password"]:focus {
         border-bottom: 2px solid #008080; }
@@ -130,24 +130,31 @@ main {
       margin: 0;
       color: rgba(0, 0, 0, 0.3); }
     main form button, main form a {
-      cursor: pointer; }
+      cursor: pointer;
+      font-size: 15px; }
     main form #submit-btn-container {
-      min-height: 32px;
-      justify-content: space-between; }
+      justify-content: space-between;
+      margin-bottom: 16px; }
     main form button {
       background-color: #008080;
       border: none;
-      flex-basis: 26%;
-      align-self: stretch;
       color: #fff;
-      font-size: 15px; }
+      padding: 10px 16px;
+      border-radius: 2px;
+      box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3); }
+      main form button:active {
+        box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+    main form a {
+      color: #008080; }
     main form .action-buttons {
       font-size: 15px;
       justify-content: flex-end;
       margin-bottom: 0;
       padding: 0;
       background-color: #f0f0f0;
-      align-self: stretch; }
+      align-self: stretch;
+      height: 56px;
+      min-height: auto; }
       main form .action-buttons #register-link {
         background-color: #3498db;
         flex-basis: 40%;

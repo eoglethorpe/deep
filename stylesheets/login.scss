@@ -48,55 +48,61 @@ main{
             }
         }
 
-        header{
+        header {
             background-color: $primary-color;
             color: #fff;
 
-            h1{
+            h1 {
                 margin: 0;
                 text-transform: uppercase;
-                //color: $primary-color;
             }
         }
-        input[type="text"], input[type="password"]{
+
+        input[type="text"], input[type="password"] {
             outline: none;
             border: 1px solid transparent;
             border-bottom: 2px solid rgba(0, 0, 0, 0.3);
             flex-basis: 100%;
-            padding: 0 10px 5 10px;
+            padding: 0 0 3px 0;
             font-size: $text-size-lg;
 
-            &:focus{
+            &:focus {
                 border-bottom: 2px solid $primary-color;
             }
         }
-        label{
+        label {
             flex-basis: 100%;
             margin: 0;
             color: rgba(0, 0, 0, 0.3);
         }
-        button, a{
+        button, a {
             cursor: pointer;
-        }
-        #submit-btn-container{
-            min-height: 32px;
-            justify-content: space-between;
-        }
-        button{
-            background-color: $primary-color;
-            border: none;
-            flex-basis: 26%;
-            align-self: stretch;
-            color: #fff;
             font-size: $text-size-lg;
         }
-        .action-buttons{
+        #submit-btn-container {
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        button {
+            background-color: $primary-color;
+            border: none;
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 2px;
+            @include btn-shadow-sm;
+        }
+        a{
+            color: $primary-color;
+        }
+        .action-buttons {
             font-size: $text-size-lg;
             justify-content: flex-end;
             margin-bottom: 0;
             padding: 0;
             background-color: #f0f0f0;
             align-self: stretch;
+            height: 56px;
+            min-height: auto;
 
             #register-link{
                 background-color: $info-color;
@@ -113,7 +119,6 @@ main{
                 background-color: $humanitarianIdColor;
                 align-self: stretch;
                 flex-basis: 60%;
-                // flex-direction: column;
 
                 img{
                     padding: 6px 32px;
@@ -121,13 +126,6 @@ main{
                     height: 100%;
                     object-fit: contain;
                 }
-                // small{
-                //     font-weight: $font-weight-thin;
-                //     margin-bottom: 10px;
-                // }
-                // span{
-                //     font-weight: $font-weight-bold;
-                // }
             }
         }
     }

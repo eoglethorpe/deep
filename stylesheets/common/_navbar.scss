@@ -35,14 +35,12 @@ body{
             flex-grow: 0;
 
             img{
-                width: 100%;
+                width: 125px;
+                height: 40px;
             }
         }
-        #report-link-wrapper{
-            flex-basis: 10%;
-        }
-        #crisis-select-container{
-            flex-basis: 28%;
+        #project-select-container{
+            flex-basis: 20%;
 
             .selectize-control.single{
                 .selectize-input, &.single, .selectize-input.input-active{
@@ -69,12 +67,18 @@ body{
                     border-color: #808080 transparent transparent transparent;
                 }
             }
-            a{
+            #project-dropdown-alt{
                 vertical-align: middle;
+                color: #fff;
+                font-size: $text-size-sm;
+
+                .fa{
+                    width: 16px;
+                }
             }
         }
         #main-menu{
-            flex-basis: 32%;
+            flex-basis: 50%;
         }
         #extra-menu{
             flex-basis: calc(20% - #{$deep-logo-width});
@@ -119,10 +123,18 @@ body{
                         border: 1px solid rgba(0, 0, 0, 0.05);
                         margin: 0;
                     }
-                    div{
+                    a, button {
+                        display: block;
+                        width: 100%;
+                        text-align: left;
                         padding: 16px;
                         text-transform: uppercase;
                         color: $text-color;
+                        cursor: pointer;
+                        outline: none;
+                        border: none;
+                        text-decoration: none;
+                        background-color: transparent;
 
                         .fa{
                             width: 32px;

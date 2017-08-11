@@ -1,0 +1,946 @@
+::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.04); }
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px; }
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.24); }
+
+body {
+  margin: 0;
+  background-color: #f0f0f0;
+  color: #414141;
+  font-size: 13px;
+  /*float-alert-toast - position it at the top-center of the screen*/ }
+  body * {
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box; }
+  body h1, body h2, body h3, body h4 {
+    font-weight: 400; }
+  body h1 {
+    font-size: 19px; }
+  body h2 {
+    font-size: 17px; }
+  body h3 {
+    font-size: 15px; }
+  body a, body a:hover, body a:active, body a:visited, body a:focus {
+    text-decoration: none; }
+  body a, body button, body input[type="submit"], body input[type="button"], body .btn, body .btn:focus, body button:focus {
+    text-transform: uppercase;
+    outline: none; }
+  body button {
+    background-color: #fff;
+    color: #414141;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: 0.2s all ease-in-out; }
+  body label {
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 500;
+    display: inline-block; }
+  body .float-alert-toast {
+    display: none;
+    /* Hidden by default. Visible on click */
+    min-width: 250px;
+    /* Set a default minimum width */
+    margin-left: -125px;
+    /* Divide value of min-width by 2 */
+    background-color: #333;
+    /* Black background color */
+    color: #fff;
+    /* White text color */
+    text-align: center;
+    /* Centered text */
+    border-radius: 2px;
+    /* Rounded borders */
+    padding: 16px;
+    /* Padding */
+    position: fixed;
+    /* Sit on top of the screen */
+    z-index: 1;
+    /* Add a z-index if needed */
+    right: 10%;
+    /* Towards the right */
+    top: 30px;
+    /* 30px from the top */ }
+
+nav {
+  flex-basis: 100%;
+  height: 56px;
+  background-color: #004d4d;
+  z-index: 1010;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 0 16px;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.3); }
+  nav a:hover, nav a:active {
+    color: #fff; }
+  nav h1, nav h2, nav h3, nav h4, nav a {
+    margin: 0;
+    text-transform: uppercase; }
+  nav #left-part {
+    display: flex;
+    align-items: center; }
+    nav #left-part h2 {
+      font-size: 1.5em;
+      margin-left: 16px;
+      color: #fff; }
+    nav #left-part #deep-logo-container {
+      width: 36px;
+      flex-shrink: 0;
+      flex-grow: 0; }
+      nav #left-part #deep-logo-container img {
+        width: 100%; }
+  nav .dropdown {
+    flex-basis: 232px;
+    position: relative;
+    cursor: pointer;
+    outline: none; }
+    nav .dropdown .dropdown-toggle {
+      color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      justify-content: space-around; }
+      nav .dropdown .dropdown-toggle .fa {
+        margin-right: 10px; }
+    nav .dropdown .items {
+      position: absolute;
+      top: calc(8px + 56px / 2);
+      right: 0;
+      background-color: #fff;
+      width: 100%;
+      min-width: 200px;
+      z-index: 1011;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.3); }
+      nav .dropdown .items hr {
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        margin: 0; }
+      nav .dropdown .items a, nav .dropdown .items button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 16px;
+        text-transform: uppercase;
+        color: #414141;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        text-decoration: none;
+        background-color: transparent; }
+        nav .dropdown .items a .fa, nav .dropdown .items button .fa {
+          width: 32px; }
+        nav .dropdown .items a:hover, nav .dropdown .items button:hover {
+          background-color: rgba(0, 0, 0, 0.1); }
+
+body {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  height: 100vh;
+  overflow: hidden; }
+  body h1, body h2, body h3, body h4 {
+    text-transform: uppercase;
+    margin: 0;
+    vertical-align: middle; }
+  body a {
+    color: #008080;
+    cursor: pointer; }
+  body aside {
+    position: relative;
+    flex-basis: 33%;
+    height: calc(100vh - 56px);
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    overflow-y: auto; }
+    body aside .title-block {
+      height: 64px;
+      padding: 0 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+      body aside .title-block #template-name {
+        font-size: 19px; }
+      body aside .title-block .action-container button {
+        padding: 6px 16px;
+        color: #fff; }
+      body aside .title-block .action-container .switch-page {
+        padding: 6px 24px;
+        box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3);
+        color: white;
+        background-color: #008080; }
+        body aside .title-block .action-container .switch-page:active {
+          box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+      body aside .title-block .action-container #save-button {
+        background-color: #008080; }
+      body aside .title-block .action-container #cancel-button {
+        background-color: #e74c3c; }
+    body aside section {
+      height: calc(calc(100% - 64px - 48px) / 2);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+      body aside section > header {
+        height: 48px;
+        display: flex;
+        align-items: center;
+        padding-left: 16px; }
+      body aside section #widgets {
+        height: calc(100% - 48px);
+        overflow-y: auto; }
+        body aside section #widgets .widget {
+          display: flex;
+          justify-content: space-between;
+          padding: 10px 16px;
+          background-color: #fff;
+          border: 1px solid rgba(0, 0, 0, 0.05); }
+          body aside section #widgets .widget button {
+            background-color: transparent;
+            border: none; }
+            body aside section #widgets .widget button .fa {
+              margin-right: 6px; }
+      body aside section #elements {
+        height: calc(100% - 48px);
+        overflow-y: scroll; }
+        body aside section #elements .element {
+          background-color: #fafafa;
+          margin-bottom: 6px; }
+          body aside section #elements .element.ui-sortable-helper {
+            box-shadow: 0 2px 15px -5px rgba(0, 0, 0, 0.5); }
+          body aside section #elements .element .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            height: 36px;
+            background-color: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.1); }
+            body aside section #elements .element .header button {
+              padding: 4px;
+              background-color: transparent;
+              border: none; }
+              body aside section #elements .element .header button .delete-element {
+                color: #e74c3c; }
+              body aside section #elements .element .header button .fa {
+                margin-right: 6px; }
+          body aside section #elements .element .properties {
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 6px; }
+    body aside footer {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center; }
+      body aside footer button {
+        padding: 6px 24px;
+        box-shadow: 0 3px 7px -3px rgba(0, 0, 0, 0.3);
+        color: white;
+        background-color: #008080; }
+        body aside footer button:active {
+          box-shadow: 0 3px 5px -3px rgba(0, 0, 0, 0.3); }
+  body main {
+    flex-basis: 67%;
+    height: calc(100vh - 56px);
+    overflow: auto; }
+    body main #page-one {
+      width: 100%;
+      height: 100%;
+      position: relative; }
+    body main #page-two {
+      width: 100%;
+      height: 100%;
+      position: relative; }
+      body main #page-two .entry {
+        display: block;
+        width: 100%;
+        height: 312px;
+        margin: 16px;
+        background-color: #dedede; }
+    body main .element {
+      display: inline-block;
+      position: absolute;
+      border: 1px dotted #008080; }
+      body main .element .handle, body main .element .edit, body main .element .delete-element {
+        display: none;
+        color: #000;
+        padding: 2px;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        background-color: #fff;
+        position: absolute;
+        top: 0;
+        z-index: 10;
+        opacity: 0.3; }
+        body main .element .handle:hover, body main .element .edit:hover, body main .element .delete-element:hover {
+          opacity: 1; }
+      body main .element .handle {
+        cursor: move;
+        right: 0; }
+      body main .element .edit {
+        cursor: pointer;
+        right: 24px; }
+      body main .element .delete-element {
+        cursor: pointer;
+        color: #e74c3c;
+        right: 48px; }
+      body main .element:hover .handle, body main .element:hover .edit, body main .element:hover .delete-element {
+        display: inherit; }
+    body main .properties-box {
+      position: absolute;
+      left: 6px;
+      top: 16px;
+      min-width: 300px;
+      background-color: #fff;
+      box-shadow: 0 3px 24px -5px black;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 11; }
+      body main .properties-box .header {
+        height: 42px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 16px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+        body main .properties-box .header a {
+          color: inherit;
+          font-size: 1.2em; }
+      body main .properties-box .property {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 16px;
+        min-height: 36px; }
+        body main .properties-box .property.id-property {
+          display: none; }
+        body main .properties-box .property label {
+          font-size: 13px; }
+        body main .properties-box .property input[type="text"] {
+          padding: 2px 6px; }
+        body main .properties-box .property.scale-property {
+          display: block; }
+          body main .properties-box .property.scale-property .scale-property-header {
+            min-height: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center; }
+          body main .properties-box .property.scale-property input[type="color"] {
+            cursor: pointer; }
+          body main .properties-box .property.scale-property button {
+            background-color: transparent;
+            border: none; }
+            body main .properties-box .property.scale-property button.remove-value {
+              padding: 4px 8px;
+              color: #e74c3c; }
+            body main .properties-box .property.scale-property button.add-value {
+              color: #3498db;
+              font-size: 1.2em;
+              margin-right: 8px; }
+          body main .properties-box .property.scale-property .value-container {
+            min-height: 32px;
+            padding: 0 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center; }
+            body main .properties-box .property.scale-property .value-container:nth-child(odd) {
+              background-color: #eee; }
+        body main .properties-box .property.options-container {
+          flex-wrap: wrap;
+          width: 100%; }
+          body main .properties-box .property.options-container .header {
+            flex-basis: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 0; }
+          body main .properties-box .property.options-container button {
+            background-color: transparent;
+            border: none; }
+            body main .properties-box .property.options-container button.remove-option {
+              color: #e74c3c;
+              font-size: 1.2em;
+              padding-left: 10px; }
+            body main .properties-box .property.options-container button.add-option {
+              color: #3498db;
+              font-size: 1.2em; }
+          body main .properties-box .property.options-container .options > .option-container {
+            min-height: 32px;
+            padding: 0 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center; }
+        body main .properties-box .property.nodes-property {
+          display: block;
+          padding: 0; }
+          body main .properties-box .property.nodes-property .header {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 8px;
+            background-color: transparent;
+            border: none; }
+          body main .properties-box .property.nodes-property button {
+            background-color: transparent;
+            border: none; }
+            body main .properties-box .property.nodes-property button.remove-node {
+              color: #e74c3c;
+              font-size: 1.2em; }
+            body main .properties-box .property.nodes-property button.add-node {
+              color: #3498db;
+              font-size: 1.2em;
+              float: right;
+              font-: bold; }
+          body main .properties-box .property.nodes-property .nodes-container {
+            width: 100%; }
+            body main .properties-box .property.nodes-property .nodes-container .nodes {
+              width: 100%; }
+              body main .properties-box .property.nodes-property .nodes-container .nodes > .node-container {
+                padding: 0 8px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap; }
+                body main .properties-box .property.nodes-property .nodes-container .nodes > .node-container .name {
+                  min-height: 24px;
+                  flex-basis: calc(50% - 32px);
+                  padding: 0 6px;
+                  margin-bottom: 4px; }
+                body main .properties-box .property.nodes-property .nodes-container .nodes > .node-container .selectize-control {
+                  flex-basis: 50%;
+                  margin-bottom: 4px;
+                  background-color: #fff; }
+                body main .properties-box .property.nodes-property .nodes-container .nodes > .node-container .remove-node {
+                  flex-basis: 24px; }
+                body main .properties-box .property.nodes-property .nodes-container .nodes > .node-container:nth-child(odd) {
+                  background-color: #eee; }
+        body main .properties-box .property:nth-child(odd) {
+          background-color: #eee; }
+    body main .page-one-entry-selector {
+      left: 32px;
+      top: 32px;
+      min-width: 108px; }
+      body main .page-one-entry-selector .select-container {
+        width: 200px;
+        min-width: 108px; }
+        body main .page-one-entry-selector .select-container select {
+          min-width: 108px;
+          width: 100%;
+          height: 100%; }
+    body main .page-one-excerpt .excerpt-container, body main .page-two-excerpt .excerpt-container {
+      min-width: 144px;
+      min-height: 96px;
+      width: 256px;
+      height: 108px; }
+      body main .page-one-excerpt .excerpt-container label, body main .page-two-excerpt .excerpt-container label {
+        font-weight: bold;
+        font-size: 12px;
+        margin-bottom: 4px; }
+      body main .page-one-excerpt .excerpt-container textarea, body main .page-two-excerpt .excerpt-container textarea {
+        width: 100%;
+        height: calc(100% - 20px);
+        padding: 16px; }
+    body main .page-one-excerpt {
+      left: 32px;
+      top: 72px; }
+      body main .page-one-excerpt .excerpt-container {
+        width: 320px; }
+    body main .page-one-image {
+      left: 384px;
+      top: 72px; }
+      body main .page-one-image .image-container {
+        min-width: 48px;
+        min-height: 48px;
+        display: inline-block;
+        width: 200px;
+        height: 200px; }
+        body main .page-one-image .image-container label {
+          font-weight: bold;
+          font-size: 12px;
+          margin-bottom: 4px; }
+        body main .page-one-image .image-container .image-box {
+          width: 100%;
+          height: calc(100% - 20px);
+          background-color: #f0f0f0;
+          background-image: url("../img/image-placeholder.png");
+          background-size: contain;
+          background-position: center center; }
+    body main .input-element {
+      min-width: 96px; }
+      body main .input-element .input-container {
+        min-width: 96px;
+        width: 100%;
+        height: 100%; }
+        body main .input-element .input-container label {
+          height: 24px;
+          display: flex;
+          align-items: center; }
+        body main .input-element .input-container select, body main .input-element .input-container textarea {
+          width: 100%;
+          height: 100%; }
+        body main .input-element .input-container input {
+          width: 100%;
+          height: calc(100% - 24px); }
+    body main .scale-element .scale-container {
+      width: 100%;
+      height: 100%;
+      min-height: 56px;
+      min-width: 96px; }
+      body main .scale-element .scale-container label {
+        height: 24px;
+        display: flex;
+        align-items: center;
+        padding: 0 10px; }
+      body main .scale-element .scale-container .scale {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: calc(100% - 24px); }
+        body main .scale-element .scale-container .scale .value {
+          display: inline-block;
+          margin: 0 1px;
+          width: 10px;
+          height: 20px;
+          border-radius: 2px; }
+          body main .scale-element .scale-container .scale .value.default {
+            width: 13px;
+            height: 26px; }
+    body main .matrix1d {
+      min-width: 240px; }
+      body main .matrix1d .title {
+        height: 32px;
+        padding: 0 16px;
+        display: flex;
+        align-items: center;
+        font-size: 15px; }
+      body main .matrix1d .pillars .pillar {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        position: relative;
+        margin-bottom: 2px; }
+        body main .matrix1d .pillars .pillar > .title-block {
+          position: relative;
+          width: 128px;
+          flex-grow: 0;
+          flex-shrink: 0;
+          align-self: stretch;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          background-color: rgba(255, 255, 255, 0.9); }
+          body main .matrix1d .pillars .pillar > .title-block[contenteditable=true] {
+            cursor: text;
+            border: 1px dotted black; }
+        body main .matrix1d .pillars .pillar .floating-toolbar {
+          position: absolute;
+          display: flex;
+          align-items: center;
+          height: 48px;
+          top: -48px;
+          left: 24px;
+          background-color: #f0f0f0;
+          box-shadow: 0 2px 15px -3px rgba(0, 0, 0, 0.5);
+          border: 2px solid rgba(0, 0, 0, 0.1);
+          z-index: 11; }
+          body main .matrix1d .pillars .pillar .floating-toolbar:after, body main .matrix1d .pillars .pillar .floating-toolbar:before {
+            display: block;
+            content: '';
+            position: absolute;
+            border-style: solid; }
+          body main .matrix1d .pillars .pillar .floating-toolbar:after {
+            left: 6px;
+            bottom: -24px;
+            border-width: 12px;
+            border-color: #f0f0f0 transparent transparent transparent; }
+          body main .matrix1d .pillars .pillar .floating-toolbar:before {
+            left: 4px;
+            bottom: -30px;
+            border-width: 14px;
+            border-color: rgba(0, 0, 0, 0.1) transparent transparent transparent; }
+          body main .matrix1d .pillars .pillar .floating-toolbar input {
+            margin: 8px; }
+            body main .matrix1d .pillars .pillar .floating-toolbar input[type="color"] {
+              margin-right: 0; }
+        body main .matrix1d .pillars .pillar .subpillars {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap; }
+          body main .matrix1d .pillars .pillar .subpillars .subpillar {
+            display: inline-block;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.1); }
+            body main .matrix1d .pillars .pillar .subpillars .subpillar .title-block {
+              display: inline-block;
+              cursor: pointer;
+              background-color: rgba(255, 255, 255, 0.4);
+              padding: 8px 16px; }
+              body main .matrix1d .pillars .pillar .subpillars .subpillar .title-block[contenteditable=true] {
+                cursor: text;
+                border: 1px dotted black; }
+            body main .matrix1d .pillars .pillar .subpillars .subpillar .remove-subpillar {
+              padding: 1px;
+              display: none;
+              position: absolute;
+              top: 0;
+              right: 0;
+              background-color: #fff;
+              border: 1px solid rgba(0, 0, 0, 0.1);
+              opacity: 0.3;
+              outline: none; }
+              body main .matrix1d .pillars .pillar .subpillars .subpillar .remove-subpillar:hover {
+                opacity: 1; }
+            body main .matrix1d .pillars .pillar .subpillars .subpillar:hover .remove-subpillar {
+              display: inherit; }
+        body main .matrix1d .pillars .pillar:hover .options {
+          display: inline-block; }
+      body main .matrix1d .add-pillar, body main .matrix1d .add-subpillar {
+        background-color: transparent;
+        display: none;
+        outline: none; }
+      body main .matrix1d .options {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 90px;
+        z-index: 10; }
+        body main .matrix1d .options > button {
+          background-color: #fff;
+          border: 1px solid rgba(0, 0, 0, 0.3);
+          opacity: 0.3;
+          padding: 2px;
+          margin: 0 1px; }
+          body main .matrix1d .options > button:hover {
+            opacity: 1; }
+      body main .matrix1d .add-pillar, body main .matrix1d .add-subpillar {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border: 2px dashed rgba(0, 0, 0, 0.1); }
+      body main .matrix1d .add-pillar {
+        width: 128px;
+        font-family: inherit;
+        color: #3498db; }
+        body main .matrix1d .add-pillar .fa {
+          margin-right: 10px; }
+      body main .matrix1d .fa-times {
+        color: #e74c3c; }
+      body main .matrix1d .fa-plus {
+        color: #3498db; }
+      body main .matrix1d:hover {
+        background-color: rgba(0, 0, 0, 0.05); }
+        body main .matrix1d:hover .pillar {
+          background-color: rgba(0, 0, 0, 0.06); }
+    body main .matrix2d {
+      min-width: 300px; }
+      body main .matrix2d .title {
+        height: 32px;
+        padding: 0 16px;
+        flex-basis: 100%;
+        font-size: 15px;
+        display: flex;
+        align-items: center; }
+      body main .matrix2d .pillars-container {
+        display: flex;
+        flex-direction: column;
+        width: 300px; }
+        body main .matrix2d .pillars-container .pillars {
+          width: 300px; }
+          body main .matrix2d .pillars-container .pillars .pillar {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            position: relative;
+            cursor: pointer; }
+            body main .matrix2d .pillars-container .pillars .pillar > .title-block {
+              display: flex;
+              align-items: center;
+              flex-basis: 50%;
+              max-width: 50%;
+              background-color: rgba(255, 255, 255, 0.8);
+              display: flex;
+              justify-content: center;
+              align-items: center; }
+              body main .matrix2d .pillars-container .pillars .pillar > .title-block[contenteditable=true] {
+                cursor: text;
+                border: 1px dotted black; }
+            body main .matrix2d .pillars-container .pillars .pillar .floating-toolbar {
+              position: absolute;
+              display: flex;
+              align-items: center;
+              height: 48px;
+              top: -48px;
+              left: 24px;
+              background-color: #f0f0f0;
+              box-shadow: 0 2px 15px -3px rgba(0, 0, 0, 0.3);
+              border: 2px solid rgba(0, 0, 0, 0.1); }
+              body main .matrix2d .pillars-container .pillars .pillar .floating-toolbar input {
+                margin: 10px; }
+              body main .matrix2d .pillars-container .pillars .pillar .floating-toolbar:after, body main .matrix2d .pillars-container .pillars .pillar .floating-toolbar:before {
+                display: block;
+                content: '';
+                position: absolute;
+                border-style: solid; }
+            body main .matrix2d .pillars-container .pillars .pillar > .floating-toolbar:after {
+              left: 16px;
+              bottom: -24px;
+              border-width: 12px;
+              border-color: #f0f0f0 transparent transparent transparent; }
+            body main .matrix2d .pillars-container .pillars .pillar > .floating-toolbar:before {
+              left: 14px;
+              bottom: -30px;
+              border-width: 14px;
+              border-color: rgba(0, 0, 0, 0.1) transparent transparent transparent; }
+            body main .matrix2d .pillars-container .pillars .pillar .options {
+              display: none;
+              position: absolute;
+              left: 106px;
+              top: 0;
+              z-index: 10; }
+              body main .matrix2d .pillars-container .pillars .pillar .options > button {
+                background-color: #fff;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                opacity: 0.3;
+                padding: 2px;
+                margin: 0 1px; }
+                body main .matrix2d .pillars-container .pillars .pillar .options > button:hover {
+                  opacity: 1; }
+            body main .matrix2d .pillars-container .pillars .pillar:hover .options {
+              display: inline-block; }
+            body main .matrix2d .pillars-container .pillars .pillar .subpillars-container {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              flex-basis: 50%;
+              max-width: 50%; }
+              body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars {
+                width: 100%; }
+                body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar {
+                  position: relative;
+                  cursor: pointer;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  min-height: 32px;
+                  background-color: rgba(255, 255, 255, 0.5);
+                  border: 1px solid rgba(0, 0, 0, 0.1); }
+                  body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar .title-block[contenteditable=true] {
+                    cursor: text;
+                    border: 1px dotted black; }
+                  body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar .options {
+                    display: none;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    z-index: 10; }
+                  body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar .floating-toolbar {
+                    top: 30px;
+                    left: 24px;
+                    display: flex;
+                    z-index: 11; }
+                    body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar .floating-toolbar:after, body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar .floating-toolbar:before {
+                      display: block;
+                      content: '';
+                      position: absolute;
+                      border-style: solid; }
+                    body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar .floating-toolbar:after {
+                      left: 16px;
+                      top: -24px;
+                      border-width: 12px;
+                      border-color: transparent transparent #f0f0f0 transparent; }
+                    body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar .floating-toolbar:before {
+                      left: 14px;
+                      top: -30px;
+                      border-width: 14px;
+                      border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent; }
+                  body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .subpillars .subpillar:hover .options {
+                    display: inline-block; }
+              body main .matrix2d .pillars-container .pillars .pillar .subpillars-container .add-subpillar {
+                width: 100%;
+                height: 32px;
+                border: 2px dashed rgba(0, 0, 0, 0.2); }
+        body main .matrix2d .pillars-container .add-pillar {
+          width: 100%;
+          padding: 8px 0px;
+          border: 1px dashed rgba(0, 0, 0, 0.2); }
+        body main .matrix2d .pillars-container:hover .add-pillar {
+          display: inline-block; }
+      body main .matrix2d .sectors-container {
+        display: flex;
+        align-items: center; }
+        body main .matrix2d .sectors-container .sectors {
+          display: flex;
+          align-items: center;
+          margin-left: 300px; }
+          body main .matrix2d .sectors-container .sectors .sector {
+            min-height: 32px;
+            min-width: 64px;
+            padding: 4px 8px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid rgba(0, 0, 0, 0.1); }
+            body main .matrix2d .sectors-container .sectors .sector .floating-toolbar {
+              position: absolute;
+              top: 32px;
+              left: 0;
+              background-color: #fff;
+              box-shadow: 0 2px 15px -3px rgba(0, 0, 0, 0.3);
+              border: 2px solid rgba(0, 0, 0, 0.1);
+              flex-wrap: wrap;
+              min-width: 200px;
+              min-height: 100px;
+              z-index: 11; }
+              body main .matrix2d .sectors-container .sectors .sector .floating-toolbar .close {
+                float: right;
+                padding: 6px;
+                color: #008080; }
+              body main .matrix2d .sectors-container .sectors .sector .floating-toolbar label {
+                padding: 6px; }
+              body main .matrix2d .sectors-container .sectors .sector .floating-toolbar .subsectors {
+                flex-basis: 100%;
+                padding-bottom: 6px; }
+                body main .matrix2d .sectors-container .sectors .sector .floating-toolbar .subsectors .subsector {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  padding: 0 6px;
+                  min-height: 24px; }
+            body main .matrix2d .sectors-container .sectors .sector .title-block[contenteditable=true] {
+              cursor: text;
+              border: 1px dotted black; }
+            body main .matrix2d .sectors-container .sectors .sector .options {
+              display: none;
+              position: absolute;
+              right: 0;
+              top: 0;
+              z-index: 10; }
+              body main .matrix2d .sectors-container .sectors .sector .options > button {
+                background-color: #fff;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                opacity: 0.3;
+                padding: 2px;
+                margin: 0 1px; }
+                body main .matrix2d .sectors-container .sectors .sector .options > button:hover {
+                  opacity: 1; }
+            body main .matrix2d .sectors-container .sectors .sector:hover .options {
+              display: inline-block; }
+        body main .matrix2d .sectors-container .add-sector {
+          height: 32px;
+          padding: 0px 10px;
+          border: 2px dashed rgba(0, 0, 0, 0.1); }
+        body main .matrix2d .sectors-container:hover .add-sector {
+          display: inline-block; }
+      body main .matrix2d button {
+        background-color: transparent;
+        border: none;
+        outline: none; }
+      body main .matrix2d .fa-times {
+        color: #e74c3c; }
+      body main .matrix2d .fa-plus {
+        color: #3498db; }
+    body main .matrix2d-list .container {
+      display: flex;
+      justify-content: space-between;
+      min-width: 176px; }
+      body main .matrix2d-list .container .col-1 .pillar {
+        font-weight: 500; }
+      body main .matrix2d-list .container .col-2 .sector {
+        font-weight: 500; }
+    body main .matrix2d-list:hover {
+      background-color: rgba(255, 255, 255, 0.5); }
+    body main .geolocations .container, body main .organigram .container {
+      min-width: 144px;
+      min-height: 72px; }
+      body main .geolocations .container .header, body main .organigram .container .header {
+        height: 32px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center; }
+        body main .geolocations .container .header img, body main .organigram .container .header img {
+          margin-left: 6px;
+          width: 24px;
+          height: 24px; }
+      body main .geolocations .container .locations, body main .geolocations .container .items, body main .organigram .container .locations, body main .organigram .container .items {
+        height: calc(100% - 32px);
+        line-height: 1.5;
+        padding-left: 3px; }
+        body main .geolocations .container .locations > span, body main .geolocations .container .items > span, body main .organigram .container .locations > span, body main .organigram .container .items > span {
+          display: block; }
+  body.page-two {
+    display: flex;
+    height: calc(100vh - $navbar-height - 64px);
+    overflow: auto; }
+    body.page-two aside {
+      flex-basis: 100%;
+      order: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      width: 100%;
+      height: 36vh;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 0 10px;
+      background-color: #f0f0f0; }
+      body.page-two aside .title-block {
+        box-sizing: content-box;
+        margin: 0 -10px;
+        flex-basis: 100%;
+        height: 48px;
+        z-index: 15;
+        background-color: #fff; }
+      body.page-two aside section {
+        height: calc(100% - 96px);
+        border-bottom: none;
+        background-color: #f4f4f4;
+        flex-basis: 30%;
+        border: 1px solid rgba(0, 0, 0, 0.3); }
+        body.page-two aside section header {
+          border-bottom: 1px solid rgba(0, 0, 0, 0.3); }
+      body.page-two aside footer {
+        flex-basis: calc(40% - 128px);
+        outline: none;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        height: calc(100% - 96px); }
+        body.page-two aside footer button {
+          width: auto;
+          height: auto;
+          margin-left: 360px;
+          border: 1px solid #a1a1a1; }
+    body.page-two main {
+      height: calc(64vh - 56px);
+      flex-basis: 100%;
+      order: 1; }
+      body.page-two main .entry {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow-x: auto; }
+        body.page-two main .entry .geolocations, body.page-two main .entry .organigram, body.page-two main .entry .page-two-excerpt, body.page-two main .entry .matrix1d-list, body.page-two main .entry .matrix2d-list, body.page-two main .entry .multiselect-element {
+          top: 0;
+          height: 100%;
+          z-index: 1; }
+          body.page-two main .entry .geolocations .container, body.page-two main .entry .geolocations .excerpt-container, body.page-two main .entry .geolocations .input-container, body.page-two main .entry .organigram .container, body.page-two main .entry .organigram .excerpt-container, body.page-two main .entry .organigram .input-container, body.page-two main .entry .page-two-excerpt .container, body.page-two main .entry .page-two-excerpt .excerpt-container, body.page-two main .entry .page-two-excerpt .input-container, body.page-two main .entry .matrix1d-list .container, body.page-two main .entry .matrix1d-list .excerpt-container, body.page-two main .entry .matrix1d-list .input-container, body.page-two main .entry .matrix2d-list .container, body.page-two main .entry .matrix2d-list .excerpt-container, body.page-two main .entry .matrix2d-list .input-container, body.page-two main .entry .multiselect-element .container, body.page-two main .entry .multiselect-element .excerpt-container, body.page-two main .entry .multiselect-element .input-container {
+            min-width: 96px;
+            height: 100%; }
+        body.page-two main .entry .matrix1d-list {
+          width: 160px; }
+        body.page-two main .entry .matrix2d-list {
+          width: 240px; }
+          body.page-two main .entry .matrix2d-list .container {
+            display: flex;
+            justify-content: space-around; }
+            body.page-two main .entry .matrix2d-list .container > div {
+              flex-basis: 49%; }
+
+/*# sourceMappingURL=entry-template.css.map */
