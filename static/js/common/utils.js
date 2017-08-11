@@ -120,6 +120,10 @@ $(window).on('resize', function() {
 });
 
 function formatDate(date) {
+    if (!date) {
+        return 'n/a';
+    }
+
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
