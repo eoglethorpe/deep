@@ -93,17 +93,35 @@ class DownloadFileView(View):
                                  'Intel Mac OS X 10_10_1) AppleWebKit/537.36'
                                  ' (KHTML, like Gecko) Chrome/39.0.2171.95 '
                                  'Safari/537.36'}
-        with TempDownloadStorage.open_temp() as fp:
-            response = requests.get(url, stream=True, headers=headers)
-            for chunk in response.iter_content(chunk_size=1024):
-                if chunk:
-                    fp.write(chunk)
-
+        response = requests.get(url, stream=True, headers=headers)
         params = cgi.parse_header(response.headers
                                   .get('Content-Disposition', ''))[-1]
-        return JsonResponse({
-            'path': fp.name.rsplit('/')[-1],
-            'filename': os.path.basename(params['filename'])
-            if 'filename' in params else generate_filename('Download'),
-            'content_type': response.headers.get('Content-Type'),
-        })
+
+        filename = os.path.basename(params['filename'])\
+            if 'filename' in params else generate_filename('Download')
+        content_type = response.headers.get('Content-Type')
+
+        tempfile = TempDownloadStorage.open_temp()
+
+        if TempDownloadStorage.use_s3():
+            tempfile.obj.put(
+                Body=response.raw.read(),
+                ContentDisposition='attachment; filename = "{}"'
+                .format(filename),
+                ContentType=content_type)
+
+            return JsonResponse({
+                's3': True,
+                'url': TempDownloadStorage.url(tempfile.name),
+            })
+        else:
+            with tempfile as fp:
+                for chunk in response.iter_content(chunk_size=1024):
+                    if chunk:
+                        fp.write(chunk)
+            return JsonResponse({
+                'path': tempfile.name.rsplit('/')[-1],
+                'filename': os.path.basename(params['filename'])
+                if 'filename' in params else generate_filename('Download'),
+                'content_type': response.headers.get('Content-Type'),
+            })

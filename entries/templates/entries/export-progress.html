@@ -17,10 +17,14 @@ DEEP | Export
                 $('#post-load').css('display', 'flex');
             });
 
-            window.location.href = "{% url 'download_file' %}?path="
-                + encodeURIComponent(data.path) + "&filename="
-                + encodeURIComponent(data.filename) + "&content_type="
-                + encodeURIComponent(data.content_type);
+            if(data.s3){
+                window.location.href = data.url;
+            }else{
+                window.location.href = "{% url 'download_file' %}?path="
+                    + encodeURIComponent(data.path) + "&filename="
+                    + encodeURIComponent(data.filename) + "&content_type="
+                    + encodeURIComponent(data.content_type);
+            }
         });
     });
 </script>
