@@ -188,6 +188,14 @@ function keyfigures(data){
     createSparkLine('#number-of-pin-spark',data.pin);
     $('#pinstat').on('click',function(){
         colorBy = 'pin';
+        if ($(this).hasClass('active')) {
+            $('.clickable').removeClass('active');
+            colorBy = null;
+        }
+        else {
+            $('.clickable').removeClass('active');
+            $(this).addClass('active');
+        }
         loadTimetable('all');
     });
 
@@ -197,6 +205,14 @@ function keyfigures(data){
     createSparkLine('#number-of-pin-severe-spark',data.pin);
     $('#pinseverestat').on('click',function(){
         colorBy = 'pin_severe';
+        if ($(this).hasClass('active')) {
+            $('.clickable').removeClass('active');
+            colorBy = null;
+        }
+        else {
+            $('.clickable').removeClass('active');
+            $(this).addClass('active');
+        }
         loadTimetable('all');
     });
 
@@ -206,6 +222,14 @@ function keyfigures(data){
     createSparkLine('#number-of-pin-restricted-spark',data.pin);
     $('#pinrestrictedstat').on('click',function(){
         colorBy = 'pin_restricted';
+        if ($(this).hasClass('active')) {
+            $('.clickable').removeClass('active');
+            colorBy = null;
+        }
+        else {
+            $('.clickable').removeClass('active');
+            $(this).addClass('active');
+        }
         loadTimetable('all');
     });
 
@@ -215,6 +239,14 @@ function keyfigures(data){
     createSparkLine('#number-of-affected-spark',data.people_affected);
     $('#affectedstat').on('click',function(){
         colorBy = 'people_affected';
+        if ($(this).hasClass('active')) {
+            $('.clickable').removeClass('active');
+            colorBy = null;
+        }
+        else {
+            $('.clickable').removeClass('active');
+            $(this).addClass('active');
+        }
         loadTimetable('all');
     });
 
@@ -224,6 +256,14 @@ function keyfigures(data){
     createSparkLine('#number-of-idps-spark',data.idps);
     $('#idpsstat').on('click',function(){
         colorBy = 'idps';
+        if ($(this).hasClass('active')) {
+            $('.clickable').removeClass('active');
+            colorBy = null;
+        }
+        else {
+            $('.clickable').removeClass('active');
+            $(this).addClass('active');
+        }
         loadTimetable('all');
     });
 
@@ -233,6 +273,14 @@ function keyfigures(data){
     createSparkLine('#number-of-refugees-spark',data.refugees);
     $('#refugeesstat').on('click',function(){
         colorBy = 'refugees';
+        if ($(this).hasClass('active')) {
+            $('.clickable').removeClass('active');
+            colorBy = null;
+        }
+        else {
+            $('.clickable').removeClass('active');
+            $(this).addClass('active');
+        }
         loadTimetable('all');
     });
 }
@@ -553,7 +601,7 @@ function loadTimetable(tableFor) {
         if (countryFilter == null || countryFilter.indexOf(countryCode) >= 0) {
             let countryData = data.find(d => d.country_code == countryCode);
             let events = countryData.projects;
-            
+
             for(let i=0; i<events.length; i++){
                 let reportElement = reportElementTemplate.clone();
                 reportElement.find('.aside').text(events[i].name);
