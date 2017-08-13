@@ -98,8 +98,12 @@ function onEachMapFeature(feature, layer) {
     }
 
     layer.on('click', function() {
+        let countryData = getCountryData(feature.properties.iso_a3);
+        if (!countryData) {
+            return;
+        }
+
         loadTimetable(feature.properties.iso_a3);
-        let countryData = getCountryData(feature.properties.iso_a3)
         let keyfiguresData = reportsToKeyFigures(countryData.reports);
         keyfigures(keyfiguresData);
         d3.selectAll('.geom').attr("stroke",'#37373b');

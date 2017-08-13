@@ -211,6 +211,10 @@ body #map {
     flex-direction: column;
     justify-content: flex-start;
     background-color: #fff; }
+    body #map #overview path {
+      stroke: #008080;
+      stroke-width: 1;
+      fill: none; }
     body #map #overview > h3 {
       text-align: center;
       margin: 0;

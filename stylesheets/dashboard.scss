@@ -48,6 +48,12 @@ body {
             justify-content: flex-start;
             background-color: #fff;
 
+            path {
+                stroke: $primary-color;
+                stroke-width: 1;
+                fill: none;
+            }
+
             >h3 {
                 text-align: center;
                 margin: 0;
