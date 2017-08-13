@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get(
         '2egrwk!cwh6y$6lzpvmc6+lsgp417@)g0c=u^cguz(n9#-!p75')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', True)
+DEBUG = os.environ.get('DEBUG', False)
 
 
 def get_pub_ip():
@@ -150,13 +150,14 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Logging errors
 # change address SysLog
-if not DEBUG:
+if os.environ.get('USE_PAPERTRAIL', False):
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
         'formatters': {
             'simple': {
-                'format': '%(asctime)s '+os.environ.get('HOSTNAME') +
+                'format': '%(asctime)s '+os.environ.get('EBS_ENV_TYPE') +
+                          '-'+os.environ.get('HOSTNAME') +
                           ' DJANGO: %(message)s',
                 'datefmt': '%Y-%m-%dT%H:%M:%S',
             },
