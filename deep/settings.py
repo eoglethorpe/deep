@@ -150,15 +150,31 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Logging errors
 # change address SysLog
+
+
+def add_username_attribute(record):
+    if not record.request.user.is_anonymous():
+        record.username = record.request.user.username
+    else:
+        record.username = 'Anonymous_User'
+    return True
+
+
 if os.environ.get('USE_PAPERTRAIL', False):
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
+        'filters': {
+                'add_username_attribute': {
+                    '()': 'django.utils.log.CallbackFilter',
+                    'callback': add_username_attribute,
+                }
+        },
         'formatters': {
             'simple': {
                 'format': '%(asctime)s '+os.environ.get('EBS_ENV_TYPE') +
                           '-'+os.environ.get('HOSTNAME') +
-                          ' DJANGO: %(message)s',
+                          ' DJANGO: %(username)s %(message)s',
                 'datefmt': '%Y-%m-%dT%H:%M:%S',
             },
         },
@@ -166,6 +182,7 @@ if os.environ.get('USE_PAPERTRAIL', False):
             'SysLog': {
                 'level': 'ERROR',
                 'class': 'logging.handlers.SysLogHandler',
+                'filters': ['add_username_attribute'],
                 'formatter': 'simple',
                 'address': ('logs5.papertrailapp.com', 39883)
             },
