@@ -17,7 +17,7 @@ class ReportApiView(View):
     def get(self, request):
         data, extra = ReportApiView.get_json(request.GET)
         response = JsonResult(data=data, extra=extra)
-        if request.get('file') == '1':
+        if request.GET.get('file') == '1':
             response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(generate_filename('Weekly Snapshot Export'))
         return response
 
