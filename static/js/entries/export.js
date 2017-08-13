@@ -299,10 +299,9 @@ $(document).ready(function(){
         $('#preview-section').find('>div').html('<span class="fa fa-spin fa-spinner"></span>Exporting file for preview');
         getExportUrl().then((url) => {
             $.getJSON(downloadUrl + '?url=' + encodeURIComponent(url+'&export-docx=docx'), function(data) {
-                if(data.s3){
-                    let tempUrl = data.url;
-                }else{
-                    let tempUrl = window.location.origin + downloadUrl + "?path=" +
+                let tempUrl = data.url;
+                if(!data.s3){
+                    tempUrl = window.location.origin + downloadUrl + "?path=" +
                         encodeURIComponent(data.path) + "&filename=" +
                         encodeURIComponent(data.filename) + "&content_type=" +
                         encodeURIComponent(data.content_type);

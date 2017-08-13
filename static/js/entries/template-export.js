@@ -46,13 +46,12 @@ $(document).ready(function() {
 
         getExportUrl().then((url) => {
             $.getJSON(downloadUrl + '?url=' + encodeURIComponent(url+'&export-docx=docx'), function(data) {
-                if(data.s3){
-                    let tempUrl = data.url;
-                }else{
-                let tempUrl = window.location.origin + downloadUrl + "?path=" +
-                    encodeURIComponent(data.path) + "&filename=" +
-                    encodeURIComponent(data.filename) + "&content_type=" +
-                    encodeURIComponent(data.content_type);
+                let tempUrl = data.url;
+                if(!data.s3){
+                    tempUrl = window.location.origin + downloadUrl + "?path=" +
+                        encodeURIComponent(data.path) + "&filename=" +
+                        encodeURIComponent(data.filename) + "&content_type=" +
+                        encodeURIComponent(data.content_type);
                 }
 
                 $('#preview-section').find('iframe').attr('src', 'https://docs.google.com/viewer?url=' + encodeURIComponent(tempUrl) + '&embedded=true&chrome=false&dov=1');
