@@ -1044,7 +1044,7 @@ function autoCalculateScores() {
     if (under5MortalityRate >= 90)
         mortalityScore = 3;
 
-    $('#mortality-rate').val(Math.round(under5MortalityRate)+ "%");
+    $('#mortality-rate').val(Math.round(under5MortalityRate));
     $('#mortality-rate-score').val(mortalityScore);
 
     // HDI
