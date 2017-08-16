@@ -179,6 +179,21 @@ $(document).ready(function(){
     $("#body").on('click', '#back-btn', function(){
         loadTimetable('all');
     });
+
+    $('#overview').find('span').each(function(){
+        var a = $(this).html();
+        if (a > 999999999){
+            a = ((a/1000000000).toFixed(1) + 'G');
+        }
+        else if (a > 999999){
+            a = ((a/1000000).toFixed(1) + 'M');
+        }
+        else if (a > 999){
+            a = ((a/1000).toFixed(1) + 'K');
+        }
+        $(this).html(a);
+    });
+
 });
 
 function loadReports(){
