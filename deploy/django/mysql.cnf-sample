@@ -1,6 +1,7 @@
 [client]
-database = <database_name>
-host = <host>
-user = <user>
-password = <password>
+
+database = $DATABASE_NAME
+host = $DATABASE_HOST
+user = $DATABASE_USER
+password = $DATABASE_PASSWORD
 default-character-set = utf8

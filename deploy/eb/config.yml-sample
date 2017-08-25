@@ -1,0 +1,18 @@
+branch-defaults:
+  default:
+    environment: $DEPLOYMENT_ENV_NAME
+environment-defaults:
+  $DEPLOYMENT_ENV_NAME:
+    branch: null
+    repository: null
+global:
+  application_name: $DEPLOYMENT_APP_NAME
+  default_ec2_keyname: $DEPLOYMENT_EC2_KEYNAME
+  default_region: $DEPLOYMENT_REGION
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: eb-cli
+  sc: null
+  workspace_type: Application
