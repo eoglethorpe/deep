@@ -58,8 +58,7 @@ echo "::::: Config for EB :::::"
     cd deploy/eb
 
     echo "  >> Creating .elasticbeanstalk/config.yml file :::::"
-        mkdir -p .elasticbeanstalk
-        eval "echo \"$(cat config.yml-sample)\"" > ./.elasticbeanstalk/config.yml
+        echo "1" | eb init $DEPLOYMENT_APP_NAME --region $DEPLOYMENT_REGION && eb use $DEPLOYMENT_ENV_NAME
 
     echo "  :: Creating additional configs :::::"
         echo "      >> Creating environmentvariables and remote_log.config"

@@ -59,7 +59,7 @@ WORKDIR /home/code/
 COPY ./requirements.txt ./deploy/django/init.sh ./deploy/cronjobs ./deep/
 
 # Run init script
-RUN chmod +x ./deep/init.sh &&\
+RUN chmod +x ./deep/init.sh && sync && \
     ./deep/init.sh
 
 # Copy deep code
