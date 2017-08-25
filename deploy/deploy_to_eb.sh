@@ -48,7 +48,7 @@ echo "::::: DOCKER TASK :::::"
 
     # Login to docker hub and Build Image
     echo "  >> Logging In to DockerHub "
-        #docker login -u="$LOGIN_DOCKER_USERNAME" -p="$LOGIN_DOCKER_PASSWORD";
+        docker login -u="$LOGIN_DOCKER_USERNAME" -p="$LOGIN_DOCKER_PASSWORD";
     echo "  >> Building Image ($DOCKER_USERNAME/$DOCKER_REPOSITORY:$TRAVIS_BUILD_ID)"
         docker build -t $DOCKER_USERNAME/$DOCKER_REPOSITORY:$TRAVIS_BUILD_ID .
     echo "  >> Pushing Image ($DOCKER_USERNAME/$DOCKER_REPOSITORY:$TRAVIS_BUILD_ID)"
@@ -58,6 +58,7 @@ echo "::::: Config for EB :::::"
     cd deploy/eb
 
     echo "  >> Creating .elasticbeanstalk/config.yml file :::::"
+        mkdir -p .elasticbeanstalk
         eval "echo \"$(cat config.yml-sample)\"" > ./.elasticbeanstalk/config.yml
 
     echo "  :: Creating additional configs :::::"
