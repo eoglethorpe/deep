@@ -13,6 +13,8 @@ option_settings:
   - option_name: \"MEDIA_ROOT\"
     value: \"$DJANGO_MEDIA_ROOT\"
 
+  - option_name: \"USE_PAPERTRAIL\"
+    value: \"$USE_PAPERTRAIL\"
   - option_name: \"PAPERTRAIL_HOST\"
     value: \"$PAPERTRAIL_HOST\"
   - option_name: \"PAPERTRAIL_PORT\"

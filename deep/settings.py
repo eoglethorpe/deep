@@ -184,7 +184,8 @@ if os.environ.get('USE_PAPERTRAIL', False):
                 'class': 'logging.handlers.SysLogHandler',
                 'filters': ['add_username_attribute'],
                 'formatter': 'simple',
-                'address': ('logs5.papertrailapp.com', 39883)
+                'address': (os.environ.get('PAPERTRAIL_HOST'),
+                            os.environ.get('PAPERTRAIL_PORT'))
             },
         },
         'loggers': {

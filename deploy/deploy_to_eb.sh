@@ -39,12 +39,12 @@ echo "::::: DOCKER TASK :::::"
         TRAVIS_BUILD_ID=$DOCKER_BUILD_ID
     fi
 
-    # Default prefix is dev
-    if [ -z ${BUILD_ID_POSTFIX+x} ]; then
-        BUILD_ID_POSTFIX=dev
+    if ! [ -z ${BUILD_ID_POSTFIX+x} ]; then
+        # Add postfix to build id (to seperate dev/prod images)
+        TRAVIS_BUILD_ID=$TRAVIS_BUILD_ID-$BUILD_ID_POSTFIX
     fi
-    # Add postfix to build id (to seperate dev/prod images)
-    TRAVIS_BUILD_ID=$TRAVIS_BUILD_ID-$BUILD_ID_POSTFIX
+    echo $TRAVIS_BUILD_ID
+    exit
 
     # Login to docker hub and Build Image
     echo "  >> Logging In to DockerHub "
