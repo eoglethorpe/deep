@@ -5,6 +5,8 @@
 !.elasticbeanstalk/*.global.yml
 
 # Configs files
+Dockerrun.aws.json
+.mydockercfg
 .ebextensions/environmentvariables.config
-.ebextensions/remote_log.config
-
+.ebextensions/nginx.conf
+.ebextensions/env-instance

@@ -122,4 +122,6 @@ $ docker rm deep-dev # to remove container
 ```
 
 ### Deploy into EBS
-- Goto `deploy/eb` directory, There deploy README.md
+```
+./deploy/deploy_to_eb.sh .env-dev # Replace .env with you env file [Sample .env-sample]
+```

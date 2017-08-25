@@ -59,7 +59,7 @@ WORKDIR /home/code/
 COPY ./requirements.txt ./deploy/django/init.sh ./deploy/cronjobs ./deep/
 
 # Run init script
-RUN chmod +x ./deep/init.sh &&\
+RUN chmod +x ./deep/init.sh && sync && \
     ./deep/init.sh
 
 # Copy deep code
@@ -76,5 +76,5 @@ COPY ./deploy/django/log_files.yml /etc/log_files.yml
 EXPOSE 80
 
 # Start deep django server and log collector
-CMD chmod +x ./deep/deploy/django/exec.sh &&\
+CMD chmod +x ./deep/deploy/django/exec.sh && sync && \
     ./deep/deploy/django/exec.sh
