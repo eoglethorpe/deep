@@ -44,7 +44,6 @@ echo "::::: DOCKER TASK :::::"
         TRAVIS_BUILD_ID=$TRAVIS_BUILD_ID-$BUILD_ID_POSTFIX
     fi
     echo $TRAVIS_BUILD_ID
-    exit
 
     # Login to docker hub and Build Image
     echo "  >> Logging In to DockerHub "
