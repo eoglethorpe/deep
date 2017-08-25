@@ -52,7 +52,9 @@ echo "::::: DOCKER TASK :::::"
     echo "  >> Building Image ($DOCKER_USERNAME/$DOCKER_REPOSITORY:$TRAVIS_BUILD_ID)"
         docker build -t $DOCKER_USERNAME/$DOCKER_REPOSITORY:$TRAVIS_BUILD_ID .
     echo "  >> Pushing Image ($DOCKER_USERNAME/$DOCKER_REPOSITORY:$TRAVIS_BUILD_ID)"
+        set -e;
         docker push $DOCKER_USERNAME/$DOCKER_REPOSITORY:$TRAVIS_BUILD_ID
+        set +e;
 
 echo "::::: Config for EB :::::"
     cd deploy/eb
