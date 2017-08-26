@@ -86,5 +86,4 @@ echo "::::: Config for EB :::::"
                 | sed 's\DOCKER_TAG\'$TRAVIS_BUILD_ID'\' \
                 > ./Dockerrun.aws.json
 echo "::::: Deploying to eb :::::"
-    exit
     eb deploy
