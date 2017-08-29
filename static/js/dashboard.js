@@ -379,8 +379,9 @@ function populateLegend(colorBy){
         var colors = mapColors2;
         scale = [0].concat(scale);
         scale.forEach(function(s,i){
+            scale[i] = putThousandSeparators(scale[i], ',');
             if(i<scale.length-1){
-                scale[i] += ' - ' + (scale[i+1]-1);
+                scale[i] += ' - ' + putThousandSeparators(scale[i+1]-1, ',');
             } else {
                 scale[i] += '+';
             }
