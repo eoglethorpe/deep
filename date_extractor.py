@@ -8,6 +8,7 @@ import re
 from dateutil.parser import parse
 from bs4 import BeautifulSoup
 import tldextract
+import dateparser
 
 
 def parseStrDate(dateString):
@@ -15,7 +16,11 @@ def parseStrDate(dateString):
         dateTimeObj = parse(dateString)
         return dateTimeObj
     except:
-        return None
+        try:
+            return dateparser.parse(dateString)
+        except:
+            return None
+
 
 # Try to extract from the article URL - simple but might work as a fallback
 def _extractFromURL(url):
@@ -68,6 +73,7 @@ def _extractFromMeta(parsedHTML):
         #<meta name="pubdate" content="2015-11-26T07:11:02Z" >
         if 'pubdate' == metaName:
             metaDate = meta['content'].strip()
+            print(metaDate)
             break
 
 
@@ -150,11 +156,11 @@ def _extractFromMeta(parsedHTML):
 
 
         #<meta property="og:image" content="http://www.dailytimes.com.pk/digital_images/400/2015-11-26/norway-return-number-of-asylum-seekers-to-pakistan-1448538771-7363.jpg"/>
-        if 'og:image' == metaProperty or "image" == itemProp:
-            url = meta['content'].strip()
-            possibleDate = _extractFromURL(url)
-            if possibleDate is not None:
-                return  possibleDate
+        # if 'og:image' == metaProperty or "image" == itemProp:
+        #     url = meta['content'].strip()
+        #     possibleDate = _extractFromURL(url)
+        #     if possibleDate is not None:
+        #         return  possibleDate
 
 
         #<meta http-equiv="data" content="10:27:15 AM Thursday, November 26, 2015">
@@ -246,7 +252,8 @@ def extractArticlePublishedDate(articleLink, html=None):
         if possibleDate is None:
             possibleDate = _extractFromHTMLTag(parsedHTML)
 
-        articleDate = possibleDate
+        if possibleDate:
+            articleDate = possibleDate
         source = _extractSource(parsedHTML)
         country = _extractCountry(parsedHTML)
 
