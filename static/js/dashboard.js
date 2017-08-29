@@ -190,7 +190,7 @@ function keyfigures(data){
     pinLatestFig = niceFormatNumber(pinLatestFig,true);
     $('#number-of-pin-span').html(pinLatestFig);
     createSparkLine('#number-of-pin-spark',data.pin);
-    $('#pinstat').on('click',function(){
+    $('#pinstat').unbind().on('click',function(){
         colorBy = 'pin';
         if ($(this).hasClass('active')) {
             $('.clickable').removeClass('active');
@@ -200,14 +200,14 @@ function keyfigures(data){
             $('.clickable').removeClass('active');
             $(this).addClass('active');
         }
-        loadTimetable('all');
+        loadTimetable(timetableFor);
     });
 
     var pinSevereLatestFig = data.pin_severe[data.pin_severe.length-1];
     pinSevereLatestFig = niceFormatNumber(pinSevereLatestFig,true);
     $('#number-of-pin-severe-span').html(pinSevereLatestFig);
     createSparkLine('#number-of-pin-severe-spark',data.pin);
-    $('#pinseverestat').on('click',function(){
+    $('#pinseverestat').unbind().on('click',function(){
         colorBy = 'pin_severe';
         if ($(this).hasClass('active')) {
             $('.clickable').removeClass('active');
@@ -217,14 +217,14 @@ function keyfigures(data){
             $('.clickable').removeClass('active');
             $(this).addClass('active');
         }
-        loadTimetable('all');
+        loadTimetable(timetableFor);
     });
 
     var pinRestrictedLatestFig = data.pin_restricted[data.pin_restricted.length-1];
     pinRestrictedLatestFig = niceFormatNumber(pinRestrictedLatestFig,true);
     $('#number-of-pin-restricted-span').html(pinRestrictedLatestFig);
     createSparkLine('#number-of-pin-restricted-spark',data.pin);
-    $('#pinrestrictedstat').on('click',function(){
+    $('#pinrestrictedstat').unbind().on('click',function(){
         colorBy = 'pin_restricted';
         if ($(this).hasClass('active')) {
             $('.clickable').removeClass('active');
@@ -234,14 +234,14 @@ function keyfigures(data){
             $('.clickable').removeClass('active');
             $(this).addClass('active');
         }
-        loadTimetable('all');
+        loadTimetable(timetableFor);
     });
 
     var affectedLatestFig = data.people_affected[data.people_affected.length-1];
     affectedLatestFig = niceFormatNumber(affectedLatestFig,true);
     $('#number-of-affected-span').html(affectedLatestFig);
     createSparkLine('#number-of-affected-spark',data.people_affected);
-    $('#affectedstat').on('click',function(){
+    $('#affectedstat').unbind().on('click',function(){
         colorBy = 'people_affected';
         if ($(this).hasClass('active')) {
             $('.clickable').removeClass('active');
@@ -251,14 +251,14 @@ function keyfigures(data){
             $('.clickable').removeClass('active');
             $(this).addClass('active');
         }
-        loadTimetable('all');
+        loadTimetable(timetableFor);
     });
 
     var idpsLatestFig = data.idps[data.idps.length-1];
     idpsLatestFig = niceFormatNumber(idpsLatestFig,true);
     $('#number-of-idps-span').html(idpsLatestFig);
     createSparkLine('#number-of-idps-spark',data.idps);
-    $('#idpsstat').on('click',function(){
+    $('#idpsstat').unbind().on('click',function(){
         colorBy = 'idps';
         if ($(this).hasClass('active')) {
             $('.clickable').removeClass('active');
@@ -268,14 +268,14 @@ function keyfigures(data){
             $('.clickable').removeClass('active');
             $(this).addClass('active');
         }
-        loadTimetable('all');
+        loadTimetable(timetableFor);
     });
 
     var refugeesLatestFig = data.refugees[data.refugees.length-1];
     refugeesLatestFig = niceFormatNumber(refugeesLatestFig,true);
     $('#number-of-refugees-span').html(refugeesLatestFig);
     createSparkLine('#number-of-refugees-spark',data.refugees);
-    $('#refugeesstat').on('click',function(){
+    $('#refugeesstat').unbind().on('click',function(){
         colorBy = 'refugees';
         if ($(this).hasClass('active')) {
             $('.clickable').removeClass('active');
@@ -285,7 +285,7 @@ function keyfigures(data){
             $('.clickable').removeClass('active');
             $(this).addClass('active');
         }
-        loadTimetable('all');
+        loadTimetable(timetableFor);
     });
 }
 
