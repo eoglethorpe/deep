@@ -185,7 +185,7 @@ if os.environ.get('USE_PAPERTRAIL', False):
                 'filters': ['add_username_attribute'],
                 'formatter': 'simple',
                 'address': (os.environ.get('PAPERTRAIL_HOST'),
-                            os.environ.get('PAPERTRAIL_PORT'))
+                            int(os.environ.get('PAPERTRAIL_PORT')))
             },
         },
         'loggers': {
