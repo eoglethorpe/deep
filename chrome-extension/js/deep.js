@@ -71,6 +71,9 @@ var deep = {
         });
     },
     getCSRFToken: function(){
+        if (deep.csrfToken) {
+            return;
+        }
         if(deep.currentEvent != -1){
             return $.ajax({
                 type: 'GET',

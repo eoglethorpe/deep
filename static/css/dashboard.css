@@ -187,23 +187,77 @@ body #map {
     background-color: transparent;
     height: 44vh;
     flex-basis: 75%; }
+    body #map #the-map .info {
+      padding: 6px 8px;
+      font: 14px/16px Arial, Helvetica, sans-serif;
+      background: white;
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+      max-width: 200px; }
+      body #map #the-map .info i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7; }
   body #map #overview {
     height: 44vh;
+    overflow: auto;
     flex-basis: 25%;
     border-left: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: 0 32px; }
+    justify-content: flex-start;
+    background-color: #fff; }
+    body #map #overview path {
+      stroke: #008080;
+      stroke-width: 1;
+      fill: none; }
+    body #map #overview > h3 {
+      text-align: center;
+      margin: 0;
+      padding: 12px 0;
+      background-color: #fff;
+      font-size: 2em;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+    body #map #overview .table-wrapper {
+      padding: 0; }
+      body #map #overview .table-wrapper h3 {
+        padding: 16px 0 8px 6px;
+        background-color: #fff;
+        font-size: 1.2em;
+        text-transform: uppercase;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        border-top: 1px solid rgba(0, 0, 0, 0.1); }
+      body #map #overview .table-wrapper table {
+        width: 100%;
+        border-spacing: 0; }
+        body #map #overview .table-wrapper table tr {
+          margin-left: 10px; }
+          body #map #overview .table-wrapper table tr td {
+            margin: 0;
+            padding: 8px 10px;
+            border-left: 0 solid transparent;
+            transition: 0.2s all ease-in-out; }
+          body #map #overview .table-wrapper table tr:nth-child(even) {
+            background-color: #f0f0f0; }
+          body #map #overview .table-wrapper table tr.clickable {
+            cursor: pointer; }
+            body #map #overview .table-wrapper table tr.clickable.active {
+              transition: 0.2s all ease-in-out; }
+              body #map #overview .table-wrapper table tr.clickable.active td:first-child {
+                border-left: 8px solid #008080; }
     body #map #overview .number {
       font-family: 'Inconsolata', monospace;
-      font-size: 3em;
+      font-size: 1.2em;
       display: inline-block;
       width: 5ex;
-      text-align: right;
-      margin-right: 10px; }
+      text-align: right; }
     body #map #overview label {
-      font-size: 1.2em; }
+      font-size: 0.8em; }
     body #map #overview > div {
       padding: 10px 0; }
 body #timeline {
@@ -268,6 +322,18 @@ body #timeline {
             cursor: pointer;
             border-right: 1px solid #fff;
             background-color: #008080; }
+          body #timeline #timeline-table #reports .report .weeks .week.grade1 {
+            background-color: #1a9850; }
+          body #timeline #timeline-table #reports .report .weeks .week.grade1 {
+            background-color: #91cf60; }
+          body #timeline #timeline-table #reports .report .weeks .week.grade2 {
+            background-color: #d9ef8b; }
+          body #timeline #timeline-table #reports .report .weeks .week.grade3 {
+            background-color: #fee08b; }
+          body #timeline #timeline-table #reports .report .weeks .week.grade4 {
+            background-color: #fc8d59; }
+          body #timeline #timeline-table #reports .report .weeks .week.grade5 {
+            background-color: #d73027; }
       body #timeline #timeline-table #reports .report:nth-child(odd) {
         background-color: #fff; }
   body #timeline #timeline-table #horizontal-scroll {
