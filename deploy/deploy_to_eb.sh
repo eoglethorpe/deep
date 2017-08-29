@@ -86,4 +86,8 @@ echo "::::: Config for EB :::::"
                 | sed 's\DOCKER_TAG\'$TRAVIS_BUILD_ID'\' \
                 > ./Dockerrun.aws.json
 echo "::::: Deploying to eb :::::"
-    eb deploy
+    if [ ${TRAVIS} == 'true' ]; then
+        eb deploy --nohang
+    else
+        eb deploy
+    fi
