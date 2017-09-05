@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     # 'django_cleanup',
+    'django_extensions',
 
     'users',
     'leads',

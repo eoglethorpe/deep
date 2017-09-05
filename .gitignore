@@ -2,6 +2,7 @@
 db.sqlite3
 mysql.cnf
 hid.cnf
+prodsql.cnf
 
 deep-error-log
 *.css.map
@@ -82,3 +83,6 @@ media_test
 
 # Rope project settings
 .ropeproject
+
+#PICKLE RICK!!!!!!!
+*.p
