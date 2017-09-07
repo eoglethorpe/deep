@@ -214,7 +214,13 @@ function refreshMap() {
     $("#admin-level-buttons button").removeClass("active-btn");
     $("#btn-lvl-"+currentLevel).addClass("active-btn");
 
-    map.fitBounds(layer.getBounds());
+    if (layer) {
+        try {
+            map.fitBounds(layer.getBounds());
+        } catch (e) {
+            console.log(e);
+        }
+    }
 }
 
 
