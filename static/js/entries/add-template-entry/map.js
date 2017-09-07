@@ -149,7 +149,13 @@ class Map {
             },
         }).addTo(this.map);
 
-        this.map.fitBounds(this.mapLayer.getBounds());
+        if (this.mapLayer) {
+            try {
+                this.map.fitBounds(this.mapLayer.getBounds());
+            } catch (e) {
+                console.log(e);
+            }
+        }
     }
 
     refreshFeature(feature, layer, countryCode, levelIndex) {
