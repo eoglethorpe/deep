@@ -1,5 +1,9 @@
 ## Change log
 
+### v2.0.11
+
+* Fix problem when 'All events' is selected previously on the deep website
+
 ### v2.0.10
  
 * Fix date auto extraction issue

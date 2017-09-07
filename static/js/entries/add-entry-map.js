@@ -180,7 +180,13 @@ function refreshMap() {
     $("#admin-level-buttons button").removeClass("active");
     $("#btn-lvl-"+currentLevel).addClass("active");
 
-    map.fitBounds(layer.getBounds());
+    if (layer) {
+        try {
+            map.fitBounds(layer.getBounds());
+        } catch (e) {
+            console.log(e);
+        }
+    }
     refreshLocations();
 }
 
