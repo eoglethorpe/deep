@@ -26,7 +26,10 @@ script:
 after_success:
 - if [ "$TRAVIS_BRANCH" == "$DEEP_BRANCH" ];then ./deploy/deploy_to_eb.sh; fi
 notifications:
-  email: false
+    slack:
+        rooms:
+            -  secure: "SXVhgt62P2Koip6nwMTtKwDV3cDzXQKttbEWtBbqR7qDAXzfxcaNaYgdd5Qg0HXeuCT/r/ExSHJlSk+OfPzNc2yKguGnht4vakUOMsuG/qScF2Isoptvou0H5kx88EbjNcCduUArstqWAw6JxBCd0AFeOsGhY5bURYomLYg+q8eMcwpg3FlLEkVe63KsosrRqIFluPwhjdRPnlPtVAikFNS8OEU5ZVUkZ07fmNQSqBJqTShj4b8Xg1V6hlxpbsfg2lb3dqHwMG3czO52/JiIWy5BPDEDJxc5wKU/N5yPe1SNYk8CM4MrsEU9AJiBMkgyMRwgwZ4l2vjybf9nEf32+toRw9ATARAfX6wQKxq/GABMZtmEPrfih8NjR6OTn7mRObJVsEPoiBwHGb/M3SnAOwo4P2k4UwrIrJzAXbH9XC2tX17jfJ4MRpvO9137PWHOIBelHk42+t4Z/7krFKURwjMdLpqGn4a3s3WLd0yeW3RnVu84SucPdO7j1C3U2rQiG6OCxNQfywRNavrMcSgqyoTpqbd+Nek+H3/dzNsRotRs303TL3sLp3FdNhmFbCXMeimai945DDDsx8h/NYYsy9bNT9g5ox/7kQWolwe0/Fpc6+qxwAQy/oDXEYS36iPQRgK516Gb6xuK1ktQ9AcRIS24zBWkPr9No7820cipBpo="
+
 env:
   global:
   - DEEP_BRANCH=master-docker
