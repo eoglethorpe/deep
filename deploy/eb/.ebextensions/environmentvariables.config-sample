@@ -23,6 +23,10 @@ option_settings:
 
   - option_name: \"USE_S3\"
     value: \"$DJANGO_USE_S3\"
+  - option_name: \"S3_AWS_ACCESS_KEY_ID\"
+    value: \"$S3_AWS_ACCESS_KEY_ID\"
+  - option_name: \"S3_AWS_SECRET_ACCESS_KEY\"
+    value: \"$S3_AWS_SECRET_ACCESS_KEY\"
   - option_name: \"AWS_STORAGE_BUCKET_NAME_STATIC\"
     value: \"$DJANGO_AWS_STORAGE_BUCKET_NAME_STATIC\"
   - option_name: \"AWS_STORAGE_BUCKET_NAME_MEDIA\"
