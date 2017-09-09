@@ -68,6 +68,8 @@ let templateEditor = {
             that.switchPage();
             that.reloadElements();
         });
+
+        $('.page-two-widget').hide();
     },
 
     addElement: function(element, newElement=false) {
@@ -318,12 +320,16 @@ let templateEditor = {
             $('#switch-in-bar').css('display','inline-block');
             $('#switch-in-footer').css('display','none');
             $('body').removeClass('page-one').addClass('page-two');
+            $('.page-one-widget').hide();
+            $('.page-two-widget').show();
         } else {
             $('#page-two').hide();
             $('#page-one').show();
             $('#switch-in-footer').css('display','inline-block');
             $('#switch-in-bar').css('display','none');
             $('body').removeClass('page-two').addClass('page-one');
+            $('.page-one-widget').show();
+            $('.page-two-widget').hide();
         }
     },
 };
