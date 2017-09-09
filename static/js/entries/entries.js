@@ -143,11 +143,7 @@ function renderEntries() {
             informationElement.show();
         }
 
-        entryElement.find('.edit-btn').unbind().click(function(entry){
-            return function() {
-                window.location.href = "/" + entry.event + "/entries/edit/" + entry.id + "/";
-            }
-        }(entry));
+        entryElement.find('.edit-btn').attr('href', "/" + entry.event + "/entries/edit/" + entry.id + "/");
 
         entryElement.find('.delete-btn').unbind().click(function(entry){
             return function() {
