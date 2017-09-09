@@ -16,6 +16,10 @@ const page2 = {
                 this.addMatrix2dList(element);
                 continue;
             }
+            else if (element.type == 'number2d' && element.list) {
+                this.addNumberList(element);
+                continue;
+            }
 
             if (element.page != 'page-two') {
                 continue;
@@ -501,6 +505,19 @@ const page2 = {
         listContainer.appendTo(this.template);
     },
 
+    addNumberList: function(parentElement) {
+        let element = parentElement.list;
+
+        let that = this;
+        let listContainer = $('<div style="position: absolute;" class="number-list-container appliable" data-id="' + parentElement.id + '"></div>');
+        listContainer.css('left', element.left);
+
+        listContainer.append($('<header><label>' + parentElement.title + '</label></header>'));
+        listContainer.append($('<div class="number-list"></div>'));
+
+        listContainer.appendTo(this.template);
+    },
+
     addMatrix2dList: function(parentElement) {
         let element = parentElement.list;
 
@@ -664,6 +681,36 @@ const page2 = {
                             let row = $('<div class="row"></div>');
                             row.append(col1);
                             list.append(row);
+                        }
+                    }
+                    continue;
+                }
+                else if (templateElement.type == 'number2d' && templateElement.list) {
+                    let data = entry.elements.find(d => d.id == templateElement.id);
+                    if (data && data.numbers) {
+                        let listContainer = entryElement.find('.number-list-container[data-id="' + data.id + '"]');
+                        let list = listContainer.find('.number-list');
+
+                        list.empty();
+                        for (let j=0; j<templateElement.rows.length; j++) {
+                            let row = templateElement.rows[j];
+                            let col1 = $('<div class="col1"><div class="row">' + row.title + '</div></div>');
+                            let listRow = $('<div class="row"></div>');
+
+                            for (let k=0; k<templateElement.columns.length; k++) {
+                                let column = templateElement.columns[k];
+                                let d = data.numbers.find(n => n.row == row.id && n.column == column.id);
+
+                                let col = $('<div class="column">' + column.title + '</div>');
+                                col1.append(col);
+
+                                if (d) {
+                                    col.append('<span>' + putThousandSeparators(d.value, ' ') + '</span>');
+                                }
+                            }
+
+                            listRow.append(col1);
+                            list.append(listRow);
                         }
                     }
                     continue;

@@ -1,5 +1,5 @@
 function confirmRemoval() {
-    return (num_entries === 0 ||
+    return (num_entries == 0 ||
         confirm('This template has got ' + num_entries + ' entries which will lose the attribute you are trying to remove. Are you sure?'));
 }
 
@@ -15,6 +15,11 @@ let templateEditor = {
 
         $('#matrix2d-widget button').on('click', function() {
             that.addElement(new Matrix2D(that.getContainer(), $('#page-two .entry')), true).dom.data('new', true);
+            that.reloadElements();
+        });
+
+        $('#number2d-widget button').on('click', function() {
+            that.addElement(new Number2D(that.getContainer(), $('#page-two .entry')), true).dom.data('new', true);
             that.reloadElements();
         });
 
@@ -162,6 +167,9 @@ let templateEditor = {
             }
             else if (element.type == 'matrix2d') {
                 that.addElement(new Matrix2D(that.getContainer(), $('#page-two .entry'), element));
+            }
+            else if (element.type == 'number2d') {
+                that.addElement(new Number2D(that.getContainer(), $('#page-two .entry'), element));
             }
             else if (element.type == 'number-input') {
                 that.addElement(new NumberInput(that.getContainer(), element));
