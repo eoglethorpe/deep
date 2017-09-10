@@ -268,6 +268,8 @@ let page1 = {
             columnsContainer.append(columnElement);
         }
 
+        columnsContainer.append('<td></td>');
+
         for (let i=0; i<element.rows.length; i++) {
             let row = element.rows[i];
 
@@ -303,12 +305,29 @@ let page1 = {
                     } else {
                         d.value = getNumberValue($(this));
                     }
+
+                    that.validateNumberRow(tableRow.find('.check-block'), data, row.id);
                 });
             }
+
+            let checkBlock = $('<td class="check-block" data-row-id="' + row.id + '"></td>');
+            tableRow.append(checkBlock);
         }
 
         matrix.appendTo(this.container);
         return matrix;
+    },
+
+    validateNumberRow(checkBlock, data, rowId) {
+        const relevantData = data.numbers.filter(d => d.row == rowId);
+        const equal = relevantData.length == 0 ||
+            (!!relevantData.reduce((a, b) => +a.value === +b.value ? a : NaN));
+
+        if (equal) {
+            checkBlock.html('<span class="fa fa-check"></span>');
+        } else {
+            checkBlock.html('<span class="fa fa-times"></span>');
+        }
     },
 
     refresh: function() {
@@ -388,6 +407,14 @@ let page1 = {
                             const numberBox = matrix.find('.column-block[data-row-id="' + data.numbers[j].row + '"][data-column-id="' + data.numbers[j].column + '"] .number');
                             numberBox.val(data.numbers[j].value);
                             formatNumber(numberBox);
+                        }
+
+                        for (let j=0; j<templateElement.rows.length; j++) {
+                            const rowId = templateElement.rows[j].id;
+                            this.validateNumberRow(
+                                matrix.find('.check-block[data-row-id="' + rowId + '"]'),
+                                data, rowId
+                            );
                         }
                     }
                 }
