@@ -52,13 +52,8 @@ function loadEntriesData(data) {
 }
 
 let scrollCallback = null;
-$(window).scroll(function() {
-    if($(window).scrollTop() + $(window).height() == $(document).height()) {
-        if (scrollCallback) {
-            scrollCallback();
-        }
-    }
-});
+let visualizationLoaded = false;
+let scrollHandlingNeeded = false;
 
 function readEntries() {
     function updateEntries(index, count) {
@@ -68,7 +63,7 @@ function readEntries() {
             renderEntries(false);
 
             if (data.data.length != 0) {
-                if (visualizationLoaded) {
+                if (!scrollHandlingNeeded || visualizationLoaded) {
                     updateEntries(index+count, count);
                 } else {
                     scrollCallback = function() {
