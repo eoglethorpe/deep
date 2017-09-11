@@ -2,7 +2,7 @@ var mapLoaded = false;
 var dateRangeInputModal = null;
 
 $(window).scroll(function() {
-    if($(window).scrollTop() + $(window).height() >= $(document).height()) {
+    if(Math.round($(window).scrollTop() + $(window).height()) >= $(document).height()-2) {
         if (scrollCallback) {
             scrollCallback();
         }
