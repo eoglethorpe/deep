@@ -110,6 +110,7 @@ let entriesList = {
     },
 
     refresh: function() {
+        const scrollTop = this.container.scrollTop();
         this.container.find('.entry').remove();
 
         let entries = entriesManager.filteredEntries;
@@ -321,12 +322,14 @@ let entriesList = {
 
         $('.information-container').width(this.container.find('.information').width());
         $('#overflow-x div').width(this.container.find('.information').width());
+
+        this.container.scrollTop(scrollTop);
     },
 };
 
 
 $(document).ready(function() {
-    entriesManager.init(eventId, $('#filters'));
+    entriesManager.init(eventId, $('#filters'), $('#entries'));
     entriesList.init($('#entries'));
     entriesManager.renderCallback = entriesList.refresh;
     entriesManager.readAll();

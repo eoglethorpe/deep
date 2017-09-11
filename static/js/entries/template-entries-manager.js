@@ -1,5 +1,5 @@
 let entriesManager = {
-    init: function(eventId, filtersContainer) {
+    init: function(eventId, filtersContainer, scrollElement=null) {
         this.eventId = eventId;
         this.renderCallback = null;
         this.filtersContainer = filtersContainer;
@@ -9,10 +9,21 @@ let entriesManager = {
         this.filteredEntries = [];
 
         this.createBasicFilters();
+
+        let that = this;
+        if (scrollElement) {
+            scrollElement.scroll(function() {
+                if(scrollElement.scrollTop() + scrollElement.height() >= scrollElement[0].scrollHeight) {
+                    if (that.scrollCallback) {
+                        that.scrollCallback();
+                    }
+                }
+            });
+        }
     },
 
     readAll: function() {
-        this.readPartial(0, 5);
+        this.readPartial(0, 3);
     },
 
     readPartial: function(index, count) {
@@ -26,12 +37,15 @@ let entriesManager = {
                 that.renderCallback(false);
             }
 
-            if (data.data.length >= 5) {
-                that.readPartial(index+count, count);
+            if (data.data.length >= 3) {
+                that.scrollCallback = function() {
+                    that.readPartial(index+count, count);
+                }
             } else {
                 if (that.renderCallback) {
                     that.renderCallback(true);
                 }
+                that.scrollCallback = null;
             }
         });
     },
