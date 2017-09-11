@@ -31,7 +31,6 @@ var extension = {
             extension.showLoader();
         },
         success: function(response) {
-            console.log(response);
             if (toString.call(response) === '[object Object]') {
                 chrome.tabs.create({ url: deep.serverAddress + response.url });
             }
@@ -53,9 +52,16 @@ var extension = {
             defer.resolve();
         });
 
-        // $('#event-select').change(function(){
-        //     deep.currentEvent = $(this).val();
-        // });
+        $('#event-select').change(function(){
+            const pks = $(this).val();
+
+            if (!pks) {
+                return;
+            }
+
+            deep.currentEvent = pks;
+            deep.getCSRFToken();
+        });
         return defer.promise();
     },
     startStoring: function() {

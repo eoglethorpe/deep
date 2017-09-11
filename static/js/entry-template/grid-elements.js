@@ -25,7 +25,7 @@ class Matrix1DList extends Element {
         }
 
         let data = {
-            left: this.dom.position().left,
+            left: this.dom.position().left + this.container.scrollLeft(),
         };
 
         if(page != templateEditor.getPage()) {
@@ -313,7 +313,7 @@ class Matrix2DList extends Element {
         }
 
         let data = {
-            left: this.dom.position().left,
+            left: this.dom.position().left + this.container.scrollLeft(),
         };
 
         if(page != templateEditor.getPage()) {
@@ -701,5 +701,316 @@ class Matrix2D extends Element {
     remove() {
         this.list.remove();
         super.remove();
+    }
+}
+
+
+class NumberList extends Element {
+    constructor(container, data) {
+        let dom = $('<div class="element number-list"></div>');
+        dom.append($('<div class="fa fa-arrows handle"></div>'));
+        dom.append($('<div class="fa fa-edit edit"></div>'));
+        dom.append($('<div class="container"><div class="col-1"><div class="row">Row</div><div class="column">Column: <span>value</span.</div></div></div>'));
+        super(container, dom);
+
+        templateEditor.switchPage();
+        this.page = 'page-two';
+        templateEditor.repositionElement(this);
+        templateEditor.switchPage();
+
+        if (data){
+            this.load(data);
+        }
+
+        this.addPropertiesTo(this.createPropertiesBox(this.dom.find('.edit')));
+    }
+
+    save() {
+        let page = templateEditor.getPage();
+        if (page != 'page-two') {
+            templateEditor.switchPage();
+        }
+
+        let data = {
+            left: this.dom.position().left + this.container.scrollLeft(),
+        };
+
+        if(page != templateEditor.getPage()) {
+            templateEditor.switchPage();
+        }
+
+        return data;
+    }
+
+    load(data) {
+        if (data.left) {
+            this.dom.css('left', data.left);
+        }
+    }
+}
+
+class Number2D extends Element {
+    constructor(container, container2, data) {
+        let dom = $('<div class="element number2d"></div>');
+        dom.append($('<div class="fa fa-arrows handle"></div>'));
+        dom.append($('<div class="fa fa-edit edit"></div>'));
+        dom.append($('<div class="fa fa-trash delete-element"></div>'));
+        dom.append($('<h4 class="title">Number Matrix</h4>'));
+        dom.append($('<div class="columns-container"><div class="columns sortable"></div><button class="fa fa-plus add-column"></button></div>'));
+        dom.append($('<div class="rows-container"><div class="rows sortable"></div><button class="fa fa-plus add-row"></button></div>'));
+        dom.resizable({ grid: GRID_SIZE, handles: 'e' });
+
+        super(container, dom);
+
+        let that = this;
+        this.list = new NumberList(container2, data?data.list:null);
+
+        this.addRow().data('new', true);
+        this.addColumn().data('new', true);
+
+        dom.find('.add-row').click(function() { that.addRow().data('new', true); });
+        dom.find('.add-column').click(function() { that.addColumn().data('new', true); });
+
+        dom.find('.rows').sortable({ axis: 'y' });
+        dom.find('.columns').sortable({ axis: 'x' });
+
+        if (data) {
+            this.load(data);
+        }
+
+        this.addPropertiesTo(this.createPropertiesBox(this.dom.find('.edit')));
+
+    }
+
+    makeEditable(element, defaultLabel) {
+        element.click(function() {
+            let label = $(this).text().toLowerCase();
+            if (['new dimension', 'new sub-dimension', 'new sector'].indexOf(label) >= 0) {
+                $(this).text('');
+            }
+            $(this).closest('.element').find('div').attr('contenteditable', 'false');
+            $(this).attr('contenteditable', 'true');
+            $(this).closest('.element').draggable({ disabled: true });
+            $(this).parents('.sortable').sortable({ disabled: true });
+            $(this).focus();
+        });
+
+        element.blur(function(e) {
+            $(this).attr('contenteditable', 'false');
+            $(this).closest('.element').draggable({ disabled: false });
+            $(this).parents('.sortable').sortable({ disabled: false });
+            if ($(this).text().trim().length === 0) {
+                $(this).text(defaultLabel);
+            }
+        });
+    }
+
+    addRow() {
+        let that = this;
+        let rows = this.dom.find('.rows');
+        let row = $('<div class="row"><div class="title-block">New row</div></div>');
+        row.append($('<div class="options"><!--button class="fa fa-edit edit-row"></button--><button class="fa fa-times remove-row"></button></div>'));
+        row.data('id', this.getUniqueRowId());
+
+        // let floatingToolbar = $('<div class="floating-toolbar"></div>');
+        // floatingToolbar.append('<button class="fa fa-times close"></button>');
+        // floatingToolbar.append('<input type="color" value="#eeeeee">');
+        // floatingToolbar.append('<input type="text" placeholder="Tooltip">');
+        // floatingToolbar.find('.close').click(function() {
+        //     floatingToolbar.hide();
+        // });
+        // floatingToolbar.hide();
+        // row.append(floatingToolbar);
+
+        rows.append(row);
+        row.find('.remove-row').click(function() {
+            if (row.data('new') || confirmRemoval()) {
+                row.remove();
+            }
+        });
+        // row.find('.edit-row').click(function(e) {
+        //     e.stopPropagation();
+        //     floatingToolbar.show();
+        //     floatingToolbar.trigger('visible');
+        // });
+        this.makeEditable(row.find('.title-block'), 'New row');
+
+        return row;
+    }
+
+    addColumn() {
+        let that = this;
+        let columns = this.dom.find('.columns');
+        let column = $('<div class="column"><div class="title-block">New column</div></div>');
+        column.append($('<div class="options"><!--button class="fa fa-edit edit-column"></button--><button class="fa fa-times remove-column"></button></div>'));
+        column.data('id', this.getUniqueColumnId());
+
+        // let floatingToolbar = $('<div class="floating-toolbar"></div>');
+        // floatingToolbar.append('<button class="fa fa-times close"></button>');
+
+        // floatingToolbar.find('.close').click(function() {
+        //     floatingToolbar.hide();
+        // });
+        // floatingToolbar.hide();
+        // column.append(floatingToolbar);
+
+        columns.append(column);
+
+        this.makeEditable(column.find('.title-block'), 'New column');
+        column.find('.remove-column').click(function() {
+            if (column.data('new') || confirmRemoval()) {
+                column.remove();
+            }
+        });
+        // column.find('.edit-column').click(function(e) {
+        //     e.stopPropagation();
+        //     floatingToolbar.show();
+        //     floatingToolbar.trigger('visible');
+        // });
+
+        return column;
+    }
+
+    load(data) {
+        let that = this;
+
+        if (data.id) {
+            this.id = data.id;
+        }
+
+        if (data.position) {
+            this.setPosition(data.position);
+        }
+
+        if (data.title !== undefined) {
+            this.dom.find('.title').text(data.title);
+        }
+
+        if (data.rows) {
+            this.dom.find('.rows .row').remove();
+            for (let i=0; i<data.rows.length; i++) {
+                let row = data.rows[i];
+                let rowDom = this.addRow();
+                rowDom.find('.title-block').text(row.title);
+                if (row.id) { rowDom.data('id', row.id); }
+            }
+        }
+
+        if (data.columns) {
+            this.dom.find('.columns .column').remove();
+            for (let i=0; i<data.columns.length; i++) {
+                let column = data.columns[i];
+                let columnDom = this.addColumn();
+                columnDom.find('.title-block').text(column.title);
+                if (column.id) { columnDom.data('id', column.id); }
+            }
+        }
+
+        if (data.width) {
+            this.dom.css('width', data.width);
+        }
+    }
+
+    save() {
+        let rows = [];
+        let columns = [];
+
+        this.dom.find('.rows .row').each(function() {
+            let row = {};
+            row.title = $(this).find('.title-block').eq(0).text();
+            row.id = $(this).data('id');
+            rows.push(row);
+        });
+
+        this.dom.find('.columns .column').each(function() {
+            let column = {
+                title: $(this).find('.title-block').text(),
+                id: $(this).data('id'),
+            };
+            columns.push(column);
+        });
+
+        return {
+            id: this.id,
+            type: 'number2d',
+            position: this.getPosition(),
+            title: this.dom.find('.title').text(),
+            rows: rows,
+            columns: columns,
+            width: this.dom.css('width'),
+            list: this.list.save(),
+        };
+    }
+
+    makeEditable(element, defaultLabel) {
+        element.click(function() {
+            let label = $(this).text().toLowerCase();
+            if (['new row', 'new column'].indexOf(label) >= 0) {
+                $(this).text('');
+            }
+            $(this).closest('.element').find('div').attr('contenteditable', 'false');
+            $(this).attr('contenteditable', 'true');
+            $(this).closest('.element').draggable({ disabled: true });
+            $(this).parents('.sortable').sortable({ disabled: true });
+            $(this).focus();
+        });
+
+        element.blur(function(e) {
+            $(this).attr('contenteditable', 'false');
+            $(this).closest('.element').draggable({ disabled: false });
+            $(this).parents('.sortable').sortable({ disabled: false });
+            if ($(this).text().trim().length === 0) {
+                $(this).text(defaultLabel);
+            }
+        });
+    }
+
+    getUniqueRowId() {
+        let i = this.dom.find('.row').length;
+        while (true) {
+            let id = 'row-' + i;
+            if (this.dom.find('.row').filter(function() {
+                return $(this).data('id') == id;
+            }).length === 0) {
+                return id;
+            }
+            i++;
+        }
+    }
+    
+    getUniqueColumnId() {
+        let i = this.dom.find('.column').length;
+        while (true) {
+            let id = 'column-' + i;
+            if (this.dom.find('.column').filter(function() {
+                return $(this).data('id') == id;
+            }).length === 0) {
+                return id;
+            }
+            i++;
+        }
+    }
+
+    getAllowedPage() {
+        return 'page-one';
+    }
+
+    getTitle() {
+        return "2D Number Matrix";
+    }
+    
+    addPropertiesTo(container) {
+        this.addIdProperty(container);
+        let that = this;
+
+        let titleProperty = $('<div class="property"></div>');
+        titleProperty.append($('<label>Title</label>'));
+        titleProperty.append($('<input type="text">'));
+        titleProperty.find('input').val(this.dom.find('.title').text());
+        titleProperty.find('input').change(function() {
+            that.dom.find('.title').text($(this).val());
+            templateEditor.reloadElements();
+        });
+        container.append(titleProperty);
     }
 }

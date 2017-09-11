@@ -514,6 +514,28 @@ body {
                 background-color: #ddd; }
               body #page-one .split-pane #right-component .matrix1d .pillars .pillar .subpillars .subpillar.active .title {
                 background-color: rgba(0, 0, 0, 0.3); }
+      body #page-one .split-pane #right-component .number2d {
+        position: absolute;
+        padding: 16px; }
+        body #page-one .split-pane #right-component .number2d td {
+          padding: 6px;
+          text-align: center;
+          -webkit-user-select: none;
+          cursor: default;
+          background-color: #fff; }
+          body #page-one .split-pane #right-component .number2d td strong {
+            font-weight: 500;
+            text-transform: uppercase; }
+          body #page-one .split-pane #right-component .number2d td.column-block {
+            cursor: pointer;
+            background-color: #fff; }
+            body #page-one .split-pane #right-component .number2d td.column-block.active {
+              background-color: #414141 !important; }
+            body #page-one .split-pane #right-component .number2d td.column-block input {
+              width: 100%;
+              min-width: 80px; }
+        body #page-one .split-pane #right-component .number2d .column {
+          width: 7%; }
       body #page-one .split-pane #right-component .matrix2d {
         position: absolute;
         padding: 16px; }
@@ -595,22 +617,33 @@ body {
             background-color: #e74c3c; }
         body #page-two .entries .entry-container .entry {
           position: relative; }
-          body #page-two .entries .entry-container .entry .input-element > header, body #page-two .entries .entry-container .entry .multiselect > header, body #page-two .entries .entry-container .entry .scale-container > header, body #page-two .entries .entry-container .entry .geolocations > header, body #page-two .entries .entry-container .entry .organigram > header, body #page-two .entries .entry-container .entry .matrix1d-list-container > header, body #page-two .entries .entry-container .entry .matrix2d-list-container > header {
+          body #page-two .entries .entry-container .entry .input-element > header, body #page-two .entries .entry-container .entry .multiselect > header, body #page-two .entries .entry-container .entry .scale-container > header, body #page-two .entries .entry-container .entry .geolocations > header, body #page-two .entries .entry-container .entry .organigram > header, body #page-two .entries .entry-container .entry .matrix1d-list-container > header, body #page-two .entries .entry-container .entry .number-list-container > header, body #page-two .entries .entry-container .entry .matrix2d-list-container > header {
             display: flex;
             justify-content: flex-start;
             align-items: center;
             height: 24px; }
-            body #page-two .entries .entry-container .entry .input-element > header > *:not(:first-child), body #page-two .entries .entry-container .entry .multiselect > header > *:not(:first-child), body #page-two .entries .entry-container .entry .scale-container > header > *:not(:first-child), body #page-two .entries .entry-container .entry .geolocations > header > *:not(:first-child), body #page-two .entries .entry-container .entry .organigram > header > *:not(:first-child), body #page-two .entries .entry-container .entry .matrix1d-list-container > header > *:not(:first-child), body #page-two .entries .entry-container .entry .matrix2d-list-container > header > *:not(:first-child) {
+            body #page-two .entries .entry-container .entry .input-element > header > *:not(:first-child), body #page-two .entries .entry-container .entry .multiselect > header > *:not(:first-child), body #page-two .entries .entry-container .entry .scale-container > header > *:not(:first-child), body #page-two .entries .entry-container .entry .geolocations > header > *:not(:first-child), body #page-two .entries .entry-container .entry .organigram > header > *:not(:first-child), body #page-two .entries .entry-container .entry .matrix1d-list-container > header > *:not(:first-child), body #page-two .entries .entry-container .entry .number-list-container > header > *:not(:first-child), body #page-two .entries .entry-container .entry .matrix2d-list-container > header > *:not(:first-child) {
               padding-left: 5px; }
-          body #page-two .entries .entry-container .entry .input-element input, body #page-two .entries .entry-container .entry .multiselect input, body #page-two .entries .entry-container .entry .scale-container input, body #page-two .entries .entry-container .entry .geolocations input, body #page-two .entries .entry-container .entry .organigram input, body #page-two .entries .entry-container .entry .matrix1d-list-container input, body #page-two .entries .entry-container .entry .matrix2d-list-container input {
+          body #page-two .entries .entry-container .entry .input-element input, body #page-two .entries .entry-container .entry .multiselect input, body #page-two .entries .entry-container .entry .scale-container input, body #page-two .entries .entry-container .entry .geolocations input, body #page-two .entries .entry-container .entry .organigram input, body #page-two .entries .entry-container .entry .matrix1d-list-container input, body #page-two .entries .entry-container .entry .number-list-container input, body #page-two .entries .entry-container .entry .matrix2d-list-container input {
             width: 100%;
             height: calc(100% - 24px); }
           body #page-two .entries .entry-container .entry .matrix1d-list {
             width: 160px; }
-          body #page-two .entries .entry-container .entry .matrix2d-list {
+          body #page-two .entries .entry-container .entry .matrix2d-list, body #page-two .entries .entry-container .entry .number-list {
             width: 240px; }
-          body #page-two .entries .entry-container .entry .geolocations, body #page-two .entries .entry-container .entry .organigram, body #page-two .entries .entry-container .entry .matrix1d-list-container, body #page-two .entries .entry-container .entry .matrix2d-list-container {
+          body #page-two .entries .entry-container .entry .geolocations, body #page-two .entries .entry-container .entry .organigram, body #page-two .entries .entry-container .entry .matrix1d-list-container, body #page-two .entries .entry-container .entry .number-list-container, body #page-two .entries .entry-container .entry .matrix2d-list-container {
             top: 0; }
+          body #page-two .entries .entry-container .entry .number-list .col1 {
+            margin-bottom: 8px; }
+            body #page-two .entries .entry-container .entry .number-list .col1 .row {
+              font-weight: 500; }
+            body #page-two .entries .entry-container .entry .number-list .col1 .column {
+              display: flex;
+              width: 100%;
+              justify-content: space-between; }
+              body #page-two .entries .entry-container .entry .number-list .col1 .column span {
+                font-family: 'inconsolata', monospace;
+                font-size: 1.2em; }
           body #page-two .entries .entry-container .entry .apply-button {
             cursor: pointer; }
             body #page-two .entries .entry-container .entry .apply-button.apply-all {

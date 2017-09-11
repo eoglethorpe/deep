@@ -39,7 +39,7 @@ class PageTwoExcerptBox extends Element {
             id: this.id,
             type: 'pageTwoExcerptBox',
             width: this.dom.find('.excerpt-container').css('width'),
-            left: this.dom.position().left,
+            left: this.dom.position().left + this.container.scrollLeft(),
             excerptLabel: this.dom.find('.excerpt-label').text(),
             imageLabel: this.dom.find('.image-label').text(),
         };

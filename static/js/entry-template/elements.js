@@ -3,6 +3,7 @@ const GRID_SIZE = 8;
 class Element {
     constructor(container, dom) {
         this.dom = dom;
+        this.container = container;
         container.append(dom);
         if (dom.find('.handle').length > 0) {
             dom.draggable({ scroll: true, grid: [GRID_SIZE, GRID_SIZE], containment: container, handle: '.handle' });
@@ -37,8 +38,8 @@ class Element {
 
     getPosition() {
         return {
-            left: this.dom.position().left,
-            top: this.dom.position().top,
+            left: this.dom.position().left + this.container.scrollLeft(),
+            top: this.dom.position().top + this.container.scrollTop(),
         };
     }
 

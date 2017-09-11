@@ -30,7 +30,7 @@ class OrganigramInput extends Element {
             type: 'organigram',
             position: this.getPosition(),
             width: this.dom.find('.container').css('width'),
-            left: this.dom.position().left,
+            left: this.dom.position().left + this.container.scrollLeft(),
             label: this.dom.find('label').eq(0).text(),
             nodes: this.nodes,
         };
@@ -197,7 +197,7 @@ class GeolocationsInput extends Element {
             id: this.id,
             type: 'geolocations',
             width: this.dom.find('.container').css('width'),
-            left: this.dom.position().left,
+            left: this.dom.position().left + this.container.scrollLeft(),
             label: this.dom.find('label').eq(0).text(),
         };
     }

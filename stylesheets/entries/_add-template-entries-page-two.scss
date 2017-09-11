@@ -80,7 +80,7 @@
             .entry {
                 position: relative;
 
-                .input-element, .multiselect, .scale-container, .geolocations, .organigram, .matrix1d-list-container, .matrix2d-list-container {
+                .input-element, .multiselect, .scale-container, .geolocations, .organigram, .matrix1d-list-container, .number-list-container, .matrix2d-list-container {
                     >header {
                         display: flex;
                         justify-content: flex-start;
@@ -100,12 +100,32 @@
                 .matrix1d-list {
                     width: $matrix1d-width;
                 }
-                .matrix2d-list {
+                .matrix2d-list, .number-list {
                     width: $matrix2d-width;
                 }
-                .geolocations, .organigram, .matrix1d-list-container, .matrix2d-list-container {
+                .geolocations, .organigram, .matrix1d-list-container, .number-list-container, .matrix2d-list-container {
                     top: 0;
 
+                }
+                .number-list {
+                    .col1 {
+                        margin-bottom: 8px;
+
+                        .row {
+                            font-weight: $font-weight-bold;
+                        }
+
+                        .column {
+                            display: flex;
+                            width: 100%;
+                            justify-content: space-between;
+
+                            span {
+                                font-family: 'inconsolata', monospace;
+                                font-size: 1.2em;
+                            }
+                        }
+                    }
                 }
                 .apply-button {
                     cursor: pointer;

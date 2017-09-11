@@ -267,7 +267,7 @@ body {
                     height: 24px; }
             body #entries .entry .informations .information-container .information .list-container.matrix1d {
               width: 160px; }
-            body #entries .entry .informations .information-container .information .list-container.matrix2d {
+            body #entries .entry .informations .information-container .information .list-container.matrix2d, body #entries .entry .informations .information-container .information .list-container.number2d {
               width: 240px; }
             body #entries .entry .informations .information-container .information .list-container .row {
               display: flex;
@@ -280,6 +280,17 @@ body {
                 body #entries .entry .informations .information-container .information .list-container .row .col > div:last-child > * {
                   display: block;
                   padding: 0 2px; }
+            body #entries .entry .informations .information-container .information .list-container .row1 {
+              margin-bottom: 8px; }
+              body #entries .entry .informations .information-container .information .list-container .row1 > span {
+                font-weight: 500; }
+            body #entries .entry .informations .information-container .information .list-container .column {
+              display: flex;
+              width: 100%;
+              justify-content: space-between; }
+              body #entries .entry .informations .information-container .information .list-container .column span {
+                font-family: 'inconsolata', monospace;
+                font-size: 1.2em; }
             body #entries .entry .informations .information-container .information .input-container {
               height: 100%; }
   body #filters {

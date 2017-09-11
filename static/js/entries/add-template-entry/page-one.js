@@ -29,6 +29,9 @@ let page1 = {
             else if (element.type == 'matrix2d') {
                 this.addMatrix2d(element);
             }
+            else if (element.type == 'number2d') {
+                this.addNumber2d(element);
+            }
         }
 
         this.refresh();
@@ -243,6 +246,89 @@ let page1 = {
         matrix.appendTo(this.container);
         return matrix;
     },
+    
+    addNumber2d: function(element) {
+        let that = this;
+        let matrix = $('<div class="number2d" data-id="' + element.id + '"></div>');
+        matrix.append('<div class="title">' + element.title + '</div>');
+        matrix.css('left', element.position.left);
+        matrix.css('top', element.position.top);
+        matrix.css('width', element.width);
+
+        let table = $('<table></table>');
+        matrix.append(table);
+
+        let columnsContainer = $('<tr></tr>');
+        columnsContainer.append($('<td></td>'));
+        table.append(columnsContainer);
+
+        for (let i=0; i<element.columns.length; i++) {
+            let column = element.columns[i];
+            let columnElement = $('<td class="column">' + column.title + '</td>');
+            columnsContainer.append(columnElement);
+        }
+
+        columnsContainer.append('<td></td>');
+
+        for (let i=0; i<element.rows.length; i++) {
+            let row = element.rows[i];
+
+            let tableRow = $('<tr></tr>');
+            table.append(tableRow);
+            tableRow.append('<td class="row">' + row.title + '</td>');
+
+            for (let k=0; k<element.columns.length; k++) {
+                let column = element.columns[k];
+                let blockElement = $('<td class="column-block" data-row-id="' + row.id + '" data-column-id="' + column.id + '"></td>');
+                tableRow.append(blockElement);
+
+                let numberBox = $('<input type="text" class="number">');
+                blockElement.append(numberBox);
+
+                numberBox.on('change input paste drop', function(e) {
+                    formatNumber($(this));
+                    if (that.selectedEntryIndex < 0 || entries.length <= that.selectedEntryIndex) {
+                        return;
+                    }
+
+                    let data = getEntryData(that.selectedEntryIndex, element.id);
+                    if (!data.numbers) { data.numbers = []; }
+
+                    let d = data.numbers.find(n => n.row == row.id && n.column == column.id);
+                    if (!d) {
+                        d = {
+                            row: row.id,
+                            column: column.id,
+                            value: getNumberValue($(this)),
+                        }
+                        data.numbers.push(d);
+                    } else {
+                        d.value = getNumberValue($(this));
+                    }
+
+                    that.validateNumberRow(tableRow.find('.check-block'), data, row.id);
+                });
+            }
+
+            let checkBlock = $('<td class="check-block" data-row-id="' + row.id + '"></td>');
+            tableRow.append(checkBlock);
+        }
+
+        matrix.appendTo(this.container);
+        return matrix;
+    },
+
+    validateNumberRow(checkBlock, data, rowId) {
+        const relevantData = data.numbers.filter(d => d.row == rowId);
+        const equal = relevantData.length == 0 ||
+            (!!relevantData.reduce((a, b) => +a.value === +b.value ? a : NaN));
+
+        if (equal) {
+            checkBlock.html('<span class="fa fa-check"></span>');
+        } else {
+            checkBlock.html('<span class="fa fa-times"></span>');
+        }
+    },
 
     refresh: function() {
         if (this.selectedEntryIndex < 0 && entries.length > 0) {
@@ -307,6 +393,28 @@ let page1 = {
                         for (let j=0; j<data.selections.length; j++) {
                             matrix.find('.sector-block[data-pillar-id="' + data.selections[j].pillar + '"][data-subpillar-id="' + data.selections[j].subpillar + '"][data-sector-id="' + data.selections[j].sector + '"]')
                                 .addClass('active');
+                        }
+                    }
+                }
+
+                else if (templateElement.type == 'number2d') {
+                    let matrix = this.container.find('.number2d[data-id="' + templateElement.id + '"]');
+                    matrix.find('.column-block .number').each(function() {
+                        $(this).val('');
+                    });
+                    if (data && data.numbers) {
+                        for (let j=0; j<data.numbers.length; j++) {
+                            const numberBox = matrix.find('.column-block[data-row-id="' + data.numbers[j].row + '"][data-column-id="' + data.numbers[j].column + '"] .number');
+                            numberBox.val(data.numbers[j].value);
+                            formatNumber(numberBox);
+                        }
+
+                        for (let j=0; j<templateElement.rows.length; j++) {
+                            const rowId = templateElement.rows[j].id;
+                            this.validateNumberRow(
+                                matrix.find('.check-block[data-row-id="' + rowId + '"]'),
+                                data, rowId
+                            );
                         }
                     }
                 }

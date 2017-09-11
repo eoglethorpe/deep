@@ -29,7 +29,7 @@ class ReportApiView(View):
         if event:
             reports = reports.filter(event__pk=event)
 
-        country = request.get('county')
+        country = request.get('country')
         if country:
             reports = reports.filter(country__pk=country)
 
