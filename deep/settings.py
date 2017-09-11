@@ -227,8 +227,8 @@ if os.environ.get('USE_S3', False):
     AWS_STORAGE_BUCKET_NAME_STATIC = os.environ['AWS_STORAGE_BUCKET_NAME'
                                                 '_STATIC']
     AWS_STORAGE_BUCKET_NAME_MEDIA = os.environ['AWS_STORAGE_BUCKET_NAME_MEDIA']
-    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+    AWS_ACCESS_KEY_ID = os.environ['S3_AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = os.environ['S3_AWS_SECRET_ACCESS_KEY']
 
     AWS_S3_FILE_OVERWRITE = False
     AWS_DEFAULT_ACL = 'private'
