@@ -146,7 +146,14 @@ function refreshMap() {
     // $("#btn-lvl-"+currentLevel).removeClass("btn-default");
     $("#btn-lvl-"+currentLevel).addClass("active");
 
-    map.fitBounds(layer.getBounds());
+    if (layer) {
+        try {
+            map.fitBounds(layer.getBounds());
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
 }
 
 

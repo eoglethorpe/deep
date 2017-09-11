@@ -1032,6 +1032,174 @@ body{
             .fa-plus { color: $info-color; }
         }
 
+        .number2d {
+            min-width: 200px;
+
+            .title{
+                height: 32px;
+                padding: 0 16px;
+                flex-basis: 100%;
+                font-size: $text-size-lg;
+                display: flex;
+                align-items: center;
+            }
+            .rows-container {
+                display: flex;
+                flex-direction: column;
+                width: 200px;
+
+                .rows {
+                    width: 200px;
+
+                    .row {
+                        border: 1px solid rgba(0, 0, 0, 0.1);
+                        width: 100%;
+                        display: flex;
+                        flex-wrap: wrap;
+                        position: relative;
+                        cursor: pointer;
+
+                        >.title-block {
+                            display: flex;
+                            align-items: center;
+                            flex-basis: 100%;
+                            max-width: 100%;
+                            padding: 16px 0px;
+                            background-color: rgba(255, 255, 255, 0.8);
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+
+                            &[contenteditable=true] {
+                                cursor: text;
+                                border: 1px dotted black;
+                            }
+                        }
+                        .options {
+                            display: none;
+                            position: absolute;
+                            left: 180px;
+                            top: 0;
+                            z-index: 10;
+
+                            >button{
+                                background-color: #fff;
+                                border: 1px solid rgba(0, 0, 0, 0.1);
+                                opacity: 0.3;
+                                padding: 2px;
+                                margin: 0 1px;
+
+                                &:hover{
+                                    opacity: 1;
+                                }
+                            }
+                        }
+                        &:hover {
+                            .options {
+                                display: inline-block;
+                            }
+                        }
+                    }
+                }
+
+                .add-row {
+                    width: 100%;
+                    padding: 8px 0px;
+                    border: 1px dashed rgba(0,0,0,0.2);
+                }
+                &:hover {
+                    .add-row {
+                        display: inline-block;
+                    }
+                }
+            }
+            .columns-container {
+                display: flex;
+                align-items: center;
+
+                .columns {
+                    display: flex;
+                    align-items: center;
+                    margin-left: 200px;
+
+                    .column {
+                        min-height: 32px;
+                        min-width: 64px;
+                        padding: 4px 8px;
+                        position: relative;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        cursor: pointer;
+                        border: 1px solid rgba(0, 0, 0, 0.1);
+
+                        .title-block {
+
+                            &[contenteditable=true] {
+                                cursor: text;
+                                border: 1px dotted black;
+                            }
+                        }
+                        .options {
+                            display: none;
+                            position: absolute;
+                            right: 0;
+                            top: 0;
+                            z-index: 10;
+
+                            >button{
+                                background-color: #fff;
+                                border: 1px solid rgba(0, 0, 0, 0.1);
+                                opacity: 0.3;
+                                padding: 2px;
+                                margin: 0 1px;
+
+                                &:hover{
+                                    opacity: 1;
+                                }
+                            }
+                        }
+                        // .options {
+                        //     display: none;
+                        //     position: absolute;
+                        //     padding: 1px;
+                        //     background-color: #fff;
+                        //     border: 1px solid rgba(0, 0, 0, 0.1);
+                        //     opacity: 0.3;
+                        //     right: 0;
+                        //     top: 0;
+                        //
+                        //     &:hover{
+                        //         opacity: 1;
+                        //     }
+                        // }
+                        &:hover {
+                            .options {
+                                display: inline-block;
+                            }
+                        }
+                    }
+                }
+                .add-column {
+                    height: 32px;
+                    padding: 0px 10px;
+                    border: 2px dashed rgba(0, 0, 0, 0.1);
+                }
+                &:hover {
+                    .add-column {
+                        display: inline-block;
+                    }
+                }
+            }
+            button {
+                background-color: transparent;
+                border: none;
+                outline: none;
+            }
+            .fa-times { color: $danger-color; }
+            .fa-plus { color: $info-color; }
+        }
+
         .matrix2d-list {
             .container {
                 display: flex;
@@ -1152,7 +1320,7 @@ body{
                 height: 100%;
                 overflow-x: auto;
 
-                .geolocations, .organigram, .page-two-excerpt, .matrix1d-list, .matrix2d-list, .multiselect-element {
+                .geolocations, .organigram, .page-two-excerpt, .matrix1d-list, .matrix2d-list, .number-list, .multiselect-element {
                     top: 0;
                     height: 100%;
                     z-index: 1;
@@ -1164,6 +1332,9 @@ body{
                 }
                 .matrix1d-list{
                     width: $matrix1d-width;
+                }
+                .number-list{
+                    width: $matrix2d-width;
                 }
                 .matrix2d-list{
                     width: $matrix2d-width;

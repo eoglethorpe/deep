@@ -846,6 +846,113 @@ body {
         color: #e74c3c; }
       body main .matrix2d .fa-plus {
         color: #3498db; }
+    body main .number2d {
+      min-width: 200px; }
+      body main .number2d .title {
+        height: 32px;
+        padding: 0 16px;
+        flex-basis: 100%;
+        font-size: 15px;
+        display: flex;
+        align-items: center; }
+      body main .number2d .rows-container {
+        display: flex;
+        flex-direction: column;
+        width: 200px; }
+        body main .number2d .rows-container .rows {
+          width: 200px; }
+          body main .number2d .rows-container .rows .row {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            position: relative;
+            cursor: pointer; }
+            body main .number2d .rows-container .rows .row > .title-block {
+              display: flex;
+              align-items: center;
+              flex-basis: 100%;
+              max-width: 100%;
+              padding: 16px 0px;
+              background-color: rgba(255, 255, 255, 0.8);
+              display: flex;
+              justify-content: center;
+              align-items: center; }
+              body main .number2d .rows-container .rows .row > .title-block[contenteditable=true] {
+                cursor: text;
+                border: 1px dotted black; }
+            body main .number2d .rows-container .rows .row .options {
+              display: none;
+              position: absolute;
+              left: 180px;
+              top: 0;
+              z-index: 10; }
+              body main .number2d .rows-container .rows .row .options > button {
+                background-color: #fff;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                opacity: 0.3;
+                padding: 2px;
+                margin: 0 1px; }
+                body main .number2d .rows-container .rows .row .options > button:hover {
+                  opacity: 1; }
+            body main .number2d .rows-container .rows .row:hover .options {
+              display: inline-block; }
+        body main .number2d .rows-container .add-row {
+          width: 100%;
+          padding: 8px 0px;
+          border: 1px dashed rgba(0, 0, 0, 0.2); }
+        body main .number2d .rows-container:hover .add-row {
+          display: inline-block; }
+      body main .number2d .columns-container {
+        display: flex;
+        align-items: center; }
+        body main .number2d .columns-container .columns {
+          display: flex;
+          align-items: center;
+          margin-left: 200px; }
+          body main .number2d .columns-container .columns .column {
+            min-height: 32px;
+            min-width: 64px;
+            padding: 4px 8px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid rgba(0, 0, 0, 0.1); }
+            body main .number2d .columns-container .columns .column .title-block[contenteditable=true] {
+              cursor: text;
+              border: 1px dotted black; }
+            body main .number2d .columns-container .columns .column .options {
+              display: none;
+              position: absolute;
+              right: 0;
+              top: 0;
+              z-index: 10; }
+              body main .number2d .columns-container .columns .column .options > button {
+                background-color: #fff;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                opacity: 0.3;
+                padding: 2px;
+                margin: 0 1px; }
+                body main .number2d .columns-container .columns .column .options > button:hover {
+                  opacity: 1; }
+            body main .number2d .columns-container .columns .column:hover .options {
+              display: inline-block; }
+        body main .number2d .columns-container .add-column {
+          height: 32px;
+          padding: 0px 10px;
+          border: 2px dashed rgba(0, 0, 0, 0.1); }
+        body main .number2d .columns-container:hover .add-column {
+          display: inline-block; }
+      body main .number2d button {
+        background-color: transparent;
+        border: none;
+        outline: none; }
+      body main .number2d .fa-times {
+        color: #e74c3c; }
+      body main .number2d .fa-plus {
+        color: #3498db; }
     body main .matrix2d-list .container {
       display: flex;
       justify-content: space-between;
@@ -926,15 +1033,17 @@ body {
         width: 100%;
         height: 100%;
         overflow-x: auto; }
-        body.page-two main .entry .geolocations, body.page-two main .entry .organigram, body.page-two main .entry .page-two-excerpt, body.page-two main .entry .matrix1d-list, body.page-two main .entry .matrix2d-list, body.page-two main .entry .multiselect-element {
+        body.page-two main .entry .geolocations, body.page-two main .entry .organigram, body.page-two main .entry .page-two-excerpt, body.page-two main .entry .matrix1d-list, body.page-two main .entry .matrix2d-list, body.page-two main .entry .number-list, body.page-two main .entry .multiselect-element {
           top: 0;
           height: 100%;
           z-index: 1; }
-          body.page-two main .entry .geolocations .container, body.page-two main .entry .geolocations .excerpt-container, body.page-two main .entry .geolocations .input-container, body.page-two main .entry .organigram .container, body.page-two main .entry .organigram .excerpt-container, body.page-two main .entry .organigram .input-container, body.page-two main .entry .page-two-excerpt .container, body.page-two main .entry .page-two-excerpt .excerpt-container, body.page-two main .entry .page-two-excerpt .input-container, body.page-two main .entry .matrix1d-list .container, body.page-two main .entry .matrix1d-list .excerpt-container, body.page-two main .entry .matrix1d-list .input-container, body.page-two main .entry .matrix2d-list .container, body.page-two main .entry .matrix2d-list .excerpt-container, body.page-two main .entry .matrix2d-list .input-container, body.page-two main .entry .multiselect-element .container, body.page-two main .entry .multiselect-element .excerpt-container, body.page-two main .entry .multiselect-element .input-container {
+          body.page-two main .entry .geolocations .container, body.page-two main .entry .geolocations .excerpt-container, body.page-two main .entry .geolocations .input-container, body.page-two main .entry .organigram .container, body.page-two main .entry .organigram .excerpt-container, body.page-two main .entry .organigram .input-container, body.page-two main .entry .page-two-excerpt .container, body.page-two main .entry .page-two-excerpt .excerpt-container, body.page-two main .entry .page-two-excerpt .input-container, body.page-two main .entry .matrix1d-list .container, body.page-two main .entry .matrix1d-list .excerpt-container, body.page-two main .entry .matrix1d-list .input-container, body.page-two main .entry .matrix2d-list .container, body.page-two main .entry .matrix2d-list .excerpt-container, body.page-two main .entry .matrix2d-list .input-container, body.page-two main .entry .number-list .container, body.page-two main .entry .number-list .excerpt-container, body.page-two main .entry .number-list .input-container, body.page-two main .entry .multiselect-element .container, body.page-two main .entry .multiselect-element .excerpt-container, body.page-two main .entry .multiselect-element .input-container {
             min-width: 96px;
             height: 100%; }
         body.page-two main .entry .matrix1d-list {
           width: 160px; }
+        body.page-two main .entry .number-list {
+          width: 240px; }
         body.page-two main .entry .matrix2d-list {
           width: 240px; }
           body.page-two main .entry .matrix2d-list .container {

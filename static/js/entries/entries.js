@@ -1,5 +1,6 @@
 var mapLoaded = false;
 var dateRangeInputModal = null;
+var visualizationLoaded = false;
 
 $(document).ready(function() {
     dateRangeInputModal = new Modal('#date-range-input');
@@ -15,6 +16,8 @@ $(document).ready(function() {
         $(current.data('target')).fadeOut(function(){
             $(that.data('target')).fadeIn(function() {
                 if (that.data('target') == '#visualizations') {
+                    visualizationLoaded = true;
+
                     // Fix a little bug on admin level buttons when they
                     // are loaded while not on visualization tab.
                     if (!mapLoaded) {
@@ -143,11 +146,7 @@ function renderEntries() {
             informationElement.show();
         }
 
-        entryElement.find('.edit-btn').unbind().click(function(entry){
-            return function() {
-                window.location.href = "/" + entry.event + "/entries/edit/" + entry.id + "/";
-            }
-        }(entry));
+        entryElement.find('.edit-btn').attr('href', "/" + entry.event + "/entries/edit/" + entry.id + "/");
 
         entryElement.find('.delete-btn').unbind().click(function(entry){
             return function() {

@@ -15,6 +15,9 @@ let entriesList = {
             else if (element.type == 'matrix1d' && element.list) {
                 this.addMatrix1dList(element);
             }
+            else if (element.type == 'number2d' && element.list) {
+                this.addNumberList(element);
+            }
             else if (element.id == 'page-two-excerpt') {
                 this.addExcerpt(element);
             }
@@ -78,6 +81,15 @@ let entriesList = {
         list.append($('<div class="data"></div>'));
     },
 
+    addNumberList: function(element) {
+        let list = $('<div class="element list-container number2d" data-id="' + element.id + '" style="position: absolute;"></div>');
+        list.css('left', element.list.left);
+        list.appendTo(this.template);
+
+        list.append($('<label>' + element.title + '</label>'));
+        list.append($('<div class="data"></div>'));
+    },
+
     addScale: function(element) {
         let scale = $('<div class="element scale-container" data-id="' + element.id + '" style="position: absolute;"></div>');
         scale.css('width', element.size.width);
@@ -98,6 +110,7 @@ let entriesList = {
     },
 
     refresh: function() {
+        const scrollTop = this.container.scrollTop();
         this.container.find('.entry').remove();
 
         let entries = entriesManager.filteredEntries;
@@ -204,6 +217,35 @@ let entriesList = {
                         }
                         continue;
                     }
+                    else if (templateElement.type == 'number2d' && templateElement.list) {
+                        let data = information.elements.find(d => d.id == templateElement.id);
+                        if (data) {
+                            let dom = infoDom.find('.list-container[data-id="' + data.id + '"]');
+                            let text = '';
+                            if (data.numbers) {
+                                for (let m=0; m<templateElement.rows.length; m++) {
+                                    let row = templateElement.rows[m];
+
+                                    text += '<div class="row1"><span>' + row.title + '</span>';
+
+                                    for (let n=0; n<templateElement.columns.length; n++) {
+                                        let column = templateElement.columns[n];
+                                        let d = data.numbers.find(n => n.row == row.id && n.column == column.id);
+                                        text += '<div class="column">' + column.title;
+                                        if (d) {
+                                            text += '<span>' + d.value + '</span>';
+                                        }
+
+                                        text += '</div>';
+                                    }
+
+                                    text += '</div>';
+                                }
+                            }
+                            dom.find('.data').html(text);
+                        }
+                        continue;
+                    }
 
                     if (templateElement.page != 'page-two') {
                         continue;
@@ -280,12 +322,14 @@ let entriesList = {
 
         $('.information-container').width(this.container.find('.information').width());
         $('#overflow-x div').width(this.container.find('.information').width());
+
+        this.container.scrollTop(scrollTop);
     },
 };
 
 
 $(document).ready(function() {
-    entriesManager.init(eventId, $('#filters'));
+    entriesManager.init(eventId, $('#filters'), $('#entries'));
     entriesList.init($('#entries'));
     entriesManager.renderCallback = entriesList.refresh;
     entriesManager.readAll();

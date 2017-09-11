@@ -478,6 +478,42 @@
                     }
                 }
             }
+            .number2d{
+                position: absolute;
+                padding: 16px;
+
+                .title{
+
+                }
+                td{
+                    padding: 6px;
+                    text-align: center;
+                    -webkit-user-select: none;
+                    cursor: default;
+                    background-color: #fff;
+
+                    strong{
+                        font-weight: $font-weight-bold;
+                        text-transform: uppercase;
+                    }
+                    &.column-block {
+                        cursor: pointer;
+                        background-color: #fff;
+
+                        &.active{
+                            background-color: #414141 !important;
+                        }
+
+                        input {
+                            width: 100%;
+                            min-width: 80px;
+                        }
+                    }
+                }
+                .column {
+                    width: 7%;
+                }
+            }
             .matrix2d{
                 position: absolute;
                 padding: 16px;

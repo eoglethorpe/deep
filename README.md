@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/eoglethorpe/deep.svg?branch=master-docker)](https://travis-ci.org/eoglethorpe/deep)
+
 # Data Entry and Exploration Platform
 
 DEEP is a humanitarian tool to collect and analyze secondary data from various publications such as websites and PDF reports. 

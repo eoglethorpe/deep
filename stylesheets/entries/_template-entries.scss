@@ -131,7 +131,7 @@
                         &.matrix1d{
                             width: $matrix1d-width;
                         }
-                        &.matrix2d{
+                        &.matrix2d, &.number2d{
                             width: $matrix2d-width;
                         }
                         // .data {
@@ -158,6 +158,25 @@
                                         }
                                     }
                                 }
+                            }
+                        }
+
+                        .row1 {
+                            margin-bottom: 8px;
+
+                            > span {
+                                font-weight: $font-weight-bold;
+                            }
+                        }
+
+                        .column {
+                            display: flex;
+                            width: 100%;
+                            justify-content: space-between;
+
+                            span {
+                                font-family: 'inconsolata', monospace;
+                                font-size: 1.2em;
                             }
                         }
                     }

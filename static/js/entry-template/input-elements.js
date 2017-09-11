@@ -119,7 +119,7 @@ class MultiselectInput extends Element {
             id: this.id,
             type: 'multiselect',
             width: this.dom.find('.input-container').css('width'),
-            left: this.dom.position().left,
+            left: this.dom.position().left + this.container.scrollLeft(),
             label: this.dom.find('label').eq(0).text(),
             options: this.options,
         };
@@ -242,3 +242,4 @@ class MultiselectInput extends Element {
         return "Multiselect Input";
     }
 }
+
