@@ -1,9 +1,17 @@
 var mapLoaded = false;
 var dateRangeInputModal = null;
-var visualizationLoaded = false;
+
+$(window).scroll(function() {
+    if($(window).scrollTop() + $(window).height() >= $(document).height()) {
+        if (scrollCallback) {
+            scrollCallback();
+        }
+    }
+});
 
 $(document).ready(function() {
     dateRangeInputModal = new Modal('#date-range-input');
+    scrollHandlingNeeded = true;
     initEntryFilters();
 
     $('#toggle-panel').on('click', 'a', function(){

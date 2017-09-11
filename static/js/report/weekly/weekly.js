@@ -2,6 +2,19 @@ var weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturda
 var keyEvents = [];
 var dateRangeInputModal;
 
+function initLazyLoad() {
+    scrollHandlingNeeded = true;
+
+    const scrollElement = $('#entries');
+    scrollElement.scroll(function() {
+        if(scrollElement.scrollTop() + scrollElement.height() >= scrollElement[0].scrollHeight) {
+            if (scrollCallback) {
+                scrollCallback();
+            }
+        }
+    });
+}
+
 function addKeyEvent(data) {
     var container = $('#key-event-list');
     var keyEvent = $('.key-event-template').clone();
@@ -427,6 +440,8 @@ $(document).ready(function(){
 
     // Handle source fields
     source.init();
+
+    initLazyLoad();
 });
 
 function setInputData() {
