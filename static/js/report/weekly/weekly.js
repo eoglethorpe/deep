@@ -308,7 +308,7 @@ $(document).ready(function(){
         } else {
             $(this).addClass('active');
             addFilter('last-seven-days', false, function(info) {
-                return filterDate('last-seven-days', new Date(info.created_at));
+                return filterDate('last-seven-days', new Date(originalEntries[info.entryIndex].created_at));
             });
             $(this).text('Show all entries')
         }
