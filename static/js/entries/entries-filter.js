@@ -54,6 +54,8 @@ function loadEntriesData(data) {
 let scrollCallback = null;
 let visualizationLoaded = false;
 let scrollHandlingNeeded = false;
+var listableEntries = 7;
+var maxEntries = null;
 
 function readEntries() {
     function updateEntries(index, count) {
@@ -62,18 +64,24 @@ function readEntries() {
             filterEntries();
             renderEntries(false);
 
-            if (data.data.length != 0) {
+            if (data.data.length > 0) {
                 if (!scrollHandlingNeeded || visualizationLoaded) {
                     updateEntries(index+count, 3);
                 } else {
                     scrollCallback = function() {
-                        updateEntries(index+count, 3);
+                        listableEntries += 3;
+                        renderEntries();
+
+                        if (maxEntries && listableEntries >= maxEntries) {
+                            $('.entries-loading-animation').hide();
+                            scrollCallback = null;
+                        }
                     }
+                    updateEntries(index+count, 3);
                 }
             } else {
                 scrollCallback = null;
                 renderEntries(true);
-                $('.entries-loading-animation').hide();
             }
         });
     };
