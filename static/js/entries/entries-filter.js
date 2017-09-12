@@ -61,8 +61,11 @@ function readEntries() {
     function updateEntries(index, count) {
         $.getJSON("/api/v2/entries/?" + (eventId?("event="+eventId+'&'):'') + 'index='+index+'&count='+count, function(data){
             loadEntriesData(data);
-            filterEntries();
-            renderEntries(false);
+
+            if (!scrollHandlingNeeded || visualizationLoaded || index == 0) {
+                filterEntries();
+                renderEntries(false);
+            }
 
             if (data.data.length > 0) {
                 if (!scrollHandlingNeeded || visualizationLoaded) {
@@ -70,6 +73,8 @@ function readEntries() {
                 } else {
                     scrollCallback = function() {
                         listableEntries += 3;
+
+                        filterEntries();
                         renderEntries();
 
                         if (maxEntries && listableEntries >= maxEntries) {
@@ -80,8 +85,9 @@ function readEntries() {
                     updateEntries(index+count, 3);
                 }
             } else {
-                scrollCallback = null;
+                filterEntries();
                 renderEntries(true);
+                maxEntries = entries.length;
             }
         });
     };

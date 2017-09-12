@@ -55,8 +55,8 @@ let entriesManager = {
             } else {
                 if (that.renderCallback) {
                     that.renderCallback(true);
-                    that.maxEntries = that.entries.length;
                 }
+                that.maxEntries = that.entries.length;
             }
         });
     },
