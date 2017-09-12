@@ -111,7 +111,7 @@ let entriesList = {
 
     refresh: function() {
         const scrollTop = this.container.scrollTop();
-        this.container.find('.entry').remove();
+        this.container.children().not('.entries-loading-animation').remove();
 
         let entries = entriesManager.filteredEntries;
 
@@ -142,7 +142,7 @@ let entriesList = {
                 }
             });
 
-            entryDom.appendTo(this.container);
+            entryDom.insertBefore(this.container.find('.entries-loading-animation'));
             entryDom.show();
 
             for (let j=0; j<entry.informations.length; j++) {

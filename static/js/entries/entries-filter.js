@@ -64,20 +64,21 @@ function readEntries() {
 
             if (data.data.length != 0) {
                 if (!scrollHandlingNeeded || visualizationLoaded) {
-                    updateEntries(index+count, count);
+                    updateEntries(index+count, 3);
                 } else {
                     scrollCallback = function() {
-                        updateEntries(index+count, count);
+                        updateEntries(index+count, 3);
                     }
                 }
             } else {
                 scrollCallback = null;
                 renderEntries(true);
+                $('.entries-loading-animation').hide();
             }
         });
     };
 
-    updateEntries(0, 10);
+    updateEntries(0, 7);
 }
 
 function clearFilters() {
