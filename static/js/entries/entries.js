@@ -60,7 +60,7 @@ function renderEntries() {
         $('#entries').html('<p class="message">No entries for this project</p>');
     }
 
-    for (var i=0; i<entries.length; ++i) {
+    for (var i=0; i<Math.min(listableEntries, entries.length); ++i) {
         var entry = entries[i];
 
         var entryElement = $(".entry-template").clone();

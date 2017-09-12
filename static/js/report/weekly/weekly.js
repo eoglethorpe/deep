@@ -53,7 +53,7 @@ function renderEntries(){
 
     var sevenDaysLater = false;
 
-    for(var i=0; i<entries.length; i++){
+    for(var i=0; i<Math.min(listableEntries, entries.length); i++){
         if (!sevenDaysLater &&
                 !filterDate('last-seven-days', new Date(entries[i].created_at)))
         {

@@ -120,7 +120,7 @@ let entriesList = {
             this.container.find('.message').text('No entries for this project');
         }
 
-        for (let i=0; i<entries.length; i++) {
+        for (let i=0; i<Math.min(entriesManager.listableEntries, entries.length); i++) {
             let entry = entries[i];
             if (entry.informations.length == 0) {
                 continue;
