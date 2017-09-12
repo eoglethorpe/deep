@@ -25,6 +25,9 @@ $(document).ready(function() {
             $(that.data('target')).fadeIn(function() {
                 if (that.data('target') == '#visualizations') {
                     visualizationLoaded = true;
+                    if (scrollCallback) {
+                        scrollCallback();
+                    }
 
                     // Fix a little bug on admin level buttons when they
                     // are loaded while not on visualization tab.

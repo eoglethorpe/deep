@@ -46,6 +46,7 @@ let entriesManager = {
                     that.renderCallback(true);
                 }
                 that.scrollCallback = null;
+                $('.entries-loading-animation').hide();
             }
         });
     },

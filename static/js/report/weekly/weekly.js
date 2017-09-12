@@ -49,7 +49,7 @@ function addKeyEvent(data) {
 
 function renderEntries(){
     var entryContainer = $('#entries');
-    entryContainer.empty();
+    entryContainer.children().not('.entries-loading-animation').remove();
 
     var sevenDaysLater = false;
 
@@ -60,7 +60,7 @@ function renderEntries(){
             sevenDaysLater = true;
             if (i != 0) {
                 var separator = $('<hr style="border-color: #c0392b; margin: 0">');
-                separator.appendTo(entryContainer);
+                separator.insertBefore(entryContainer.find('.entries-loading-animation'));
             }
         }
 
@@ -116,7 +116,7 @@ function renderEntries(){
             }(entries[i].id, entries[i].informations[j].id));
         }
 
-        entry.appendTo(entryContainer);
+        entry.insertBefore(entryContainer.find('.entries-loading-animation'));
         entry.show();
     }
 }
