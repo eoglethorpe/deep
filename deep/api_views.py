@@ -103,7 +103,7 @@ class OverviewApiView(View):
 
         latest_reports = WeeklyReport.objects.annotate(
             max_date=Max('event__weeklyreport__start_date')
-        ).filter(start_date=F('max_date'))
+        ).filter(start_date=F('max_date')).distinct()
 
         # Latest report data
 
@@ -115,6 +115,9 @@ class OverviewApiView(View):
             report.data = json.loads(report.data)
 
             score = report.data['final-severity-score']['score']
+            if not score:
+                score = report.data['calculated-severity-score']
+
             if score == '3':
                 severe.append(report.country.code)
             elif score == '2':

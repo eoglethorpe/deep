@@ -20,6 +20,8 @@ let entriesManager = {
                 }
             });
         }
+        this.listableEntries = 3;
+        this.maxEntries = null;
     },
 
     readAll: function() {
@@ -37,15 +39,24 @@ let entriesManager = {
                 that.renderCallback(false);
             }
 
-            if (data.data.length >= 3) {
+            if (data.data.length >= count) {
+                that.readPartial(index+count, count);
                 that.scrollCallback = function() {
-                    that.readPartial(index+count, count);
+                    that.listableEntries += 3;
+                    if (that.renderCallback) {
+                        that.renderCallback();
+                    }
+
+                    if (that.maxEntries && that.listableEntries >= that.maxEntries) {
+                        $('.entries-loading-animation').hide();
+                        that.scrollCallback = null;
+                    }
                 }
             } else {
                 if (that.renderCallback) {
                     that.renderCallback(true);
                 }
-                that.scrollCallback = null;
+                that.maxEntries = that.entries.length;
             }
         });
     },

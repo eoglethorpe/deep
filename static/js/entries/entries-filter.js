@@ -52,37 +52,47 @@ function loadEntriesData(data) {
 }
 
 let scrollCallback = null;
-$(window).scroll(function() {
-    if($(window).scrollTop() + $(window).height() == $(document).height()) {
-        if (scrollCallback) {
-            scrollCallback();
-        }
-    }
-});
+let visualizationLoaded = false;
+let scrollHandlingNeeded = false;
+var listableEntries = 7;
+var maxEntries = null;
 
 function readEntries() {
     function updateEntries(index, count) {
         $.getJSON("/api/v2/entries/?" + (eventId?("event="+eventId+'&'):'') + 'index='+index+'&count='+count, function(data){
             loadEntriesData(data);
-            filterEntries();
-            renderEntries(false);
 
-            if (data.data.length != 0) {
-                if (visualizationLoaded) {
-                    updateEntries(index+count, count);
+            if (!scrollHandlingNeeded || visualizationLoaded || index == 0) {
+                filterEntries();
+                renderEntries(false);
+            }
+
+            if (data.data.length > 0) {
+                if (!scrollHandlingNeeded || visualizationLoaded) {
+                    updateEntries(index+count, 3);
                 } else {
                     scrollCallback = function() {
-                        updateEntries(index+count, count);
+                        listableEntries += 3;
+
+                        filterEntries();
+                        renderEntries();
+
+                        if (maxEntries && listableEntries >= maxEntries) {
+                            $('.entries-loading-animation').hide();
+                            scrollCallback = null;
+                        }
                     }
+                    updateEntries(index+count, 3);
                 }
             } else {
-                scrollCallback = null;
+                filterEntries();
                 renderEntries(true);
+                maxEntries = entries.length;
             }
         });
     };
 
-    updateEntries(0, 10);
+    updateEntries(0, 7);
 }
 
 function clearFilters() {

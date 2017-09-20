@@ -1,9 +1,17 @@
 var mapLoaded = false;
 var dateRangeInputModal = null;
-var visualizationLoaded = false;
+
+$(window).scroll(function() {
+    if(Math.round($(window).scrollTop() + $(window).height()) >= $(document).height()-2) {
+        if (scrollCallback) {
+            scrollCallback();
+        }
+    }
+});
 
 $(document).ready(function() {
     dateRangeInputModal = new Modal('#date-range-input');
+    scrollHandlingNeeded = true;
     initEntryFilters();
 
     $('#toggle-panel').on('click', 'a', function(){
@@ -17,6 +25,9 @@ $(document).ready(function() {
             $(that.data('target')).fadeIn(function() {
                 if (that.data('target') == '#visualizations') {
                     visualizationLoaded = true;
+                    if (scrollCallback) {
+                        scrollCallback();
+                    }
 
                     // Fix a little bug on admin level buttons when they
                     // are loaded while not on visualization tab.
@@ -49,7 +60,7 @@ function renderEntries() {
         $('#entries').html('<p class="message">No entries for this project</p>');
     }
 
-    for (var i=0; i<entries.length; ++i) {
+    for (var i=0; i<Math.min(listableEntries, entries.length); ++i) {
         var entry = entries[i];
 
         var entryElement = $(".entry-template").clone();

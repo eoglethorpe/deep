@@ -2,6 +2,19 @@ var weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturda
 var keyEvents = [];
 var dateRangeInputModal;
 
+function initLazyLoad() {
+    scrollHandlingNeeded = true;
+
+    const scrollElement = $('#entries');
+    scrollElement.scroll(function() {
+        if(scrollElement.scrollTop() + scrollElement.height() >= scrollElement[0].scrollHeight) {
+            if (scrollCallback) {
+                scrollCallback();
+            }
+        }
+    });
+}
+
 function addKeyEvent(data) {
     var container = $('#key-event-list');
     var keyEvent = $('.key-event-template').clone();
@@ -36,18 +49,18 @@ function addKeyEvent(data) {
 
 function renderEntries(){
     var entryContainer = $('#entries');
-    entryContainer.empty();
+    entryContainer.children().not('.entries-loading-animation').remove();
 
     var sevenDaysLater = false;
 
-    for(var i=0; i<entries.length; i++){
+    for(var i=0; i<Math.min(listableEntries, entries.length); i++){
         if (!sevenDaysLater &&
                 !filterDate('last-seven-days', new Date(entries[i].created_at)))
         {
             sevenDaysLater = true;
             if (i != 0) {
                 var separator = $('<hr style="border-color: #c0392b; margin: 0">');
-                separator.appendTo(entryContainer);
+                separator.insertBefore(entryContainer.find('.entries-loading-animation'));
             }
         }
 
@@ -103,7 +116,7 @@ function renderEntries(){
             }(entries[i].id, entries[i].informations[j].id));
         }
 
-        entry.appendTo(entryContainer);
+        entry.insertBefore(entryContainer.find('.entries-loading-animation'));
         entry.show();
     }
 }
@@ -295,7 +308,7 @@ $(document).ready(function(){
         } else {
             $(this).addClass('active');
             addFilter('last-seven-days', false, function(info) {
-                return filterDate('last-seven-days', new Date(info.created_at));
+                return filterDate('last-seven-days', new Date(originalEntries[info.entryIndex].created_at));
             });
             $(this).text('Show all entries')
         }
@@ -427,6 +440,8 @@ $(document).ready(function(){
 
     // Handle source fields
     source.init();
+
+    initLazyLoad();
 });
 
 function setInputData() {
