@@ -11,7 +11,10 @@ from entries.export_entries_docx import analysis_filter, xstr
 
 def format_date(date):
     if date:
-        return date.strftime('%d-%m-%Y')
+        try:
+            return date.strftime('%d-%m-%Y')
+        except:
+            return date
     else:
         return None
 
@@ -29,19 +32,18 @@ def list_filter(_list, _filter, _value, key=None):
         return None
 
 
-def get_analysis_data(elements, element, eType, rows):
+def get_analysis_data(elements, eID, element, eType, rows):
     """
     Try to retrive data from elements(JSON), if not found in template or
     error occurs, cell is filled with blank ''.
     """
     try:
-        eID = element['id']
         elementTemplate = list_filter(elements, 'id', eID)
 
         if eType == 'number-input':
             rows.add_value(element['value'])
         elif eType == 'date-input':
-            rows.add_valu(format_date(element['value']))
+            rows.add_value(format_date(element['value']))
 
         elif eType == 'scale':
             rows.add_value(list_filter(elementTemplate['scaleValues'], 'id',
@@ -102,13 +104,40 @@ def get_analysis_data(elements, element, eType, rows):
                     ', '.join(sub_sector)])
             rows.permute_and_add_list(matrix_values)
 
+        elif eType == 'number2d':
+            number_values = []
+            matches = []
+            numbers = element.get('numbers', [])
+
+            for row in elementTemplate['rows']:
+                same = True
+                last = None
+                for i, column in enumerate(elementTemplate['columns']):
+                    n = next(x['value'] for x in numbers
+                             if x['row'] == row['id'] and
+                             x['column'] == column['id'])
+                    number_values.append(n if n else '')
+
+                    if same and i > 0 and last != n:
+                        same = False
+                    last = n
+                matches.append('True' if same else 'False')
+
+            number_values.extend(matches)
+            rows.add_values(number_values)
+
     except Exception as e:
-        if eType not in ['matrix1d', 'matrix2d']:
+        if eType not in ['matrix1d', 'matrix2d', 'number2d']:
             rows.add_value('')
         elif eType == 'matrix1d':
             rows.add_values(['', ''])
         elif eType == 'matrix2d':
             rows.add_values(['', '', '', ''])
+        elif eType == 'number2d':
+            for row in elementTemplate['rows']:
+                for column in elementTemplate['columns']:
+                    rows.add_value('')
+                rows.add_value('')
 
 
 def export_xls(title, event_pk=None, information_pks=None):
@@ -257,6 +286,13 @@ def export_analysis_xls(title, event_pk=None, information_pks=None,
         elif eType == 'matrix2d':
             titles.append([element['title'], 'Dimension', 'Sub-Dimension',
                            'Sector', 'Subsector'])
+        elif eType == 'number2d':
+            for row in element['rows']:
+                for column in element['columns']:
+                    titles.append('{} - {}'.format(row['title'],
+                                                   column['title']))
+            for row in element['rows']:
+                titles.append('{} matches'.format(row['title']))
         elif eType == 'geolocations':
             geo_elements.append(element['id'])
         else:
@@ -273,6 +309,7 @@ def export_analysis_xls(title, event_pk=None, information_pks=None,
         admin_levels = country.adminlevel_set.all()
         for admin_level in admin_levels:
             titles.append(admin_level.name)
+            titles.append('{} P-Code'.format(admin_level.name))
 
     index = 0
     for t in titles:
@@ -323,13 +360,11 @@ def export_analysis_xls(title, event_pk=None, information_pks=None,
                 xstr(info.excerpt)
             ])
 
-            attributes = []
             infoE = json.loads(info.elements)
             for element_id, element_type in element_ids:
                 element = list_filter(infoE, 'id', element_id)
-                get_analysis_data(elements, element, element_type, rows)
-
-            rows.permute_and_add_list(attributes)
+                get_analysis_data(elements, element_id, element,
+                                  element_type, rows)
 
             for country in countries:
                 admin_levels = country.adminlevel_set.all()
@@ -339,11 +374,19 @@ def export_analysis_xls(title, event_pk=None, information_pks=None,
                                            if geoE.get('id') in geo_elements]:
                         for map_selection in map_selections.get('value', []):
                             map_selection_list = map_selection.split(':')
-                            if (len(map_selection_list) == 3):
-                                m_iso3, m_admin, m_name = map_selection_list
+
+                            if len(map_selection_list) == 3:
+                                map_selection_list.append('')
+
+                            if len(map_selection_list) == 4:
+                                m_iso3, m_admin, m_name, pcode = \
+                                    map_selection_list
                                 if admin_level.level == int(m_admin):
-                                    selections.append(m_name)
-                    rows.permute_and_add(selections)
+                                    selections.append([m_name, pcode])
+
+                    if len(selections) == 0:
+                        selections = [['', '']]
+                    rows.permute_and_add_list(selections)
 
             ew.append(rows.rows, ws)
             grouped_rows.append(rows.group_rows)
