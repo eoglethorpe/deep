@@ -252,6 +252,16 @@ body {
             font-weight: 400; }
           body header #filters .filter.range:hover label, body header #filters .filter.range.filled label {
             display: none; }
+        body header #filters .filter.geo-filter {
+          position: relative; }
+          body header #filters .filter.geo-filter input {
+            padding-right: 20%; }
+          body header #filters .filter.geo-filter > a {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 1px 3px;
+            cursor: pointer; }
       body header #filters > input {
         padding: 4px 6px;
         border: 1px solid rgba(0, 0, 0, 0.1);
