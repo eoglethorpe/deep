@@ -492,7 +492,7 @@ def analysis_filter(infos, request_data, elements):
 
     for element in elements:
         # Multiselect and organigram are similar in structure
-        if element['type'] in ['multiselect', 'organigram']:
+        if element['type'] in ['multiselect', 'organigram', 'geolocations']:
             options = request_data.get(element['id'])
             if options:
                 options = set(options)

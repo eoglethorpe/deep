@@ -52,6 +52,20 @@
             }
         }
 
+        &.geo-filter {
+            position: relative;
+            input {
+                padding-right: 20%;
+            }
+
+            > a {
+                position: absolute;
+                top: 0;
+                right: 0;
+                padding: 1px 3px;
+                cursor: pointer;
+            }
+        }
     }
 
     label {

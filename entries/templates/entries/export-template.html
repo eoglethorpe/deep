@@ -14,8 +14,12 @@ DEEP | Export
 <script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/modal.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
+<script type="text/javascript" src="{% watchful_static_url 'js/entries/add-template-entry/map.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/jquery-ui.min.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/entries/template-export.js' %}"></script>
+
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.1.0/leaflet.css">
+<script src="http://cdn.leafletjs.com/leaflet/v1.1.0/leaflet.js"></script>
 
 <script>
 var eventId = "{{ event.pk }}";
@@ -28,6 +32,11 @@ let templateData = {
     elements: JSON.parse('{{ entry_template.elements|escapejs }}'),
 };
 {% endif %}
+
+// Countries for this event
+let countries = [
+    {% for country in event.countries.all %} { code: '{{ country.pk }}', name: '{{ country.name }}' }, {% endfor %}
+];
 </script>
 
 {% endblock %}

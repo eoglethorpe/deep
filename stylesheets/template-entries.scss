@@ -19,4 +19,32 @@ body{
             min-height: 1px;
         }
     }
+
+    .modal{
+        height: 800px;
+        width: 800px !important;
+        .map-section{
+            .map{
+                height: 537px;
+                width: 100%;
+
+            }
+            .buttons-container{
+                text-align: center;
+                padding: 4px;
+                background-color: #f0f0f0;
+            }
+        }
+        .control-section{
+            padding: 10px 16px 0 16px;
+
+            label{
+                margin-bottom: 6px;
+            }
+            .selectize-control{
+                margin-bottom: 16px;
+            }
+        }
+    }
+
 }
