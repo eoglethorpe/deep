@@ -368,8 +368,6 @@ body {
                   display: none; }
               body main section form .filters .filter-group .filters-container .filter.geo-filter {
                 position: relative; }
-                body main section form .filters .filter-group .filters-container .filter.geo-filter input {
-                  padding-right: 20%; }
                 body main section form .filters .filter-group .filters-container .filter.geo-filter > a {
                   position: absolute;
                   top: 0;
