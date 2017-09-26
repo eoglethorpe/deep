@@ -256,9 +256,9 @@ let attributesFilters = {
                 });
             }
         }
-        // else if (element.type == 'geolocations') {
-        //     this.addTextFilter(element.id, element.label);
-        // }
+        else if (element.type == 'geolocations') {
+            let filter = this.addGeoFilter(element.id, element.label);
+        }
         else if (element.type == 'matrix1d') {
             let filter = this.addMultiSelectFilter(element.id, element.title).find('select');
 
@@ -370,6 +370,111 @@ let attributesFilters = {
         let filter = $('<div class="filter"><select multiple name="' + id + '"></select></div>');
         filter.find('select').append($('<option value="">' + label + '</option>'));
         filter.find('select').selectize();
+
+        this.filtersContainer.append(filter);
+        return filter;
+    },
+
+    addGeoFilter: function(id, label) {
+        let filter = $('<div class="filter geo-filter"><select multiple name="' + id + '"></select><a><img src="/static/img/mapicon.png" width="20px"></a></div>');
+        filter.find('select').append($('<option value="">' + label + '</option>'));
+        filter.find('select').selectize();
+
+        let modalDialog = $('<div class="modal" hidden></div>');
+        modalDialog.append($('<header><h3 class="modal-title">Select ' + (label.toLowerCase()) + '</h2></header>'));
+        modalDialog.append($('<div class="map-section"></div>'));
+        modalDialog.append($('<div class="control-section"></div>'));
+
+        let actionButtons = $('<div class="action-buttons"></div>');
+        actionButtons.append($('<button class="apply" data-action="apply" data-persist="true">Apply</button>'));
+        actionButtons.append($('<button class="cancel" data-action="dismiss">Cancel</button>'));
+        modalDialog.append(actionButtons);
+        modalDialog.appendTo($('.modal-container'));
+
+        //// Map
+
+        modalDialog.find('.map-section').append($('<div class="map"></div>'));
+        modalDialog.find('.map-section').append($('<div class="buttons-container"></div>'));
+        let map = new Map(modalDialog.find('.map'), modalDialog.find('.buttons-container'));
+
+        // Control sections
+        let controlSection1 = $('<div></div>');
+        controlSection1.append($('<label>Select a country</label><select class="country"><option value="">Select a country</option></select>'));
+        controlSection1.append($('<label>Add locations</label><select class="locations" multiple><option value="">Add locations</option></select>'));
+        controlSection1.find('select').selectize();
+
+        // Country selection
+        let countrySelectize = controlSection1.find('.country')[0].selectize;
+        for (let i=0; i<countries.length; i++) {
+            countrySelectize.addOption({
+                value: countries[i].code, text: countries[i].name,
+            });
+        }
+        controlSection1.find('.country').change(function() {
+            if ($(this).val()) {
+                map.selectCountry($(this).val());
+            }
+        });
+
+        // Location selection
+        let locationSelectize = controlSection1.find('.locations')[0].selectize;
+        let locationSelectize2 = filter.find('select')[0].selectize;
+
+        map.loadCallback = function() {
+            for (let key in map.allLocations) {
+                locationSelectize.addOption({
+                    value: key, text: map.allLocations[key],
+                });
+                locationSelectize2.addOption({
+                    value: key, text: map.allLocations[key],
+                });
+            }
+            locationSelectize.setValue(map.selections, true);
+            locationSelectize2.setValue(map.selections, true);
+        };
+        controlSection1.find('.locations').change(function() {
+            map.selections = $(this).val();
+            map.refresh();
+        });
+        map.selectCallback = function() {
+            locationSelectize.setValue(map.selections, true);
+        };
+        
+        modalDialog.find('.control-section').append(controlSection1);
+
+        if (countries.length > 0) {
+            countrySelectize.setValue(countries[0].code);
+        }
+
+        /////////
+
+        let newModal = new Modal(modalDialog, true);
+
+        filter.find('a').click(function() {
+            let selected = locationSelectize2.getValue();
+
+            map.reset();
+            if (countries.length > 0) {
+                countrySelectize.setValue(countries[0].code);
+            }
+
+            map.selections = selected;
+            locationSelectize.setValue(selected, true);
+            locationSelectize2.setValue(selected, true);
+
+            // Show modal
+            newModal.show().then(function() {}, null, function() {
+                if (newModal.action == 'apply') {
+                    // Save selections from modal
+                    locationSelectize2.setValue(locationSelectize.getValue());
+                    newModal.hide();
+                } else {
+                    map.map.invalidateSize();
+                    map.refresh();
+                }
+            });
+        });
+
 
         this.filtersContainer.append(filter);
         return filter;

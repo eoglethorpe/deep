@@ -366,6 +366,14 @@ body {
                   flex-basis: 50%; }
                 body main section form .filters .filter-group .filters-container .filter.range-filter.filled label, body main section form .filters .filter-group .filters-container .filter.range-filter:hover label {
                   display: none; }
+              body main section form .filters .filter-group .filters-container .filter.geo-filter {
+                position: relative; }
+                body main section form .filters .filter-group .filters-container .filter.geo-filter > a {
+                  position: absolute;
+                  top: 0;
+                  right: 0;
+                  padding: 1px 3px;
+                  cursor: pointer; }
     body main section#entries-export h2 {
       flex-basis: 100%; }
     body main section#entries-export .lead-filters {
@@ -466,5 +474,21 @@ body {
       width: 100%;
       height: 100%;
       border: none; }
+  body .modal {
+    height: 800px;
+    width: 800px !important; }
+    body .modal .map-section .map {
+      height: 537px;
+      width: 100%; }
+    body .modal .map-section .buttons-container {
+      text-align: center;
+      padding: 4px;
+      background-color: #f0f0f0; }
+    body .modal .control-section {
+      padding: 10px 16px 0 16px; }
+      body .modal .control-section label {
+        margin-bottom: 6px; }
+      body .modal .control-section .selectize-control {
+        margin-bottom: 16px; }
 
 /*# sourceMappingURL=export.css.map */
