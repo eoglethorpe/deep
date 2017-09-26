@@ -335,8 +335,6 @@ body {
           display: none; }
       body #filters .filter.geo-filter {
         position: relative; }
-        body #filters .filter.geo-filter input {
-          padding-right: 20%; }
         body #filters .filter.geo-filter > a {
           position: absolute;
           top: 0;

@@ -587,8 +587,6 @@ main #filters {
         display: none; }
     main #filters .filter.geo-filter {
       position: relative; }
-      main #filters .filter.geo-filter input {
-        padding-right: 20%; }
       main #filters .filter.geo-filter > a {
         position: absolute;
         top: 0;
