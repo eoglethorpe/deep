@@ -36,3 +36,12 @@ option_settings:
     value: \"$AWS_ACCESS_KEY_ID\"
   - option_name: \"AWS_SECRET_ACCESS_KEY\"
     value: \"$AWS_SECRET_ACCESS_KEY\"
+
+  - option_name: \"HID_CLIENT_ID\"
+    value: \"$HID_CLIENT_ID\"
+  - option_name: \"HID_CLIENT_NAME\"
+    value: \"$HID_CLIENT_NAME\"
+  - option_name: \"HID_CLIENT_REDIRECT_URL\"
+    value: \"$HID_CLIENT_REDIRECT_URL\"
+  - option_name: \"HID_CLIENT_DEVELOPMENT\"
+    value: \"$HID_CLIENT_DEVELOPMENT\"
