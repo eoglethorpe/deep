@@ -1,16 +1,15 @@
 from django.contrib.auth.models import User
 
-from deep.settings import BASE_DIR
-from users.models import *
+from django.conf import settings
+from users.models import UserProfile
 
 import requests
-import configparser
-import os
 
 
 class HumanitarianId:
     def __init__(self, request):
-        if "hid_token" not in request.session or "hid_user" not in request.session:
+        if "hid_token" not in request.session or \
+                "hid_user" not in request.session:
             self.status = False
             return
 
@@ -31,7 +30,7 @@ class HumanitarianId:
         else:
             url = 'https://auth.humanitarian.id/api/v2/user/' + user_id
 
-        r = requests.get(url, headers={ 'Authorization': 'Bearer ' + token})
+        r = requests.get(url, headers={'Authorization': 'Bearer ' + token})
         if r.status_code == 200:
             self.data = r.json()
             if self.data['email_verified'] and not self.data['deleted']:
@@ -81,9 +80,11 @@ class HumanitarianId:
         config = HidConfig()
         if config.client_id:
             if config.development:
-                url = 'https://api2.dev.humanitarian.id/account.json?access_token=' + access_token
+                url = 'https://api2.dev.humanitarian.id/account.json?' \
+                      'access_token=' + access_token
             else:
-                url = 'https://auth.humanitarian.id/account.json?access_token=' + access_token
+                url = 'https://auth.humanitarian.id/account.json?' \
+                      'access_token=' + access_token
 
             r = requests.get(url)
             if r.status_code == 200:
@@ -94,13 +95,9 @@ class HumanitarianId:
         return None, None
 
 
-
 class HidConfig:
     def __init__(self):
-        self.config = configparser.ConfigParser()
-        self.config.read(os.path.join(BASE_DIR, 'hid.cnf'))
-        if 'client' in self.config:
-            self.client_id = self.config['client']['client_id']
-            self.client_name = self.config['client']['client_name']
-            self.development = self.config['client']['development'] == 'True'
-            self.redirect_url = self.config['client']['redirect_url']
+        self.client_id = settings.HID_CLIENT_ID
+        self.client_name = settings.HID_CLIENT_NAME
+        self.development = settings.HID_CLIENT_DEVELOPMENT
+        self.redirect_url = settings.HID_CLIENT_REDIRECT_URL

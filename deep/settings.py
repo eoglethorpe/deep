@@ -259,3 +259,12 @@ else:
 
 # django-cors-headers configurations
 CORS_ORIGIN_ALLOW_ALL = True
+
+# HID CONFIGS
+HID_CLIENT_ID = os.environ.get('HID_CLIENT_ID', 'deep-dev')
+HID_CLIENT_NAME = os.environ.get('HID_CLIENT_NAME', 'deep-dev')
+HID_CLIENT_REDIRECT_URL = os.environ.get(
+        'HID_CLIENT_REDIRECT_URL',
+        'http://deep.togglecorp.com/login/')
+HID_CLIENT_DEVELOPMENT = os.environ.get(
+        'HID_CLIENT_DEVELOPMENT', 'True').lower() == 'true'
