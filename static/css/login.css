@@ -173,5 +173,19 @@ main {
           width: 100%;
           height: 100%;
           object-fit: contain; }
+  main #info-snippet {
+    position: absolute;
+    background-color: #ef5350;
+    color: #fff;
+    font-size: 1.1em;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); }
+    main #info-snippet p {
+      margin: 0;
+      padding: 0; }
 
 /*# sourceMappingURL=login.css.map */
