@@ -13,12 +13,12 @@ def trans(loc):
 
     for sr in reader.shapeRecords():
        atr = dict(zip(field_names, sr.record))
-       # geom = sr.shape.__geo_interface__
-       buffer.append(dict(type="Feature", properties=atr))
+       geom = sr.shape.__geo_interface__
+       buffer.append(dict(type="Feature", geometry=geom, properties=atr))
 
-    geojson = open("/Users/ewanog/Desktop/phl_adm2.json", "w")
+    geojson = open("/Users/ewanog/Desktop/dr0.json", "w")
     geojson.write(dumps({"type": "FeatureCollection", "features": buffer}, indent=2) + "\n")
     geojson.close()
 
 if __name__ == '__main__':
-    trans('/Users/ewanog/Downloads/phl2/PHL_adm2_PSA_pn_2016June')
+    trans('/Users/ewanog/Downloads/adm0censo2010/adm0Censo2010')
