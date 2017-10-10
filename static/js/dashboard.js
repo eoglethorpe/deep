@@ -22,13 +22,17 @@ var countries = {};
 var colorBy=null;
 var layer;
 
-var mapColors = ['#FFFFFF','#ccdbdb','#99b7b7','#669494','#337070','#004D4D'];
-var mapColors2 = ['#1a9850','#91cf60','#d9ef8b','#fee08b','#fc8d59','#d73027'];
+var mapColors = ['#f6eff7', '#d0d1e6', '#a6bddb', '#67a9cf', '#1c9099', '#016c59'];
+var mapColors2 = ['#d0d1e6', '#a6bddb', '#74a9cf', '#3690c0', '#0570b0', '#034e7b'];
+
+
+//var mapColors = ['#FFFFFF','#ccdbdb','#99b7b7','#669494','#337070','#004D4D'];
+//var mapColors2 = ['#1a9850','#91cf60','#d9ef8b','#fee08b','#fc8d59','#d73027'];
 
 function hashString(str) {
     var hash = 0;
     for (var i = 0; i < str.length; i++) {
-       hash = str.charCodeAt(i) + ((hash << 4) - hash);
+        hash = str.charCodeAt(i) + ((hash << 4) - hash);
     }
     return hash;
 }
@@ -411,7 +415,7 @@ function createSparkLine(id,data){
             return y(d);
         });
 
-        graph.append("svg:path").attr("d", line(data));
+    graph.append("svg:path").attr("d", line(data));
 }
 
 $(document).ready(function(){
@@ -435,7 +439,7 @@ $(document).ready(function(){
     $("#disaster-type-filter").selectize();
 
     $("#body").on('click', '#back-btn', function(){
-        loadTimetable('all');
+        loadTimetablen('all');
     });
 
     $('#overview').find('span').each(function(){
@@ -465,11 +469,11 @@ function loadReports(){
         return (ca < cb)? -1: (ca > cb)? 1: 0;*/
         return a.country < b.country;
     });
-/*
+    /*
     let currentCountryCode = "";
     let currentCountryEventPk = -1;
     let currentCountry;
-*/
+    */
 
     var currentYear = (new Date()).getFullYear();
     data.forEach(function(d){
@@ -487,11 +491,21 @@ function loadReports(){
 
         });
     });
-
+    var date_sort_desc = function (date1, date2) {
+        // This is a comparison function that will result in dates being sorted in
+        // DESCENDING order.
+        if (date1 > date2) return -1;
+        if (date1 < date2) return 1;
+        return 0;
+    };
     while(minStartDate <= maxStartDate){
         weeks.push(new Date(minStartDate));
         minStartDate.addDays(7);
     }
+
+    // Sort the weeks in descending order so that recent weeks are shown first
+    // in timeline table
+    weeks.sort(date_sort_desc);
     // Load the weekly report timetable
     loadTimetable('all');
 }
