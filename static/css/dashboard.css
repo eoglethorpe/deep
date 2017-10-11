@@ -254,8 +254,10 @@ body #map {
       font-family: 'Inconsolata', monospace;
       font-size: 1.2em;
       display: inline-block;
-      width: 5ex;
+      width: 50px;
       text-align: right; }
+    body #map #overview .spark-lines {
+      width: 60px; }
     body #map #overview label {
       font-size: 0.8em; }
     body #map #overview > div {
@@ -317,8 +319,16 @@ body #timeline {
       body #timeline #timeline-table #reports .report .weeks {
         align-self: stretch; }
         body #timeline #timeline-table #reports .report .weeks .week {
-          height: 100%; }
+          height: calc(100% - 6px);
+          margin-top: 3px;
+          transition: 0.2s all ease-in-out;
+          transform: scaleX(0.9); }
+          body #timeline #timeline-table #reports .report .weeks .week:hover {
+            transform: scaleX(1);
+            height: 100%;
+            margin-top: 0; }
           body #timeline #timeline-table #reports .report .weeks .week.active {
+            border-radius: 3px;
             cursor: pointer;
             border-right: 1px solid #fff;
             background-color: #008080; }

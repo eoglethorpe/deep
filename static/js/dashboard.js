@@ -402,7 +402,7 @@ function populateLegend(colorBy){
 
 function createSparkLine(id,data){
     $(id).html('');
-    var graph = d3.select(id).append("svg:svg").attr("width", 40).attr("height", 15);
+    var graph = d3.select(id).append('class', 'spark-lines').append("svg:svg").attr("width", 40).attr("height", 15);
 
     var x = d3.scale.linear().domain([0, data.length-1]).range([0, 40]);
     var y = d3.scale.linear().domain(d3.extent(data,function(d){return d})).range([15, 0]);

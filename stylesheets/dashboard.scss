@@ -107,9 +107,13 @@ body {
                 font-family: 'Inconsolata', monospace;
                 font-size: 1.2em;
                 display: inline-block;
-                width: 5ex;
+                width: 50px;
                 text-align: right;
             }
+            .spark-lines{
+                width:60px;
+            }
+
             label{
                 font-size: 0.8em;
             }
@@ -200,9 +204,17 @@ body {
                         align-self: stretch;
 
                         .week{
-                            height: 100%;
-
+                            height: calc(100% - 6px);
+                            margin-top:3px;
+                            transition:0.2s all ease-in-out;
+                            transform: scaleX(0.9);
+                            &:hover{
+                                transform:scaleX(1);
+                                height:100%;
+                                margin-top:0;
+                            }
                             &.active{
+                                border-radius: 3px;
                                 cursor: pointer;
                                 border-right: 1px solid #fff;
                                 background-color: $primary-color;
