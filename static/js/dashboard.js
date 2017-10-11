@@ -22,7 +22,7 @@ var countries = {};
 var colorBy=null;
 var layer;
 
-var mapColors = ['#f6eff7', '#d0d1e6', '#a6bddb', '#67a9cf', '#1c9099', '#016c59'];
+var mapColors = ['#f8f3f9', '#d0d1e6', '#a6bddb', '#67a9cf', '#1c9099', '#016c59'];
 var mapColors2 = ['#d0d1e6', '#a6bddb', '#74a9cf', '#3690c0', '#0570b0', '#034e7b'];
 
 
