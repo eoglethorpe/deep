@@ -242,7 +242,8 @@ class HidAccessToken(View):
 
         token, user_id = HumanitarianId.get_token_and_user_id(access_token)
         if state == 833912:  # DEEP12: link hid with current user
-            if request.user and (request.user.userprofile.hid is None or request.user.userprofile.hid == ''):
+            if request.user and hasattr(request.user, 'userprofile') and\
+                    request.user.userprofile.hid in [None, '']:
                 profile = request.user.userprofile
                 profile.hid = user_id
                 profile.save()
@@ -260,8 +261,8 @@ class UserStatusView(View):
             try:
                 profile = UserProfile.objects.get(user=request.user)
                 return JsonResponse({"status": "logged-in",
-                                    "user_id": request.user.id,
-                                    "last_event": profile.last_event.pk
+                                     "user_id": request.user.id,
+                                     "last_event": profile.last_event.pk
                                      if profile.last_event else "null"})
             except:
                 pass
