@@ -239,7 +239,7 @@ body #map {
           margin-left: 10px; }
           body #map #overview .table-wrapper table tr td {
             margin: 0;
-            padding: 8px 10px;
+            padding: 8px 6px;
             border-left: 0 solid transparent;
             transition: 0.2s all ease-in-out; }
           body #map #overview .table-wrapper table tr:nth-child(even) {
@@ -254,8 +254,10 @@ body #map {
       font-family: 'Inconsolata', monospace;
       font-size: 1.2em;
       display: inline-block;
-      width: 5ex;
+      width: 70px;
       text-align: right; }
+    body #map #overview .spark-lines {
+      width: 60px; }
     body #map #overview label {
       font-size: 0.8em; }
     body #map #overview > div {
@@ -277,7 +279,7 @@ body #timeline {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 16px; }
+    }
     body #timeline #timeline-table > header .aside, body #timeline #timeline-table .report .aside {
       flex-basis: 20%;
       align-self: stretch;
@@ -317,23 +319,30 @@ body #timeline {
       body #timeline #timeline-table #reports .report .weeks {
         align-self: stretch; }
         body #timeline #timeline-table #reports .report .weeks .week {
-          height: 100%; }
+            height: calc(100% - 6px);
+            margin-top: 3px;
+          transition: 0.3s all ease-in-out;
+          /*transform: scaleX(0.9); */ }
+          body #timeline #timeline-table #reports .report .weeks .week:hover {
+            height: 100%;
+            margin-top: 0; }
           body #timeline #timeline-table #reports .report .weeks .week.active {
+            border-radius: 5px;
             cursor: pointer;
-            border-right: 1px solid #fff;
+            border: 2px solid #fff;
             background-color: #008080; }
+          body #timeline #timeline-table #reports .report .weeks .week.grade0 {
+            background-color: #d0d1e6; }
           body #timeline #timeline-table #reports .report .weeks .week.grade1 {
-            background-color: #1a9850; }
-          body #timeline #timeline-table #reports .report .weeks .week.grade1 {
-            background-color: #91cf60; }
+            background-color: #a6bddb; }
           body #timeline #timeline-table #reports .report .weeks .week.grade2 {
-            background-color: #d9ef8b; }
+            background-color: #74a9cf; }
           body #timeline #timeline-table #reports .report .weeks .week.grade3 {
-            background-color: #fee08b; }
+            background-color: #3690c0; }
           body #timeline #timeline-table #reports .report .weeks .week.grade4 {
-            background-color: #fc8d59; }
+            background-color: #0570b0; }
           body #timeline #timeline-table #reports .report .weeks .week.grade5 {
-            background-color: #d73027; }
+            background-color: #034e7b; }
       body #timeline #timeline-table #reports .report:nth-child(odd) {
         background-color: #fff; }
   body #timeline #timeline-table #horizontal-scroll {

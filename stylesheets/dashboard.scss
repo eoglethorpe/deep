@@ -107,9 +107,13 @@ body {
                 font-family: 'Inconsolata', monospace;
                 font-size: 1.2em;
                 display: inline-block;
-                width: 5ex;
+                width: 50px;
                 text-align: right;
             }
+            .spark-lines{
+                width:60px;
+            }
+
             label{
                 font-size: 0.8em;
             }
@@ -200,30 +204,38 @@ body {
                         align-self: stretch;
 
                         .week{
-                            height: 100%;
-
+                            height: calc(100% - 6px);
+                            margin-top:3px;
+                            transition:0.2s all ease-in-out;
+                            transform: scaleX(0.9);
+                            &:hover{
+                                transform:scaleX(1);
+                                height:100%;
+                                margin-top:0;
+                            }
                             &.active{
+                                border-radius: 3px;
                                 cursor: pointer;
                                 border-right: 1px solid #fff;
                                 background-color: $primary-color;
                             }
-                            &.grade1 {
-                                background-color:#1a9850;
+                            &.grade0 {
+                                background-color:#d0d1e6;
                             }
                             &.grade1 {
-                                background-color:#91cf60;
+                                background-color:#a6bddb;
                             }
                             &.grade2 {
-                                background-color:#d9ef8b;
+                                background-color:#74a9cf;
                             }
                             &.grade3 {
-                                background-color:#fee08b;
+                                background-color:#3690c0;
                             }
                             &.grade4 {
-                                background-color:#fc8d59;
+                                background-color:#0570b0;
                             }
                             &.grade5 {
-                                background-color:#d73027;
+                                background-color:#034e7b;
                             }
                         }
                     }
