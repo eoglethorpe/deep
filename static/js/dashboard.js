@@ -50,6 +50,23 @@ function getLastNumberByCountry(countrycode){
     });
     return num;
 }
+function getColorByReport(status, score){
+    let color= mapColors[0];
+    if(status == 'monitored'){
+        color = mapColors[1];
+    }
+    if(status == 'active'){
+        color = mapColors[2];
+    }
+    if(score == 1){
+        color = mapColors[3];
+    }else if(score == 2){
+        color = mapColors[4];
+    }else if(score == 3){
+        color = mapColors[5];
+    }
+    return color;
+}
 
 function styleMapFeature(feature) {
     if(colorBy==null){
@@ -465,10 +482,13 @@ function loadReports(){
 
     data.sort(function(a, b){
         /*var ca = (a.country.name + a.event.name).toUpperCase();
-        var cb = (b.country.name + b.event.name).toUpperCase();
-        return (ca < cb)? -1: (ca > cb)? 1: 0;*/
-        return a.country < b.country;
+          var cb = (b.country.name + b.event.name).toUpperCase();
+          return (ca < cb)? -1: (ca > cb)? 1: 0;*/
+        if(a.country < b.country) return -1;
+        if(a.country > b.country) return 1;
+            return 0;
     });
+
     /*
     let currentCountryCode = "";
     let currentCountryEventPk = -1;
@@ -502,10 +522,10 @@ function loadReports(){
         weeks.push(new Date(minStartDate));
         minStartDate.addDays(7);
     }
-
     // Sort the weeks in descending order so that recent weeks are shown first
     // in timeline table
     weeks.sort(date_sort_desc);
+
     // Load the weekly report timetable
     loadTimetable('all');
 }
@@ -617,6 +637,10 @@ function loadTimetable(tableFor) {
                         let reportData = data[i].reports[index];
                         if ((!disasterFilter || disasterFilter.indexOf(reportData.disaster_type) >= 0) && (!dateFilter || dateFilter(reportData.modified_date))) {
                             let cls = 'active';
+                            if(colorBy == null){
+                                let color = getColorByReport(reportData.status, reportData.score);
+                                weekElement.css('background-color', color);
+                            }
                             if(colorBy!='report'){
                                 let num = reportData[colorBy];
                                 let grade = getColorGrade(colorBy, num);
@@ -652,6 +676,10 @@ function loadTimetable(tableFor) {
                         let reportData = countryData.reports[index];
                         if ((!disasterFilter || disasterFilter.indexOf(reportData.disaster_type) >= 0) && (!dateFilter || dateFilter(reportData.created_at))) {
                             let cls = 'active';
+                            if(colorBy == null){
+                                let color = getColorByReport(reportData.status, reportData.score);
+                                weekElement.css('background-color', color);
+                            }
                             if (colorBy != 'report') {
                                 let num = reportData[colorBy];
                                 let grade = getColorGrade(colorBy, num);
