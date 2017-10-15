@@ -23,7 +23,7 @@ before_script:
 script:
 - echo 'Run unit tests in the app container'
 after_success:
-- if [ "$TRAVIS_BRANCH" == "$DEEP_BRANCH" ];then ./deploy/deploy_to_eb.sh; fi
+- if [ "${TRAVIS_PULL_REQUEST}" == "false" ] && [ "${TRAVIS_BRANCH}" == "${DEEP_BRANCH}" ];then ./deploy/deploy_to_eb.sh ; fi
 notifications:
   slack:
     rooms:
