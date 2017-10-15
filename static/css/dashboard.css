@@ -314,7 +314,8 @@ body #timeline {
       font-size: 2em; }
     body #timeline #timeline-table #reports .report {
       border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
-      body #timeline #timeline-table #reports .report .aside {
+    body #timeline #timeline-table #reports .report .aside {
+        padding-left:10px;
         cursor: pointer; }
       body #timeline #timeline-table #reports .report .weeks {
         align-self: stretch; }
