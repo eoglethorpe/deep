@@ -136,7 +136,7 @@ let entriesManager = {
             return this.value.indexOf(that.entries[info.entryIndex].created_by+'') >= 0;
         });
 
-        this.addDateFilter('date-imported', 'Date imported', function(info) {
+        this.addDateFilter('date-imported', 'Date last modified', function(info) {
             let date = new Date(that.entries[info.entryIndex].created_at);
             if (this.value == 'range') {
                 return dateInRange(date, new Date(this.startDate), new Date(this.endDate));

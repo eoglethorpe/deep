@@ -655,7 +655,8 @@ def export_analysis_docx(event, informations=None, data=None):
             for info in infos:
                 data = next((d for d in info.data
                              if d['id'] == matrix1d['id']), None)
-                if data and data['selections'] and len(data['selections']) > 0:
+                if data and data.get('selections') and \
+                        len(data['selections']) > 0:
                     interested_infos.append((info, data))
 
             pillar_heading = False

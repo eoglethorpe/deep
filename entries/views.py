@@ -1,4 +1,5 @@
-from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
+from django.http import HttpResponse, JsonResponse, HttpResponseForbidden, \
+    Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from django.views.generic import View
@@ -36,6 +37,10 @@ class ExportProgressView(View):
 class ExportView(View):
     @method_decorator(login_required)
     def get(self, request, event):
+
+        if Event.objects.filter(pk=event).count() == 0:
+            raise Http404('Event does not exist')
+
         context = {}
         context["current_page"] = "export"
         context["event"] = Event.objects.get(pk=event)
@@ -172,6 +177,10 @@ class ExportDoc(View):
 class EntriesView(View):
     @method_decorator(login_required)
     def get(self, request, event):
+
+        if Event.objects.filter(pk=event).count() == 0:
+            raise Http404('Event does not exist')
+
         context = {}
         context["current_page"] = "entries"
 
@@ -208,6 +217,16 @@ class EntriesView(View):
 class AddEntry(View):
     @method_decorator(login_required)
     def get(self, request, event, lead_id=None, id=None):
+
+        if Event.objects.filter(pk=event).count() == 0:
+            raise Http404('Event does not exist')
+        if lead_id:
+            if Lead.objects.filter(pk=lead_id).count() == 0:
+                raise Http404('Lead does not exist')
+        if id:
+            if Entry.objects.filter(pk=id).count() == 0:
+                raise Http404('Entry does not exist')
+
         refresh_pcodes()
         context = {}
 
