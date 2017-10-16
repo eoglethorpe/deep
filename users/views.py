@@ -238,7 +238,7 @@ class LogoutView(View):
 class HidAccessToken(View):
     def get(self, request):
         access_token = request.GET['access_token']
-        state = int(request.GET['state'])
+        state = int(request.GET.get('state', 1234))
 
         token, user_id = HumanitarianId.get_token_and_user_id(access_token)
         if state == 833912:  # DEEP12: link hid with current user
