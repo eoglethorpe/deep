@@ -220,8 +220,12 @@ class AddEntry(View):
 
         if Event.objects.filter(pk=event).count() == 0:
             raise Http404('Event does not exist')
-        if Entry.objects.filter(pk=lead_id).count() == 0:
-            raise Http404('Entry does not exist')
+        if lead_id:
+            if Lead.objects.filter(pk=lead_id).count() == 0:
+                raise Http404('Lead does not exist')
+        if id:
+            if Entry.objects.filter(pk=id).count() == 0:
+                raise Http404('Entry does not exist')
 
         refresh_pcodes()
         context = {}
