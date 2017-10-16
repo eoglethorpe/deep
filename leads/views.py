@@ -1,4 +1,4 @@
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, Http404
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.http import JsonResponse
@@ -113,6 +113,10 @@ def get_lead_form_data():
 class LeadsView(View):
     @method_decorator(login_required)
     def get(self, request, event):
+
+        if Event.objects.filter(pk=event).count() == 0:
+            raise Http404('Event does not exist')
+
         context = {}
         context["current_page"] = "leads"
         context["all_events"] = Event.get_events_for(request.user)
@@ -133,6 +137,10 @@ class LeadsView(View):
 class SoSView(View):
     @method_decorator(login_required)
     def get(self, request, event):
+
+        if Event.objects.filter(pk=event).count() == 0:
+            raise Http404('Event does not exist')
+
         if not allow_acaps(request.user):
             return HttpResponseForbidden()
 
@@ -150,6 +158,12 @@ class SoSView(View):
 class AddSoS(View):
     @method_decorator(login_required)
     def get(self, request, event, lead_id, sos_id=None):
+
+        if Event.objects.filter(pk=event).count() == 0:
+            raise Http404('Event does not exist')
+        if Lead.objects.filter(pk=lead_id).count() == 0:
+            raise Http404('Lead does not exist')
+
         refresh_pcodes()
         if not allow_acaps(request.user):
             return HttpResponseForbidden()
@@ -370,6 +384,12 @@ class AddSoS(View):
 class AddLead(View):
     @method_decorator(login_required)
     def get(self, request, event, id=None):
+
+        if Event.objects.filter(pk=event).count() == 0:
+            raise Http404('Event does not exist')
+        if Lead.objects.filter(pk=id).count() == 0:
+            raise Http404('Lead does not exist')
+
         context = {}
         context["current_page"] = "leads"
         context["event"] = Event.objects.get(pk=event)
