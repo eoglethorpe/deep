@@ -286,6 +286,19 @@ class ReportsApiView(View):
             rdata['pin_restricted'] = get_pin_restricted(report.data)
             rdata['people_affected'] = get_people_affected(report.data)
 
+            status = None
+            if report.event.status == 1:
+                status = 'active'
+            elif report.event.status == 0:
+                status = 'monitored'
+            rdata['status'] = status
+
+            score = report.data['final-severity-score']['score']
+            if not score:
+                if report.data.get('calculated-severity-score'):
+                    score = report.data['calculated-severity-score']
+            rdata['score'] = score
+
             data['reports'].append(rdata)
 
         return data
