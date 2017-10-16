@@ -206,8 +206,18 @@ $.when(overviewCall).then(function(dataArgs){
 
 });
 
+function cleanData(data) {
+    while (data && data[0] === 0) {
+        data.splice(0, 1);
+    }
+    if (data.length === 0) {
+        data.push(0);
+    }
+}
+
 function keyfigures(data){
-    var pinLatestFig = data.pin[data.pin.length-1];
+    cleanData(data.pin);
+    var pinLatestFig = data.pin[0];
     pinLatestFig = niceFormatNumber(pinLatestFig,true);
     $('#number-of-pin-span').html(pinLatestFig);
     createSparkLine('#number-of-pin-spark',data.pin);
@@ -224,10 +234,11 @@ function keyfigures(data){
         loadTimetable(timetableFor);
     });
 
-    var pinSevereLatestFig = data.pin_severe[data.pin_severe.length-1];
+    cleanData(data.pin_severe);
+    var pinSevereLatestFig = data.pin_severe[0];
     pinSevereLatestFig = niceFormatNumber(pinSevereLatestFig,true);
     $('#number-of-pin-severe-span').html(pinSevereLatestFig);
-    createSparkLine('#number-of-pin-severe-spark',data.pin);
+    createSparkLine('#number-of-pin-severe-spark',data.pin_severe);
     $('#pinseverestat').unbind().on('click',function(){
         colorBy = 'pin_severe';
         if ($(this).hasClass('active')) {
@@ -241,10 +252,11 @@ function keyfigures(data){
         loadTimetable(timetableFor);
     });
 
-    var pinRestrictedLatestFig = data.pin_restricted[data.pin_restricted.length-1];
+    cleanData(data.pin_restricted);
+    var pinRestrictedLatestFig = data.pin_restricted[0];
     pinRestrictedLatestFig = niceFormatNumber(pinRestrictedLatestFig,true);
     $('#number-of-pin-restricted-span').html(pinRestrictedLatestFig);
-    createSparkLine('#number-of-pin-restricted-spark',data.pin);
+    createSparkLine('#number-of-pin-restricted-spark',data.pin_restricted);
     $('#pinrestrictedstat').unbind().on('click',function(){
         colorBy = 'pin_restricted';
         if ($(this).hasClass('active')) {
@@ -258,7 +270,8 @@ function keyfigures(data){
         loadTimetable(timetableFor);
     });
 
-    var affectedLatestFig = data.people_affected[data.people_affected.length-1];
+    cleanData(data.people_affected);
+    var affectedLatestFig = data.people_affected[0];
     affectedLatestFig = niceFormatNumber(affectedLatestFig,true);
     $('#number-of-affected-span').html(affectedLatestFig);
     createSparkLine('#number-of-affected-spark',data.people_affected);
@@ -275,7 +288,8 @@ function keyfigures(data){
         loadTimetable(timetableFor);
     });
 
-    var idpsLatestFig = data.idps[data.idps.length-1];
+    cleanData(data.idps);
+    var idpsLatestFig = data.idps[0];
     idpsLatestFig = niceFormatNumber(idpsLatestFig,true);
     $('#number-of-idps-span').html(idpsLatestFig);
     createSparkLine('#number-of-idps-spark',data.idps);
@@ -292,7 +306,8 @@ function keyfigures(data){
         loadTimetable(timetableFor);
     });
 
-    var refugeesLatestFig = data.refugees[data.refugees.length-1];
+    cleanData(data.refugees);
+    var refugeesLatestFig = data.refugees[0];
     refugeesLatestFig = niceFormatNumber(refugeesLatestFig,true);
     $('#number-of-refugees-span').html(refugeesLatestFig);
     createSparkLine('#number-of-refugees-spark',data.refugees);
@@ -418,6 +433,7 @@ function populateLegend(colorBy){
 }
 
 function createSparkLine(id,data){
+
     $(id).html('');
     var graph = d3.select(id).append('class', 'spark-lines').append("svg:svg").attr("width", 40).attr("height", 15);
 
