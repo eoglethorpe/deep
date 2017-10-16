@@ -25,6 +25,7 @@ from report.models import WeeklyReport, HumanProfileField, PeopleInNeedField, \
 from leads.templatetags.check_acaps import allow_acaps
 from usergroup.models import UserGroup
 
+from botocore.exceptions import ClientError as BotoClientError
 import json
 import math
 from datetime import datetime, timedelta
@@ -101,9 +102,12 @@ class ReportDashboardView(View):
         context["human_access_fields"] = HumanAccessField.objects.all()
         context["human_access_pin_fields"] = HumanAccessPinField.objects.all()
 
-        context["last_updated"] = int(
+        try:
+            context["last_updated"] = int(
                 StaticApiStorage.get_updated_diff(
                     'weekly-snapshot.json').seconds/60)
+        except BotoClientError:
+            context["last_updated"] = -1
 
         nsecs = dt.minute*60 + dt.second
         context["next_update"] = int((math.ceil(nsecs/300) * 300 - nsecs)/60)
@@ -268,9 +272,12 @@ class WeeklyReportUpdateTimesView(View):
         }
 
         dt = timezone.now()
-        response["last_updated"] = int(
-                StaticApiStorage.get_updated_diff(
-                    'weekly-snapshot.json').seconds/60)
+        try:
+            response["last_updated"] = int(
+                    StaticApiStorage.get_updated_diff(
+                        'weekly-snapshot.json').seconds/60)
+        except BotoClientError:
+            response["last_updated"] = -1
 
         nsecs = dt.minute*60 + dt.second
         response["next_update"] = int((math.ceil(nsecs/300) * 300 - nsecs)/60)
