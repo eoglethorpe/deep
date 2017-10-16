@@ -387,8 +387,9 @@ class AddLead(View):
 
         if Event.objects.filter(pk=event).count() == 0:
             raise Http404('Event does not exist')
-        if Lead.objects.filter(pk=id).count() == 0:
-            raise Http404('Lead does not exist')
+        if id:
+            if Lead.objects.filter(pk=id).count() == 0:
+                raise Http404('Lead does not exist')
 
         context = {}
         context["current_page"] = "leads"
