@@ -341,75 +341,86 @@ class AddEntry(View):
             entries = json.loads(request.POST['entries'])
             for e in entries:
                 information = EntryInformation(entry=entry)
-                information.excerpt = e['excerpt']
-                information.image = e['image']
-                information.elements = json.dumps(e['elements'])
+                information.excerpt = e.get('excerpt')
+                information.image = e.get('image')
+                information.elements = json.dumps(e.get('elements'))
                 information.save()
 
             return redirect('entries:entries', event)
 
-
         # Without template
-        excerpts = json.loads(request.POST["excerpts"]);
+        excerpts = json.loads(request.POST["excerpts"])
 
         for excerpt in excerpts:
             information = EntryInformation(entry=entry)
-            information.excerpt = excerpt["excerpt"]
-            information.image = excerpt['image']
+            information.excerpt = excerpt.get("excerpt")
+            information.image = excerpt.get('image')
 
-            information.bob = excerpt['bob']
-            information.reliability = Reliability.objects.get(pk=int(excerpt["reliability"]))
-            information.severity = Severity.objects.get(pk=int(excerpt["severity"]))
-            if excerpt["number"]:
+            information.bob = excerpt.get('bob')
+
+            if excerpt.get('reliability'):
+                information.reliability = Reliability.objects.get(pk=int(excerpt["reliability"]))
+
+            if excerpt.get('severity'):
+                information.severity = Severity.objects.get(pk=int(excerpt["severity"]))
+
+            if excerpt.get("number"):
                 information.number = int(excerpt["number"])
-            if excerpt["date"]:
+
+            if excerpt.get("date"):
                 information.date = excerpt["date"]
+
             information.save()
 
-            for ag in excerpt["affected_groups"]:
-                information.affected_groups.add(AffectedGroup.objects.get(pk=int(ag)))
-            for vg in excerpt["vulnerable_groups"]:
-                information.vulnerable_groups.add(VulnerableGroup.objects.get(pk=int(vg)))
-            for sg in excerpt["specific_needs_groups"]:
-                information.specific_needs_groups.add(SpecificNeedsGroup.objects.get(pk=int(sg)))
+            if excerpt.get('affected_groups'):
+                for ag in excerpt["affected_groups"]:
+                    information.affected_groups.add(AffectedGroup.objects.get(pk=int(ag)))
+            if excerpt.get('vulnerable_groups'):
+                for vg in excerpt["vulnerable_groups"]:
+                    information.vulnerable_groups.add(VulnerableGroup.objects.get(pk=int(vg)))
+            if excerpt.get('specific_needs_groups'):
+                for sg in excerpt["specific_needs_groups"]:
+                    information.specific_needs_groups.add(SpecificNeedsGroup.objects.get(pk=int(sg)))
 
-            for area in excerpt["map_selections"]:
-                m = area.split(':')
-                admin_level = AdminLevel.objects.get(
-                    country=Country.objects.get(code=m[0]),
-                    level=int(m[1])
-                )
-                try:
-                    if len(m) == 4:
-                        selection = AdminLevelSelection.objects.get(
-                            admin_level=admin_level, pcode=m[3]
-                        )
-                    else:
-                        selection = AdminLevelSelection.objects.get(
-                            admin_level=admin_level, name=m[2]
-                        )
-                except:
-                    if len(m) == 4:
-                        selection = AdminLevelSelection(admin_level=admin_level,
-                                                        name=m[2], pcode=m[3])
-                    else:
-                        selection = AdminLevelSelection(admin_level=admin_level,
-                                                        name=m[2])
-                    selection.save()
+            if excerpt.get('map_selections'):
+                for area in excerpt["map_selections"]:
+                    m = area.split(':')
+                    admin_level = AdminLevel.objects.get(
+                        country=Country.objects.get(code=m[0]),
+                        level=int(m[1])
+                    )
+                    try:
+                        if len(m) == 4:
+                            selection = AdminLevelSelection.objects.get(
+                                admin_level=admin_level, pcode=m[3]
+                            )
+                        else:
+                            selection = AdminLevelSelection.objects.get(
+                                admin_level=admin_level, name=m[2]
+                            )
+                    except:
+                        if len(m) == 4:
+                            selection = AdminLevelSelection(admin_level=admin_level,
+                                                            name=m[2], pcode=m[3])
+                        else:
+                            selection = AdminLevelSelection(admin_level=admin_level,
+                                                            name=m[2])
+                        selection.save()
 
-                information.map_selections.add(selection)
+                    information.map_selections.add(selection)
 
-            for attr in excerpt["attributes"]:
-                ia = InformationAttribute()
-                ia.information = information
-                ia.subpillar = InformationSubpillar.objects.get(pk=int(attr["subpillar"]))
-                if attr["sector"]:
-                    ia.sector = Sector.objects.get(pk=int(attr["sector"]))
-                ia.save()
+            if excerpt.get('attributes'):
+                for attr in excerpt["attributes"]:
+                    ia = InformationAttribute()
+                    ia.information = information
+                    ia.subpillar = InformationSubpillar.objects.get(pk=int(attr["subpillar"]))
+                    if attr["sector"]:
+                        ia.sector = Sector.objects.get(pk=int(attr["sector"]))
+                    ia.save()
 
-                if "subsectors" in attr and attr["subsectors"]:
-                    for subsector in attr["subsectors"]:
-                        ia.subsectors.add(Subsector.objects.get(pk=int(subsector)))
+                    if "subsectors" in attr and attr["subsectors"]:
+                        for subsector in attr["subsectors"]:
+                            ia.subsectors.add(Subsector.objects.get(pk=int(subsector)))
 
         if 'next_pending' in request.POST:
             next_pending = Lead.objects.filter(~Q(pk=lead.pk), event__pk=event, status='PEN').order_by('-created_at')
