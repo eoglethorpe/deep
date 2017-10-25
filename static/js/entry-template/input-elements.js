@@ -179,26 +179,30 @@ class MultiselectInput extends Element {
             });
 
             optionsProperty.find('.options').append(option);
-            that.refreshOptions();
-
             return option;
         };
         optionsProperty.find('.add-option').click(function() {
             addOption().data('new', true);
+            that.refreshOptions();
         });
+
+        this.optionsProperty = optionsProperty;
+        container.append(optionsProperty);
 
         for (let i=0; i<this.options.length; i++) {
             let option = addOption();
             if (this.new) {
                 option.data('new', true);
             }
-            option.find('input').val(this.options[i].text);
+
+            if (this.options[i].id) {
+                option.find('input').val(this.options[i].text);
+            }
             option.find('input').data('id', this.options[i].id);
         }
 
-        this.optionsProperty = optionsProperty;
+        this.new = false;
         this.refreshOptions();
-        container.append(optionsProperty);
     }
 
     getUniqueId() {
@@ -206,7 +210,9 @@ class MultiselectInput extends Element {
         while (true) {
             i++;
             let id = 'option-' + i;
-            if (!this.options.find(o => o.id==id)) {
+            if (this.optionsProperty.find('.option-container input').filter(function() {
+                return $(this).data('id') == id;
+            }).length === 0) {
                 return id;
             }
         }
