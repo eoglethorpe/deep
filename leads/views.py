@@ -114,7 +114,7 @@ class LeadsView(View):
     @method_decorator(login_required)
     def get(self, request, event):
 
-        if Event.objects.filter(pk=event).count() == 0:
+        if int(event) != 0 and Event.objects.filter(pk=event).count() == 0:
             raise Http404('Event does not exist')
 
         context = {}
