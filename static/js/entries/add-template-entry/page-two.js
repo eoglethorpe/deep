@@ -281,7 +281,10 @@ const page2 = {
             let node = element.nodes[i];
             let parent = null;
             if (node.parent) {
-                parent = element.nodes.find(n => n.id == node.parent).name;
+                parentNode = element.nodes.find(n => n.id == node.parent);
+                if (parentNode) {
+                    parent = parentNode.name;
+                }
             }
             nodes.push([ node.name, parent, '' ]);
         }
