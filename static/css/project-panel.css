@@ -68,6 +68,18 @@ body {
     /* Towards the right */
     top: 30px;
     /* 30px from the top */ }
+  body .issue-collector {
+    position: absolute;
+    bottom: 0;
+    right: 0; }
+    body .issue-collector button {
+      background-color: #fff;
+      outline: 0;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      padding: 2px 6px;
+      font-weight: 500; }
+      body .issue-collector button#finance-a-feature {
+        background-color: #ffc200; }
 
 nav {
   flex-basis: 100%;
