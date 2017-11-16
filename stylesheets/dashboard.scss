@@ -2,7 +2,7 @@
 @import 'common/navbar';
 
 body {
-    $map-height: 44vh;
+    $map-height: calc(100vh - #{$navbar-height});
 
     h1, h2, h3, h4 {
         margin: 0;
@@ -16,7 +16,7 @@ body {
         #the-map {
             background-color: transparent;
             height: $map-height;
-            flex-basis: 75%;
+            flex-basis: 100%;
 
             .info {
                 padding: 6px 8px;
@@ -38,15 +38,24 @@ body {
 
         }
         #overview{
-            height: $map-height;
+            position: absolute;
+            right: 0;
+            margin: 10px 8px;
             overflow: auto;
             flex-basis: 25%;
+            width: 25%;
             border-left: 1px solid rgba(0, 0, 0, 0.1);
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             background-color: #fff;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+
+            tbody {
+                width: 25%;
+            }
 
             path {
                 stroke: $primary-color;
@@ -65,6 +74,7 @@ body {
             }
             .table-wrapper {
                 padding: 0;
+                width: 100%;
 
                 h3 {
                     padding: 16px 0 8px 6px;

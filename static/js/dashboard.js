@@ -111,6 +111,7 @@ function styleMapFeature(feature) {
     }
 }
 
+
 function onEachMapFeature(feature, layer) {
     var all_countries = [].concat(overviewData.countries_monitored,overviewData.active_countries,overviewData.situation_of_concern,overviewData.severe,overviewData.humanitarian_crises);
     var active = all_countries.indexOf(feature.properties.iso_a3)>-1;
@@ -119,6 +120,12 @@ function onEachMapFeature(feature, layer) {
     }
 
     layer.on('click', function() {
+        if (timetableFor === feature.properties.iso_a3) {
+            loadTimetable('all');
+            keyfigures(defaultData);
+            return;
+        }
+
         let countryData = getCountryData(feature.properties.iso_a3);
         if (!countryData) {
             return;
@@ -190,6 +197,7 @@ var geoCall = $.ajax({
     dataType: 'json',
 });
 
+var defaultData = null;
 $.when(overviewCall).then(function(dataArgs){
     var data = dataArgs.data;
     $('#number-of-leads-span').html(data.leads);
@@ -202,8 +210,8 @@ $.when(overviewCall).then(function(dataArgs){
     $('#number-of-humanitarian-crises').html(data.humanitarian_crises.length);
     $('#number-of-situation-of-concern').html(data.situation_of_concern.length);
 
+    defaultData = data;
     keyfigures(data);
-
 });
 
 function cleanData(data) {
@@ -351,6 +359,7 @@ function reportsToKeyFigures(reports){
     return output;
 }
 
+
 $.when(overviewCall, geoCall).then(function(dataArgs,geoArgs){
 
     overviewData = dataArgs[0].data;
@@ -453,7 +462,7 @@ function createSparkLine(id,data){
 
 $(document).ready(function(){
     documentReady = true;
-    loadReports();
+    // loadReports();       Removing timeline
 
     $('#horizontal-scroll .weeks').scroll(function(){
         $('#reports .weeks').scrollLeft($(this).scrollLeft());
@@ -492,6 +501,8 @@ $(document).ready(function(){
 });
 
 function loadReports(){
+    return;     // REMOVING TIMELINE
+
     if(!documentReady || !reportReady){
         return;
     }
@@ -583,133 +594,136 @@ function getColorGrade(colorBy,num){
 var timetableFor;
 function loadTimetable(tableFor) {
     timetableFor = tableFor;
-    /*if(tableFor!='all'){
+
+    if (false) {        // removing timetable
+        /*if(tableFor!='all'){
         $('#country-filter').val(tableFor);
     }*/
-    let title = $('#timeline-table header .aside');
-    if (timetableFor == 'all') {
-        title.html('Countries');
-        title.unbind();
-    } else {
-        title.html('<i class="fa fa-arrow-left"></i>' + countries[timetableFor] + '');
-        title.unbind().click(function() {
-            loadTimetable('all');
-            d3.selectAll('.geom').attr("stroke",'#37373b');
-            d3.selectAll('.geom').attr("stroke-width",'0.5px');
-            keyfigures(overviewData);
-        });
-    }
+        let title = $('#timeline-table header .aside');
+        if (timetableFor == 'all') {
+            title.html('Countries');
+            title.unbind();
+        } else {
+            title.html('<i class="fa fa-arrow-left"></i>' + countries[timetableFor] + '');
+            title.unbind().click(function() {
+                loadTimetable('all');
+                d3.selectAll('.geom').attr("stroke",'#37373b');
+                d3.selectAll('.geom').attr("stroke-width",'0.5px');
+                keyfigures(overviewData);
+            });
+        }
 
-    let weekHeaderContainer = $('#timeline-table').find('header').find('.weeks');
-    weekHeaderContainer.empty();
-    // Week headers
-    for (let i=0; i<weeks.length; ++i) {
-        let weekLabel = 'W'+weeks[i].getWeek();
-        let range = formatDate(weeks[i]) + " to " + formatDate(new Date(weeks[i]).addDays(6));
-        let week = $("<div class='week' title='" + range + "'>" + weekLabel + "</div>");
-        week.appendTo(weekHeaderContainer);
-    }
+        let weekHeaderContainer = $('#timeline-table').find('header').find('.weeks');
+        weekHeaderContainer.empty();
+        // Week headers
+        for (let i=0; i<weeks.length; ++i) {
+            let weekLabel = 'W'+weeks[i].getWeek();
+            let range = formatDate(weeks[i]) + " to " + formatDate(new Date(weeks[i]).addDays(6));
+            let week = $("<div class='week' title='" + range + "'>" + weekLabel + "</div>");
+            week.appendTo(weekHeaderContainer);
+        }
 
-    // Countries
-    let reportElementTemplate = $('.report-template').clone();
-    reportElementTemplate.removeClass('report-template');
-    reportElementTemplate.addClass('report');
-    let reportContainer = $('#reports');
-    reportContainer.empty();
+        // Countries
+        let reportElementTemplate = $('.report-template').clone();
+        reportElementTemplate.removeClass('report-template');
+        reportElementTemplate.addClass('report');
+        let reportContainer = $('#reports');
+        reportContainer.empty();
 
-    var countryFilter = $('#country-filter').val();
-    var disasterFilter = $('#disaster-type-filter').val();
-    if (disasterFilter) {
-        disasterFilter = disasterFilter.map(d => +d);
-    }
+        var countryFilter = $('#country-filter').val();
+        var disasterFilter = $('#disaster-type-filter').val();
+        if (disasterFilter) {
+            disasterFilter = disasterFilter.map(d => +d);
+        }
 
-    if (timetableFor == 'all') {
-        // Load reports for all countries
-        for(let i=0; i<data.length; i++){
-            let countryCode  = data[i].country_code;
-            if ((countryFilter == null || countryFilter.indexOf(countryCode) >= 0)) {
-                let reportElement = reportElementTemplate.clone();
-                reportElement.find('.aside').text(data[i].country);
+        if (timetableFor == 'all') {
+            // Load reports for all countries
+            for(let i=0; i<data.length; i++){
+                let countryCode  = data[i].country_code;
+                if ((countryFilter == null || countryFilter.indexOf(countryCode) >= 0)) {
+                    let reportElement = reportElementTemplate.clone();
+                    reportElement.find('.aside').text(data[i].country);
 
-                reportElement.find('.aside').click(function() {
-                    let keyfiguresData = reportsToKeyFigures(data[i].reports);
-                    keyfigures(keyfiguresData);
-                    loadTimetable(countryCode);
-                    d3.selectAll('.geom').attr("stroke",'#37373b');
-                    d3.selectAll('.geom').attr("stroke-width",'0.5px');
-                    d3.selectAll('.geom'+countryCode).attr("stroke",'steelblue');
-                    d3.selectAll('.geom'+countryCode).attr("stroke-width",'3px');
-                });
-                reportElement.appendTo(reportContainer);
-                reportElement.show();
+                    reportElement.find('.aside').click(function() {
+                        let keyfiguresData = reportsToKeyFigures(data[i].reports);
+                        keyfigures(keyfiguresData);
+                        loadTimetable(countryCode);
+                        d3.selectAll('.geom').attr("stroke",'#37373b');
+                        d3.selectAll('.geom').attr("stroke-width",'0.5px');
+                        d3.selectAll('.geom'+countryCode).attr("stroke",'steelblue');
+                        d3.selectAll('.geom'+countryCode).attr("stroke-width",'3px');
+                    });
+                    reportElement.appendTo(reportContainer);
+                    reportElement.show();
 
-                let weekContainer = reportElement.find('.weeks');
-                let weekElementTemplate = $('<div class="week"></div>');
-                for (let j=0; j<weeks.length; ++j) {
+                    let weekContainer = reportElement.find('.weeks');
+                    let weekElementTemplate = $('<div class="week"></div>');
+                    for (let j=0; j<weeks.length; ++j) {
 
-                    let weekElement = weekElementTemplate.clone();
-                    let index = data[i].reports.findIndex(w => new Date(w.week_date).toLocaleDateString() == weeks[j].toLocaleDateString());
-                    if (index >= 0) {
-                        let reportData = data[i].reports[index];
-                        if ((!disasterFilter || disasterFilter.indexOf(reportData.disaster_type) >= 0) && (!dateFilter || dateFilter(reportData.modified_date))) {
-                            let cls = 'active';
-                            if(colorBy == null){
-                                let color = getColorByReport(reportData.status, reportData.score);
-                                weekElement.css('background-color', color);
+                        let weekElement = weekElementTemplate.clone();
+                        let index = data[i].reports.findIndex(w => new Date(w.week_date).toLocaleDateString() == weeks[j].toLocaleDateString());
+                        if (index >= 0) {
+                            let reportData = data[i].reports[index];
+                            if ((!disasterFilter || disasterFilter.indexOf(reportData.disaster_type) >= 0) && (!dateFilter || dateFilter(reportData.modified_date))) {
+                                let cls = 'active';
+                                if(colorBy == null){
+                                    let color = getColorByReport(reportData.status, reportData.score);
+                                    weekElement.css('background-color', color);
+                                }
+                                if(colorBy!='report'){
+                                    let num = reportData[colorBy];
+                                    let grade = getColorGrade(colorBy, num);
+                                    cls += ' grade'+grade;
+                                }
+                                weekElement.addClass(cls);
                             }
-                            if(colorBy!='report'){
-                                let num = reportData[colorBy];
-                                let grade = getColorGrade(colorBy, num);
-                                cls += ' grade'+grade;
-                            }
-                            weekElement.addClass(cls);
                         }
+                        weekElement.appendTo(weekContainer);
                     }
-                    weekElement.appendTo(weekContainer);
+                }
+            }
+        } else {
+            // Load reports for specified countries only
+            let countryCode = timetableFor;
+            if (countryFilter == null || countryFilter.indexOf(countryCode) >= 0) {
+                let countryData = data.find(d => d.country_code == countryCode);
+                let events = countryData.projects;
+
+                for(let i=0; i<events.length; i++){
+                    let reportElement = reportElementTemplate.clone();
+                    reportElement.find('.aside').text(events[i].name);
+                    reportElement.appendTo(reportContainer);
+                    reportElement.show();
+
+                    let weekContainer = reportElement.find('.weeks');
+                    let weekElementTemplate = $('<div class="week"></div>');
+                    for (let j=0; j<weeks.length; ++j) {
+                        let weekElement = weekElementTemplate.clone();
+
+                        let index = countryData.reports.findIndex(r => r.project_id == events[i].id && new Date(r.week_date).toLocaleDateString() == weeks[j].toLocaleDateString());
+                        if (index >= 0) {
+                            let reportData = countryData.reports[index];
+                            if ((!disasterFilter || disasterFilter.indexOf(reportData.disaster_type) >= 0) && (!dateFilter || dateFilter(reportData.created_at))) {
+                                let cls = 'active';
+                                if(colorBy == null){
+                                    let color = getColorByReport(reportData.status, reportData.score);
+                                    weekElement.css('background-color', color);
+                                }
+                                if (colorBy != 'report') {
+                                    let num = reportData[colorBy];
+                                    let grade = getColorGrade(colorBy, num);
+                                    cls += ' grade' + grade;
+                                }
+                                weekElement.addClass(cls);
+                            }
+                        }
+                        weekElement.appendTo(weekContainer);
+                    }
                 }
             }
         }
-    } else {
-        // Load reports for specified countries only
-        let countryCode = timetableFor;
-        if (countryFilter == null || countryFilter.indexOf(countryCode) >= 0) {
-            let countryData = data.find(d => d.country_code == countryCode);
-            let events = countryData.projects;
-
-            for(let i=0; i<events.length; i++){
-                let reportElement = reportElementTemplate.clone();
-                reportElement.find('.aside').text(events[i].name);
-                reportElement.appendTo(reportContainer);
-                reportElement.show();
-
-                let weekContainer = reportElement.find('.weeks');
-                let weekElementTemplate = $('<div class="week"></div>');
-                for (let j=0; j<weeks.length; ++j) {
-                    let weekElement = weekElementTemplate.clone();
-
-                    let index = countryData.reports.findIndex(r => r.project_id == events[i].id && new Date(r.week_date).toLocaleDateString() == weeks[j].toLocaleDateString());
-                    if (index >= 0) {
-                        let reportData = countryData.reports[index];
-                        if ((!disasterFilter || disasterFilter.indexOf(reportData.disaster_type) >= 0) && (!dateFilter || dateFilter(reportData.created_at))) {
-                            let cls = 'active';
-                            if(colorBy == null){
-                                let color = getColorByReport(reportData.status, reportData.score);
-                                weekElement.css('background-color', color);
-                            }
-                            if (colorBy != 'report') {
-                                let num = reportData[colorBy];
-                                let grade = getColorGrade(colorBy, num);
-                                cls += ' grade' + grade;
-                            }
-                            weekElement.addClass(cls);
-                        }
-                    }
-                    weekElement.appendTo(weekContainer);
-                }
-            }
-        }
+        //console.log($('#timeline-table header .weeks .week').outerWidth()*weekly_reports.length);
     }
-    //console.log($('#timeline-table header .weeks .week').outerWidth()*weekly_reports.length);
     if (layer) {
         layer.eachLayer(function(layer){
             layer.setStyle(styleMapFeature(layer.feature));
