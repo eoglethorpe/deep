@@ -159,6 +159,9 @@ body {
     text-transform: uppercase;
     margin: 0;
     vertical-align: middle; }
+  body h3 span {
+    text-transform: none;
+    color: rgba(255, 0, 0, 0.6); }
   body a {
     color: #008080;
     cursor: pointer; }
