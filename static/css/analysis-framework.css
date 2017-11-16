@@ -69,7 +69,7 @@ body {
     top: 30px;
     /* 30px from the top */ }
   body .issue-collector {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     right: 0; }
     body .issue-collector button {
