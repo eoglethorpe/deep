@@ -11,6 +11,12 @@ body{
         margin: 0;
         vertical-align: middle;
     }
+    h3 {
+        span {
+            text-transform: none;
+            color: rgba(255, 0, 0, 0.6);
+        }
+    }
     a{
         color: $primary-color;
         cursor: pointer;
