@@ -15,6 +15,7 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 # from docx.enum.style import WD_STYLE_TYPE
 
+# import unicodedata
 from entries import models as entry_model
 from leads import models as lead_model
 from entries.strippers import write_file
@@ -31,13 +32,18 @@ def valid_xml_char_ordinal(c):
     )
 
 
+# def strip_accents(s):
+#     return ''.join(c for c in unicodedata.normalize('NFD', s)
+#                    if unicodedata.category(c) != 'Mn')
+
+
 def xstr(s):
     """remove illegal characters from a string (errors from PDFs etc)"""
     if s is None:
         return ''
+    # s = escape(strip_accents(s))
     s = escape(s)
-    return ''.join(c for c in s if valid_xml_char_ordinal(c) and
-                   c in string.printable)
+    return ''.join(c for c in s if valid_xml_char_ordinal(c))
 
 
 # See:
