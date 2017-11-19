@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ContentFilters</key>
+	<dict/>
+	<key>auto_connect</key>
+	<true/>
+	<key>data</key>
+	<dict>
+		<key>connection</key>
+		<dict>
+			<key>database</key>
+			<string>superset</string>
+			<key>host</key>
+			<string>deep.ci0kkoh87sga.us-east-1.rds.amazonaws.com</string>
+			<key>kcid</key>
+			<string>1344518266656046992</string>
+			<key>name</key>
+			<string>DEEP</string>
+			<key>rdbms_type</key>
+			<string>mysql</string>
+			<key>sslCACertFileLocation</key>
+			<string></string>
+			<key>sslCACertFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>sslCertificateFileLocation</key>
+			<string></string>
+			<key>sslCertificateFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>sslKeyFileLocation</key>
+			<string></string>
+			<key>sslKeyFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>type</key>
+			<string>SPTCPIPConnection</string>
+			<key>useSSL</key>
+			<integer>0</integer>
+			<key>user</key>
+			<string>acaps_dcap</string>
+		</dict>
+		<key>session</key>
+		<dict>
+			<key>connectionEncoding</key>
+			<string>latin1</string>
+			<key>contentPageNumber</key>
+			<integer>1</integer>
+			<key>contentSelection</key>
+			<data>
+			YnBsaXN0MDDUAQIDBAUGJCVYJHZlcnNpb25YJG9iamVjdHNZJGFy
+			Y2hpdmVyVCR0b3ASAAGGoKgHCBMUFRYaIVUkbnVsbNMJCgsMDxJX
+			TlMua2V5c1pOUy5vYmplY3RzViRjbGFzc6INDoACgAOiEBGABIAF
+			gAdUdHlwZVRyb3dzXxAdU2VsZWN0aW9uRGV0YWlsVHlwZU5TSW5k
+			ZXhTZXTSFwsYGVxOU1JhbmdlQ291bnQQAIAG0hscHR5aJGNsYXNz
+			bmFtZVgkY2xhc3Nlc1pOU0luZGV4U2V0oh8gWk5TSW5kZXhTZXRY
+			TlNPYmplY3TSGxwiI1xOU0RpY3Rpb25hcnmiIiBfEA9OU0tleWVk
+			QXJjaGl2ZXLRJidUZGF0YYABAAgAEQAaACMALQAyADcAQABGAE0A
+			VQBgAGcAagBsAG4AcQBzAHUAdwB8AIEAoQCmALMAtQC3ALwAxwDQ
+			ANsA3gDpAPIA9wEEAQcBGQEcASEAAAAAAAACAQAAAAAAAAAoAAAA
+			AAAAAAAAAAAAAAABIw==
+			</data>
+			<key>contentSortColIsAsc</key>
+			<true/>
+			<key>contentViewport</key>
+			<string>{{0, 0}, {694, 450}}</string>
+			<key>isToolbarVisible</key>
+			<true/>
+			<key>queries</key>
+			<string>create schema if not exists superset;
+
+#lookup table for event (lead) name joins
+drop view if exists superset.country_filter;
+create view superset.country_filter as
+select ents.id 'cnt_ent_id', 
+leads.event_id, 
+leads_evt.name 'lead_evt_nm'
+from deep_prod_new.entries_entry ents
+left join deep_prod_new.leads_lead leads
+on leads.id = ents.lead_id
+left join deep_prod_new.leads_event leads_evt
+on leads_evt.id = leads.event_id;
+
+#sectors info
+drop view if exists superset.sectors;
+create view superset.sectors as
+SELECT
+ent_info.id as 'ent_id',
+date, ent_info.severity_id,
+entry_id, excerpt, ent_sect.name as 'sect_nm',
+ent_info_att.*,
+ent_info_subpill.name as 'sub_pill_nm', 
+ent_info_subpill.pillar_id, 
+ent_info_pill.name as 'pill_nm',
+cnt_filt.*
+FROM deep_prod_new.entries_entryinformation ent_info
+JOIN deep_prod_new.entries_informationattribute ent_info_att
+ON ent_info_att.information_id = ent_info.id
+LEFT JOIN deep_prod_new.entries_sector ent_sect
+ON ent_sect.id = ent_info_att.sector_id
+JOIN deep_prod_new.entries_informationsubpillar ent_info_subpill 
+ON ent_info_att.subpillar_id = ent_info_subpill.id
+JOIN deep_prod_new.entries_informationpillar ent_info_pill
+ON pillar_id = ent_info_pill.id
+LEFT JOIN superset.country_filter cnt_filt
+ON entry_id = cnt_filt.cnt_ent_id;
+
+#weekly reports</string>
+			<key>table</key>
+			<string>country_filter</string>
+			<key>view</key>
+			<string>SP_VIEW_CUSTOMQUERY</string>
+			<key>windowVerticalDividerPosition</key>
+			<real>341</real>
+		</dict>
+	</dict>
+	<key>encrypted</key>
+	<false/>
+	<key>format</key>
+	<string>connection</string>
+	<key>queryFavorites</key>
+	<array/>
+	<key>queryHistory</key>
+	<array>
+		<string>create schema if not exists superset;
+drop view if exists superset.country_filter;
+create view superset.country_filter as
+select ents.id 'cnt_ent_id', 
+leads.event_id, 
+leads_evt.name 'lead_evt_nm'
+from deep_prod_new.entries_entry ents
+left join deep_prod_new.leads_lead leads
+on leads.id = ents.lead_id
+left join deep_prod_new.leads_event leads_evt
+on leads_evt.id = leads.event_id;
+drop view if exists superset.sectors;
+create view superset.sectors as
+SELECT
+ent_info.id as 'ent_id',
+date, ent_info.severity_id,
+entry_id, excerpt, ent_sect.name as 'sect_nm',
+ent_info_att.*,
+ent_info_subpill.name as 'sub_pill_nm', 
+ent_info_subpill.pillar_id, 
+ent_info_pill.name as 'pill_nm',
+cnt_filt.*
+FROM deep_prod_new.entries_entryinformation ent_info
+JOIN deep_prod_new.entries_informationattribute ent_info_att
+ON ent_info_att.information_id = ent_info.id
+LEFT JOIN deep_prod_new.entries_sector ent_sect
+ON ent_sect.id = ent_info_att.sector_id
+JOIN deep_prod_new.entries_informationsubpillar ent_info_subpill 
+ON ent_info_att.subpillar_id = ent_info_subpill.id
+JOIN deep_prod_new.entries_informationpillar ent_info_pill
+ON pillar_id = ent_info_pill.id
+LEFT JOIN superset.country_filter cnt_filt
+ON entry_id = cnt_filt.cnt_ent_id</string>
+		<string>create schema if not exists superset;
+drop view if exists superset.country_filter;
+create view superset.country_filter as
+select ents.id 'cnt_ent_id', 
+leads.event_id, 
+leads_evt.name 'lead_nm'
+from deep_prod_new.entries_entry ents
+left join deep_prod_new.leads_lead leads
+on leads.id = ents.lead_id
+left join deep_prod_new.leads_event leads_evt
+on leads_evt.id = leads.event_id;
+drop view if exists superset.sectors;
+create view superset.sectors as
+SELECT
+ent_info.id as 'ent_id',
+date, ent_info.severity_id,
+entry_id, excerpt, ent_sect.name as 'sect_nm',
+ent_info_att.*,
+ent_info_subpill.name as 'sub_pill_nm', 
+ent_info_subpill.pillar_id, 
+ent_info_pill.name as 'pill_nm',
+cnt_filt.*
+FROM deep_prod_new.entries_entryinformation ent_info
+JOIN deep_prod_new.entries_informationattribute ent_info_att
+ON ent_info_att.information_id = ent_info.id
+LEFT JOIN deep_prod_new.entries_sector ent_sect
+ON ent_sect.id = ent_info_att.sector_id
+JOIN deep_prod_new.entries_informationsubpillar ent_info_subpill 
+ON ent_info_att.subpillar_id = ent_info_subpill.id
+JOIN deep_prod_new.entries_informationpillar ent_info_pill
+ON pillar_id = ent_info_pill.id
+LEFT JOIN superset.country_filter cnt_filt
+ON entry_id = cnt_filt.cnt_ent_id</string>
+		<string>create schema if not exists superset;
+drop view if exists superset.country_filter;
+create view superset.country_filter as
+select ents.id 'cnt_ent_id', 
+leads.event_id, 
+leads_evt.name
+from deep_prod_new.entries_entry ents
+left join deep_prod_new.leads_lead leads
+on leads.id = ents.lead_id
+left join deep_prod_new.leads_event leads_evt
+on leads_evt.id = leads.event_id;
+drop view if exists superset.sectors;
+create view superset.sectors as
+SELECT
+ent_info.id as 'ent_id',
+date, ent_info.severity_id,
+entry_id, excerpt, ent_sect.name as 'sect_nm',
+ent_info_att.*,
+ent_info_subpill.name as 'sub_pill_nm', 
+ent_info_subpill.pillar_id, 
+ent_info_pill.name as 'pill_nm',
+cnt_filt.*
+FROM deep_prod_new.entries_entryinformation ent_info
+JOIN deep_prod_new.entries_informationattribute ent_info_att
+ON ent_info_att.information_id = ent_info.id
+LEFT JOIN deep_prod_new.entries_sector ent_sect
+ON ent_sect.id = ent_info_att.sector_id
+JOIN deep_prod_new.entries_informationsubpillar ent_info_subpill 
+ON ent_info_att.subpillar_id = ent_info_subpill.id
+JOIN deep_prod_new.entries_informationpillar ent_info_pill
+ON pillar_id = ent_info_pill.id
+LEFT JOIN superset.country_filter cnt_filt
+ON entry_id = cnt_filt.cnt_ent_id</string>
+		<string>drop view if exists superset.sectors;
+create view superset.sectors as
+SELECT
+ent_info.id as 'ent_id',
+date, ent_info.severity_id,
+entry_id, excerpt, ent_sect.name as 'sect_nm',
+ent_info_att.*,
+ent_info_subpill.name as 'sub_pill_nm', 
+ent_info_subpill.pillar_id, 
+ent_info_pill.name as 'pill_nm',
+superset.country_filter.*
+FROM deep_prod_new.entries_entryinformation ent_info
+JOIN deep_prod_new.entries_informationattribute ent_info_att
+ON ent_info_att.information_id = ent_info.id
+LEFT JOIN deep_prod_new.entries_sector ent_sect
+ON ent_sect.id = ent_info_att.sector_id
+JOIN deep_prod_new.entries_informationsubpillar ent_info_subpill 
+ON ent_info_att.subpillar_id = ent_info_subpill.id
+JOIN deep_prod_new.entries_informationpillar ent_info_pill
+ON pillar_id = ent_info_pill.id
+LEFT JOIN superset.country_filter
+ON entry_id = superset.country_filter.cnt_ent_id</string>
+		<string>select * from superset.country_filter</string>
+		<string>create schema if not exists superset;
+drop view if exists superset.country_filter;
+create view superset.country_filter as
+select ents.id 'cnt_ent_id', 
+leads.event_id, 
+leads_evt.name
+from deep_prod_new.entries_entry ents
+left join deep_prod_new.leads_lead leads
+on leads.id = ents.lead_id
+left join deep_prod_new.leads_event leads_evt
+on leads_evt.id = leads.event_id;
+drop view if exists superset.sectors;
+create view superset.sectors as
+SELECT
+ent_info.id as 'ent_id',
+date, ent_info.severity_id,
+entry_id, excerpt, ent_sect.name as 'sect_nm',
+ent_info_att.*,
+ent_info_subpill.name as 'sub_pill_nm', 
+ent_info_subpill.pillar_id, 
+ent_info_pill.name as 'pill_nm',
+superset.country_filter.*
+FROM deep_prod_new.entries_entryinformation ent_info
+JOIN deep_prod_new.entries_informationattribute ent_info_att
+ON ent_info_att.information_id = ent_info.id
+LEFT JOIN deep_prod_new.entries_sector ent_sect
+ON ent_sect.id = ent_info_att.sector_id
+JOIN deep_prod_new.entries_informationsubpillar ent_info_subpill 
+ON ent_info_att.subpillar_id = ent_info_subpill.id
+JOIN deep_prod_new.entries_informationpillar ent_info_pill
+ON pillar_id = ent_info_pill.id
+LEFT JOIN superset.country_filter
+ON entry_id = superset.country_filter.cnt_ent_id</string>
+		<string>drop view if exists superset.sectors;
+create view superset.sectors as
+SELECT
+ent_info.id as 'ent_id',
+date, ent_info.severity_id,
+entry_id, excerpt, ent_sect.name as 'sect_nm',
+ent_info_att.*,
+ent_info_subpill.name as 'sub_pill_nm', 
+ent_info_subpill.pillar_id, 
+ent_info_pill.name as 'pill_nm',
+superset.country_filter.*
+FROM deep_prod_new.entries_entryinformation ent_info
+JOIN deep_prod_new.entries_informationattribute ent_info_att
+ON ent_info_att.information_id = ent_info.id
+LEFT JOIN deep_prod_new.entries_sector ent_sect
+ON ent_sect.id = ent_info_att.sector_id
+JOIN deep_prod_new.entries_informationsubpillar ent_info_subpill 
+ON ent_info_att.subpillar_id = ent_info_subpill.id
+JOIN deep_prod_new.ent_info_pill
+ON pillar_id = ent_info_pill.id
+LEFT JOIN superset.country_filter
+ON entry_id = superset.country_filter.cnt_ent_id</string>
+		<string>create view superset.sectors as
+SELECT
+entries_entryinformation.id as 'ent_id',
+date, entries_entryinformation.severity_id,
+entry_id, excerpt, entries_sector.name as 'sect_nm',
+entries_informationattribute.*,
+entries_informationsubpillar.name as 'sub_pill_nm', 
+entries_informationsubpillar.pillar_id, 
+entries_informationpillar.name as 'pill_nm',
+superset.country_filter.*
+FROM entries_entryinformation
+JOIN entries_informationattribute
+ON entries_informationattribute.information_id = entries_entryinformation.id
+LEFT JOIN entries_sector
+ON entries_sector.id = entries_informationattribute.sector_id
+JOIN entries_informationsubpillar 
+ON entries_informationattribute.subpillar_id = entries_informationsubpillar.id
+JOIN entries_informationpillar
+ON pillar_id = entries_informationpillar.id
+LEFT JOIN superset.country_filter
+ON entry_id = superset.country_filter.cnt_ent_id</string>
+		<string>drop view if exists superset.country_filter;
+create view superset.country_filter as
+select ents.id 'cnt_ent_id', 
+leads.event_id, 
+leads_evt.name
+from deep_prod_new.entries_entry ents
+left join deep_prod_new.leads_lead leads
+on leads.id = ents.lead_id
+left join deep_prod_new.leads_event leads_evt
+on leads_evt.id = leads.event_id</string>
+		<string>drop view if exists superset.country_filter;
+create view superset.country_filter as
+select ents.id 'cnt_ent_id', 
+leads.event_id, 
+leads_evt.name
+from deep_prod_new.entries_entry ents
+left join deep_prod_new.leads_lead leads
+on leads_lead.id = ents.lead_id
+left join deep_prod_new.leads_event leads_evt
+on leads_evt.id = leads.event_id</string>
+		<string>create schema if not exists superset;
+drop view if exists superset.country_filter;
+create view superset.country_filter as
+select ents.id 'cnt_ent_id', 
+leads_lead.event_id, 
+leads_event.name
+from deep_prod_new.entries_entry ents
+left join leads_lead
+on leads_lead.id = ents.lead_id
+left join leads_event
+on leads_event.id = leads_lead.event_id</string>
+		<string>create schema if not exists superset;
+drop view if exists superset.country_filter;
+create view superset.country_filter as
+select entries_entry.id 'cnt_ent_id', leads_lead.event_id, leads_event.name
+from entries_entry
+left join leads_lead
+on leads_lead.id = entries_entry.lead_id
+left join leads_event
+on leads_event.id = leads_lead.event_id</string>
+		<string>sect_nm',
+entries_informationattribute.*,
+entries_informationsubpillar.name as 'sub_pill_nm', 
+entries_informationsubpillar.pillar_id, 
+entries_informationpillar.name as 'pill_nm',
+superset.country_filter.*
+FROM entries_entryinformation
+JOIN entries_informationattribute
+ON entries_informationattribute.information_id = entries_entryinformation.id
+LEFT JOIN entries_sector
+ON entries_sector.id = entries_informationattribute.sector_id
+JOIN entries_informationsubpillar 
+ON entries_informationattribute.subpillar_id = entries_informationsubpillar.id
+JOIN entries_informationpillar
+ON pillar_id = entries_informationpillar.id
+LEFT JOIN superset.country_filter
+ON entry_id = superset.country_filter.cnt_ent_id;</string>
+		<string>drop view if exists superset.sectors;
+create view superset.sectors as
+SELECT
+entries_entryinformation.id as 'ent_id',
+date, entries_entryinformation.severity_id,
+entry_id, excerpt, entries_sector.name as 'sect_nm',
+entries_informationattribute.*,
+entries_informationsubpillar.name as 'sub_pill_nm', 
+entries_informationsubpillar.pillar_id, 
+entries_informationpillar.name as 'pill_nm',
+superset.country_filter.*
+FROM entries_entryinformation
+JOIN entries_informationattribute
+ON entries_informationattribute.information_id = entries_entryinformation.id
+LEFT JOIN entries_sector
+ON entries_sector.id = entries_informationattribute.sector_id
+JOIN entries_informationsubpillar 
+ON entries_informationattribute.subpillar_id = entries_informationsubpillar.id
+JOIN entries_informationpillar
+ON pillar_id = entries_informationpillar.id
+LEFT JOIN superset.country_filter
+ON entry_id = superset.country_filter.cnt_ent_id</string>
+		<string>create schema if not exists superset;
+drop view if exists superset.country_filter;
+create view superset.country_filter as
+select entries_entry.id 'cnt_ent_id', leads_lead.event_id, leads_event.name
+from entries_entry
+left join leads_lead
+on leads_lead.id = entries_entry.lead_id
+left join leads_event
+on leads_event.id = leads_lead.event_id;
+drop view if exists superset.sectors;
+create view superset.sectors as
+SELECT
+entries_entryinformation.id as 'ent_id',
+date, entries_entryinformation.severity_id,
+entry_id, excerpt, entries_sector.name as 'sect_nm',
+entries_informationattribute.*,
+entries_informationsubpillar.name as 'sub_pill_nm', 
+entries_informationsubpillar.pillar_id, 
+entries_informationpillar.name as 'pill_nm',
+superset.country_filter.*
+FROM entries_entryinformation
+JOIN entries_informationattribute
+ON entries_informationattribute.information_id = entries_entryinformation.id
+LEFT JOIN entries_sector
+ON entries_sector.id = entries_informationattribute.sector_id
+JOIN entries_informationsubpillar 
+ON entries_informationattribute.subpillar_id = entries_informationsubpillar.id
+JOIN entries_informationpillar
+ON pillar_id = entries_informationpillar.id
+LEFT JOIN superset.country_filter
+ON entry_id = superset.country_filter.cnt_ent_id</string>
+		<string>drop view if exists superset.country_filter;
+create view superset.country_filter as
+select entries_entry.id 'cnt_ent_id', leads_lead.event_id, leads_event.name
+from entries_entry
+left join leads_lead
+on leads_lead.id = entries_entry.lead_id
+left join leads_event
+on leads_event.id = leads_lead.event_id</string>
+		<string>create schema if not exists superset</string>
+		<string>create view superset.country_filter as
+select entries_entry.id 'cnt_ent_id', leads_lead.event_id, leads_event.name
+from entries_entry
+left join leads_lead
+on leads_lead.id = entries_entry.lead_id
+left join leads_event
+on leads_event.id = leads_lead.event_id</string>
+		<string>create view superset.sectors as
+SELECT
+entries_entryinformation.id as 'ent_id',
+date, entries_entryinformation.severity_id,
+entry_id, excerpt, entries_sector.name as 'sect_nm',
+entries_informationattribute.*,
+entries_informationsubpillar.name as 'sub_pill_nm', 
+entries_informationsubpillar.pillar_id, 
+entries_informationpillar.name as 'pill_nm',
+superset_country_filter.*
+FROM entries_entryinformation
+JOIN entries_informationattribute
+ON entries_informationattribute.information_id = entries_entryinformation.id
+LEFT JOIN entries_sector
+ON entries_sector.id = entries_informationattribute.sector_id
+JOIN entries_informationsubpillar 
+ON entries_informationattribute.subpillar_id = entries_informationsubpillar.id
+JOIN entries_informationpillar
+ON pillar_id = entries_informationpillar.id
+LEFT JOIN superset_country_filter
+ON entry_id = superset_country_filter.cnt_ent_id</string>
+		<string>create schema if not exists superset;
+drop view if exists superset.country_filter;
+create view superset.country_filter as
+select entries_entry.id 'cnt_ent_id', leads_lead.event_id, leads_event.name
+from entries_entry
+left join leads_lead
+on leads_lead.id = entries_entry.lead_id
+left join leads_event
+on leads_event.id = leads_lead.event_id;
+drop view if exists superset.sectors;
+create view superset.sectors as
+SELECT
+entries_entryinformation.id as 'ent_id',
+date, entries_entryinformation.severity_id,
+entry_id, excerpt, entries_sector.name as 'sect_nm',
+entries_informationattribute.*,
+entries_informationsubpillar.name as 'sub_pill_nm', 
+entries_informationsubpillar.pillar_id, 
+entries_informationpillar.name as 'pill_nm',
+superset_country_filter.*
+FROM entries_entryinformation
+JOIN entries_informationattribute
+ON entries_informationattribute.information_id = entries_entryinformation.id
+LEFT JOIN entries_sector
+ON entries_sector.id = entries_informationattribute.sector_id
+JOIN entries_informationsubpillar 
+ON entries_informationattribute.subpillar_id = entries_informationsubpillar.id
+JOIN entries_informationpillar
+ON pillar_id = entries_informationpillar.id
+LEFT JOIN superset_country_filter
+ON entry_id = superset_country_filter.cnt_ent_id</string>
+	</array>
+	<key>rdbms_type</key>
+	<string>mysql</string>
+	<key>rdbms_version</key>
+	<string>5.6.27-log</string>
+	<key>version</key>
+	<integer>1</integer>
+</dict>
+</plist>
