@@ -226,7 +226,7 @@ body #map {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.7);
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     z-index: 1000; }
     body #map #overview tbody {
@@ -239,7 +239,6 @@ body #map {
       text-align: center;
       margin: 0;
       padding: 12px 0;
-      background-color: #fff;
       font-size: 2em;
       text-transform: uppercase;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
@@ -264,7 +263,7 @@ body #map {
             border-left: 0 solid transparent;
             transition: 0.2s all ease-in-out; }
           body #map #overview .table-wrapper table tr:nth-child(even) {
-            background-color: #f0f0f0; }
+            background-color: rgba(255, 255, 255, 0.8); }
           body #map #overview .table-wrapper table tr.clickable {
             cursor: pointer; }
             body #map #overview .table-wrapper table tr.clickable.active {
