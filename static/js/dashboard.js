@@ -365,7 +365,7 @@ $.when(overviewCall, geoCall).then(function(dataArgs,geoArgs){
     overviewData = dataArgs[0].data;
 
     // Show the map
-    let map = L.map('the-map').setView([41.87, 12.6], 2);
+    let map = L.map('the-map').setView([30, 30], 3);
     map.scrollWheelZoom.disable();
 
     // Toggle scroll-zoom by clicking on and outside map
