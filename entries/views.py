@@ -306,24 +306,25 @@ class AddEntry(View):
         if template_id is None:
             if Event.objects.get(pk=event).entry_template:
                 template_id = Event.objects.get(pk=event).entry_template.pk
+
         if not id:
             lead = Lead.objects.get(pk=lead_id)
-            activity = CreationActivity()
         else:
-            entry = Entry.objects.get(pk=id)
+            entry = Entry.objects.get(id=id)
             lead = entry.lead
-            activity = EditionActivity()
-            if entry.template:
-                template_id = entry.template.pk
 
         lead_entries = Entry.objects.filter(lead=lead)
         if lead_entries.count() > 0:
             entry = lead_entries[0]
             entry.entryinformation_set.all().delete()
+            activity = EditionActivity()
         else:
             entry = Entry(lead=lead)
             entry.created_by = request.user
+            activity = CreationActivity()
 
+        if entry.template:
+            template_id = entry.template.pk
         if template_id:
             entry.template = EntryTemplate.objects.get(pk=template_id)
 
@@ -335,7 +336,6 @@ class AddEntry(View):
             reverse('entries:edit', args=[entry.lead.event.pk, entry.pk])
         ).log_for(request.user, event=entry.lead.event)
 
-
         # With entry template
         if template_id:
             entries = json.loads(request.POST['entries'])
@@ -346,6 +346,8 @@ class AddEntry(View):
                 information.elements = json.dumps(e.get('elements'))
                 information.save()
 
+            if request.POST.get('ajax'):
+                return JsonResponse({'success': True})
             return redirect('entries:entries', event)
 
         # Without template
@@ -426,6 +428,9 @@ class AddEntry(View):
             next_pending = Lead.objects.filter(~Q(pk=lead.pk), event__pk=event, status='PEN').order_by('-created_at')
             if next_pending.count() > 0:
                 return redirect('entries:add', event=event, lead_id=next_pending[0].pk)
+
+        if request.POST.get('ajax'):
+            return JsonResponse({'success': True})
         return redirect('entries:entries', event)
 
 
