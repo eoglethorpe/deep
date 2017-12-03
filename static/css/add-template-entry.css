@@ -436,7 +436,7 @@ body {
           body #page-one .split-pane #right-component #page-one-elements #button-pane button.switch-page {
             background-color: #008080; }
           body #page-one .split-pane #right-component #page-one-elements #button-pane button i {
-            padding-right: 10px; }
+            margin-right: 10px; }
       body #page-one .split-pane #right-component .entry-selector-container {
         position: absolute; }
         body #page-one .split-pane #right-component .entry-selector-container .add-entry {
@@ -596,7 +596,7 @@ body {
         body #page-two #button-pane button.switch-page {
           background-color: #008080; }
         body #page-two #button-pane button i {
-          padding-right: 10px; }
+          margin-right: 10px; }
     body #page-two .entries {
       margin-top: 64px; }
       body #page-two .entries .entry-container {

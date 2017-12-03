@@ -704,6 +704,8 @@ function resizeCanvas(){
 }
 
 $(document).ready(function(){
+    setupCsrfForAjax();
+
     mapModal = new Modal('#map-modal', true);
     affectedGroupsModal = new Modal('#affected-groups-modal');
 
@@ -1161,8 +1163,22 @@ $(document).ready(function(){
     // Save and cancel
 
     $('.save-excerpt').click(function() {
-        var data = { excerpts: JSON.stringify(excerpts) };
-        redirectPost(window.location.pathname, data, csrf_token);
+        const that = this;
+        $(this).attr('disabled', 'disabled');
+        $(this).find('.fa').removeClass('fa-save').addClass('fa-circle-o-notch').addClass('fa-spin');
+        var data = { excerpts: JSON.stringify(excerpts), ajax: true };
+        $.ajax({
+            url: window.location.pathname,
+            method: 'POST',
+            data: data,
+        }).always(msg => {
+            if (!msg || !msg.success || msg.success !== true) {
+                alert('Error saving entries. Please try again later');
+            }
+            $(that).find('.fa').removeClass('fa-circle-o-notch').removeClass('fa-spin').addClass('fa-save');
+            $(that).removeAttr('disabled');
+        });
+        // redirectPost(window.location.pathname, data, csrf_token);
     });
     $('.save-and-next').click(function() {
         var data = { excerpts: JSON.stringify(excerpts), 'next_pending': true };
