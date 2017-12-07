@@ -251,6 +251,11 @@ class EntryTemplate(models.Model):
     def __str__(self):
         return self.name
 
+    def get_admins(self):
+        return User.objects.filter(
+            events_owned__entry_template=self
+        ).distinct()
+
 
 class ExportToken(models.Model):
     token = models.CharField(max_length=20)

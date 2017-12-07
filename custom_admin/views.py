@@ -1,3 +1,4 @@
+from django.http import HttpResponseForbidden, Http404
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib.auth.decorators import login_required
@@ -16,6 +17,9 @@ import json
 class ProjectPanelView(View):
     @method_decorator(login_required)
     def get(self, request):
+        if not request.user.is_superuser:
+            return HttpResponseForbidden()
+
         context = {}
         context["current_page"] = "project-panel"
 
@@ -37,6 +41,8 @@ class ProjectPanelView(View):
 
     @method_decorator(login_required)
     def post(self, request):
+        if not request.user.is_superuser:
+            return HttpResponseForbidden()
 
         response = redirect('custom_admin:project_panel')
         pk = request.POST["project-pk"]
@@ -151,6 +157,9 @@ class ProjectPanelView(View):
 class CountryManagementView(View):
     @method_decorator(login_required)
     def get(self, request):
+        if not request.user.is_superuser:
+            return HttpResponseForbidden()
+
         context = {}
         context["current_page"] = "country-management"
         context["events"] = Event.objects.all()
@@ -167,6 +176,9 @@ class CountryManagementView(View):
 
     @method_decorator(login_required)
     def post(self, request):
+        if not request.user.is_superuser:
+            return HttpResponseForbidden()
+
         response = redirect('custom_admin:country_management')
 
         if 'save' in request.POST:
@@ -286,6 +298,9 @@ class EntryTemplateView(View):
     def get(self, request, template_id):
         context = {}
         template = EntryTemplate.objects.get(pk=template_id)
+        if request.user not in template.get_admins():
+            return HttpResponseForbidden()
+
         context['entry_template'] = template
         context['num_entries'] = EntryInformation.objects.filter(
             entry__template=template).distinct().count()
@@ -297,6 +312,9 @@ class EntryTemplateView(View):
         data = json.loads(request.POST.get('data'))
 
         entry_template = EntryTemplate.objects.get(pk=template_id)
+        if request.user not in template.get_admins:
+            return HttpResponseForbidden()
+
         entry_template.elements = json.dumps(data['elements'])
         entry_template.name = data['name']
         if data.get('snapshots'):
