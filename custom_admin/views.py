@@ -312,7 +312,7 @@ class EntryTemplateView(View):
         data = json.loads(request.POST.get('data'))
 
         entry_template = EntryTemplate.objects.get(pk=template_id)
-        if request.user not in template.get_admins:
+        if request.user not in entry_template.get_admins:
             return HttpResponseForbidden()
 
         entry_template.elements = json.dumps(data['elements'])
