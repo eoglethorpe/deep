@@ -328,31 +328,36 @@ $(document).ready(function(){
 
         // `data` is the original data object for the row
         return '<div class= "row-detail">' +
-                    '<h3>' + data.name + '</h3>' +
-                    '<div class="extra"><span><i class="fa fa-user"></i>' + data.created_by_name + '</span><span><i class="fa fa-calendar"></i>' + (new Date(data.created_at)).toLocaleDateString() + '</span></div>' +
-                    '<div class="actions">' +
-                        '<button class="btn-add-entry" onclick="window.location.href=\'/' + data.event + '/entries/add/' + data.id + '/\'"><i class="fa fa-share"></i>Add Entry</button>' +
-                        '<button class="btn-add-entry" onclick="window.location.href=\'/' + data.event + '/leads/add-sos/' + data.id + '/\'"><i class="fa fa-share"></i>Add Assessment Registry</button>' +
-                        '<button class="btn-edit" onclick="window.location.href=\'/' + data.event + '/leads/edit/' + data.id + '/\'"><i class="fa fa-edit"></i>Edit</button>' +
-                        (
-                            (data.status == "PEN") ?
-                            '<button class="btn-mark-processed" onclick="markProcessed('+data.id+', \'PRO\', ' + data.event + ');"><i class="fa fa-check"></i>Mark Processed</button>' :
-                            '<button class="btn-mark-processed" onclick="markProcessed('+data.id+', \'PEN\', ' + data.event + ');"><i class="fa fa-check"></i>Mark Pending</button>'
-                        ) +
-                        '<button class="btn-delete" onclick="deleteLead('+data.id+', ' + data.event + ');"><i class="fa fa-trash"></i>Delete</button>' +
-                    '</div>' +
-                    '<div class="details">' +
-                        '<div><label>status:</label>' + statuses[data.status] + '</div>' +
-                        '<div><label>published at:</label>' + formatDate(data.published_at) + '</div>' +
-                        '<div><label>source:</label>' + data.source + '</div>' +
-                        '<div><label>confidentiality:</label>' + confidentialities[data.confidentiality] + '</div>' +
-                        (data.website? '<div><label>website:</label>'+data.website+'</div>' : '') +
-                    '</div>' +
+            '<h3>' + data.name + '</h3>' +
+            '<div class="extra"><span><i class="fa fa-user"></i>' + data.created_by_name + '</span><span><i class="fa fa-calendar"></i>' + (new Date(data.created_at)).toLocaleDateString() + '</span></div>' +
+            '<div class="actions">' +
+            '<button class="btn-add-entry" onclick="window.location.href=\'/' + data.event + '/entries/add/' + data.id + '/\'"><i class="fa fa-share"></i>Add Entry</button>' +
+            (
+                isAcaps
+                ? ('<button class="btn-add-entry" onclick="window.location.href=\'/' + data.event + '/leads/add-sos/' + data.id + '/\'"><i class="fa fa-share"></i>Add Assessment Registry</button>')
+                : ''
 
-                    '<div class="lead-content">' +
-                        getFormattedLeadContent(data) +
-                    '</div>' +
-                '</div>'
+            ) + 
+            '<button class="btn-edit" onclick="window.location.href=\'/' + data.event + '/leads/edit/' + data.id + '/\'"><i class="fa fa-edit"></i>Edit</button>' +
+            (
+                (data.status == "PEN") ?
+                '<button class="btn-mark-processed" onclick="markProcessed('+data.id+', \'PRO\', ' + data.event + ');"><i class="fa fa-check"></i>Mark Processed</button>' :
+                '<button class="btn-mark-processed" onclick="markProcessed('+data.id+', \'PEN\', ' + data.event + ');"><i class="fa fa-check"></i>Mark Pending</button>'
+            ) +
+            '<button class="btn-delete" onclick="deleteLead('+data.id+', ' + data.event + ');"><i class="fa fa-trash"></i>Delete</button>' +
+            '</div>' +
+            '<div class="details">' +
+            '<div><label>status:</label>' + statuses[data.status] + '</div>' +
+            '<div><label>published at:</label>' + formatDate(data.published_at) + '</div>' +
+            '<div><label>source:</label>' + data.source + '</div>' +
+            '<div><label>confidentiality:</label>' + confidentialities[data.confidentiality] + '</div>' +
+            (data.website? '<div><label>website:</label>'+data.website+'</div>' : '') +
+            '</div>' +
+
+            '<div class="lead-content">' +
+            getFormattedLeadContent(data) +
+            '</div>' +
+            '</div>'
         ;
     }
 
