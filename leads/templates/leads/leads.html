@@ -12,8 +12,9 @@ DEEP | Leads
 <link href="{% watchful_static_url 'css/leads.css' %}" type="text/css" rel="stylesheet">
 
 <script>
-    var currentEvent = {% if event %} {{ event.pk }} {% else %} null {% endif %};
+    var currentEvent = {% if event %}{{ event.pk }}{% else %}null{% endif %};
     var postUrl = "{% url 'leads:add' event=0 %}";
+    var isAcaps = {% if event.is_acaps %}true{% else %}false{% endif %};
 </script>
 
 <script type="text/javascript" src="{% watchful_static_url 'js/common/datatables.min.js' %}"></script>
