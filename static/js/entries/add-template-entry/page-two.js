@@ -614,6 +614,10 @@ const page2 = {
                             let subpillar = pillar.subpillars.find(s => s.id == selection.subpillar);
                             let sector = templateElement.sectors.find(s => s.id == selection.sector);
 
+                            if (!pillar || !subpillar || !sector) {
+                                continue;
+                            }
+
                             let col1 = $('<div class="col1"><div class="pillar">' + pillar.title + '</div><div class="subpillar">' + subpillar.title + '</div></div>');
                             let col2 = $('<div class="col1"><div class="sector">' + sector.title + '</div><div class="subsectors"></div><a class="fa fa-plus"></a></div>');
 
