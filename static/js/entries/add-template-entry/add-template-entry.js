@@ -109,6 +109,26 @@ $(document).ready(function() {
         // redirectPost(window.location.pathname, data, csrf_token);
     });
     $('.save-and-next-button').click(function() {
+        const that = this;
+        var data = { entries: JSON.stringify(entries), ajax: true };
+        $(this).attr('disabled', 'disabled');
+        $(this).find('.fa').removeClass('fa-save').addClass('fa-circle-o-notch').addClass('fa-spin');
+        $.ajax({
+            url: window.location.pathname,
+            method: 'POST',
+            data: data,
+        }).always(msg => {
+            if (!msg || !msg.success || msg.success !== true) {
+                alert('Error saving entries. Please try again later');
+            }
+            $(that).find('.fa').removeClass('fa-circle-o-notch').removeClass('fa-spin').addClass('fa-save');
+            $(that).removeAttr('disabled');
+            if (msg.success === true) {
+                window.location.href = msg.next;
+            }
+        });
+        // redirectPost(window.location.pathname, data, csrf_token);
+
     });
     $('.cancel-button').click(function() {
         if (confirm('Are you sure you want to cancel the changes?')) {

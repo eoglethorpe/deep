@@ -14,7 +14,13 @@ class CountrySerializer(Serializer):
         'media_sources': 'media_sources',
         'regions': 'regions',
         'admin_levels': 'admin_levels',
+        'reference_code': 'reference_code',
     }
+
+    def get_reference_code(self, country):
+        if country.reference_country:
+            return country.reference_country.code
+        return country.code
 
     def get_key_figures(self, country):
         return json.loads(country.key_figures)
@@ -28,6 +34,7 @@ class CountrySerializer(Serializer):
     def get_admin_levels(self, country):
         return [
             {
+                'id': al.id,
                 'level': al.level, 'name': al.name,
                 'property_name': al.property_name,
                 'property_pcode': al.property_pcode,

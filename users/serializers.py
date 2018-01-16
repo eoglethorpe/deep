@@ -35,3 +35,28 @@ class UserSerializer(serializers.ModelSerializer):
             return UserProfile.objects.get(user=user).organization
         except:
             return ""
+
+
+class UserSerializer2(serializers.ModelSerializer):
+    organization = serializers.CharField(
+        source='userprofile.organization',
+        read_only=True,
+    )
+    hid = serializers.CharField(
+        source='userprofile.hid',
+        read_only=True,
+    )
+    photo = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = (
+            'id', 'first_name', 'last_name', 'username', 'email',
+            'organization', 'photo', 'hid',
+        )
+
+    def get_photo(self, user):
+        profile = UserProfile.objects.get(user=user)
+        if profile.photo and hasattr(profile.photo, 'url'):
+            return profile.photo.url
+        return None

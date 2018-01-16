@@ -1,11 +1,15 @@
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import View
+from django.db.models import Q
 
 from leads.models import Country, Event, Lead, SurveyOfSurvey
 from leads.api_serializers import *
 from deep.json_utils import *
 from deep.filename_generator import generate_filename
+
+from deep.basic_auth import basic_auth
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -19,7 +23,8 @@ class CountryApiView(View):
 
         code = request.GET.get('code')
         if code:
-            countries = countries.filter(code=code)
+            countries = countries.filter(Q(code=code) |
+                                         Q(reference_country__code=code))
 
         index = request.GET.get('index')
         if index:
@@ -38,9 +43,10 @@ class CountryApiView(View):
         return response
 
 
+@method_decorator(basic_auth, name='dispatch')
+@method_decorator(login_required, name='dispatch')
 @method_decorator(csrf_exempt, name='dispatch')
 class EventApiView(View):
-
     def post(self, request):
         return JSON_METHOD_NOT_ALLOWED
 

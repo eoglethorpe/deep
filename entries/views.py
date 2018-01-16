@@ -347,7 +347,20 @@ class AddEntry(View):
                 information.save()
 
             if request.POST.get('ajax'):
-                return JsonResponse({'success': True})
+                next_pending = Lead.objects.filter(
+                    ~Q(pk=lead.pk), event__pk=event,
+                    status='PEN',
+                ).order_by('-created_at')
+
+                next_url = None
+                if next_pending.count() > 0:
+                    next_url = reverse('entries:add', kwargs={
+                        'event': event,
+                        'lead_id': next_pending[0].pk,
+                    })
+                else:
+                    next_url = reverse('entries:entries', args=[event])
+                return JsonResponse({'success': True, 'next': next_url})
             return redirect('entries:entries', event)
 
         # Without template
@@ -430,7 +443,22 @@ class AddEntry(View):
                 return redirect('entries:add', event=event, lead_id=next_pending[0].pk)
 
         if request.POST.get('ajax'):
-            return JsonResponse({'success': True})
+            next_pending = Lead.objects.filter(
+                ~Q(pk=lead.pk), event__pk=event,
+                status='PEN',
+            ).order_by('-created_at')
+
+            next_url = None
+            if next_pending.count() > 0:
+                next_url = reverse('entries:add', kwargs={
+                    'event': event,
+                    'lead_id': next_pending[0].pk,
+                })
+            else:
+                next_url = reverse('entries:entries', args=[event])
+
+            return JsonResponse({'success': True,
+                                 'next': next_url})
         return redirect('entries:entries', event)
 
 

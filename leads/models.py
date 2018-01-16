@@ -108,12 +108,16 @@ class Event(models.Model):
 
     @staticmethod
     def get_events_for(user):
+        if user.is_superuser:
+            return Event.objects.all()
+
         return Event.objects.filter(
             Q(members=user) | Q(admins=user) | Q(usergroup__members=user)
         ).distinct()
 
     def allow(self, user):
-        return user in self.members.all() or user in self.admins.all() or \
+        return user.is_superuser or \
+            user in self.members.all() or user in self.admins.all() or \
             user in User.objects.filter(usergroup__projects=self)
 
     def __str__(self):

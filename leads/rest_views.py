@@ -46,6 +46,14 @@ class EventViewSet(viewsets.ModelViewSet):
         return Event.get_events_for(self.request.user)
 
 
+class EventViewSet2(viewsets.ModelViewSet):
+    serializer_class = EventSerializer2
+    perimission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        return Event.get_events_for(self.request.user)
+
+
 class SosViewSet(viewsets.ModelViewSet):
     serializer_class = SosSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)

@@ -16,3 +16,11 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return User.objects.filter(pk__in=UserProfile.objects.all().
                                    values_list('user_id'))
+
+
+class UserViewSet2(viewsets.ReadOnlyModelViewSet):
+    serializer_class = UserSerializer2
+
+    def get_queryset(self):
+        return User.objects.filter(pk__in=UserProfile.objects.all().
+                                   values_list('user_id'))

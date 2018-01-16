@@ -22,9 +22,12 @@ from deep.api_views import OverviewApiView, ReportsApiView
 router = DefaultRouter()
 router.register(r'leads', LeadViewSet, base_name='lead')
 router.register(r'entries', EntryViewSet, base_name='entry')
+router.register(r'entry-templates', EntryTemplateViewSet, base_name='entry-template')
 router.register(r'sources', SourceViewSet, base_name='source')
 router.register(r'events', EventViewSet, base_name='event')
+router.register(r'events2', EventViewSet2, base_name='event2')
 router.register(r'users', UserViewSet, base_name='user')
+router.register(r'users2', UserViewSet2, base_name='user')
 router.register(r'countries', CountryViewSet, base_name='country')
 router.register(r'survey-of-surveys', SosViewSet, base_name='country')
 
