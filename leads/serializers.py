@@ -79,6 +79,12 @@ class EventSerializer(serializers.ModelSerializer):
         fields = ('id', 'name',)
 
 
+class EventSerializer2(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ('__all__')
+
+
 class SosSerializer(serializers.ModelSerializer):
     countries = serializers.SerializerMethodField()
     areas_summary = serializers.SerializerMethodField()
