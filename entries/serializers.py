@@ -2,8 +2,11 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from rest_framework import serializers
 
+from leads.models import *
 from entries.models import *
 from geojson_handler import GeoJsonHandler
+
+import json
 
 
 class InformationAttributeSerializer(serializers.ModelSerializer):
@@ -65,3 +68,22 @@ class EntrySerializer(serializers.ModelSerializer):
         elif Attachment.objects.filter(lead=entry.lead).count() > 0:
             return entry.lead.attachment.upload.url
         return None
+
+
+class EntryTemplateSerializer(serializers.ModelSerializer):
+    elements = serializers.SerializerMethodField()
+    projects = serializers.SerializerMethodField()
+
+    class Meta:
+        model = EntryTemplate
+        fields = ('id', 'name', 'elements', 'created_at', 'created_by',
+                  'projects')
+
+    def get_elements(self, entry_template):
+        return entry_template.elements and json.loads(entry_template.elements)
+
+    def get_projects(self, entry_template):
+        return [
+            e.id
+            for e in Event.objects.filter(entry_template=entry_template).distinct()
+        ]
