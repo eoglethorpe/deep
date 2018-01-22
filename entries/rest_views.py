@@ -16,14 +16,22 @@ class EntryViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         event = self.request.GET.get("event")
+        entries = Entry.objects
         if not event:
-            return Entry.objects.filter(lead__event__in=Event.get_events_for(
+            entries = entries.filter(lead__event__in=Event.get_events_for(
                 self.request.user)).distinct()
-        if not Event.objects.get(pk=event).allow(self.request.user):
+        elif not Event.objects.get(pk=event).allow(self.request.user):
             return []
-        if event:
-            return Entry.objects.filter(lead__event__pk=event)
-        return Entry.objects.all()
+        elif event:
+            entries = entries.filter(lead__event__pk=event)
+        else:
+            entries = entries.al()
+
+        template = self.request.GET.get('template')
+        if template:
+            entries = entries.filter(template__isnull=False)
+
+        return entries
 
 
 class EntryTemplateViewSet(viewsets.ModelViewSet):
@@ -32,4 +40,7 @@ class EntryTemplateViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         events = Event.get_events_for(self.request.user)
-        return EntryTemplate.objects.filter(event__in=events).distinct()
+        return EntryTemplate.objects.filter(
+            Q(event__in=events) |
+            Q(event__isnull=True)
+        ).distinct()
