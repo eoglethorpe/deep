@@ -39,13 +39,21 @@ class EntryInformationSerializer(serializers.ModelSerializer):
     lead_published_at = serializers.CharField(source='entry.lead.published_at', read_only=True)
     map_selections = MapSelectionSerializer(many=True)
 
+    elements = serializers.SerializerMethodField()
+
     class Meta:
         model = EntryInformation
-        fields = ('id', 'excerpt', 'date', 'reliability', 'severity', 'number',
+        fields = ('id', 'excerpt', 'image', 'date', 'reliability', 'severity', 'number',
                   'vulnerable_groups', 'specific_needs_groups', 'affected_groups',
                   'map_selections', 'attributes', 'modified_by', 'modified_at',
-                  'lead_source', 'lead_title', 'lead_published_at')
+                  'lead_source', 'lead_title', 'lead_published_at', 'elements')
         depth = 1
+
+    def get_elements(self, info):
+        if info.elements:
+            return json.loads(info.elements)
+        else:
+            return []
 
 
 class EntrySerializer(serializers.ModelSerializer):
@@ -54,10 +62,14 @@ class EntrySerializer(serializers.ModelSerializer):
     informations = EntryInformationSerializer(source='entryinformation_set', many=True)
     modified_by = serializers.SerializerMethodField()
     lead_url = serializers.SerializerMethodField(read_only=True)
+    event = serializers.IntegerField(source='lead.event.id', read_only=True)
 
     class Meta:
         model = Entry
-        fields = ('id', 'modified_at', 'modified_by', 'lead', 'lead_title', 'lead_url', 'lead_source_name', 'informations')
+        fields = ('id', 'modified_at', 'modified_by', 'created_at',
+                  'created_by', 'template', 'event',
+                  'lead', 'lead_title', 'lead_url', 'lead_source_name',
+                  'informations')
 
     def get_modified_by(self, entry):
         return entry.modified_by.get_full_name()
