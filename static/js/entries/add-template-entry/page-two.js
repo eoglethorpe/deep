@@ -684,6 +684,10 @@ const page2 = {
                             let pillar = templateElement.pillars.find(p => p.id == selection.pillar);
                             let subpillar = pillar.subpillars.find(s => s.id == selection.subpillar);
 
+                            if (!pillar || !subpillar) {
+                                continue;
+                            }
+
                             let col1 = $('<div class="col1"><div class="pillar">' + pillar.name + '</div><div class="subpillar">' + subpillar.name + '</div></div>');
                             let row = $('<div class="row"></div>');
                             row.append(col1);
