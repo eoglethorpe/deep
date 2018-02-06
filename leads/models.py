@@ -92,7 +92,9 @@ class Event(models.Model):
 
     def get_num_members(self):
         return User.objects.filter(Q(usergroup__projects__pk=self.pk) |
-                                   Q(event__pk=self.pk)).distinct().count()
+                                   Q(groups_owned__pk=self.pk) |
+                                   Q(event__pk=self.pk) |
+                                   Q(events_owned__pk=self.pk)).distinct().count()
 
     def is_acaps(self):
         from usergroup.models import UserGroup
