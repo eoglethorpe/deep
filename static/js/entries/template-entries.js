@@ -293,17 +293,23 @@ let entriesList = {
                         }
                         else if (templateElement.type == 'scale') {
                             let dom = infoDom.find('.scale-container[data-id="' + data.id + '"]');
-                            let selected = templateElement.scaleValues.find(e => e.default == true).id;
-                            if (data.value) {
-                                selected = data.value;
+                            let selected = templateElement.scaleValues.find(e => e.default == true);
+                            if (selected) {
+                                selected = selected.id;
+                                if (data.value) {
+                                    selected = data.value;
+                                }
+                                dom.find('.scale span[data-id="' + selected + '"]').addClass('active');
                             }
-                            dom.find('.scale span[data-id="' + selected + '"]').addClass('active');
                         }
                     } else {
                         if (templateElement.type == 'scale') {
-                            let selected = templateElement.scaleValues.find(e => e.default == true).id;
-                            infoDom.find('.scale-container[data-id="' + templateElement.id + '"]')
-                                .find('.scale span[data-id="' + selected + '"]').addClass('active');
+                            let selected = templateElement.scaleValues.find(e => e.default == true);
+                            if (selected) {
+                                selected = selected.id;
+                                infoDom.find('.scale-container[data-id="' + templateElement.id + '"]')
+                                    .find('.scale span[data-id="' + selected + '"]').addClass('active');
+                            }
                         }
                     }
                 }
