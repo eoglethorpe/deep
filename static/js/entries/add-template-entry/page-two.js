@@ -751,9 +751,12 @@ const page2 = {
                 }
                 else if (templateElement.type == 'scale') {
                     entryElement.find('.scale-container[data-id="' + templateElement.id + '"] .scale span.active').removeClass('active');
-                    let selected = templateElement.scaleValues.find(e => e.default === true).id;
-                    if (data && data.value) {
-                        selected = data.value;
+                    let selected = templateElement.scaleValues.find(e => e.default === true);
+                    if (selected) {
+                        selected = selected.id;
+                        if (data && data.value) {
+                            selected = data.value;
+                        }
                     }
                     entryElement.find('.scale-container[data-id="' + templateElement.id + '"] .scale span[data-id="' + selected + '"]').addClass('active');
                 }
