@@ -752,13 +752,16 @@ const page2 = {
                 else if (templateElement.type == 'scale') {
                     entryElement.find('.scale-container[data-id="' + templateElement.id + '"] .scale span.active').removeClass('active');
                     let selected = templateElement.scaleValues.find(e => e.default === true);
-                    if (selected) {
+                    if (data && data.value) {
+                        selected = data.value;
+                    } else if (selected) {
                         selected = selected.id;
-                        if (data && data.value) {
-                            selected = data.value;
-                        }
+                    } else {
+                        selected = null;
                     }
-                    entryElement.find('.scale-container[data-id="' + templateElement.id + '"] .scale span[data-id="' + selected + '"]').addClass('active');
+                    if (selected) {
+                        entryElement.find('.scale-container[data-id="' + templateElement.id + '"] .scale span[data-id="' + selected + '"]').addClass('active');
+                    }
                 }
                 else if (templateElement.type == 'organigram') {
                     entryElement.find('.organigram[data-id="' + templateElement.id + '"]').each(function() { that.refreshOrganigram($(this)); });
