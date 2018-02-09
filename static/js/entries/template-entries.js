@@ -294,11 +294,17 @@ let entriesList = {
                         else if (templateElement.type == 'scale') {
                             let dom = infoDom.find('.scale-container[data-id="' + data.id + '"]');
                             let selected = templateElement.scaleValues.find(e => e.default == true);
-                            if (selected) {
+                            if (data.value) {
+                                selected = data.value;
+                            }
+                            else if (selected) {
                                 selected = selected.id;
-                                if (data.value) {
-                                    selected = data.value;
-                                }
+                            }
+                            else {
+                                selected = None;
+                            }
+
+                            if (selected) {
                                 dom.find('.scale span[data-id="' + selected + '"]').addClass('active');
                             }
                         }
