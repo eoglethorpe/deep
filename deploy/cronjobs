@@ -4,3 +4,4 @@ SHELL=/bin/bash
 * * * * * . /home/code/env_var.sh; /home/code/aws-scripts-mon/mon-put-instance-data.pl --mem-util --mem-used --mem-avail  --swap-util  --swap-used --disk-space-util  --disk-space-used  --disk-space-avail --disk-path=/ --aws-access-key-id=$AWS_ACCESS_KEY_ID --aws-secret-key=$AWS_SECRET_ACCESS_KEY --auto-scaling=only
 
 */5 * * * * chmod +x /home/code/deep/deploy/django/backup_apis.sh; /home/code/deep/deploy/django/backup_apis.sh
+0 0 1 * * chmod +x /home/code/deep/deploy/django/load_inform_values.sh; /home/code/deep/deploy/django/load_inform_values.sh
