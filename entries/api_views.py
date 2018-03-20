@@ -8,6 +8,7 @@ from deep.json_utils import *
 from deep.filename_generator import generate_filename
 
 
+@method_decorator(basic_auth, name='dispatch')
 @method_decorator(csrf_exempt, name='dispatch')
 class EntryApiView(View):
 

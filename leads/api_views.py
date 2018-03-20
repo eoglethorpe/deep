@@ -75,6 +75,7 @@ class EventApiView(View):
 
 
 
+@method_decorator(basic_auth, name='dispatch')
 @method_decorator(csrf_exempt, name='dispatch')
 class LeadApiView(View):
 
@@ -116,6 +117,7 @@ class LeadApiView(View):
         return response
 
 
+@method_decorator(basic_auth, name='dispatch')
 @method_decorator(csrf_exempt, name='dispatch')
 class SosApiView(View):
 
