@@ -7,6 +7,8 @@ from entries.api_serializers import *
 from deep.json_utils import *
 from deep.filename_generator import generate_filename
 
+from deep.basic_auth import basic_auth
+
 
 @method_decorator(basic_auth, name='dispatch')
 @method_decorator(csrf_exempt, name='dispatch')
