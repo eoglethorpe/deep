@@ -1,71 +1,99 @@
 class ImageCropper{
-    constructor(canvasId, image, imageBounds){
-        this.canvas = document.getElementById(canvasId);
-        this.startPoint = {x: 0, y: 0};
-        this.endPoint = {x: 0, y: 0};
-        this.drawCropRect = false;
-        this.img = image;
-        this.imgBounds = imageBounds;
-        let scale = window.devicePixelRatio;
-        this.imgBounds.x *= scale;
-        this.imgBounds.y *= scale;
-        this.imgBounds.w *= scale;
-        this.imgBounds.h *= scale;
-        this.canvas.width = this.imgBounds.w;
-        this.canvas.height = this.imgBounds.h;
-    }
-    start(){
-        let that = this;
-        this.canvas.addEventListener('mousedown', function(e){ that.onMouseDown(that, e); }, false);
-        this.canvas.addEventListener('mouseup', function(e){ that.onMouseUp(that, e); }, false);
-        this.canvas.addEventListener('mousemove', function(e){ that.onMouseMove(that, e); }, false);
-        this.render();
-    }
-    stop(){
-        this.canvas.removeEventListener('mousedown', this.onMouseDown);
-        this.canvas.removeEventListener('mouseup', this.onMouseUp);
-        this.canvas.removeEventListener('mousemove', this.onMouseMove);
-        this.drawCropRect = false;
-    }
-    getCroppedImage(){
-        let context = this.canvas.getContext('2d');
-        this.canvas.width = Math.abs(this.endPoint.x - this.startPoint.x);
-        this.canvas.height = Math.abs(this.endPoint.y - this.startPoint.y);
-        context.drawImage(this.img, this.imgBounds.x + this.startPoint.x, this.imgBounds.y + this.startPoint.y, this.canvas.width, this.canvas.height, 0, 0, this.canvas.width,  this.canvas.height);
-        return this.canvas.toDataURL('image/jpeg');
-    }
-    getMousePos(e) {
-        let canvasBounds = this.canvas.getBoundingClientRect();
-        return {
-            // extra 12 to accomodate padding
-            x: (e.clientX - canvasBounds.left)/(canvasBounds.right - canvasBounds.left) * (this.canvas.width+12),
-            y: (e.clientY - canvasBounds.top)/(canvasBounds.bottom - canvasBounds.top) * (this.canvas.height+12),
-        };
-    }
-    onMouseDown(that, e){
-        that.startPoint = that.getMousePos(e);
-        that.endPoint = that.getMousePos(e);
-        that.drawCropRect = true;
-    }
-    onMouseUp(that, e){
-        that.endPoint = that.getMousePos(e);
-        that.render();
-        that.drawCropRect = false;
-    }
-    onMouseMove(that, e){
-        if(that.drawCropRect){
-            that.endPoint = that.getMousePos(e);
-            that.render();
-        }
-    }
-    render(){
-        let context = this.canvas.getContext('2d');
-        context.drawImage(this.img, this.imgBounds.x, this.imgBounds.y, this.imgBounds.w, this.imgBounds.h, 0, 0, this.imgBounds.w,  this.imgBounds.h);
-        if(this.drawCropRect){
-            context.fillStyle = 'rgba(0,0,0,0.5)';
-            // context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-            context.fillRect(this.startPoint.x, this.startPoint.y, this.endPoint.x-this.startPoint.x, this.endPoint.y-this.startPoint.y);
-        }
+    constructor(containerSelector, image, onCancel){
+        this.containerSelector = containerSelector;
+        this.screenshot = image;
+        this.init();
+        this.onCancel = onCancel;
 
+        // console.warn(image, this.image);
+        // this.image[0].href = image.src;
+
+        $(document).on('splitpaneresize', () => { this.handleResize() });
+        $(window).on('resize', () => { this.handleResize() });
+    }
+
+    init() {
+        this.container = $(this.containerSelector);
+        this.canvas = this.container.find('canvas');
+        this.svg = this.container.find('svg');
+        this.brushContainer = this.svg.find('g');
+        this.imageContainer = this.svg.find('image');
+
+        const scale = window.devicePixelRatio;
+        const rect = this.svg[0].getBoundingClientRect();
+
+        const offsetX = rect.left * scale;
+        const offsetY = rect.top * scale;
+        const width = rect.width * scale;
+        const height = rect.height * scale;
+
+        this.svg[0].setAttribute('viewBox', `${offsetX} ${offsetY} ${width} ${height}`);
+        this.imageContainer.attr('href', this.screenshot.src);
+    }
+
+    cropImage(startX, startY, endX, endY) {
+        const canvas = this.canvas[0];
+        const image = this.screenshot;
+
+        canvas.width = (endX - startX);
+        canvas.height = (endY - startY);
+
+        const context = canvas.getContext('2d');
+        context.drawImage(
+            image,
+            startX, startY, canvas.width, canvas.height,
+            0, 0, canvas.width, canvas.height,
+        );
+        const croppedImage = canvas.toDataURL('image/jpeg');
+
+        canvas.width = 0;
+        canvas.height = 0;
+        return croppedImage;
+    }
+
+    getCroppedImage() {
+        return this.croppedImage;
+    }
+
+    createBrush() {
+        const scale = window.devicePixelRatio;
+        const rect = this.svg[0].getBoundingClientRect();
+
+        const container = d3.select(this.brushContainer[0]);
+        const g = container.append('g').attr('class', 'brush');
+
+        const brush = d3.brush()
+            .extent([
+                [rect.left * scale, rect.top * scale],
+                [rect.right * scale, rect.bottom * scale],
+            ])
+            .on('end', () => {
+                const r = d3.event.selection;
+                if (r) {
+                    this.croppedImage = this.cropImage(
+                        r[0][0], r[0][1],
+                        r[1][0], r[1][1],
+                    );
+                }
+            });
+        g.call(brush);
+
+        this.brushGroup = g;
+    }
+
+    handleResize() {
+        // Original screenshot is now invalid so just cancel the screenshot mode
+        this.stop();
+        this.onCancel();
+    }
+
+    start() {
+        this.createBrush();
+    }
+
+    stop() {
+        if (this.brushGroup) {
+            this.brushGroup.remove();
+        }
     }
 }

@@ -678,7 +678,9 @@ function getScreenshot(){
             let img = new Image();
             img.onload = function(){
                 $('#image-cropper-canvas-container').show();
-                let imageCropper = new ImageCropper('image-cropper-canvas', this, {x: 0, y: 104, w: $('#image-cropper-canvas').innerWidth()-12, h: $('#image-cropper-canvas').innerHeight()-12});
+                let imageCropper = new ImageCropper('#image-cropper-canvas-container', this, () => {
+                    $('#image-cropper-canvas-container').hide();
+                });
                 imageCropper.start();
                 $('#screenshot-cancel-btn').one('click', function(){
                     imageCropper.stop();
