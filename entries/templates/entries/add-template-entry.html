@@ -12,6 +12,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 <link href="{% watchful_static_url 'css/selectize.css' %}" type="text/css" rel="stylesheet">
 <link href="{% watchful_static_url 'css/modal.css' %}" type="text/css" rel="stylesheet">
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-brush/1.0.4/d3-brush.js"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/selectize.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/split-pane.js' %}"></script>
 <script type="text/javascript" src="{% watchful_static_url 'js/common/utils.js' %}"></script>
@@ -149,6 +151,10 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
                         <button id="screenshot-cancel-btn"><i class="fa fa-times"></i>Cancel</button>
                         <button id="screenshot-done-btn"><i class="fa fa-check"></i>Done</button>
                     </div>
+                    <svg id="image-cropper-svg">
+                        <image></image>
+                        <g></g>
+                    </svg>
                     <canvas id="image-cropper-canvas" ></canvas>
                 </div>
             </div>

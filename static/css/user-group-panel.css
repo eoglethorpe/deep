@@ -523,7 +523,7 @@ body {
               align-items: center;
               transition: 0.2s all ease-in-out; }
               body main section #members-wrapper #members .member .action-container > div {
-                border: 1px solid transparent;
+                border: 1px solid rgba(0, 0, 0, 0);
                 flex-basis: 100%; }
                 body main section #members-wrapper #members .member .action-container > div .fa {
                   transform: scale(0);

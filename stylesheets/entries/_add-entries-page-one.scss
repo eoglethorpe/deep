@@ -287,10 +287,14 @@
                         }
 
                     }
-                    canvas{
+
+                    svg {
                         width: 100%;
-                        padding: 0 12px 12px 0;
                         height: calc(100% - #{$lead-options-container-height} - 12px);
+                    }
+
+                    #image-cropper-canvas {
+                        padding: 0 12px 12px 0;
                         cursor: crosshair;
                     }
                 }

@@ -406,10 +406,11 @@ body {
                 color: #27ae60; }
               body #page-one .split-pane #left-component #lead-preview-container #image-cropper-canvas-container #screenshot-actions button#screenshot-cancel-btn .fa {
                 color: #e74c3c; }
-          body #page-one .split-pane #left-component #lead-preview-container #image-cropper-canvas-container canvas {
+          body #page-one .split-pane #left-component #lead-preview-container #image-cropper-canvas-container svg {
             width: 100%;
+            height: calc(100% - 48px - 12px); }
+          body #page-one .split-pane #left-component #lead-preview-container #image-cropper-canvas-container #image-cropper-canvas {
             padding: 0 12px 12px 0;
-            height: calc(100% - 48px - 12px);
             cursor: crosshair; }
     body #page-one .split-pane #divider {
       left: calc(33vw + 5px);
