@@ -62,7 +62,7 @@ function updateLocationSelections() {
 
 function refreshLocations() {
     // TODO: Clear all from select-location.
-    //mapSelections = [];
+    // mapSelections = [];
     for (var key in locations) {
         var name = locations[key];
         $('#manual-location-input')[0].selectize.addOption({value: key, text: name});

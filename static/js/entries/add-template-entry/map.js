@@ -52,6 +52,9 @@ class Map {
             let adminLevels = Object.keys(data['admin_levels']);
             adminLevels.sort();
 
+            that.allLocations = Object.assign({}, that.allLocations, data.locations);
+            if (that.loadCallback) { that.loadCallback(); }
+
             // Fill in the data
             that.adminLevels[countryCode] = [];
             for (let i=0; i<adminLevels.length; i++) {
