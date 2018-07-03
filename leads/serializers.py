@@ -18,10 +18,11 @@ class SourceSerializer(serializers.ModelSerializer):
 
 class CountrySerializer(serializers.ModelSerializer):
     admin_levels = serializers.SerializerMethodField()
+    locations = serializers.SerializerMethodField()
 
     class Meta:
         model = Country
-        fields = ('code', 'name', 'admin_levels')
+        fields = ('code', 'name', 'admin_levels', 'locations')
 
     def get_admin_levels(self, country):
         levels = {}
@@ -32,6 +33,14 @@ class CountrySerializer(serializers.ModelSerializer):
                     level.geojson.url, level.property_pcode
                 ]
         return levels
+
+    def get_locations(self, country):
+        locations = {}
+        for admin_level in country.adminlevel_set.all():
+            geo_areas = json.loads(admin_level.geo_areas)
+            for area in geo_areas:
+                locations[area['selection_name']] = area['name']
+        return locations
 
 
 class LeadSerializer(serializers.ModelSerializer):
