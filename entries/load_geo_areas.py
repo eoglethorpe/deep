@@ -7,11 +7,11 @@ def load_geo_areas(admin_level):
     if not filefield:
         return []
 
-    if not os.path.isfile(filefield.path):
-        return []
+    # if not os.path.isfile(filefield.path):
+    #     return []
 
     try:
-        data = json.loads(filefield.read())
+        data = json.loads(filefield.read().decode('utf-8'))
         features = data['features']
         result = []
         for feature in features:
