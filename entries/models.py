@@ -5,6 +5,7 @@ from django.dispatch.dispatcher import receiver
 from django.utils import timezone
 
 from leads.models import *
+from entries.load_geo_areas import load_geo_areas
 
 import json
 
@@ -16,6 +17,7 @@ class AdminLevel(models.Model):
     property_name = models.CharField(max_length=70)
     property_pcode = models.CharField(max_length=50, default="", blank=True)
     geojson = models.FileField(upload_to='adminlevels/', default=None, blank=True, null=True)
+    geo_areas = models.TextField(default='[]')
 
     def __str__(self):
         return self.name + ", " + str(self.country)
@@ -23,6 +25,10 @@ class AdminLevel(models.Model):
     class Meta:
         ordering = ['country', 'level']
         unique_together = ('country', 'level')
+
+    def save(self, *args, **kwargs):
+        self.geo_areas = json.dumps(load_geo_areas(self))
+        super(AdminLevel, self).save(*args, **kwargs)
 
 
 # @receiver(pre_delete, sender=AdminLevel)

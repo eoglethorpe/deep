@@ -41,6 +41,9 @@ function getAdminLevels(countryCode) {
         levels = Object.keys(data["admin_levels"]);
         levels.sort();
 
+        locations = Object.assign({}, locations, data.locations);
+        refreshLocations();
+
         // Fill the admin level data in the appropriate arrays.
         adminLevels[countryCode] = [];
         adminLevelNames[countryCode] = [];
@@ -206,36 +209,36 @@ function refreshAdminLevels() {
         }
     }
 
-    for (var k in adminLevels) {
-        for (var i in adminLevels[k]) {
-            if (adminLevels[k][i] != null) {
-                var features = adminLevels[k][i]["features"];
+    // for (var k in adminLevels) {
+    //     for (var i in adminLevels[k]) {
+    //         if (adminLevels[k][i] != null) {
+    //             var features = adminLevels[k][i]["features"];
 
-                for (var j in features) {
-                    if ("properties" in features[j]) {
-                        var properties = features[j]["properties"];
-                        var propName = adminLevelPropNames[k][i];
-                        var propPcode = adminLevelPropPcodes[k][i];
+    //             for (var j in features) {
+    //                 if ("properties" in features[j]) {
+    //                     var properties = features[j]["properties"];
+    //                     var propName = adminLevelPropNames[k][i];
+    //                     var propPcode = adminLevelPropPcodes[k][i];
 
-                        var name = properties[propName];
-                        var selectionName = k +":"+ i +":"+ name;
+    //                     var name = properties[propName];
+    //                     var selectionName = k +":"+ i +":"+ name;
 
-                        if (propPcode != "" && properties[propPcode] != "")
-                            selectionName += ":" + properties[propPcode]
+    //                     if (propPcode != "" && properties[propPcode] != "")
+    //                         selectionName += ":" + properties[propPcode]
 
-                        if(i==0){
-                            for(var index=0; index<excerpts.length; index++){
-                                if(excerpts[index].map_selections.length == 0){
-                                    excerpts[index].map_selections.push(selectionName);
-                                }
-                            }
-                        }
+    //                     if(i==0){
+    //                         for(var index=0; index<excerpts.length; index++){
+    //                             if(excerpts[index].map_selections.length == 0){
+    //                                 excerpts[index].map_selections.push(selectionName);
+    //                             }
+    //                         }
+    //                     }
 
-                        locations[selectionName] = name;
-                    }
-                }
-            }
-        }
-    }
+    //                     locations[selectionName] = name;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
     refreshMap();
 }

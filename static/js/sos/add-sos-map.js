@@ -65,6 +65,9 @@ function getAdminLevels(countryCode) {
         levels = Object.keys(data["admin_levels"]);
         levels.sort();
 
+        locations = Object.assign({}, locations, data.locations);
+        refreshLocations();
+
         // Fill the admin level data in the appropriate arrays.
         adminLevels[countryCode] = [];
         adminLevelNames[countryCode] = [];
