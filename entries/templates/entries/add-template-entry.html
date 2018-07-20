@@ -35,6 +35,8 @@ DEEP | {% if entry %}Edit{% else %}Add{% endif %} Entry
 
 <script>
     let leadId = '{{ lead.pk }}';
+    let websiteInfoUrl = '{% url "website_info" %}';
+    let leadUrl = '{{ lead_url }}';
 
     // Simplified version of the lead.
     let leadSimplifiedHtml = $('<div> {% if lead_simplified %}{{lead_simplified|escapejs}}{% endif %} </div>');
