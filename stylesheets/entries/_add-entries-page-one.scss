@@ -136,6 +136,27 @@
 
                 #lead-preview{
                     height: calc(100vh - #{$navbar-height} - #{$lead-options-container-height});
+
+                    .error {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        margin: 0 16px;
+                        color: $danger-color;
+                        font-size: 12px;
+                        height: 100%;
+
+                        > * {
+                            text-align: center;
+                            margin: 4px 0;
+                        }
+
+                        a {
+                            text-transform: none;
+                            color: $primary-color;
+                        }
+                    }
                 }
                 iframe{
                     border: none;

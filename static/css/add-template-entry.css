@@ -294,6 +294,21 @@ body {
         overflow: hidden; }
         body #page-one .split-pane #left-component #lead-preview-container #lead-preview {
           height: calc(100vh - 56px - 48px); }
+          body #page-one .split-pane #left-component #lead-preview-container #lead-preview .error {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 16px;
+            color: #e74c3c;
+            font-size: 12px;
+            height: 100%; }
+            body #page-one .split-pane #left-component #lead-preview-container #lead-preview .error > * {
+              text-align: center;
+              margin: 4px 0; }
+            body #page-one .split-pane #left-component #lead-preview-container #lead-preview .error a {
+              text-transform: none;
+              color: #008080; }
         body #page-one .split-pane #left-component #lead-preview-container iframe {
           border: none;
           width: 100%; }

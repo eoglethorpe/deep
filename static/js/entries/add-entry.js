@@ -707,6 +707,7 @@ function resizeCanvas(){
 
 $(document).ready(function(){
     setupCsrfForAjax();
+    validateOriginalView();
 
     mapModal = new Modal('#map-modal', true);
     affectedGroupsModal = new Modal('#affected-groups-modal');
@@ -1213,3 +1214,64 @@ $(document).ready(function(){
 
     refreshExcerpts();
 });
+
+function validateOriginalView() {
+    let response = {};
+    $.post(websiteInfoUrl, {'url': leadUrl})
+        .done((r) => {
+            response = r;
+        })
+        .fail(() => {
+            response = {'errorCode': 3, 'error': 'Failure'};
+        })
+        .always(() => {
+            let canShowIframe = true;
+            if (response.error) {
+                canShowIframe = false;
+            } else {
+                const { headers } = response;
+                const xFrameOptions = getHeaderValue(headers, 'X-Frame-Options');
+                const contentSecurityPolicy = getHeaderValue(headers, 'Content-Security-Policy');
+                const contentType = getHeaderValue(headers, 'Content-Type');
+
+                if (leadUrl.startsWith(location.origin)) {
+                    return;
+                }
+
+                if (contentType === 'application/pdf') {
+                    $('#lead-preview').replaceWith("<iframe id='lead-preview' src='" + leadUrl + "'></iframe>");
+                    changeLeadPreview($('input[type=radio][name=lead-view-option]').val());
+                }
+                // TODO Also check for doc, ppt and excel content types
+
+                // Older policy
+                if (xFrameOptions) {
+                    const options = xFrameOptions.toLowerCase();
+                    if (options.match('sameorigin|deny|allow-from')) {
+                        canShowIframe = false;
+                    }
+                }
+
+                // New policy
+                if (canShowIframe && contentSecurityPolicy) {
+                    const options = contentSecurityPolicy.toLowerCase();
+                    if (options.match('frame-ancestors')) {
+                        canShowIframe = false;
+                    }
+                }
+            }
+
+            if (!canShowIframe) {
+                $('#lead-preview').replaceWith("<div id='lead-preview'><div class='error'><div>We cannot currently preview this publisher. Please open it in a new tab or copy the URL.</div><a href='" + leadUrl + "' target='_blank'>" + leadUrl + "</a></div></div>");
+                changeLeadPreview($('input[type=radio][name=lead-view-option]').val());
+            }
+        });
+}
+
+
+function getHeaderValue(headers, header) {
+    const tHeader = Object.keys(headers).find(
+        key => key.toLowerCase() === header.toLowerCase(),
+    );
+    return headers[tHeader];
+}
