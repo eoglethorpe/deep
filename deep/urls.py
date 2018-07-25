@@ -11,7 +11,7 @@ from rest_framework.routers import DefaultRouter
 from users.views import *
 from deep.views import *
 from report.views import *
-from entries.views import ExportProgressView
+from entries.views import ExportProgressView, WebsiteInfoView
 
 from users.rest_views import *
 from usergroup.rest_views import *
@@ -73,6 +73,9 @@ urlpatterns = [
     url(r'^api/v2/', include('entries.api_urls', namespace='api_entries')),
     url(r'^api/v2/', include('leads.api_urls', namespace='api_leads')),
     url(r'^api/v2/', include('report.api_urls', namespace='api_report')),
+
+    url(r'api/v2/website-info/',
+        WebsiteInfoView.as_view(), name='website_info'),
 
     url(r'^api/v2/dashboard/overview/$', OverviewApiView.as_view()),
     url(r'^api/v2/dashboard/reports/$', ReportsApiView.as_view()),

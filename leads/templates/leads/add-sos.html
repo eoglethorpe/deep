@@ -27,6 +27,9 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
 <script src="{% watchful_static_url 'js/sos/add-sos.js' %}"></script>
 
 <script>
+    let websiteInfoUrl = '{% url "website_info" %}';
+    let leadUrl = '{{ lead_url }}';
+
     // Is simplified option selected?
     var isSimplified;
     // Simplified version of the lead.

@@ -26,6 +26,7 @@ import string
 import json
 import random
 from datetime import datetime, timedelta
+import requests
 
 
 class ExportProgressView(View):
@@ -473,3 +474,32 @@ class DeleteEntry(View):
         entry.delete()
         activity.log_for(request.user, event=event)
         return redirect('entries:entries', event=event.pk)
+
+
+class WebsiteInfoView(View):
+    def post(self, request):
+        url = request.POST.get('url')
+        # TODO: check using regex for valid url
+
+        # TODO: Replace http with https and send both urls for client to decide
+        # Also do the following with both http and https
+
+        USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'  # noqa
+        headers = {
+            'User-Agent': USER_AGENT,
+        }
+
+        try:
+            r = requests.head(
+                url, headers=headers,
+                timeout=15
+            )
+        except requests.exceptions.RequestException:
+            return JsonResponse({
+                'errorCode': 2,
+                'error': 'Cannot fetch website for this url.',
+            })
+
+        return JsonResponse({
+            'headers': dict(r.headers),
+        })
