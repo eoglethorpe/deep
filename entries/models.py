@@ -200,7 +200,7 @@ class Entry(models.Model):
     lead = models.ForeignKey(Lead)
 
     # Following is for entries entered using template
-    template = models.ForeignKey('entries.EntryTemplate', default=None,  null=True)
+    template = models.ForeignKey('entries.EntryTemplate', default=None,  null=True, blank=True)
 
     def __str__(self):
         return str(self.lead)

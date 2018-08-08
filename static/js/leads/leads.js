@@ -171,10 +171,10 @@ $(document).ready(function(){
                     }
                 }
             },
-            { data: null,width: "5%", render: function(data, type, row) { return confidentialities[data.confidentiality]; } },
+            { data: null,width: "5%", render: function(data, type, row) { return confidentialities[data.confidentiality] || ''; } },
             { data: "source",width: "15%"},
             { data: "number_of_entries",width: "5%"},
-            { data: null,width: "5%", render: function(data, type, row) { return statuses[data.status]; } },
+            { data: null,width: "5%", render: function(data, type, row) { return statuses[data.status] || ''; } },
             { data: null,width: "10%",render: function(data, type, row){
                 var getPendingBtn = function(){
                     return (data.status == "PEN") ? '<a class=" btn-action btn-mark-processed" data-toggle="tooltip" data-placement="bottom" title="Mark Processed" onclick="markProcessed('+data.id+', \'PRO\', ' + data.event + ');"><i class="fa fa-exclamation-triangle fa-lg"></i>  </a>' : '<a class=" btn-action btn-mark-pending" data-toggle="tooltip" data-placement="bottom" title="Mark Pending" onclick="markProcessed('+data.id+', \'PEN\', ' + data.event + ');"><i class="fa fa-check fa-lg"></i></a>';
