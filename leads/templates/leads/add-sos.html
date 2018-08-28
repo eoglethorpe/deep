@@ -311,8 +311,11 @@ DEEP | {% if sos %}Edit{% else %}Add{% endif %} Survey of Survey
         <header>
             <h3 class="modal-title">Select locations</h3>
         </header>
-        <div id="the-map"></div>
-        <div id="admin-level-buttons"></div>
+        <div id="map-section">
+            <div id="the-map"></div>
+            <div id="admin-level-buttons"></div>
+            <button id="reload-map-button"><span class="fa fa-refresh"></span></button>
+        </div>
         <div class="action-buttons">
             <span>
                 <button onclick="selectAllMapFeatures()">Select all</button>

@@ -771,13 +771,21 @@ body {
   body .modal {
     height: 800px;
     width: 800px !important; }
-    body .modal .map-section .map {
-      height: 537px;
-      width: 100%; }
-    body .modal .map-section .buttons-container {
-      text-align: center;
-      padding: 4px;
-      background-color: #f0f0f0; }
+    body .modal .map-section {
+      position: relative; }
+      body .modal .map-section .map {
+        height: 537px;
+        width: 100%; }
+      body .modal .map-section .buttons-container {
+        text-align: center;
+        padding: 4px;
+        background-color: #f0f0f0; }
+      body .modal .map-section .reload-map-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
+        padding: 4px 8px; }
     body .modal .control-section {
       padding: 10px 16px 0 16px; }
       body .modal .control-section label {

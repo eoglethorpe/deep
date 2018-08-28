@@ -811,26 +811,34 @@ body {
             background-color: #e74c3c; }
   body .modal-container #map-modal {
     width: 800px; }
-    body .modal-container #map-modal #map-section #the-map {
-      height: 40vh; }
-      body .modal-container #map-modal #map-section #the-map path {
-        stroke: #717171;
-        stroke-width: 1px;
-        stroke-linejoin: round; }
-    body .modal-container #map-modal #map-section #admin-level-buttons {
-      display: flex;
-      justify-content: center;
-      background-color: #f0f0f0;
-      padding: 10px 0;
-      border-top: 1px solid rgba(0, 0, 0, 0.1); }
-      body .modal-container #map-modal #map-section #admin-level-buttons button {
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        background-color: #fff;
-        color: #414141;
-        padding: 3px 10px; }
-        body .modal-container #map-modal #map-section #admin-level-buttons button.active {
-          background-color: #008080;
-          color: #fff; }
+    body .modal-container #map-modal #map-section {
+      position: relative; }
+      body .modal-container #map-modal #map-section #the-map {
+        height: 40vh; }
+        body .modal-container #map-modal #map-section #the-map path {
+          stroke: #717171;
+          stroke-width: 1px;
+          stroke-linejoin: round; }
+      body .modal-container #map-modal #map-section #admin-level-buttons {
+        display: flex;
+        justify-content: center;
+        background-color: #f0f0f0;
+        padding: 10px 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1); }
+        body .modal-container #map-modal #map-section #admin-level-buttons button {
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          background-color: #fff;
+          color: #414141;
+          padding: 3px 10px; }
+          body .modal-container #map-modal #map-section #admin-level-buttons button.active {
+            background-color: #008080;
+            color: #fff; }
+      body .modal-container #map-modal #map-section #reload-map-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
+        padding: 4px 8px; }
     body .modal-container #map-modal #control-section {
       display: flex;
       min-height: 144px; }

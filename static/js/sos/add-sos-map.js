@@ -26,6 +26,14 @@ $(document).ready(function(){
             getAdminLevels(valueSelected);
         }
     });
+
+    $('#reload-map-button').on('click', () => {
+        const val = $('#country').val();
+        if (val) {
+            refreshAdminLevels();
+            getAdminLevels(val);
+        }
+    });
 });
 
 // $('#map-modal').on('shown.bs.modal', function() {

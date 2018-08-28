@@ -398,8 +398,12 @@ const page2 = {
         //// Map
 
         modalDialog.find('.map-section').append($('<div class="map"></div>'));
+        modalDialog.find('.map-section').append($('<button class="reload-map-button"><span class="fa fa-refresh"></span></button>'));
         modalDialog.find('.map-section').append($('<div class="buttons-container"></div>'));
-        let map = new Map(modalDialog.find('.map'), modalDialog.find('.buttons-container'));
+        let map = new Map(
+            modalDialog.find('.map'),
+            modalDialog.find('.buttons-container'),
+        );
 
         // Control sections
         let controlSection1 = $('<div></div>');
@@ -417,6 +421,13 @@ const page2 = {
         controlSection1.find('.country').change(function() {
             if ($(this).val()) {
                 map.selectCountry($(this).val());
+            }
+        });
+
+        modalDialog.find('.reload-map-button').on('click', () => {
+            const val = $(controlSection1.find('.country')).val();
+            if (val) {
+                map.selectCountry(val, true);
             }
         });
 
