@@ -346,6 +346,18 @@ body{
     #map-modal{
         width: 800px;
 
+        #map-section {
+            position: relative;
+
+            #reload-map-button {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                z-index: 1000;
+                padding: 4px 8px;
+            }
+        }
+
         #the-map{
             height: 60vh;
 

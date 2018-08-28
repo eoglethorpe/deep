@@ -33,6 +33,14 @@ function drawMap() {
             getAdminLevels(valueSelected);
         }
     });
+
+    $('#reload-map-button').on('click', () => {
+        const val = $('#country').val();
+        if (val) {
+            refreshAdminLevels();
+            getAdminLevels(val);
+        }
+    });
 }
 
 
