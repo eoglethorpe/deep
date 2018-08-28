@@ -11,6 +11,8 @@ body{
             width: 800px;
 
             #map-section{
+                position: relative;
+
                 #the-map{
                     height: 40vh;
 
@@ -38,6 +40,14 @@ body{
                             color: #fff;
                         }
                     }
+                }
+
+                #reload-map-button {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    z-index: 1000;
+                    padding: 4px 8px;
                 }
             }
             #control-section{

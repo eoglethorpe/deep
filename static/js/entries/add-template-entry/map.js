@@ -31,18 +31,15 @@ class Map {
         this.refreshAdminLevels();
     }
 
-    selectCountry(countryCode) {
+    selectCountry(countryCode, force = false) {
         this.selectedCountry = countryCode;
         this.selectedLevel = 0;
         this.allLocations = {};
-
-        if (!(countryCode in this.adminLevels)) {
-            this.loadAdminLevels(countryCode);
-        }
+        this.loadAdminLevels(countryCode, force);
     }
 
-    loadAdminLevels(countryCode) {
-        if (this.adminLevels[countryCode] && this.adminLevels[countryCode].length > 0) {
+    loadAdminLevels(countryCode, force = false) {
+        if (!force && this.adminLevels[countryCode] && this.adminLevels[countryCode].length > 0) {
             this.refreshAdminLevels();
             return;
         }
