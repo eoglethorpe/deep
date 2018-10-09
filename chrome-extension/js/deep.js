@@ -1,18 +1,17 @@
 // deep.js
 // contains server side specific codes
 
-
 var deep = {
     // example of serverAddress http://52.87.160.69
     // don't add the trailing /
     // serverAddress: 'http://localhost:8000',
-    serverAddress: 'http://www.thedeep.io',
+    serverAddress: 'https://legacy.thedeep.io',
     currentEvent: -1,
     currentUser: -1,
     csrfToken: null,
     init: function(callback){
         var defer = new $.Deferred();
-        chrome.storage.sync.get({'serverAddress': 'http://www.thedeep.io'}, function(options) {
+        chrome.storage.sync.get({'serverAddress': 'https://legacy.thedeep.io'}, function(options) {
             deep.serverAddress = options.serverAddress;
             $('#add-lead-form').ajaxForm(extension.ajaxSubmitOptions);
             defer.resolve();
