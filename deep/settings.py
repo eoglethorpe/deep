@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-import requests
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -30,16 +29,7 @@ SECRET_KEY = os.environ.get(
 DEBUG = os.environ.get('DEBUG', False)
 
 
-def get_pub_ip():
-    try:
-        response = requests.get(
-            'http://169.254.169.254/latest/meta-data/public-ipv4')
-        return response.text
-    except:
-        return 'localhost'
-
-
-ALLOWED_HOSTS = [get_pub_ip(), os.environ.get('ALLOWED_HOST')]
+ALLOWED_HOSTS = ['*', os.environ.get('ALLOWED_HOST')]
 
 # Email
 EMAIL_HOST = 'smtp.gmail.com'
@@ -61,7 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'django_extensions',    
+    'django_extensions',
 
     'storages',
     'rest_framework',
