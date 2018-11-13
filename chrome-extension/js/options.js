@@ -39,7 +39,7 @@ function saveOptions(){
     });
 }
 function loadOptions(){
-    chrome.storage.sync.get({'serverAddress': 'http://thedeep.io'}, function(options) {
+    chrome.storage.sync.get({'serverAddress': 'https://legacy.thedeep.io'}, function(options) {
         document.getElementById('server-address').value = options.serverAddress;
         document.getElementById('server-address-link').href = options.serverAddress;
     });

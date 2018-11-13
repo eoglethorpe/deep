@@ -1,5 +1,9 @@
 ## Change log
 
+### v2.0.12
+
+* Add all subdomains from thedeep.io as externally connectable urls
+
 ### v2.0.11
 
 * Fix problem when 'All events' is selected previously on the deep website
