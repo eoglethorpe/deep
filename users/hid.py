@@ -31,7 +31,7 @@ class HumanitarianId:
         else:
             url = 'https://auth.humanitarian.id/api/v2/user/' + user_id
 
-        r = requests.get(url, headers={ 'Authorization': 'Bearer ' + token})
+        r = requests.get(url, headers={'Authorization': 'Bearer ' + token})
         if r.status_code == 200:
             self.data = r.json()
             if self.data['email_verified'] and not self.data['deleted']:
@@ -81,11 +81,14 @@ class HumanitarianId:
         config = HidConfig()
         if config.client_id:
             if config.development:
-                url = 'https://api2.dev.humanitarian.id/account.json?access_token=' + access_token
+                url = 'https://api2.dev.humanitarian.id/account.json'
             else:
-                url = 'https://auth.humanitarian.id/account.json?access_token=' + access_token
+                url = 'https://auth.humanitarian.id/account.json'
 
-            r = requests.get(url)
+            r = requests.post(
+                url,
+                headers={'Authorization': 'Bearer ' + access_token},
+            )
             if r.status_code == 200:
                 data = r.json()
                 return access_token, data['_id']
