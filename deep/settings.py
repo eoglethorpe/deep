@@ -39,7 +39,7 @@ def get_pub_ip():
         return 'localhost'
 
 
-ALLOWED_HOSTS = [get_pub_ip(), os.environ.get('ALLOWED_HOST')]
+ALLOWED_HOSTS = ['*', get_pub_ip(), os.environ.get('ALLOWED_HOST')]
 
 # Email
 EMAIL_HOST = 'smtp.gmail.com'
