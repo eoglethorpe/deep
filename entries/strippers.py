@@ -3,10 +3,12 @@ from django.conf import settings
 from readability.readability import Document
 
 # import pdfminer
-from pdfminer.pdfinterp import PDFResourceManager, process_pdf
-from pdfminer.converter import TextConverter  # , HTMLConverter
-from pdfminer.layout import LAParams
 
+from io import BytesIO
+from pdfminer.converter import TextConverter
+from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+from pdfminer.layout import LAParams
+from pdfminer.pdfpage import PDFPage
 # import textract
 
 import requests
@@ -43,11 +45,13 @@ class WebDocument:
         self.docx = None
         self.pptx = None
 
-        headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36', # noqa
+        }
 
         try:
             r = requests.head(url, headers=headers)
-        except:
+        except Exception:
             # If we can't get header, assume html and try to continue.
             r = requests.get(url, headers=headers)
             self.html = r.content
@@ -106,7 +110,7 @@ class HtmlStripper:
                 r = requests.get(img.get('src'), stream=True)
                 write_file(r, fp)
                 images.append(fp)
-            except:
+            except Exception:
                 pass
 
         html = "<h1>" + title + "</h1>" + summary
@@ -129,27 +133,24 @@ class PdfStripper:
 
         fp = self.doc
         fp.seek(0)
-        outfp = tempfile.TemporaryFile("w+", encoding='utf-8')
 
-        rmgr = PDFResourceManager()
-        params = LAParams()
-        # HTMLConverter(rmgr, outfp, laparams=params)
-        device = TextConverter(rmgr, outfp, laparams=params)
-        process_pdf(rmgr, device, fp, None, 0)
-
-        fp.close()
-
-        outfp.seek(0)
-        content = outfp.read()
-        outfp.close()
-
+        with BytesIO() as retstr:
+            rsrcmgr = PDFResourceManager()
+            laparams = LAParams()
+            with TextConverter(
+                    rsrcmgr, retstr, codec='utf-8', laparams=laparams,
+            ) as device:
+                interpreter = PDFPageInterpreter(rsrcmgr, device)
+                maxpages = 0
+                caching = True
+                pagenos = set()
+                for page in PDFPage.get_pages(
+                        fp, pagenos, maxpages=maxpages,
+                        caching=caching, check_extractable=True,
+                ):
+                    interpreter.process_page(page)
+                content = retstr.getvalue().decode()
         return content, None
-
-        # html = HtmlStripper(content).simplify()
-        # regex = re.compile('\n*', flags=re.IGNORECASE)
-        # html = regex.sub('', html)
-        # return html
-        # return textract.process(self.file_path)
 
 
 class DocxStripper:
